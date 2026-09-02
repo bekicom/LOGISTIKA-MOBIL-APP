@@ -43,4 +43,11 @@ export type User = {
   locale: string;
   isVerified: boolean;
   isAdmin: boolean;
+  /* Profil ekrani uchun — `getCurrentUser()` bularni allaqachon
+     qaytaradi (`furam/src/lib/auth.ts`), shunchaki bu yerda
+     e'lon qilinmagan edi. */
+  avatarUrl?: string | null;
+  premiumUntil?: string | null;
+  vipUntil?: string | null;
+  createdAt?: string | null;
 };

@@ -57,7 +57,7 @@ export function filtrChips(f: Filtr): { key: keyof Filtr; label: string }[] {
 }
 
 type VehicleType = { id: number; key: string; nameUz: string; capacityT: number | null };
-type Loc = { id: number; nameUz: string; nameRu: string | null; countryCode: string };
+export type Loc = { id: number; nameUz: string; nameRu: string | null; countryCode: string };
 
 export function FiltrSheet({
   open, value, onClose, onApply, total,
@@ -190,7 +190,8 @@ export function FiltrSheet({
 
 /* ─────────────────────────────────────────────── manzil tanlash */
 
-function LocationPicker({
+/** E'lon berish oynasida ham ishlatiladi — shuning uchun eksport */
+export function LocationPicker({
   open, title, onClose, onPick,
 }: {
   open: boolean;

@@ -78,9 +78,18 @@ export default function Bosh() {
         {loading ? <Skeleton /> : null}
         {error ? <ErrorBox message={error} onRetry={reload} /> : null}
 
-        {data?.kind === "dispatcher" ? <Dispatcher data={data} /> : null}
+        {data?.kind === "dispatcher" ? (
+          <Dispatcher data={data} onTrip={(tid) => router.push(`/reys/${tid}`)} />
+        ) : null}
 
-        {data?.kind === "driver" ? <Driver data={data} onLoads={() => router.push("/yuklar")} /> : null}
+        {data?.kind === "driver" ? (
+          <Driver
+            data={data}
+            onLoads={() => router.push("/yuklar")}
+            onTrip={(tid) => router.push(`/reys/${tid}`)}
+            onLoad={(lid) => router.push(`/yuk/${lid}`)}
+          />
+        ) : null}
       </ScrollView>
     </View>
   );
@@ -88,17 +97,18 @@ export default function Bosh() {
 
 /* ─────────────────────────────────────────────── haydovchi */
 
-// Reys tafsiloti (E2) hali qurilmagan — kartochka bosilmaydi.
-function Driver({ data, onLoads }: {
+function Driver({ data, onLoads, onTrip, onLoad }: {
   data: Extract<Home, { kind: "driver" }>;
   onLoads: () => void;
+  onTrip: (id: string) => void;
+  onLoad: (id: string) => void;
 }) {
   const trip = data.activeTrips[0] ?? null;
 
   return (
     <>
       {trip ? (
-        <TripCard item={trip} />
+        <TripCard item={trip} onPress={() => onTrip(trip.id)} />
       ) : (
         <Empty
           icon="route"
@@ -141,7 +151,7 @@ function Driver({ data, onLoads }: {
             </Pressable>
           </View>
           {data.suggestedLoads.map((l) => (
-            <ListingCard key={l.id} item={l} />
+            <ListingCard key={l.id} item={l} onPress={() => onLoad(l.id)} />
           ))}
         </View>
       ) : null}
@@ -151,7 +161,10 @@ function Driver({ data, onLoads }: {
 
 /* ─────────────────────────────────────────────── dispetcher */
 
-function Dispatcher({ data }: { data: Extract<Home, { kind: "dispatcher" }> }) {
+function Dispatcher({ data, onTrip }: {
+  data: Extract<Home, { kind: "dispatcher" }>;
+  onTrip: (id: string) => void;
+}) {
   const c = data.counts;
   return (
     <>
@@ -171,7 +184,7 @@ function Dispatcher({ data }: { data: Extract<Home, { kind: "dispatcher" }> }) {
         <View style={{ gap: space.md }}>
           <Text style={s.sectionTitle}>Faol reyslar</Text>
           {data.activeTrips.map((t) => (
-            <TripCard key={t.id} item={t} />
+            <TripCard key={t.id} item={t} onPress={() => onTrip(t.id)} />
           ))}
         </View>
       ) : (

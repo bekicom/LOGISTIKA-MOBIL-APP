@@ -7,6 +7,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { ListingCard, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
@@ -20,6 +21,7 @@ export default function Yuklar() {
   const [filtr, setFiltr] = useState<Filtr>(EMPTY_FILTR);
   const [sheet, setSheet] = useState(false);
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   const query = useMemo(() => filtrToQuery(filtr), [filtr]);
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
@@ -81,7 +83,7 @@ export default function Yuklar() {
       <FlatList
         data={data?.items ?? []}
         keyExtractor={(it) => it.id}
-        renderItem={({ item }) => <ListingCard item={item} />}
+        renderItem={({ item }) => <ListingCard item={item} onPress={() => router.push(`/yuk/${item.id}`)} />}
         contentContainerStyle={[s.list, { paddingBottom: space.xl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
@@ -102,6 +104,11 @@ export default function Yuklar() {
           )
         }
       />
+
+      <Pressable style={[s.fab, { bottom: insets.bottom + space.lg }]} onPress={() => router.push("/yuk-joylash")}>
+        <Icon name="plus" size={20} stroke="#fff" />
+        <Text style={s.fabText}>Yuk joylash</Text>
+      </Pressable>
 
       <FiltrSheet
         open={sheet}
@@ -178,4 +185,10 @@ const s = StyleSheet.create({
   activeChipText: { fontSize: 13, fontWeight: "500", color: "#c2490f" },
 
   list: { padding: space.lg, gap: space.md },
+  fab: {
+    position: "absolute", right: space.lg, height: 52, paddingHorizontal: 20, borderRadius: 26,
+    backgroundColor: color.brand, flexDirection: "row", alignItems: "center", gap: 8,
+    shadowColor: color.brand, shadowOpacity: 0.45, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 6,
+  },
+  fabText: { fontSize: font.body, fontWeight: "600", color: "#fff" },
 });

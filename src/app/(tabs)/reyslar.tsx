@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { TripCard, type TripItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
@@ -22,6 +23,7 @@ const EMPTY: Record<string, { title: string; text: string }> = {
 export default function Reyslar() {
   const [tab, setTab] = useState<string>("active");
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     items: TripItem[];
@@ -50,7 +52,7 @@ export default function Reyslar() {
       <FlatList
         data={data?.items ?? []}
         keyExtractor={(t) => t.id}
-        renderItem={({ item }) => <TripCard item={item} />}
+        renderItem={({ item }) => <TripCard item={item} onPress={() => router.push(`/reys/${item.id}`)} />}
         contentContainerStyle={[s.list, { paddingBottom: space.xl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}

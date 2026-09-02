@@ -211,6 +211,12 @@ export default function Profil() {
         <View>
           <GroupLabel>MENING ISHIM</GroupLabel>
           <Card>
+            <ListRow
+              icon={<Badge icon="truck" />}
+              title="Parkim"
+              hint="Transportlarim, hujjat va texnika"
+              onPress={() => router.push("/parkim")}
+            />
             <ListRow icon={<Badge icon="package" />} title="E'lonlarim" right={<Soon />} />
             <ListRow icon={<Badge icon="heart" />} title="Saqlanganlar" right={<Soon />} />
             <ListRow icon={<Badge icon="doc" />} title="Hujjatlarim" right={<Soon />} last />

@@ -88,6 +88,7 @@ export default function Bosh() {
             onLoads={() => router.push("/yuklar")}
             onTrip={(tid) => router.push(`/reys/${tid}`)}
             onLoad={(lid) => router.push(`/yuk/${lid}`)}
+            onPark={() => router.push("/parkim")}
           />
         ) : null}
       </ScrollView>
@@ -97,11 +98,12 @@ export default function Bosh() {
 
 /* ─────────────────────────────────────────────── haydovchi */
 
-function Driver({ data, onLoads, onTrip, onLoad }: {
+function Driver({ data, onLoads, onTrip, onLoad, onPark }: {
   data: Extract<Home, { kind: "driver" }>;
   onLoads: () => void;
   onTrip: (id: string) => void;
   onLoad: (id: string) => void;
+  onPark: () => void;
 }) {
   const trip = data.activeTrips[0] ?? null;
 
@@ -122,7 +124,7 @@ function Driver({ data, onLoads, onTrip, onLoad }: {
       {/* Tez harakatlar */}
       <View style={s.quick}>
         <QuickAction icon="search" label="Yuk topish" onPress={onLoads} />
-        <QuickAction icon="doc" label="Hujjatlar" />
+        <QuickAction icon="truck" label="Parkim" onPress={onPark} />
         <QuickAction icon="border" label="Chegara" />
         <QuickAction icon="alert" label="SOS" danger />
       </View>

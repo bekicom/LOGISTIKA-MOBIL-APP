@@ -1,0 +1,252 @@
+/** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Icon } from "./Icon";
+import { color, font, radius, shadow, space } from "@/lib/theme";
+
+/* ─────────────────────────────────────────────── umumiy bo'laklar */
+
+export function Route({ from, fromC, to, toC, size = 18 }: {
+  from: string; fromC?: string | null; to: string; toC?: string | null; size?: number;
+}) {
+  return (
+    <View style={s.route}>
+      <View style={{ flex: 1 }}>
+        <Text style={[s.city, { fontSize: size }]} numberOfLines={1}>{from}</Text>
+        {fromC ? <Text style={s.country}>{COUNTRY[fromC] ?? fromC}</Text> : null}
+      </View>
+      <View style={{ paddingTop: 5 }}>
+        <Icon name="arrow-right" size={19} stroke="#94a3b8" />
+      </View>
+      <View style={{ flex: 1, alignItems: "flex-end" }}>
+        <Text style={[s.city, { fontSize: size, textAlign: "right" }]} numberOfLines={1}>{to}</Text>
+        {toC ? <Text style={s.country}>{COUNTRY[toC] ?? toC}</Text> : null}
+      </View>
+    </View>
+  );
+}
+
+const COUNTRY: Record<string, string> = {
+  UZ: "O'zbekiston", RU: "Rossiya", KZ: "Qozog'iston", KG: "Qirg'iziston",
+  TJ: "Tojikiston", TM: "Turkmaniston", TR: "Turkiya", CN: "Xitoy",
+};
+
+export function Chip({ text, tone = "muted" }: { text: string; tone?: "muted" | "success" | "brand" | "warning" | "danger" | "info" }) {
+  const bg = {
+    muted: color.muted, success: "#16a34a1f", brand: "#f45a181f",
+    warning: "#b453091f", danger: "#dc26261a", info: "#1d4ed81a",
+  }[tone];
+  const fg = {
+    muted: "#475569", success: "#15803d", brand: "#c2490f",
+    warning: "#92400e", danger: "#b91c1c", info: "#1e40af",
+  }[tone];
+  return (
+    <View style={[s.chip, { backgroundColor: bg }]}>
+      <Text style={[s.chipText, { color: fg }]}>{text}</Text>
+    </View>
+  );
+}
+
+export function StatusChip({ label, tone }: { label: string; tone: "brand" | "warning" | "success" | "info" | "muted" | "danger" }) {
+  const dot = { brand: color.brand, warning: color.warning, success: color.success, info: color.info, muted: "#94a3b8", danger: color.danger }[tone];
+  const bg = { brand: "#f45a181f", warning: "#b453091f", success: "#16a34a1f", info: "#1d4ed81a", muted: color.muted, danger: "#dc26261a" }[tone];
+  const fg = { brand: "#c2490f", warning: "#92400e", success: "#15803d", info: "#1e40af", muted: "#475569", danger: "#b91c1c" }[tone];
+  return (
+    <View style={[s.chip, { backgroundColor: bg, flexDirection: "row", alignItems: "center", gap: 6 }]}>
+      <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: dot }} />
+      <Text style={[s.chipText, { color: fg, fontWeight: "600" }]}>{label}</Text>
+    </View>
+  );
+}
+
+/** Reys holatiga rang — TZ dagi jadval bilan bir xil */
+export function toneFor(status: string) {
+  if (status === "AT_BORDER" || status === "TO_LOADING" || status === "LOADED") return "warning" as const;
+  if (status === "ON_ROAD" || status === "NEAR_DESTINATION") return "brand" as const;
+  if (status === "UNLOADED" || status === "CLOSED") return "success" as const;
+  if (status === "CANCELLED") return "danger" as const;
+  if (status === "CLOSING") return "muted" as const;
+  return "info" as const;
+}
+
+/* ─────────────────────────────────────────────── e'lon kartasi */
+
+export type Listing = {
+  id: string;
+  title?: string | null;
+  from: string; fromCountry?: string | null;
+  to: string; toCountry?: string | null;
+  weightT?: number | null;
+  vehicleType?: string | null;
+  price?: number | null;
+  currency?: string;
+  isNegotiable?: boolean;
+  isReadyNow?: boolean;
+  isTop?: boolean;
+  createdAt?: string;
+  owner?: { name: string } | null;
+};
+
+export function money(price: number | null | undefined, currency = "UZS", negotiable?: boolean) {
+  if (negotiable || price == null) return null;
+  // Web'dagidek: ru-RU bo'shliq bilan ajratadi — 28 000 000
+  return `${new Intl.NumberFormat("ru-RU").format(price)} ${currency}`;
+}
+
+export function ago(iso?: string) {
+  if (!iso) return "";
+  const m = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (m < 60) return `${m} daq`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `${h} soat`;
+  return `${Math.round(h / 24)} kun`;
+}
+
+export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => void }) {
+  const price = money(item.price, item.currency, item.isNegotiable);
+
+  return (
+    <Pressable onPress={onPress} style={({ pressed }) => [s.card, item.isTop && s.cardTop, pressed && s.pressed]}>
+      <View style={s.cardHead}>
+        {item.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text="YANGI" tone="success" />}
+        <Icon name="heart" size={20} stroke="#cbd5e1" />
+      </View>
+
+      <View style={{ marginTop: 11 }}>
+        <Route from={item.from} fromC={item.fromCountry} to={item.to} toC={item.toCountry} />
+      </View>
+
+      {item.title ? <Text style={s.cargo} numberOfLines={1}>{item.title}</Text> : null}
+
+      <View style={s.chips}>
+        {item.weightT != null ? <Chip text={`${item.weightT} t`} /> : null}
+        {item.vehicleType ? <Chip text={item.vehicleType} /> : null}
+        {item.isReadyNow ? <Chip text="Hozir tayyor" tone="success" /> : null}
+      </View>
+
+      <View style={s.cardFoot}>
+        <Text style={s.price}>
+          {price ?? "Kelishiladi"}
+        </Text>
+        {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
+      </View>
+    </Pressable>
+  );
+}
+
+/* ─────────────────────────────────────────────── reys kartasi */
+
+export type TripItem = {
+  id: string; no: number; status: string; statusLabel: string;
+  stepIndex: number; stepTotal: number;
+  from: string; fromCountry?: string | null;
+  to: string; toCountry?: string | null;
+  cargo?: string | null;
+  plate?: string | null; driver?: string | null;
+  remainingKm?: number | null; etaAt?: string | null; placeName?: string | null;
+};
+
+export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => void }) {
+  const tone = toneFor(item.status);
+  const eta = item.etaAt ? new Date(item.etaAt) : null;
+
+  return (
+    <Pressable onPress={onPress} style={({ pressed }) => [s.card, pressed && s.pressed]}>
+      <View style={s.cardHead}>
+        <StatusChip label={item.statusLabel} tone={tone} />
+        <Text style={s.no}>#TR-{item.no}</Text>
+      </View>
+
+      <View style={{ marginTop: 12 }}>
+        <Route from={item.from} fromC={item.fromCountry} to={item.to} toC={item.toCountry} />
+      </View>
+
+      {/* Bosqich chizig'i — kartochkaning belgisi */}
+      <View style={s.track}>
+        {Array.from({ length: item.stepTotal }, (_, i) => (
+          <View
+            key={i}
+            style={[
+              s.trackStep,
+              { backgroundColor: i <= item.stepIndex ? (tone === "warning" ? color.warning : color.brand) : color.border },
+            ]}
+          />
+        ))}
+      </View>
+
+      {item.remainingKm != null || eta ? (
+        <View style={s.figures}>
+          {item.remainingKm != null ? (
+            <View style={s.figure}>
+              <Text style={s.figureNum}>{item.remainingKm}</Text>
+              <Text style={s.figureLabel}>km qoldi</Text>
+            </View>
+          ) : null}
+          {eta ? (
+            <View style={s.figure}>
+              <Text style={s.figureNum}>
+                {String(eta.getHours()).padStart(2, "0")}:{String(eta.getMinutes()).padStart(2, "0")}
+              </Text>
+              <Text style={s.figureLabel}>yetib boradi</Text>
+            </View>
+          ) : null}
+        </View>
+      ) : null}
+
+      {item.plate || item.driver ? (
+        <View style={s.owner}>
+          <View style={s.ownerIcon}>
+            <Icon name="truck" size={16} />
+          </View>
+          <View style={{ flex: 1 }}>
+            {item.plate ? <Text style={s.ownerName}>{item.plate}</Text> : null}
+            {item.driver ? <Text style={s.meta}>{item.driver}</Text> : null}
+          </View>
+        </View>
+      ) : null}
+    </Pressable>
+  );
+}
+
+const s = StyleSheet.create({
+  card: {
+    backgroundColor: color.card,
+    borderRadius: radius.card,
+    borderWidth: 1,
+    borderColor: color.border,
+    padding: space.lg,
+    ...shadow.card,
+  },
+  cardTop: { borderLeftWidth: 3, borderLeftColor: color.brand },
+  pressed: { backgroundColor: "#fafbfc" },
+  cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+
+  route: { flexDirection: "row", alignItems: "flex-start", gap: 10 },
+  city: { fontWeight: "700", color: color.foreground, letterSpacing: -0.2 },
+  country: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
+
+  cargo: { fontSize: 14, color: "#475569", marginTop: 10 },
+
+  chips: { flexDirection: "row", gap: 6, marginTop: 11, flexWrap: "wrap" },
+  chip: { height: 26, paddingHorizontal: 10, borderRadius: radius.control, alignItems: "center", justifyContent: "center" },
+  chipText: { fontSize: 12, fontWeight: "500" },
+
+  cardFoot: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginTop: 13 },
+  price: { fontSize: 20, fontWeight: "700", color: color.foreground, letterSpacing: -0.3 },
+  meta: { fontSize: 12, color: color.mutedForeground },
+  no: { fontSize: 12, color: color.mutedForeground, fontFamily: "monospace" },
+
+  track: { flexDirection: "row", gap: 3, marginTop: 14 },
+  trackStep: { flex: 1, height: 4, borderRadius: 2 },
+
+  figures: { flexDirection: "row", gap: 18, marginTop: 12 },
+  figure: { flexDirection: "row", alignItems: "baseline", gap: 4 },
+  figureNum: { fontSize: 20, fontWeight: "700", color: color.foreground },
+  figureLabel: { fontSize: 12, color: color.mutedForeground },
+
+  owner: {
+    flexDirection: "row", alignItems: "center", gap: 8,
+    marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: color.border,
+  },
+  ownerIcon: { width: 28, height: 28, borderRadius: radius.control, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
+  ownerName: { fontSize: 13, fontWeight: "600", color: color.foreground },
+});

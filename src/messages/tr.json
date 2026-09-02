@@ -1,0 +1,50 @@
+{
+  "mob": {
+    "common": {
+      "add": "Ekle",
+      "all": "Tümü",
+      "renew": "Yenile"
+    },
+    "docs": {
+      "allFine": "Her şey yolunda",
+      "allFineText": "Sınırda sorun çıkmamalı.",
+      "attention": "DİKKAT",
+      "daysLeft": "{n} gün kaldı",
+      "expiredAgo": "{n} gün önce doldu",
+      "fine": "SORUNSUZ",
+      "forever": "süresiz",
+      "manyNeed": "{n} tanesi dikkat istiyor",
+      "missing": "Yok — eklenmedi",
+      "missingShort": "Yok",
+      "oneNeeds": "Biri dikkat istiyor",
+      "reminder": "Süre hatırlatıcısı",
+      "reminderText": "30, 7 ve 1 gün kala bildirim gelir. Bildirim ayarlarında «Belge süresi» açık olmalı.",
+      "title": "Belgeler"
+    },
+    "park": {
+      "addVehicle": "Araç ekle",
+      "count": "{n} araç",
+      "docIssue": "Belge",
+      "emptyTab": "Bu durumda araç yok",
+      "emptyTabText": "Başka sekmeye bakın.",
+      "emptyText": "Araç ekleyin, yük ilanları ona göre eşleştirilir.",
+      "emptyTitle": "Filonuz boş",
+      "expiredHint": "Sınırda durdurulur. Yenilenene kadar ilanlarda görünmez.",
+      "expiredMany": "{n} araçta belge süresi doldu",
+      "expiredOne": "{plate} — {doc} süresi doldu",
+      "free": "Boşta",
+      "inactive": "Durduruldu",
+      "kmLeft": "{n} km kaldı",
+      "noDriver": "Sürücü atanmadı",
+      "onTrip": "Seferde",
+      "onTripCount": "{n} seferde",
+      "repair": "Onarımda",
+      "sold": "Satıldı",
+      "title": "Filom",
+      "trailerLine": "+ römork {plate}"
+    },
+    "vehicle": {
+      "notFound": "Bulunamadı"
+    }
+  }
+}

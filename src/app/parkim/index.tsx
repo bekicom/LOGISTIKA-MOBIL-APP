@@ -17,6 +17,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type DocAlert = { kind: string; label: string; state: "expired" | "soon"; days: number | null };
 type Trip = {
@@ -44,29 +45,42 @@ type Vehicle = {
 };
 type Feed = { items: Vehicle[]; counts: Record<string, number>; total: number };
 
-const STATUS: Record<string, { label: string; fg: string; bg: string }> = {
-  FREE: { label: "BO'SH", fg: "#15803d", bg: "rgba(22,163,74,0.12)" },
-  ON_TRIP: { label: "REYSDA", fg: color.info, bg: "rgba(29,78,216,0.12)" },
-  REPAIR: { label: "TA'MIRDA", fg: color.warning, bg: "rgba(180,83,9,0.12)" },
-  INACTIVE: { label: "TO'XTATILGAN", fg: color.mutedForeground, bg: color.muted },
-  DOC_ISSUE: { label: "HUJJAT", fg: color.danger, bg: "rgba(220,38,38,0.12)" },
-  DOC_EXPIRED: { label: "HUJJAT", fg: color.danger, bg: "rgba(220,38,38,0.12)" },
-  SOLD: { label: "SOTILGAN", fg: color.mutedForeground, bg: color.muted },
+/* Yorliqlar FUNKSIYA ichida: modul yuklanganda til hali
+   o'qilmagan bo'lishi mumkin, ular esa bir marta hisoblanardi. */
+const TONE: Record<string, { fg: string; bg: string }> = {
+  FREE: { fg: "#15803d", bg: "rgba(22,163,74,0.12)" },
+  ON_TRIP: { fg: color.info, bg: "rgba(29,78,216,0.12)" },
+  REPAIR: { fg: color.warning, bg: "rgba(180,83,9,0.12)" },
+  INACTIVE: { fg: color.mutedForeground, bg: color.muted },
+  DOC_ISSUE: { fg: color.danger, bg: "rgba(220,38,38,0.12)" },
+  DOC_EXPIRED: { fg: color.danger, bg: "rgba(220,38,38,0.12)" },
+  SOLD: { fg: color.mutedForeground, bg: color.muted },
 };
 
-const TABS = [
-  { key: "", label: "Hammasi" },
-  { key: "FREE", label: "Bo'sh" },
-  { key: "ON_TRIP", label: "Reysda" },
-  { key: "REPAIR", label: "Ta'mirda" },
-] as const;
+const statusLabel = (k: string) =>
+  ({
+    FREE: t("mob.park.free"),
+    ON_TRIP: t("mob.park.onTrip"),
+    REPAIR: t("mob.park.repair"),
+    INACTIVE: t("mob.park.inactive"),
+    DOC_ISSUE: t("mob.park.docIssue"),
+    DOC_EXPIRED: t("mob.park.docIssue"),
+    SOLD: t("mob.park.sold"),
+  })[k] ?? k;
+
+const tabs = () => [
+  { key: "", label: t("mob.common.all") },
+  { key: "FREE", label: t("mob.park.free") },
+  { key: "ON_TRIP", label: t("mob.park.onTrip") },
+  { key: "REPAIR", label: t("mob.park.repair") },
+];
 
 export default function Parkim() {
   const router = useRouter();
-  const [tab, setTab] = useState<string>("");
+  const [filter, setFilter] = useState<string>("");
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
-    `/api/fleet/vehicles${tab ? `?status=${tab}` : ""}`,
-    [tab],
+    `/api/fleet/vehicles${filter ? `?status=${filter}` : ""}`,
+    [filter],
   );
 
   const items = data?.items ?? [];
@@ -84,32 +98,38 @@ export default function Parkim() {
   return (
     <View style={s.root}>
       <Header
-        title="Parkim"
-        subtitle={total ? `${total} ta transport${onTrip ? ` · ${onTrip} tasi reysda` : ""}` : undefined}
+        title={t("mob.park.title")}
+        subtitle={
+          total
+            ? [t("mob.park.count", { n: total }), onTrip ? t("mob.park.onTripCount", { n: onTrip }) : null]
+                .filter(Boolean)
+                .join(" · ")
+            : undefined
+        }
         right={
           <Pressable
             onPress={() => router.push("/parkim/qoshish")}
             style={({ pressed }) => [s.add, pressed && { backgroundColor: color.brandHover }]}
           >
             <Icon name="plus" size={15} stroke="#fff" />
-            <Text style={s.addText}>Qo&apos;shish</Text>
+            <Text style={s.addText}>{t("mob.common.add")}</Text>
           </Pressable>
         }
       />
 
       {/* Saralash */}
       <View style={s.tabsWrap}>
-        {TABS.map((t) => {
-          const n = t.key ? (data?.counts?.[t.key] ?? 0) : total;
-          const on = tab === t.key;
+        {tabs().map((tab) => {
+          const n = tab.key ? (data?.counts?.[tab.key] ?? 0) : total;
+          const on = filter === tab.key;
           return (
             <Pressable
-              key={t.key}
-              onPress={() => setTab(t.key)}
+              key={tab.key}
+              onPress={() => setFilter(tab.key)}
               style={({ pressed }) => [s.tab, on && s.tabOn, pressed && !on && { backgroundColor: color.muted }]}
             >
               <Text style={[s.tabText, on && s.tabTextOn]}>
-                {t.label}
+                {tab.label}
                 {data ? ` ${n}` : ""}
               </Text>
             </Pressable>
@@ -134,18 +154,19 @@ export default function Parkim() {
             <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
           }
           ListHeaderComponent={
-            expired.length > 0 && !tab ? (
+            expired.length > 0 && !filter ? (
               <View style={s.warn}>
                 <Icon name="alert" size={19} stroke={color.danger} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.warnTitle}>
                     {expired.length === 1
-                      ? `${expired[0].plate} — ${expired[0].docAlert?.label.toLowerCase()} muddati tugagan`
-                      : `${expired.length} ta mashinada hujjat muddati tugagan`}
+                      ? t("mob.park.expiredOne", {
+                          plate: expired[0].plate,
+                          doc: expired[0].docAlert?.label ?? "",
+                        })
+                      : t("mob.park.expiredMany", { n: expired.length })}
                   </Text>
-                  <Text style={s.warnBody}>
-                    Chegarada to&apos;xtatiladi. Yangilamaguncha e&apos;lonlarda ko&apos;rinmaydi.
-                  </Text>
+                  <Text style={s.warnBody}>{t("mob.park.expiredHint")}</Text>
                 </View>
               </View>
             ) : null
@@ -153,14 +174,10 @@ export default function Parkim() {
           ListEmptyComponent={
             <Empty
               icon="truck"
-              title={tab ? "Bu holatda mashina yo'q" : "Parkingiz bo'sh"}
-              text={
-                tab
-                  ? "Boshqa bo'limga qarang."
-                  : "Mashina qo'shsangiz yuk e'lonlari unga moslab ko'rsatiladi."
-              }
-              actionLabel={tab ? undefined : "Transport qo'shish"}
-              onAction={tab ? undefined : () => router.push("/parkim/qoshish")}
+              title={filter ? t("mob.park.emptyTab") : t("mob.park.emptyTitle")}
+              text={filter ? t("mob.park.emptyTabText") : t("mob.park.emptyText")}
+              actionLabel={filter ? undefined : t("mob.park.addVehicle")}
+              onAction={filter ? undefined : () => router.push("/parkim/qoshish")}
             />
           }
           renderItem={({ item }) => (
@@ -173,7 +190,7 @@ export default function Parkim() {
 }
 
 function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) {
-  const st = STATUS[item.status] ?? STATUS.INACTIVE;
+  const tone = TONE[item.status] ?? TONE.INACTIVE;
   const alert = item.docAlert;
   const bad = alert?.state === "expired";
 
@@ -200,24 +217,26 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
                 {item.capacityT ? ` ${item.capacityT}t` : ""}
               </Text>
             </View>
-            <Text style={[s.chip, { color: st.fg, backgroundColor: st.bg }]}>{st.label}</Text>
+            <Text style={[s.chip, { color: tone.fg, backgroundColor: tone.bg }]}>
+              {statusLabel(item.status)}
+            </Text>
           </View>
 
           <View style={s.meta}>
             <Icon name="user" size={13} stroke={color.mutedForeground} />
             <Text style={s.metaText} numberOfLines={1}>
-              {item.driver ?? "Haydovchi biriktirilmagan"}
+              {item.driver ?? t("mob.park.noDriver")}
             </Text>
             {item.odometer ? (
               <>
                 <Text style={s.dot}>·</Text>
-                <Text style={s.metaText}>{item.odometer.toLocaleString("ru-RU")} km</Text>
+                <Text style={s.metaText}>{item.odometer.toLocaleString()} km</Text>
               </>
             ) : null}
           </View>
 
           {item.trailer ? (
-            <Text style={s.trailer}>+ tirkama {item.trailer.plate}</Text>
+            <Text style={s.trailer}>{t("mob.park.trailerLine", { plate: item.trailer.plate })}</Text>
           ) : null}
         </View>
       </View>
@@ -230,7 +249,9 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
             {item.trip.placeName ?? `${item.trip.from} → ${item.trip.to}`}
           </Text>
           {item.trip.remainingKm != null ? (
-            <Text style={s.footRight}>{item.trip.remainingKm.toLocaleString("ru-RU")} km qoldi</Text>
+            <Text style={s.footRight}>
+              {t("mob.park.kmLeft", { n: item.trip.remainingKm.toLocaleString() })}
+            </Text>
           ) : null}
         </View>
       ) : alert ? (
@@ -241,8 +262,8 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
             {alert.days == null
               ? ""
               : alert.days < 0
-                ? `${-alert.days} kun oldin tugagan`
-                : `${alert.days} kunda tugaydi`}
+                ? t("mob.docs.expiredAgo", { n: -alert.days })
+                : t("mob.docs.daysLeft", { n: alert.days })}
           </Text>
         </View>
       ) : null}

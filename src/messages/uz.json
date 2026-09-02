@@ -1,0 +1,50 @@
+{
+  "mob": {
+    "common": {
+      "add": "Qo'shish",
+      "all": "Hammasi",
+      "renew": "Yangilash"
+    },
+    "docs": {
+      "allFine": "Hammasi joyida",
+      "allFineText": "Chegarada muammo bo'lmasligi kerak.",
+      "attention": "E'TIBOR BERING",
+      "daysLeft": "{n} kun qoldi",
+      "expiredAgo": "{n} kun oldin tugagan",
+      "fine": "JOYIDA",
+      "forever": "muddatsiz",
+      "manyNeed": "{n} tasi e'tibor talab qiladi",
+      "missing": "Yo'q — qo'shilmagan",
+      "missingShort": "Yo'q",
+      "oneNeeds": "Bittasi e'tibor talab qiladi",
+      "reminder": "Muddat eslatmasi",
+      "reminderText": "30, 7 va 1 kun qolganda xabar keladi. Bildirishnoma sozlamalarida «Hujjat muddati» bo'limi yoqiq bo'lishi kerak.",
+      "title": "Hujjatlar"
+    },
+    "park": {
+      "addVehicle": "Transport qo'shish",
+      "count": "{n} ta transport",
+      "docIssue": "Hujjat",
+      "emptyTab": "Bu holatda mashina yo'q",
+      "emptyTabText": "Boshqa bo'limga qarang.",
+      "emptyText": "Mashina qo'shsangiz yuk e'lonlari unga moslab ko'rsatiladi.",
+      "emptyTitle": "Parkingiz bo'sh",
+      "expiredHint": "Chegarada to'xtatiladi. Yangilamaguncha e'lonlarda ko'rinmaydi.",
+      "expiredMany": "{n} ta mashinada hujjat muddati tugagan",
+      "expiredOne": "{plate} — {doc} muddati tugagan",
+      "free": "Bo'sh",
+      "inactive": "To'xtatilgan",
+      "kmLeft": "{n} km qoldi",
+      "noDriver": "Haydovchi biriktirilmagan",
+      "onTrip": "Reysda",
+      "onTripCount": "{n} tasi reysda",
+      "repair": "Ta'mirda",
+      "sold": "Sotilgan",
+      "title": "Parkim",
+      "trailerLine": "+ tirkama {plate}"
+    },
+    "vehicle": {
+      "notFound": "Topilmadi"
+    }
+  }
+}

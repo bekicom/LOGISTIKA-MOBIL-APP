@@ -7,21 +7,14 @@ import Svg, { Path } from "react-native-svg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui";
 import { color, font, radius, space } from "@/lib/theme";
+import { LOCALES, LOCALE_INFO, deviceLocale, setLocale, type Locale } from "@/lib/i18n";
 
-/** Web'dagi `furam/src/messages/*.json` bilan bir xil ro'yxat */
-const LANGS = [
-  { code: "uz", label: "O'zbekcha" },
-  { code: "ru", label: "Русский" },
-  { code: "en", label: "English" },
-  { code: "kk", label: "Қазақша" },
-  { code: "ky", label: "Кыргызча" },
-  { code: "tg", label: "Тоҷикӣ" },
-  { code: "tr", label: "Türkçe" },
-  { code: "zh", label: "中文" },
-] as const;
+/* Ro'yxat `lib/i18n.ts` dan olinadi — til nomlari ikki joyda
+   yozilsa, biri qo'shilib ikkinchisi unutilardi. */
+const LANGS = LOCALES.map((code) => ({ code, label: LOCALE_INFO[code].native }));
 
 export default function TilTanlash() {
-  const [picked, setPicked] = useState<string>("uz");
+  const [picked, setPicked] = useState<Locale>(deviceLocale());
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -66,7 +59,16 @@ export default function TilTanlash() {
       </ScrollView>
 
       <View style={s.footer}>
-        <Button title="Davom etish" onPress={() => router.push("/tanishtiruv")} />
+        <Button
+          title="Davom etish"
+          onPress={async () => {
+            /* Tanlov SAQLANADI. Ilgari bu ekran faqat ko'rinish edi:
+               til tanlansa ham keyingi ekranga o'tib ketardi va
+               tanlov yo'qolardi. */
+            await setLocale(picked);
+            router.push("/tanishtiruv");
+          }}
+        />
         <Text style={s.note}>Tilni keyin ham o&apos;zgartirishingiz mumkin</Text>
       </View>
     </View>

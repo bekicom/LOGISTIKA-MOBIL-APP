@@ -16,6 +16,7 @@ import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Doc = {
   id: string | null;
@@ -50,9 +51,9 @@ export default function TransportHujjatlar() {
   return (
     <View style={s.root}>
       <Header
-        title="Hujjatlar"
+        title={t("mob.docs.title")}
         subtitle={data ? `${data.vehicle.plate} · ${data.vehicle.brand}` : undefined}
-        right={<Text style={s.add}>Qo&apos;shish</Text>}
+        right={<Text style={s.add}>{t("mob.common.add")}</Text>}
       />
 
       <ScrollView
@@ -62,7 +63,7 @@ export default function TransportHujjatlar() {
         {loading ? (
           <Skeleton rows={4} />
         ) : error || !data ? (
-          <ErrorBox message={error ?? "Topilmadi"} onRetry={reload} />
+          <ErrorBox message={error ?? t("mob.vehicle.notFound")} onRetry={reload} />
         ) : (
           <>
             {/* Umumiy holat */}
@@ -75,21 +76,23 @@ export default function TransportHujjatlar() {
               <View style={{ flex: 1 }}>
                 <Text style={s.sumTitle}>
                   {need.length === 0
-                    ? "Hammasi joyida"
+                    ? t("mob.docs.allFine")
                     : need.length === 1
-                      ? "Bittasi e'tibor talab qiladi"
-                      : `${need.length} tasi e'tibor talab qiladi`}
+                      ? t("mob.docs.oneNeeds")
+                      : t("mob.docs.manyNeed", { n: need.length })}
                 </Text>
                 <Text style={s.sumBody}>
                   {need.length === 0
-                    ? "Chegarada muammo bo'lmasligi kerak."
+                    ? t("mob.docs.allFineText")
                     : need
                         .map((d) =>
-                          d.missing
-                            ? `${d.label.toLowerCase()} yo'q`
-                            : d.state === "expired"
-                              ? `${d.label.toLowerCase()} tugagan`
-                              : `${d.label.toLowerCase()} ${d.days} kunda tugaydi`,
+                          `${d.label} — ${
+                            d.missing
+                              ? t("mob.docs.missingShort")
+                              : d.state === "expired"
+                                ? t("mob.docs.expiredAgo", { n: -(d.days ?? 0) })
+                                : t("mob.docs.daysLeft", { n: d.days ?? 0 })
+                          }`,
                         )
                         .join(", ")}
                 </Text>
@@ -98,7 +101,7 @@ export default function TransportHujjatlar() {
 
             {need.length > 0 ? (
               <View>
-                <GroupLabel>E&apos;TIBOR BERING</GroupLabel>
+                <GroupLabel>{t("mob.docs.attention")}</GroupLabel>
                 <Card>
                   {need.map((d, i) => (
                     <DocRow key={d.kind + (d.id ?? "")} doc={d} last={i === need.length - 1} />
@@ -109,7 +112,7 @@ export default function TransportHujjatlar() {
 
             {fine.length > 0 ? (
               <View>
-                <GroupLabel>JOYIDA</GroupLabel>
+                <GroupLabel>{t("mob.docs.fine")}</GroupLabel>
                 <Card>
                   {fine.map((d, i) => (
                     <DocRow key={d.kind + (d.id ?? "")} doc={d} last={i === fine.length - 1} />
@@ -119,11 +122,8 @@ export default function TransportHujjatlar() {
             ) : null}
 
             <View style={s.note}>
-              <Text style={s.noteTitle}>Muddat eslatmasi</Text>
-              <Text style={s.noteBody}>
-                30, 7 va 1 kun qolganda xabar keladi. Bildirishnoma sozlamalarida
-                «Hujjat muddati» bo&apos;limi yoqiq bo&apos;lishi kerak.
-              </Text>
+              <Text style={s.noteTitle}>{t("mob.docs.reminder")}</Text>
+              <Text style={s.noteBody}>{t("mob.docs.reminderText")}</Text>
             </View>
           </>
         )}
@@ -165,19 +165,19 @@ function DocRow({ doc, last }: { doc: Doc; last: boolean }) {
         <Text style={s.name}>{doc.label}</Text>
         <Text style={[s.when, (bad || soon) && { color: tint, fontWeight: "600" }]}>
           {doc.missing
-            ? "Yo'q — qo'shilmagan"
+            ? t("mob.docs.missing")
             : doc.state === "expired"
-              ? `${-(doc.days ?? 0)} kun oldin tugagan`
+              ? t("mob.docs.expiredAgo", { n: -(doc.days ?? 0) })
               : doc.state === "forever"
-                ? [doc.number, "muddatsiz"].filter(Boolean).join(" · ")
-                : `${doc.days} kun qoldi · ${new Date(doc.expiresAt!).toLocaleDateString("ru-RU")}`}
+                ? [doc.number, t("mob.docs.forever")].filter(Boolean).join(" · ")
+                : `${t("mob.docs.daysLeft", { n: doc.days ?? 0 })} · ${new Date(doc.expiresAt!).toLocaleDateString()}`}
         </Text>
       </View>
 
       {bad || soon ? (
         <View style={[s.btn, doc.missing && { backgroundColor: color.brand, borderWidth: 0 }]}>
           <Text style={[s.btnText, doc.missing && { color: "#fff" }]}>
-            {doc.missing ? "Qo'shish" : "Yangilash"}
+            {doc.missing ? t("mob.common.add") : t("mob.common.renew")}
           </Text>
         </View>
       ) : (

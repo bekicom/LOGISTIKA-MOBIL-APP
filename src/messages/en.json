@@ -1,0 +1,50 @@
+{
+  "mob": {
+    "common": {
+      "add": "Add",
+      "all": "All",
+      "renew": "Renew"
+    },
+    "docs": {
+      "allFine": "Everything is in order",
+      "allFineText": "There should be no problem at the border.",
+      "attention": "NEEDS ATTENTION",
+      "daysLeft": "{n} days left",
+      "expiredAgo": "expired {n} days ago",
+      "fine": "IN ORDER",
+      "forever": "no expiry",
+      "manyNeed": "{n} need attention",
+      "missing": "Missing — not added",
+      "missingShort": "Missing",
+      "oneNeeds": "One needs attention",
+      "reminder": "Expiry reminder",
+      "reminderText": "You are notified 30, 7 and 1 day before. The «Document expiry» category must be enabled in notification settings.",
+      "title": "Documents"
+    },
+    "park": {
+      "addVehicle": "Add vehicle",
+      "count": "{n} vehicles",
+      "docIssue": "Documents",
+      "emptyTab": "No vehicles in this state",
+      "emptyTabText": "Check another tab.",
+      "emptyText": "Add a vehicle and cargo listings will be matched to it.",
+      "emptyTitle": "Your fleet is empty",
+      "expiredHint": "It will be stopped at the border and stays hidden from listings until renewed.",
+      "expiredMany": "{n} vehicles have expired documents",
+      "expiredOne": "{plate} — {doc} has expired",
+      "free": "Free",
+      "inactive": "Inactive",
+      "kmLeft": "{n} km left",
+      "noDriver": "No driver assigned",
+      "onTrip": "On trip",
+      "onTripCount": "{n} on a trip",
+      "repair": "In repair",
+      "sold": "Sold",
+      "title": "My fleet",
+      "trailerLine": "+ trailer {plate}"
+    },
+    "vehicle": {
+      "notFound": "Not found"
+    }
+  }
+}

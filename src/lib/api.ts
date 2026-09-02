@@ -8,6 +8,7 @@
  */
 import Constants from "expo-constants";
 import { getToken } from "./session";
+import { currentLocale } from "./i18n";
 
 /**
  * Manzil qanday topiladi:
@@ -97,7 +98,11 @@ type Options = {
 };
 
 export async function api<T>(path: string, opts: Options = {}): Promise<T> {
-  const { method = "GET", body, auth = true, locale = "uz" } = opts;
+  /* Til QATTIQ YOZILMAYDI. Server javobdagi joy nomlari, transport
+     turlari va holat yorliqlarini shu sarlavhaga qarab tanlaydi
+     (`furam/src/lib/locale-server.ts`). Ilgari doim "uz" ketardi va
+     rus tilidagi foydalanuvchi o'zbekcha matn olardi. */
+  const { method = "GET", body, auth = true, locale = currentLocale() } = opts;
 
   const headers: Record<string, string> = {
     "X-Client": "mobile",

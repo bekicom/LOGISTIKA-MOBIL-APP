@@ -18,6 +18,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Device = {
   id: string;
@@ -32,11 +33,11 @@ type Device = {
 
 /** «Chrome · Windows», «FURAM ilovasi · iOS» yoki «Noma'lum qurilma» */
 function deviceName(ua: string | null): string {
-  if (!ua) return "Noma'lum qurilma";
+  if (!ua) return t("mob.devices.unknown");
   // Ilovaning o'zi — brauzerdan ajratib turishi kerak
   if (/Expo|okhttp|CFNetwork|FURAM/i.test(ua)) {
     const os = /Android/i.test(ua) ? "Android" : /iPhone|iPad|iOS|Darwin|CFNetwork/i.test(ua) ? "iOS" : "";
-    return os ? `FURAM ilovasi · ${os}` : "FURAM ilovasi";
+    return os ? `${t("mob.devices.appOn")} · ${os}` : t("mob.devices.appOn");
   }
   const browser = ua.includes("Edg/")
     ? "Edge"
@@ -48,7 +49,7 @@ function deviceName(ua: string | null): string {
           ? "Firefox"
           : ua.includes("Safari/")
             ? "Safari"
-            : "Brauzer";
+            : t("mob.devices.browser");
   const os = ua.includes("Windows")
     ? "Windows"
     : ua.includes("Android")
@@ -59,24 +60,24 @@ function deviceName(ua: string | null): string {
           ? "macOS"
           : ua.includes("Linux")
             ? "Linux"
-            : "Qurilma";
+            : t("mob.devices.device");
   return `${browser} · ${os}`;
 }
 
 /** «hozir faol», «2 kun oldin», «3 hafta oldin» */
 function since(iso: string): { text: string; stale: boolean } {
   const min = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
-  if (min < 5) return { text: "hozir faol", stale: false };
-  if (min < 60) return { text: `${min} daqiqa oldin`, stale: false };
+  if (min < 5) return { text: t("mob.devices.activeNow"), stale: false };
+  if (min < 60) return { text: t("mob.devices.minAgo", { n: min }), stale: false };
   const hour = Math.floor(min / 60);
-  if (hour < 24) return { text: `${hour} soat oldin`, stale: false };
+  if (hour < 24) return { text: t("mob.devices.hourAgo", { n: hour }), stale: false };
   const day = Math.floor(hour / 24);
-  if (day < 7) return { text: `${day} kun oldin`, stale: false };
+  if (day < 7) return { text: t("mob.devices.dayAgo", { n: day }), stale: false };
   const week = Math.floor(day / 7);
   /* Uzoq kirilmagan qurilma ajratib ko'rsatiladi — egasi e'tibor
      bersin, balki begonadir. */
-  if (week < 5) return { text: `${week} hafta oldin`, stale: week >= 2 };
-  return { text: `${Math.floor(day / 30)} oy oldin`, stale: true };
+  if (week < 5) return { text: t("mob.devices.weekAgo", { n: week }), stale: week >= 2 };
+  return { text: t("mob.devices.monthAgo", { n: Math.floor(day / 30) }), stale: true };
 }
 
 export default function Qurilmalar() {
@@ -90,12 +91,12 @@ export default function Qurilmalar() {
 
   async function cut(d: Device) {
     Alert.alert(
-      "Qurilmani uzish",
-      `«${deviceName(d.userAgent)}» hisobingizdan chiqariladi. Davom etaylikmi?`,
+      t("mob.devices.cut"),
+      t("mob.devices.cutAsk", { name: deviceName(d.userAgent) }),
       [
-        { text: "Bekor qilish", style: "cancel" },
+        { text: t("mob.common.cancel"), style: "cancel" },
         {
-          text: "Uzish",
+          text: t("mob.devices.cut"),
           style: "destructive",
           onPress: async () => {
             setBusy(d.id);
@@ -103,7 +104,7 @@ export default function Qurilmalar() {
               await api(`/api/sessions/${d.id}`, { method: "DELETE" });
               reload();
             } catch (e) {
-              Alert.alert("Uzilmadi", (e as FuramError).message ?? "Qaytadan urinib ko'ring");
+              Alert.alert(t("mob.devices.cutFailed"), (e as FuramError).message ?? t("mob.common.tryAgain"));
             } finally {
               setBusy(null);
             }
@@ -115,21 +116,21 @@ export default function Qurilmalar() {
 
   function cutAll() {
     Alert.alert(
-      "Hamma qurilmadan chiqish",
-      "Shu telefondan tashqari barcha qurilmada sessiya tugaydi.",
+      t("mob.devices.cutAll"),
+      t("mob.devices.cutAllAsk"),
       [
-        { text: "Bekor qilish", style: "cancel" },
+        { text: t("mob.common.cancel"), style: "cancel" },
         {
-          text: "Chiqish",
+          text: t("mob.common.signOut"),
           style: "destructive",
           onPress: async () => {
             setBusy("all");
             try {
               const r = await api<{ removed: number }>("/api/sessions", { method: "DELETE" });
               reload();
-              Alert.alert("Bajarildi", `${r.removed} ta qurilma uzildi`);
+              Alert.alert(t("mob.devices.done"), t("mob.devices.cutAllDone", { n: r.removed }));
             } catch (e) {
-              Alert.alert("Bajarilmadi", (e as FuramError).message ?? "Qaytadan urinib ko'ring");
+              Alert.alert(t("mob.devices.failed"), (e as FuramError).message ?? t("mob.common.tryAgain"));
             } finally {
               setBusy(null);
             }
@@ -141,7 +142,7 @@ export default function Qurilmalar() {
 
   return (
     <View style={s.root}>
-      <Header title="Qurilmalar" subtitle="Hisobingizga kirgan qurilmalar" />
+      <Header title={t("mob.profile.devices")} subtitle={t("mob.devices.subtitle")} />
 
       <ScrollView
         contentContainerStyle={s.scroll}
@@ -167,17 +168,17 @@ export default function Qurilmalar() {
                     [current.city, current.country].filter(Boolean).join(", ") || current.ip || "—",
                     since(current.lastActiveAt).text,
                   ].join(" · ")}
-                  right={<Text style={s.now}>SHU QURILMA</Text>}
+                  right={<Text style={s.now}>{t("mob.devices.thisDevice")}</Text>}
                 />
               </Card>
             ) : null}
 
             {others.length > 0 ? (
               <View>
-                <GroupLabel>BOSHQA QURILMALAR</GroupLabel>
+                <GroupLabel>{t("mob.devices.others")}</GroupLabel>
                 <Card>
                   {others.map((d, i) => {
-                    const t = since(d.lastActiveAt);
+                    const seen = since(d.lastActiveAt);
                     return (
                       <ListRow
                         key={d.id}
@@ -191,14 +192,14 @@ export default function Qurilmalar() {
                         hint={[d.city, d.country].filter(Boolean).join(", ") || d.ip || "—"}
                         right={
                           <View style={{ alignItems: "flex-end", gap: 6 }}>
-                            <Text style={[s.when, t.stale && { color: color.warning, fontWeight: "600" }]}>
-                              {t.text}
+                            <Text style={[s.when, seen.stale && { color: color.warning, fontWeight: "600" }]}>
+                              {seen.text}
                             </Text>
                             <Text
                               style={[s.cut, busy === d.id && { opacity: 0.4 }]}
                               onPress={busy ? undefined : () => cut(d)}
                             >
-                              Uzish
+                              {t("mob.devices.cut")}
                             </Text>
                           </View>
                         }
@@ -208,7 +209,7 @@ export default function Qurilmalar() {
                 </Card>
               </View>
             ) : (
-              <Text style={s.alone}>Boshqa qurilmada kirilmagan.</Text>
+              <Text style={s.alone}>{t("mob.devices.alone")}</Text>
             )}
 
             {others.length > 0 ? (
@@ -216,21 +217,14 @@ export default function Qurilmalar() {
                 style={[s.cutAll, busy === "all" && { opacity: 0.4 }]}
                 onPress={busy ? undefined : cutAll}
               >
-                Boshqa hamma qurilmadan chiqish
+                {t("mob.devices.cutAll")}
               </Text>
             ) : null}
 
             <View style={s.note}>
-              <Text style={s.noteTitle}>Nima uchun bu ekran bor</Text>
-              <Text style={s.noteBody}>
-                Telefoningizni yo'qotsangiz yoki sotsangiz — hisobingiz begona
-                qo'lda qolmasligi kerak. Bu yerdan uzsangiz, o'sha qurilmadagi
-                sessiya darhol tugaydi.
-              </Text>
-              <Text style={s.noteBody}>
-                Uzoq vaqt kirilmagan qurilma sanasi jigarrang yoziladi — e'tibor
-                bering, balki begonadir.
-              </Text>
+              <Text style={s.noteTitle}>{t("mob.devices.whyTitle")}</Text>
+              <Text style={s.noteBody}>{t("mob.devices.whyText1")}</Text>
+              <Text style={s.noteBody}>{t("mob.devices.whyText2")}</Text>
             </View>
           </>
         )}

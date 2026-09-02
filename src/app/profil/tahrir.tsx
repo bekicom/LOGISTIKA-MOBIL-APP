@@ -19,6 +19,7 @@ import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
+import { roleLabel, t } from "@/lib/i18n";
 
 export default function ProfilTahrir() {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function ProfilTahrir() {
           Object.fromEntries(Object.entries(err.details).map(([k, v]) => [k, v[0] ?? ""])),
         );
       } else {
-        Alert.alert("Saqlanmadi", err.message ?? "Qaytadan urinib ko'ring");
+        Alert.alert(t("mob.common.notSaved"), err.message ?? t("mob.common.tryAgain"));
       }
     } finally {
       setBusy(false);
@@ -68,13 +69,13 @@ export default function ProfilTahrir() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <Header
-        title="Profilni tahrirlash"
+        title={t("mob.profile.editTitle")}
         right={
           <Text
             onPress={busy || !changed ? undefined : save}
             style={[s.save, (busy || !changed) && { color: color.mutedForeground }]}
           >
-            {busy ? "..." : "Saqlash"}
+            {busy ? "..." : t("mob.common.save")}
           </Text>
         }
       />
@@ -84,74 +85,62 @@ export default function ProfilTahrir() {
           <View style={s.avatar}>
             <Text style={s.avatarText}>{initials}</Text>
           </View>
-          <Text style={s.avatarHint}>Rasm qo&apos;yish tez orada</Text>
+          <Text style={s.avatarHint}>{t("mob.profile.avatarSoon")}</Text>
         </View>
 
         <Field
-          label="Ism"
+          label={t("mob.profile.firstName")}
           value={firstName}
           onChangeText={setFirst}
-          placeholder="Ismingiz"
+          placeholder={t("mob.profile.firstName")}
           autoCapitalize="words"
           error={errors.firstName}
         />
 
         <Field
-          label="Familiya"
-          hint="ixtiyoriy"
+          label={t("mob.profile.lastName")}
+          hint={t("mob.common.optional")}
           value={lastName}
           onChangeText={setLast}
-          placeholder="Familiyangiz"
+          placeholder={t("mob.profile.lastName")}
           autoCapitalize="words"
           error={errors.lastName}
         />
 
         <Field
-          label="Qo'shimcha telefon"
-          hint="ixtiyoriy"
+          label={t("mob.profile.extraPhone")}
+          hint={t("mob.common.optional")}
           value={extraPhone}
           onChangeText={setExtra}
           placeholder="+998 __ ___ __ __"
           keyboardType="phone-pad"
           error={errors.extraPhone}
         />
-        <Text style={s.under}>
-          Sizga yetib bo&apos;lmaganda shu raqamga qo&apos;ng&apos;iroq qilishadi.
-        </Text>
+        <Text style={s.under}>{t("mob.profile.extraPhoneHint")}</Text>
 
         {/* Telefon — o'zgartirilmaydigan maydon */}
         <Card style={{ padding: space.lg, marginTop: space.sm }}>
           <View style={s.phoneRow}>
             <Icon name="check" size={18} stroke={color.success} />
             <View style={{ flex: 1 }}>
-              <Text style={s.phoneLabel}>Asosiy telefon</Text>
+              <Text style={s.phoneLabel}>{t("mob.profile.mainPhone")}</Text>
               <Text style={s.phone}>{user?.phone ?? "—"}</Text>
             </View>
           </View>
-          <Text style={s.phoneNote}>
-            Bu raqam — kirish kaliti. O&apos;zgartirish uchun yangi raqam
-            tasdiqlanishi kerak, shuning uchun u alohida qadamda bo&apos;ladi.
-          </Text>
+          <Text style={s.phoneNote}>{t("mob.profile.phoneNote")}</Text>
         </Card>
 
         <View style={s.readonly}>
           <Row label="FURAM ID" value={String(user?.furamId ?? "—")} />
-          <Row label="Rol" value={ROLE[user?.role ?? ""] ?? user?.role ?? "—"} last />
+          <Row label={t("mob.profile.role")} value={roleLabel(user?.role)} last />
         </View>
 
-        <Button title="Saqlash" onPress={save} loading={busy} disabled={!changed} />
+        <Button title={t("mob.common.save")} onPress={save} loading={busy} disabled={!changed} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
-const ROLE: Record<string, string> = {
-  DRIVER: "Haydovchi",
-  SHIPPER: "Yuk egasi",
-  VEHICLE_OWNER: "Mashina egasi",
-  DISPATCHER: "Dispetcher",
-  USER: "Oddiy foydalanuvchi",
-};
 
 function Row({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (

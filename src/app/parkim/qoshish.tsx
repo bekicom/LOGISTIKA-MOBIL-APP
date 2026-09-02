@@ -21,25 +21,25 @@ import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
-type VType = { id: number; key: string; nameUz: string; capacityT: number | null; volumeM3: number | null };
+/* `name` — server SO'ROV TILIDA qaytaradi (`localName`). Ilgari
+   `nameUz` ishlatilardi va ruscha interfeysda o'zbekcha chiqardi. */
+type VType = { id: number; key: string; name: string; capacityT: number | null; volumeM3: number | null };
 
-const PARTS = [
-  { key: "SINGLE", label: "Yaxlit" },
-  { key: "TRACTOR", label: "Tyagach" },
-  { key: "TRAILER", label: "Tirkama" },
-] as const;
+const PARTS = ["SINGLE", "TRACTOR", "TRAILER"] as const;
 
-/** Ilova ishlaydigan davlatlar — backenddagi WORK_COUNTRIES bilan bir xil */
+const partLabel = (k: string) =>
+  ({ SINGLE: t("mob.add.single"), TRACTOR: t("mob.add.tractor"), TRAILER: t("mob.add.trailer") })[k] ?? k;
+
+/* Davlat kodlari. Nomlari web lug'atidagi
+   `jobCatalog.countries.*` dan olinadi — u yerda 17 ta davlat
+   sakkiz tilda tayyor turibdi, ikkinchisini yozishning hojati yo'q. */
 const COUNTRIES = [
-  { code: "UZ", flag: "🇺🇿", name: "O'zbekiston" },
-  { code: "KZ", flag: "🇰🇿", name: "Qozog'iston" },
-  { code: "RU", flag: "🇷🇺", name: "Rossiya" },
-  { code: "KG", flag: "🇰🇬", name: "Qirg'iziston" },
-  { code: "TJ", flag: "🇹🇯", name: "Tojikiston" },
-  { code: "TM", flag: "🇹🇲", name: "Turkmaniston" },
-  { code: "TR", flag: "🇹🇷", name: "Turkiya" },
-  { code: "CN", flag: "🇨🇳", name: "Xitoy" },
+  { code: "UZ", flag: "🇺🇿" }, { code: "KZ", flag: "🇰🇿" },
+  { code: "RU", flag: "🇷🇺" }, { code: "KG", flag: "🇰🇬" },
+  { code: "TJ", flag: "🇹🇯" }, { code: "TM", flag: "🇹🇲" },
+  { code: "TR", flag: "🇹🇷" }, { code: "CN", flag: "🇨🇳" },
 ];
 
 export default function TransportQoshish() {
@@ -109,14 +109,14 @@ export default function TransportQoshish() {
         /* Server o'xshash mashina topdi. Bu TO'SIQ EMAS — bir xil
            raqamli tirkama va tyagach bo'lishi mumkin; qarorni egasi
            qabul qiladi. */
-        Alert.alert("Shunday transport bormi?", err.message ?? "O'xshash mashina topildi.", [
-          { text: "Bekor qilish", style: "cancel" },
-          { text: "Baribir qo'shish", onPress: () => void save(true) },
+        Alert.alert(t("mob.add.dupTitle"), err.message ?? t("mob.add.dupText"), [
+          { text: t("mob.common.cancel"), style: "cancel" },
+          { text: t("mob.add.dupAnyway"), onPress: () => void save(true) },
         ]);
       } else if (err.code === "TARIFF" || err.code === "LIMIT") {
-        Alert.alert("Tarif cheklovi", err.message ?? "Bu tarifda mashina qo'shib bo'lmaydi.");
+        Alert.alert(t("mob.add.tariffTitle"), err.message ?? t("mob.add.tariffText"));
       } else {
-        Alert.alert("Saqlanmadi", err.message ?? "Qaytadan urinib ko'ring");
+        Alert.alert(t("mob.common.notSaved"), err.message ?? t("mob.common.tryAgain"));
       }
     } finally {
       setBusy(false);
@@ -125,7 +125,7 @@ export default function TransportQoshish() {
 
   return (
     <KeyboardAvoidingView style={s.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <Header title="Transport qo'shish" subtitle="1-qadam: asosiy ma'lumot" />
+      <Header title={t("mob.add.title")} subtitle={t("mob.add.step1")} />
 
       <View style={s.stepsWrap}>
         <Steps total={3} current={1} />
@@ -134,57 +134,52 @@ export default function TransportQoshish() {
       <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
         {/* Tuzilishi — birinchi savol, qolgani shunga bog'liq */}
         <View>
-          <Text style={s.label}>Bu qanday transport?</Text>
+          <Text style={s.label}>{t("mob.add.kind")}</Text>
           <View style={{ flexDirection: "row", gap: 8 }}>
             {PARTS.map((p) => {
-              const on = part === p.key;
+              const on = part === p;
               return (
                 <Pressable
-                  key={p.key}
-                  onPress={() => setPart(p.key)}
+                  key={p}
+                  onPress={() => setPart(p)}
                   style={({ pressed }) => [s.opt, on && s.optOn, pressed && !on && { backgroundColor: color.muted }]}
                 >
                   <Icon name="truck" size={22} stroke={on ? color.brand : "#475569"} />
-                  <Text style={[s.optText, on && { color: color.brand }]}>{p.label}</Text>
+                  <Text style={[s.optText, on && { color: color.brand }]}>{partLabel(p)}</Text>
                 </Pressable>
               );
             })}
           </View>
-          <Text style={s.hint}>
-            Tyagach va tirkama alohida yoziladi — hujjat va texnik ko&apos;rik ikkalasida
-            boshqacha.
-          </Text>
+          <Text style={s.hint}>{t("mob.add.kindHint")}</Text>
         </View>
 
         <Field
-          label="Davlat raqami"
+          label={t("mob.add.plate")}
           value={plate}
           onChangeText={setPlate}
           placeholder="01 A 123 AA"
           autoCapitalize="characters"
           error={errors.plate}
         />
-        <Text style={s.hintTight}>
-          Raqam almashsa keyin o&apos;zgartirasiz — ichki raqam (TR-…) o&apos;zgarmaydi.
-        </Text>
+        <Text style={s.hintTight}>{t("mob.add.plateHint")}</Text>
 
         <Field
-          label="Rusum"
+          label={t("mob.add.brand")}
           value={brand}
           onChangeText={setBrand}
-          placeholder="Mercedes-Benz, MAN, Isuzu..."
+          placeholder={t("mob.add.brandPh")}
           autoCapitalize="words"
           error={errors.brand}
         />
 
         <View style={{ flexDirection: "row", gap: space.md }}>
           <View style={{ flex: 1.4 }}>
-            <Field label="Model" hint="ixtiyoriy" value={model} onChangeText={setModel} placeholder="Actros 1845" />
+            <Field label={t("mob.add.model")} hint={t("mob.common.optional")} value={model} onChangeText={setModel} placeholder="Actros 1845" />
           </View>
           <View style={{ flex: 1 }}>
             <Field
-              label="Yili"
-              hint="ixtiyoriy"
+              label={t("mob.add.year")}
+              hint={t("mob.common.optional")}
               value={year}
               onChangeText={setYear}
               placeholder="2019"
@@ -197,7 +192,7 @@ export default function TransportQoshish() {
 
         {/* Transport turi — e'lonlarni moslash uchun majburiy */}
         <View>
-          <Text style={s.label}>Transport turi</Text>
+          <Text style={s.label}>{t("mob.add.vType")}</Text>
           <Pressable
             onPress={() => setPickType(true)}
             style={({ pressed }) => [s.picker, pressed && { backgroundColor: color.muted }]}
@@ -206,20 +201,18 @@ export default function TransportQoshish() {
               <Icon name="truck" size={19} stroke={color.brand} />
             </View>
             <Text style={[s.pickText, !type && { color: "#94a3b8" }]}>
-              {type ? `${type.nameUz}${type.capacityT ? ` ${type.capacityT} t` : ""}` : "Tanlang"}
+              {type ? `${type.name}${type.capacityT ? ` ${type.capacityT} t` : ""}` : t("mob.add.vTypePick")}
             </Text>
             <Icon name="chevron" size={16} stroke="#94a3b8" />
           </Pressable>
           {errors.vehicleTypeId ? <Text style={s.err}>{errors.vehicleTypeId}</Text> : null}
-          <Text style={s.hint}>
-            14 ta turdan tanlanadi. Yuk e&apos;lonlari aynan shu bo&apos;yicha moslanadi.
-          </Text>
+          <Text style={s.hint}>{t("mob.add.vTypeHint")}</Text>
         </View>
 
         <View style={{ flexDirection: "row", gap: space.md }}>
           <View style={{ flex: 1 }}>
             <Field
-              label="Yuk ko'tarish"
+              label={t("mob.vehicle.capacity")}
               value={capacity}
               onChangeText={setCapacity}
               placeholder="20"
@@ -230,8 +223,8 @@ export default function TransportQoshish() {
           </View>
           <View style={{ flex: 1 }}>
             <Field
-              label="Hajm"
-              hint="ixtiyoriy"
+              label={t("mob.vehicle.volume")}
+              hint={t("mob.common.optional")}
               value={volume}
               onChangeText={setVolume}
               placeholder="86"
@@ -244,7 +237,7 @@ export default function TransportQoshish() {
 
         {/* Davlatlar */}
         <View>
-          <Text style={s.label}>Qaysi davlatlarga chiqadi</Text>
+          <Text style={s.label}>{t("mob.add.countries")}</Text>
           <View style={s.flags}>
             {COUNTRIES.map((c) => {
               const on = countries.includes(c.code);
@@ -255,27 +248,21 @@ export default function TransportQoshish() {
                   style={({ pressed }) => [s.flag, on && s.flagOn, pressed && { opacity: 0.7 }]}
                 >
                   <Text style={{ fontSize: 13 }}>{c.flag}</Text>
-                  <Text style={[s.flagText, on && { color: "#fff", fontWeight: "600" }]}>{c.name}</Text>
+                  <Text style={[s.flagText, on && { color: "#fff", fontWeight: "600" }]}>{t(`jobCatalog.countries.${c.code}`)}</Text>
                 </Pressable>
               );
             })}
           </View>
-          <Text style={s.hint}>
-            Chiqmaydigan davlatdagi yuk e&apos;lonlari ko&apos;rsatilmaydi — ro&apos;yxat toza qoladi.
-          </Text>
+          <Text style={s.hint}>{t("mob.add.countriesHint")}</Text>
         </View>
 
         <View style={s.note}>
-          <Text style={s.noteTitle}>Keyingi qadamlar</Text>
-          <Text style={s.noteBody}>
-            2-qadam — o&apos;lchamlar, yoqilg&apos;i normasi va spidometr. 3-qadam — hujjatlar
-            va surat. Ikkalasini keyin ham to&apos;ldirish mumkin: mashina shu qadamdan
-            keyinoq e&apos;lonlarda ishlaydi.
-          </Text>
+          <Text style={s.noteTitle}>{t("mob.add.nextSteps")}</Text>
+          <Text style={s.noteBody}>{t("mob.add.nextStepsText")}</Text>
         </View>
 
-        <Button title="Saqlash va davom etish" onPress={() => save()} loading={busy} disabled={!ready} />
-        <Text style={s.foot}>Keyingi qadamlarni keyin ham to&apos;ldirish mumkin</Text>
+        <Button title={t("mob.add.submit")} onPress={() => save()} loading={busy} disabled={!ready} />
+        <Text style={s.foot}>{t("mob.add.laterHint")}</Text>
       </ScrollView>
 
       {/* Tur tanlash */}
@@ -283,22 +270,22 @@ export default function TransportQoshish() {
         <Pressable style={s.backdrop} onPress={() => setPickType(false)} />
         <View style={s.sheet}>
           <View style={s.grab} />
-          <Text style={s.sheetTitle}>Transport turi</Text>
+          <Text style={s.sheetTitle}>{t("mob.add.vType")}</Text>
           <ScrollView style={{ maxHeight: 420 }}>
             <Card>
-              {(types.data?.items ?? []).map((t, i) => (
+              {(types.data?.items ?? []).map((vt, i) => (
                 <ListRow
-                  key={t.id}
+                  key={vt.id}
                   last={i === (types.data?.items.length ?? 0) - 1}
-                  title={t.nameUz}
+                  title={vt.name}
                   hint={[
-                    t.capacityT ? `${t.capacityT} t` : null,
-                    t.volumeM3 ? `${t.volumeM3} m³` : null,
+                    vt.capacityT ? `${vt.capacityT} t` : null,
+                    vt.volumeM3 ? `${vt.volumeM3} m³` : null,
                   ]
                     .filter(Boolean)
                     .join(" · ")}
-                  right={typeId === t.id ? <Icon name="check" size={18} stroke={color.brand} /> : undefined}
-                  onPress={() => chooseType(t)}
+                  right={typeId === vt.id ? <Icon name="check" size={18} stroke={color.brand} /> : undefined}
+                  onPress={() => chooseType(vt)}
                 />
               ))}
             </Card>

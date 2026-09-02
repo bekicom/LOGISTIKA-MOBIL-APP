@@ -22,19 +22,15 @@ import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type ActiveTrip = { no: number; status: string; from: string; to: string };
 
-const STATUS: Record<string, string> = {
-  ASSIGNED: "Mashina biriktirildi",
-  TO_LOADING: "Yuklashga ketmoqda",
-  LOADED: "Yuklandi",
-  ON_ROAD: "Yo'lda",
-  AT_BORDER: "Chegarada",
-  NEAR_DESTINATION: "Manzilga yaqin",
-  UNLOADED: "Tushirildi",
-  CLOSING: "Yopilmoqda",
-};
+/* Holat nomi API dan TAYYOR kelmaydi: server uni bitta tilda
+   yasaydi, ilova esa sakkiz tilda ishlaydi. Enum kaliti keladi,
+   tarjimani mijoz qiladi — web'dagi `tripStatus` lug'ati bilan
+   bir xil manba. */
+const tripStatus = (k: string) => t(`tripStatus.${k}`);
 
 export default function HisobniOchirish() {
   const router = useRouter();
@@ -62,11 +58,11 @@ export default function HisobniOchirish() {
       if (err.code === "ACTIVE_TRIPS") {
         setTrips((err.data?.trips as ActiveTrip[] | undefined) ?? []);
       } else if (err.code === "BAD_PASSWORD") {
-        setError("Parol noto'g'ri");
+        setError(t("mob.delete.badPassword"));
       } else if (err.code === "PASSWORD_REQUIRED") {
-        setError("Parolni kiriting");
+        setError(t("mob.delete.passwordRequired"));
       } else {
-        setError(err.message ?? "O'chirilmadi, qaytadan urinib ko'ring");
+        setError(err.message ?? t("mob.delete.failed"));
       }
     } finally {
       setBusy(false);
@@ -75,43 +71,37 @@ export default function HisobniOchirish() {
 
   return (
     <View style={s.root}>
-      <Header title="Hisobni o'chirish" />
+      <Header title={t("mob.delete.title")} />
 
       <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
         {/* Nima bo'ladi — uch bosqich */}
         <Card style={{ padding: space.lg }}>
-          <Text style={s.cardTitle}>Nima bo'ladi</Text>
+          <Text style={s.cardTitle}>{t("mob.delete.whatHappens")}</Text>
           <Step
             n="1"
-            title="Hoziroq"
-            body="Barcha qurilmadan chiqasiz, e'lonlaringiz ro'yxatdan olinadi."
+            title={t("mob.delete.step1")}
+            body={t("mob.delete.step1Text")}
           />
           <Step
             n="2"
-            title="30 kun ichida"
-            body="Fikringiz o'zgarsa — shu telefon va parol bilan kiring, hammasi joyiga qaytadi."
+            title={t("mob.delete.step2")}
+            body={t("mob.delete.step2Text")}
           />
           <Step
             n="3"
-            title="30 kundan keyin"
-            body="Ma'lumot butunlay o'chadi. Buni ortga qaytarib bo'lmaydi."
+            title={t("mob.delete.step3")}
+            body={t("mob.delete.step3Text")}
             last
           />
         </Card>
 
         {/* Nima yo'qoladi */}
         <Card style={{ padding: space.lg }}>
-          <Text style={s.cardTitle}>Nima yo'qoladi</Text>
-          {[
-            "E'lonlar va ular bo'yicha kelishuvlar",
-            "Reys tarixi va hisobotlar",
-            "Yuklangan hujjatlar",
-            "Suhbatlar va xabarlar",
-            "Ishonch bali va reytingingiz",
-          ].map((t) => (
-            <View key={t} style={s.lose}>
+          <Text style={s.cardTitle}>{t("mob.delete.whatLost")}</Text>
+          {["lost1", "lost2", "lost3", "lost4", "lost5"].map((k) => t(`mob.delete.${k}`)).map((txt) => (
+            <View key={txt} style={s.lose}>
               <Icon name="close" size={14} stroke={color.danger} />
-              <Text style={s.loseText}>{t}</Text>
+              <Text style={s.loseText}>{txt}</Text>
             </View>
           ))}
         </Card>
@@ -121,19 +111,14 @@ export default function HisobniOchirish() {
           <View style={s.warn}>
             <View style={s.warnHead}>
               <Icon name="alert" size={18} stroke={color.warning} />
-              <Text style={s.warnTitle}>
-                {trips.length} ta reys hali yopilmagan
-              </Text>
+              <Text style={s.warnTitle}>{t("mob.delete.activeTrips", { n: trips.length })}</Text>
             </View>
-            <Text style={s.warnBody}>
-              Hisobni o'chirsangiz aloqa uziladi va bu reyslar egasiz qoladi.
-              Avval ularni yopish tavsiya etiladi.
-            </Text>
-            {trips.map((t) => (
-              <Text key={t.no} style={s.tripLine}>
-                <Text style={{ fontWeight: "700" }}>FURAM #{t.no}</Text>
+            <Text style={s.warnBody}>{t("mob.delete.activeTripsText")}</Text>
+            {trips.map((tr) => (
+              <Text key={tr.no} style={s.tripLine}>
+                <Text style={{ fontWeight: "700" }}>FURAM #{tr.no}</Text>
                 {"  "}
-                {t.from} → {t.to} · {STATUS[t.status] ?? t.status}
+                {tr.from} → {tr.to} · {tripStatus(tr.status)}
               </Text>
             ))}
           </View>
@@ -142,7 +127,7 @@ export default function HisobniOchirish() {
         {/* Parol */}
         <View>
           <Field
-            label="Tasdiqlash uchun parolni kiriting"
+            label={t("mob.delete.confirmPassword")}
             value={password}
             onChangeText={(v) => {
               setPassword(v);
@@ -155,7 +140,7 @@ export default function HisobniOchirish() {
             error={error || undefined}
             right={
               <Text onPress={() => setShow(!show)} style={s.showBtn}>
-                {show ? "Yashirish" : "Ko'rsatish"}
+                {show ? t("mob.common.hide") : t("mob.common.show")}
               </Text>
             }
           />
@@ -163,9 +148,9 @@ export default function HisobniOchirish() {
 
         {/* Bekor qilish ASOSIY, o'chirish ikkinchi darajali */}
         <View style={{ gap: space.md }}>
-          <Button title="Bekor qilish — hisobim qolsin" onPress={() => router.back()} />
+          <Button title={t("mob.delete.keepAccount")} onPress={() => router.back()} />
           <Button
-            title={trips ? "Baribir o'chirish" : "Hisobni o'chirish"}
+            title={trips ? t("mob.delete.deleteAnyway") : t("mob.delete.title")}
             variant="secondary"
             loading={busy}
             disabled={!password}
@@ -173,10 +158,7 @@ export default function HisobniOchirish() {
           />
         </View>
 
-        <Text style={s.foot}>
-          Faol obunangiz bo'lsa, u avtomatik bekor qilinmaydi — App Store yoki
-          Google Play sozlamalaridan alohida bekor qiling.
-        </Text>
+        <Text style={s.foot}>{t("mob.delete.subNote")}</Text>
       </ScrollView>
     </View>
   );

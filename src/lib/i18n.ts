@@ -111,3 +111,24 @@ export const currentLocale = (): Locale =>
 export function t(key: string, params?: Record<string, string | number>): string {
   return i18n.t(key, params);
 }
+
+/* ─────────────────────────────── Kalitdan yorliqqa */
+
+/**
+ * Server ENUM KALITINI yuboradi, tarjimani mijoz qiladi.
+ *
+ * Nega shunday: server bitta tilda yozib yuborsa, ruscha
+ * interfeysda o'zbekcha matn chiqadi. Bu xato web'da bir marta
+ * bo'lgan (hisobni o'chirishdagi reys holati), shuning uchun
+ * yorliqning hammasi shu yerdan o'tadi.
+ */
+export const roleLabel = (key?: string | null) =>
+  key ? t(`mob.role.${key}`) : "—";
+
+/** Reys holati — web'dagi `tripStatus` lug'ati bilan bir manba */
+export const tripStatusLabel = (key: string) => t(`tripStatus.${key}`);
+
+/** Bildirishnoma bo'limi va kanali */
+export const notifyCategoryLabel = (key: string) => t(`mob.notifyCat.${key}`);
+export const notifyCategoryHint = (key: string) => t(`mob.notifyCatHint.${key}`);
+export const notifyChannelLabel = (key: string) => t(`mob.notifyCh.${key}`);

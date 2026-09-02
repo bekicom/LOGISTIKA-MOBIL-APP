@@ -15,6 +15,7 @@ import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { t, tripStatusLabel } from "@/lib/i18n";
 
 type Doc = {
   id: string | null;
@@ -48,29 +49,31 @@ type Detail = {
   } | null;
 };
 
-const STATUS: Record<string, { label: string; fg: string; bg: string }> = {
-  FREE: { label: "BO'SH", fg: "#15803d", bg: "rgba(22,163,74,0.12)" },
-  ON_TRIP: { label: "REYSDA", fg: color.info, bg: "rgba(29,78,216,0.12)" },
-  REPAIR: { label: "TA'MIRDA", fg: color.warning, bg: "rgba(180,83,9,0.12)" },
-  INACTIVE: { label: "TO'XTATILGAN", fg: color.mutedForeground, bg: color.muted },
+const TONE: Record<string, { fg: string; bg: string }> = {
+  FREE: { fg: "#15803d", bg: "rgba(22,163,74,0.12)" },
+  ON_TRIP: { fg: color.info, bg: "rgba(29,78,216,0.12)" },
+  REPAIR: { fg: color.warning, bg: "rgba(180,83,9,0.12)" },
+  INACTIVE: { fg: color.mutedForeground, bg: color.muted },
 };
 
-const TRIP_STATUS: Record<string, string> = {
-  ASSIGNED: "Mashina biriktirildi", TO_LOADING: "Yuklashga ketmoqda", LOADED: "Yuklandi",
-  ON_ROAD: "Yo'lda", AT_BORDER: "Chegarada", NEAR_DESTINATION: "Manzilga yaqin",
-  UNLOADED: "Tushirildi", CLOSING: "Yopilmoqda",
-};
+const statusLabel = (k: string) =>
+  ({
+    FREE: t("mob.park.free"),
+    ON_TRIP: t("mob.park.onTrip"),
+    REPAIR: t("mob.park.repair"),
+    INACTIVE: t("mob.park.inactive"),
+  })[k] ?? k;
 
 /** Hujjat holatini bitta joyda rangga va matnga bog'laymiz */
 function docLook(d: Doc): { color: string; text: string; icon: "check" | "clock" | "alert" } {
-  if (d.missing) return { color: color.danger, text: "Yo'q", icon: "alert" };
+  if (d.missing) return { color: color.danger, text: t("mob.docs.missingShort"), icon: "alert" };
   if (d.state === "expired")
-    return { color: color.danger, text: `${-(d.days ?? 0)} kun oldin tugagan`, icon: "alert" };
+    return { color: color.danger, text: t("mob.docs.expiredAgo", { n: -(d.days ?? 0) }), icon: "alert" };
   if (d.state === "soon")
-    return { color: color.warning, text: `${d.days} kun qoldi`, icon: "clock" };
+    return { color: color.warning, text: t("mob.docs.daysLeft", { n: d.days ?? 0 }), icon: "clock" };
   if (d.state === "forever")
-    return { color: color.mutedForeground, text: d.number ?? "muddatsiz", icon: "check" };
-  return { color: color.mutedForeground, text: `${d.days} kun qoldi`, icon: "check" };
+    return { color: color.mutedForeground, text: d.number ?? t("mob.docs.forever"), icon: "check" };
+  return { color: color.mutedForeground, text: t("mob.docs.daysLeft", { n: d.days ?? 0 }), icon: "check" };
 }
 
 export default function TransportTafsilot() {
@@ -84,7 +87,7 @@ export default function TransportTafsilot() {
   if (loading) {
     return (
       <View style={s.root}>
-        <Header title="Transport" />
+        <Header title={t("mob.vehicle.vehicleTitle")} />
         <View style={{ padding: space.lg }}>
           <Skeleton rows={5} />
         </View>
@@ -94,16 +97,16 @@ export default function TransportTafsilot() {
   if (error || !data) {
     return (
       <View style={s.root}>
-        <Header title="Transport" />
+        <Header title={t("mob.vehicle.vehicleTitle")} />
         <View style={{ padding: space.lg }}>
-          <ErrorBox message={error ?? "Topilmadi"} onRetry={reload} />
+          <ErrorBox message={error ?? t("mob.vehicle.notFound")} onRetry={reload} />
         </View>
       </View>
     );
   }
 
   const v = data.vehicle;
-  const st = STATUS[v.status] ?? STATUS.INACTIVE;
+  const tone = TONE[v.status] ?? TONE.INACTIVE;
   const problems = data.documents.filter((d) => d.missing || d.state === "expired" || d.state === "soon");
 
   return (
@@ -127,13 +130,13 @@ export default function TransportTafsilot() {
               </Text>
               <Text style={s.no}>TR-{v.no}</Text>
             </View>
-            <Text style={[s.chip, { color: st.fg, backgroundColor: st.bg }]}>{st.label}</Text>
+            <Text style={[s.chip, { color: tone.fg, backgroundColor: tone.bg }]}>{statusLabel(v.status)}</Text>
           </View>
           {v.trailer ? (
             <View style={s.trailerRow}>
               <Icon name="truck" size={15} stroke={color.mutedForeground} />
               <Text style={s.trailerText}>
-                Tirkama {v.trailer.plate}
+                {t("mob.vehicle.trailer", { plate: v.trailer.plate })}
                 {v.trailer.capacityT ? ` · ${v.trailer.capacityT}t` : ""}
               </Text>
             </View>
@@ -149,7 +152,7 @@ export default function TransportTafsilot() {
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <Icon name="route" size={16} stroke={color.info} />
               <Text style={s.tripTitle}>
-                FURAM #{data.trip.no} · {TRIP_STATUS[data.trip.status] ?? data.trip.status}
+                FURAM #{data.trip.no} · {tripStatusLabel(data.trip.status)}
               </Text>
             </View>
             <Text style={s.tripRoute}>
@@ -161,7 +164,7 @@ export default function TransportTafsilot() {
                 {[
                   data.trip.placeName,
                   data.trip.remainingKm != null
-                    ? `${data.trip.remainingKm.toLocaleString("ru-RU")} km qoldi`
+                    ? t("mob.park.kmLeft", { n: data.trip.remainingKm.toLocaleString() })
                     : null,
                 ]
                   .filter(Boolean)
@@ -173,13 +176,13 @@ export default function TransportTafsilot() {
 
         {/* 2. Kim javobgar */}
         <View>
-          <GroupLabel>HAYDOVCHILAR</GroupLabel>
+          <GroupLabel>{t("mob.vehicle.drivers")}</GroupLabel>
           <Card>
             {v.mainDriver ? (
               <ListRow
                 icon={<Avatar name={v.mainDriver.fullName} />}
                 title={v.mainDriver.fullName}
-                hint={`Asosiy${v.mainDriver.phone ? ` · ${v.mainDriver.phone}` : ""}`}
+                hint={`${t("mob.vehicle.mainDriver")}${v.mainDriver.phone ? ` · ${v.mainDriver.phone}` : ""}`}
                 last={!v.coDriver}
                 right={
                   v.mainDriver.phone ? (
@@ -193,13 +196,13 @@ export default function TransportTafsilot() {
                 }
               />
             ) : (
-              <ListRow title="Haydovchi biriktirilmagan" hint="Reys ochish uchun kerak" last={!v.coDriver} />
+              <ListRow title={t("mob.park.noDriver")} hint={t("mob.vehicle.driverNeeded")} last={!v.coDriver} />
             )}
             {v.coDriver ? (
               <ListRow
                 icon={<Avatar name={v.coDriver.fullName} />}
                 title={v.coDriver.fullName}
-                hint={`Ikkinchi${v.coDriver.phone ? ` · ${v.coDriver.phone}` : ""}`}
+                hint={`${t("mob.vehicle.coDriver")}${v.coDriver.phone ? ` · ${v.coDriver.phone}` : ""}`}
                 last
               />
             ) : null}
@@ -208,7 +211,7 @@ export default function TransportTafsilot() {
 
         {/* 3. Nima to'sqinlik qiladi */}
         <View>
-          <GroupLabel>HUJJATLAR</GroupLabel>
+          <GroupLabel>{t("mob.vehicle.documents")}</GroupLabel>
           <Card>
             {data.documents.slice(0, 4).map((d, i) => {
               const look = docLook(d);
@@ -221,7 +224,7 @@ export default function TransportTafsilot() {
                   hint={look.text}
                   right={
                     d.missing || d.state === "expired" || d.state === "soon" ? (
-                      <Text style={s.action}>{d.missing ? "Qo'shish" : "Yangilash"}</Text>
+                      <Text style={s.action}>{d.missing ? t("mob.common.add") : t("mob.common.renew")}</Text>
                     ) : null
                   }
                   onPress={() => router.push(`/parkim/${v.id}/hujjatlar`)}
@@ -231,22 +234,22 @@ export default function TransportTafsilot() {
           </Card>
           <Pressable onPress={() => router.push(`/parkim/${v.id}/hujjatlar`)}>
             <Text style={s.more}>
-              Barcha hujjatlar ({data.documents.length})
-              {problems.length ? ` · ${problems.length} tasi e'tibor talab qiladi` : ""}
+              {t("mob.vehicle.allDocuments", { n: data.documents.length })}
+              {problems.length ? ` · ${t("mob.vehicle.needAttention", { n: problems.length })}` : ""}
             </Text>
           </Pressable>
         </View>
 
         {/* 4. Texnik ko'rsatkichlar */}
         <View>
-          <GroupLabel>TEXNIK KO&apos;RSATKICHLAR</GroupLabel>
+          <GroupLabel>{t("mob.vehicle.specs")}</GroupLabel>
           <Card>
             <View style={s.grid}>
-              <Cell k="Turi" v={v.type} />
-              <Cell k="Yuk ko'tarish" v={v.capacityT ? `${v.capacityT} t` : "—"} right />
-              <Cell k="Hajm" v={v.volumeM3 ? `${v.volumeM3} m³` : "—"} />
+              <Cell k={t("mob.vehicle.type")} v={v.type} />
+              <Cell k={t("mob.vehicle.capacity")} v={v.capacityT ? `${v.capacityT} t` : "—"} right />
+              <Cell k={t("mob.vehicle.volume")} v={v.volumeM3 ? `${v.volumeM3} m³` : "—"} />
               <Cell
-                k="Kuzov"
+                k={t("mob.vehicle.body")}
                 v={
                   v.bodyLengthM
                     ? `${v.bodyLengthM} × ${v.bodyWidthM ?? "—"} × ${v.bodyHeightM ?? "—"} m`
@@ -255,22 +258,22 @@ export default function TransportTafsilot() {
                 right
               />
               <Cell
-                k="Yoqilg'i"
+                k={t("mob.vehicle.fuel")}
                 v={v.fuelNorm ? `${v.fuelLabel} · ${v.fuelNorm} l/100` : v.fuelLabel}
               />
-              <Cell k="Bak" v={v.tankL ? `${v.tankL} l` : "—"} right />
+              <Cell k={t("mob.vehicle.tank")} v={v.tankL ? `${v.tankL} l` : "—"} right />
             </View>
             <ListRow
               last
-              title="Spidometr"
+              title={t("mob.vehicle.odometer")}
               hint={
                 v.odometerAt
-                  ? `${new Date(v.odometerAt).toLocaleDateString("ru-RU")} da yangilangan`
-                  : "hali kiritilmagan"
+                  ? t("mob.vehicle.odometerAt", { date: new Date(v.odometerAt).toLocaleDateString() })
+                  : t("mob.common.notSet")
               }
               right={
                 <Text style={s.odo}>
-                  {v.odometer ? `${v.odometer.toLocaleString("ru-RU")} km` : "—"}
+                  {v.odometer ? `${v.odometer.toLocaleString()} km` : "—"}
                 </Text>
               }
             />
@@ -280,7 +283,7 @@ export default function TransportTafsilot() {
         {/* 5. Xizmat tarixi */}
         {data.services.length > 0 ? (
           <View>
-            <GroupLabel>XIZMAT VA TA&apos;MIR</GroupLabel>
+            <GroupLabel>{t("mob.vehicle.service")}</GroupLabel>
             <Card>
               {data.services.map((sv, i) => (
                 <ListRow
@@ -288,9 +291,9 @@ export default function TransportTafsilot() {
                   last={i === data.services.length - 1}
                   title={sv.title}
                   hint={[
-                    sv.odometer ? `${sv.odometer.toLocaleString("ru-RU")} km` : null,
+                    sv.odometer ? `${sv.odometer.toLocaleString()} km` : null,
                     new Date(sv.servicedAt).toLocaleDateString("ru-RU"),
-                    sv.cost ? `${sv.cost.toLocaleString("ru-RU")} ${sv.currency ?? ""}` : null,
+                    sv.cost ? `${sv.cost.toLocaleString()} ${sv.currency ?? ""}` : null,
                   ]
                     .filter(Boolean)
                     .join(" · ")}

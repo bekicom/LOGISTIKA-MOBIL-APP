@@ -24,14 +24,8 @@ import { Button, Card, GroupLabel, ListRow } from "@/components/ui";
 import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
+import { roleLabel, t } from "@/lib/i18n";
 
-const ROLE: Record<string, string> = {
-  DRIVER: "Haydovchi",
-  SHIPPER: "Yuk egasi",
-  VEHICLE_OWNER: "Mashina egasi",
-  DISPATCHER: "Dispetcher",
-  USER: "Oddiy foydalanuvchi",
-};
 
 type Trust = {
   score: number | null;
@@ -63,14 +57,14 @@ export default function Profil() {
   async function copyId() {
     if (!user) return;
     await Clipboard.setStringAsync(String(user.furamId));
-    Alert.alert("Nusxalandi", `FURAM ID: ${user.furamId}`);
+    Alert.alert(t("mob.profile.copied"), `FURAM ID: ${user.furamId}`);
   }
 
   function confirmLeave() {
-    Alert.alert("Chiqish", "Hisobdan chiqmoqchimisiz?", [
-      { text: "Bekor qilish", style: "cancel" },
+    Alert.alert(t("mob.common.signOut"), t("mob.profile.signOutAsk"), [
+      { text: t("mob.common.cancel"), style: "cancel" },
       {
-        text: "Chiqish",
+        text: t("mob.common.signOut"),
         style: "destructive",
         onPress: async () => {
           await signOut();
@@ -83,13 +77,13 @@ export default function Profil() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <Text style={s.title}>Profil</Text>
+        <Text style={s.title}>{t("mob.profile.title")}</Text>
         <Pressable
           onPress={() => router.push("/profil/tahrir")}
           hitSlop={8}
           style={({ pressed }) => pressed && { opacity: 0.5 }}
         >
-          <Text style={s.edit}>Tahrirlash</Text>
+          <Text style={s.edit}>{t("mob.common.edit")}</Text>
         </Pressable>
       </View>
 
@@ -115,7 +109,7 @@ export default function Profil() {
           <Text style={s.name}>
             {[user?.firstName, user?.lastName].filter(Boolean).join(" ") || "—"}
           </Text>
-          <Text style={s.role}>{ROLE[user?.role ?? ""] ?? user?.role}</Text>
+          <Text style={s.role}>{roleLabel(user?.role)}</Text>
 
           <Pressable onPress={copyId} style={({ pressed }) => [s.idChip, pressed && { opacity: 0.6 }]}>
             <Text style={s.idText}>FURAM ID: {user?.furamId ?? "—"}</Text>
@@ -126,18 +120,18 @@ export default function Profil() {
         {/* Ishonch */}
         <Card style={{ padding: space.lg }}>
           <View style={s.trustTop}>
-            <Text style={s.trustLabel}>Ishonch bali</Text>
+            <Text style={s.trustLabel}>{t("mob.profile.trust")}</Text>
             {trust.data?.bandLabel ? (
               <Text style={s.band}>{trust.data.bandLabel}</Text>
             ) : null}
           </View>
           <View style={s.stats}>
-            <Stat value={trust.data?.score != null ? String(trust.data.score) : "—"} label="ball" />
+            <Stat value={trust.data?.score != null ? String(trust.data.score) : "—"} label={t("mob.profile.points")} />
             <Stat
               value={trust.data?.ratingAvg != null ? trust.data.ratingAvg.toFixed(1) : "—"}
-              label={`reyting${trust.data?.ratingCount ? ` (${trust.data.ratingCount})` : ""}`}
+              label={`${t("mob.profile.rating")}${trust.data?.ratingCount ? ` (${trust.data.ratingCount})` : ""}`}
             />
-            <Stat value={String(trust.data?.tripsClosed ?? 0)} label="yopilgan reys" last />
+            <Stat value={String(trust.data?.tripsClosed ?? 0)} label={t("mob.profile.closedTrips")} last />
           </View>
         </Card>
 
@@ -145,16 +139,16 @@ export default function Profil() {
         <Card style={{ padding: space.lg }}>
           <View style={s.planTop}>
             <View style={{ flex: 1 }}>
-              <Text style={s.planName}>{plan ? `${plan} rejasi` : "Bepul reja"}</Text>
+              <Text style={s.planName}>{plan ? t("mob.profile.planName", { plan }) : t("mob.profile.freePlan")}</Text>
               <Text style={s.planHint}>
                 {plan
                   ? left != null
-                    ? `${left} kun qoldi`
-                    : "Muddati tugagan"
-                  : "Asosiy imkoniyatlar ochiq"}
+                    ? t("mob.profile.daysLeft", { n: left })
+                    : t("mob.profile.expired")
+                  : t("mob.profile.freePlanHint")}
               </Text>
             </View>
-            {plan ? <Text style={s.planBadge}>FAOL</Text> : null}
+            {plan ? <Text style={s.planBadge}>{t("mob.profile.active")}</Text> : null}
           </View>
 
           {plan && left != null ? (
@@ -166,18 +160,15 @@ export default function Profil() {
 
           {Platform.OS === "ios" ? (
             /* iOS: narx, tugma va havola YO'Q — Guideline 3.1.1 */
-            <Text style={s.iosNote}>
-              Xizmat rejasini boshqarish veb-versiyada mavjud. Faol reja shu
-              yerda ko&apos;rinadi.
-            </Text>
+            <Text style={s.iosNote}>{t("mob.profile.iosNote")}</Text>
           ) : (
             <View style={{ marginTop: space.lg, gap: space.sm }}>
               <Text style={s.price}>
-                {plan ? "Muddatni uzaytirish" : "Kengaytirilgan reja — oyiga 99 000 so'm"}
+                {plan ? t("mob.profile.extendHint") : t("mob.profile.openPlan")}
               </Text>
               <Button
-                title={plan ? "Uzaytirish" : "Rejani ochish"}
-                onPress={() => Alert.alert("Tez orada", "To'lov oqimi keyingi bosqichda ulanadi.")}
+                title={plan ? t("mob.profile.extend") : t("mob.profile.openPlan")}
+                onPress={() => Alert.alert(t("mob.common.soon"), t("mob.common.soon"))}
               />
             </View>
           )}
@@ -185,23 +176,23 @@ export default function Profil() {
 
         {/* Menyu */}
         <View>
-          <GroupLabel>HISOB</GroupLabel>
+          <GroupLabel>{t("mob.profile.account")}</GroupLabel>
           <Card>
             <ListRow
               icon={<Badge icon="user" />}
-              title="Profilni tahrirlash"
+              title={t("mob.profile.editTitle")}
               onPress={() => router.push("/profil/tahrir")}
             />
             <ListRow
               icon={<Badge icon="bell" />}
-              title="Bildirishnomalar"
-              hint="Nima haqida va qaysi yo'l bilan"
+              title={t("mob.profile.notifications")}
+              hint={t("mob.profile.notificationsHint")}
               onPress={() => router.push("/profil/bildirishnoma")}
             />
             <ListRow
               icon={<Badge icon="check" />}
-              title="Qurilmalar"
-              hint="Kirgan qurilmalarni ko'rish va uzish"
+              title={t("mob.profile.devices")}
+              hint={t("mob.profile.devicesHint")}
               onPress={() => router.push("/profil/qurilmalar")}
               last
             />
@@ -209,25 +200,25 @@ export default function Profil() {
         </View>
 
         <View>
-          <GroupLabel>MENING ISHIM</GroupLabel>
+          <GroupLabel>{t("mob.profile.myWork")}</GroupLabel>
           <Card>
             <ListRow
               icon={<Badge icon="truck" />}
-              title="Parkim"
-              hint="Transportlarim, hujjat va texnika"
+              title={t("mob.park.title")}
+              hint={t("mob.profile.fleetHint")}
               onPress={() => router.push("/parkim")}
             />
-            <ListRow icon={<Badge icon="package" />} title="E'lonlarim" right={<Soon />} />
-            <ListRow icon={<Badge icon="heart" />} title="Saqlanganlar" right={<Soon />} />
-            <ListRow icon={<Badge icon="doc" />} title="Hujjatlarim" right={<Soon />} last />
+            <ListRow icon={<Badge icon="package" />} title={t("mob.profile.myListings")} right={<Soon />} />
+            <ListRow icon={<Badge icon="heart" />} title={t("mob.profile.saved")} right={<Soon />} />
+            <ListRow icon={<Badge icon="doc" />} title={t("mob.profile.myDocs")} right={<Soon />} last />
           </Card>
         </View>
 
         {/* Chiqish va o'chirish */}
         <View style={{ gap: space.md, marginTop: space.sm }}>
-          <Button title="Chiqish" variant="secondary" onPress={confirmLeave} />
+          <Button title={t("mob.common.signOut")} variant="secondary" onPress={confirmLeave} />
           <Text style={s.delete} onPress={() => router.push("/profil/ochirish")}>
-            Hisobni o&apos;chirish
+            {t("mob.delete.title")}
           </Text>
         </View>
       </ScrollView>
@@ -253,7 +244,7 @@ function Badge({ icon }: { icon: IconName }) {
 }
 
 function Soon() {
-  return <Text style={s.soon}>tez orada</Text>;
+  return <Text style={s.soon}>{t("mob.common.soon")}</Text>;
 }
 
 const s = StyleSheet.create({

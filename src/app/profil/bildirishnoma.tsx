@@ -23,37 +23,26 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { notifyCategoryHint, notifyCategoryLabel, notifyChannelLabel, t } from "@/lib/i18n";
 
-type Channel = "inApp" | "push" | "email" | "sms" | "sound";
 type Prefs = Record<string, Partial<Record<Channel, boolean>>>;
 
-/** Serverdagi kategoriyalar — `furam/src/lib/notify.ts` bilan bir xil */
-const CATEGORIES: { key: string; label: string; hint: string }[] = [
-  { key: "TRIP", label: "Reys holati", hint: "Yuklandi, chegarada, yetib bordi" },
-  { key: "TASK", label: "Vazifalar", hint: "Sizga topshirilgan ishlar" },
-  { key: "PROBLEM", label: "Muammolar", hint: "Reysda nosozlik yoki kechikish" },
-  { key: "CONTRACT", label: "Taklif va shartnoma", hint: "Kimdir narx taklif qilganda" },
-  { key: "DOC", label: "Hujjat muddati", hint: "30, 7 va 1 kun qolganda" },
-  { key: "PAYMENT", label: "To'lov", hint: "Pul kelganda yoki kutilganda" },
-  { key: "BORDER", label: "Chegara ogohlantirishi", hint: "Navbat uzayganda" },
-  { key: "ALERT", label: "Muhim ogohlantirish", hint: "SOS va shoshilinch xabarlar" },
-  { key: "TECH", label: "Texnik holat", hint: "Mashina va texnik ko'rik" },
-  { key: "SYSTEM", label: "Tizim xabarlari", hint: "Yangilanish va e'lonlar" },
-];
+/* Bo'lim va kanal KALITLARI — `furam/src/lib/notify.ts` bilan bir
+   xil to'plam. Nomlari bu yerda yozilmaydi: tarjima lug'atda
+   (`mob.notifyCat.*`), aks holda sakkiz til ikki joyda yurardi. */
+const CATEGORIES = [
+  "TRIP", "TASK", "PROBLEM", "CONTRACT", "DOC",
+  "PAYMENT", "BORDER", "ALERT", "TECH", "SYSTEM",
+] as const;
 
-const CHANNELS: { key: Channel; label: string; hint?: string }[] = [
-  { key: "push", label: "Telefonda (push)" },
-  { key: "inApp", label: "Ilova ichida" },
-  { key: "sound", label: "Ovoz" },
-  { key: "email", label: "E-mail" },
-  { key: "sms", label: "SMS", hint: "Faqat eng muhimlari — SMS pullik" },
-];
+const CHANNELS = ["push", "inApp", "sound", "email", "sms"] as const;
+type Channel = (typeof CHANNELS)[number];
 
 /** Kategoriya yoqilganda tiklanadigan standart kanallar */
 const ON_BY_DEFAULT: Channel[] = ["inApp", "push"];
 
 const anyOn = (c: Partial<Record<Channel, boolean>> | undefined) =>
-  !!c && CHANNELS.some((ch) => c[ch.key]);
+  !!c && CHANNELS.some((ch) => c[ch]);
 
 export default function BildirishnomaSozlama() {
   const { data, loading, error, reload } = useApi<{ channels: Prefs }>("/api/notifications/prefs");
@@ -76,7 +65,7 @@ export default function BildirishnomaSozlama() {
       await api("/api/notifications/prefs", { method: "PUT", body: { channels: next } });
     } catch (e) {
       setPrefs(before);
-      setFailed((e as FuramError).message ?? "Saqlanmadi");
+      setFailed((e as FuramError).message ?? t("mob.common.notSaved"));
     } finally {
       setSaving(false);
     }
@@ -87,14 +76,14 @@ export default function BildirishnomaSozlama() {
     if (on) {
       const old = prefs[key] ?? {};
       // Ilgari tanlangani bo'lsa o'shani, bo'lmasa standartni qaytaramiz
-      const restore = CHANNELS.some((c) => old[c.key] !== undefined)
-        ? Object.fromEntries(CHANNELS.map((c) => [c.key, !!old[c.key]]))
-        : Object.fromEntries(CHANNELS.map((c) => [c.key, ON_BY_DEFAULT.includes(c.key)]));
+      const restore = CHANNELS.some((c) => old[c] !== undefined)
+        ? Object.fromEntries(CHANNELS.map((c) => [c, !!old[c]]))
+        : Object.fromEntries(CHANNELS.map((c) => [c, ON_BY_DEFAULT.includes(c)]));
       next[key] = anyOn(restore as Partial<Record<Channel, boolean>>)
         ? (restore as Partial<Record<Channel, boolean>>)
-        : Object.fromEntries(CHANNELS.map((c) => [c.key, ON_BY_DEFAULT.includes(c.key)]));
+        : Object.fromEntries(CHANNELS.map((c) => [c, ON_BY_DEFAULT.includes(c)]));
     } else {
-      next[key] = Object.fromEntries(CHANNELS.map((c) => [c.key, false]));
+      next[key] = Object.fromEntries(CHANNELS.map((c) => [c, false]));
     }
     void push(next);
   }
@@ -103,21 +92,21 @@ export default function BildirishnomaSozlama() {
   function toggleChannel(ch: Channel, on: boolean) {
     const next: Prefs = { ...prefs };
     for (const c of CATEGORIES) {
-      if (!anyOn(next[c.key])) continue;
-      next[c.key] = { ...next[c.key], [ch]: on };
+      if (!anyOn(next[c])) continue;
+      next[c] = { ...next[c], [ch]: on };
     }
     void push(next);
   }
 
   const channelOn = (ch: Channel) => {
-    const live = CATEGORIES.filter((c) => anyOn(prefs[c.key]));
-    return live.length > 0 && live.some((c) => prefs[c.key]?.[ch]);
+    const live = CATEGORIES.filter((c) => anyOn(prefs[c]));
+    return live.length > 0 && live.some((c) => prefs[c]?.[ch]);
   };
 
   return (
     <View style={s.root}>
       <Header
-        title="Bildirishnomalar"
+        title={t("mob.profile.notifications")}
         right={saving ? <ActivityIndicator size="small" color={color.mutedForeground} /> : undefined}
       />
 
@@ -135,19 +124,16 @@ export default function BildirishnomaSozlama() {
             ) : null}
 
             <View>
-              <GroupLabel>NIMA HAQIDA XABAR BERILSIN</GroupLabel>
+              <GroupLabel>{t("mob.notify.aboutWhat")}</GroupLabel>
               <Card>
                 {CATEGORIES.map((c, i) => (
                   <ListRow
-                    key={c.key}
+                    key={c}
                     last={i === CATEGORIES.length - 1}
-                    title={c.label}
-                    hint={c.hint}
+                    title={notifyCategoryLabel(c)}
+                    hint={notifyCategoryHint(c)}
                     right={
-                      <Switch
-                        value={anyOn(prefs[c.key])}
-                        onValueChange={(v) => toggleCategory(c.key, v)}
-                      />
+                      <Switch value={anyOn(prefs[c])} onValueChange={(v) => toggleCategory(c, v)} />
                     }
                   />
                 ))}
@@ -155,37 +141,25 @@ export default function BildirishnomaSozlama() {
             </View>
 
             <View>
-              <GroupLabel>QAYSI YO&apos;L BILAN</GroupLabel>
+              <GroupLabel>{t("mob.notify.howChannel")}</GroupLabel>
               <Card>
                 {CHANNELS.map((ch, i) => (
                   <ListRow
-                    key={ch.key}
+                    key={ch}
                     last={i === CHANNELS.length - 1}
-                    title={ch.label}
-                    hint={ch.hint}
-                    right={
-                      <Switch value={channelOn(ch.key)} onValueChange={(v) => toggleChannel(ch.key, v)} />
-                    }
+                    title={notifyChannelLabel(ch)}
+                    hint={ch === "sms" ? t("mob.notifyChHint.sms") : undefined}
+                    right={<Switch value={channelOn(ch)} onValueChange={(v) => toggleChannel(ch, v)} />}
                   />
                 ))}
               </Card>
-              <Text style={s.under}>
-                Yoqilgan bo&apos;limlarning hammasiga qo&apos;llanadi.
-              </Text>
+              <Text style={s.under}>{t("mob.notify.appliesAll")}</Text>
             </View>
 
             <View style={s.note}>
-              <Text style={s.noteTitle}>Nega ikki bosqich</Text>
-              <Text style={s.noteBody}>
-                Har bo&apos;lim uchun beshta kalit qo&apos;yilsa 50 ta kalit
-                chiqardi — telefonda hech kim uni sozlamaydi. Shuning uchun
-                avval «nima haqida», keyin «qaysi yo&apos;l bilan».
-              </Text>
-              <Text style={s.noteBody}>
-                Push bildirishnoma telefon sozlamalarida ham yoqiq bo&apos;lishi
-                kerak. Bu ruxsat App Store va Play Market&apos;dan o&apos;rnatilgan
-                ilovada so&apos;raladi.
-              </Text>
+              <Text style={s.noteTitle}>{t("mob.notify.whyTwo")}</Text>
+              <Text style={s.noteBody}>{t("mob.notify.whyTwoText")}</Text>
+              <Text style={s.noteBody}>{t("mob.notify.pushNote")}</Text>
             </View>
           </>
         )}

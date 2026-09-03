@@ -97,7 +97,7 @@ export default function Hujjatlar() {
             <Empty
               icon="doc"
               title={t("mob.tripDocs.empty")}
-              text="CMR, invoys va tushirish suratlarini shu yerga qo'shing. Reys yopilganda hisobotga tushadi."
+              text={t("mob.tripDocs.emptyText")}
             />
           )
         }

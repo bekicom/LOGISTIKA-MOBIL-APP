@@ -7,6 +7,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api, FuramError } from "./api";
+import { t } from "./i18n";
 
 export type Loadable<T> = {
   data: T | null;
@@ -43,7 +44,7 @@ export function useApi<T>(path: string | null, deps: unknown[] = []): Loadable<T
         const res = await api<T>(path);
         if (alive.current) setData(res);
       } catch (e) {
-        if (alive.current) setError((e as FuramError).message ?? "Xatolik yuz berdi");
+        if (alive.current) setError((e as FuramError).message ?? t("mob.err.generic"));
       } finally {
         if (alive.current) {
           setLoading(false);

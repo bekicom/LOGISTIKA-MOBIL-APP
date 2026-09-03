@@ -50,6 +50,95 @@
       "vTypePick": "请选择",
       "year": "年份"
     },
+    "ai": {
+      "actDone": "已完成",
+      "actRejected": "已拒绝该建议",
+      "askPh": "请输入您的问题",
+      "birthDate": "出生日期",
+      "checkField": "请核对",
+      "confirm": "确认",
+      "confirmNote": "AI 不会自行执行操作。您确认后由服务器执行。",
+      "confirmTitle": "AI 提出以下建议",
+      "consent1": "仅发送您选择的照片",
+      "consent2": "结果不会自动保存",
+      "consent3": "随时可以手动填写",
+      "consentGallery": "从相册选择",
+      "consentNo": "我手动填写",
+      "consentText": "为识别证件，照片将发送至 OpenAI 服务器。不会在那里保存，仅作读取。",
+      "consentTitle": "照片将发送至外部服务",
+      "consentYes": "同意——开始扫描",
+      "copied": "已复制",
+      "copy": "复制",
+      "fClasses": "准驾车型",
+      "fDocNo": "证件号码",
+      "fExpiry": "有效期至",
+      "failed": "未获得回复",
+      "fillManually": "我手动填写",
+      "fullName": "姓名",
+      "helloText": "输入问题，或从预设问题中选择一个。",
+      "issues": "需要核对",
+      "left": "剩余 %{n} 次提问",
+      "limitOver": "已达每小时上限",
+      "limitsText": "每天 %{day} 次提问，每小时 %{hour} 次。扫描单独计算：每天 %{scan} 次。",
+      "meanwhile": "在此期间",
+      "notSaved": "数据尚未保存。核对后点击「保存」，才会加入您的证件。",
+      "quick": "快捷提问",
+      "readFields": "识别结果",
+      "reject": "拒绝",
+      "resetHint": "每小时 %{n} 次——上限将重置",
+      "resetIn": "%{n} 分钟后",
+      "retake": "重新拍摄",
+      "saveOk": "无误——保存",
+      "scanFailed": "识别失败",
+      "scanHint": "拍摄护照或驾驶证——字段将自动填充",
+      "scanIntro": "请在均匀光线下拍摄证件。数字要清晰——AI 只能读取看得见的内容。",
+      "scanStart": "拍照",
+      "scanTitle": "扫描证件",
+      "scanWhich": "哪种证件",
+      "scanning": "识别中…",
+      "seeAnalytics": "自行查看分析数据",
+      "seeDocs": "查看证件有效期",
+      "source": "数据来源",
+      "step2": "第 2 步：请核对",
+      "subtitle": "基于您的数据作答",
+      "thinking": "正在查阅数据…",
+      "title": "AI 助手",
+      "unverified": "未通过校验",
+      "usedOf": "今天已使用 %{used}/%{day}。",
+      "usedToday": "今天已使用 %{n} 次提问",
+      "verified": "校验通过",
+      "verifiedText": "证件校验位匹配——字段读取正确。",
+      "whatAsk": "可以问什么",
+      "whatAskText": "关于您的车队、运单、费用与证件。AI 不会写入数据库——只读取属于您的数据。"
+    },
+    "aiAct": {
+      "create_incident": "在运单 #%{n} 记录事件",
+      "open_page": "打开页面",
+      "request_location": "在运单 #%{n} 中请求位置",
+      "send_message": "向运单 #%{n} 聊天发送消息"
+    },
+    "aiOff": {
+      "AI_OFF": "AI 尚未接入",
+      "SECTION_LOCKED": "AI 板块未对您的角色开放",
+      "TARIFF_REQUIRED": "AI 不包含在您的套餐中"
+    },
+    "aiOffText": {
+      "AI_OFF": "管理员开通服务后即可使用。",
+      "SECTION_LOCKED": "该板块已被管理员关闭。请联系管理员开通。",
+      "TARIFF_REQUIRED": "请选择角色或续订套餐——之后即可开通。"
+    },
+    "aiSrc": {
+      "analytics": "分析数据",
+      "contracts": "合同",
+      "data": "FURAM 数据",
+      "docs": "证件",
+      "feed": "货源信息",
+      "fleet": "车队",
+      "guide": "使用指南",
+      "money": "财务",
+      "people": "司机",
+      "trips": "运单"
+    },
     "chat": {
       "camera": "拍照",
       "conversation": "会话",
@@ -59,6 +148,7 @@
       "file": "文件",
       "gallery": "相册",
       "location": "位置",
+      "msgCount": "%{n} 条消息",
       "private": "私聊",
       "report": "举报",
       "sendFailed": "消息发送失败",
@@ -155,6 +245,12 @@
       "reminder": "到期提醒",
       "reminderText": "将在到期前 30、7 和 1 天提醒。需在通知设置中开启「证件有效期」。",
       "title": "证件"
+    },
+    "err": {
+      "generic": "发生错误",
+      "network": "无法连接网络。请检查网络。",
+      "timeout": "服务器无响应。请重试。",
+      "uploadTimeout": "上传耗时过长。请在信号较好的地方重试。"
     },
     "exp": {
       "add": "添加费用",
@@ -421,6 +517,7 @@
       "detailsPh": "装货地点、时间、包装类型…",
       "edit": "编辑",
       "extraLoad": "这是拼车货",
+      "extraLoadNote": "车辆未装满——可与其他货物拼车",
       "howMany": "需要几辆车",
       "later": "稍后",
       "liveDays": "信息展示 30 天，之后进入归档——可随时重新上架。",
@@ -432,6 +529,7 @@
       "previewHint": "司机将看到这样的信息",
       "priceBlock": "价格与付款",
       "review": "请核对",
+      "trucksN": "%{n} 辆车",
       "whatCargo": "什么货物？",
       "whatVehicle": "需要什么车型？",
       "when": "何时装货",
@@ -446,6 +544,12 @@
       "offerPh": "例如：明早可以装货",
       "openContact": "查看联系方式",
       "prepay": "预付款"
+    },
+    "postHint": {
+      "1": "请选择起止地点",
+      "2": "请填写货名和重量",
+      "3": "请选择车型",
+      "4": "请填写价格或勾选「面议」"
     },
     "profile": {
       "account": "账号",
@@ -565,6 +669,22 @@
       "USER": "普通用户",
       "VEHICLE_OWNER": "车主"
     },
+    "scanIssue": {
+      "EXPIRED": "已于 %{n} 天前过期",
+      "EXPIRING": "%{n} 天后到期",
+      "EXPIRY_BEFORE_ISSUE": "到期日期早于签发日期",
+      "ISSUE_FUTURE": "签发日期在未来——请检查照片",
+      "NO_CURRENCY": "未识别币种",
+      "NO_DOC_NO": "未识别证件号码——请手动输入",
+      "NO_EXPIRY": "未识别有效期",
+      "NO_PARTIES": "未识别发货人或收货人",
+      "NO_PLATE": "未识别车牌号",
+      "VIN_LEN": "VIN 应为 17 位——请核对"
+    },
+    "scanNote": {
+      "MRZ_FAILED": "MRZ 校验未通过——请逐项核对。",
+      "UNVERIFIED": "数据未经校验——请与证件核对。"
+    },
     "signIn": {
       "blocked": "账号已被临时封禁",
       "byPhone": "手机号",
@@ -602,9 +722,7 @@
       "whoAreYou": "您的身份是？"
     },
     "state": {
-      "aiAssistant": "AI 助手",
-      "noData": "未获取到数据",
-      "notReady": "尚未就绪"
+      "noData": "未获取到数据"
     },
     "step": {
       "confirm": "确认",
@@ -641,7 +759,6 @@
       "expensesHint": "燃油、路费",
       "kmDone": "已行驶公里",
       "kmLeft": "剩余公里",
-      "nextStep": "已出发去装货",
       "participants": "参与人",
       "settlement": "结算",
       "steps": "运单阶段",
@@ -649,9 +766,19 @@
       "viewReport": "查看报表",
       "weight": "重量"
     },
+    "tripAct": {
+      "AT_BORDER": "已到达口岸",
+      "CLOSING": "进入运单结算",
+      "LOADED": "货物已装车",
+      "NEAR_DESTINATION": "已通关",
+      "ON_ROAD": "已出发",
+      "TO_LOADING": "前往装货",
+      "UNLOADED": "货物已卸车"
+    },
     "tripDocs": {
       "add": "添加单据",
       "empty": "暂无单据",
+      "emptyText": "请在此添加 CMR、发票和卸货照片。运单结算时会计入报告。",
       "scan": "扫描",
       "send": "上传",
       "sendFailed": "上传失败",
@@ -671,9 +798,11 @@
       "devMode": "开发模式",
       "mute": "静音",
       "noExpense": "未记录费用",
+      "noExpenseText": "在此记录燃油、路桥费及其他支出——运单结算时会计入报告。",
       "noNewNotes": "没有新通知。",
       "noTripMine": "您当前没有在途运单。",
       "retry": "重试",
+      "saveFailed": "未保存",
       "supportContact": "服务器未返回会话，请联系客服。",
       "tripChats": "运单",
       "unread": "未读",

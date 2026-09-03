@@ -50,6 +50,95 @@
       "vTypePick": "Seçin",
       "year": "Yıl"
     },
+    "ai": {
+      "actDone": "Yapıldı",
+      "actRejected": "Öneri reddedildi",
+      "askPh": "Sorunuzu yazın",
+      "birthDate": "Doğum tarihi",
+      "checkField": "kontrol edin",
+      "confirm": "Onayla",
+      "confirmNote": "AI işlemi kendisi yapmaz. Siz onayladıktan sonra sunucu yapar.",
+      "confirmTitle": "AI şunu öneriyor",
+      "consent1": "Sadece seçtiğiniz fotoğraf gönderilir",
+      "consent2": "Sonuç otomatik kaydedilmez",
+      "consent3": "İstediğiniz zaman elle doldurabilirsiniz",
+      "consentGallery": "Galeriden seç",
+      "consentNo": "Elle dolduracağım",
+      "consentText": "Belgeyi okumak için fotoğraf OpenAI sunucusuna gönderilir. Orada saklanmaz, sadece okunur.",
+      "consentTitle": "Fotoğraf harici bir servise gönderilir",
+      "consentYes": "Kabul ediyorum — tara",
+      "copied": "Kopyalandı",
+      "copy": "Kopyala",
+      "fClasses": "Kategoriler",
+      "fDocNo": "Belge numarası",
+      "fExpiry": "Geçerlilik tarihi",
+      "failed": "Yanıt alınamadı",
+      "fillManually": "Elle dolduracağım",
+      "fullName": "Soyad, ad",
+      "helloText": "Sorunuzu yazın ya da hazır sorulardan birini seçin.",
+      "issues": "Kontrol gerekiyor",
+      "left": "%{n} soru kaldı",
+      "limitOver": "Saatlik sınır doldu",
+      "limitsText": "Günde %{day} soru, saatte %{hour}. Tarama ayrı sayılır: günde %{scan}.",
+      "meanwhile": "BU ARADA",
+      "notSaved": "Veriler henüz kaydedilmedi. Kontrol edip «Kaydet»e basınca belgelerinize eklenir.",
+      "quick": "HIZLI SORULAR",
+      "readFields": "Okunan bilgiler",
+      "reject": "Reddet",
+      "resetHint": "Saatte %{n} soru — sınır yenilenir",
+      "resetIn": "%{n} dakika sonra",
+      "retake": "Yeniden çek",
+      "saveOk": "Doğru — kaydet",
+      "scanFailed": "Okunamadı",
+      "scanHint": "Pasaport veya ehliyeti çekin — alanlar kendiliğinden dolar",
+      "scanIntro": "Belgeyi düz ışıkta çekin. Rakamlar net görünsün — AI yalnızca görüneni okur.",
+      "scanStart": "Fotoğraf çek",
+      "scanTitle": "Belge tara",
+      "scanWhich": "Hangi belge",
+      "scanning": "Okunuyor...",
+      "seeAnalytics": "Analizi kendiniz görün",
+      "seeDocs": "Belge sürelerini kontrol edin",
+      "source": "Kaynak",
+      "step2": "2. adım: kontrol edin",
+      "subtitle": "Kendi verilerinize göre yanıtlar",
+      "thinking": "Veriler inceleniyor...",
+      "title": "AI asistan",
+      "unverified": "Doğrulanmadı",
+      "usedOf": "Bugün %{day} taneden %{used} tanesini kullandınız.",
+      "usedToday": "Bugün %{n} soru kullandınız",
+      "verified": "Doğrulama geçti",
+      "verifiedText": "Belgedeki kontrol hanesi uyuştu — alanlar doğru okundu.",
+      "whatAsk": "Neler sorabilirsiniz",
+      "whatAskText": "Filonuz, seferleriniz, masraflarınız ve belgeleriniz hakkında. AI veritabanına yazmaz — yalnızca size ait olanı okur."
+    },
+    "aiAct": {
+      "create_incident": "#%{n} seferinde olay kaydet",
+      "open_page": "Sayfayı aç",
+      "request_location": "#%{n} seferinde konum iste",
+      "send_message": "#%{n} sohbetine mesaj gönder"
+    },
+    "aiOff": {
+      "AI_OFF": "AI henüz bağlı değil",
+      "SECTION_LOCKED": "AI bölümü rolünüze kapalı",
+      "TARIFF_REQUIRED": "AI tarifenize dahil değil"
+    },
+    "aiOffText": {
+      "AI_OFF": "Yönetici hizmeti açtıktan sonra çalışır.",
+      "SECTION_LOCKED": "Bölümü yönetici kapattı. Açılması için ona başvurun.",
+      "TARIFF_REQUIRED": "Rolünüzü seçin veya tarifenizi yenileyin — sonra açılır."
+    },
+    "aiSrc": {
+      "analytics": "analiz",
+      "contracts": "sözleşmeler",
+      "data": "FURAM verileri",
+      "docs": "belgeler",
+      "feed": "ilanlar",
+      "fleet": "filo",
+      "guide": "kılavuz",
+      "money": "finans",
+      "people": "sürücüler",
+      "trips": "seferler"
+    },
     "chat": {
       "camera": "Kamera",
       "conversation": "Sohbet",
@@ -59,6 +148,7 @@
       "file": "Dosya",
       "gallery": "Galeri",
       "location": "Konum",
+      "msgCount": "%{n} mesaj",
       "private": "Özel",
       "report": "Şikayet et",
       "sendFailed": "Mesaj gönderilemedi",
@@ -155,6 +245,12 @@
       "reminder": "Süre hatırlatıcısı",
       "reminderText": "30, 7 ve 1 gün kala bildirim gelir. Bildirim ayarlarında «Belge süresi» açık olmalı.",
       "title": "Belgeler"
+    },
+    "err": {
+      "generic": "Bir hata oluştu",
+      "network": "İnternete bağlanılamadı. Bağlantıyı kontrol edin.",
+      "timeout": "Sunucu yanıt vermedi. Tekrar deneyin.",
+      "uploadTimeout": "Gönderim uzun sürdü. Sinyalin iyi olduğu bir yerde tekrar deneyin."
     },
     "exp": {
       "add": "Masraf ekle",
@@ -421,6 +517,7 @@
       "detailsPh": "Yükleme yeri, saat, ambalaj türü...",
       "edit": "Düzenle",
       "extraLoad": "Bu ek yük",
+      "extraLoadNote": "Araç dolu değil — başka bir yükle birlikte gidebilir",
       "howMany": "Kaç araç gerekli",
       "later": "Daha sonra",
       "liveDays": "İlan 30 gün yayında kalır, sonra arşive düşer — istediğiniz zaman yeniden yayınlarsınız.",
@@ -432,6 +529,7 @@
       "previewHint": "Sürücüler ilanınızı böyle görecek",
       "priceBlock": "Fiyat ve ödeme",
       "review": "Gözden geçirin",
+      "trucksN": "%{n} araç",
       "whatCargo": "Ne yükü?",
       "whatVehicle": "Hangi araç gerekli?",
       "when": "Yükleme ne zaman",
@@ -446,6 +544,12 @@
       "offerPh": "Örneğin: yarın sabah yüklemeye hazırım",
       "openContact": "İletişimi aç",
       "prepay": "Ön ödeme"
+    },
+    "postHint": {
+      "1": "İki adresi de seçin",
+      "2": "Yük adını ve ağırlığını girin",
+      "3": "Araç tipini seçin",
+      "4": "Fiyat girin ya da «pazarlıklı» işaretleyin"
     },
     "profile": {
       "account": "HESAP",
@@ -565,6 +669,22 @@
       "USER": "Normal kullanıcı",
       "VEHICLE_OWNER": "Araç sahibi"
     },
+    "scanIssue": {
+      "EXPIRED": "Süresi %{n} gün önce doldu",
+      "EXPIRING": "Süresi %{n} gün sonra doluyor",
+      "EXPIRY_BEFORE_ISSUE": "Bitiş tarihi veriliş tarihinden önce",
+      "ISSUE_FUTURE": "Veriliş tarihi gelecekte — fotoğrafı kontrol edin",
+      "NO_CURRENCY": "Para birimi okunamadı",
+      "NO_DOC_NO": "Belge numarası okunamadı — elle girin",
+      "NO_EXPIRY": "Geçerlilik tarihi okunamadı",
+      "NO_PARTIES": "Gönderici veya alıcı okunamadı",
+      "NO_PLATE": "Araç plakası okunamadı",
+      "VIN_LEN": "VIN 17 karakter olmalı — kontrol edin"
+    },
+    "scanNote": {
+      "MRZ_FAILED": "MRZ doğrulaması başarısız — her alanı karşılaştırın.",
+      "UNVERIFIED": "Veriler doğrulanmadı — belgeyle karşılaştırın."
+    },
     "signIn": {
       "blocked": "Hesap geçici olarak engellendi",
       "byPhone": "Telefon numarası",
@@ -602,9 +722,7 @@
       "whoAreYou": "Kimsiniz?"
     },
     "state": {
-      "aiAssistant": "AI asistan",
-      "noData": "Veri gelmedi",
-      "notReady": "Henüz hazır değil"
+      "noData": "Veri gelmedi"
     },
     "step": {
       "confirm": "Onayla",
@@ -641,7 +759,6 @@
       "expensesHint": "Yakıt, yol ücreti",
       "kmDone": "km gidildi",
       "kmLeft": "km kaldı",
-      "nextStep": "Yüklemeye yola çıktım",
       "participants": "Katılımcılar",
       "settlement": "Hesaplaşma",
       "steps": "Sefer aşamaları",
@@ -649,9 +766,19 @@
       "viewReport": "Raporu gör",
       "weight": "Ağırlık"
     },
+    "tripAct": {
+      "AT_BORDER": "Sınıra vardım",
+      "CLOSING": "Seferi kapatmaya geç",
+      "LOADED": "Yük yüklendi",
+      "NEAR_DESTINATION": "Sınırı geçtim",
+      "ON_ROAD": "Yola çıktım",
+      "TO_LOADING": "Yüklemeye gidiyorum",
+      "UNLOADED": "Yükü boşalttım"
+    },
     "tripDocs": {
       "add": "Belge ekle",
       "empty": "Belge yok",
+      "emptyText": "CMR, fatura ve boşaltma fotoğraflarını buraya ekleyin. Sefer kapanınca rapora girer.",
       "scan": "Tara",
       "send": "Gönder",
       "sendFailed": "Gönderilemedi",
@@ -671,9 +798,11 @@
       "devMode": "Geliştirici modu",
       "mute": "Sessize al",
       "noExpense": "Masraf kaydı yok",
+      "noExpenseText": "Yakıt, yol ücreti ve diğer masrafları buraya kaydedin — sefer kapanınca rapora girer.",
       "noNewNotes": "Yeni bildirim yok.",
       "noTripMine": "Şu anda yolda seferiniz yok.",
       "retry": "Tekrar dene",
+      "saveFailed": "Kaydedilmedi",
       "supportContact": "Sunucu oturum vermedi. Destek ile iletişime geçin.",
       "tripChats": "Seferler",
       "unread": "Okunmamış",

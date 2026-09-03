@@ -131,7 +131,7 @@ export default function Xarajatlar() {
             <Empty
               icon="package"
               title={t("mob.ui.noExpense")}
-              text="Yoqilg'i, yo'l haqi va boshqa xarajatlarni shu yerda qayd eting — reys yopilganda hisobotga tushadi."
+              text={t("mob.ui.noExpenseText")}
             />
           )
         }
@@ -203,7 +203,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
       reset();
       onDone();
     } catch (e) {
-      setErr((e as FuramError).message ?? "Saqlanmadi");
+      setErr((e as FuramError).message ?? t("mob.ui.saveFailed"));
     } finally {
       setBusy(false);
     }

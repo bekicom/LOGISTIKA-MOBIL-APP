@@ -8,7 +8,7 @@
  */
 import Constants from "expo-constants";
 import { getToken } from "./session";
-import { currentLocale } from "./i18n";
+import { currentLocale, t } from "./i18n";
 
 /**
  * Manzil qanday topiladi:
@@ -132,9 +132,7 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
     const aborted = e instanceof Error && e.name === "AbortError";
     throw new FuramError({
       error: aborted ? "TIMEOUT" : "NETWORK",
-      message: aborted
-        ? "Server javob bermadi. Qaytadan urinib ko'ring."
-        : "Internetga ulanmadi. Aloqani tekshiring.",
+      message: aborted ? t("mob.err.timeout") : t("mob.err.network"),
       status: 0,
     });
   }
@@ -214,9 +212,7 @@ export async function apiUpload<T>(
     const aborted = e instanceof Error && e.name === "AbortError";
     throw new FuramError({
       error: aborted ? "TIMEOUT" : "NETWORK",
-      message: aborted
-        ? "Yuborish uzoq cho'zildi. Aloqa yaxshi joyda qayta urinib ko'ring."
-        : "Internetga ulanmadi. Aloqani tekshiring.",
+      message: aborted ? t("mob.err.uploadTimeout") : t("mob.err.network"),
       status: 0,
     });
   }

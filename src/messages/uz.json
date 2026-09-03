@@ -50,6 +50,95 @@
       "vTypePick": "Tanlang",
       "year": "Yili"
     },
+    "ai": {
+      "actDone": "Bajarildi",
+      "actRejected": "Taklif rad etildi",
+      "askPh": "Savolingizni yozing",
+      "birthDate": "Tug'ilgan sana",
+      "checkField": "tekshiring",
+      "confirm": "Tasdiqlash",
+      "confirmNote": "AI amalni o'zi bajarmaydi. Siz tasdiqlaganingizdan keyin server bajaradi.",
+      "confirmTitle": "AI shuni taklif qilmoqda",
+      "consent1": "Faqat siz tanlagan surat yuboriladi",
+      "consent2": "Natija bazaga o'zi yozilmaydi",
+      "consent3": "Istagan paytda qo'lda to'ldirasiz",
+      "consentGallery": "Galereyadan tanlash",
+      "consentNo": "Qo'lda to'ldiraman",
+      "consentText": "Hujjatni o'qish uchun surat OpenAI serveriga yuboriladi. U yerda saqlanmaydi, faqat o'qiladi.",
+      "consentTitle": "Surat tashqi xizmatga yuboriladi",
+      "consentYes": "Roziman — skanerlash",
+      "copied": "Nusxalandi",
+      "copy": "Nusxalash",
+      "fClasses": "Toifalari",
+      "fDocNo": "Hujjat raqami",
+      "fExpiry": "Amal qilish muddati",
+      "failed": "Javob olinmadi",
+      "fillManually": "Qo'lda to'ldiraman",
+      "fullName": "Familiya, ism",
+      "helloText": "Savolingizni yozing yoki tayyor savollardan birini tanlang.",
+      "issues": "Tekshirish kerak",
+      "left": "%{n} ta savol qoldi",
+      "limitOver": "Soatlik chegara tugadi",
+      "limitsText": "Kuniga %{day} ta savol, soatiga %{hour} ta. Skanerlash alohida hisoblanadi: kuniga %{scan} ta.",
+      "meanwhile": "SHU ORALIQDA",
+      "notSaved": "Ma'lumot hali saqlanmadi. Tekshirib, «Saqlash» bosgandan keyin hujjatlaringizga qo'shiladi.",
+      "quick": "TEZ SAVOLLAR",
+      "readFields": "O'qilgan ma'lumot",
+      "reject": "Rad etish",
+      "resetHint": "Soatiga %{n} ta savol — chegara tiklanadi",
+      "resetIn": "%{n} daqiqadan keyin",
+      "retake": "Qayta suratga olish",
+      "saveOk": "To'g'ri — saqlash",
+      "scanFailed": "O'qilmadi",
+      "scanHint": "Pasport yoki pravani suratga oling — maydonlar o'zi to'ladi",
+      "scanIntro": "Hujjatni tekis yoritilgan joyda suratga oling. Raqamlar aniq ko'rinsin — AI faqat ko'ringan narsani o'qiydi.",
+      "scanStart": "Suratga olish",
+      "scanTitle": "Hujjatni skanerlash",
+      "scanWhich": "Qaysi hujjat",
+      "scanning": "O'qilmoqda...",
+      "seeAnalytics": "Analitikani o'zingiz ko'ring",
+      "seeDocs": "Hujjat muddatlarini tekshiring",
+      "source": "Manba",
+      "step2": "2-qadam: tekshiring",
+      "subtitle": "Sizning ma'lumotingiz bo'yicha javob beradi",
+      "thinking": "Ma'lumot qaralmoqda...",
+      "title": "AI yordamchi",
+      "unverified": "Tasdiqlanmagan",
+      "usedOf": "Bugun %{day} tadan %{used} tasini ishlatdingiz.",
+      "usedToday": "Bugun %{n} ta savoldan foydalandingiz",
+      "verified": "Tekshiruvdan o'tdi",
+      "verifiedText": "Hujjatdagi nazorat raqami mos keldi — maydonlar to'g'ri o'qilgan.",
+      "whatAsk": "Nimani so'rash mumkin",
+      "whatAskText": "Parkingiz, reyslaringiz, xarajat va hujjatlaringiz haqida. AI bazaga o'zi yozmaydi — faqat sizga tegishli ma'lumotni o'qiydi."
+    },
+    "aiAct": {
+      "create_incident": "#%{n} reysida hodisa qayd etish",
+      "open_page": "Sahifani ochish",
+      "request_location": "#%{n} reysida lokatsiya so'rash",
+      "send_message": "#%{n} chatiga xabar yuborish"
+    },
+    "aiOff": {
+      "AI_OFF": "AI hozircha ulanmagan",
+      "SECTION_LOCKED": "AI bo'limi rolingizga ochilmagan",
+      "TARIFF_REQUIRED": "AI tarifingizga kirmaydi"
+    },
+    "aiOffText": {
+      "AI_OFF": "Administrator xizmatni yoqqanidan keyin ishlaydi.",
+      "SECTION_LOCKED": "Bo'limni administrator yopgan. Ochilishi uchun unga murojaat qiling.",
+      "TARIFF_REQUIRED": "Rolingizni tanlang yoki tarifni yangilang — shundan keyin ochiladi."
+    },
+    "aiSrc": {
+      "analytics": "analitika",
+      "contracts": "shartnomalar",
+      "data": "FURAM ma'lumoti",
+      "docs": "hujjatlar",
+      "feed": "e'lonlar",
+      "fleet": "park",
+      "guide": "qo'llanma",
+      "money": "moliya",
+      "people": "haydovchilar",
+      "trips": "reyslar"
+    },
     "chat": {
       "camera": "Kamera",
       "conversation": "Suhbat",
@@ -59,6 +148,7 @@
       "file": "Fayl",
       "gallery": "Galereya",
       "location": "Joylashuv",
+      "msgCount": "%{n} ta xabar",
       "private": "Shaxsiy",
       "report": "Shikoyat qilish",
       "sendFailed": "Xabar yuborilmadi",
@@ -155,6 +245,12 @@
       "reminder": "Muddat eslatmasi",
       "reminderText": "30, 7 va 1 kun qolganda xabar keladi. Bildirishnoma sozlamalarida «Hujjat muddati» bo'limi yoqiq bo'lishi kerak.",
       "title": "Hujjatlar"
+    },
+    "err": {
+      "generic": "Xatolik yuz berdi",
+      "network": "Internetga ulanmadi. Aloqani tekshiring.",
+      "timeout": "Server javob bermadi. Qaytadan urinib ko'ring.",
+      "uploadTimeout": "Yuborish uzoq cho'zildi. Aloqa yaxshi joyda qayta urinib ko'ring."
     },
     "exp": {
       "add": "Xarajat qo'shish",
@@ -421,6 +517,7 @@
       "detailsPh": "Yuklash joyi, vaqti, qadoq turi...",
       "edit": "Tahrir",
       "extraLoad": "Bu qo'shimcha yuk",
+      "extraLoadNote": "Mashina to'la emas — boshqa yuk bilan birga ketishi mumkin",
       "howMany": "Nechta mashina kerak",
       "later": "Keyinroq",
       "liveDays": "E'lon 30 kun turadi. Keyin arxivga tushadi — istagan paytda qayta faollashtirasiz.",
@@ -432,6 +529,7 @@
       "previewHint": "Haydovchilar e'loningizni shunday ko'radi",
       "priceBlock": "Narx va to'lov",
       "review": "Ko'rib chiqing",
+      "trucksN": "%{n} mashina",
       "whatCargo": "Qanday yuk?",
       "whatVehicle": "Qanday transport kerak?",
       "when": "Yuklash qachon",
@@ -446,6 +544,12 @@
       "offerPh": "Masalan: ertaga ertalab yuklashga tayyorman",
       "openContact": "Kontaktni ochish",
       "prepay": "Oldindan to'lov"
+    },
+    "postHint": {
+      "1": "Ikkala manzilni tanlang",
+      "2": "Yuk nomi va og'irligini kiriting",
+      "3": "Transport turini tanlang",
+      "4": "Narx kiriting yoki «kelishiladi» belgilang"
     },
     "profile": {
       "account": "HISOB",
@@ -565,6 +669,22 @@
       "USER": "Oddiy foydalanuvchi",
       "VEHICLE_OWNER": "Mashina egasi"
     },
+    "scanIssue": {
+      "EXPIRED": "Muddati %{n} kun oldin tugagan",
+      "EXPIRING": "Muddati %{n} kundan keyin tugaydi",
+      "EXPIRY_BEFORE_ISSUE": "Tugash sanasi berilgan sanadan oldin",
+      "ISSUE_FUTURE": "Berilgan sana kelajakda — suratni tekshiring",
+      "NO_CURRENCY": "Valyuta o'qilmadi",
+      "NO_DOC_NO": "Hujjat raqami o'qilmadi — qo'lda kiriting",
+      "NO_EXPIRY": "Amal qilish muddati o'qilmadi",
+      "NO_PARTIES": "Yuboruvchi yoki qabul qiluvchi o'qilmadi",
+      "NO_PLATE": "Mashina raqami o'qilmadi",
+      "VIN_LEN": "VIN 17 belgi bo'lishi kerak — tekshiring"
+    },
+    "scanNote": {
+      "MRZ_FAILED": "MRZ tekshiruvidan o'tmadi — har bir maydonni solishtirib chiqing.",
+      "UNVERIFIED": "Ma'lumot tasdiqlanmagan — hujjat bilan solishtiring."
+    },
     "signIn": {
       "blocked": "Hisob vaqtincha bloklandi",
       "byPhone": "Telefon raqam",
@@ -602,9 +722,7 @@
       "whoAreYou": "Siz kimsiz?"
     },
     "state": {
-      "aiAssistant": "AI yordamchi",
-      "noData": "Ma'lumot kelmadi",
-      "notReady": "Hali tayyor emas"
+      "noData": "Ma'lumot kelmadi"
     },
     "step": {
       "confirm": "Tasdiqlash",
@@ -641,7 +759,6 @@
       "expensesHint": "Yoqilg'i, yo'l haqi",
       "kmDone": "km bosildi",
       "kmLeft": "km qoldi",
-      "nextStep": "Yuklashga yo'l oldim",
       "participants": "Ishtirokchilar",
       "settlement": "Hisob-kitob",
       "steps": "Reys bosqichlari",
@@ -649,9 +766,19 @@
       "viewReport": "Hisobotni ko'rish",
       "weight": "Og'irlik"
     },
+    "tripAct": {
+      "AT_BORDER": "Chegaraga yetdim",
+      "CLOSING": "Reysni yopishga o'tish",
+      "LOADED": "Yuk yuklandi",
+      "NEAR_DESTINATION": "Chegaradan o'tdim",
+      "ON_ROAD": "Yo'lga chiqdim",
+      "TO_LOADING": "Yuklashga yo'l oldim",
+      "UNLOADED": "Yukni tushirdim"
+    },
     "tripDocs": {
       "add": "Hujjat qo'shish",
       "empty": "Hujjat yo'q",
+      "emptyText": "CMR, invoys va tushirish suratlarini shu yerga qo'shing. Reys yopilganda hisobotga tushadi.",
       "scan": "Skanerlash",
       "send": "Yuborish",
       "sendFailed": "Yuborilmadi",
@@ -671,9 +798,11 @@
       "devMode": "Dev rejimi",
       "mute": "Ovozni o'chirish",
       "noExpense": "Xarajat yozilmagan",
+      "noExpenseText": "Yoqilg'i, yo'l haqi va boshqa xarajatlarni shu yerda qayd eting — reys yopilganda hisobotga tushadi.",
       "noNewNotes": "Yangi bildirishnoma yo'q.",
       "noTripMine": "Hozir yo'lda bo'lgan reysingiz yo'q.",
       "retry": "Qayta urinish",
+      "saveFailed": "Saqlanmadi",
       "supportContact": "Server sessiya bermadi. Qo'llab-quvvatlashga murojaat qiling.",
       "tripChats": "Reys",
       "unread": "O'qilmagan",

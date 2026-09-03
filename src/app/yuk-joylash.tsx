@@ -191,7 +191,7 @@ export default function YukJoylash() {
 
               <Toggle
                 title={t("mob.post.extraLoad")}
-                note="Mashina to'la emas — boshqa yuk bilan birga ketishi mumkin"
+                note={t("mob.post.extraLoadNote")}
                 on={extra}
                 onPress={() => setExtra((v) => !v)}
               />
@@ -365,7 +365,7 @@ export default function YukJoylash() {
               <SumRow label={t("mob.loads.route")} value={`${from?.name ?? from?.name} → ${to?.name ?? to?.name}`} onEdit={() => setStep(1)} />
               <SumRow
                 label={t("mob.trip.cargo")}
-                value={`${title} · ${weight} t${volume ? ` · ${volume} m³` : ""} · ${count} mashina`}
+                value={`${title} · ${weight} t${volume ? ` · ${volume} m³` : ""} · ${t("mob.post.trucksN", { n: count })}`}
                 onEdit={() => setStep(2)}
               />
               <SumRow
@@ -399,7 +399,7 @@ export default function YukJoylash() {
           disabled={!ready}
           loading={busy}
         />
-        {!ready ? <Text style={s.footHint}>{HINT[step]}</Text> : null}
+        {!ready ? <Text style={s.footHint}>{hint(step)}</Text> : null}
       </View>
 
       <LocationPicker
@@ -415,12 +415,9 @@ export default function YukJoylash() {
   );
 }
 
-const HINT: Record<number, string> = {
-  1: "Ikkala manzilni tanlang",
-  2: "Yuk nomi va og'irligini kiriting",
-  3: "Transport turini tanlang",
-  4: "Narx kiriting yoki «kelishiladi» belgilang",
-};
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali o'qilmagan
+   bo'ladi va matn o'zbekchada qotib qolardi. */
+const hint = (step: number): string => t(`mob.postHint.${step}`);
 
 /* ─────────────────────────────────────────────── bo'laklar */
 

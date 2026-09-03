@@ -46,16 +46,8 @@ type Trip = {
  */
 /* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
    o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
-function action(): Record<string, string> {
-  return {
-  TO_LOADING: t("mob.trip.nextStep"),
-  LOADED: "Yuk yuklandi",
-  ON_ROAD: "Yo'lga chiqdim",
-  AT_BORDER: "Chegaraga yetdim",
-  NEAR_DESTINATION: "Chegaradan o'tdim",
-  UNLOADED: "Yukni tushirdim",
-  CLOSING: "Reysni yopishga o'tish",
-};
+function action(status: string): string {
+  return t(`mob.tripAct.${status}`);
 }
 
 export default function ReysTafsiloti() {
@@ -219,14 +211,14 @@ export default function ReysTafsiloti() {
         </View>
       ) : null}
 
-      {next && action()[next] ? (
+      {next ? (
         <View style={[s.actions, { paddingBottom: insets.bottom + space.lg }]}>
           <Pressable
             style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
             onPress={() => setSheet(true)}
           >
             <Icon name="check" size={19} stroke="#fff" />
-            <Text style={s.primaryText}>{action()[next]}</Text>
+            <Text style={s.primaryText}>{action(next)}</Text>
           </Pressable>
           <View style={s.sos}>
             <Icon name="alert" size={18} stroke={color.danger} />

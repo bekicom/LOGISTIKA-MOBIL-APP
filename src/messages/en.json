@@ -50,6 +50,95 @@
       "vTypePick": "Choose",
       "year": "Year"
     },
+    "ai": {
+      "actDone": "Done",
+      "actRejected": "Suggestion rejected",
+      "askPh": "Type your question",
+      "birthDate": "Date of birth",
+      "checkField": "check this",
+      "confirm": "Confirm",
+      "confirmNote": "The AI does not perform the action itself. The server does it after you confirm.",
+      "confirmTitle": "The AI proposes this",
+      "consent1": "Only the photo you choose is sent",
+      "consent2": "The result is not saved automatically",
+      "consent3": "You can always fill it in by hand",
+      "consentGallery": "Choose from gallery",
+      "consentNo": "I will fill it in myself",
+      "consentText": "To read the document the photo is sent to OpenAI's server. It is not stored there, only read.",
+      "consentTitle": "The photo is sent to an external service",
+      "consentYes": "I agree — scan it",
+      "copied": "Copied",
+      "copy": "Copy",
+      "fClasses": "Categories",
+      "fDocNo": "Document number",
+      "fExpiry": "Expiry date",
+      "failed": "No answer received",
+      "fillManually": "I will fill it in myself",
+      "fullName": "Surname, given names",
+      "helloText": "Type a question, or pick one of the ready-made ones.",
+      "issues": "Needs checking",
+      "left": "%{n} questions left",
+      "limitOver": "Hourly limit reached",
+      "limitsText": "%{day} questions a day, %{hour} an hour. Scanning is counted separately: %{scan} a day.",
+      "meanwhile": "IN THE MEANTIME",
+      "notSaved": "Nothing is saved yet. Check it and press Save — then it joins your documents.",
+      "quick": "QUICK QUESTIONS",
+      "readFields": "Extracted data",
+      "reject": "Reject",
+      "resetHint": "%{n} questions an hour — the limit resets",
+      "resetIn": "in %{n} minutes",
+      "retake": "Retake the photo",
+      "saveOk": "Looks right — save",
+      "scanFailed": "Could not read it",
+      "scanHint": "Photograph a passport or licence — the fields fill in themselves",
+      "scanIntro": "Photograph the document in even light. The digits must be legible — the AI reads only what it can see.",
+      "scanStart": "Take a photo",
+      "scanTitle": "Scan a document",
+      "scanWhich": "Which document",
+      "scanning": "Reading...",
+      "seeAnalytics": "Look at the analytics yourself",
+      "seeDocs": "Check your document expiry dates",
+      "source": "Source",
+      "step2": "Step 2: check it",
+      "subtitle": "Answers from your own data",
+      "thinking": "Checking your data...",
+      "title": "AI assistant",
+      "unverified": "Not verified",
+      "usedOf": "You have used %{used} of %{day} today.",
+      "usedToday": "You have used %{n} questions today",
+      "verified": "Verification passed",
+      "verifiedText": "The document's check digit matched — the fields were read correctly.",
+      "whatAsk": "What you can ask",
+      "whatAskText": "About your fleet, trips, costs and documents. The AI does not write to the database — it only reads what belongs to you."
+    },
+    "aiAct": {
+      "create_incident": "Log an incident on trip #%{n}",
+      "open_page": "Open the page",
+      "request_location": "Request location on trip #%{n}",
+      "send_message": "Send a message to trip #%{n} chat"
+    },
+    "aiOff": {
+      "AI_OFF": "The AI is not connected yet",
+      "SECTION_LOCKED": "The AI section is closed for your role",
+      "TARIFF_REQUIRED": "The AI is not part of your plan"
+    },
+    "aiOffText": {
+      "AI_OFF": "It will work once the administrator enables the service.",
+      "SECTION_LOCKED": "An administrator has closed this section. Ask them to open it.",
+      "TARIFF_REQUIRED": "Pick your role or renew your plan — then it opens."
+    },
+    "aiSrc": {
+      "analytics": "analytics",
+      "contracts": "contracts",
+      "data": "FURAM data",
+      "docs": "documents",
+      "feed": "listings",
+      "fleet": "fleet",
+      "guide": "user guide",
+      "money": "finance",
+      "people": "drivers",
+      "trips": "trips"
+    },
     "chat": {
       "camera": "Camera",
       "conversation": "Conversation",
@@ -59,6 +148,7 @@
       "file": "File",
       "gallery": "Gallery",
       "location": "Location",
+      "msgCount": "%{n} messages",
       "private": "Direct",
       "report": "Report",
       "sendFailed": "The message was not sent",
@@ -155,6 +245,12 @@
       "reminder": "Expiry reminder",
       "reminderText": "You are notified 30, 7 and 1 day before. The «Document expiry» category must be enabled in notification settings.",
       "title": "Documents"
+    },
+    "err": {
+      "generic": "Something went wrong",
+      "network": "No internet connection. Check your network.",
+      "timeout": "The server did not respond. Try again.",
+      "uploadTimeout": "The upload took too long. Try again where the signal is better."
     },
     "exp": {
       "add": "Add an expense",
@@ -421,6 +517,7 @@
       "detailsPh": "Loading place, time, packaging type...",
       "edit": "Edit",
       "extraLoad": "This is an additional load",
+      "extraLoadNote": "The truck is not full — it can share the run with another load",
       "howMany": "How many trucks are needed",
       "later": "Later",
       "liveDays": "The listing stays up for 30 days, then goes to the archive — you can reactivate it any time.",
@@ -432,6 +529,7 @@
       "previewHint": "This is how drivers will see your listing",
       "priceBlock": "Price and payment",
       "review": "Review",
+      "trucksN": "%{n} trucks",
       "whatCargo": "What cargo?",
       "whatVehicle": "What vehicle do you need?",
       "when": "When is loading",
@@ -446,6 +544,12 @@
       "offerPh": "For example: I can load tomorrow morning",
       "openContact": "Reveal the contact",
       "prepay": "Prepayment"
+    },
+    "postHint": {
+      "1": "Choose both locations",
+      "2": "Enter the cargo name and weight",
+      "3": "Choose the vehicle type",
+      "4": "Enter a price or mark it negotiable"
     },
     "profile": {
       "account": "ACCOUNT",
@@ -565,6 +669,22 @@
       "USER": "Regular user",
       "VEHICLE_OWNER": "Vehicle owner"
     },
+    "scanIssue": {
+      "EXPIRED": "Expired %{n} days ago",
+      "EXPIRING": "Expires in %{n} days",
+      "EXPIRY_BEFORE_ISSUE": "The expiry date is before the issue date",
+      "ISSUE_FUTURE": "The issue date is in the future — check the photo",
+      "NO_CURRENCY": "The currency was not read",
+      "NO_DOC_NO": "The document number was not read — enter it by hand",
+      "NO_EXPIRY": "The expiry date was not read",
+      "NO_PARTIES": "The sender or receiver was not read",
+      "NO_PLATE": "The vehicle plate was not read",
+      "VIN_LEN": "A VIN must be 17 characters — check it"
+    },
+    "scanNote": {
+      "MRZ_FAILED": "The MRZ check failed — compare every field.",
+      "UNVERIFIED": "The data is not verified — compare it with the document."
+    },
     "signIn": {
       "blocked": "The account is temporarily blocked",
       "byPhone": "Phone number",
@@ -602,9 +722,7 @@
       "whoAreYou": "Who are you?"
     },
     "state": {
-      "aiAssistant": "AI assistant",
-      "noData": "No data received",
-      "notReady": "Not ready yet"
+      "noData": "No data received"
     },
     "step": {
       "confirm": "Confirm",
@@ -641,7 +759,6 @@
       "expensesHint": "Fuel, road fees",
       "kmDone": "km covered",
       "kmLeft": "km left",
-      "nextStep": "Heading to loading",
       "participants": "Participants",
       "settlement": "Settlement",
       "steps": "Trip stages",
@@ -649,9 +766,19 @@
       "viewReport": "View the report",
       "weight": "Weight"
     },
+    "tripAct": {
+      "AT_BORDER": "Reached the border",
+      "CLOSING": "Go to closing the trip",
+      "LOADED": "Cargo loaded",
+      "NEAR_DESTINATION": "Crossed the border",
+      "ON_ROAD": "On the road",
+      "TO_LOADING": "Heading to loading",
+      "UNLOADED": "Cargo unloaded"
+    },
     "tripDocs": {
       "add": "Add a document",
       "empty": "No documents",
+      "emptyText": "Add the CMR, invoice and unloading photos here. They go into the report when the trip closes.",
       "scan": "Scan",
       "send": "Upload",
       "sendFailed": "Upload failed",
@@ -671,9 +798,11 @@
       "devMode": "Dev mode",
       "mute": "Mute",
       "noExpense": "No expenses recorded",
+      "noExpenseText": "Record fuel, road tolls and other costs here — they go into the report when the trip closes.",
       "noNewNotes": "No new notifications.",
       "noTripMine": "You have no trips on the road right now.",
       "retry": "Try again",
+      "saveFailed": "Not saved",
       "supportContact": "The server returned no session. Please contact support.",
       "tripChats": "Trips",
       "unread": "Unread",

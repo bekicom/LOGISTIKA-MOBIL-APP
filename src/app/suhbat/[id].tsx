@@ -130,7 +130,7 @@ export default function Suhbat() {
         </View>
         <View style={{ flex: 1 }}>
           <Text style={s.title} numberOfLines={1}>{t("mob.chat.conversation")}</Text>
-          <Text style={s.sub}>{messages.length} ta xabar</Text>
+          <Text style={s.sub}>{t("mob.chat.msgCount", { n: messages.length })}</Text>
         </View>
         <Pressable onPress={() => setMenu(true)} hitSlop={10} style={s.back}>
           <Text style={s.dots}>⋯</Text>

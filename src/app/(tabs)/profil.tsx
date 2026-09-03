@@ -215,7 +215,13 @@ export default function Profil() {
             />
             <ListRow icon={<Badge icon="package" />} title={t("mob.profile.myListings")} right={<Soon />} />
             <ListRow icon={<Badge icon="heart" />} title={t("mob.profile.saved")} right={<Soon />} />
-            <ListRow icon={<Badge icon="doc" />} title={t("mob.profile.myDocs")} right={<Soon />} last />
+            <ListRow
+              icon={<Badge icon="doc" />}
+              title={t("mob.profile.myDocs")}
+              hint={t("mob.pdoc.subtitle")}
+              onPress={() => router.push("/hujjatlarim")}
+              last
+            />
           </Card>
         </View>
 

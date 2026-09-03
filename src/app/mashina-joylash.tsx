@@ -34,6 +34,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
+import { notePushMoment } from "@/lib/push";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
 
@@ -118,6 +119,7 @@ export default function MashinaJoylash() {
           ...(desc.trim() ? { description: desc.trim() } : {}),
         },
       });
+      notePushMoment();
       router.replace(`/mashina/${res.truck.id}`);
     } catch (e) {
       setErr((e as FuramError).message);

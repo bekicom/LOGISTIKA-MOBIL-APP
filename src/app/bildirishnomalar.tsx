@@ -4,7 +4,7 @@
  * Endpoint web bilan bir xil (`/api/notifications`) — u allaqachon
  * kategoriya, ustuvorlik va o'qilgan holatini qaytaradi.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -12,6 +12,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { setBadge } from "@/lib/push";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -69,6 +70,13 @@ export default function Bildirishnomalar() {
     `/api/notifications?tab=${tab}&limit=40`,
     [tab],
   );
+
+  /* NISHONCHA RO'YXAT BILAN BIR XIL BO'LSIN. Push kelganda uni server
+     qo'yadi, lekin xabar web'da o'qilsa telefonda raqam osilib
+     qolardi — bu ekran ochilganda tekislanadi. */
+  useEffect(() => {
+    if (data) void setBadge(data.unread ?? 0);
+  }, [data]);
 
   async function markAll() {
     // Server har bir xabarni alohida belgilaydi — hammasi uchun bitta

@@ -16,6 +16,7 @@ import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { color, font, radius, space } from "@/lib/theme";
 import { P_NOW, P_WIFI, sendOrQueue } from "@/lib/outbox";
+import { notePushMoment } from "@/lib/push";
 import { t } from "@/lib/i18n";
 
 /** Qaysi bosqichda surat majburiy */
@@ -89,6 +90,10 @@ export function HolatSheet({
       }
 
       reset();
+      /* MA'NOLI PAYT (TZ §7.2): reys bosqichi endi surildi — odam
+         ilova nima uchunligini ko'rdi. Aynan shu yerda push so'rash
+         mantiqli: keyingi bosqich haqidagi xabar unga kerak. */
+      notePushMoment();
       onDone();
     } catch (e) {
       setErr((e as FuramError).message ?? t("mob.step.failed"));

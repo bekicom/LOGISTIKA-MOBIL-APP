@@ -696,6 +696,7 @@
       "edit": "Edit",
       "extraLoad": "This is an additional load",
       "extraLoadNote": "The truck is not full — it can share the run with another load",
+      "failed": "The listing was not posted",
       "howMany": "How many trucks are needed",
       "later": "Later",
       "liveDays": "The listing stays up for 30 days, then goes to the archive — you can reactivate it any time.",
@@ -767,6 +768,22 @@
       "signOutAsk": "Sign out of your account?",
       "title": "Profile",
       "trust": "Trust score"
+    },
+    "push": {
+      "allow": "Turn on",
+      "askNote": "We don't send ads. You can change which notifications arrive later in Profile > Notifications.",
+      "askSub": "Turn on notifications and we'll tell you even when the app is closed:",
+      "askTitle": "Don't miss what matters",
+      "ask_deal": "When an offer or deal comes in",
+      "ask_doc": "When a document is about to expire",
+      "ask_msg": "When a new message arrives",
+      "ask_trip": "When a trip's status changes",
+      "blockedBody": "It's on here but denied in the phone's settings, so nothing arrives.",
+      "blockedTitle": "Your phone is blocking notifications",
+      "later": "Not now",
+      "noHereBody": "Notifications only arrive in the installed app — not in a preview or an emulator.",
+      "noHereTitle": "Push doesn't work here",
+      "openSettings": "Open settings"
     },
     "queue": {
       "bookedGroup": "QUEUE BOOKED",

@@ -696,6 +696,7 @@
       "edit": "Tahrir",
       "extraLoad": "Bu qo'shimcha yuk",
       "extraLoadNote": "Mashina to'la emas — boshqa yuk bilan birga ketishi mumkin",
+      "failed": "E'lon joylanmadi",
       "howMany": "Nechta mashina kerak",
       "later": "Keyinroq",
       "liveDays": "E'lon 30 kun turadi. Keyin arxivga tushadi — istagan paytda qayta faollashtirasiz.",
@@ -767,6 +768,22 @@
       "signOutAsk": "Hisobdan chiqmoqchimisiz?",
       "title": "Profil",
       "trust": "Ishonch bali"
+    },
+    "push": {
+      "allow": "Yoqish",
+      "askNote": "Reklama yubormaymiz. Qaysi xabarlar kelishini keyin Profil > Bildirishnomalar bo'limida o'zgartirasiz.",
+      "askSub": "Bildirishnomalarni yoqsangiz, ilova yopiq bo'lsa ham xabar qilamiz:",
+      "askTitle": "Muhim narsani o'tkazib yubormang",
+      "ask_deal": "Taklif yoki kelishuv bo'lganda",
+      "ask_doc": "Hujjat muddati tugayotganda",
+      "ask_msg": "Yangi xabar kelganda",
+      "ask_trip": "Reys holati o'zgarganda",
+      "blockedBody": "Bu yerda yoqilgan, lekin telefon sozlamasida rad etilgan — shuning uchun hech narsa kelmaydi.",
+      "blockedTitle": "Telefon bildirishnomalarni to'sib turibdi",
+      "later": "Hozir emas",
+      "noHereBody": "Bildirishnomalar faqat o'rnatilgan ilovada keladi. Sinov ko'rinishida va emulyatorda kelmaydi.",
+      "noHereTitle": "Bu yerda push ishlamaydi",
+      "openSettings": "Sozlamalarni ochish"
     },
     "queue": {
       "bookedGroup": "NAVBAT OLINGAN",

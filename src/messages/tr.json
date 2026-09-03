@@ -696,6 +696,7 @@
       "edit": "Düzenle",
       "extraLoad": "Bu ek yük",
       "extraLoadNote": "Araç dolu değil — başka bir yükle birlikte gidebilir",
+      "failed": "İlan yayınlanmadı",
       "howMany": "Kaç araç gerekli",
       "later": "Daha sonra",
       "liveDays": "İlan 30 gün yayında kalır, sonra arşive düşer — istediğiniz zaman yeniden yayınlarsınız.",
@@ -767,6 +768,22 @@
       "signOutAsk": "Hesaptan çıkmak istiyor musunuz?",
       "title": "Profil",
       "trust": "Güven puanı"
+    },
+    "push": {
+      "allow": "Aç",
+      "askNote": "Reklam göndermiyoruz. Hangi bildirimlerin geleceğini sonra Profil > Bildirimler bölümünden değiştirirsiniz.",
+      "askSub": "Bildirimleri açarsanız, uygulama kapalıyken bile haber veririz:",
+      "askTitle": "Önemli olanı kaçırmayın",
+      "ask_deal": "Teklif veya anlaşma geldiğinde",
+      "ask_doc": "Bir belgenin süresi dolmak üzereyken",
+      "ask_msg": "Yeni bir mesaj geldiğinde",
+      "ask_trip": "Sefer durumu değiştiğinde",
+      "blockedBody": "Burada açık, ama telefon ayarlarında reddedilmiş — bu yüzden hiçbir şey gelmiyor.",
+      "blockedTitle": "Telefonunuz bildirimleri engelliyor",
+      "later": "Şimdi değil",
+      "noHereBody": "Bildirimler yalnızca kurulu uygulamada gelir. Önizlemede ve emülatörde gelmez.",
+      "noHereTitle": "Burada push çalışmaz",
+      "openSettings": "Ayarları aç"
     },
     "queue": {
       "bookedGroup": "SIRA ALINDI",

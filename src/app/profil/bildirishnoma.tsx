@@ -17,11 +17,12 @@
  * batafsil sozlama ishlayveradi.
  */
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Card, GroupLabel, Header, ListRow, Switch } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { registerPush, pushState, type PushState } from "@/lib/push";
 import { color, font, radius, space } from "@/lib/theme";
 import { notifyCategoryHint, notifyCategoryLabel, notifyChannelLabel, t } from "@/lib/i18n";
 
@@ -49,6 +50,15 @@ export default function BildirishnomaSozlama() {
   const [prefs, setPrefs] = useState<Prefs>({});
   const [saving, setSaving] = useState(false);
   const [failed, setFailed] = useState("");
+
+  /* TELEFON RUXSATI — sozlamadagi kalitdan ALOHIDA narsa. Kalit
+     yoqiq, ruxsat yo'q bo'lsa server push yuboradi, telefon esa
+     ko'rsatmaydi: odam «yoqdim-ku» deb o'ylab yuraveradi. Shuning
+     uchun holat shu yerda ochiq aytiladi. */
+  const [perm, setPerm] = useState<PushState | null>(null);
+  useEffect(() => {
+    void pushState().then(setPerm);
+  }, []);
 
   useEffect(() => {
     if (data?.channels) setPrefs(data.channels);
@@ -90,6 +100,11 @@ export default function BildirishnomaSozlama() {
 
   /** Kanal kaliti — faqat YOQIQ kategoriyalarga ta'sir qiladi */
   function toggleChannel(ch: Channel, on: boolean) {
+    /* Push yoqilsa telefon ruxsati ham so'raladi — TZ §7.2 bo'yicha
+       rad qilgan odam aynan shu yerdan qaytara oladi. */
+    if (ch === "push" && on) {
+      void registerPush().then(() => pushState().then(setPerm));
+    }
     const next: Prefs = { ...prefs };
     for (const c of CATEGORIES) {
       if (!anyOn(next[c])) continue;
@@ -142,6 +157,20 @@ export default function BildirishnomaSozlama() {
 
             <View>
               <GroupLabel>{t("mob.notify.howChannel")}</GroupLabel>
+
+              {perm === "denied" && channelOn("push") ? (
+                <Pressable style={s.warn} onPress={() => void Linking.openSettings()}>
+                  <Text style={s.warnTitle}>{t("mob.push.blockedTitle")}</Text>
+                  <Text style={s.warnBody}>{t("mob.push.blockedBody")}</Text>
+                  <Text style={s.warnLink}>{t("mob.push.openSettings")}</Text>
+                </Pressable>
+              ) : perm === "unsupported" ? (
+                <View style={s.warn}>
+                  <Text style={s.warnTitle}>{t("mob.push.noHereTitle")}</Text>
+                  <Text style={s.warnBody}>{t("mob.push.noHereBody")}</Text>
+                </View>
+              ) : null}
+
               <Card>
                 {CHANNELS.map((ch, i) => (
                   <ListRow
@@ -179,6 +208,14 @@ const s = StyleSheet.create({
   failedText: { fontSize: font.caption, color: color.danger },
 
   under: { fontSize: 12, color: color.mutedForeground, marginTop: 6, marginLeft: space.xs },
+
+  warn: {
+    borderWidth: 1, borderColor: color.warning + "59", backgroundColor: color.warning + "0d",
+    borderRadius: radius.control, padding: space.md, gap: 4, marginBottom: space.xs,
+  },
+  warnTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
+  warnBody: { fontSize: 12, color: color.mutedForeground, lineHeight: 18 },
+  warnLink: { fontSize: 12, fontWeight: "600", color: color.brand, marginTop: 2 },
 
   note: { borderWidth: 1, borderColor: "#cbd5e1", borderRadius: radius.card, backgroundColor: "#f8fafc", padding: space.lg, gap: 8 },
   noteTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },

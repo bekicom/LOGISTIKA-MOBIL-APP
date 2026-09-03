@@ -19,6 +19,7 @@ import { Route, Chip } from "@/components/cards";
 import { Button, Field, Notice, Steps } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { notePushMoment } from "@/lib/push";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -106,9 +107,10 @@ export default function YukJoylash() {
           ...(desc.trim() ? { description: desc.trim() } : {}),
         },
       });
+      notePushMoment();
       router.replace(`/yuk/${res.load.id}`);
     } catch (e) {
-      setErr((e as FuramError).message ?? "E'lon joylanmadi");
+      setErr((e as FuramError).message ?? t("mob.post.failed"));
     } finally {
       setBusy(false);
     }

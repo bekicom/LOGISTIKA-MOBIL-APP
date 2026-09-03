@@ -13,7 +13,10 @@
       "supportsTablet": false,
       "icon": "./assets/expo.icon",
       "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"],
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ],
         "NSLocationWhenInUseUsageDescription": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi — ular yukning qayerdaligini biladi.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Telefon cho'ntagingizda bo'lganda ham reys yo'li yozilib borishi uchun. Faqat reys davomida, reys yopilishi bilan to'xtaydi."
       }
@@ -32,7 +35,8 @@
         "ACCESS_FINE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "FOREGROUND_SERVICE",
-        "FOREGROUND_SERVICE_LOCATION"
+        "FOREGROUND_SERVICE_LOCATION",
+        "POST_NOTIFICATIONS"
       ]
     },
     "web": {
@@ -58,6 +62,13 @@
           "locationAlwaysAndWhenInUsePermission": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi. Faqat reys davomida, reys yopilishi bilan to'xtaydi.",
           "isAndroidBackgroundLocationEnabled": true,
           "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/android-icon-monochrome.png",
+          "color": "#f45a18"
         }
       ]
     ],

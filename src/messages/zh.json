@@ -696,6 +696,7 @@
       "edit": "编辑",
       "extraLoad": "这是拼车货",
       "extraLoadNote": "车辆未装满——可与其他货物拼车",
+      "failed": "信息未发布",
       "howMany": "需要几辆车",
       "later": "稍后",
       "liveDays": "信息展示 30 天，之后进入归档——可随时重新上架。",
@@ -767,6 +768,22 @@
       "signOutAsk": "确定退出账号？",
       "title": "个人资料",
       "trust": "信任分"
+    },
+    "push": {
+      "allow": "开启",
+      "askNote": "我们不发广告。哪些通知会到达，稍后可在「我的 > 通知」中调整。",
+      "askSub": "开启通知后，即使应用已关闭我们也会告诉您：",
+      "askTitle": "不要错过重要消息",
+      "ask_deal": "有报价或成交时",
+      "ask_doc": "证件即将到期时",
+      "ask_msg": "收到新消息时",
+      "ask_trip": "运单状态变化时",
+      "blockedBody": "这里已开启，但在手机设置中被拒绝——所以什么都收不到。",
+      "blockedTitle": "手机正在拦截通知",
+      "later": "暂不",
+      "noHereBody": "通知只在已安装的应用中送达，预览版和模拟器中不会。",
+      "noHereTitle": "此处推送不可用",
+      "openSettings": "打开设置"
     },
     "queue": {
       "bookedGroup": "已取号",

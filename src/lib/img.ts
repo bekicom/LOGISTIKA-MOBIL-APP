@@ -34,3 +34,14 @@ export function authImage(path: string): ImgSource {
 export function vehiclePhoto(vehicleId: string, key: string): ImgSource {
   return authImage(`/api/fleet/vehicles/${vehicleId}/photos?p=${encodeURIComponent(key)}`);
 }
+
+/**
+ * Sotuv e'loni rasmi.
+ *
+ * Yo'l `furam/src/lib/sale.ts:salePhotoSrc` bilan bir xil bo'lishi
+ * SHART: fayllar `public/` dan berilmaydi, faqat shu marshrut
+ * orqali. Manzil o'zgarsa ikkala tomonda birga o'zgaradi.
+ */
+export function salePhoto(saleId: string, key: string): ImgSource {
+  return authImage(`/api/market/${saleId}/photos?p=${encodeURIComponent(key)}`);
+}

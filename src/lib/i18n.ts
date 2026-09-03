@@ -144,3 +144,16 @@ export const tripStatusLabel = (key: string) => t(`tripStatus.${key}`);
 export const notifyCategoryLabel = (key: string) => t(`mob.notifyCat.${key}`);
 export const notifyCategoryHint = (key: string) => t(`mob.notifyCatHint.${key}`);
 export const notifyChannelLabel = (key: string) => t(`mob.notifyCh.${key}`);
+
+/* ─────────────────────────── Bozor (sotuv) yorliqlari
+
+   Server KALIT yuboradi, matn emas: `furam/src/lib/sale.ts` dagi
+   `categoryLabel()` va `STATUS_LABELS` o'zbekcha qattiq yozilgan va
+   ularni yuborsak rus haydovchi o'zbekcha yorliq ko'rardi. */
+
+export const saleCategoryLabel = (key: string) => t(`saleCatalog.category.${key}`);
+export const saleFeatureLabel = (key: string) => t(`saleCatalog.feature.${key}`);
+export const salePriceKindLabel = (key: string) => t(`priceKind.${key}`);
+export const saleStatusLabel = (key: string) => t(`saleStatus.${key}`);
+/** Texnik jadval qatorining nomi: `engine`, `axles`, `euro`… */
+export const saleSpecLabel = (key: string) => t(`mob.saleSpec.${key}`);

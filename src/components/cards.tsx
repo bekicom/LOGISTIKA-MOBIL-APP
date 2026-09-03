@@ -87,6 +87,17 @@ export type Listing = {
   owner?: { name: string } | null;
 };
 
+/**
+ * Valyutasiz son: 620 000 km, 24 oy, 214 ko'rish.
+ *
+ * `money()` bilan bir xil ajratgich ishlatiladi — bir ekranda ikki
+ * xil yozilishi («620000» va «58 000») e'tiborni tortadi va
+ * beparvolikdek ko'rinadi.
+ */
+export function fmtNum(n: number): string {
+  return new Intl.NumberFormat("ru-RU").format(n);
+}
+
 export function money(price: number | null | undefined, currency = "UZS", negotiable?: boolean) {
   if (negotiable || price == null) return null;
   // Web'dagidek: ru-RU bo'shliq bilan ajratadi — 28 000 000

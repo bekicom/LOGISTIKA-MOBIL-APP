@@ -231,6 +231,21 @@ export default function Profil() {
               title={t("mob.profile.myListings")}
               onPress={() => router.push("/elonlarim")}
             />
+            {/* Bozor — transport SOTUVI. Yuk/mashina e'lonlaridan
+                boshqa narsa: u yerda bir reysga olinadi, bu yerda
+                sotib olinadi. */}
+            <ListRow
+              icon={<Badge icon="truck" />}
+              title={t("mob.market.title")}
+              hint={t("mob.market.subtitle")}
+              onPress={() => router.push("/bozor")}
+            />
+            <ListRow
+              icon={<Badge icon="check" />}
+              title={t("mob.sale.mine")}
+              hint={t("mob.sale.mineSub")}
+              onPress={() => router.push("/sotuvlarim")}
+            />
             <ListRow
               icon={<Badge icon="heart" />}
               title={t("mob.profile.saved")}

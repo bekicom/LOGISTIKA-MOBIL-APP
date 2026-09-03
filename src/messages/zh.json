@@ -117,6 +117,19 @@
       "request_location": "在运单 #%{n} 中请求位置",
       "send_message": "向运单 #%{n} 聊天发送消息"
     },
+    "aiErr": {
+      "AI_OFF": "AI 助手尚未接入",
+      "BAD_KIND": "不支持该证件类型",
+      "BAD_OUTPUT": "无法识别照片——请重新拍摄",
+      "BAD_TYPE": "仅支持 JPG、PNG 或 WEBP",
+      "NO_CONSENT": "未同意发送照片",
+      "NO_FILE": "未选择照片",
+      "RATE_LIMIT": "已达每小时上限。请稍后再试。",
+      "SECTION_LOCKED": "AI 助手未对您的角色开放",
+      "TARIFF_REQUIRED": "AI 不在您的套餐内。请选择角色或续订套餐。",
+      "TOO_LARGE": "照片超过 10 MB",
+      "UPSTREAM": "AI 服务无响应"
+    },
     "aiOff": {
       "AI_OFF": "AI 尚未接入",
       "SECTION_LOCKED": "AI 板块未对您的角色开放",

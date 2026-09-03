@@ -112,6 +112,18 @@ export function t(key: string, params?: Record<string, string | number>): string
   return i18n.t(key, params);
 }
 
+/**
+ * Kalit bo'lsa tarjima, bo'lmasa serverning o'z matni.
+ *
+ * Server xato KODINI ham, matnini ham yuboradi. Kod tanish bo'lsa
+ * foydalanuvchi tilida ko'rsatamiz; notanish bo'lsa serverniki —
+ * o'zbekcha bo'lsa ham, «[missing ...]» dan yaxshi.
+ */
+export function tOr(key: string, fallback: string): string {
+  const v = i18n.t(key, { defaultValue: "" });
+  return v || fallback;
+}
+
 /* ─────────────────────────────── Kalitdan yorliqqa */
 
 /**

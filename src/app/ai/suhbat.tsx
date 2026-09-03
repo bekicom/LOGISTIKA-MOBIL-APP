@@ -32,7 +32,7 @@ import * as Clipboard from "expo-clipboard";
 import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { t } from "@/lib/i18n";
+import { t, tOr } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
 
 type Action = { id: string; kind: string; title: string; furamNo?: number; url?: string };
@@ -97,6 +97,17 @@ const GOTO: Record<string, string> = {
   "/contracts": "/reyslar",
 };
 
+/**
+ * Server xatosini foydalanuvchi tilida ko'rsatish.
+ *
+ * Server KOD ham, matn ham yuboradi. Kod tanish bo'lsa tarjima
+ * ishlatiladi; notanish bo'lsa serverning matni qoladi — ilgari
+ * ruscha interfeysda «Soatlik chegara tugadi» chiqardi.
+ */
+function aiError(e: FuramError): string {
+  return tOr(`mob.aiErr.${e.code}`, e.message || t("mob.ai.failed"));
+}
+
 let seq = 0;
 const nextId = () => `m${++seq}`;
 
@@ -147,7 +158,7 @@ export default function Suhbat() {
             id: nextId(),
             role: "ai",
             warn: true,
-            text: err.message || t("mob.ai.failed"),
+            text: aiError(err),
           },
         ]);
       } finally {
@@ -180,7 +191,7 @@ export default function Suhbat() {
       const to = r.goto ? GOTO[r.goto] : null;
       if (to) router.push(to as never);
     } catch (e) {
-      setToast((e as FuramError).message || t("mob.ai.failed"));
+      setToast(aiError(e as FuramError));
     }
   }
 

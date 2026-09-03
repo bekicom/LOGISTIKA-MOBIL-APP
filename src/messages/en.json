@@ -117,6 +117,19 @@
       "request_location": "Request location on trip #%{n}",
       "send_message": "Send a message to trip #%{n} chat"
     },
+    "aiErr": {
+      "AI_OFF": "The AI assistant is not connected yet",
+      "BAD_KIND": "That document type is not supported",
+      "BAD_OUTPUT": "The photo could not be read — take it again",
+      "BAD_TYPE": "Only JPG, PNG or WEBP",
+      "NO_CONSENT": "Consent to send the photo was not given",
+      "NO_FILE": "No photo was chosen",
+      "RATE_LIMIT": "The hourly limit is used up. Try again shortly.",
+      "SECTION_LOCKED": "The AI assistant is closed for your role",
+      "TARIFF_REQUIRED": "The AI is not in your plan. Pick your role or renew the plan.",
+      "TOO_LARGE": "The photo is larger than 10 MB",
+      "UPSTREAM": "The AI service did not respond"
+    },
     "aiOff": {
       "AI_OFF": "The AI is not connected yet",
       "SECTION_LOCKED": "The AI section is closed for your role",

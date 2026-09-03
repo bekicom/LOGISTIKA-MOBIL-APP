@@ -117,6 +117,19 @@
       "request_location": "#%{n} seferinde konum iste",
       "send_message": "#%{n} sohbetine mesaj gönder"
     },
+    "aiErr": {
+      "AI_OFF": "AI asistan henüz bağlı değil",
+      "BAD_KIND": "Bu belge türü desteklenmiyor",
+      "BAD_OUTPUT": "Fotoğraf okunamadı — yeniden çekin",
+      "BAD_TYPE": "Sadece JPG, PNG veya WEBP",
+      "NO_CONSENT": "Fotoğrafı gönderme izni verilmedi",
+      "NO_FILE": "Fotoğraf seçilmedi",
+      "RATE_LIMIT": "Saatlik sınır doldu. Biraz sonra tekrar deneyin.",
+      "SECTION_LOCKED": "AI asistan rolünüze kapalı",
+      "TARIFF_REQUIRED": "AI tarifenizde yok. Rolünüzü seçin veya tarifeyi yenileyin.",
+      "TOO_LARGE": "Fotoğraf 10 MB'tan büyük",
+      "UPSTREAM": "AI servisi yanıt vermedi"
+    },
     "aiOff": {
       "AI_OFF": "AI henüz bağlı değil",
       "SECTION_LOCKED": "AI bölümü rolünüze kapalı",

@@ -117,6 +117,19 @@
       "request_location": "#%{n} reysida lokatsiya so'rash",
       "send_message": "#%{n} chatiga xabar yuborish"
     },
+    "aiErr": {
+      "AI_OFF": "AI yordamchi hozircha ulanmagan",
+      "BAD_KIND": "Bunday hujjat turi qo'llab-quvvatlanmaydi",
+      "BAD_OUTPUT": "Rasmni o'qib bo'lmadi — qaytadan suratga oling",
+      "BAD_TYPE": "Faqat JPG, PNG yoki WEBP",
+      "NO_CONSENT": "Rasmni yuborishga rozilik berilmagan",
+      "NO_FILE": "Rasm tanlanmadi",
+      "RATE_LIMIT": "Soatlik chegara tugadi. Bir ozdan keyin urinib ko'ring.",
+      "SECTION_LOCKED": "AI yordamchi sizning rolingizga ochilmagan",
+      "TARIFF_REQUIRED": "AI tarifingizga kirmaydi. Rolingizni tanlang yoki tarifni yangilang.",
+      "TOO_LARGE": "Rasm 10 MB dan katta",
+      "UPSTREAM": "AI xizmati javob bermadi"
+    },
     "aiOff": {
       "AI_OFF": "AI hozircha ulanmagan",
       "SECTION_LOCKED": "AI bo'limi rolingizga ochilmagan",

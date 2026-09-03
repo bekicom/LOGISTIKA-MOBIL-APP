@@ -32,7 +32,7 @@ import { Button, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
-import { t } from "@/lib/i18n";
+import { t, tOr } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
 
 /** Skaner qo'llab-quvvatlaydigan shaxsiy hujjatlar */
@@ -61,6 +61,11 @@ type Scan = {
   fields: Fields;
   issues?: { code: string; params?: Record<string, number | string>; level: string }[];
 };
+
+/** Server xatosi — kod tanish bo'lsa foydalanuvchi tilida */
+function scanError(e: FuramError): string {
+  return tOr(`mob.aiErr.${e.code}`, e.message || t("mob.ai.scanFailed"));
+}
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const str = (v: unknown) => (typeof v === "string" ? v : "");
@@ -112,7 +117,7 @@ export default function Skaner() {
       setExpiry(str(r.fields.expiryDate));
       setClasses(Array.isArray(r.fields.classes) ? r.fields.classes : []);
     } catch (e) {
-      setErr((e as FuramError).message || t("mob.ai.scanFailed"));
+      setErr(scanError(e as FuramError));
     } finally {
       setBusy(false);
     }
@@ -139,7 +144,7 @@ export default function Skaner() {
       );
       router.replace("/hujjatlarim");
     } catch (e) {
-      setErr((e as FuramError).message || t("mob.ai.scanFailed"));
+      setErr(scanError(e as FuramError));
       setSaving(false);
     }
   }

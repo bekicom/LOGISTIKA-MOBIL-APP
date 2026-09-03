@@ -22,6 +22,21 @@ export async function getToken(): Promise<string | null> {
   return cached;
 }
 
+/**
+ * Sinxron token — RASM so'rovlari uchun.
+ *
+ * `<Image source={{ uri }}>` sarlavha qo'shmaydi, shuning uchun
+ * token QO'LDA berilishi kerak: `{ uri, headers }`. Bu esa sinxron
+ * bo'lishi shart — render paytida `await` qilib bo'lmaydi.
+ *
+ * Xavfsiz: har ekran chizilgunga qadar kamida bitta API so'rovi
+ * o'tadi va `cached` to'ladi. Bo'sh bo'lsa rasm shunchaki
+ * yuklanmaydi, ilova esa buzilmaydi.
+ */
+export function tokenNow(): string | null {
+  return cached ?? null;
+}
+
 export async function saveToken(token: string): Promise<void> {
   cached = token;
   await SecureStore.setItemAsync(KEY, token);

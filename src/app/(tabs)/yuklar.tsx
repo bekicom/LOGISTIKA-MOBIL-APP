@@ -9,6 +9,7 @@ import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "rea
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
+import { Segment } from "@/components/Segment";
 import { ListingCard, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
@@ -40,23 +41,33 @@ export default function Yuklar() {
     <View style={[s.root, { paddingTop: insets.top }]}>
       {/* Sarlavha va qidiruv */}
       <View style={s.head}>
-        <View style={s.headTop}>
-          <Text style={s.title}>{t("mob.loads.title")}</Text>
-          {data ? (
-            <Text style={s.count}>
-              <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text> {t("mob.loads.count", { n: data?.total ?? 0 })}
-            </Text>
-          ) : null}
-        </View>
+        {/* Yuklar va mashinalar — lentaning ikki yarmi. Mashinalar
+            uchun yettinchi tab qo'shib bo'lmaydi, menyuga yashirsak
+            esa bo'limni hech kim topmasdi. */}
+        <Segment
+          value="loads"
+          onChange={(v) => v === "trucks" && router.push("/mashinalar")}
+          options={[
+            { key: "loads", label: t("mob.loads.title") },
+            { key: "trucks", label: t("mob.trucks.title") },
+          ]}
+        />
+
+        {data ? (
+          <Text style={s.count}>
+            <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text>{" "}
+            {t("mob.loads.count", { n: data?.total ?? 0 })}
+          </Text>
+        ) : null}
 
         <Pressable style={s.search} onPress={() => setSheet(true)}>
           <Icon name="search" size={19} />
           <Text style={[s.searchText, !filtr.fromName && s.searchPlaceholder]}>
-            {filtr.fromName ?? "Qayerdan"}
+            {filtr.fromName ?? t("mob.loads.from")}
           </Text>
           <Icon name="arrow-right" size={16} stroke="#94a3b8" />
           <Text style={[s.searchText, !filtr.toName && s.searchPlaceholder]}>
-            {filtr.toName ?? "Qayerga"}
+            {filtr.toName ?? t("mob.loads.to")}
           </Text>
         </Pressable>
 
@@ -137,7 +148,6 @@ const s = StyleSheet.create({
     borderBottomColor: color.border,
     gap: space.md,
   },
-  headTop: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
   title: { fontSize: 22, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
   count: { fontSize: 13, color: color.mutedForeground },
 

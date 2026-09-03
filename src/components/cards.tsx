@@ -1,6 +1,7 @@
 /** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Icon } from "./Icon";
+import { vehiclePhoto } from "@/lib/img";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -13,23 +14,22 @@ export function Route({ from, fromC, to, toC, size = 18 }: {
     <View style={s.route}>
       <View style={{ flex: 1 }}>
         <Text style={[s.city, { fontSize: size }]} numberOfLines={1}>{from}</Text>
-        {fromC ? <Text style={s.country}>{COUNTRY[fromC] ?? fromC}</Text> : null}
+        {fromC ? <Text style={s.country}>{country(fromC)}</Text> : null}
       </View>
       <View style={{ paddingTop: 5 }}>
         <Icon name="arrow-right" size={19} stroke="#94a3b8" />
       </View>
       <View style={{ flex: 1, alignItems: "flex-end" }}>
         <Text style={[s.city, { fontSize: size, textAlign: "right" }]} numberOfLines={1}>{to}</Text>
-        {toC ? <Text style={s.country}>{COUNTRY[toC] ?? toC}</Text> : null}
+        {toC ? <Text style={s.country}>{country(toC)}</Text> : null}
       </View>
     </View>
   );
 }
 
-const COUNTRY: Record<string, string> = {
-  UZ: "O'zbekiston", RU: "Rossiya", KZ: "Qozog'iston", KG: "Qirg'iziston",
-  TJ: "Tojikiston", TM: "Turkmaniston", TR: "Turkiya", CN: "Xitoy",
-};
+/* Davlat nomi lug'atdan olinadi — ilgari shu yerda o'zbekcha
+   ro'yxat turardi va rus tilidagi ekranda ham o'zbekcha chiqardi. */
+const country = (code: string) => t(`jobCatalog.countries.${code}`);
 
 export function Chip({ text, tone = "muted" }: { text: string; tone?: "muted" | "success" | "brand" | "warning" | "danger" | "info" }) {
   const bg = {
@@ -108,7 +108,7 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.card, item.isTop && s.cardTop, pressed && s.pressed]}>
       <View style={s.cardHead}>
-        {item.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text="YANGI" tone="success" />}
+        {item.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
         <Icon name="heart" size={20} stroke="#cbd5e1" />
       </View>
 
@@ -128,6 +128,104 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
         <Text style={s.price}>
           {price ?? t("mob.loads.negotiable")}
         </Text>
+        {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
+      </View>
+    </Pressable>
+  );
+}
+
+/* ─────────────────────────────────────────────── mashina kartasi */
+
+export type TruckItem = Listing & {
+  volumeM3?: number | null;
+  isFreeNow?: boolean;
+  statusKey?: string | null;
+  statusLabel?: string | null;
+  isExtra?: boolean;
+  source?: "USER" | "TELEGRAM";
+  /** Parkdagi mashinadan — bo'lishi shart emas */
+  photo?: string | null;
+  vehicleId?: string | null;
+  brandModel?: string | null;
+  isMine?: boolean;
+};
+
+/**
+ * Mashina kartasi — yuk kartasidan ATAYLAB boshqacha.
+ *
+ * BOSH RAQAM NARX EMAS, SIG'IM. Yuk egasi «bu mashinaga yukim
+ * sig'adimi?» deb qaraydi; narx keyin keladi va ko'pincha kelishiladi.
+ *
+ * SURAT KARTANING YARMINI EGALLAYDI. Mashina ko'rib tanlanadi:
+ * tenti butunmi, refrijerator eskimi — suratdan bilinadi. Surat yo'q
+ * bo'lsa (Telegram'dan yig'ilgan e'lonlar — ro'yxatning yarmi) bo'sh
+ * joy qoldirilmaydi, transport turi belgisi qo'yiladi.
+ */
+export function TruckCard({ item, onPress }: { item: TruckItem; onPress?: () => void }) {
+  const price = money(item.price, item.currency, item.isNegotiable);
+  const tg = item.source === "TELEGRAM";
+
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        s.card,
+        item.isTop && s.cardTop,
+        item.isMine && s.cardMine,
+        pressed && s.pressed,
+      ]}
+    >
+      <View style={s.cardHead}>
+        {item.isMine ? (
+          <Chip text={t("mob.listing.mine")} tone="info" />
+        ) : item.isTop ? (
+          <Chip text="TOP" tone="brand" />
+        ) : tg ? (
+          <Chip text="TELEGRAM" />
+        ) : (
+          <Chip text={t("mob.listing.new")} tone="success" />
+        )}
+        <Icon name="heart" size={20} stroke="#cbd5e1" />
+      </View>
+
+      <View style={s.tRow}>
+        {item.photo && item.vehicleId ? (
+          <Image source={vehiclePhoto(item.vehicleId, item.photo)} style={s.tShot} resizeMode="cover" />
+        ) : (
+          <View style={[s.tShot, s.tShotEmpty]}>
+            <Icon name="truck" size={26} stroke="#94a3b8" />
+          </View>
+        )}
+
+        <View style={s.tBody}>
+          <View style={s.tCap}>
+            <Text style={s.tCapNum}>
+              {item.weightT != null ? `${item.weightT} t` : "—"}
+            </Text>
+            {item.volumeM3 != null ? (
+              <Text style={s.tCapSub}>{` · ${item.volumeM3} m³`}</Text>
+            ) : null}
+          </View>
+          <Text style={s.tRoute} numberOfLines={1}>
+            {item.from} → {item.to}
+          </Text>
+          <Text style={s.tSub} numberOfLines={1}>
+            {[item.brandModel, item.vehicleType].filter(Boolean).join(" · ")}
+          </Text>
+        </View>
+      </View>
+
+      <View style={s.chips}>
+        {item.statusKey === "freeNow" ? (
+          <Chip text={t("mob.trucks.freeNow")} tone="success" />
+        ) : item.statusLabel ? (
+          <Chip text={t("mob.trucks.freeFrom", { d: item.statusLabel })} />
+        ) : null}
+        {item.isExtra ? <Chip text={t("mob.trucks.takesExtra")} /> : null}
+      </View>
+
+      <View style={s.cardFoot}>
+        <Text style={price ? s.price : s.noPrice}>{price ?? t("mob.trucks.noPrice")}</Text>
         {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
       </View>
     </Pressable>
@@ -218,6 +316,25 @@ const s = StyleSheet.create({
     ...shadow.card,
   },
   cardTop: { borderLeftWidth: 3, borderLeftColor: color.brand },
+  cardMine: { borderColor: color.info + "59", backgroundColor: color.info + "08" },
+
+  tRow: { flexDirection: "row", gap: 12, marginTop: 11 },
+  tShot: { width: 72, height: 72, borderRadius: 12, backgroundColor: "#cbd5e1" },
+  tShotEmpty: {
+    backgroundColor: color.muted,
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    borderStyle: "dashed",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tBody: { flex: 1, minWidth: 0 },
+  tCap: { flexDirection: "row", alignItems: "baseline" },
+  tCapNum: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.5 },
+  tCapSub: { fontSize: 13, color: color.mutedForeground },
+  tRoute: { fontSize: 14, fontWeight: "600", color: color.foreground, marginTop: 4 },
+  tSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
+  noPrice: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
   pressed: { backgroundColor: "#fafbfc" },
   cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
 

@@ -514,6 +514,34 @@
     "notifyChHint": {
       "sms": "Sadece en önemliler — SMS ücretli"
     },
+    "outbox": {
+      "drop": "Sil",
+      "empty": "Her şey gönderildi",
+      "emptyText": "Bekleyen kayıt yok. Bağlantısızken girdikleriniz burada bekler ve bağlantı gelince kendiliğinden gider.",
+      "failed": "%{n} kayıt geçmedi — dokunun",
+      "gFailed": "GEÇMEDİ · %{n}",
+      "gWaiting": "BEKLİYOR · %{n}",
+      "offline": "Bağlantı yok",
+      "offlineWith": "Bağlantı yok · %{n} kayıt bekliyor",
+      "online": "Bağlantı var",
+      "queued": "Sırada",
+      "retry": "Tekrar dene",
+      "sendNow": "Şimdi gönder",
+      "sending": "%{n} kayıt gönderiliyor",
+      "sendingNow": "Gönderiliyor...",
+      "title": "Gönderilmeyenler",
+      "tries": "%{n} deneme",
+      "waitsWifi": "Wi-Fi bekliyor — fotoğraf büyük",
+      "willSend": "Bağlantı gelince kendiliğinden gider — telefonu açık tutmanız gerekmez."
+    },
+    "outboxKind": {
+      "expense": "Masraf",
+      "gps": "Konum",
+      "message": "Mesaj",
+      "photo": "Fotoğraf",
+      "queue": "Sınır kuyruğu",
+      "status": "Sefer durumu"
+    },
     "panel": {
       "days": "%{n} gün",
       "docExpired": "Bir belgenin süresi doldu",

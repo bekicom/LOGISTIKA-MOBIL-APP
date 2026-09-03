@@ -12,9 +12,10 @@ import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "./Icon";
 import { Button, Notice } from "./ui";
-import { api, apiUpload, FuramError } from "@/lib/api";
+import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { color, font, radius, space } from "@/lib/theme";
+import { P_NOW, P_WIFI, sendOrQueue } from "@/lib/outbox";
 import { t } from "@/lib/i18n";
 
 /** Qaysi bosqichda surat majburiy */
@@ -63,16 +64,28 @@ export function HolatSheet({
     setErr(null);
     setBusy(true);
     try {
-      // Avval holat — asosiy ish shu, surat ikkinchi darajali
-      await api(`/api/trips/${tripId}/status`, { method: "POST", body: { status: next } });
+      /* Avval holat — asosiy ish shu, surat ikkinchi darajali.
+         Aloqa yo'q bo'lsa NAVBATGA tushadi va yo'qolmaydi: chegarada
+         «yetdim» tugmasi aynan aloqasiz joyda bosiladi. */
+      await sendOrQueue({
+        kind: "status",
+        path: `/api/trips/${tripId}/status`,
+        body: { status: next },
+        priority: P_NOW,
+      });
 
       /* Suratlar hujjat sifatida biriktiriladi. Bittasi yuborilmasa ham
          holat allaqachon o'zgargan — foydalanuvchi qaytadan bosmasin
          uchun xato ko'rsatilmaydi, faqat qolganlari yuboriladi. */
       for (const p of photos) {
-        await apiUpload(`/api/trips/${tripId}/documents`, {
-          kind: next === "UNLOADED" ? "UNLOAD_PHOTO" : "OTHER",
-        }, [toUpload(p, "file")]).catch(() => null);
+        // Surat og'ir — Wi-Fi kutadi (`P_WIFI`)
+        await sendOrQueue({
+          kind: "photo",
+          path: `/api/trips/${tripId}/documents`,
+          body: { kind: next === "UNLOADED" ? "UNLOAD_PHOTO" : "OTHER" },
+          files: [toUpload(p, "file")],
+          priority: P_WIFI,
+        }).catch(() => null);
       }
 
       reset();

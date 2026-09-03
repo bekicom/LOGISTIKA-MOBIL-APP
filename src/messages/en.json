@@ -514,6 +514,34 @@
     "notifyChHint": {
       "sms": "Only the most important — SMS costs money"
     },
+    "outbox": {
+      "drop": "Delete",
+      "empty": "Everything is sent",
+      "emptyText": "Nothing is waiting. What you enter without a connection lands here and goes out by itself once you are back online.",
+      "failed": "%{n} records did not go through — tap",
+      "gFailed": "NOT ACCEPTED · %{n}",
+      "gWaiting": "WAITING · %{n}",
+      "offline": "No connection",
+      "offlineWith": "No connection · %{n} waiting",
+      "online": "Connected",
+      "queued": "Queued",
+      "retry": "Try again",
+      "sendNow": "Send now",
+      "sending": "Sending %{n} records",
+      "sendingNow": "Sending...",
+      "title": "Not sent yet",
+      "tries": "%{n} attempts",
+      "waitsWifi": "Waiting for Wi-Fi — the photo is large",
+      "willSend": "It goes out by itself once you are back online — you do not need to keep the app open."
+    },
+    "outboxKind": {
+      "expense": "Expense",
+      "gps": "Location",
+      "message": "Message",
+      "photo": "Photo",
+      "queue": "Border queue",
+      "status": "Trip status"
+    },
     "panel": {
       "days": "%{n} days",
       "docExpired": "A document has expired",

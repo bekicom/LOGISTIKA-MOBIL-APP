@@ -14,10 +14,11 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Button, Notice } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
-import { apiUpload, FuramError } from "@/lib/api";
+import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { P_WIFI, sendOrQueue } from "@/lib/outbox";
 import { t } from "@/lib/i18n";
 
 type Doc = {
@@ -154,7 +155,13 @@ function AddSheet({ open, tripId, onClose, onDone }: {
          bitta fayl kutadi. Ketma-ket yuboriladi — parallel yuborilsa
          sekin internetda hammasi birdan uzilib qolardi. */
       for (const p of pages) {
-        await apiUpload(`/api/trips/${tripId}/documents`, { kind }, [toUpload(p, "file")]);
+        await sendOrQueue({
+          kind: "photo",
+          path: `/api/trips/${tripId}/documents`,
+          body: { kind },
+          files: [toUpload(p, "file")],
+          priority: P_WIFI,
+        });
         setDone((n) => n + 1);
       }
       reset();

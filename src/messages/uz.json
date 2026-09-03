@@ -514,6 +514,34 @@
     "notifyChHint": {
       "sms": "Faqat eng muhimlari — SMS pullik"
     },
+    "outbox": {
+      "drop": "O'chirish",
+      "empty": "Hammasi yuborilgan",
+      "emptyText": "Kutayotgan yozuv yo'q. Aloqasiz joyda kiritganingiz shu yerda turadi va aloqa qaytganda o'zi ketadi.",
+      "failed": "%{n} ta yozuv o'tmadi — bosing",
+      "gFailed": "O'TMADI · %{n}",
+      "gWaiting": "KUTMOQDA · %{n}",
+      "offline": "Aloqa yo'q",
+      "offlineWith": "Aloqa yo'q · %{n} ta yozuv kutmoqda",
+      "online": "Aloqa bor",
+      "queued": "Navbatda",
+      "retry": "Qayta urinish",
+      "sendNow": "Hozir yuborish",
+      "sending": "%{n} ta yozuv yuborilmoqda",
+      "sendingNow": "Yuborilmoqda...",
+      "title": "Yuborilmaganlar",
+      "tries": "%{n} marta urinildi",
+      "waitsWifi": "Wi-Fi kutmoqda — surat og'ir",
+      "willSend": "Aloqa qaytganda o'zi yuboriladi — telefonni ochib turish shart emas."
+    },
+    "outboxKind": {
+      "expense": "Xarajat",
+      "gps": "Joylashuv",
+      "message": "Xabar",
+      "photo": "Surat",
+      "queue": "Chegara navbati",
+      "status": "Reys holati"
+    },
     "panel": {
       "days": "%{n} kun",
       "docExpired": "Hujjat muddati tugagan",

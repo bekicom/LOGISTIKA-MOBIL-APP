@@ -10,6 +10,7 @@ import {
 } from "react";
 import { api, FuramError } from "./api";
 import { clearToken, getToken, saveToken, type User } from "./session";
+import { wipeLocal } from "./local-db";
 
 type State = {
   user: User | null;
@@ -67,6 +68,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Server javob bermasa ham lokal seansni yopamiz
     }
     await clearToken();
+    /* Navbat va kesh ham tozalanadi: telefon bir necha odamda
+       ishlatilishi mumkin va keyingi kirgan odam avvalgisining
+       yuborilmagan xarajatini yoki reys tarixini ko'rmasin. */
+    await wipeLocal().catch(() => {});
     setUser(null);
   }, []);
 

@@ -14,11 +14,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
-import { apiUpload, FuramError } from "@/lib/api";
+import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload } from "@/lib/photo";
 import { useAuth } from "@/lib/auth-context";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { P_SOON, P_WIFI, sendOrQueue } from "@/lib/outbox";
 import { t } from "@/lib/i18n";
 
 type Msg = {
@@ -89,11 +90,13 @@ export default function Suhbat() {
       setErr(null);
 
       try {
-        await apiUpload(
-          `/api/chats/${id}`,
-          { text: body },
-          att?.file ? [toUpload(att.file, "file")] : [],
-        );
+        await sendOrQueue({
+          kind: "message",
+          path: `/api/chats/${id}`,
+          body: { text: body },
+          files: att?.file ? [toUpload(att.file, "file")] : [],
+          priority: att?.file ? P_WIFI : P_SOON,
+        });
         setPending((p) => p.filter((m) => m.id !== temp.id));
         reload();
       } catch (e) {

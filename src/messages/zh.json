@@ -514,6 +514,34 @@
     "notifyChHint": {
       "sms": "仅最重要的——短信需付费"
     },
+    "outbox": {
+      "drop": "删除",
+      "empty": "全部已发送",
+      "emptyText": "没有待发送内容。断网时录入的内容会留在这里，联网后自动发送。",
+      "failed": "%{n} 条未发送成功——点击查看",
+      "gFailed": "未通过 · %{n}",
+      "gWaiting": "等待中 · %{n}",
+      "offline": "无网络",
+      "offlineWith": "无网络 · %{n} 条待发送",
+      "online": "已联网",
+      "queued": "排队中",
+      "retry": "重试",
+      "sendNow": "立即发送",
+      "sending": "正在发送 %{n} 条",
+      "sendingNow": "发送中…",
+      "title": "待发送",
+      "tries": "已尝试 %{n} 次",
+      "waitsWifi": "等待 Wi-Fi——照片较大",
+      "willSend": "联网后会自动发送——无需一直打开应用。"
+    },
+    "outboxKind": {
+      "expense": "支出",
+      "gps": "位置",
+      "message": "消息",
+      "photo": "照片",
+      "queue": "口岸排队",
+      "status": "运单状态"
+    },
     "panel": {
       "days": "%{n} 天",
       "docExpired": "有证件已过期",

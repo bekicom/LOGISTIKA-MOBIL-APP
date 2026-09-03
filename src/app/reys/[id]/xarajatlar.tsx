@@ -15,10 +15,11 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Button, Field, Notice } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
-import { apiUpload, FuramError } from "@/lib/api";
+import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { P_SOON, P_WIFI, sendOrQueue } from "@/lib/outbox";
 import { t } from "@/lib/i18n";
 
 type Item = {
@@ -188,9 +189,13 @@ function AddSheet({ open, tripId, onClose, onDone }: {
     setErr(null);
     setBusy(true);
     try {
-      await apiUpload(
-        `/api/trips/${tripId}/expenses`,
-        {
+      /* Aloqasiz joyda ham yoziladi. Chek surati bo'lsa yozuv
+         Wi-Fi kutadi — 3 MB surat chegaradagi sekin internetda
+         butun navbatni to'sib qo'yardi. */
+      await sendOrQueue({
+        kind: "expense",
+        path: `/api/trips/${tripId}/expenses`,
+        body: {
           category: cat,
           amount: num,
           currency: cur,
@@ -198,8 +203,9 @@ function AddSheet({ open, tripId, onClose, onDone }: {
           liters: cat === "FUEL" && liters ? Number(liters) : undefined,
           note: note.trim() || undefined,
         },
-        photo ? [toUpload(photo, "receipt")] : [],
-      );
+        files: photo ? [toUpload(photo, "receipt")] : [],
+        priority: photo ? P_WIFI : P_SOON,
+      });
       reset();
       onDone();
     } catch (e) {

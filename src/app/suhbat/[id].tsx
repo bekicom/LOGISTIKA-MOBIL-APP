@@ -19,6 +19,7 @@ import { pickPhotos, takePhoto, toUpload } from "@/lib/photo";
 import { useAuth } from "@/lib/auth-context";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Msg = {
   id: string;
@@ -61,22 +62,22 @@ export default function Suhbat() {
   // Yangi xabarlarni so'rab turish
   useEffect(() => {
     if (!id) return;
-    const t = setInterval(() => reload(), POLL_MS);
-    return () => clearInterval(t);
+    const timer = setInterval(() => reload(), POLL_MS);
+    return () => clearInterval(timer);
   }, [id, reload]);
 
   const send = useCallback(
-    async (body?: { file?: { uri: string; name: string; type: string } }) => {
-      const t = text.trim();
-      if (!t && !body?.file) return;
+    async (att?: { file?: { uri: string; name: string; type: string } }) => {
+      const body = text.trim();
+      if (!body && !att?.file) return;
 
       /* Xabar darhol ko'rinadi — «yuborilmoqda» belgisi bilan. Sekin
          internetda javob kutib turish ilovani muzlab qolgandek qiladi. */
       const temp: Msg = {
         id: `tmp-${Date.now()}`,
         type: "TEXT",
-        text: t || null,
-        hasAttachment: !!body?.file,
+        text: body || null,
+        hasAttachment: !!att?.file,
         senderId: "me",
         senderName: "",
         createdAt: new Date().toISOString(),
@@ -90,15 +91,15 @@ export default function Suhbat() {
       try {
         await apiUpload(
           `/api/chats/${id}`,
-          { text: t },
-          body?.file ? [toUpload(body.file, "file")] : [],
+          { text: body },
+          att?.file ? [toUpload(att.file, "file")] : [],
         );
         setPending((p) => p.filter((m) => m.id !== temp.id));
         reload();
       } catch (e) {
         setPending((p) => p.filter((m) => m.id !== temp.id));
-        setText(t);
-        setErr((e as FuramError).message ?? "Xabar yuborilmadi");
+        setText(body);
+        setErr((e as FuramError).message ?? t("mob.chat.sendFailed"));
       } finally {
         setSending(false);
       }
@@ -128,7 +129,7 @@ export default function Suhbat() {
           <Icon name="user" size={20} stroke={color.mutedForeground} />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={s.title} numberOfLines={1}>Suhbat</Text>
+          <Text style={s.title} numberOfLines={1}>{t("mob.chat.conversation")}</Text>
           <Text style={s.sub}>{messages.length} ta xabar</Text>
         </View>
         <Pressable onPress={() => setMenu(true)} hitSlop={10} style={s.back}>
@@ -193,12 +194,12 @@ export default function Suhbat() {
         <Pressable style={s.backdrop} onPress={() => setAttach(false)}>
           <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
             <View style={s.grabber} />
-            <Text style={s.sheetTitle}>Nima yuborasiz?</Text>
+            <Text style={s.sheetTitle}>{t("mob.chat.whatSend")}</Text>
             <View style={s.grid}>
-              <Att icon="doc" tint={color.brand} label="Kamera" onPress={() => addPhoto("camera")} />
-              <Att icon="package" tint={color.info} label="Galereya" onPress={() => addPhoto("gallery")} />
-              <Att icon="doc" tint="#475569" label="Hujjat" />
-              <Att icon="route" tint={color.success} label="Joylashuv" />
+              <Att icon="doc" tint={color.brand} label={t("mob.chat.camera")} onPress={() => addPhoto("camera")} />
+              <Att icon="package" tint={color.info} label={t("mob.chat.gallery")} onPress={() => addPhoto("gallery")} />
+              <Att icon="doc" tint="#475569" label={t("mob.chat.document")} />
+              <Att icon="route" tint={color.success} label={t("mob.chat.location")} />
             </View>
           </View>
         </Pressable>
@@ -211,7 +212,7 @@ export default function Suhbat() {
             <View style={s.grabber} />
             <View style={{ paddingHorizontal: space.xl, paddingTop: space.md }}>
               <MenuRow icon="bell" label="Ovozni o'chirish" />
-              <MenuRow icon="alert" label="Shikoyat qilish" danger />
+              <MenuRow icon="alert" label={t("mob.chat.report")} danger />
               <MenuRow icon="close" label="Foydalanuvchini bloklash" danger last />
             </View>
           </View>
@@ -243,7 +244,7 @@ function Bubble({ msg, meId }: { msg: Msg; meId: string | null }) {
       {msg.hasAttachment ? (
         <View style={s.attach}>
           <Icon name="doc" size={16} stroke={mine ? "rgba(255,255,255,0.9)" : color.mutedForeground} />
-          <Text style={[s.attachText, mine && { color: "rgba(255,255,255,0.9)" }]}>Fayl</Text>
+          <Text style={[s.attachText, mine && { color: "rgba(255,255,255,0.9)" }]}>{t("mob.chat.file")}</Text>
         </View>
       ) : null}
 
@@ -253,7 +254,7 @@ function Bubble({ msg, meId }: { msg: Msg; meId: string | null }) {
         {msg.pending ? (
           <>
             <Icon name="clock" size={11} stroke="rgba(255,255,255,0.75)" />
-            <Text style={[s.time, s.timeOut]}>Yuborilmoqda</Text>
+            <Text style={[s.time, s.timeOut]}>{t("mob.chat.sending")}</Text>
           </>
         ) : (
           <Text style={[s.time, mine && s.timeOut]}>{hhmm(msg.createdAt)}</Text>

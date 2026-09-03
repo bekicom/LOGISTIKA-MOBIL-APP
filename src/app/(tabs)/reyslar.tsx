@@ -7,17 +7,18 @@ import { TripCard, type TripItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 const TABS = [
-  { key: "active", label: "Faol" },
-  { key: "upcoming", label: "Kutilmoqda" },
-  { key: "done", label: "Yakunlangan" },
+  { key: "active", label: t("mob.trips.active") },
+  { key: "upcoming", label: t("mob.trips.upcoming") },
+  { key: "done", label: t("mob.trips.done") },
 ] as const;
 
 const EMPTY: Record<string, { title: string; text: string }> = {
-  active: { title: "Faol reys yo'q", text: "Hozir yo'lda bo'lgan reysingiz yo'q." },
-  upcoming: { title: "Kutilayotgan reys yo'q", text: "Kelishilgan, lekin hali boshlanmagan reys yo'q." },
-  done: { title: "Yakunlangan reys yo'q", text: "Yopilgan reyslar shu yerda tarix bo'lib qoladi." },
+  active: { title: t("mob.trips.empty"), text: "Hozir yo'lda bo'lgan reysingiz yo'q." },
+  upcoming: { title: t("mob.misc.noUpcoming"), text: t("mob.misc.noUpcomingText") },
+  done: { title: t("mob.misc.noDone"), text: t("mob.misc.noDoneText") },
 };
 
 export default function Reyslar() {
@@ -33,7 +34,7 @@ export default function Reyslar() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <Text style={s.title}>Reyslar</Text>
+        <Text style={s.title}>{t("mob.trips.title")}</Text>
 
         <View style={s.segment}>
           {TABS.map((t) => (

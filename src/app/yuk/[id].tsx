@@ -21,6 +21,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Load = {
   id: string; title: string | null; description: string | null;
@@ -45,7 +46,7 @@ type Load = {
   contact: string | null;
 };
 
-const PAY: Record<string, string> = { CASH: "Naqd", TRANSFER: "O'tkazma", MIXED: "Aralash" };
+const PAY: Record<string, string> = { CASH: t("mob.load.cash"), TRANSFER: t("mob.load.transfer"), MIXED: t("mob.load.mixed") };
 
 function money(n: number, cur: string) {
   return `${new Intl.NumberFormat("ru-RU").format(n)} ${cur}`;
@@ -129,19 +130,19 @@ export default function YukTafsiloti() {
               {data.title ? <Text style={s.cargoName}>{data.title}</Text> : null}
 
               <View style={s.grid}>
-                <Cell label="Og'irlik" value={c.weightT != null ? `${c.weightT} t` : "—"} />
-                <Cell label="Hajm" value={c.volumeM3 != null ? `${c.volumeM3} m³` : "—"} />
-                <Cell label="Mashina soni" value={`${c.vehicleCount} ta`} />
+                <Cell label={t("mob.load.weight")} value={c.weightT != null ? `${c.weightT} t` : "—"} />
+                <Cell label={t("mob.last.volume")} value={c.volumeM3 != null ? `${c.volumeM3} m³` : "—"} />
+                <Cell label={t("mob.last.truckCount")} value={`${c.vehicleCount} ta`} />
                 <Cell
-                  label="Yuklash"
-                  value={c.isReadyNow ? "Hozir tayyor" : c.loadingDate ? date(c.loadingDate) : "—"}
+                  label={t("mob.load.loading")}
+                  value={c.isReadyNow ? t("mob.loads.readyNow") : c.loadingDate ? date(c.loadingDate) : "—"}
                   tone={c.isReadyNow ? color.success : undefined}
                 />
               </View>
 
               {/* Transport turlari */}
               <View style={s.types}>
-                <Text style={s.label}>Transport turi</Text>
+                <Text style={s.label}>{t("mob.load.vehicleType")}</Text>
                 <View style={s.typeRow}>
                   <View style={s.typeMain}>
                     <TruckIcon type={c.vehicleType.key} size={26} color="#fff" />
@@ -167,10 +168,10 @@ export default function YukTafsiloti() {
 
             {/* Narx */}
             <View style={s.card}>
-              <Text style={s.meta}>Narx</Text>
+              <Text style={s.meta}>{t("mob.load.price")}</Text>
               <Text style={s.price}>
                 {data.price.isNegotiable || data.price.amount == null
-                  ? "Kelishiladi"
+                  ? t("mob.loads.negotiable")
                   : money(data.price.amount, data.price.currency)}
               </Text>
               <View style={s.priceChips}>
@@ -184,7 +185,7 @@ export default function YukTafsiloti() {
             {/* Izoh */}
             {data.description ? (
               <View style={s.card}>
-                <Text style={s.cardTitle}>Izoh</Text>
+                <Text style={s.cardTitle}>{t("mob.exp.note")}</Text>
                 <Text style={s.desc}>{data.description}</Text>
               </View>
             ) : null}
@@ -228,7 +229,7 @@ export default function YukTafsiloti() {
                     <Icon name="check" size={19} stroke={color.success} />
                     <View style={{ flex: 1 }}>
                       <Text style={s.contactPhone}>{data.contact}</Text>
-                      <Text style={s.contactNote}>Bosing — qo&apos;ng&apos;iroq qilinadi</Text>
+                      <Text style={s.contactNote}>{t("mob.load.tapToCall")}</Text>
                     </View>
                   </Pressable>
                 ) : (
@@ -242,7 +243,7 @@ export default function YukTafsiloti() {
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={s.hiddenPhone}>+998 ** *** ** **</Text>
-                        <Text style={s.meta}>Telefon raqam yopiq</Text>
+                        <Text style={s.meta}>{t("mob.load.phoneLocked")}</Text>
                       </View>
                     </View>
 
@@ -253,7 +254,7 @@ export default function YukTafsiloti() {
                     </View>
                     <Pressable style={s.freeAlt} hitSlop={6}>
                       <Icon name="chat" size={15} stroke={color.brand} />
-                      <Text style={s.freeAltText}>Yoki bepul xabar yozing</Text>
+                      <Text style={s.freeAltText}>{t("mob.load.orMessage")}</Text>
                     </Pressable>
                   </View>
                 )}
@@ -261,7 +262,7 @@ export default function YukTafsiloti() {
             ) : null}
 
             {data.isTaken ? (
-              <Notice tone="warning">Bu yukka allaqachon reys ochilgan.</Notice>
+              <Notice tone="warning">{t("mob.load.alreadyTrip")}</Notice>
             ) : null}
           </>
         ) : null}
@@ -274,7 +275,7 @@ export default function YukTafsiloti() {
             style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
             onPress={() => setOffer(true)}
           >
-            <Text style={s.primaryText}>Taklif yuborish</Text>
+            <Text style={s.primaryText}>{t("mob.load.offer")}</Text>
           </Pressable>
           <View style={s.iconBtn}>
             <Icon name="chat" size={20} stroke={color.foreground} />
@@ -335,7 +336,7 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
       setOk(true);
       setTimeout(() => { setOk(false); setFee(""); setNote(""); onDone(); }, 1200);
     } catch (e) {
-      setErr((e as FuramError).message ?? "Taklif yuborilmadi");
+      setErr((e as FuramError).message ?? t("mob.load.offerFailed"));
     } finally {
       setBusy(false);
     }
@@ -352,13 +353,13 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
                 <View style={s.okCircle}>
                   <Icon name="check" size={28} stroke={color.success} />
                 </View>
-                <Text style={s.okText}>Taklif yuborildi</Text>
+                <Text style={s.okText}>{t("mob.load.offerSent")}</Text>
               </View>
             ) : (
               <>
-                <Text style={s.sheetTitle}>Taklif yuborish</Text>
+                <Text style={s.sheetTitle}>{t("mob.load.offer")}</Text>
                 <Text style={s.sheetSub}>
-                  Yuk egasi taklifingizni ko&apos;radi va javob beradi. Kelishilsa reys ochiladi.
+                  {t("mob.load.offerHint")}
                 </Text>
 
                 <View style={{ marginTop: space.xl }}>
@@ -376,7 +377,7 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
 
                 <View style={{ marginTop: space.lg }}>
                   <Field
-                    label="Izoh"
+                    label={t("mob.exp.note")}
                     hint="ixtiyoriy"
                     placeholder="Masalan: ertaga ertalab yuklashga tayyorman"
                     value={note}
@@ -391,9 +392,9 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
 
           {!ok ? (
             <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
-              <Button title="Yuborish" onPress={submit} loading={busy} disabled={!(num > 0)} />
+              <Button title={t("mob.tripDocs.send")} onPress={submit} loading={busy} disabled={!(num > 0)} />
               <Pressable onPress={onClose} style={s.cancel}>
-                <Text style={s.cancelText}>Bekor qilish</Text>
+                <Text style={s.cancelText}>{t("mob.common.cancel")}</Text>
               </Pressable>
             </View>
           ) : null}

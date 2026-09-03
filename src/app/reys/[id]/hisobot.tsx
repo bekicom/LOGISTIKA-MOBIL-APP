@@ -16,6 +16,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Trip = {
   no: number; statusLabel: string; status: string;
@@ -48,7 +49,7 @@ export default function Hisobot() {
   const exp = useApi<Expenses>(id ? `/api/trips/${id}/expenses/list` : null, [id]);
   const rate = useApi<{ targets: Target[] }>(id ? `/api/ratings?tripId=${id}` : null, [id]);
 
-  const t = trip.data;
+  const rep = trip.data;
   const totals = Object.entries(exp.data?.totals ?? {});
 
   return (
@@ -57,21 +58,21 @@ export default function Hisobot() {
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke="#f1f5f9" />
         </Pressable>
-        <Text style={s.title}>Reys hisoboti</Text>
+        <Text style={s.title}>{t("mob.report.title")}</Text>
       </View>
 
-      {t ? (
+      {rep ? (
         <View style={s.hero}>
           <View style={s.heroChip}>
             <Icon name="check" size={12} stroke="#4ade80" />
-            <Text style={s.heroChipText}>{t.statusLabel}</Text>
+            <Text style={s.heroChipText}>{rep.statusLabel}</Text>
           </View>
           <View style={s.heroRoute}>
-            <Text style={s.heroCity}>{t.route.from}</Text>
+            <Text style={s.heroCity}>{rep.route.from}</Text>
             <Icon name="arrow-right" size={20} stroke="#64748b" />
-            <Text style={s.heroCity}>{t.route.to}</Text>
+            <Text style={s.heroCity}>{rep.route.to}</Text>
           </View>
-          <Text style={s.heroNo}>#TR-{t.no}</Text>
+          <Text style={s.heroNo}>#TR-{rep.no}</Text>
         </View>
       ) : null}
 
@@ -89,34 +90,34 @@ export default function Hisobot() {
         {trip.loading ? <Skeleton rows={2} /> : null}
         {trip.error ? <ErrorBox message={trip.error} onRetry={trip.reload} /> : null}
 
-        {t ? (
+        {rep ? (
           <>
             {/* Yig'ma raqamlar */}
             <View style={s.card}>
               <View style={s.grid2}>
-                <Big label="Bosib o'tilgan yo'l" value={t.route.distanceKm != null ? String(t.route.distanceKm) : "—"} unit="km" />
-                <Big label="Davomiyligi" value={days(t.createdAt, t.closedAt)} />
+                <Big label="Bosib o'tilgan yo'l" value={rep.route.distanceKm != null ? String(rep.route.distanceKm) : "—"} unit="km" />
+                <Big label="Davomiyligi" value={days(rep.createdAt, rep.closedAt)} />
               </View>
 
               <View style={s.hr} />
 
-              {t.payment.agreed != null ? (
+              {rep.payment.agreed != null ? (
                 <>
-                  <Line label="Kelishilgan summa" value={fmt(t.payment.agreed, t.payment.currency)} />
-                  <Line label="To'langan" value={fmt(t.payment.paid, t.payment.currency)} tone={color.success} />
+                  <Line label="Kelishilgan summa" value={fmt(rep.payment.agreed, rep.payment.currency)} />
+                  <Line label="To'langan" value={fmt(rep.payment.paid, rep.payment.currency)} tone={color.success} />
                 </>
               ) : null}
               {totals.map(([cur, sum]) => (
-                <Line key={cur} label="Xarajatlar" value={`−${fmt(sum, cur)}`} tone={color.danger} />
+                <Line key={cur} label={t("mob.trip.expenses")} value={`−${fmt(sum, cur)}`} tone={color.danger} />
               ))}
 
-              {t.payment.agreed != null ? (
+              {rep.payment.agreed != null ? (
                 <View style={s.total}>
-                  <Text style={s.totalLabel}>Sof natija</Text>
+                  <Text style={s.totalLabel}>{t("mob.report.net")}</Text>
                   <Text style={s.totalValue}>
                     {fmt(
-                      t.payment.agreed - (exp.data?.totals?.[t.payment.currency] ?? 0),
-                      t.payment.currency,
+                      rep.payment.agreed - (exp.data?.totals?.[rep.payment.currency] ?? 0),
+                      rep.payment.currency,
                     )}
                   </Text>
                 </View>
@@ -126,8 +127,8 @@ export default function Hisobot() {
             {/* Baholash */}
             {(rate.data?.targets?.length ?? 0) > 0 ? (
               <View style={s.card}>
-                <Text style={s.cardTitle}>Hamkorni baholang</Text>
-                <Text style={s.cardSub}>Baholaringiz FURAM ishonch reytingini shakllantiradi</Text>
+                <Text style={s.cardTitle}>{t("mob.report.rate")}</Text>
+                <Text style={s.cardSub}>{t("mob.report.rateHint")}</Text>
                 {rate.data!.targets.map((tg) => (
                   <RateBlock key={tg.userId} tripId={String(id)} target={tg} onDone={rate.reload} />
                 ))}
@@ -136,17 +137,17 @@ export default function Hisobot() {
 
             {/* Tarkib */}
             <View style={s.card}>
-              <Text style={s.cardTitle}>Tarkib</Text>
-              <Line label="Yuk" value={t.cargo.title ?? "—"} />
-              {t.cargo.weightT != null ? <Line label="Og'irlik" value={`${t.cargo.weightT} t`} /> : null}
-              <Line label="Hujjatlar" value={`${t.counts.documents} ta`} />
-              <Line label="Xarajat yozuvlari" value={`${t.counts.expenses} ta`} />
+              <Text style={s.cardTitle}>{t("mob.report.composition")}</Text>
+              <Line label="Yuk" value={rep.cargo.title ?? "—"} />
+              {rep.cargo.weightT != null ? <Line label={t("mob.trip.weight")} value={`${rep.cargo.weightT} t`} /> : null}
+              <Line label={t("mob.trip.documents")} value={`${rep.counts.documents} ta`} />
+              <Line label={t("mob.report.expenseRows")} value={`${rep.counts.expenses} ta`} />
             </View>
 
             {/* Ishtirokchilar */}
             <View style={s.card}>
-              <Text style={s.cardTitle}>Ishtirokchilar</Text>
-              {t.participants.map((p, i) => (
+              <Text style={s.cardTitle}>{t("mob.trip.participants")}</Text>
+              {rep.participants.map((p, i) => (
                 <View key={i} style={s.person}>
                   <View style={s.avatar}>
                     <Text style={s.avatarText}>{(p.name || "?").slice(0, 2).toUpperCase()}</Text>
@@ -190,7 +191,7 @@ function RateBlock({ tripId, target, onDone }: { tripId: string; target: Target;
       setSent(true);
       onDone();
     } catch (e) {
-      setErr((e as FuramError).message ?? "Baho yuborilmadi");
+      setErr((e as FuramError).message ?? t("mob.report.rateFailed"));
     } finally {
       setBusy(false);
     }
@@ -238,7 +239,7 @@ function RateBlock({ tripId, target, onDone }: { tripId: string; target: Target;
           <TextInput
             value={comment}
             onChangeText={setComment}
-            placeholder={stars < 3 ? "Nima yoqmadi? (majburiy)" : "Izoh — ixtiyoriy"}
+            placeholder={stars < 3 ? t("mob.report.whatWrong") : t("mob.report.noteOptional")}
             placeholderTextColor="#94a3b8"
             multiline
             style={s.comment}
@@ -246,7 +247,7 @@ function RateBlock({ tripId, target, onDone }: { tripId: string; target: Target;
           {err ? <Text style={s.err}>{err}</Text> : null}
           <View style={{ marginTop: space.md }}>
             <Button
-              title="Baho berish"
+              title={t("mob.report.rateSubmit")}
               onPress={submit}
               loading={busy}
               disabled={stars < 3 && comment.trim().length < 3}

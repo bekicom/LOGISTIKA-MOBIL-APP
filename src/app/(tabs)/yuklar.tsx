@@ -14,6 +14,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Feed = { items: Listing[]; page: number; total: number; hasMore: boolean };
 
@@ -40,10 +41,10 @@ export default function Yuklar() {
       {/* Sarlavha va qidiruv */}
       <View style={s.head}>
         <View style={s.headTop}>
-          <Text style={s.title}>Yuklar</Text>
+          <Text style={s.title}>{t("mob.loads.title")}</Text>
           {data ? (
             <Text style={s.count}>
-              <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text> ta e&apos;lon
+              <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text> {t("mob.loads.count", { n: data?.total ?? 0 })}
             </Text>
           ) : null}
         </View>
@@ -63,7 +64,7 @@ export default function Yuklar() {
         <View style={s.chipRow}>
           <Pressable style={s.filterBtn} onPress={() => setSheet(true)}>
             <Icon name="filter" size={15} stroke="#fff" />
-            <Text style={s.filterText}>Filtrlar</Text>
+            <Text style={s.filterText}>{t("mob.loads.filters")}</Text>
             {chips.length > 0 ? (
               <View style={s.filterBadge}>
                 <Text style={s.filterBadgeText}>{chips.length}</Text>
@@ -94,20 +95,20 @@ export default function Yuklar() {
             <ErrorBox message={error} onRetry={reload} />
           ) : chips.length > 0 || filtr.fromId ? (
             <Empty
-              title="Bu shartlarga mos yuk yo'q"
-              text="Filtrlarni kengaytirib ko'ring — masalan transport turini olib tashlang."
-              actionLabel="Filtrlarni tozalash"
+              title={t("mob.loads.emptyFiltered")}
+              text={t("mob.misc.widenFilters")}
+              actionLabel={t("mob.misc.clearFilters")}
               onAction={() => setFiltr(EMPTY_FILTR)}
             />
           ) : (
-            <Empty title="Hozircha e'lon yo'q" text="Yangi yuklar paydo bo'lishi bilan shu yerda ko'rinadi." />
+            <Empty title={t("mob.misc.noListings")} text={t("mob.misc.noListingsText")} />
           )
         }
       />
 
       <Pressable style={[s.fab, { bottom: insets.bottom + space.lg }]} onPress={() => router.push("/yuk-joylash")}>
         <Icon name="plus" size={20} stroke="#fff" />
-        <Text style={s.fabText}>Yuk joylash</Text>
+        <Text style={s.fabText}>{t("mob.loads.post")}</Text>
       </Pressable>
 
       <FiltrSheet

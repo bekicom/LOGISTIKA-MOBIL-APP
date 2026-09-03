@@ -13,6 +13,7 @@ import { ListingCard, TripCard, type Listing, type TripItem } from "@/components
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Home =
   | {
@@ -64,7 +65,7 @@ export default function Bosh() {
         <View style={s.gps}>
           <View style={s.gpsDot} />
           <Text style={s.gpsText}>
-            GPS yoqilgan — <Text style={{ fontWeight: "600", color: "#fff" }}>#TR-{data.activeTrips[0].no}</Text> kuzatilmoqda
+            {t("mob.home.gpsOn")} <Text style={{ fontWeight: "600", color: "#fff" }}>#TR-{data.activeTrips[0].no}</Text>
           </Text>
           <Text style={s.gpsStop}>To&apos;xtatish</Text>
         </View>
@@ -114,19 +115,19 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark }: {
       ) : (
         <Empty
           icon="route"
-          title="Faol reys yo'q"
-          text="Hozir yo'lda bo'lgan reysingiz yo'q. Yangi yuk topib boshlang."
-          actionLabel="Yuk topish"
+          title={t("mob.home.noActiveTrip")}
+          text={t("mob.home.noTripText")}
+          actionLabel={t("mob.home.findLoad")}
           onAction={onLoads}
         />
       )}
 
       {/* Tez harakatlar */}
       <View style={s.quick}>
-        <QuickAction icon="search" label="Yuk topish" onPress={onLoads} />
-        <QuickAction icon="truck" label="Parkim" onPress={onPark} />
-        <QuickAction icon="border" label="Chegara" />
-        <QuickAction icon="alert" label="SOS" danger />
+        <QuickAction icon="search" label={t("mob.home.findLoad")} onPress={onLoads} />
+        <QuickAction icon="truck" label={t("mob.park.title")} onPress={onPark} />
+        <QuickAction icon="border" label={t("mob.home.border")} />
+        <QuickAction icon="alert" label={t("mob.home.sos")} danger />
       </View>
 
       {data.expiringDocuments > 0 ? (
@@ -138,7 +139,7 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark }: {
             <Text style={s.alertTitle}>
               {data.expiringDocuments} ta hujjat muddati tugayapti
             </Text>
-            <Text style={s.alertText}>Chegarada muammo bo&apos;lmasligi uchun yangilang</Text>
+            <Text style={s.alertText}>{t("mob.home.docExpiringHint")}</Text>
           </View>
           <Icon name="chevron" size={18} stroke="#94a3b8" />
         </View>
@@ -147,9 +148,9 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark }: {
       {data.suggestedLoads.length > 0 ? (
         <View style={{ gap: space.md }}>
           <View style={s.sectionHead}>
-            <Text style={s.sectionTitle}>Sizga mos yuklar</Text>
+            <Text style={s.sectionTitle}>{t("mob.home.suggested")}</Text>
             <Pressable onPress={onLoads} hitSlop={8}>
-              <Text style={s.link}>Hammasi</Text>
+              <Text style={s.link}>{t("mob.common.all")}</Text>
             </Pressable>
           </View>
           {data.suggestedLoads.map((l) => (
@@ -176,26 +177,26 @@ function Dispatcher({ data, onTrip }: {
       </Text>
 
       <View style={s.tiles}>
-        <Tile icon="route" label="Faol reyslar" value={c.liveTrips} />
-        <Tile icon="alert" label="Muammolar" value={c.problems} tone={color.danger} />
-        <Tile icon="chat" label="Javob kutmoqda" value={c.awaitingReply} />
-        <Tile icon="doc" label="Hujjat muddati" value={c.expiringDocuments} tone={color.warning} />
+        <Tile icon="route" label={t("mob.home.activeTrips")} value={c.liveTrips} />
+        <Tile icon="alert" label={t("mob.home.problems")} value={c.problems} tone={color.danger} />
+        <Tile icon="chat" label={t("mob.home.waitingReply")} value={c.awaitingReply} />
+        <Tile icon="doc" label={t("mob.misc.docExpiryTile")} value={c.expiringDocuments} tone={color.warning} />
       </View>
 
       {data.activeTrips.length > 0 ? (
         <View style={{ gap: space.md }}>
-          <Text style={s.sectionTitle}>Faol reyslar</Text>
+          <Text style={s.sectionTitle}>{t("mob.home.activeTrips")}</Text>
           {data.activeTrips.map((t) => (
             <TripCard key={t.id} item={t} onPress={() => onTrip(t.id)} />
           ))}
         </View>
       ) : (
-        <Empty icon="route" title="Faol reys yo'q" text="Hozir yo'lda bo'lgan reys yo'q." />
+        <Empty icon="route" title={t("mob.home.noActiveTrip")} text={t("mob.misc.noTripShort")} />
       )}
 
       {data.recentChats.length > 0 ? (
         <View style={{ gap: space.md }}>
-          <Text style={s.sectionTitle}>So&apos;nggi suhbatlar</Text>
+          <Text style={s.sectionTitle}>{t("mob.home.recentChats")}</Text>
           <View style={s.list}>
             {data.recentChats.map((ch, i) => (
               <View key={ch.id} style={[s.chatRow, i > 0 && s.divider]}>

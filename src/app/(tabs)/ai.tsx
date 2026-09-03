@@ -3,16 +3,17 @@ import { StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Empty } from "@/components/state";
 import { color, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 export default function Screen() {
   const insets = useSafeAreaInsets();
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <Text style={s.title}>AI yordamchi</Text>
+        <Text style={s.title}>{t("mob.state.aiAssistant")}</Text>
       </View>
       <View style={s.body}>
-        <Empty icon="sparkle" title="Hali tayyor emas" text="AI K bo'limida quriladi — savol berasiz, u ma'lumotingiz asosida javob beradi." />
+        <Empty icon="sparkle" title={t("mob.state.notReady")} text={t("mob.state.notReady")} />
       </View>
     </View>
   );

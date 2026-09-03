@@ -7,20 +7,14 @@ import Svg, { Circle, Path, Rect } from "react-native-svg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui";
 import { color, font, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
+/* Matnlar lug'atda (`mob.intro.*`) — bu yerda faqat tartib va
+   kalitlar. Sakkiz til kod ichida yozilsa, ular ajralib ketardi. */
 const PANELS = [
-  {
-    title: "Yuk va transport bir joyda",
-    body: "Sakkiz davlat bo'ylab minglab e'lon. Kerakligini toping yoki o'zingiznikini joylang.",
-  },
-  {
-    title: "Har bir reys ko'z oldingizda",
-    body: "Mashina qayerda, qachon yetib boradi, qaysi hujjat yuklangan — hammasi xaritada.",
-  },
-  {
-    title: "Hujjat va pul nazorati",
-    body: "CMR, invoys, xarajat va to'lov bir joyda. Reys yopilganda hisobot o'zi tayyorlanadi.",
-  },
+  { title: "mob.intro.t1", body: "mob.intro.b1" },
+  { title: "mob.intro.t2", body: "mob.intro.b2" },
+  { title: "mob.intro.t3", body: "mob.intro.b3" },
 ] as const;
 
 export default function Tanishtiruv() {
@@ -34,14 +28,14 @@ export default function Tanishtiruv() {
       <View style={s.top}>
         <Logo width={122} />
         <Pressable onPress={() => router.replace("/kirish")} hitSlop={12}>
-          <Text style={s.skip}>O&apos;tkazib yuborish</Text>
+          <Text style={s.skip}>{t("mob.intro.skip")}</Text>
         </Pressable>
       </View>
 
       <Pressable style={s.body} onPress={() => setI((v) => (v + 1) % PANELS.length)}>
         <Illustration />
-        <Text style={s.title}>{panel.title}</Text>
-        <Text style={s.text}>{panel.body}</Text>
+        <Text style={s.title}>{t(panel.title)}</Text>
+        <Text style={s.text}>{t(panel.body)}</Text>
 
         <View style={s.dots}>
           {PANELS.map((_, k) => (
@@ -51,8 +45,8 @@ export default function Tanishtiruv() {
       </Pressable>
 
       <View style={s.footer}>
-        <Button title="Ro'yxatdan o'tish" onPress={() => router.push("/royxat")} />
-        <Button title="Kirish" variant="secondary" onPress={() => router.push("/kirish")} />
+        <Button title={t("mob.intro.signUp")} onPress={() => router.push("/royxat")} />
+        <Button title={t("mob.intro.signIn")} variant="secondary" onPress={() => router.push("/kirish")} />
       </View>
     </View>
   );

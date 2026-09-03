@@ -2,6 +2,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Icon } from "./Icon";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 /* ─────────────────────────────────────────────── umumiy bo'laklar */
 
@@ -120,12 +121,12 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
       <View style={s.chips}>
         {item.weightT != null ? <Chip text={`${item.weightT} t`} /> : null}
         {item.vehicleType ? <Chip text={item.vehicleType} /> : null}
-        {item.isReadyNow ? <Chip text="Hozir tayyor" tone="success" /> : null}
+        {item.isReadyNow ? <Chip text={t("mob.loads.readyNow")} tone="success" /> : null}
       </View>
 
       <View style={s.cardFoot}>
         <Text style={s.price}>
-          {price ?? "Kelishiladi"}
+          {price ?? t("mob.loads.negotiable")}
         </Text>
         {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
       </View>
@@ -178,7 +179,7 @@ export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => vo
           {item.remainingKm != null ? (
             <View style={s.figure}>
               <Text style={s.figureNum}>{item.remainingKm}</Text>
-              <Text style={s.figureLabel}>km qoldi</Text>
+              <Text style={s.figureLabel}>{t("mob.trip.kmLeft")}</Text>
             </View>
           ) : null}
           {eta ? (
@@ -186,7 +187,7 @@ export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => vo
               <Text style={s.figureNum}>
                 {String(eta.getHours()).padStart(2, "0")}:{String(eta.getMinutes()).padStart(2, "0")}
               </Text>
-              <Text style={s.figureLabel}>yetib boradi</Text>
+              <Text style={s.figureLabel}>{t("mob.trip.arrives")}</Text>
             </View>
           ) : null}
         </View>

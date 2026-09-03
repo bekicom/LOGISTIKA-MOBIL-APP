@@ -13,6 +13,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Chat = {
   id: string;
@@ -28,7 +29,7 @@ type Chat = {
 };
 
 const TABS = [
-  { key: "all", label: "Hammasi" },
+  { key: "all", label: t("mob.common.all") },
   { key: "unread", label: "O'qilmagan" },
   { key: "trip", label: "Reys" },
   { key: "private", label: "Shaxsiy" },
@@ -42,7 +43,7 @@ function when(iso: string | null) {
     return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
   }
   const y = new Date(Date.now() - 86400000);
-  if (d.toDateString() === y.toDateString()) return "Kecha";
+  if (d.toDateString() === y.toDateString()) return t("mob.chat.yesterday");
   return `${d.getDate()}-${["yanv", "fev", "mart", "apr", "may", "iyun", "iyul", "avg", "sent", "okt", "noya", "dek"][d.getMonth()]}`;
 }
 
@@ -66,7 +67,7 @@ export default function ChatRoyxati() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <Text style={s.title}>Chat</Text>
+        <Text style={s.title}>{t("mob.chat.title")}</Text>
 
         <View style={s.tabs}>
           {TABS.map((t) => {
@@ -136,11 +137,11 @@ export default function ChatRoyxati() {
           ) : error ? (
             <ErrorBox message={error} onRetry={reload} />
           ) : tab !== "all" ? (
-            <Empty icon="chat" title="Bu bo'limda suhbat yo'q" />
+            <Empty icon="chat" title={t("mob.chat.emptyTab")} />
           ) : (
             <Empty
               icon="chat"
-              title="Suhbat yo'q"
+              title={t("mob.chat.empty")}
               text="Yuk e'loniga taklif yuborsangiz yoki kimdir sizga yozsa, suhbat shu yerda paydo bo'ladi."
             />
           )

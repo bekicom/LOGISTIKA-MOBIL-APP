@@ -22,6 +22,7 @@ import { TruckIcon } from "./TruckIcon";
 import { Button } from "./ui";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 export type Filtr = {
   fromId: number | null;
@@ -99,9 +100,9 @@ export function FiltrSheet({
           <View style={s.grabber} />
 
           <View style={s.head}>
-            <Text style={s.title}>Filtrlar</Text>
+            <Text style={s.title}>{t("mob.loads.filters")}</Text>
             <Pressable onPress={() => setDraft(EMPTY_FILTR)} hitSlop={8}>
-              <Text style={s.link}>Tozalash</Text>
+              <Text style={s.link}>{t("mob.loads.clear")}</Text>
             </Pressable>
             <Pressable onPress={onClose} hitSlop={8} style={{ marginLeft: space.lg }}>
               <Icon name="close" size={22} stroke={color.foreground} />
@@ -110,19 +111,19 @@ export function FiltrSheet({
 
           <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>
             {/* Yo'nalish */}
-            <Text style={s.label}>Yo&apos;nalish</Text>
+            <Text style={s.label}>{t("mob.loads.route")}</Text>
             <View style={{ gap: 8 }}>
               <Pressable style={s.row} onPress={() => setPicking("from")}>
                 <View style={s.dotOutline} />
                 <Text style={[s.rowText, !draft.fromName && s.rowPlaceholder]}>
-                  {draft.fromName ?? "Qayerdan"}
+                  {draft.fromName ?? t("mob.loads.from")}
                 </Text>
                 <Icon name="chevron" size={16} stroke="#94a3b8" />
               </Pressable>
               <Pressable style={s.row} onPress={() => setPicking("to")}>
                 <View style={s.dotFilled} />
                 <Text style={[s.rowText, !draft.toName && s.rowPlaceholder]}>
-                  {draft.toName ?? "Qayerga"}
+                  {draft.toName ?? t("mob.loads.to")}
                 </Text>
                 <Icon name="chevron" size={16} stroke="#94a3b8" />
               </Pressable>
@@ -131,7 +132,7 @@ export function FiltrSheet({
             {/* Transport turi */}
             <View style={s.section}>
               <View style={s.sectionHead}>
-                <Text style={s.label}>Transport turi</Text>
+                <Text style={s.label}>{t("mob.loads.vehicleType")}</Text>
                 {draft.vehicleTypeIds.length > 0 ? (
                   <Text style={s.hint}>{draft.vehicleTypeIds.length} tanlangan</Text>
                 ) : null}
@@ -154,7 +155,7 @@ export function FiltrSheet({
             {/* Kalit */}
             <View style={s.section}>
               <Pressable style={s.switchRow} onPress={() => setDraft((d) => ({ ...d, readyNow: !d.readyNow }))}>
-                <Text style={s.switchLabel}>Faqat hozir tayyor yuklar</Text>
+                <Text style={s.switchLabel}>{t("mob.loads.readyOnly")}</Text>
                 <View style={[s.switch, draft.readyNow && s.switchOn]}>
                   <View style={[s.knob, draft.readyNow && s.knobOn]} />
                 </View>
@@ -164,7 +165,7 @@ export function FiltrSheet({
 
           <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
             <Button
-              title={total != null ? `${total} ta natijani ko'rsatish` : "Qo'llash"}
+              title={total != null ? `${total} ta natijani ko'rsatish` : t("mob.loads.apply")}
               onPress={() => onApply(draft)}
             />
           </View>
@@ -173,7 +174,7 @@ export function FiltrSheet({
 
       <LocationPicker
         open={picking !== null}
-        title={picking === "from" ? "Qayerdan" : "Qayerga"}
+        title={picking === "from" ? t("mob.loads.from") : t("mob.loads.to")}
         onClose={() => setPicking(null)}
         onPick={(l) => {
           setDraft((d) =>
@@ -222,7 +223,7 @@ export function LocationPicker({
           <TextInput
             value={q}
             onChangeText={setQ}
-            placeholder="Shahar yoki viloyat"
+            placeholder={t("mob.loads.cityPh")}
             placeholderTextColor="#94a3b8"
             style={s.searchInput}
             autoFocus
@@ -246,7 +247,7 @@ export function LocationPicker({
           )}
           ListEmptyComponent={
             <Text style={s.locEmpty}>
-              {loading ? "Qidirilmoqda..." : q.length >= 2 ? "Topilmadi" : "Kamida 2 harf yozing"}
+              {loading ? t("mob.loads.searching") : q.length >= 2 ? t("mob.loads.notFound") : "Kamida 2 harf yozing"}
             </Text>
           }
         />

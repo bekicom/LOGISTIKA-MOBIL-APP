@@ -19,6 +19,7 @@ import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Item = {
   id: string; category: string; label: string; station: string | null;
@@ -28,16 +29,16 @@ type Item = {
 type Feed = { items: Item[]; totals: Record<string, number>; count: number };
 
 const CATS: { key: string; label: string; icon: IconName }[] = [
-  { key: "FUEL", label: "Yoqilg'i", icon: "truck" },
-  { key: "TOLL", label: "Yo'l haqi", icon: "border" },
+  { key: "FUEL", label: t("mob.exp.fuel"), icon: "truck" },
+  { key: "TOLL", label: t("mob.exp.road"), icon: "border" },
   { key: "CUSTOMS", label: "Bojxona", icon: "doc" },
-  { key: "FOOD", label: "Ovqat", icon: "package" },
+  { key: "FOOD", label: t("mob.exp.food"), icon: "package" },
   { key: "PARKING", label: "Parking", icon: "clock" },
-  { key: "REPAIR", label: "Ta'mir", icon: "alert" },
-  { key: "WASH", label: "Moyka", icon: "check" },
-  { key: "PARTS", label: "Zapchast", icon: "package" },
-  { key: "FINE", label: "Jarima", icon: "alert" },
-  { key: "OTHER", label: "Boshqa", icon: "plus" },
+  { key: "REPAIR", label: t("mob.exp.repair"), icon: "alert" },
+  { key: "WASH", label: t("mob.exp.wash"), icon: "check" },
+  { key: "PARTS", label: t("mob.exp.parts"), icon: "package" },
+  { key: "FINE", label: t("mob.exp.fine"), icon: "alert" },
+  { key: "OTHER", label: t("mob.exp.other"), icon: "plus" },
 ];
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
@@ -70,7 +71,7 @@ export default function Xarajatlar() {
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={s.title}>Xarajatlar</Text>
+          <Text style={s.title}>{t("mob.exp.title")}</Text>
           <Text style={s.sub}>{data ? `${data.count} ta yozuv` : "…"}</Text>
         </View>
       </View>
@@ -134,7 +135,7 @@ export default function Xarajatlar() {
 
       <Pressable style={[s.fab, { bottom: insets.bottom + space.lg }]} onPress={() => setSheet(true)}>
         <Icon name="plus" size={20} stroke="#fff" />
-        <Text style={s.fabText}>Xarajat</Text>
+        <Text style={s.fabText}>{t("mob.exp.one")}</Text>
       </Pressable>
 
       <AddSheet
@@ -217,9 +218,9 @@ function AddSheet({ open, tripId, onClose, onDone }: {
             contentContainerStyle={{ padding: space.xl, paddingTop: space.lg }}
             renderItem={() => (
               <View>
-                <Text style={s.sheetTitle}>Xarajat qo&apos;shish</Text>
+                <Text style={s.sheetTitle}>{t("mob.exp.add")}</Text>
 
-                <Text style={[s.label, { marginTop: space.xl }]}>Turi</Text>
+                <Text style={[s.label, { marginTop: space.xl }]}>{t("mob.exp.kind")}</Text>
                 <View style={s.cats}>
                   {CATS.map((c) => {
                     const on = cat === c.key;
@@ -235,7 +236,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                 <View style={{ marginTop: space.xl, flexDirection: "row", gap: 8 }}>
                   <View style={{ flex: 1 }}>
                     <Field
-                      label="Summa"
+                      label={t("mob.exp.amount")}
                       placeholder="0"
                       keyboardType="numeric"
                       value={amount}
@@ -243,7 +244,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                     />
                   </View>
                   <View style={{ width: 104 }}>
-                    <Text style={s.label}>Valyuta</Text>
+                    <Text style={s.label}>{t("mob.exp.currency")}</Text>
                     <View style={s.curRow}>
                       {CURRENCIES.map((c) => (
                         <Pressable key={c} onPress={() => setCur(c)} style={[s.curChip, cur === c && s.curChipOn]}>
@@ -256,9 +257,9 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 
                 <View style={{ marginTop: space.lg }}>
                   <Field
-                    label={cat === "FUEL" ? "Zapravka" : "Joy"}
+                    label={cat === "FUEL" ? t("mob.exp.refuel") : "Joy"}
                     hint="ixtiyoriy"
-                    placeholder={cat === "FUEL" ? "Sirdaryo AGZS" : "Qayerda"}
+                    placeholder={cat === "FUEL" ? t("mob.exp.wherePh") : t("mob.exp.where")}
                     value={station}
                     onChangeText={setStation}
                   />
@@ -267,7 +268,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                 {cat === "FUEL" ? (
                   <View style={{ marginTop: space.lg }}>
                     <Field
-                      label="Litr"
+                      label={t("mob.exp.liters")}
                       hint="ixtiyoriy"
                       placeholder="120"
                       keyboardType="numeric"
@@ -278,12 +279,12 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                 ) : null}
 
                 <View style={{ marginTop: space.lg }}>
-                  <Field label="Izoh" hint="ixtiyoriy" placeholder="Qisqacha" value={note} onChangeText={setNote} />
+                  <Field label={t("mob.exp.note")} hint="ixtiyoriy" placeholder={t("mob.exp.notePh")} value={note} onChangeText={setNote} />
                 </View>
 
                 {/* Chek */}
                 <Text style={[s.label, { marginTop: space.xl }]}>
-                  Chek <Text style={s.optional}>— ixtiyoriy, lekin hisobotda foydali</Text>
+                  Chek <Text style={s.optional}>{t("mob.exp.receiptHint")}</Text>
                 </Text>
                 <View style={{ flexDirection: "row", gap: 9, marginTop: 9 }}>
                   {photo ? (
@@ -297,11 +298,11 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                     <>
                       <Pressable style={s.add} onPress={async () => { const g = await takePhoto(); if (g[0]) setPhoto(g[0]); }}>
                         <Icon name="doc" size={20} />
-                        <Text style={s.addText}>Suratga olish</Text>
+                        <Text style={s.addText}>{t("mob.step.takePhoto")}</Text>
                       </Pressable>
                       <Pressable style={s.add} onPress={async () => { const g = await pickPhotos(1); if (g[0]) setPhoto(g[0]); }}>
                         <Icon name="package" size={20} />
-                        <Text style={s.addText}>Galereya</Text>
+                        <Text style={s.addText}>{t("mob.chat.gallery")}</Text>
                       </Pressable>
                     </>
                   )}
@@ -313,9 +314,9 @@ function AddSheet({ open, tripId, onClose, onDone }: {
           />
 
           <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
-            <Button title="Saqlash" onPress={submit} loading={busy} disabled={!ready} />
+            <Button title={t("mob.common.save")} onPress={submit} loading={busy} disabled={!ready} />
             <Pressable onPress={() => { reset(); onClose(); }} style={s.cancel}>
-              <Text style={s.cancelText}>Bekor qilish</Text>
+              <Text style={s.cancelText}>{t("mob.common.cancel")}</Text>
             </Pressable>
           </View>
         </View>

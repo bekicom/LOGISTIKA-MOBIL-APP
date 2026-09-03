@@ -8,6 +8,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Icon, type IconName } from "./Icon";
 import { Button } from "./ui";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 /** Kartochka shaklidagi kutish — aylanuvchi spinner emas.
  *  Spinner nima kelayotganini aytmaydi, skelet aytadi. */
@@ -39,7 +40,7 @@ export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () =
       <View style={[s.circle, { backgroundColor: "#dc26261a" }]}>
         <Icon name="alert" size={24} stroke={color.danger} />
       </View>
-      <Text style={s.title}>Ma&apos;lumot kelmadi</Text>
+      <Text style={s.title}>{t("mob.state.noData")}</Text>
       <Text style={s.text}>{message}</Text>
       {onRetry ? (
         <View style={{ alignSelf: "stretch", marginTop: space.lg }}>

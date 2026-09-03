@@ -17,6 +17,7 @@ import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Mode = "phone" | "furamId";
 
@@ -57,7 +58,7 @@ export default function Kirish() {
       router.replace("/bosh");
     } catch (e) {
       const f = e as FuramError;
-      setErr({ code: f.code ?? "ERROR", message: f.message ?? "Xatolik yuz berdi" });
+      setErr({ code: f.code ?? "ERROR", message: f.message ?? t("mob.signIn.failed") });
     } finally {
       setBusy(false);
     }
@@ -97,12 +98,12 @@ export default function Kirish() {
 
         <View style={s.hero}>
           <Logo width={176} />
-          <Text style={s.title}>Xush kelibsiz</Text>
+          <Text style={s.title}>{t("mob.signIn.title")}</Text>
         </View>
 
         <View style={s.segment}>
           <Pressable style={[s.segItem, mode === "phone" && s.segOn]} onPress={() => setMode("phone")}>
-            <Text style={[s.segText, mode === "phone" && s.segTextOn]}>Telefon raqam</Text>
+            <Text style={[s.segText, mode === "phone" && s.segTextOn]}>{t("mob.signIn.byPhone")}</Text>
           </Pressable>
           <Pressable style={[s.segItem, mode === "furamId" && s.segOn]} onPress={() => setMode("furamId")}>
             <Text style={[s.segText, mode === "furamId" && s.segTextOn]}>FURAM ID</Text>
@@ -111,7 +112,7 @@ export default function Kirish() {
 
         {locked ? (
           <View style={{ marginTop: space.lg }}>
-            <Notice tone="danger" title="Hisob vaqtincha bloklandi">
+            <Notice tone="danger" title={t("mob.signIn.blocked")}>
               {err.message}
             </Notice>
           </View>
@@ -147,8 +148,8 @@ export default function Kirish() {
           )}
 
           <Field
-            label="Parol"
-            placeholder="Parolingizni kiriting"
+            label={t("mob.signIn.password")}
+            placeholder={t("mob.signIn.passwordPh")}
             secureTextEntry={!show}
             autoComplete="current-password"
             textContentType="password"
@@ -176,18 +177,18 @@ export default function Kirish() {
           {err && !locked ? <Text style={s.err}>{err.message}</Text> : null}
 
           <Pressable hitSlop={8}>
-            <Text style={s.link}>Parolni unutdingizmi?</Text>
+            <Text style={s.link}>{t("mob.signIn.forgot")}</Text>
           </Pressable>
         </View>
 
         <View style={{ marginTop: space.xxl }}>
-          <Button title="Kirish" onPress={submit} loading={busy} disabled={!ready || locked} />
+          <Button title={t("mob.signIn.submit")} onPress={submit} loading={busy} disabled={!ready || locked} />
         </View>
 
         <View style={s.bottom}>
-          <Text style={s.bottomText}>Hisobingiz yo&apos;qmi?</Text>
+          <Text style={s.bottomText}>{t("mob.signIn.noAccount")}</Text>
           <Pressable onPress={() => router.replace("/royxat")} hitSlop={8}>
-            <Text style={s.link}>Ro&apos;yxatdan o&apos;tish</Text>
+            <Text style={s.link}>{t("mob.intro.signUp")}</Text>
           </Pressable>
         </View>
       </ScrollView>

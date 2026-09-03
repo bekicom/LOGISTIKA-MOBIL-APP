@@ -7,7 +7,7 @@ import Svg, { Path } from "react-native-svg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui";
 import { color, font, radius, space } from "@/lib/theme";
-import { LOCALES, LOCALE_INFO, deviceLocale, setLocale, type Locale } from "@/lib/i18n";
+import { LOCALES, LOCALE_INFO, deviceLocale, setLocale, t, type Locale } from "@/lib/i18n";
 
 /* Ro'yxat `lib/i18n.ts` dan olinadi — til nomlari ikki joyda
    yozilsa, biri qo'shilib ikkinchisi unutilardi. */
@@ -23,10 +23,10 @@ export default function TilTanlash() {
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <View style={s.hero}>
           <Logo width={244} light />
-          <Text style={s.tagline}>Yuk va transport topish platformasi</Text>
+          <Text style={s.tagline}>{t("mob.lang.tagline")}</Text>
         </View>
 
-        <Text style={s.caption}>TILNI TANLANG</Text>
+        <Text style={s.caption}>{t("mob.lang.pick")}</Text>
 
         <View style={s.grid}>
           {LANGS.map((l) => {
@@ -60,7 +60,7 @@ export default function TilTanlash() {
 
       <View style={s.footer}>
         <Button
-          title="Davom etish"
+          title={t("mob.common.continueBtn")}
           onPress={async () => {
             /* Tanlov SAQLANADI. Ilgari bu ekran faqat ko'rinish edi:
                til tanlansa ham keyingi ekranga o'tib ketardi va
@@ -69,7 +69,7 @@ export default function TilTanlash() {
             router.push("/tanishtiruv");
           }}
         />
-        <Text style={s.note}>Tilni keyin ham o&apos;zgartirishingiz mumkin</Text>
+        <Text style={s.note}>{t("mob.lang.later")}</Text>
       </View>
     </View>
   );

@@ -15,19 +15,16 @@ import { Button, Notice } from "./ui";
 import { api, apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { color, font, radius, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 /** Qaysi bosqichda surat majburiy */
 const NEEDS_PHOTO = new Set(["LOADED", "UNLOADED"]);
 
-const TITLES: Record<string, { title: string; note: string }> = {
-  TO_LOADING: { title: "Yuklashga yo'l oldingizmi?", note: "Yuk egasi va dispetcher xabardor bo'ladi." },
-  LOADED: { title: "Yuk yuklanganini tasdiqlang", note: "Surat majburiy — keyin nizo chiqsa dalil bo'ladi." },
-  ON_ROAD: { title: "Yo'lga chiqdingizmi?", note: "Shu paytdan kuzatuv boshlanadi." },
-  AT_BORDER: { title: "Chegaraga yetdingizmi?", note: "Navbat vaqti hisoblana boshlaydi." },
-  NEAR_DESTINATION: { title: "Manzilga yaqinlashdingizmi?", note: "Qabul qiluvchi tayyorlanadi." },
-  UNLOADED: { title: "Yuk tushirilganini tasdiqlang", note: "Surat majburiy — hisob-kitob shunga tayanadi." },
-  CLOSING: { title: "Reysni yopishga o'tasizmi?", note: "Hujjat va xarajatlar tekshiriladi." },
-};
+/* Sarlavha va izoh LUG'ATDAN olinadi, funksiya ichida — modul
+   yuklanganda til hali o'qilmagan bo'lishi mumkin. */
+function stepText(status: string): { title: string; note: string } {
+  return { title: t(`mob.stepTitle.${status}`), note: t(`mob.stepNote.${status}`) };
+}
 
 export function HolatSheet({
   open, tripId, next, onClose, onDone,
@@ -45,7 +42,7 @@ export function HolatSheet({
   const [err, setErr] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
 
-  const meta = next ? TITLES[next] : null;
+  const meta = next ? stepText(next) : null;
   const mustPhoto = next ? NEEDS_PHOTO.has(next) : false;
   const ready = !mustPhoto || photos.length > 0;
 
@@ -81,7 +78,7 @@ export function HolatSheet({
       reset();
       onDone();
     } catch (e) {
-      setErr((e as FuramError).message ?? "Holat o'zgartirilmadi");
+      setErr((e as FuramError).message ?? t("mob.step.failed"));
     } finally {
       setBusy(false);
     }
@@ -100,9 +97,9 @@ export function HolatSheet({
             {/* Suratlar */}
             <View style={s.section}>
               <View style={s.sectionHead}>
-                <Text style={s.label}>Surat</Text>
+                <Text style={s.label}>{t("mob.step.photo")}</Text>
                 <Text style={mustPhoto ? s.required : s.optional}>
-                  {mustPhoto ? "Majburiy" : "Ixtiyoriy"}
+                  {mustPhoto ? t("mob.step.required") : t("mob.step.optional")}
                 </Text>
               </View>
 
@@ -124,11 +121,11 @@ export function HolatSheet({
                   <>
                     <Pressable style={s.add} onPress={() => add("camera")}>
                       <Icon name="doc" size={20} />
-                      <Text style={s.addText}>Suratga olish</Text>
+                      <Text style={s.addText}>{t("mob.step.takePhoto")}</Text>
                     </Pressable>
                     <Pressable style={s.add} onPress={() => add("gallery")}>
                       <Icon name="package" size={20} />
-                      <Text style={s.addText}>Galereya</Text>
+                      <Text style={s.addText}>{t("mob.chat.gallery")}</Text>
                     </Pressable>
                   </>
                 ) : null}
@@ -138,7 +135,7 @@ export function HolatSheet({
             {/* Izoh */}
             <View style={s.section}>
               <Text style={s.label}>
-                Izoh <Text style={s.optional}>— ixtiyoriy</Text>
+                {t("mob.step.note")} <Text style={s.optional}>{t("mob.common.optional")}</Text>
               </Text>
               <TextInput
                 value={note}
@@ -158,8 +155,8 @@ export function HolatSheet({
           </ScrollView>
 
           <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
-            <Button title="Tasdiqlash" onPress={submit} loading={busy} disabled={!ready} />
-            {!ready ? <Text style={s.hint}>Davom etish uchun surat oling</Text> : null}
+            <Button title={t("mob.step.confirm")} onPress={submit} loading={busy} disabled={!ready} />
+            {!ready ? <Text style={s.hint}>{t("mob.step.needPhoto")}</Text> : null}
             <Pressable
               onPress={() => {
                 reset();
@@ -167,7 +164,7 @@ export function HolatSheet({
               }}
               style={s.cancel}
             >
-              <Text style={s.cancelText}>Bekor qilish</Text>
+              <Text style={s.cancelText}>{t("mob.common.cancel")}</Text>
             </Pressable>
           </View>
         </View>

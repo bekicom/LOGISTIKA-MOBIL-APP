@@ -20,14 +20,15 @@ import { Button, Field, Notice, Steps } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type VehicleType = { id: number; key: string; nameUz: string };
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
 const PAY = [
-  { key: "CASH", label: "Naqd" },
-  { key: "TRANSFER", label: "O'tkazma" },
-  { key: "MIXED", label: "Aralash" },
+  { key: "CASH", label: t("mob.load.cash") },
+  { key: "TRANSFER", label: t("mob.load.transfer") },
+  { key: "MIXED", label: t("mob.load.mixed") },
 ];
 
 /** Qo'shimcha turlar chegarasi — serverdagi `altVehicleTypeIds.max(3)` bilan bir xil */
@@ -144,10 +145,10 @@ export default function YukJoylash() {
         {/* 1 — yo'nalish */}
         {step === 1 ? (
           <>
-            <Text style={s.title}>Yuk qayerdan qayerga?</Text>
+            <Text style={s.title}>{t("mob.post.whereFrom")}</Text>
             <View style={{ gap: space.md, marginTop: space.xxl }}>
-              <Picker label="Qayerdan" value={from?.nameUz ?? null} filled onPress={() => setPicking("from")} />
-              <Picker label="Qayerga" value={to?.nameUz ?? null} onPress={() => setPicking("to")} />
+              <Picker label={t("mob.loads.from")} value={from?.nameUz ?? null} filled onPress={() => setPicking("from")} />
+              <Picker label={t("mob.loads.to")} value={to?.nameUz ?? null} onPress={() => setPicking("to")} />
             </View>
           </>
         ) : null}
@@ -155,24 +156,24 @@ export default function YukJoylash() {
         {/* 2 — yuk */}
         {step === 2 ? (
           <>
-            <Text style={s.title}>Qanday yuk?</Text>
+            <Text style={s.title}>{t("mob.post.whatCargo")}</Text>
             <View style={{ gap: space.lg, marginTop: space.xxl }}>
               <View>
                 <Field label="Yuk nomi" placeholder="Quruq mevalar, qadoqlangan" value={title} onChangeText={setTitle} autoFocus />
-                <Text style={s.hint}>Haydovchi shu nomga qarab qaror qiladi — aniq yozing</Text>
+                <Text style={s.hint}>{t("mob.post.nameHint")}</Text>
               </View>
 
               <View style={{ flexDirection: "row", gap: 10 }}>
                 <View style={{ flex: 1 }}>
-                  <Field label="Og'irlik (t)" placeholder="18" keyboardType="numeric" value={weight} onChangeText={setWeight} />
+                  <Field label={`${t("mob.trip.weight")} (t)`} placeholder="18" keyboardType="numeric" value={weight} onChangeText={setWeight} />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Field label="Hajm (m³)" hint="ixtiyoriy" placeholder="62" keyboardType="numeric" value={volume} onChangeText={setVolume} />
+                  <Field label={`${t("mob.last.volume")} (m³)`} hint={t("mob.common.optional")} placeholder="62" keyboardType="numeric" value={volume} onChangeText={setVolume} />
                 </View>
               </View>
 
               <View>
-                <Text style={s.label}>Nechta mashina kerak</Text>
+                <Text style={s.label}>{t("mob.post.howMany")}</Text>
                 <View style={s.counter}>
                   <Pressable style={s.cntBtn} onPress={() => setCount((c) => Math.max(1, c - 1))}>
                     <Text style={s.cntSign}>−</Text>
@@ -185,7 +186,7 @@ export default function YukJoylash() {
               </View>
 
               <Toggle
-                title="Bu qo'shimcha yuk"
+                title={t("mob.post.extraLoad")}
                 note="Mashina to'la emas — boshqa yuk bilan birga ketishi mumkin"
                 on={extra}
                 onPress={() => setExtra((v) => !v)}
@@ -197,9 +198,9 @@ export default function YukJoylash() {
         {/* 3 — transport */}
         {step === 3 ? (
           <>
-            <Text style={s.title}>Qanday transport kerak?</Text>
+            <Text style={s.title}>{t("mob.post.whatVehicle")}</Text>
 
-            <Text style={[s.label, { marginTop: space.xxl }]}>Asosiy tur</Text>
+            <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.post.mainType")}</Text>
             <View style={s.grid}>
               {(types.data?.items ?? []).map((t) => {
                 const on = typeId === t.id;
@@ -215,10 +216,10 @@ export default function YukJoylash() {
             {typeId != null ? (
               <>
                 <View style={[s.rowBetween, { marginTop: space.xxl }]}>
-                  <Text style={s.label}>Yana qaysi turlar bo&apos;laveradi</Text>
+                  <Text style={s.label}>{t("mob.post.altTypes")}</Text>
                   <Text style={s.counterHint}>{alts.length} / {MAX_ALT}</Text>
                 </View>
-                <Text style={s.hint}>Ko&apos;proq tur — ko&apos;proq haydovchi ko&apos;radi</Text>
+                <Text style={s.hint}>{t("mob.post.altHint")}</Text>
                 <View style={[s.chipWrap, { marginTop: space.md }]}>
                   {(types.data?.items ?? [])
                     .filter((t) => t.id !== typeId)
@@ -238,16 +239,16 @@ export default function YukJoylash() {
                 </View>
                 {alts.length >= MAX_ALT ? (
                   <Text style={s.hint}>
-                    Uchtadan ko&apos;p tanlansa e&apos;lon «istalgan mashina» degan ma&apos;noni beradi va filtrda topilmay qoladi
+                    {t("mob.post.altMax")}
                   </Text>
                 ) : null}
               </>
             ) : null}
 
-            <Text style={[s.label, { marginTop: space.xxl }]}>Yuklash qachon</Text>
+            <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.post.when")}</Text>
             <View style={s.segment}>
               <Pressable style={[s.seg, readyNow && s.segOn]} onPress={() => setReadyNow(true)}>
-                <Text style={[s.segText, readyNow && s.segTextOn]}>Hozir tayyor</Text>
+                <Text style={[s.segText, readyNow && s.segTextOn]}>{t("mob.loads.readyNow")}</Text>
               </Pressable>
               <Pressable style={[s.seg, !readyNow && s.segOn]} onPress={() => setReadyNow(false)}>
                 <Text style={[s.segText, !readyNow && s.segTextOn]}>Keyinroq</Text>
@@ -259,12 +260,12 @@ export default function YukJoylash() {
         {/* 4 — narx */}
         {step === 4 ? (
           <>
-            <Text style={s.title}>Narx va to&apos;lov</Text>
+            <Text style={s.title}>{t("mob.post.priceBlock")}</Text>
 
             <View style={{ marginTop: space.xxl, flexDirection: "row", gap: 8 }}>
               <View style={{ flex: 1 }}>
                 <Field
-                  label="Narx"
+                  label={t("mob.load.price")}
                   placeholder="28 000 000"
                   keyboardType="numeric"
                   value={price}
@@ -288,22 +289,22 @@ export default function YukJoylash() {
               <View style={[s.box, negotiable && s.boxOn]}>
                 {negotiable ? <Icon name="check" size={13} stroke="#fff" /> : null}
               </View>
-              <Text style={s.checkText}>Narx kelishiladi</Text>
+              <Text style={s.checkText}>{t("mob.post.negotiable")}</Text>
             </Pressable>
 
             <View style={{ marginTop: space.lg }}>
               <Field
                 label="Oldindan to'lov"
-                hint="ixtiyoriy"
+                hint={t("mob.common.optional")}
                 placeholder="10 000 000"
                 keyboardType="numeric"
                 value={advance}
                 onChangeText={setAdvance}
               />
-              <Text style={s.hint}>Oldindan to&apos;lov bo&apos;lgan e&apos;lonlar tezroq olinadi</Text>
+              <Text style={s.hint}>{t("mob.post.prepayHint")}</Text>
             </View>
 
-            <Text style={[s.label, { marginTop: space.xl }]}>To&apos;lov turi</Text>
+            <Text style={[s.label, { marginTop: space.xl }]}>{t("mob.post.payType")}</Text>
             <View style={s.segment}>
               {PAY.map((p) => (
                 <Pressable key={p.key} style={[s.seg, payment === p.key && s.segOn]} onPress={() => setPayment(p.key)}>
@@ -314,13 +315,13 @@ export default function YukJoylash() {
 
             <View style={{ marginTop: space.xl }}>
               <View style={s.rowBetween}>
-                <Text style={s.label}>Izoh <Text style={s.optional}>— ixtiyoriy</Text></Text>
+                <Text style={s.label}>{t("mob.exp.note")} <Text style={s.optional}>{t("mob.common.optional")}</Text></Text>
                 <Text style={s.counterHint}>{desc.length} / 1000</Text>
               </View>
               <TextInput
                 value={desc}
                 onChangeText={(v) => setDesc(v.slice(0, 1000))}
-                placeholder="Yuklash joyi, vaqti, qadoq turi..."
+                placeholder={t("mob.post.detailsPh")}
                 placeholderTextColor="#94a3b8"
                 multiline
                 style={s.textarea}
@@ -332,8 +333,8 @@ export default function YukJoylash() {
         {/* 5 — ko'rib chiqish */}
         {step === 5 ? (
           <>
-            <Text style={s.title}>Ko&apos;rib chiqing</Text>
-            <Text style={s.sub}>Haydovchilar e&apos;loningizni shunday ko&apos;radi</Text>
+            <Text style={s.title}>{t("mob.post.review")}</Text>
+            <Text style={s.sub}>{t("mob.post.previewHint")}</Text>
 
             <View style={[s.preview, { marginTop: space.xl }]}>
               <View style={s.rowBetween}>
@@ -347,11 +348,11 @@ export default function YukJoylash() {
               <View style={[s.chipWrap, { marginTop: 11 }]}>
                 <Chip text={`${weight} t`} />
                 {typeOf(typeId) ? <Chip text={typeOf(typeId)!.nameUz} /> : null}
-                {readyNow ? <Chip text="Hozir tayyor" tone="success" /> : null}
+                {readyNow ? <Chip text={t("mob.loads.readyNow")} tone="success" /> : null}
               </View>
               <Text style={s.previewPrice}>
                 {negotiable || !price
-                  ? "Kelishiladi"
+                  ? t("mob.loads.negotiable")
                   : `${new Intl.NumberFormat("ru-RU").format(num(price))} ${currency}`}
               </Text>
             </View>
@@ -378,7 +379,7 @@ export default function YukJoylash() {
 
             <View style={{ marginTop: space.md }}>
               <Notice tone="info">
-                E&apos;lon 30 kun turadi. Keyin arxivga tushadi — istagan paytda qayta faollashtirasiz.
+                {t("mob.post.liveDays")}
               </Notice>
             </View>
 
@@ -389,7 +390,7 @@ export default function YukJoylash() {
 
       <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
         <Button
-          title={step === 5 ? "E'lonni joylash" : "Davom etish"}
+          title={step === 5 ? "E'lonni joylash" : t("mob.common.continueBtn")}
           onPress={() => (step === 5 ? publish() : setStep(step + 1))}
           disabled={!ready}
           loading={busy}
@@ -427,7 +428,7 @@ function Picker({ label, value, filled, onPress }: {
       <Text style={s.label}>{label}</Text>
       <Pressable style={[s.pick, value && s.pickOn]} onPress={onPress}>
         <View style={[s.dot, filled ? s.dotDark : s.dotBrand]} />
-        <Text style={[s.pickText, !value && s.pickPlaceholder]}>{value ?? "Shahar yoki viloyat"}</Text>
+        <Text style={[s.pickText, !value && s.pickPlaceholder]}>{value ?? t("mob.loads.cityPh")}</Text>
         <Icon name="chevron" size={16} stroke="#94a3b8" />
       </Pressable>
     </View>

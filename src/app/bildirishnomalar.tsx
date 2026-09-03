@@ -13,6 +13,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Note = {
   id: string;
@@ -25,9 +26,9 @@ type Note = {
 };
 
 const TABS = [
-  { key: "all", label: "Hammasi" },
-  { key: "tasks", label: "Vazifa" },
-  { key: "problems", label: "Muammo" },
+  { key: "all", label: t("mob.common.all") },
+  { key: "tasks", label: t("mob.notes.task") },
+  { key: "problems", label: t("mob.notes.problem") },
 ] as const;
 
 /** Turini ikonka va rangga bog'lash — web'dagi kategoriyalarga tayanadi */
@@ -45,8 +46,8 @@ function day(iso: string) {
   const d = new Date(iso);
   const today = new Date();
   const y = new Date(Date.now() - 86400000);
-  if (d.toDateString() === today.toDateString()) return "BUGUN";
-  if (d.toDateString() === y.toDateString()) return "KECHA";
+  if (d.toDateString() === today.toDateString()) return t("mob.notes.today");
+  if (d.toDateString() === y.toDateString()) return t("mob.notes.yesterday");
   return d.toLocaleDateString("uz-UZ", { day: "numeric", month: "long" }).toUpperCase();
 }
 
@@ -93,10 +94,10 @@ export default function Bildirishnomalar() {
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
-        <Text style={s.title}>Bildirishnomalar</Text>
+        <Text style={s.title}>{t("mob.notes.title")}</Text>
         {(data?.unread ?? 0) > 0 ? (
           <Pressable onPress={markAll} hitSlop={8}>
-            <Text style={s.link}>Hammasi o&apos;qildi</Text>
+            <Text style={s.link}>{t("mob.notes.markAll")}</Text>
           </Pressable>
         ) : null}
       </View>

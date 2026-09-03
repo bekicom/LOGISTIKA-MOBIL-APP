@@ -15,6 +15,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { HolatSheet } from "@/components/HolatSheet";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Step = { status: string; label: string; at: string | null; state: "done" | "current" | "next" };
 
@@ -44,7 +45,7 @@ type Trip = {
  * emas, «endi nima qildim» deb bosadi.
  */
 const ACTION: Record<string, string> = {
-  TO_LOADING: "Yuklashga yo'l oldim",
+  TO_LOADING: t("mob.trip.nextStep"),
   LOADED: "Yuk yuklandi",
   ON_ROAD: "Yo'lga chiqdim",
   AT_BORDER: "Chegaraga yetdim",
@@ -112,21 +113,21 @@ export default function ReysTafsiloti() {
 
             {/* Jonli raqamlar */}
             <View style={s.figures}>
-              <Figure value={data.position?.remainingKm ?? null} label="km qoldi" />
+              <Figure value={data.position?.remainingKm ?? null} label={t("mob.trip.kmLeft")} />
               <View style={s.vline} />
               <Figure
                 text={eta ? `${String(eta.getHours()).padStart(2, "0")}:${String(eta.getMinutes()).padStart(2, "0")}` : null}
-                label="yetib boradi"
+                label={t("mob.trip.arrives")}
               />
               <View style={s.vline} />
-              <Figure value={covered} label="km bosildi" />
+              <Figure value={covered} label={t("mob.trip.kmDone")} />
             </View>
 
             <View style={s.body}>
               {/* Bosqichlar */}
               <View style={s.card}>
                 <View style={s.cardHead}>
-                  <Text style={s.cardTitle}>Reys bosqichlari</Text>
+                  <Text style={s.cardTitle}>{t("mob.trip.steps")}</Text>
                   <StatusChip label={data.statusLabel} tone={toneFor(data.status)} />
                 </View>
                 <View style={{ marginTop: 14 }}>
@@ -138,19 +139,19 @@ export default function ReysTafsiloti() {
 
               {/* Yuk */}
               <View style={s.card}>
-                <Text style={s.cardTitle}>Yuk</Text>
+                <Text style={s.cardTitle}>{t("mob.trip.cargo")}</Text>
                 {data.cargo.title ? <Text style={s.cargoName}>{data.cargo.title}</Text> : null}
                 <View style={s.grid3}>
-                  <Cell label="Og'irlik" value={data.cargo.weightT != null ? `${data.cargo.weightT} t` : "—"} />
-                  <Cell label="Hajm" value={data.cargo.volumeM3 != null ? `${data.cargo.volumeM3} m³` : "—"} />
-                  <Cell label="Transport" value={data.cargo.vehicleType} />
+                  <Cell label={t("mob.trip.weight")} value={data.cargo.weightT != null ? `${data.cargo.weightT} t` : "—"} />
+                  <Cell label={t("mob.last.volume")} value={data.cargo.volumeM3 != null ? `${data.cargo.volumeM3} m³` : "—"} />
+                  <Cell label={t("mob.last.transport")} value={data.cargo.vehicleType} />
                 </View>
               </View>
 
               {/* Mashina va haydovchi */}
               {data.truck || data.driver ? (
                 <View style={s.card}>
-                  <Text style={s.cardTitle}>Mashina va haydovchi</Text>
+                  <Text style={s.cardTitle}>{t("mob.trip.truckDriver")}</Text>
                   <View style={s.driverRow}>
                     <View style={s.driverIcon}>
                       <Icon name="truck" size={20} />
@@ -166,7 +167,7 @@ export default function ReysTafsiloti() {
                     </View>
                     {data.driver?.phone ? (
                       <Pressable style={s.call} onPress={() => Linking.openURL(`tel:${data.driver!.phone}`)}>
-                        <Text style={s.callText}>Qo&apos;ng&apos;iroq</Text>
+                        <Text style={s.callText}>{t("mob.trip.call")}</Text>
                       </Pressable>
                     ) : null}
                   </View>
@@ -177,7 +178,7 @@ export default function ReysTafsiloti() {
               <View style={s.list}>
                 <ListRow icon="doc" title="Hujjatlar" sub="CMR, invoys, suratlar" value={String(data.counts.documents)}
                   onPress={() => router.push(`/reys/${id}/hujjatlar`)} />
-                <ListRow icon="package" title="Xarajatlar" sub="Yoqilg'i, yo'l haqi" value={String(data.counts.expenses)}
+                <ListRow icon="package" title={t("mob.trip.expenses")} sub={t("mob.trip.expensesHint")} value={String(data.counts.expenses)}
                   onPress={() => router.push(`/reys/${id}/xarajatlar`)} />
                 <ListRow icon="user" title="Ishtirokchilar" sub={data.participants.map((p) => p.roleLabel).join(", ")} value={String(data.participants.length)} last />
               </View>
@@ -185,11 +186,11 @@ export default function ReysTafsiloti() {
               {/* Pul */}
               {data.payment.agreed != null ? (
                 <View style={s.card}>
-                  <Text style={s.cardTitle}>Hisob-kitob</Text>
-                  <Row label="Kelishilgan summa" value={fmt(data.payment.agreed, data.payment.currency)} />
-                  <Row label="To'langan" value={fmt(data.payment.paid, data.payment.currency)} tone={color.success} />
+                  <Text style={s.cardTitle}>{t("mob.trip.settlement")}</Text>
+                  <Row label={t("mob.last.agreedSum")} value={fmt(data.payment.agreed, data.payment.currency)} />
+                  <Row label={t("mob.last.paid")} value={fmt(data.payment.paid, data.payment.currency)} tone={color.success} />
                   <View style={s.total}>
-                    <Text style={s.totalLabel}>Qoldi</Text>
+                    <Text style={s.totalLabel}>{t("mob.last.left")}</Text>
                     <Text style={s.totalValue}>
                       {fmt(Math.max(0, data.payment.agreed - data.payment.paid), data.payment.currency)}
                     </Text>
@@ -209,7 +210,7 @@ export default function ReysTafsiloti() {
             onPress={() => router.push(`/reys/${id}/hisobot`)}
           >
             <Icon name="doc" size={19} stroke="#fff" />
-            <Text style={s.primaryText}>Hisobotni ko&apos;rish</Text>
+            <Text style={s.primaryText}>{t("mob.trip.viewReport")}</Text>
           </Pressable>
         </View>
       ) : null}
@@ -283,7 +284,7 @@ function StepRow({ step, last }: { step: Step; last: boolean }) {
         <Text style={[s.stepLabel, now && { color: color.brand, fontWeight: "700" }, step.state === "next" && s.stepNext]}>
           {step.label}
         </Text>
-        {step.at ? <Text style={s.meta}>{when(step.at)}</Text> : now ? <Text style={s.meta}>Hozir</Text> : null}
+        {step.at ? <Text style={s.meta}>{when(step.at)}</Text> : now ? <Text style={s.meta}>{t("mob.last.now")}</Text> : null}
       </View>
     </View>
   );

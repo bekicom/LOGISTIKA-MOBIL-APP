@@ -18,6 +18,7 @@ import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 type Doc = {
   id: string; kind: string | null; kindLabel: string; name: string;
@@ -55,7 +56,7 @@ export default function Hujjatlar() {
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={s.title}>Hujjatlar</Text>
+          <Text style={s.title}>{t("mob.tripDocs.title")}</Text>
           <Text style={s.sub}>{data ? `${data.count} ta` : "…"}</Text>
         </View>
       </View>
@@ -95,7 +96,7 @@ export default function Hujjatlar() {
           ) : (
             <Empty
               icon="doc"
-              title="Hujjat yo'q"
+              title={t("mob.tripDocs.empty")}
               text="CMR, invoys va tushirish suratlarini shu yerga qo'shing. Reys yopilganda hisobotga tushadi."
             />
           )
@@ -104,7 +105,7 @@ export default function Hujjatlar() {
 
       <Pressable style={[s.fab, { bottom: insets.bottom + space.lg }]} onPress={() => setSheet(true)}>
         <Icon name="doc" size={19} stroke="#fff" />
-        <Text style={s.fabText}>Hujjat qo&apos;shish</Text>
+        <Text style={s.fabText}>{t("mob.tripDocs.add")}</Text>
       </Pressable>
 
       <AddSheet
@@ -159,7 +160,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
       reset();
       onDone();
     } catch (e) {
-      setErr((e as FuramError).message ?? "Yuborilmadi");
+      setErr((e as FuramError).message ?? t("mob.tripDocs.sendFailed"));
     } finally {
       setBusy(false);
     }
@@ -171,9 +172,9 @@ function AddSheet({ open, tripId, onClose, onDone }: {
         <View style={s.sheet}>
           <View style={s.grabber} />
           <View style={{ padding: space.xl, paddingTop: space.lg }}>
-            <Text style={s.sheetTitle}>Hujjat qo&apos;shish</Text>
+            <Text style={s.sheetTitle}>{t("mob.tripDocs.add")}</Text>
 
-            <Text style={[s.label, { marginTop: space.xl }]}>Turi</Text>
+            <Text style={[s.label, { marginTop: space.xl }]}>{t("mob.exp.kind")}</Text>
             <View style={s.kinds}>
               {KINDS.map((k) => {
                 const on = kind === k.key;
@@ -204,11 +205,11 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                 <>
                   <Pressable style={s.add} onPress={() => add("camera")}>
                     <Icon name="doc" size={20} />
-                    <Text style={s.addText}>Skanerlash</Text>
+                    <Text style={s.addText}>{t("mob.tripDocs.scan")}</Text>
                   </Pressable>
                   <Pressable style={s.add} onPress={() => add("gallery")}>
                     <Icon name="package" size={20} />
-                    <Text style={s.addText}>Galereya</Text>
+                    <Text style={s.addText}>{t("mob.chat.gallery")}</Text>
                   </Pressable>
                 </>
               ) : null}
@@ -223,13 +224,13 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 
           <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
             <Button
-              title={pages.length > 1 ? `${pages.length} sahifani yuborish` : "Yuborish"}
+              title={pages.length > 1 ? `${pages.length} sahifani yuborish` : t("mob.tripDocs.send")}
               onPress={submit}
               loading={busy}
               disabled={pages.length === 0}
             />
             <Pressable onPress={() => { reset(); onClose(); }} style={s.cancel}>
-              <Text style={s.cancelText}>Bekor qilish</Text>
+              <Text style={s.cancelText}>{t("mob.common.cancel")}</Text>
             </Pressable>
           </View>
         </View>

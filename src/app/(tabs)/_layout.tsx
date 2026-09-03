@@ -5,14 +5,15 @@
 import { Tabs } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { color } from "@/lib/theme";
+import { t } from "@/lib/i18n";
 
 const TABS: { name: string; title: string; icon: IconName }[] = [
-  { name: "bosh", title: "Bosh sahifa", icon: "home" },
-  { name: "yuklar", title: "Yuklar", icon: "package" },
-  { name: "reyslar", title: "Reyslar", icon: "route" },
-  { name: "chat", title: "Chat", icon: "chat" },
+  { name: "bosh", title: t("mob.nav.home"), icon: "home" },
+  { name: "yuklar", title: t("mob.nav.loads"), icon: "package" },
+  { name: "reyslar", title: t("mob.nav.trips"), icon: "route" },
+  { name: "chat", title: t("mob.nav.chat"), icon: "chat" },
   { name: "ai", title: "AI", icon: "sparkle" },
-  { name: "profil", title: "Profil", icon: "user" },
+  { name: "profil", title: t("mob.nav.profile"), icon: "user" },
 ];
 
 export default function TabsLayout() {

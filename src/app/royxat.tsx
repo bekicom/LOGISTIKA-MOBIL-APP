@@ -22,15 +22,18 @@ import { Button, Field, Notice, Steps } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
+import { roleLabel, t } from "@/lib/i18n";
 
 type Step = "phone" | "code" | "details";
 type Channel = "telegram" | "sms";
 
+/* Rol nomi va tavsifi lug'atda: `mob.role.*` va `mob.signUp.role*`.
+   Bu yerda faqat ENUM qiymati va tavsif kaliti turadi. */
 const ROLES = [
-  { value: "DRIVER", label: "Haydovchi", desc: "O'zim haydayman, yuk qidiraman" },
-  { value: "SHIPPER", label: "Yuk egasi", desc: "Yuk joylayman, transport qidiraman" },
-  { value: "VEHICLE_OWNER", label: "Mashina egasi", desc: "Mashinam bor, haydovchi ishlaydi" },
-  { value: "DISPATCHER", label: "Dispetcher", desc: "E'lonlarni boshqaraman" },
+  { value: "DRIVER", desc: "mob.signUp.roleDriver" },
+  { value: "SHIPPER", desc: "mob.signUp.roleShipper" },
+  { value: "VEHICLE_OWNER", desc: "mob.signUp.roleOwner" },
+  { value: "DISPATCHER", desc: "mob.signUp.roleDispatcher" },
 ] as const;
 
 export default function Royxat() {
@@ -90,7 +93,7 @@ export default function Royxat() {
       setStep("code");
       setTimeout(() => codeRef.current?.focus(), 250);
     } catch (e) {
-      setErr((e as FuramError).message ?? "Kod yuborilmadi");
+      setErr((e as FuramError).message ?? t("mob.signUp.codeFailed"));
     } finally {
       setBusy(false);
     }
@@ -133,7 +136,7 @@ export default function Royxat() {
         },
       });
       if (!res.token) {
-        setErr("Server sessiya bermadi");
+        setErr(t("mob.signUp.noSession"));
         return;
       }
       await signIn(res.token);
@@ -173,8 +176,8 @@ export default function Royxat() {
 
         {step === "phone" ? (
           <>
-            <Text style={s.title}>Telefon raqamingiz</Text>
-            <Text style={s.sub}>Raqamni tasdiqlash uchun kod yuboramiz</Text>
+            <Text style={s.title}>{t("mob.signUp.phone")}</Text>
+            <Text style={s.sub}>{t("mob.signUp.phoneHint")}</Text>
 
             <View style={{ marginTop: 26 }}>
               <Text style={s.label}>Telefon raqam</Text>
@@ -196,7 +199,7 @@ export default function Royxat() {
 
             {channels.length > 1 ? (
               <View style={{ marginTop: space.xxl }}>
-                <Text style={s.label}>Kod qayerga kelsin</Text>
+                <Text style={s.label}>{t("mob.signUp.whereCode")}</Text>
                 <View style={s.cards}>
                   {(["telegram", "sms"] as const).map((c) => {
                     const on = channel === c;
@@ -230,7 +233,7 @@ export default function Royxat() {
                           </View>
                         </View>
                         <Text style={s.channelName}>{c === "telegram" ? "Telegram" : "SMS"}</Text>
-                        <Text style={s.channelNote}>{c === "telegram" ? "Tez va bepul" : "Telegramsiz"}</Text>
+                        <Text style={s.channelNote}>{c === "telegram" ? t("mob.signUp.subtitle") : "Telegramsiz"}</Text>
                       </Pressable>
                     );
                   })}
@@ -242,7 +245,7 @@ export default function Royxat() {
 
             <View style={{ marginTop: space.xxl }}>
               <Button
-                title="Davom etish"
+                title={t("mob.common.continueBtn")}
                 onPress={() => sendCode()}
                 loading={busy}
                 disabled={phone.replace(/\D/g, "").length < 9}
@@ -253,9 +256,9 @@ export default function Royxat() {
 
         {step === "code" ? (
           <>
-            <Text style={s.title}>Kodni kiriting</Text>
+            <Text style={s.title}>{t("mob.signUp.enterCode")}</Text>
             <Text style={s.sub}>
-              {sentVia === "telegram" ? "Telegram'ga" : "SMS orqali"} 6 xonali kod yubordik —{" "}
+              {sentVia === "telegram" ? "Telegram'ga" : t("mob.signUp.bySms")} 6 xonali kod yubordik —{" "}
               <Text style={s.strong}>{fullPhone}</Text>
             </Text>
 
@@ -299,7 +302,7 @@ export default function Royxat() {
                 </Text>
               ) : (
                 <Pressable onPress={() => sendCode()} hitSlop={8}>
-                  <Text style={s.link}>Kodni qayta yuborish</Text>
+                  <Text style={s.link}>{t("mob.signUp.resend")}</Text>
                 </Pressable>
               )}
             </View>
@@ -307,7 +310,7 @@ export default function Royxat() {
             {channels.length > 1 ? (
               <View style={{ marginTop: space.lg }}>
                 <Button
-                  title={sentVia === "telegram" ? "SMS orqali yuborish" : "Telegram orqali yuborish"}
+                  title={sentVia === "telegram" ? t("mob.signUp.sendSms") : t("mob.signUp.sendTelegram")}
                   variant="secondary"
                   onPress={() => sendCode(sentVia === "telegram" ? "sms" : "telegram")}
                 />
@@ -318,22 +321,22 @@ export default function Royxat() {
 
         {step === "details" ? (
           <>
-            <Text style={s.title}>O&apos;zingiz haqingizda</Text>
+            <Text style={s.title}>{t("mob.signUp.aboutYou")}</Text>
 
             <View style={{ gap: space.lg, marginTop: space.xxl }}>
-              <Field label="Ism" placeholder="Bekzod" value={firstName} onChangeText={setFirstName} autoFocus />
-              <Field label="Familiya" hint="ixtiyoriy" placeholder="Rahimov" value={lastName} onChangeText={setLastName} />
+              <Field label={t("mob.profile.firstName")} placeholder="Bekzod" value={firstName} onChangeText={setFirstName} autoFocus />
+              <Field label={t("mob.profile.lastName")} hint={t("mob.common.optional")} placeholder="Rahimov" value={lastName} onChangeText={setLastName} />
               <Field
-                label="Parol"
-                placeholder="Kamida 6 belgi"
+                label={t("mob.signIn.password")}
+                placeholder={t("mob.signUp.passwordMin")}
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
               />
             </View>
 
-            <Text style={[s.label, { marginTop: space.xxl }]}>Siz kimsiz?</Text>
-            <Text style={s.hint}>Ilovada nima ko&apos;rinishini shu belgilaydi. Keyin o&apos;zgartirsa bo&apos;ladi.</Text>
+            <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.signUp.whoAreYou")}</Text>
+            <Text style={s.hint}>{t("mob.signUp.roleHint")}</Text>
 
             <View style={{ gap: 9, marginTop: space.md }}>
               {ROLES.map((r) => {
@@ -344,8 +347,8 @@ export default function Royxat() {
                       <RoleIcon value={r.value} on={on} />
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={s.roleName}>{r.label}</Text>
-                      <Text style={s.roleDesc}>{r.desc}</Text>
+                      <Text style={s.roleName}>{roleLabel(r.value)}</Text>
+                      <Text style={s.roleDesc}>{t(r.desc)}</Text>
                     </View>
                     <View style={[s.radio, on && s.radioOn]}>
                       {on ? (
@@ -368,7 +371,7 @@ export default function Royxat() {
                 ) : null}
               </View>
               <Text style={s.offerText}>
-                <Text style={s.link}>Ommaviy oferta</Text> va <Text style={s.link}>Maxfiylik siyosati</Text> shartlariga
+                <Text style={s.link}>{t("mob.signUp.offer")}</Text> va <Text style={s.link}>{t("mob.signUp.privacy")}</Text> shartlariga
                 roziman
               </Text>
             </Pressable>
@@ -377,12 +380,12 @@ export default function Royxat() {
 
             <View style={{ marginTop: space.xl }}>
               <Button
-                title="Hisob yaratish"
+                title={t("mob.signUp.title")}
                 onPress={register}
                 loading={busy}
                 disabled={!agreed || firstName.trim().length < 2 || password.length < 6}
               />
-              {!agreed ? <Text style={s.hintCenter}>Davom etish uchun ofertaga rozilik bering</Text> : null}
+              {!agreed ? <Text style={s.hintCenter}>{t("mob.signUp.offerRequired")}</Text> : null}
             </View>
           </>
         ) : null}

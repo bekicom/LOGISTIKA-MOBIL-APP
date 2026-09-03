@@ -44,7 +44,7 @@ export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () =
       <Text style={s.text}>{message}</Text>
       {onRetry ? (
         <View style={{ alignSelf: "stretch", marginTop: space.lg }}>
-          <Button title="Qayta urinish" variant="secondary" onPress={onRetry} />
+          <Button title={t("mob.ui.retry")} variant="secondary" onPress={onRetry} />
         </View>
       ) : null}
     </View>

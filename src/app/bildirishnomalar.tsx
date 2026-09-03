@@ -25,11 +25,15 @@ type Note = {
   createdAt: string;
 };
 
-const TABS = [
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function tabs() {
+  return [
   { key: "all", label: t("mob.common.all") },
   { key: "tasks", label: t("mob.notes.task") },
   { key: "problems", label: t("mob.notes.problem") },
 ] as const;
+}
 
 /** Turini ikonka va rangga bog'lash — web'dagi kategoriyalarga tayanadi */
 function look(type: string): { icon: IconName; tint: string } {
@@ -103,7 +107,7 @@ export default function Bildirishnomalar() {
       </View>
 
       <View style={s.tabs}>
-        {TABS.map((t) => (
+        {tabs().map((t) => (
           <Pressable key={t.key} onPress={() => setTab(t.key)} style={[s.tab, tab === t.key && s.tabOn]}>
             <Text style={[s.tabText, tab === t.key && s.tabTextOn]}>{t.label}</Text>
           </Pressable>
@@ -143,7 +147,7 @@ export default function Bildirishnomalar() {
           ) : error ? (
             <ErrorBox message={error} onRetry={reload} />
           ) : (
-            <Empty icon="bell" title="Hammasi o'qilgan" text="Yangi bildirishnoma yo'q." />
+            <Empty icon="bell" title={t("mob.ui.allRead")} text={t("mob.ui.noNewNotes")} />
           )
         }
       />

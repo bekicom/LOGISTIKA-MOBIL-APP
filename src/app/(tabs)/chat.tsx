@@ -28,12 +28,16 @@ type Chat = {
   lastAt: string | null;
 };
 
-const TABS = [
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function tabs() {
+  return [
   { key: "all", label: t("mob.common.all") },
-  { key: "unread", label: "O'qilmagan" },
-  { key: "trip", label: "Reys" },
-  { key: "private", label: "Shaxsiy" },
+  { key: "unread", label: t("mob.ui.unread") },
+  { key: "trip", label: t("mob.ui.tripChats") },
+  { key: "private", label: t("mob.chat.private") },
 ] as const;
+}
 
 function when(iso: string | null) {
   if (!iso) return "";
@@ -70,7 +74,7 @@ export default function ChatRoyxati() {
         <Text style={s.title}>{t("mob.chat.title")}</Text>
 
         <View style={s.tabs}>
-          {TABS.map((t) => {
+          {tabs().map((t) => {
             const on = tab === t.key;
             const n = t.key === "unread" ? (data?.unread ?? 0) : 0;
             return (
@@ -142,7 +146,7 @@ export default function ChatRoyxati() {
             <Empty
               icon="chat"
               title={t("mob.chat.empty")}
-              text="Yuk e'loniga taklif yuborsangiz yoki kimdir sizga yozsa, suhbat shu yerda paydo bo'ladi."
+              text={t("mob.ui.chatEmptyText")}
             />
           )
         }

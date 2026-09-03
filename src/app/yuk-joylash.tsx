@@ -22,14 +22,18 @@ import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-type VehicleType = { id: number; key: string; nameUz: string };
+type VehicleType = { id: number; key: string; name: string };
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
-const PAY = [
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function pay(): { key: string; label: string }[] {
+  return [
   { key: "CASH", label: t("mob.load.cash") },
   { key: "TRANSFER", label: t("mob.load.transfer") },
   { key: "MIXED", label: t("mob.load.mixed") },
 ];
+}
 
 /** Qo'shimcha turlar chegarasi — serverdagi `altVehicleTypeIds.max(3)` bilan bir xil */
 const MAX_ALT = 3;
@@ -124,7 +128,7 @@ export default function YukJoylash() {
           <View style={{ flex: 1 }}>
             {step > 1 && from && to ? (
               <Text style={s.crumb} numberOfLines={1}>
-                {from.nameUz} → {to.nameUz}
+                {from?.name} → {to?.name}
                 {step > 2 && weight ? ` · ${weight} t` : ""}
               </Text>
             ) : null}
@@ -147,8 +151,8 @@ export default function YukJoylash() {
           <>
             <Text style={s.title}>{t("mob.post.whereFrom")}</Text>
             <View style={{ gap: space.md, marginTop: space.xxl }}>
-              <Picker label={t("mob.loads.from")} value={from?.nameUz ?? null} filled onPress={() => setPicking("from")} />
-              <Picker label={t("mob.loads.to")} value={to?.nameUz ?? null} onPress={() => setPicking("to")} />
+              <Picker label={t("mob.loads.from")} value={from?.name ?? null} filled onPress={() => setPicking("from")} />
+              <Picker label={t("mob.loads.to")} value={to?.name ?? null} onPress={() => setPicking("to")} />
             </View>
           </>
         ) : null}
@@ -159,7 +163,7 @@ export default function YukJoylash() {
             <Text style={s.title}>{t("mob.post.whatCargo")}</Text>
             <View style={{ gap: space.lg, marginTop: space.xxl }}>
               <View>
-                <Field label="Yuk nomi" placeholder="Quruq mevalar, qadoqlangan" value={title} onChangeText={setTitle} autoFocus />
+                <Field label={t("mob.post2.cargoName")} placeholder={t("mob.post2.cargoPh")} value={title} onChangeText={setTitle} autoFocus />
                 <Text style={s.hint}>{t("mob.post.nameHint")}</Text>
               </View>
 
@@ -207,7 +211,7 @@ export default function YukJoylash() {
                 return (
                   <Pressable key={t.id} onPress={() => { setTypeId(t.id); setAlts((a) => a.filter((x) => x !== t.id)); }} style={[s.type, on && s.typeOn]}>
                     <TruckIcon type={t.key} size={34} color={on ? color.brand : color.mutedForeground} />
-                    <Text style={[s.typeText, on && s.typeTextOn]} numberOfLines={2}>{t.nameUz}</Text>
+                    <Text style={[s.typeText, on && s.typeTextOn]} numberOfLines={2}>{t.name}</Text>
                   </Pressable>
                 );
               })}
@@ -232,7 +236,7 @@ export default function YukJoylash() {
                           onPress={() => !full && toggleAlt(t.id)}
                           style={[s.altChip, on && s.altChipOn, full && { opacity: 0.35 }]}
                         >
-                          <Text style={[s.altText, on && s.altTextOn]}>{t.nameUz}</Text>
+                          <Text style={[s.altText, on && s.altTextOn]}>{t.name}</Text>
                         </Pressable>
                       );
                     })}
@@ -251,7 +255,7 @@ export default function YukJoylash() {
                 <Text style={[s.segText, readyNow && s.segTextOn]}>{t("mob.loads.readyNow")}</Text>
               </Pressable>
               <Pressable style={[s.seg, !readyNow && s.segOn]} onPress={() => setReadyNow(false)}>
-                <Text style={[s.segText, !readyNow && s.segTextOn]}>Keyinroq</Text>
+                <Text style={[s.segText, !readyNow && s.segTextOn]}>{t("mob.post.later")}</Text>
               </Pressable>
             </View>
           </>
@@ -274,7 +278,7 @@ export default function YukJoylash() {
                 />
               </View>
               <View style={{ width: 100 }}>
-                <Text style={s.label}>Valyuta</Text>
+                <Text style={s.label}>{t("mob.exp.currency")}</Text>
                 <View style={s.chipWrap}>
                   {CURRENCIES.map((c) => (
                     <Pressable key={c} onPress={() => setCurrency(c)} style={[s.curChip, currency === c && s.curChipOn]}>
@@ -294,7 +298,7 @@ export default function YukJoylash() {
 
             <View style={{ marginTop: space.lg }}>
               <Field
-                label="Oldindan to'lov"
+                label={t("mob.post2.prepay")}
                 hint={t("mob.common.optional")}
                 placeholder="10 000 000"
                 keyboardType="numeric"
@@ -306,7 +310,7 @@ export default function YukJoylash() {
 
             <Text style={[s.label, { marginTop: space.xl }]}>{t("mob.post.payType")}</Text>
             <View style={s.segment}>
-              {PAY.map((p) => (
+              {pay().map((p) => (
                 <Pressable key={p.key} style={[s.seg, payment === p.key && s.segOn]} onPress={() => setPayment(p.key)}>
                   <Text style={[s.segText, payment === p.key && s.segTextOn]}>{p.label}</Text>
                 </Pressable>
@@ -338,16 +342,16 @@ export default function YukJoylash() {
 
             <View style={[s.preview, { marginTop: space.xl }]}>
               <View style={s.rowBetween}>
-                <Chip text="YANGI" tone="success" />
+                <Chip text={t("mob.loads.readyNow")} tone="success" />
                 <Icon name="heart" size={20} stroke="#cbd5e1" />
               </View>
               <View style={{ marginTop: 11 }}>
-                <Route from={from?.nameUz ?? ""} to={to?.nameUz ?? ""} />
+                <Route from={from?.name ?? ""} to={to?.name ?? ""} />
               </View>
               <Text style={s.previewCargo}>{title}</Text>
               <View style={[s.chipWrap, { marginTop: 11 }]}>
                 <Chip text={`${weight} t`} />
-                {typeOf(typeId) ? <Chip text={typeOf(typeId)!.nameUz} /> : null}
+                {typeOf(typeId) ? <Chip text={typeOf(typeId)!.name} /> : null}
                 {readyNow ? <Chip text={t("mob.loads.readyNow")} tone="success" /> : null}
               </View>
               <Text style={s.previewPrice}>
@@ -358,20 +362,20 @@ export default function YukJoylash() {
             </View>
 
             <View style={[s.summary, { marginTop: space.md }]}>
-              <SumRow label="Yo'nalish" value={`${from?.nameUz} → ${to?.nameUz}`} onEdit={() => setStep(1)} />
+              <SumRow label={t("mob.loads.route")} value={`${from?.name ?? from?.name} → ${to?.name ?? to?.name}`} onEdit={() => setStep(1)} />
               <SumRow
-                label="Yuk"
+                label={t("mob.trip.cargo")}
                 value={`${title} · ${weight} t${volume ? ` · ${volume} m³` : ""} · ${count} mashina`}
                 onEdit={() => setStep(2)}
               />
               <SumRow
-                label="Transport"
-                value={[typeOf(typeId)?.nameUz, ...alts.map((a) => typeOf(a)?.nameUz)].filter(Boolean).join(", ")}
+                label={t("mob.last.transport")}
+                value={[typeOf(typeId)?.name, ...alts.map((a) => typeOf(a)?.name)].filter(Boolean).join(", ")}
                 onEdit={() => setStep(3)}
               />
               <SumRow
-                label="Narx"
-                value={`${negotiable ? "Kelishiladi" : `${price} ${currency}`} · ${PAY.find((p) => p.key === payment)?.label}`}
+                label={t("mob.load.price")}
+                value={`${negotiable ? "Kelishiladi" : `${price} ${currency}`} · ${pay().find((p) => p.key === payment)?.label}`}
                 onEdit={() => setStep(4)}
                 last
               />
@@ -457,7 +461,7 @@ function SumRow({ label, value, onEdit, last }: { label: string; value: string; 
         <Text style={s.sumValue} numberOfLines={2}>{value}</Text>
       </View>
       <Pressable onPress={onEdit} hitSlop={8}>
-        <Text style={s.edit}>Tahrir</Text>
+        <Text style={s.edit}>{t("mob.post.edit")}</Text>
       </Pressable>
     </View>
   );

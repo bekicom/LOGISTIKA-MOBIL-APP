@@ -67,7 +67,7 @@ export default function Bosh() {
           <Text style={s.gpsText}>
             {t("mob.home.gpsOn")} <Text style={{ fontWeight: "600", color: "#fff" }}>#TR-{data.activeTrips[0].no}</Text>
           </Text>
-          <Text style={s.gpsStop}>To&apos;xtatish</Text>
+          <Text style={s.gpsStop}>{t("mob.home.gpsStop")}</Text>
         </View>
       ) : null}
 

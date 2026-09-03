@@ -17,7 +17,7 @@ import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
-import { t } from "@/lib/i18n";
+import { LOCALE_INFO, currentLocale, t } from "@/lib/i18n";
 
 type Mode = "phone" | "furamId";
 
@@ -51,7 +51,7 @@ export default function Kirish() {
 
       if (!res.token) {
         // Server mobil sessiyani qaytarmadi — bu backend sozlamasi muammosi
-        setErr({ code: "NO_TOKEN", message: "Server sessiya bermadi. Qo'llab-quvvatlashga murojaat qiling." });
+        setErr({ code: "NO_TOKEN", message: t("mob.ui.supportContact") });
         return;
       }
       await signIn(res.token);
@@ -92,7 +92,7 @@ export default function Kirish() {
               <Circle cx={12} cy={12} r={10} stroke={color.mutedForeground} strokeWidth={2} fill="none" />
               <Path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z" stroke={color.mutedForeground} strokeWidth={2} fill="none" />
             </Svg>
-            <Text style={s.langText}>O&apos;zbekcha</Text>
+            <Text style={s.langText}>{LOCALE_INFO[currentLocale()].native}</Text>
           </View>
         </View>
 

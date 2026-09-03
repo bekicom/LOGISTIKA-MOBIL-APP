@@ -44,7 +44,10 @@ type Trip = {
  * Joriy holat emas, maqsad holat bo'yicha: haydovchi «hozir qayerdaman»
  * emas, «endi nima qildim» deb bosadi.
  */
-const ACTION: Record<string, string> = {
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function action(): Record<string, string> {
+  return {
   TO_LOADING: t("mob.trip.nextStep"),
   LOADED: "Yuk yuklandi",
   ON_ROAD: "Yo'lga chiqdim",
@@ -53,6 +56,7 @@ const ACTION: Record<string, string> = {
   UNLOADED: "Yukni tushirdim",
   CLOSING: "Reysni yopishga o'tish",
 };
+}
 
 export default function ReysTafsiloti() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -176,11 +180,11 @@ export default function ReysTafsiloti() {
 
               {/* Ro'yxatlar */}
               <View style={s.list}>
-                <ListRow icon="doc" title="Hujjatlar" sub="CMR, invoys, suratlar" value={String(data.counts.documents)}
+                <ListRow icon="doc" title={t("mob.trip.documents")} sub={t("mob.rep.docsHint")} value={String(data.counts.documents)}
                   onPress={() => router.push(`/reys/${id}/hujjatlar`)} />
                 <ListRow icon="package" title={t("mob.trip.expenses")} sub={t("mob.trip.expensesHint")} value={String(data.counts.expenses)}
                   onPress={() => router.push(`/reys/${id}/xarajatlar`)} />
-                <ListRow icon="user" title="Ishtirokchilar" sub={data.participants.map((p) => p.roleLabel).join(", ")} value={String(data.participants.length)} last />
+                <ListRow icon="user" title={t("mob.trip.participants")} sub={data.participants.map((p) => t(`mob.role.${p.role}`)).join(", ")} value={String(data.participants.length)} last />
               </View>
 
               {/* Pul */}
@@ -215,14 +219,14 @@ export default function ReysTafsiloti() {
         </View>
       ) : null}
 
-      {next && ACTION[next] ? (
+      {next && action()[next] ? (
         <View style={[s.actions, { paddingBottom: insets.bottom + space.lg }]}>
           <Pressable
             style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
             onPress={() => setSheet(true)}
           >
             <Icon name="check" size={19} stroke="#fff" />
-            <Text style={s.primaryText}>{ACTION[next]}</Text>
+            <Text style={s.primaryText}>{action()[next]}</Text>
           </Pressable>
           <View style={s.sos}>
             <Icon name="alert" size={18} stroke={color.danger} />

@@ -46,7 +46,11 @@ type Load = {
   contact: string | null;
 };
 
-const PAY: Record<string, string> = { CASH: t("mob.load.cash"), TRANSFER: t("mob.load.transfer"), MIXED: t("mob.load.mixed") };
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function pay(): Record<string, string> {
+  return { CASH: t("mob.load.cash"), TRANSFER: t("mob.load.transfer"), MIXED: t("mob.load.mixed") };
+}
 
 function money(n: number, cur: string) {
   return `${new Intl.NumberFormat("ru-RU").format(n)} ${cur}`;
@@ -155,13 +159,13 @@ export default function YukTafsiloti() {
                   ))}
                 </View>
                 {c.altVehicleTypes.length > 0 ? (
-                  <Text style={s.hint}>Birinchisi asosiy, qolgani ham bo&apos;laveradi</Text>
+                  <Text style={s.hint}>{t("mob.post2.altFirstMain")}</Text>
                 ) : null}
               </View>
 
               {c.isExtraLoad ? (
                 <View style={{ marginTop: space.md }}>
-                  <Chip text="Qo'shimcha yuk — mashina to'la emas" tone="info" />
+                  <Chip text={t("mob.post2.extraHint")} tone="info" />
                 </View>
               ) : null}
             </View>
@@ -175,7 +179,7 @@ export default function YukTafsiloti() {
                   : money(data.price.amount, data.price.currency)}
               </Text>
               <View style={s.priceChips}>
-                <Chip text={PAY[data.price.paymentType] ?? data.price.paymentType} />
+                <Chip text={pay()[data.price.paymentType] ?? data.price.paymentType} />
                 {data.price.advance ? (
                   <Chip text={`Oldindan ${money(data.price.advance, data.price.currency)}`} tone="info" />
                 ) : null}
@@ -250,7 +254,7 @@ export default function YukTafsiloti() {
                     {revealErr ? <Text style={s.err}>{revealErr}</Text> : null}
 
                     <View style={{ marginTop: space.md }}>
-                      <Button title="Kontaktni ochish" onPress={reveal} loading={revealing} />
+                      <Button title={t("mob.post2.openContact")} onPress={reveal} loading={revealing} />
                     </View>
                     <Pressable style={s.freeAlt} hitSlop={6}>
                       <Icon name="chat" size={15} stroke={color.brand} />
@@ -379,7 +383,7 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
                   <Field
                     label={t("mob.exp.note")}
                     hint="ixtiyoriy"
-                    placeholder="Masalan: ertaga ertalab yuklashga tayyorman"
+                    placeholder={t("mob.post2.offerPh")}
                     value={note}
                     onChangeText={setNote}
                   />

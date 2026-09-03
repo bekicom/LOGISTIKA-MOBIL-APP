@@ -9,17 +9,25 @@ import { useApi } from "@/lib/use-api";
 import { color, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-const TABS = [
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function tabs() {
+  return [
   { key: "active", label: t("mob.trips.active") },
   { key: "upcoming", label: t("mob.trips.upcoming") },
   { key: "done", label: t("mob.trips.done") },
 ] as const;
+}
 
-const EMPTY: Record<string, { title: string; text: string }> = {
-  active: { title: t("mob.trips.empty"), text: "Hozir yo'lda bo'lgan reysingiz yo'q." },
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function empty(): Record<string, { title: string; text: string }> {
+  return {
+  active: { title: t("mob.trips.empty"), text: t("mob.ui.noTripMine") },
   upcoming: { title: t("mob.misc.noUpcoming"), text: t("mob.misc.noUpcomingText") },
   done: { title: t("mob.misc.noDone"), text: t("mob.misc.noDoneText") },
 };
+}
 
 export default function Reyslar() {
   const [tab, setTab] = useState<string>("active");
@@ -37,7 +45,7 @@ export default function Reyslar() {
         <Text style={s.title}>{t("mob.trips.title")}</Text>
 
         <View style={s.segment}>
-          {TABS.map((t) => (
+          {tabs().map((t) => (
             <Pressable key={t.key} onPress={() => setTab(t.key)} style={[s.segItem, tab === t.key && s.segOn]}>
               <Text style={[s.segText, tab === t.key && s.segTextOn]}>{t.label}</Text>
               {t.key === tab && data ? (
@@ -63,7 +71,7 @@ export default function Reyslar() {
           ) : error ? (
             <ErrorBox message={error} onRetry={reload} />
           ) : (
-            <Empty icon="route" title={EMPTY[tab].title} text={EMPTY[tab].text} />
+            <Empty icon="route" title={empty()[tab].title} text={empty()[tab].text} />
           )
         }
       />

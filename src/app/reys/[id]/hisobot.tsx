@@ -95,16 +95,16 @@ export default function Hisobot() {
             {/* Yig'ma raqamlar */}
             <View style={s.card}>
               <View style={s.grid2}>
-                <Big label="Bosib o'tilgan yo'l" value={rep.route.distanceKm != null ? String(rep.route.distanceKm) : "—"} unit="km" />
-                <Big label="Davomiyligi" value={days(rep.createdAt, rep.closedAt)} />
+                <Big label={t("mob.rep.distance")} value={rep.route.distanceKm != null ? String(rep.route.distanceKm) : "—"} unit="km" />
+                <Big label={t("mob.rep.duration")} value={days(rep.createdAt, rep.closedAt)} />
               </View>
 
               <View style={s.hr} />
 
               {rep.payment.agreed != null ? (
                 <>
-                  <Line label="Kelishilgan summa" value={fmt(rep.payment.agreed, rep.payment.currency)} />
-                  <Line label="To'langan" value={fmt(rep.payment.paid, rep.payment.currency)} tone={color.success} />
+                  <Line label={t("mob.last.agreedSum")} value={fmt(rep.payment.agreed, rep.payment.currency)} />
+                  <Line label={t("mob.last.paid")} value={fmt(rep.payment.paid, rep.payment.currency)} tone={color.success} />
                 </>
               ) : null}
               {totals.map(([cur, sum]) => (
@@ -138,7 +138,7 @@ export default function Hisobot() {
             {/* Tarkib */}
             <View style={s.card}>
               <Text style={s.cardTitle}>{t("mob.report.composition")}</Text>
-              <Line label="Yuk" value={rep.cargo.title ?? "—"} />
+              <Line label={t("mob.trip.cargo")} value={rep.cargo.title ?? "—"} />
               {rep.cargo.weightT != null ? <Line label={t("mob.trip.weight")} value={`${rep.cargo.weightT} t`} /> : null}
               <Line label={t("mob.trip.documents")} value={`${rep.counts.documents} ta`} />
               <Line label={t("mob.report.expenseRows")} value={`${rep.counts.expenses} ta`} />

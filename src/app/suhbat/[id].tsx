@@ -170,7 +170,7 @@ export default function Suhbat() {
           <TextInput
             value={text}
             onChangeText={setText}
-            placeholder="Xabar yozing"
+            placeholder={t("mob.ui.writeMessage")}
             placeholderTextColor="#94a3b8"
             style={s.input}
             multiline
@@ -211,9 +211,9 @@ export default function Suhbat() {
           <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
             <View style={s.grabber} />
             <View style={{ paddingHorizontal: space.xl, paddingTop: space.md }}>
-              <MenuRow icon="bell" label="Ovozni o'chirish" />
+              <MenuRow icon="bell" label={t("mob.ui.mute")} />
               <MenuRow icon="alert" label={t("mob.chat.report")} danger />
-              <MenuRow icon="close" label="Foydalanuvchini bloklash" danger last />
+              <MenuRow icon="close" label={t("mob.ui.blockUser")} danger last />
             </View>
           </View>
         </Pressable>

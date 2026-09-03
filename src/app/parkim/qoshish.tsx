@@ -174,7 +174,7 @@ export default function TransportQoshish() {
 
         <View style={{ flexDirection: "row", gap: space.md }}>
           <View style={{ flex: 1.4 }}>
-            <Field label={t("mob.add.model")} hint={t("mob.common.optional")} value={model} onChangeText={setModel} placeholder="Actros 1845" />
+            <Field label={t("mob.add.model")} hint={t("mob.common.optional")} value={model} onChangeText={setModel} placeholder={t("mob.add.model")} />
           </View>
           <View style={{ flex: 1 }}>
             <Field

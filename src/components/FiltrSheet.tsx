@@ -53,12 +53,21 @@ export function filtrToQuery(f: Filtr): string {
 export function filtrChips(f: Filtr): { key: keyof Filtr; label: string }[] {
   const out: { key: keyof Filtr; label: string }[] = [];
   if (f.vehicleTypeIds.length) out.push({ key: "vehicleTypeIds", label: f.vehicleNames.join(", ") });
-  if (f.readyNow) out.push({ key: "readyNow", label: "Hozir tayyor" });
+  if (f.readyNow) out.push({ key: "readyNow", label: t("mob.loads.readyNow") });
   return out;
 }
 
-type VehicleType = { id: number; key: string; nameUz: string; capacityT: number | null };
-export type Loc = { id: number; nameUz: string; nameRu: string | null; countryCode: string };
+type VehicleType = { id: number; key: string; name: string; capacityT: number | null };
+/* `name` — server SO'ROV TILIDA qaytaradi (`localName`). Variantlar
+   qidiruv uchun qoladi: odam «Ташкент» deb ham, «Toshkent» deb ham
+   yozishi mumkin. */
+export type Loc = {
+  id: number;
+  name: string;
+  nameUz: string;
+  nameRu: string | null;
+  countryCode: string;
+};
 
 export function FiltrSheet({
   open, value, onClose, onApply, total,
@@ -89,7 +98,7 @@ export function FiltrSheet({
       return {
         ...d,
         vehicleTypeIds: on ? d.vehicleTypeIds.filter((x) => x !== t.id) : [...d.vehicleTypeIds, t.id],
-        vehicleNames: on ? d.vehicleNames.filter((x) => x !== t.nameUz) : [...d.vehicleNames, t.nameUz],
+        vehicleNames: on ? d.vehicleNames.filter((x) => x !== t.name) : [...d.vehicleNames, t.name],
       };
     });
 
@@ -144,7 +153,7 @@ export function FiltrSheet({
                     <Pressable key={t.id} onPress={() => toggleType(t)} style={[s.type, on && s.typeOn]}>
                       <TruckIcon type={t.key} size={34} color={on ? color.brand : color.mutedForeground} />
                       <Text style={[s.typeText, on && s.typeTextOn]} numberOfLines={2}>
-                        {t.nameUz}
+                        {t.name}
                       </Text>
                     </Pressable>
                   );
@@ -179,8 +188,8 @@ export function FiltrSheet({
         onPick={(l) => {
           setDraft((d) =>
             picking === "from"
-              ? { ...d, fromId: l.id, fromName: l.nameUz }
-              : { ...d, toId: l.id, toName: l.nameUz },
+              ? { ...d, fromId: l.id, fromName: l.name }
+              : { ...d, toId: l.id, toName: l.name },
           );
           setPicking(null);
         }}
@@ -237,8 +246,8 @@ export function LocationPicker({
           renderItem={({ item }) => (
             <Pressable style={s.locRow} onPress={() => onPick(item)}>
               <View style={{ flex: 1 }}>
-                <Text style={s.locName}>{item.nameUz}</Text>
-                {item.nameRu && item.nameRu !== item.nameUz ? (
+                <Text style={s.locName}>{item.name}</Text>
+                {item.nameRu && item.nameRu !== item.name ? (
                   <Text style={s.locSub}>{item.nameRu}</Text>
                 ) : null}
               </View>

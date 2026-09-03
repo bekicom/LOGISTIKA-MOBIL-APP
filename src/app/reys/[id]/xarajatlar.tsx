@@ -28,18 +28,22 @@ type Item = {
 };
 type Feed = { items: Item[]; totals: Record<string, number>; count: number };
 
-const CATS: { key: string; label: string; icon: IconName }[] = [
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function cats(): { key: string; label: string; icon: IconName }[] {
+  return [
   { key: "FUEL", label: t("mob.exp.fuel"), icon: "truck" },
   { key: "TOLL", label: t("mob.exp.road"), icon: "border" },
-  { key: "CUSTOMS", label: "Bojxona", icon: "doc" },
+  { key: "CUSTOMS", label: t("mob.expMore.CUSTOMS"), icon: "doc" },
   { key: "FOOD", label: t("mob.exp.food"), icon: "package" },
-  { key: "PARKING", label: "Parking", icon: "clock" },
+  { key: "PARKING", label: t("mob.expMore.PARKING"), icon: "clock" },
   { key: "REPAIR", label: t("mob.exp.repair"), icon: "alert" },
   { key: "WASH", label: t("mob.exp.wash"), icon: "check" },
   { key: "PARTS", label: t("mob.exp.parts"), icon: "package" },
   { key: "FINE", label: t("mob.exp.fine"), icon: "alert" },
   { key: "OTHER", label: t("mob.exp.other"), icon: "plus" },
 ];
+}
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
 
@@ -48,7 +52,7 @@ function money(n: number, cur: string) {
 }
 
 function iconOf(cat: string): IconName {
-  return CATS.find((c) => c.key === cat)?.icon ?? "package";
+  return cats().find((c) => c.key === cat)?.icon ?? "package";
 }
 
 export default function Xarajatlar() {
@@ -126,7 +130,7 @@ export default function Xarajatlar() {
           ) : (
             <Empty
               icon="package"
-              title="Xarajat yozilmagan"
+              title={t("mob.ui.noExpense")}
               text="Yoqilg'i, yo'l haqi va boshqa xarajatlarni shu yerda qayd eting — reys yopilganda hisobotga tushadi."
             />
           )
@@ -222,7 +226,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 
                 <Text style={[s.label, { marginTop: space.xl }]}>{t("mob.exp.kind")}</Text>
                 <View style={s.cats}>
-                  {CATS.map((c) => {
+                  {cats().map((c) => {
                     const on = cat === c.key;
                     return (
                       <Pressable key={c.key} onPress={() => setCat(c.key)} style={[s.cat, on && s.catOn]}>

@@ -7,7 +7,10 @@ import { Icon, type IconName } from "@/components/Icon";
 import { color } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-const TABS: { name: string; title: string; icon: IconName }[] = [
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+function tabs(): { name: string; title: string; icon: IconName }[] {
+  return [
   { name: "bosh", title: t("mob.nav.home"), icon: "home" },
   { name: "yuklar", title: t("mob.nav.loads"), icon: "package" },
   { name: "reyslar", title: t("mob.nav.trips"), icon: "route" },
@@ -15,6 +18,7 @@ const TABS: { name: string; title: string; icon: IconName }[] = [
   { name: "ai", title: "AI", icon: "sparkle" },
   { name: "profil", title: t("mob.nav.profile"), icon: "user" },
 ];
+}
 
 export default function TabsLayout() {
   return (
@@ -34,7 +38,7 @@ export default function TabsLayout() {
         tabBarLabelStyle: { fontSize: 10, fontWeight: "500" },
       }}
     >
-      {TABS.map((t) => (
+      {tabs().map((t) => (
         <Tabs.Screen
           key={t.name}
           name={t.name}

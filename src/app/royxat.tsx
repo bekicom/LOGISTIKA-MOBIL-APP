@@ -180,7 +180,7 @@ export default function Royxat() {
             <Text style={s.sub}>{t("mob.signUp.phoneHint")}</Text>
 
             <View style={{ marginTop: 26 }}>
-              <Text style={s.label}>Telefon raqam</Text>
+              <Text style={s.label}>{t("mob.signIn.byPhone")}</Text>
               <View style={s.phoneRow}>
                 <View style={s.cc}>
                   <Text style={s.ccText}>+998</Text>
@@ -264,7 +264,7 @@ export default function Royxat() {
 
             {devCode ? (
               <View style={{ marginTop: space.lg }}>
-                <Notice tone="info" title="Dev rejimi">
+                <Notice tone="info" title={t("mob.ui.devMode")}>
                   Kod: {devCode}
                 </Notice>
               </View>
@@ -324,8 +324,8 @@ export default function Royxat() {
             <Text style={s.title}>{t("mob.signUp.aboutYou")}</Text>
 
             <View style={{ gap: space.lg, marginTop: space.xxl }}>
-              <Field label={t("mob.profile.firstName")} placeholder="Bekzod" value={firstName} onChangeText={setFirstName} autoFocus />
-              <Field label={t("mob.profile.lastName")} hint={t("mob.common.optional")} placeholder="Rahimov" value={lastName} onChangeText={setLastName} />
+              <Field label={t("mob.profile.firstName")} placeholder={t("mob.profile.firstName")} value={firstName} onChangeText={setFirstName} autoFocus />
+              <Field label={t("mob.profile.lastName")} hint={t("mob.common.optional")} placeholder={t("mob.profile.lastName")} value={lastName} onChangeText={setLastName} />
               <Field
                 label={t("mob.signIn.password")}
                 placeholder={t("mob.signUp.passwordMin")}

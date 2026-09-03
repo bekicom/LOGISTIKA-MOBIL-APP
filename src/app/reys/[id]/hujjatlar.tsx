@@ -29,13 +29,13 @@ type Doc = {
 /** Serverdagi `TRIP_DOC_KINDS` bilan bir xil */
 const KINDS = [
   { key: "CMR", label: "CMR" },
-  { key: "INVOICE", label: "Invoys" },
-  { key: "PACKING", label: "Packing List" },
-  { key: "CUSTOMS", label: "Bojxona" },
+  { key: "INVOICE", label: t("mob.docKind.INVOICE") },
+  { key: "PACKING", label: t("mob.docKind.PACKING") },
+  { key: "CUSTOMS", label: t("mob.docKind.CUSTOMS") },
   { key: "TIR", label: "TIR" },
-  { key: "DOZVOL", label: "Dozvol" },
-  { key: "UNLOAD_PHOTO", label: "Tushirish rasmi" },
-  { key: "OTHER", label: "Boshqa" },
+  { key: "DOZVOL", label: t("mob.docKind.DOZVOL") },
+  { key: "UNLOAD_PHOTO", label: t("mob.docKind.UNLOAD_PHOTO") },
+  { key: "OTHER", label: t("mob.docKind.OTHER") },
 ];
 
 export default function Hujjatlar() {

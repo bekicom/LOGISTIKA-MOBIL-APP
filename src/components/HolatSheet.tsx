@@ -140,7 +140,7 @@ export function HolatSheet({
               <TextInput
                 value={note}
                 onChangeText={setNote}
-                placeholder="Masalan: 2 palet kam yuklandi, akt tuzildi"
+                placeholder={t("mob.post2.notePh")}
                 placeholderTextColor="#94a3b8"
                 multiline
                 style={s.note}

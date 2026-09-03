@@ -203,6 +203,11 @@ export default function Profil() {
           <GroupLabel>{t("mob.profile.myWork")}</GroupLabel>
           <Card>
             <ListRow
+              icon={<Badge icon="border" />}
+              title={t("mob.queue.title")}
+              onPress={() => router.push("/navbat")}
+            />
+            <ListRow
               icon={<Badge icon="truck" />}
               title={t("mob.park.title")}
               hint={t("mob.profile.fleetHint")}

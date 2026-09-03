@@ -90,6 +90,7 @@ export default function Bosh() {
             onTrip={(tid) => router.push(`/reys/${tid}`)}
             onLoad={(lid) => router.push(`/yuk/${lid}`)}
             onPark={() => router.push("/parkim")}
+            onQueue={() => router.push("/navbat")}
           />
         ) : null}
       </ScrollView>
@@ -99,12 +100,13 @@ export default function Bosh() {
 
 /* ─────────────────────────────────────────────── haydovchi */
 
-function Driver({ data, onLoads, onTrip, onLoad, onPark }: {
+function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
   data: Extract<Home, { kind: "driver" }>;
   onLoads: () => void;
   onTrip: (id: string) => void;
   onLoad: (id: string) => void;
   onPark: () => void;
+  onQueue: () => void;
 }) {
   const trip = data.activeTrips[0] ?? null;
 
@@ -126,7 +128,7 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark }: {
       <View style={s.quick}>
         <QuickAction icon="search" label={t("mob.home.findLoad")} onPress={onLoads} />
         <QuickAction icon="truck" label={t("mob.park.title")} onPress={onPark} />
-        <QuickAction icon="border" label={t("mob.home.border")} />
+        <QuickAction icon="border" label={t("mob.home.border")} onPress={onQueue} />
         <QuickAction icon="alert" label={t("mob.home.sos")} danger />
       </View>
 

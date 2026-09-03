@@ -50,6 +50,11 @@
       "vTypePick": "请选择",
       "year": "年份"
     },
+    "ago": {
+      "day": "%{n} 天",
+      "hour": "%{n} 小时",
+      "min": "%{n} 分钟"
+    },
     "ai": {
       "actDone": "已完成",
       "actRejected": "已拒绝该建议",
@@ -187,6 +192,38 @@
       "signOut": "退出",
       "soon": "即将推出",
       "tryAgain": "请重试"
+    },
+    "deals": {
+      "accept": "接受",
+      "bOffer": "报价",
+      "bPay": "付款确认",
+      "bWaiting": "等待回复",
+      "confirmPay": "已付款——确认",
+      "empty": "暂无合作",
+      "emptyText": "当调度员提出代管您的货物或车辆时，会显示在这里。",
+      "f_accepted": "已接受",
+      "f_all": "全部",
+      "f_pending": "待处理",
+      "fee": "服务费",
+      "k_LOAD": "货物管理",
+      "k_TRUCK": "车辆管理",
+      "markPay": "我已收款",
+      "openListing": "打开信息",
+      "paidClaim": "%{name} 表示已收到费用。需要您确认。",
+      "reason": "原因",
+      "reject": "拒绝",
+      "rest": "其余",
+      "roleDispatcher": "调度员",
+      "roleOwner": "信息发布者",
+      "st_ACCEPTED": "已接受",
+      "st_CANCELLED": "已取消",
+      "st_PENDING": "等待回复",
+      "st_REJECTED": "已拒绝",
+      "subtitle": "与调度员的约定",
+      "takeBack": "撤回",
+      "title": "合作",
+      "waitingYou": "等待您的回复 · %{n}",
+      "youSent": "由您发出"
     },
     "delete": {
       "activeTrips": "还有 %{n} 个运单未结束",
@@ -372,6 +409,22 @@
       "title": "货源",
       "to": "目的地",
       "vehicleType": "车辆类型"
+    },
+    "mine": {
+      "active": "进行中",
+      "becameTrip": "已转为运单 — FURAM #%{n}",
+      "close": "关闭",
+      "closed": "已关闭",
+      "contacts": "查看电话",
+      "daysLeft": "还剩 %{n} 天",
+      "done": "已完成",
+      "empty": "暂无信息",
+      "emptyText": "发布货源或车源后会显示在这里。",
+      "offers": "报价",
+      "open": "打开",
+      "quietHint": "这条信息浏览很少。可以延长期限或置顶。",
+      "title": "我的信息",
+      "views": "浏览"
     },
     "misc": {
       "clearFilters": "清除筛选",
@@ -721,6 +774,17 @@
       "SHIPPER": "货主",
       "USER": "普通用户",
       "VEHICLE_OWNER": "车主"
+    },
+    "saved": {
+      "empty": "尚无收藏",
+      "emptyText": "点击信息上的心形图标，即可收藏到这里。",
+      "remove": "移除",
+      "savedOn": "%{d} 收藏",
+      "st_active": "进行中",
+      "st_closed": "信息已关闭",
+      "st_expired": "信息已过期",
+      "st_taken": "该信息已被接单",
+      "title": "已收藏"
     },
     "scanIssue": {
       "EXPIRED": "已于 %{n} 天前过期",

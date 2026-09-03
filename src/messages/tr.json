@@ -50,6 +50,11 @@
       "vTypePick": "Seçin",
       "year": "Yıl"
     },
+    "ago": {
+      "day": "%{n} gün",
+      "hour": "%{n} sa",
+      "min": "%{n} dk"
+    },
     "ai": {
       "actDone": "Yapıldı",
       "actRejected": "Öneri reddedildi",
@@ -187,6 +192,38 @@
       "signOut": "Çıkış",
       "soon": "yakında",
       "tryAgain": "Tekrar deneyin"
+    },
+    "deals": {
+      "accept": "Kabul et",
+      "bOffer": "TEKLİF",
+      "bPay": "ÖDEME ONAYI",
+      "bWaiting": "YANIT BEKLİYOR",
+      "confirmPay": "Ödedim — onayla",
+      "empty": "Anlaşma yok",
+      "emptyText": "Bir dispeçer yükünüzü ya da aracınızı yönetmeyi teklif ederse burada görünür.",
+      "f_accepted": "Kabul edilen",
+      "f_all": "Tümü",
+      "f_pending": "Bekliyor",
+      "fee": "hizmet bedeli",
+      "k_LOAD": "yük yönetimi",
+      "k_TRUCK": "araç yönetimi",
+      "markPay": "Ücreti aldım",
+      "openListing": "İlanı aç",
+      "paidClaim": "%{name} ücreti aldığını bildirdi. Onayınız gerekiyor.",
+      "reason": "Sebep",
+      "reject": "Reddet",
+      "rest": "DİĞERLERİ",
+      "roleDispatcher": "dispeçer",
+      "roleOwner": "ilan sahibi",
+      "st_ACCEPTED": "KABUL EDİLDİ",
+      "st_CANCELLED": "İPTAL EDİLDİ",
+      "st_PENDING": "YANIT BEKLİYOR",
+      "st_REJECTED": "REDDEDİLDİ",
+      "subtitle": "Dispeçerle yapılan anlaşmalar",
+      "takeBack": "Geri çek",
+      "title": "Anlaşmalar",
+      "waitingYou": "SİZDEN YANIT BEKLENİYOR · %{n}",
+      "youSent": "Siz gönderdiniz"
     },
     "delete": {
       "activeTrips": "%{n} sefer hâlâ açık",
@@ -372,6 +409,22 @@
       "title": "Yükler",
       "to": "Nereye",
       "vehicleType": "Araç tipi"
+    },
+    "mine": {
+      "active": "AKTİF",
+      "becameTrip": "Sefere dönüştü — FURAM #%{n}",
+      "close": "Kapat",
+      "closed": "KAPALI",
+      "contacts": "numara açıldı",
+      "daysLeft": "%{n} gün kaldı",
+      "done": "TAMAMLANDI",
+      "empty": "İlan yok",
+      "emptyText": "Bir yük ya da araç ilanı verdiğinizde burada görünür.",
+      "offers": "teklif",
+      "open": "Aç",
+      "quietHint": "Bu ilan az görüntüleniyor. Süreyi uzatabilir ya da TOP yapabilirsiniz.",
+      "title": "İlanlarım",
+      "views": "görüntülenme"
     },
     "misc": {
       "clearFilters": "Filtreleri temizle",
@@ -721,6 +774,17 @@
       "SHIPPER": "Yük sahibi",
       "USER": "Normal kullanıcı",
       "VEHICLE_OWNER": "Araç sahibi"
+    },
+    "saved": {
+      "empty": "Kaydedilmiş ilan yok",
+      "emptyText": "İlandaki kalbe dokunun, buraya düşer.",
+      "remove": "Kaldır",
+      "savedOn": "%{d} tarihinde kaydedildi",
+      "st_active": "Aktif",
+      "st_closed": "İlan kapatıldı",
+      "st_expired": "İlanın süresi doldu",
+      "st_taken": "Bu ilan çoktan alındı",
+      "title": "Kaydedilenler"
     },
     "scanIssue": {
       "EXPIRED": "Süresi %{n} gün önce doldu",

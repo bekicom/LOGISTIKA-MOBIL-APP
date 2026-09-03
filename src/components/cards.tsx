@@ -93,13 +93,15 @@ export function money(price: number | null | undefined, currency = "UZS", negoti
   return `${new Intl.NumberFormat("ru-RU").format(price)} ${currency}`;
 }
 
+/* Qisqartmalar o'zbekcha qotib qolgan edi («daq», «soat», «kun») va
+   ruscha interfeysda ham shundayligicha chiqardi (2026-09-04). */
 export function ago(iso?: string) {
   if (!iso) return "";
   const m = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
-  if (m < 60) return `${m} daq`;
+  if (m < 60) return t("mob.ago.min", { n: m });
   const h = Math.round(m / 60);
-  if (h < 24) return `${h} soat`;
-  return `${Math.round(h / 24)} kun`;
+  if (h < 24) return t("mob.ago.hour", { n: h });
+  return t("mob.ago.day", { n: Math.round(h / 24) });
 }
 
 export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => void }) {

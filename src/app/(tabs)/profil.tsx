@@ -220,8 +220,22 @@ export default function Profil() {
               hint={t("mob.profile.fleetHint")}
               onPress={() => router.push("/parkim")}
             />
-            <ListRow icon={<Badge icon="package" />} title={t("mob.profile.myListings")} right={<Soon />} />
-            <ListRow icon={<Badge icon="heart" />} title={t("mob.profile.saved")} right={<Soon />} />
+            <ListRow
+              icon={<Badge icon="chat" />}
+              title={t("mob.deals.title")}
+              hint={t("mob.deals.subtitle")}
+              onPress={() => router.push("/kelishuvlar")}
+            />
+            <ListRow
+              icon={<Badge icon="package" />}
+              title={t("mob.profile.myListings")}
+              onPress={() => router.push("/elonlarim")}
+            />
+            <ListRow
+              icon={<Badge icon="heart" />}
+              title={t("mob.profile.saved")}
+              onPress={() => router.push("/saqlanganlar")}
+            />
             <ListRow
               icon={<Badge icon="doc" />}
               title={t("mob.profile.myDocs")}
@@ -261,9 +275,6 @@ function Badge({ icon }: { icon: IconName }) {
   );
 }
 
-function Soon() {
-  return <Text style={s.soon}>{t("mob.common.soon")}</Text>;
-}
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },

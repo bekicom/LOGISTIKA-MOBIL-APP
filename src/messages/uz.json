@@ -50,6 +50,11 @@
       "vTypePick": "Tanlang",
       "year": "Yili"
     },
+    "ago": {
+      "day": "%{n} kun",
+      "hour": "%{n} soat",
+      "min": "%{n} daq"
+    },
     "ai": {
       "actDone": "Bajarildi",
       "actRejected": "Taklif rad etildi",
@@ -187,6 +192,38 @@
       "signOut": "Chiqish",
       "soon": "tez orada",
       "tryAgain": "Qaytadan urinib ko'ring"
+    },
+    "deals": {
+      "accept": "Qabul qilish",
+      "bOffer": "TAKLIF",
+      "bPay": "PUL TASDIG'I",
+      "bWaiting": "JAVOB KUTILMOQDA",
+      "confirmPay": "To'ladim — tasdiqlash",
+      "empty": "Kelishuv yo'q",
+      "emptyText": "Dispetcher yukingiz yoki mashinangizni boshqarishni taklif qilsa, shu yerda ko'rinadi.",
+      "f_accepted": "Qabul qilingan",
+      "f_all": "Hammasi",
+      "f_pending": "Kutilmoqda",
+      "fee": "xizmat haqi",
+      "k_LOAD": "yuk boshqaruvi",
+      "k_TRUCK": "mashina boshqaruvi",
+      "markPay": "Haqni oldim",
+      "openListing": "E'lonni ochish",
+      "paidClaim": "%{name} xizmat haqini oldim dedi. Siz tasdiqlashingiz kerak.",
+      "reason": "Sabab",
+      "reject": "Rad etish",
+      "rest": "QOLGANI",
+      "roleDispatcher": "dispetcher",
+      "roleOwner": "e'lon egasi",
+      "st_ACCEPTED": "QABUL QILINGAN",
+      "st_CANCELLED": "BEKOR QILINGAN",
+      "st_PENDING": "JAVOB KUTILMOQDA",
+      "st_REJECTED": "RAD ETILGAN",
+      "subtitle": "Dispetcher bilan tuzilgan bitimlar",
+      "takeBack": "Qaytarib olish",
+      "title": "Kelishuvlar",
+      "waitingYou": "SIZDAN JAVOB KUTILMOQDA · %{n}",
+      "youSent": "Siz yubordingiz"
     },
     "delete": {
       "activeTrips": "%{n} ta reys hali yopilmagan",
@@ -372,6 +409,22 @@
       "title": "Yuklar",
       "to": "Qayerga",
       "vehicleType": "Transport turi"
+    },
+    "mine": {
+      "active": "FAOL",
+      "becameTrip": "Reysga aylandi — FURAM #%{n}",
+      "close": "Yopish",
+      "closed": "YOPILGAN",
+      "contacts": "raqam ochildi",
+      "daysLeft": "%{n} kun qoldi",
+      "done": "BAJARILGAN",
+      "empty": "E'lon yo'q",
+      "emptyText": "Yuk yoki mashina e'lon qilsangiz, shu yerda ko'rinadi.",
+      "offers": "taklif",
+      "open": "Ochish",
+      "quietHint": "Bu e'lon kam ko'rilyapti. Muddatini uzaytirish yoki TOP qilish mumkin.",
+      "title": "E'lonlarim",
+      "views": "ko'rildi"
     },
     "misc": {
       "clearFilters": "Filtrlarni tozalash",
@@ -721,6 +774,17 @@
       "SHIPPER": "Yuk egasi",
       "USER": "Oddiy foydalanuvchi",
       "VEHICLE_OWNER": "Mashina egasi"
+    },
+    "saved": {
+      "empty": "Saqlangan e'lon yo'q",
+      "emptyText": "E'londagi yurakchani bossangiz, u shu yerga tushadi.",
+      "remove": "O'chirish",
+      "savedOn": "%{d} da saqlangan",
+      "st_active": "Faol",
+      "st_closed": "E'lon yopilgan",
+      "st_expired": "E'lon muddati tugagan",
+      "st_taken": "Bu e'lon allaqachon olingan",
+      "title": "Saqlanganlar"
     },
     "scanIssue": {
       "EXPIRED": "Muddati %{n} kun oldin tugagan",

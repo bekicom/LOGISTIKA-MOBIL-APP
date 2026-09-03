@@ -50,6 +50,11 @@
       "vTypePick": "Choose",
       "year": "Year"
     },
+    "ago": {
+      "day": "%{n} d",
+      "hour": "%{n} h",
+      "min": "%{n} min"
+    },
     "ai": {
       "actDone": "Done",
       "actRejected": "Suggestion rejected",
@@ -187,6 +192,38 @@
       "signOut": "Sign out",
       "soon": "coming soon",
       "tryAgain": "Please try again"
+    },
+    "deals": {
+      "accept": "Accept",
+      "bOffer": "OFFER",
+      "bPay": "PAYMENT CHECK",
+      "bWaiting": "AWAITING REPLY",
+      "confirmPay": "I paid — confirm",
+      "empty": "No deals",
+      "emptyText": "When a dispatcher offers to manage your load or truck, it shows up here.",
+      "f_accepted": "Accepted",
+      "f_all": "All",
+      "f_pending": "Pending",
+      "fee": "service fee",
+      "k_LOAD": "load management",
+      "k_TRUCK": "truck management",
+      "markPay": "I received the fee",
+      "openListing": "Open the listing",
+      "paidClaim": "%{name} says the fee was received. Your confirmation is needed.",
+      "reason": "Reason",
+      "reject": "Reject",
+      "rest": "THE REST",
+      "roleDispatcher": "dispatcher",
+      "roleOwner": "listing owner",
+      "st_ACCEPTED": "ACCEPTED",
+      "st_CANCELLED": "CANCELLED",
+      "st_PENDING": "AWAITING REPLY",
+      "st_REJECTED": "REJECTED",
+      "subtitle": "Arrangements with a dispatcher",
+      "takeBack": "Withdraw",
+      "title": "Deals",
+      "waitingYou": "WAITING FOR YOU · %{n}",
+      "youSent": "You sent this"
     },
     "delete": {
       "activeTrips": "%{n} trips are still open",
@@ -372,6 +409,22 @@
       "title": "Cargo",
       "to": "To",
       "vehicleType": "Vehicle type"
+    },
+    "mine": {
+      "active": "ACTIVE",
+      "becameTrip": "Became a trip — FURAM #%{n}",
+      "close": "Close",
+      "closed": "CLOSED",
+      "contacts": "contacts opened",
+      "daysLeft": "%{n} days left",
+      "done": "COMPLETED",
+      "empty": "No listings",
+      "emptyText": "Post a load or a truck and it shows up here.",
+      "offers": "offers",
+      "open": "Open",
+      "quietHint": "Few people are seeing this. You can extend it or promote it to TOP.",
+      "title": "My listings",
+      "views": "views"
     },
     "misc": {
       "clearFilters": "Clear the filters",
@@ -721,6 +774,17 @@
       "SHIPPER": "Cargo owner",
       "USER": "Regular user",
       "VEHICLE_OWNER": "Vehicle owner"
+    },
+    "saved": {
+      "empty": "Nothing saved yet",
+      "emptyText": "Tap the heart on a listing and it lands here.",
+      "remove": "Remove",
+      "savedOn": "saved on %{d}",
+      "st_active": "Active",
+      "st_closed": "The listing is closed",
+      "st_expired": "The listing has expired",
+      "st_taken": "This listing has already been taken",
+      "title": "Saved"
     },
     "scanIssue": {
       "EXPIRED": "Expired %{n} days ago",

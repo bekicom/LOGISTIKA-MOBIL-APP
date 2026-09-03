@@ -202,6 +202,13 @@ export default function Profil() {
         <View>
           <GroupLabel>{t("mob.profile.myWork")}</GroupLabel>
           <Card>
+            {/* Haydovchining ish markazi — reysi, haqi, hujjati bir joyda */}
+            <ListRow
+              icon={<Badge icon="user" />}
+              title={t("mob.panel.title")}
+              hint={t("mob.profile.panelHint")}
+              onPress={() => router.push("/panelim")}
+            />
             <ListRow
               icon={<Badge icon="border" />}
               title={t("mob.queue.title")}

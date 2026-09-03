@@ -337,6 +337,32 @@
       "group": "PAPKALAR",
       "title": "Papka"
     },
+    "geo": {
+      "allow": "Ruxsat berish",
+      "deniedText": "Ruxsat rad etilgan. Uni faqat telefon sozlamalaridan qaytarish mumkin — ilova qayta so'ray olmaydi.",
+      "fgOnlyText": "Ilova ochiq bo'lgandagina ruxsat berilgan. Telefonni cho'ntagingizga solsangiz yo'l yozilmay qoladi — «Doim» ruxsatini bering.",
+      "later": "Hozir emas",
+      "openSettings": "Sozlamalarni ochish",
+      "p1": "Faqat reys davomida",
+      "p2": "Faqat shu reys ishtirokchilariga",
+      "p3": "Istagan vaqtda to'xtatishingiz mumkin",
+      "stopAnytime": "Kuzatuv reys yopilishi bilan o'zi to'xtaydi. Undan oldin ham reys ekranidagi tugma bilan to'xtatishingiz mumkin — hech kimdan so'ramasdan.",
+      "title": "Joylashuv",
+      "why": "Joylashuvingiz nima uchun kerak",
+      "whyText": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi — ular yukning qayerdaligini biladi."
+    },
+    "gps": {
+      "live": "Jonli kuzatuv",
+      "off": "Kuzatuv o'chirilgan",
+      "on": "Yo'l yozilmoqda",
+      "onText": "Telefon cho'ntagingizda bo'lsa ham ishlaydi. Reys yopilishi bilan o'zi to'xtaydi.",
+      "paused": "Kuzatuv yoqilmagan",
+      "pausedText": "Yoqsangiz yuk egasi va dispetcher yukning qayerdaligini ko'radi.",
+      "serverOff": "Bu reysda kuzatuv o'chirilgan — avval uni yoqish kerak.",
+      "startBtn": "Yoqish",
+      "stop": "To'xtatish",
+      "waiting": "%{n} ta nuqta yuborilishini kutmoqda"
+    },
     "home": {
       "activeTrips": "Faol reyslar",
       "border": "Chegara",

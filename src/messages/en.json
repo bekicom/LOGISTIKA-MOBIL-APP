@@ -337,6 +337,32 @@
       "group": "FOLDERS",
       "title": "Folder"
     },
+    "geo": {
+      "allow": "Allow",
+      "deniedText": "Access was denied. Only the phone settings can restore it — the app cannot ask again.",
+      "fgOnlyText": "Allowed only while the app is open. Put the phone in your pocket and the route stops recording — grant the Always permission.",
+      "later": "Not now",
+      "openSettings": "Open settings",
+      "p1": "Only during a trip",
+      "p2": "Only to the people on this trip",
+      "p3": "You can turn it off at any time",
+      "stopAnytime": "Tracking stops by itself when the trip closes. You can also stop it earlier from the trip screen, without asking anyone.",
+      "title": "Location",
+      "why": "Why we need your location",
+      "whyText": "During a trip your location is shown to the cargo owner and the dispatcher, so they know where the load is."
+    },
+    "gps": {
+      "live": "Live tracking",
+      "off": "Tracking is off",
+      "on": "The route is recording",
+      "onText": "It works with the phone in your pocket and stops by itself when the trip closes.",
+      "paused": "Tracking is not on",
+      "pausedText": "Turn it on and the cargo owner and dispatcher can see where the load is.",
+      "serverOff": "Tracking is switched off for this trip — turn it on first.",
+      "startBtn": "Turn on",
+      "stop": "Stop",
+      "waiting": "%{n} points waiting to be sent"
+    },
     "home": {
       "activeTrips": "Active trips",
       "border": "Border",

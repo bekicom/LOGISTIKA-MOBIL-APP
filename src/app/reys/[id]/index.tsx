@@ -6,7 +6,7 @@
  */
 import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, G, Path, Rect } from "react-native-svg";
 import { Icon } from "@/components/Icon";
@@ -15,6 +15,14 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { HolatSheet } from "@/components/HolatSheet";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
+import {
+  activeTrip,
+  isRunning as gpsRunning,
+  pendingPoints,
+  permState,
+  start as gpsStart,
+  stop as gpsStop,
+} from "@/lib/gps";
 import { t } from "@/lib/i18n";
 
 type Step = { status: string; label: string; at: string | null; state: "done" | "current" | "next" };
@@ -64,6 +72,17 @@ export default function ReysTafsiloti() {
   /* Keyingi bosqich — serverning `steps` ro'yxatidagi birinchi «next».
      Zanjir mantiqi bitta joyda (serverda) tursin. */
   const next = data?.steps.find((st) => st.state === "next")?.status ?? null;
+
+  /* REYS YOPILISHI BILAN KUZATUV TO'XTAYDI (TZ §6.1). Doimiy
+     kuzatuv yo'q — bu ham Apple talabi, ham to'g'ri qaror. Tekshiruv
+     shu yerda: haydovchi holatni o'zgartirgach ekran qayta yuklanadi
+     va yopilganini shu yerdan biladi. */
+  useEffect(() => {
+    if (!data || data.isLive) return;
+    void activeTrip().then((t) => {
+      if (t === String(id)) void gpsStop();
+    });
+  }, [data, id]);
 
   const eta = data?.position?.etaAt ? new Date(data.position.etaAt) : null;
   const covered =
@@ -132,6 +151,9 @@ export default function ReysTafsiloti() {
                   ))}
                 </View>
               </View>
+
+              {/* Kuzatuv — faqat faol reysda va faqat haydovchida */}
+              {data.isLive ? <GpsCard tripId={String(id)} on={data.trackingOn} /> : null}
 
               {/* Yuk */}
               <View style={s.card}>
@@ -241,6 +263,90 @@ export default function ReysTafsiloti() {
   );
 }
 
+/**
+ * Kuzatuv boshqaruvi.
+ *
+ * HAYDOVCHI ISTAGAN VAQTDA TO'XTATA OLADI — bu TZ talabi ham
+ * (§6.3), ham to'g'ri qaror: majburiy kuzatuv ilovani o'chirib
+ * qo'yishga olib keladi va natijada hech qanday ma'lumot qolmaydi.
+ *
+ * Kutayotgan nuqtalar soni ochiq ko'rsatiladi: chegarada aloqasiz
+ * yozilgan yo'l yo'qolmaganini odam KO'RISHI kerak.
+ */
+function GpsCard({ tripId, on }: { tripId: string; on: boolean }) {
+  const router = useRouter();
+  const [running, setRunning] = useState(false);
+  const [waiting, setWaiting] = useState(0);
+  const [busy, setBusy] = useState(false);
+
+  const refresh = useCallback(async () => {
+    setRunning(await gpsRunning());
+    setWaiting(await pendingPoints());
+  }, []);
+
+  useEffect(() => {
+    void refresh();
+    const timer = setInterval(() => void refresh(), 15_000);
+    return () => clearInterval(timer);
+  }, [refresh]);
+
+  async function toggle() {
+    setBusy(true);
+    try {
+      if (running) {
+        await gpsStop();
+      } else {
+        const state = await permState();
+        /* Ruxsat yo'q bo'lsa TIZIM OYNASI EMAS, tushuntirish ekrani
+           ochiladi — rad javobdan keyin qayta so'rab bo'lmaydi. */
+        if (state === "denied") {
+          router.push({ pathname: "/joylashuv", params: { trip: tripId } });
+          return;
+        }
+        await gpsStart(tripId);
+      }
+      await refresh();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <View style={[s.card, running && { borderColor: color.success + "66" }]}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 11 }}>
+        <View style={[s.gpsIcon, running && { backgroundColor: color.success + "1f" }]}>
+          <Icon name="route" size={19} stroke={running ? color.success : "#94a3b8"} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={s.cardTitle}>
+            {running ? t("mob.gps.on") : t("mob.gps.paused")}
+          </Text>
+          <Text style={s.gpsHint}>
+            {running ? t("mob.gps.onText") : on ? t("mob.gps.pausedText") : t("mob.gps.serverOff")}
+          </Text>
+        </View>
+        <Pressable
+          onPress={toggle}
+          disabled={busy}
+          accessibilityRole="button"
+          style={[s.gpsBtn, running && { borderColor: color.danger + "66" }]}
+        >
+          <Text style={[s.gpsBtnText, running && { color: color.danger }]}>
+            {running ? t("mob.gps.stop") : t("mob.gps.startBtn")}
+          </Text>
+        </Pressable>
+      </View>
+
+      {waiting > 0 ? (
+        <View style={s.gpsWaiting}>
+          <Icon name="clock" size={15} stroke={color.mutedForeground} />
+          <Text style={s.gpsHint}>{t("mob.gps.waiting", { n: waiting })}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 /* ─────────────────────────────────────────────── bo'laklar */
 
 function fmt(n: number, cur: string) {
@@ -343,10 +449,12 @@ function ListRow({ icon, title, sub, value, last, onPress }: {
 function RouteMap({ trip }: { trip: Trip }) {
   const total = trip.route.distanceKm ?? null;
   const left = trip.position?.remainingKm ?? null;
-  const t = total && left != null ? Math.min(1, Math.max(0, (total - left) / total)) : 0.45;
+  /* `t` DEB NOMLANMAYDI: u tarjima funksiyasini soyalab qo'yardi va
+     shu blokda `t("...")` ishlamay qolardi. */
+  const progress = total && left != null ? Math.min(1, Math.max(0, (total - left) / total)) : 0.45;
 
-  const x = 40 + (330 - 40) * t;
-  const y = 132 - (132 - 44) * t;
+  const x = 40 + (330 - 40) * progress;
+  const y = 132 - (132 - 44) * progress;
 
   return (
     <View style={s.map}>
@@ -369,7 +477,7 @@ function RouteMap({ trip }: { trip: Trip }) {
       <View style={s.mapBadge}>
         <View style={[s.gpsDot, !trip.trackingOn && { backgroundColor: "#94a3b8" }]} />
         <Text style={s.mapBadgeText}>
-          {trip.trackingOn ? "Jonli kuzatuv" : "Kuzatuv o'chirilgan"}
+          {trip.trackingOn ? t("mob.gps.live") : t("mob.gps.off")}
         </Text>
       </View>
 
@@ -389,6 +497,20 @@ const s = StyleSheet.create({
   title: { fontSize: 17, fontWeight: "700", color: color.foreground },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
+  gpsIcon: {
+    width: 38, height: 38, borderRadius: 19, backgroundColor: color.muted,
+    alignItems: "center", justifyContent: "center",
+  },
+  gpsHint: { fontSize: 12, color: color.mutedForeground, marginTop: 2, lineHeight: 18 },
+  gpsBtn: {
+    height: 36, paddingHorizontal: 13, borderRadius: radius.control,
+    borderWidth: 1, borderColor: color.border, alignItems: "center", justifyContent: "center",
+  },
+  gpsBtnText: { fontSize: 13, fontWeight: "600", color: "#475569" },
+  gpsWaiting: {
+    flexDirection: "row", alignItems: "center", gap: 8, marginTop: 12,
+    paddingTop: 12, borderTopWidth: 1, borderTopColor: color.border,
+  },
   map: { height: 190, backgroundColor: "#dfe6ef", overflow: "hidden" },
   mapBadge: {
     position: "absolute", left: space.lg, top: 14, flexDirection: "row", alignItems: "center", gap: 7,

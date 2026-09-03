@@ -337,6 +337,32 @@
       "group": "KLASÖRLER",
       "title": "Klasör"
     },
+    "geo": {
+      "allow": "İzin ver",
+      "deniedText": "İzin reddedildi. Yalnızca telefon ayarlarından geri verilebilir — uygulama tekrar soramaz.",
+      "fgOnlyText": "Yalnızca uygulama açıkken izin verildi. Telefonu cebinize koyarsanız yol kaydedilmez — «Her zaman» iznini verin.",
+      "later": "Şimdi değil",
+      "openSettings": "Ayarları aç",
+      "p1": "Yalnızca sefer boyunca",
+      "p2": "Yalnızca bu seferin katılımcılarına",
+      "p3": "İstediğiniz zaman kapatabilirsiniz",
+      "stopAnytime": "Takip, sefer kapanınca kendiliğinden durur. Daha önce de sefer ekranındaki düğmeyle durdurabilirsiniz — kimseye sormadan.",
+      "title": "Konum",
+      "why": "Konumunuz neden gerekli",
+      "whyText": "Sefer boyunca konumunuz yük sahibi ve dispeçere gösterilir — yükün nerede olduğunu bilirler."
+    },
+    "gps": {
+      "live": "Canlı takip",
+      "off": "Takip kapalı",
+      "on": "Yol kaydediliyor",
+      "onText": "Telefon cebinizdeyken de çalışır. Sefer kapanınca kendiliğinden durur.",
+      "paused": "Takip açık değil",
+      "pausedText": "Açarsanız yük sahibi ve dispeçer yükün nerede olduğunu görür.",
+      "serverOff": "Bu sefer için takip kapalı — önce açmanız gerekiyor.",
+      "startBtn": "Aç",
+      "stop": "Durdur",
+      "waiting": "%{n} nokta gönderilmeyi bekliyor"
+    },
     "home": {
       "activeTrips": "Aktif seferler",
       "border": "Sınır",

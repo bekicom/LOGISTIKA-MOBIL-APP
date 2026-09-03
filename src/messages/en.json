@@ -330,6 +330,13 @@
       "CUSTOMS": "Customs",
       "PARKING": "Parking"
     },
+    "folder": {
+      "count": "%{n} documents",
+      "empty": "The folder is empty",
+      "emptyText": "Nothing has been put in this folder yet.",
+      "group": "FOLDERS",
+      "title": "Folder"
+    },
     "home": {
       "activeTrips": "Active trips",
       "border": "Border",
@@ -369,6 +376,18 @@
       "transport": "Vehicle",
       "truckCount": "Trucks needed",
       "volume": "Volume"
+    },
+    "legal": {
+      "company": "SERVICE PROVIDER",
+      "details": "View the company details",
+      "offer": "Public offer",
+      "offerHint": "The service agreement",
+      "opensInBrowser": "The documents open in your browser — they live on the site and stay up to date.",
+      "privacy": "Privacy policy",
+      "privacyHint": "What data is collected and why",
+      "terms": "Terms of use",
+      "termsHint": "Rules and limits",
+      "title": "Legal documents"
     },
     "listing": {
       "mine": "YOURS",
@@ -768,6 +787,39 @@
       "title": "Trip report",
       "whatWrong": "What went wrong?"
     },
+    "reset": {
+      "againLabel": "Repeat the password",
+      "badCode": "Wrong code",
+      "codeHint": "Code sent to:",
+      "codeTitle": "Enter the code",
+      "doneText": "Sign in with the new password. Sessions on other devices are closed.",
+      "doneTitle": "Password changed",
+      "failed": "The password was not changed",
+      "mismatch": "The passwords do not match",
+      "newHint": "At least 8 characters.",
+      "newLabel": "New password",
+      "newTitle": "New password",
+      "phoneHint": "We will send a confirmation code to this number.",
+      "phoneTitle": "Your phone number",
+      "sessionsNote": "Changing the password closes your sessions on every device — phone, computer, tablet. You will sign in again on each.",
+      "title": "Reset password",
+      "toSignIn": "Sign in"
+    },
+    "resume": {
+      "about": "About you",
+      "aboutPh": "For example: 8 years of international runs, experience with reefers",
+      "classes": "Licence categories",
+      "countries": "Countries you drive to",
+      "creating": "New CV",
+      "editing": "Editing",
+      "exp": "Experience (years)",
+      "lead": "Employers choose by this. Five fields are enough — the rest can come later.",
+      "pay": "Expected pay (per month)",
+      "payHint": "USD",
+      "save": "Save the CV",
+      "title": "CV",
+      "webNote": "The other fields you filled in on the website stay — this screen does not erase them."
+    },
     "role": {
       "DISPATCHER": "Dispatcher",
       "DRIVER": "Driver",
@@ -815,8 +867,12 @@
     },
     "signUp": {
       "aboutYou": "About you",
+      "agreeAnd": "and",
+      "agreePost": "",
+      "agreePre": "I agree to the",
       "bySms": "By SMS",
       "codeFailed": "The code was not sent",
+      "devCode": "Test code: %{code}",
       "enterCode": "Enter the code",
       "noSession": "The server returned no session",
       "offer": "Public offer",
@@ -826,6 +882,7 @@
       "phoneHint": "We will send a code to confirm the number",
       "privacy": "Privacy policy",
       "resend": "Resend the code",
+      "resendIn": "Resend in %{n} s",
       "roleDispatcher": "I manage listings",
       "roleDriver": "I drive myself and look for cargo",
       "roleHint": "This decides what you see in the app. You can change it later.",

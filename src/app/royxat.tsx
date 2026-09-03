@@ -370,9 +370,20 @@ export default function Royxat() {
                   </Svg>
                 ) : null}
               </View>
+              {/* «va ... shartlariga roziman» o'zbekcha qotib qolgan
+                  edi; endi butun jumla lug'atda. Havolalar ham
+                  bosiladigan bo'ldi — ilgari shunchaki ko'k matn
+                  edi va do'kon talabi bajarilmasdi. */}
               <Text style={s.offerText}>
-                <Text style={s.link}>{t("mob.signUp.offer")}</Text> va <Text style={s.link}>{t("mob.signUp.privacy")}</Text> shartlariga
-                roziman
+                {t("mob.signUp.agreePre")}{" "}
+                <Text style={s.link} onPress={() => router.push("/huquqiy")}>
+                  {t("mob.signUp.offer")}
+                </Text>{" "}
+                {t("mob.signUp.agreeAnd")}{" "}
+                <Text style={s.link} onPress={() => router.push("/huquqiy")}>
+                  {t("mob.signUp.privacy")}
+                </Text>{" "}
+                {t("mob.signUp.agreePost")}
               </Text>
             </Pressable>
 

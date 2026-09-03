@@ -12,7 +12,7 @@
 import { useMemo } from "react";
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Card, GroupLabel, Header } from "@/components/ui";
+import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
@@ -30,6 +30,8 @@ type Doc = {
   required: boolean;
   missing: boolean;
 };
+type Folder = { id: string; name: string; documentCount: number };
+
 type Feed = {
   items: Doc[];
   readiness: {
@@ -59,6 +61,11 @@ function whenText(d: Doc): string {
 export default function Hujjatlarim() {
   const router = useRouter();
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>("/api/documents");
+  /* Papkalar ALOHIDA so'rov: shaxsiy hujjatlar (prava, pasport,
+     tibbiy) muddat bo'yicha kuzatiladi va tayyorlik hisobi bor,
+     papkada esa ixtiyoriy hujjat yotadi. Bittasi kelmasa, ikkinchisi
+     baribir ko'rinadi. */
+  const folders = useApi<{ folders: Folder[] }>("/api/documents/folders");
 
   const items = data?.items ?? [];
   const required = useMemo(() => items.filter((d) => d.required), [items]);
@@ -169,6 +176,28 @@ export default function Hujjatlarim() {
               </View>
             ) : null}
 
+            {folders.data?.folders.length ? (
+              <View>
+                <GroupLabel>{t("mob.folder.group")}</GroupLabel>
+                <Card>
+                  {folders.data.folders.map((f, i) => (
+                    <ListRow
+                      key={f.id}
+                      icon={
+                        <View style={s.folderIcon}>
+                          <Icon name="doc" size={17} stroke={color.mutedForeground} />
+                        </View>
+                      }
+                      title={f.name}
+                      hint={t("mob.folder.count", { n: f.documentCount })}
+                      last={i === folders.data!.folders.length - 1}
+                      onPress={() => router.push(`/hujjatlarim/papka/${f.id}`)}
+                    />
+                  ))}
+                </Card>
+              </View>
+            ) : null}
+
             {/* Maxfiylik — hujjat yuklash ishonch masalasi */}
             <View style={s.privacy}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
@@ -273,6 +302,14 @@ const s = StyleSheet.create({
   },
   btnAddText: { fontSize: font.caption, fontWeight: "600", color: "#fff" },
 
+  folderIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: color.muted,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   privacy: {
     backgroundColor: color.card, borderWidth: 1, borderColor: color.border,
     borderRadius: radius.card, padding: space.lg,

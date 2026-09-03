@@ -176,7 +176,7 @@ export default function Kirish() {
 
           {err && !locked ? <Text style={s.err}>{err.message}</Text> : null}
 
-          <Pressable hitSlop={8}>
+          <Pressable hitSlop={8} onPress={() => router.push("/parol")} accessibilityRole="button">
             <Text style={s.link}>{t("mob.signIn.forgot")}</Text>
           </Pressable>
         </View>

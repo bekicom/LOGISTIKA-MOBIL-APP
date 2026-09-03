@@ -330,6 +330,13 @@
       "CUSTOMS": "Bojxona",
       "PARKING": "Parking"
     },
+    "folder": {
+      "count": "%{n} ta hujjat",
+      "empty": "Papka bo'sh",
+      "emptyText": "Bu papkaga hali hujjat solinmagan.",
+      "group": "PAPKALAR",
+      "title": "Papka"
+    },
     "home": {
       "activeTrips": "Faol reyslar",
       "border": "Chegara",
@@ -369,6 +376,18 @@
       "transport": "Transport",
       "truckCount": "Mashina soni",
       "volume": "Hajm"
+    },
+    "legal": {
+      "company": "XIZMAT KO'RSATUVCHI",
+      "details": "Rekvizitlarni ko'rish",
+      "offer": "Ommaviy oferta",
+      "offerHint": "Xizmatdan foydalanish shartnomasi",
+      "opensInBrowser": "Hujjatlar brauzerda ochiladi — ular saytda saqlanadi va yangilanib turadi.",
+      "privacy": "Maxfiylik siyosati",
+      "privacyHint": "Qanday ma'lumot yig'iladi va nima uchun",
+      "terms": "Foydalanish shartlari",
+      "termsHint": "Qoidalar va cheklovlar",
+      "title": "Huquqiy hujjatlar"
     },
     "listing": {
       "mine": "SIZNIKI",
@@ -768,6 +787,39 @@
       "title": "Reys hisoboti",
       "whatWrong": "Nima yoqmadi?"
     },
+    "reset": {
+      "againLabel": "Parolni takrorlang",
+      "badCode": "Kod noto'g'ri",
+      "codeHint": "Kod yuborildi:",
+      "codeTitle": "Kodni kiriting",
+      "doneText": "Endi yangi parol bilan kiring. Boshqa qurilmalardagi seanslar yopildi.",
+      "doneTitle": "Parol almashtirildi",
+      "failed": "Parol almashtirilmadi",
+      "mismatch": "Parollar mos kelmadi",
+      "newHint": "Kamida 8 belgi bo'lsin.",
+      "newLabel": "Yangi parol",
+      "newTitle": "Yangi parol",
+      "phoneHint": "Shu raqamga tasdiqlash kodi yuboramiz.",
+      "phoneTitle": "Telefon raqamingiz",
+      "sessionsNote": "Parol almashtirilgach barcha qurilmalardagi seanslar yopiladi — telefon, kompyuter va planshet. Har birida qaytadan kirasiz.",
+      "title": "Parolni tiklash",
+      "toSignIn": "Kirish"
+    },
+    "resume": {
+      "about": "O'zingiz haqingizda",
+      "aboutPh": "Masalan: 8 yil xalqaro reys, refrijerator tajribasi bor",
+      "classes": "Prava toifalari",
+      "countries": "Qaysi davlatlarga chiqasiz",
+      "creating": "Yangi rezyume",
+      "editing": "Tahrirlash",
+      "exp": "Tajriba (yil)",
+      "lead": "Ish beruvchilar shu ma'lumotga qarab tanlaydi. Beshtasi yetarli — qolganini keyin qo'shsangiz ham bo'ladi.",
+      "pay": "Kutilgan haq (oyiga)",
+      "payHint": "USD",
+      "save": "Rezyumeni saqlash",
+      "title": "Rezyume",
+      "webNote": "Saytda to'ldirgan qolgan maydonlaringiz saqlanib qoladi — bu ekran ularni o'chirmaydi."
+    },
     "role": {
       "DISPATCHER": "Dispetcher",
       "DRIVER": "Haydovchi",
@@ -815,8 +867,12 @@
     },
     "signUp": {
       "aboutYou": "O'zingiz haqingizda",
+      "agreeAnd": "va",
+      "agreePost": "shartlariga roziman",
+      "agreePre": "Men",
       "bySms": "SMS orqali",
       "codeFailed": "Kod yuborilmadi",
+      "devCode": "Sinov kodi: %{code}",
       "enterCode": "Kodni kiriting",
       "noSession": "Server sessiya bermadi",
       "offer": "Ommaviy oferta",
@@ -826,6 +882,7 @@
       "phoneHint": "Raqamni tasdiqlash uchun kod yuboramiz",
       "privacy": "Maxfiylik siyosati",
       "resend": "Kodni qayta yuborish",
+      "resendIn": "%{n} soniyadan keyin qayta yuborish",
       "roleDispatcher": "E'lonlarni boshqaraman",
       "roleDriver": "O'zim haydayman, yuk qidiraman",
       "roleHint": "Ilovada nima ko'rinishini shu belgilaydi. Keyin o'zgartirsa bo'ladi.",

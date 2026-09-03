@@ -330,6 +330,13 @@
       "CUSTOMS": "Gümrük",
       "PARKING": "Otopark"
     },
+    "folder": {
+      "count": "%{n} belge",
+      "empty": "Klasör boş",
+      "emptyText": "Bu klasöre henüz bir şey konmadı.",
+      "group": "KLASÖRLER",
+      "title": "Klasör"
+    },
     "home": {
       "activeTrips": "Aktif seferler",
       "border": "Sınır",
@@ -369,6 +376,18 @@
       "transport": "Araç",
       "truckCount": "Araç sayısı",
       "volume": "Hacim"
+    },
+    "legal": {
+      "company": "HİZMET SAĞLAYICI",
+      "details": "Şirket bilgilerini gör",
+      "offer": "Kamu teklifi",
+      "offerHint": "Hizmet kullanım sözleşmesi",
+      "opensInBrowser": "Belgeler tarayıcıda açılır — sitede tutulur ve güncellenir.",
+      "privacy": "Gizlilik politikası",
+      "privacyHint": "Hangi veriler toplanıyor ve neden",
+      "terms": "Kullanım koşulları",
+      "termsHint": "Kurallar ve sınırlar",
+      "title": "Yasal belgeler"
     },
     "listing": {
       "mine": "SİZİN",
@@ -768,6 +787,39 @@
       "title": "Sefer raporu",
       "whatWrong": "Ne beğenmediniz?"
     },
+    "reset": {
+      "againLabel": "Şifreyi tekrarlayın",
+      "badCode": "Kod yanlış",
+      "codeHint": "Kod gönderildi:",
+      "codeTitle": "Kodu girin",
+      "doneText": "Artık yeni şifreyle giriş yapın. Diğer cihazlardaki oturumlar kapatıldı.",
+      "doneTitle": "Şifre değiştirildi",
+      "failed": "Şifre değiştirilmedi",
+      "mismatch": "Şifreler eşleşmiyor",
+      "newHint": "En az 8 karakter olsun.",
+      "newLabel": "Yeni şifre",
+      "newTitle": "Yeni şifre",
+      "phoneHint": "Bu numaraya doğrulama kodu göndereceğiz.",
+      "phoneTitle": "Telefon numaranız",
+      "sessionsNote": "Şifre değişince tüm cihazlardaki oturumlar kapanır — telefon, bilgisayar, tablet. Her birinde yeniden giriş yaparsınız.",
+      "title": "Şifre sıfırlama",
+      "toSignIn": "Giriş yap"
+    },
+    "resume": {
+      "about": "Kendiniz hakkında",
+      "aboutPh": "Örneğin: 8 yıl uluslararası sefer, frigorifik deneyimi",
+      "classes": "Ehliyet sınıfları",
+      "countries": "Hangi ülkelere gidiyorsunuz",
+      "creating": "Yeni özgeçmiş",
+      "editing": "Düzenleme",
+      "exp": "Deneyim (yıl)",
+      "lead": "İşverenler bu bilgilere göre seçer. Beş alan yeterli — gerisini sonra ekleyebilirsiniz.",
+      "pay": "Beklenen ücret (aylık)",
+      "payHint": "USD",
+      "save": "Özgeçmişi kaydet",
+      "title": "Özgeçmiş",
+      "webNote": "Sitede doldurduğunuz diğer alanlar korunur — bu ekran onları silmez."
+    },
     "role": {
       "DISPATCHER": "Sevkiyatçı",
       "DRIVER": "Sürücü",
@@ -815,8 +867,12 @@
     },
     "signUp": {
       "aboutYou": "Kendiniz hakkında",
+      "agreeAnd": "ve",
+      "agreePost": "",
+      "agreePre": "Şu koşulları kabul ediyorum:",
       "bySms": "SMS ile",
       "codeFailed": "Kod gönderilemedi",
+      "devCode": "Test kodu: %{code}",
       "enterCode": "Kodu girin",
       "noSession": "Sunucu oturum vermedi",
       "offer": "Kamu sözleşmesi",
@@ -826,6 +882,7 @@
       "phoneHint": "Numarayı doğrulamak için kod göndeririz",
       "privacy": "Gizlilik politikası",
       "resend": "Kodu tekrar gönder",
+      "resendIn": "%{n} sn sonra tekrar gönder",
       "roleDispatcher": "İlanları yönetiyorum",
       "roleDriver": "Kendim sürüyorum, yük arıyorum",
       "roleHint": "Uygulamada ne göreceğinizi bu belirler. Sonra değiştirilebilir.",

@@ -330,6 +330,13 @@
       "CUSTOMS": "海关",
       "PARKING": "停车"
     },
+    "folder": {
+      "count": "%{n} 份文件",
+      "empty": "文件夹为空",
+      "emptyText": "该文件夹中还没有文件。",
+      "group": "文件夹",
+      "title": "文件夹"
+    },
     "home": {
       "activeTrips": "进行中的运单",
       "border": "边境",
@@ -369,6 +376,18 @@
       "transport": "车辆",
       "truckCount": "车辆数量",
       "volume": "体积"
+    },
+    "legal": {
+      "company": "服务提供方",
+      "details": "查看公司信息",
+      "offer": "公开要约",
+      "offerHint": "服务使用协议",
+      "opensInBrowser": "文档将在浏览器中打开——它们保存在网站上并持续更新。",
+      "privacy": "隐私政策",
+      "privacyHint": "收集哪些数据以及原因",
+      "terms": "使用条款",
+      "termsHint": "规则与限制",
+      "title": "法律文件"
     },
     "listing": {
       "mine": "我的",
@@ -768,6 +787,39 @@
       "title": "运单报表",
       "whatWrong": "哪里不满意？"
     },
+    "reset": {
+      "againLabel": "再次输入密码",
+      "badCode": "验证码错误",
+      "codeHint": "验证码已发送至：",
+      "codeTitle": "输入验证码",
+      "doneText": "请使用新密码登录。其他设备上的登录已退出。",
+      "doneTitle": "密码已更改",
+      "failed": "密码未更改",
+      "mismatch": "两次密码不一致",
+      "newHint": "至少 8 个字符。",
+      "newLabel": "新密码",
+      "newTitle": "新密码",
+      "phoneHint": "我们会向该号码发送验证码。",
+      "phoneTitle": "您的手机号",
+      "sessionsNote": "更改密码后，所有设备上的登录都会退出——手机、电脑、平板。需要重新登录。",
+      "title": "重置密码",
+      "toSignIn": "登录"
+    },
+    "resume": {
+      "about": "个人简介",
+      "aboutPh": "例如：8 年国际运输经验，熟悉冷藏车",
+      "classes": "准驾车型",
+      "countries": "可前往的国家",
+      "creating": "新建简历",
+      "editing": "编辑中",
+      "exp": "经验（年）",
+      "lead": "雇主依据这些信息进行筛选。填写这五项即可，其余可稍后补充。",
+      "pay": "期望月薪",
+      "payHint": "美元",
+      "save": "保存简历",
+      "title": "简历",
+      "webNote": "您在网站上填写的其他字段会保留——本页面不会清除它们。"
+    },
     "role": {
       "DISPATCHER": "调度员",
       "DRIVER": "司机",
@@ -815,8 +867,12 @@
     },
     "signUp": {
       "aboutYou": "关于您",
+      "agreeAnd": "和",
+      "agreePost": "的条款",
+      "agreePre": "我同意",
       "bySms": "通过短信",
       "codeFailed": "验证码发送失败",
+      "devCode": "测试验证码：%{code}",
       "enterCode": "请输入验证码",
       "noSession": "服务器未返回会话",
       "offer": "公开要约",
@@ -826,6 +882,7 @@
       "phoneHint": "我们将发送验证码以确认号码",
       "privacy": "隐私政策",
       "resend": "重新发送验证码",
+      "resendIn": "%{n} 秒后重新发送",
       "roleDispatcher": "我负责管理货源信息",
       "roleDriver": "我自己开车，寻找货源",
       "roleHint": "这决定您在应用中看到的内容，之后可以更改。",

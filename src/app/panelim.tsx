@@ -204,7 +204,7 @@ export default function Panelim() {
                     {err ? <Text style={s.err}>{err}</Text> : null}
 
                     {data.resume.saved > 0 ? (
-                      <Pressable style={s.seekFoot} onPress={() => router.push("/profil")}>
+                      <Pressable style={s.seekFoot} onPress={() => router.push("/rezyume")}>
                         <Icon name="heart" size={15} stroke={color.success} />
                         <Text style={s.seekFootText}>
                           {t("mob.panel.savedBy", { n: data.resume.saved })}
@@ -216,7 +216,7 @@ export default function Panelim() {
                   <View style={s.seek}>
                     <Text style={s.seekTitle}>{t("mob.panel.noResume")}</Text>
                     <Text style={s.seekText}>{t("mob.panel.noResumeText")}</Text>
-                    <Pressable style={s.primary} onPress={() => router.push("/profil")}>
+                    <Pressable style={s.primary} onPress={() => router.push("/rezyume")}>
                       <Text style={s.primaryText}>{t("mob.panel.makeResume")}</Text>
                     </Pressable>
                   </View>

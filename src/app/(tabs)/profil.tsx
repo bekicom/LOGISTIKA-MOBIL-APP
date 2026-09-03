@@ -241,6 +241,12 @@ export default function Profil() {
               title={t("mob.profile.myDocs")}
               hint={t("mob.pdoc.subtitle")}
               onPress={() => router.push("/hujjatlarim")}
+            />
+            {/* Do'kon talabi: maxfiylik havolasi ilovada BO'LISHI shart */}
+            <ListRow
+              icon={<Badge icon="doc" />}
+              title={t("mob.legal.title")}
+              onPress={() => router.push("/huquqiy")}
               last
             />
           </Card>

@@ -37,6 +37,7 @@
     "FILE_MISSING": "The file is missing on the server.",
     "FOLDER_NOT_FOUND": "That folder wasn't found.",
     "FORBIDDEN": "You don't have access to this.",
+    "GUEST": "This section needs an account. Sign up or sign in.",
     "ID_REQUIRED": "It's not clear which record this is.",
     "INVALID_CREDENTIALS": "Wrong phone number or password.",
     "JOB_CONTRACT": "This contract isn't about a load — a trip can't be opened from it.",
@@ -842,6 +843,20 @@
       "stop": "Stop",
       "waiting": "%{n} points waiting to be sent"
     },
+    "guest": {
+      "jobsHint": "Driver and dispatcher vacancies",
+      "langBtn": "Change language",
+      "lockedGroup": "UNLOCKS AFTER SIGNING IN",
+      "marketHint": "Trucks and trailers for sale",
+      "needText": "Signing up takes a minute — just a phone number and a password.",
+      "needTitle": "This needs an account",
+      "openGroup": "OPEN WITHOUT AN ACCOUNT",
+      "partsHint": "Spare parts and prices",
+      "svcHint": "Workshops and service prices",
+      "text": "With an account you can post loads, send offers and unlock phone numbers.",
+      "title": "You're browsing — start working",
+      "trucksHint": "Available trucks and routes"
+    },
     "home": {
       "activeTrips": "Active trips",
       "border": "Border",
@@ -861,6 +876,7 @@
       "b1": "Thousands of listings across eight countries. Find what you need or post your own.",
       "b2": "Where the truck is, when it arrives, which documents are uploaded — all on the map.",
       "b3": "CMR, invoice, costs and payment in one place. The report is prepared automatically when a trip closes.",
+      "lookFirst": "Look around first",
       "signIn": "Sign in",
       "signUp": "Sign up",
       "skip": "Skip",

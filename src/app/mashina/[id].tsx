@@ -36,6 +36,7 @@ import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
+import { guestBlocked } from "@/lib/guest-gate";
 
 type Doc = { kind: string; state: string };
 
@@ -333,7 +334,13 @@ export default function MashinaTafsilot() {
             <Icon name="chat" size={21} stroke="#475569" />
           </Pressable>
           <View style={{ flex: 1 }}>
-            <Button title={t("mob.trucks.sendOffer")} onPress={() => router.push("/chat")} />
+            <Button
+              title={t("mob.trucks.sendOffer")}
+              onPress={() => {
+                if (guestBlocked()) return;
+                router.push("/chat");
+              }}
+            />
           </View>
         </View>
       ) : null}

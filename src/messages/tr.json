@@ -37,6 +37,7 @@
     "FILE_MISSING": "Dosya sunucuda bulunamadı.",
     "FOLDER_NOT_FOUND": "Klasör bulunamadı.",
     "FORBIDDEN": "Buna erişiminiz yok.",
+    "GUEST": "Bu bölüm için hesap gerekiyor. Kaydolun veya giriş yapın.",
     "ID_REQUIRED": "Hangi kayıt olduğu belirtilmemiş.",
     "INVALID_CREDENTIALS": "Telefon veya şifre yanlış.",
     "JOB_CONTRACT": "Bu sözleşme yükle ilgili değil — ondan sefer açılmaz.",
@@ -842,6 +843,20 @@
       "stop": "Durdur",
       "waiting": "%{n} nokta gönderilmeyi bekliyor"
     },
+    "guest": {
+      "jobsHint": "Şoför ve operasyon ilanları",
+      "langBtn": "Dili değiştir",
+      "lockedGroup": "GİRİŞTEN SONRA AÇILIR",
+      "marketHint": "Satılık araç ve dorseler",
+      "needText": "Kayıt bir dakika sürer — sadece telefon numarası ve şifre yeterli.",
+      "needTitle": "Bunun için hesap gerekiyor",
+      "openGroup": "GİRİŞ YAPMADAN AÇIK",
+      "partsHint": "Yedek parçalar ve fiyatlar",
+      "svcHint": "Servisler ve hizmet fiyatları",
+      "text": "Hesap açtığınızda yük ilanı verebilir, teklif gönderebilir ve telefon numaralarını görebilirsiniz.",
+      "title": "Şu an sadece bakıyorsunuz — çalışmaya başlayın",
+      "trucksHint": "Boş araçlar ve güzergâhlar"
+    },
     "home": {
       "activeTrips": "Aktif seferler",
       "border": "Sınır",
@@ -861,6 +876,7 @@
       "b1": "Sekiz ülkede binlerce ilan. Aradığınızı bulun ya da kendi ilanınızı verin.",
       "b2": "Araç nerede, ne zaman varır, hangi belgeler yüklendi — hepsi haritada.",
       "b3": "CMR, fatura, masraf ve ödeme tek yerde. Sefer kapanınca rapor kendiliğinden hazırlanır.",
+      "lookFirst": "Önce bir bakayım",
       "signIn": "Giriş",
       "signUp": "Kayıt ol",
       "skip": "Atla",

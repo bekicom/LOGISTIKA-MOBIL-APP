@@ -16,6 +16,7 @@ import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { guestBlocked } from "@/lib/guest-gate";
 
 type Feed = { items: Listing[]; page: number; total: number; hasMore: boolean };
 
@@ -117,7 +118,10 @@ export default function Yuklar() {
         }
       />
 
-      <Pressable style={[s.fab, { bottom: insets.bottom + space.lg }]} onPress={() => router.push("/yuk-joylash")}>
+      <Pressable style={[s.fab, { bottom: insets.bottom + space.lg }]} onPress={() => {
+          if (guestBlocked()) return;
+          router.push("/yuk-joylash");
+        }}>
         <Icon name="plus" size={20} stroke="#fff" />
         <Text style={s.fabText}>{t("mob.loads.post")}</Text>
       </Pressable>

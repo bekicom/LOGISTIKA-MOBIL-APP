@@ -37,6 +37,7 @@
     "FILE_MISSING": "Fayl serverdan topilmadi.",
     "FOLDER_NOT_FOUND": "Papka topilmadi.",
     "FORBIDDEN": "Bu narsaga ruxsatingiz yo'q.",
+    "GUEST": "Bu bo'lim uchun hisob kerak. Ro'yxatdan o'ting yoki kiring.",
     "ID_REQUIRED": "Qaysi yozuv ekani ko'rsatilmagan.",
     "INVALID_CREDENTIALS": "Telefon yoki parol noto'g'ri.",
     "JOB_CONTRACT": "Bu shartnoma yukka oid emas — undan reys ochilmaydi.",
@@ -842,6 +843,20 @@
       "stop": "To'xtatish",
       "waiting": "%{n} ta nuqta yuborilishini kutmoqda"
     },
+    "guest": {
+      "jobsHint": "Haydovchi va dispetcher vakansiyalari",
+      "langBtn": "Tilni o'zgartirish",
+      "lockedGroup": "KIRGANDAN KEYIN OCHILADI",
+      "marketHint": "Sotuvdagi texnika va tirkamalar",
+      "needText": "Ro'yxatdan o'tish bir daqiqa oladi — telefon raqami va parol yetarli.",
+      "needTitle": "Buning uchun hisob kerak",
+      "openGroup": "KIRMASDAN OCHILADI",
+      "partsHint": "Ehtiyot qismlar va narxlar",
+      "svcHint": "Ustaxonalar va xizmat narxlari",
+      "text": "Hisob ochsangiz yuk joylashingiz, taklif yuborishingiz va telefon raqamlarni ochishingiz mumkin.",
+      "title": "Ko'rib turibsiz — endi ishlashni boshlang",
+      "trucksHint": "Bo'sh mashinalar va yo'nalishlar"
+    },
     "home": {
       "activeTrips": "Faol reyslar",
       "border": "Chegara",
@@ -861,6 +876,7 @@
       "b1": "Sakkiz davlat bo'ylab minglab e'lon. Kerakligini toping yoki o'zingiznikini joylang.",
       "b2": "Mashina qayerda, qachon yetib boradi, qaysi hujjat yuklangan — hammasi xaritada.",
       "b3": "CMR, invoys, xarajat va to'lov bir joyda. Reys yopilganda hisobot o'zi tayyorlanadi.",
+      "lookFirst": "Avval ko'rib chiqaman",
       "signIn": "Kirish",
       "signUp": "Ro'yxatdan o'tish",
       "skip": "O'tkazib yuborish",

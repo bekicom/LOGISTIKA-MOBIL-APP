@@ -22,6 +22,7 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { guestBlocked } from "@/lib/guest-gate";
 
 type Load = {
   id: string; title: string | null; description: string | null;
@@ -254,7 +255,14 @@ export default function YukTafsiloti() {
                     {revealErr ? <Text style={s.err}>{revealErr}</Text> : null}
 
                     <View style={{ marginTop: space.md }}>
-                      <Button title={t("mob.post2.openContact")} onPress={reveal} loading={revealing} />
+                      <Button
+                        title={t("mob.post2.openContact")}
+                        onPress={() => {
+                          if (guestBlocked()) return;
+                          void reveal();
+                        }}
+                        loading={revealing}
+                      />
                     </View>
                     <Pressable style={s.freeAlt} hitSlop={6}>
                       <Icon name="chat" size={15} stroke={color.brand} />
@@ -277,7 +285,10 @@ export default function YukTafsiloti() {
         <View style={[s.actions, { paddingBottom: insets.bottom + space.lg }]}>
           <Pressable
             style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
-            onPress={() => setOffer(true)}
+            onPress={() => {
+              if (guestBlocked()) return;
+              setOffer(true);
+            }}
           >
             <Text style={s.primaryText}>{t("mob.load.offer")}</Text>
           </Pressable>

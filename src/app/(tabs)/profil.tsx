@@ -23,6 +23,8 @@ import { Icon, type IconName } from "@/components/Icon";
 import { Button, Card, GroupLabel, ListRow } from "@/components/ui";
 import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
+import { GuestPanel } from "@/components/GuestPanel";
+import { isGuest } from "@/lib/guest";
 import { color, font, radius, space } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
 
@@ -42,7 +44,21 @@ function daysLeft(iso: string | null | undefined): number | null {
   return ms > 0 ? Math.ceil(ms / 86400000) : null;
 }
 
-export default function Profil() {
+/**
+ * Yorliqning ikki holati.
+ *
+ * Mehmonda profil yo'q — o'rniga kirish taklifi va ochiq bo'limlar
+ * ro'yxati turadi (`GuestPanel`). Ikkalasi ALOHIDA komponent:
+ * bitta funksiyaga sig'dirilsa, mehmon uchun ma'nosiz `useApi`
+ * chaqiruvlari ham ishlab ketardi.
+ */
+export default function ProfilTab() {
+  const { user, loading } = useAuth();
+  if (!user && isGuest() && !loading) return <GuestPanel />;
+  return <OwnProfil />;
+}
+
+function OwnProfil() {
   const { user, signOut, refresh } = useAuth();
   const insets = useSafeAreaInsets();
   const router = useRouter();

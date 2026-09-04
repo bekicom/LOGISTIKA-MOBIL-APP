@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui";
+import { setGuest } from "@/lib/guest";
 import { color, font, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -47,6 +48,21 @@ export default function Tanishtiruv() {
       <View style={s.footer}>
         <Button title={t("mob.intro.signUp")} onPress={() => router.push("/royxat")} />
         <Button title={t("mob.intro.signIn")} variant="secondary" onPress={() => router.push("/kirish")} />
+
+        {/* AVVAL KO'RIB CHIQISH — web'da shunday, ilovada yo'q
+            edi. Odam nima borligini bilmasdan turib telefon
+            raqamini bermaydi; ro'yxatdan o'tishni birinchi
+            eshik qilib qo'ysak ko'pchilik shu yerda to'xtaydi. */}
+        <Pressable
+          style={s.look}
+          hitSlop={8}
+          onPress={async () => {
+            await setGuest(true);
+            router.replace("/yuklar");
+          }}
+        >
+          <Text style={s.lookText}>{t("mob.intro.lookFirst")}</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -118,4 +134,6 @@ const s = StyleSheet.create({
   dotOn: { width: 22, backgroundColor: color.brand },
 
   footer: { paddingHorizontal: space.xl, gap: 10 },
+  look: { alignSelf: "center", paddingVertical: 10, paddingHorizontal: 16, marginTop: 2 },
+  lookText: { fontSize: 14.5, fontWeight: "600", color: color.mutedForeground },
 });

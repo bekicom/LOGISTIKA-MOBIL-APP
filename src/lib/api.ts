@@ -8,6 +8,7 @@
  */
 import Constants from "expo-constants";
 import { getToken } from "./session";
+import { isGuest } from "./guest";
 import { currentLocale, t, tOr } from "./i18n";
 
 /**
@@ -85,6 +86,22 @@ export type ApiError = {
  */
 function errorText(e: ApiError): string {
   return tOr(`apiErr.${e.error}`, t("mob.err.generic"));
+}
+
+/**
+ * Mehmon uchun 401 — «kirish kerak», «xato» emas (audit 06).
+ *
+ * Mehmon ochiq bo'limlarni ko'rib yuradi va ertami-kechmi hisob
+ * talab qiladigan joyga tegib ketadi. O'shanda «Ruxsat yo'q»
+ * degan qizil quti chiqsa, u ilova buzilgan deb o'ylaydi — aslida
+ * hammasi joyida, faqat hisob yo'q.
+ *
+ * `guestBlocked()` ni har bir tugmaga qo'yish yetarli emas: yangi
+ * ekran qo'shilganda unutiladi. Shuning uchun to'siq eng pastda,
+ * so'rov qaytgan joyda ham turadi.
+ */
+function guestCode(status: number, code: string): string {
+  return (status === 401 || status === 403) && isGuest() ? "GUEST" : code;
 }
 
 export class FuramError extends Error {
@@ -165,7 +182,7 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
 
   if (!res.ok) {
     throw new FuramError({
-      error: data?.error ?? "HTTP_" + res.status,
+      error: guestCode(res.status, data?.error ?? "HTTP_" + res.status),
       message: data?.message,
       details: data?.details,
       status: res.status,
@@ -245,7 +262,7 @@ export async function apiUpload<T>(
 
   if (!res.ok) {
     throw new FuramError({
-      error: data?.error ?? "HTTP_" + res.status,
+      error: guestCode(res.status, data?.error ?? "HTTP_" + res.status),
       message: data?.message,
       details: data?.details,
       status: res.status,

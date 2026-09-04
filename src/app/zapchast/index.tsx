@@ -39,6 +39,7 @@ import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { partConditionLabel, partOrderStatusLabel, partStockLabel, t } from "@/lib/i18n";
+import { isGuest } from "@/lib/guest";
 
 type Part = {
   id: string;
@@ -105,7 +106,10 @@ export default function Zapchast() {
     orders: Order[];
   }>(`/api/parts?${query}`, [query]);
 
-  const fleet = useApi<{ items: Fleet[] }>("/api/fleet/vehicles");
+  /* Mehmonda SO'RALMAYDI: `/api/fleet/vehicles` kirish talab qiladi
+     va javob 401 bo'lardi. Ro'yxat baribir bo'sh chiqadi — mehmonning
+     parki yo'q. */
+  const fleet = useApi<{ items: Fleet[] }>(isGuest() ? null : "/api/fleet/vehicles");
 
   const items = data?.items ?? [];
   const orders = data?.orders ?? [];

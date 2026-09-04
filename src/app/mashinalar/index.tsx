@@ -21,6 +21,7 @@ import { Segment } from "@/components/Segment";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { guestBlocked } from "@/lib/guest-gate";
 
 type Feed = { items: TruckItem[]; page: number; total: number; hasMore: boolean };
 
@@ -125,7 +126,10 @@ export default function Mashinalar() {
       {/* E'lon berish */}
       <Pressable
         style={[s.fab, { bottom: insets.bottom + space.lg }]}
-        onPress={() => router.push("/mashina-joylash")}
+        onPress={() => {
+          if (guestBlocked()) return;
+          router.push("/mashina-joylash");
+        }}
         accessibilityRole="button"
         accessibilityLabel={t("mob.trucks.post")}
       >

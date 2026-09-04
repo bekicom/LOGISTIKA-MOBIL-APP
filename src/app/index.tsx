@@ -7,6 +7,7 @@
 import { Redirect } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 import { useAuth } from "@/lib/auth-context";
+import { isGuest } from "@/lib/guest";
 import { color } from "@/lib/theme";
 
 export default function Index() {
@@ -20,5 +21,10 @@ export default function Index() {
     );
   }
 
-  return <Redirect href={user ? "/bosh" : "/til"} />;
+  /* MEHMON YUKLARGA TUSHADI, bosh sahifaga emas: `/api/home`
+     kirish talab qiladi va bosh sahifa mehmonda bo'sh chiqardi.
+     Yuklar ro'yxati esa ilovaning ochiq o'zagi. */
+  if (user) return <Redirect href="/bosh" />;
+  if (isGuest()) return <Redirect href="/yuklar" />;
+  return <Redirect href="/til" />;
 }

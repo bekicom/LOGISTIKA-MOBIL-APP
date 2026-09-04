@@ -37,6 +37,7 @@
     "FILE_MISSING": "服务器上找不到该文件。",
     "FOLDER_NOT_FOUND": "未找到该文件夹。",
     "FORBIDDEN": "您没有权限访问。",
+    "GUEST": "该板块需要账号，请注册或登录。",
     "ID_REQUIRED": "未指明是哪条记录。",
     "INVALID_CREDENTIALS": "手机号或密码不正确。",
     "JOB_CONTRACT": "该合同与货运无关——无法据此开单。",
@@ -842,6 +843,20 @@
       "stop": "停止",
       "waiting": "%{n} 个点位等待发送"
     },
+    "guest": {
+      "jobsHint": "司机与调度招聘",
+      "langBtn": "更改语言",
+      "lockedGroup": "登录后解锁",
+      "marketHint": "在售车辆与挂车",
+      "needText": "注册只需一分钟 — 手机号和密码即可。",
+      "needTitle": "此操作需要账号",
+      "openGroup": "无需登录即可查看",
+      "partsHint": "配件与价格",
+      "svcHint": "修理厂与服务价格",
+      "text": "注册后即可发布货源、发送报价并查看联系电话。",
+      "title": "您正在浏览 — 开始接单吧",
+      "trucksHint": "空闲车辆与线路"
+    },
     "home": {
       "activeTrips": "进行中的运单",
       "border": "边境",
@@ -861,6 +876,7 @@
       "b1": "覆盖八国的海量货源信息。找到所需，或发布您自己的。",
       "b2": "车在哪、何时到、上传了哪些单据——地图上一目了然。",
       "b3": "CMR、发票、费用与付款集中管理。运单结束时自动生成报表。",
+      "lookFirst": "先看看",
       "signIn": "登录",
       "signUp": "注册",
       "skip": "跳过",

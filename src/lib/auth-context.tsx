@@ -11,6 +11,7 @@ import {
 import { api, FuramError } from "./api";
 import { clearToken, getToken, saveToken, type User } from "./session";
 import { wipeLocal } from "./local-db";
+import { loadGuest, setGuest } from "./guest";
 import { clearPushAsked, pushState, registerPush, unregisterPush } from "./push";
 
 type State = {
@@ -29,6 +30,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
+    /* MEHMON BELGISI TOKENDAN OLDIN o'qiladi: `index.tsx` qayerga
+       yo'naltirishni shundan biladi va kirish ekrani miltillab
+       ketmaydi. */
+    await loadGuest();
+
     const token = await getToken();
     if (!token) {
       setUser(null);
@@ -61,6 +67,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = useCallback(
     async (token: string) => {
+      /* Kirgach mehmon belgisi olib tashlanadi: aks holda
+         keyingi ochilishda ilova uni yana mehmon deb hisoblab,
+         chiqqandan keyin ochiq ekranda qoldirardi. */
+      await setGuest(false);
       await saveToken(token);
       setLoading(true);
       await load();

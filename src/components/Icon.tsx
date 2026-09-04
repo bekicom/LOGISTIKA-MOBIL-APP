@@ -30,7 +30,8 @@ export type IconName =
   | "plus"
   | "doc"
   | "border"
-  | "check";
+  | "check"
+  | "chart";
 
 /* `stroke` — `string` emas, `ColorValue`: `Tabs.Screen` ning
    `tabBarIcon` i rangni shu turda beradi (RN 0.86). */
@@ -110,6 +111,13 @@ export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "
       )}
       {name === "border" && <Path {...p} d="M4 4v16M4 5h13l-2.5 4L17 13H4" />}
       {name === "check" && <Path {...p} d="M20 6 9 17l-5-5" />}
+      {/* Analitika: o'suvchi chiziq va burchakdagi strelka */}
+      {name === "chart" && (
+        <>
+          <Path {...p} d="M4 18l5-6 4 3 6-8" />
+          <Path {...p} d="M15 7h4v4" />
+        </>
+      )}
     </Svg>
   );
 }

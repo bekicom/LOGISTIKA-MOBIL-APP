@@ -8,7 +8,7 @@
  */
 import Constants from "expo-constants";
 import { getToken } from "./session";
-import { currentLocale, t } from "./i18n";
+import { currentLocale, t, tOr } from "./i18n";
 
 /**
  * Manzil qanday topiladi:
@@ -65,6 +65,28 @@ export type ApiError = {
   data?: any;
 };
 
+/**
+ * Xato matni — SERVERNIKI EMAS, LUG'ATDAN (2026-09-04, audit 02).
+ *
+ * Server 986 ta xato javobi beradi. 383 tasida `message` bor va u
+ * O'ZBEKCHA yasalgan — web uchun to'g'ri, ilova uchun yo'q: rus
+ * yoki xitoy tilidagi telefonda o'zbekcha jumla chiqardi. Qolgan
+ * javoblarda `message` umuman yo'q va foydalanuvchi `BAD_FORM`
+ * degan xom kodni ko'rardi.
+ *
+ * Endi tartib shunday:
+ *   1. `apiErr.<KOD>` lug'atda bo'lsa — o'quvchining tilida
+ *   2. Bo'lmasa — «umumiy xato» (kod emas)
+ *
+ * Server matni ATAYLAB ishlatilmaydi, hatto bor bo'lsa ham: aks
+ * holda tarjima qilingan kod ham o'zbekcha chiqib qolardi.
+ * Kodning o'zi `FuramError.code` da qoladi — ekran kerak bo'lsa
+ * unga qarab boshqacha ish qiladi.
+ */
+function errorText(e: ApiError): string {
+  return tOr(`apiErr.${e.error}`, t("mob.err.generic"));
+}
+
 export class FuramError extends Error {
   code: string;
   status: number;
@@ -81,7 +103,7 @@ export class FuramError extends Error {
   data?: any;
 
   constructor(e: ApiError) {
-    super(e.message ?? e.error);
+    super(errorText(e));
     this.code = e.error;
     this.status = e.status;
     this.details = e.details;

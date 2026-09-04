@@ -113,11 +113,13 @@ export function t(key: string, params?: Record<string, string | number>): string
 }
 
 /**
- * Kalit bo'lsa tarjima, bo'lmasa serverning o'z matni.
+ * Kalit bo'lsa tarjima, bo'lmasa berilgan zaxira matn.
  *
- * Server xato KODINI ham, matnini ham yuboradi. Kod tanish bo'lsa
- * foydalanuvchi tilida ko'rsatamiz; notanish bo'lsa serverniki —
- * o'zbekcha bo'lsa ham, «[missing ...]» dan yaxshi.
+ * ⚠️ ZAXIRA SIFATIDA SERVER MATNINI BERMANG (2026-09-04, audit).
+ * Server `message` ni o'zbekcha yasaydi — web uchun to'g'ri,
+ * ilova uchun yo'q: rus tilidagi telefonda o'zbekcha jumla
+ * chiqardi. Zaxira umumiy tarjima qilingan matn bo'lsin
+ * (`api.ts:errorText` shunday qiladi).
  */
 export function tOr(key: string, fallback: string): string {
   const v = i18n.t(key, { defaultValue: "" });

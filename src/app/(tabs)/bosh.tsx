@@ -45,6 +45,18 @@ export default function Bosh() {
       <View style={s.header}>
         <Logo width={104} />
         <View style={{ flex: 1 }} />
+        {/* QIDIRUV — bosh sahifada, menyuda emas.
+            Odam biror narsani qidirganda profilga kirib
+            o'tirmaydi; qidiruv doim ko'z oldida turishi kerak. */}
+        <Pressable
+          onPress={() => router.push("/qidiruv")}
+          style={s.bell}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={t("mob.search.startTitle")}
+        >
+          <Icon name="search" size={21} stroke={color.foreground} />
+        </Pressable>
         <Pressable onPress={() => router.push("/bildirishnomalar")} style={s.bell} hitSlop={8}>
           <Icon name="bell" size={22} stroke={color.foreground} />
           {data && data.unreadNotifications > 0 ? (

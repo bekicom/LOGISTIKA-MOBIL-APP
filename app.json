@@ -18,7 +18,10 @@
           "fetch"
         ],
         "NSLocationWhenInUseUsageDescription": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi — ular yukning qayerdaligini biladi.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Telefon cho'ntagingizda bo'lganda ham reys yo'li yozilib borishi uchun. Faqat reys davomida, reys yopilishi bilan to'xtaydi."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Telefon cho'ntagingizda bo'lganda ham reys yo'li yozilib borishi uchun. Faqat reys davomida, reys yopilishi bilan to'xtaydi.",
+        "NSCameraUsageDescription": "Hujjat, chek va nosozlik suratini shu yerda olasiz. Surat faqat siz biriktirgan reysga yuboriladi.",
+        "NSPhotoLibraryUsageDescription": "Hujjat va chek suratlarini yuborish uchun galereyaga kirish so'raladi. Boshqa rasmlar ochilmaydi.",
+        "NSPhotoLibraryAddUsageDescription": "Ilova galereyangizga hech narsa yozmaydi."
       }
     },
     "android": {
@@ -36,7 +39,9 @@
         "ACCESS_BACKGROUND_LOCATION",
         "FOREGROUND_SERVICE",
         "FOREGROUND_SERVICE_LOCATION",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "CAMERA",
+        "READ_MEDIA_IMAGES"
       ]
     },
     "web": {
@@ -56,6 +61,13 @@
       ],
       "expo-localization",
       "expo-sqlite",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Hujjat va chek suratlarini yuborish uchun galereyaga kirish so'raladi. Boshqa rasmlar ochilmaydi.",
+          "cameraPermission": "Hujjat, chek va nosozlik suratini shu yerda olasiz. Surat faqat siz biriktirgan reysga yuboriladi."
+        }
+      ],
       [
         "expo-location",
         {

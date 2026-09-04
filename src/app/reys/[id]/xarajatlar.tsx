@@ -264,8 +264,8 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 
                 <View style={{ marginTop: space.lg }}>
                   <Field
-                    label={cat === "FUEL" ? t("mob.exp.refuel") : "Joy"}
-                    hint="ixtiyoriy"
+                    label={cat === "FUEL" ? t("mob.exp.refuel") : t("mob.exp.place")}
+                    hint={t("mob.exp.optional")}
                     placeholder={cat === "FUEL" ? t("mob.exp.wherePh") : t("mob.exp.where")}
                     value={station}
                     onChangeText={setStation}
@@ -276,7 +276,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                   <View style={{ marginTop: space.lg }}>
                     <Field
                       label={t("mob.exp.liters")}
-                      hint="ixtiyoriy"
+                      hint={t("mob.exp.optional")}
                       placeholder="120"
                       keyboardType="numeric"
                       value={liters}
@@ -286,7 +286,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                 ) : null}
 
                 <View style={{ marginTop: space.lg }}>
-                  <Field label={t("mob.exp.note")} hint="ixtiyoriy" placeholder={t("mob.exp.notePh")} value={note} onChangeText={setNote} />
+                  <Field label={t("mob.exp.note")} hint={t("mob.exp.optional")} placeholder={t("mob.exp.notePh")} value={note} onChangeText={setNote} />
                 </View>
 
                 {/* Chek */}

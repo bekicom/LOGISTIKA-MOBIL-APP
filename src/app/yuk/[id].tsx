@@ -375,14 +375,16 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
                     onChangeText={setFee}
                   />
                   {suggested ? (
-                    <Text style={s.hint}>E&apos;londagi narx: {money(suggested, currency)}</Text>
+                    <Text style={s.hint}>
+                      {t("mob.loads.postedPrice", { sum: money(suggested, currency) })}
+                    </Text>
                   ) : null}
                 </View>
 
                 <View style={{ marginTop: space.lg }}>
                   <Field
                     label={t("mob.exp.note")}
-                    hint="ixtiyoriy"
+                    hint={t("mob.exp.optional")}
                     placeholder={t("mob.post2.offerPh")}
                     value={note}
                     onChangeText={setNote}

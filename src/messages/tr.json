@@ -314,6 +314,13 @@
       "waitingYou": "SİZDEN YANIT BEKLENİYOR · %{n}",
       "youSent": "Siz gönderdiniz"
     },
+    "debtStatus": {
+      "CANCELLED": "İptal edildi",
+      "OVERDUE": "Gecikmiş",
+      "PAID": "Tamamen ödendi",
+      "PARTIAL": "Kısmen ödendi",
+      "WAITING": "Bekleniyor"
+    },
     "delete": {
       "activeTrips": "%{n} sefer hâlâ açık",
       "activeTripsText": "Silerseniz bağlantı kesilir ve bu seferler sorumlusuz kalır. Önce onları kapatmanız önerilir.",
@@ -415,9 +422,73 @@
       "where": "Nerede",
       "wherePh": "Sirdaryo istasyonu"
     },
+    "expCat": {
+      "CUSTOMS": "Gümrük",
+      "FINE": "Ceza",
+      "FOOD": "Yemek",
+      "FUEL": "Yakıt",
+      "OTHER": "Diğer",
+      "PARKING": "Otopark",
+      "PARTS": "Yedek parça",
+      "REPAIR": "Tamir",
+      "TOLL": "Yol ücreti",
+      "WASH": "Yıkama"
+    },
     "expMore": {
       "CUSTOMS": "Gümrük",
       "PARKING": "Otopark"
+    },
+    "expStatus": {
+      "APPROVED": "Onaylandı",
+      "PENDING": "Bekliyor",
+      "REJECTED": "Reddedildi"
+    },
+    "fin": {
+      "allCats": "Tüm kategoriler",
+      "allDoneHint": "Yeni gider burada görünür ve haber veririz.",
+      "allDoneTitle": "Hepsi incelendi",
+      "approve": "Onayla",
+      "budgetGroup": "BÜTÇE",
+      "contractN": "#%{n} sözleşme",
+      "debtsTitle": "Borçlar",
+      "editNote": "Her düzeltme kaydedilir: kim, ne zaman, neden neye. Anlaşmazlık çıkarsa kanıt budur.",
+      "editedN": "Tutar %{n} kez düzeltildi",
+      "emptyTitle": "Kayıt yok",
+      "expense": "Gider",
+      "expensesN": "%{n} gider",
+      "expensesTitle": "Giderler",
+      "fixAmount": "Tutarı düzelt",
+      "fromMe": "BORÇLUYUM",
+      "fromMeN": "Benden · %{n}",
+      "income": "Gelir",
+      "itemsN": "%{n} kayıt",
+      "left": "Kalan",
+      "leftSum": "%{sum} kaldı",
+      "monthTotal": "Ay sonucu",
+      "newAmount": "Yeni tutar",
+      "noDebtsHint": "Sözleşmede ödenmemiş tutar kaldığında burada görünür.",
+      "noDebtsTitle": "Açık borç yok",
+      "noDueDate": "Ödeme tarihi kararlaştırılmamış",
+      "noReceipt": "Fiş eklenmemiş",
+      "none": "Yok",
+      "notFinal": "Kesin değil: %{n} gider onay bekliyor.",
+      "openN": "%{n} açık hesap",
+      "overBy": "%{sum} aşıldı",
+      "overdueN": "%{n} borç gecikti",
+      "paid": "Ödenen",
+      "pendingGroup": "ONAYINIZI BEKLİYOR",
+      "pendingN": "%{n} onay bekliyor",
+      "pendingNote": "Onaylamadıkça sefer hesabı kapanmaz.",
+      "profit": "Net kâr",
+      "reject": "Reddet",
+      "review": "İncele",
+      "subtitle": "Borçlar, giderler, bütçe",
+      "title": "Finans",
+      "toMe": "BANA BORÇLU",
+      "toMeN": "Bana · %{n}",
+      "tripN": "#%{n} sefer",
+      "unknownParty": "Karşı taraf",
+      "wasSum": "Mevcut tutar: %{sum}"
     },
     "folder": {
       "count": "%{n} belge",
@@ -1640,6 +1711,11 @@
       "USER": "Kullanıcı",
       "VEHICLE_OWNER": "Araç sahibi"
     }
+  },
+  "notifyTitle": {
+    "payLate": "Ödeme %{days} gün gecikti",
+    "paySoon": "Ödemeye %{days} gün kaldı",
+    "payToday": "Ödeme vadesi bugün"
   },
   "priceKind": {
     "FIXED": "Sabit fiyat",

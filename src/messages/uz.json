@@ -314,6 +314,13 @@
       "waitingYou": "SIZDAN JAVOB KUTILMOQDA · %{n}",
       "youSent": "Siz yubordingiz"
     },
+    "debtStatus": {
+      "CANCELLED": "Bekor qilingan",
+      "OVERDUE": "Kechikkan",
+      "PAID": "To'liq to'langan",
+      "PARTIAL": "Qisman to'langan",
+      "WAITING": "Kutilmoqda"
+    },
     "delete": {
       "activeTrips": "%{n} ta reys hali yopilmagan",
       "activeTripsText": "Hisobni o'chirsangiz aloqa uziladi va bu reyslar egasiz qoladi. Avval ularni yopish tavsiya etiladi.",
@@ -415,9 +422,73 @@
       "where": "Qayerda",
       "wherePh": "Sirdaryo AGZS"
     },
+    "expCat": {
+      "CUSTOMS": "Bojxona",
+      "FINE": "Jarima",
+      "FOOD": "Ovqat",
+      "FUEL": "Yoqilg'i",
+      "OTHER": "Boshqa",
+      "PARKING": "Parkovka",
+      "PARTS": "Zapchast",
+      "REPAIR": "Ta'mirlash",
+      "TOLL": "Yo'l to'lovi",
+      "WASH": "Moyka"
+    },
     "expMore": {
       "CUSTOMS": "Bojxona",
       "PARKING": "Parking"
+    },
+    "expStatus": {
+      "APPROVED": "Tasdiqlangan",
+      "PENDING": "Kutmoqda",
+      "REJECTED": "Rad etilgan"
+    },
+    "fin": {
+      "allCats": "Barcha kategoriya",
+      "allDoneHint": "Yangi xarajat kelganda shu yerda chiqadi va sizga xabar beramiz.",
+      "allDoneTitle": "Hammasi ko'rib chiqilgan",
+      "approve": "Tasdiqlash",
+      "budgetGroup": "BUDJET",
+      "contractN": "#%{n} shartnoma",
+      "debtsTitle": "Qarzlar",
+      "editNote": "Har tuzatish jurnalga yoziladi: kim, qachon, nimadan nimaga. Keyin nizo chiqsa dalil shu bo'ladi.",
+      "editedN": "Summa %{n} marta tuzatilgan",
+      "emptyTitle": "Yozuv yo'q",
+      "expense": "Xarajat",
+      "expensesN": "%{n} ta xarajat",
+      "expensesTitle": "Xarajatlar",
+      "fixAmount": "Summani tuzatish",
+      "fromMe": "MEN QARZDORMAN",
+      "fromMeN": "Mendan · %{n}",
+      "income": "Daromad",
+      "itemsN": "%{n} ta yozuv",
+      "left": "Qoldiq",
+      "leftSum": "%{sum} qoldi",
+      "monthTotal": "Oy yakuni",
+      "newAmount": "Yangi summa",
+      "noDebtsHint": "Shartnoma bo'yicha to'lanmagan summa qolganda shu yerda chiqadi.",
+      "noDebtsTitle": "Ochiq qarz yo'q",
+      "noDueDate": "To'lov muddati kelishilmagan",
+      "noReceipt": "Chek biriktirilmagan",
+      "none": "Yo'q",
+      "notFinal": "Yakuniy emas: %{n} ta xarajat tasdiq kutmoqda.",
+      "openN": "%{n} ta ochiq hisob",
+      "overBy": "%{sum} oshdi",
+      "overdueN": "%{n} ta qarz muddati o'tgan",
+      "paid": "To'langan",
+      "pendingGroup": "TASDIQ KUTMOQDA",
+      "pendingN": "%{n} ta tasdiq kutmoqda",
+      "pendingNote": "Tasdiqlamaguningizcha reys hisobi yakunlanmaydi.",
+      "profit": "Sof foyda",
+      "reject": "Rad etish",
+      "review": "Ko'rib chiqish",
+      "subtitle": "Qarzlar, xarajatlar, budjet",
+      "title": "Moliya",
+      "toMe": "MENGA QARZ",
+      "toMeN": "Menga · %{n}",
+      "tripN": "#%{n} reys",
+      "unknownParty": "Ikkinchi tomon",
+      "wasSum": "Hozirgi summa: %{sum}"
     },
     "folder": {
       "count": "%{n} ta hujjat",
@@ -1640,6 +1711,11 @@
       "USER": "Foydalanuvchi",
       "VEHICLE_OWNER": "Transport egasi"
     }
+  },
+  "notifyTitle": {
+    "payLate": "To'lov %{days} kun kechikdi",
+    "paySoon": "To'lovga %{days} kun qoldi",
+    "payToday": "To'lov muddati bugun"
   },
   "priceKind": {
     "FIXED": "Qat'iy narx",

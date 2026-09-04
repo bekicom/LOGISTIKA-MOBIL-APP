@@ -190,3 +190,14 @@ export const jobProfessionLabel = (key: string) => t(`jobCatalog.professions.${k
 export const payKindLabel = (key: string) => t(`jobCatalog.payKinds.${key}`);
 export const matchNote = (key: string, vars?: Record<string, string | number>) =>
   t(`matchNote.${key}`, vars);
+
+/* ─────────────────────────── Moliya yorliqlari
+
+   `furam/src/lib/finance.ts` dagi `DEBT_LABELS` va
+   `BUDGET_CATEGORY_LABELS` o'zbekcha qattiq yozilgan — server
+   kalit yuboradi. */
+
+export const debtStatusLabel = (key: string) => t(`mob.debtStatus.${key}`);
+export const expenseCategoryLabel = (key: string) => t(`mob.expCat.${key}`);
+/** Budjet kategoriyalari xarajat kategoriyalari bilan bir xil to'plam */
+export const budgetCategoryLabel = (key: string) => t(`mob.expCat.${key}`);

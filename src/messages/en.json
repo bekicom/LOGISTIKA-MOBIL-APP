@@ -314,6 +314,13 @@
       "waitingYou": "WAITING FOR YOU · %{n}",
       "youSent": "You sent this"
     },
+    "debtStatus": {
+      "CANCELLED": "Cancelled",
+      "OVERDUE": "Overdue",
+      "PAID": "Paid in full",
+      "PARTIAL": "Partly paid",
+      "WAITING": "Waiting"
+    },
     "delete": {
       "activeTrips": "%{n} trips are still open",
       "activeTripsText": "Deleting cuts the connection and leaves these trips with nobody responsible. Closing them first is recommended.",
@@ -415,9 +422,73 @@
       "where": "Where",
       "wherePh": "Sirdaryo gas station"
     },
+    "expCat": {
+      "CUSTOMS": "Customs",
+      "FINE": "Fines",
+      "FOOD": "Meals",
+      "FUEL": "Fuel",
+      "OTHER": "Other",
+      "PARKING": "Parking",
+      "PARTS": "Parts",
+      "REPAIR": "Repairs",
+      "TOLL": "Road tolls",
+      "WASH": "Wash"
+    },
     "expMore": {
       "CUSTOMS": "Customs",
       "PARKING": "Parking"
+    },
+    "expStatus": {
+      "APPROVED": "Approved",
+      "PENDING": "Waiting",
+      "REJECTED": "Rejected"
+    },
+    "fin": {
+      "allCats": "All categories",
+      "allDoneHint": "New expenses show up here and we'll tell you.",
+      "allDoneTitle": "Nothing waiting",
+      "approve": "Approve",
+      "budgetGroup": "BUDGET",
+      "contractN": "contract #%{n}",
+      "debtsTitle": "Debts",
+      "editNote": "Every correction is logged: who, when, from what to what. If a dispute comes up, that's the record.",
+      "editedN": "The amount was corrected %{n} times",
+      "emptyTitle": "No records",
+      "expense": "Expenses",
+      "expensesN": "%{n} expenses",
+      "expensesTitle": "Expenses",
+      "fixAmount": "Correct the amount",
+      "fromMe": "I OWE",
+      "fromMeN": "From me · %{n}",
+      "income": "Income",
+      "itemsN": "%{n} records",
+      "left": "Left to pay",
+      "leftSum": "%{sum} left",
+      "monthTotal": "This month",
+      "newAmount": "New amount",
+      "noDebtsHint": "An unpaid balance on a contract shows up here.",
+      "noDebtsTitle": "No open debts",
+      "noDueDate": "No payment date agreed",
+      "noReceipt": "No receipt attached",
+      "none": "None",
+      "notFinal": "Not final — %{n} expenses are still waiting for your decision.",
+      "openN": "%{n} open accounts",
+      "overBy": "%{sum} over",
+      "overdueN": "%{n} debts are overdue",
+      "paid": "Paid",
+      "pendingGroup": "WAITING FOR YOU",
+      "pendingN": "%{n} waiting for you",
+      "pendingNote": "Until you decide, the trip's account can't be closed.",
+      "profit": "Net profit",
+      "reject": "Reject",
+      "review": "Review them",
+      "subtitle": "Debts, expenses, budget",
+      "title": "Money",
+      "toMe": "OWED TO ME",
+      "toMeN": "To me · %{n}",
+      "tripN": "trip #%{n}",
+      "unknownParty": "The other party",
+      "wasSum": "Current amount: %{sum}"
     },
     "folder": {
       "count": "%{n} documents",
@@ -1640,6 +1711,11 @@
       "USER": "User",
       "VEHICLE_OWNER": "Vehicle owner"
     }
+  },
+  "notifyTitle": {
+    "payLate": "Payment is %{days} days overdue",
+    "paySoon": "%{days} days until payment is due",
+    "payToday": "Payment is due today"
   },
   "priceKind": {
     "FIXED": "Fixed price",

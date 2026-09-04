@@ -314,6 +314,13 @@
       "waitingYou": "等待您的回复 · %{n}",
       "youSent": "由您发出"
     },
+    "debtStatus": {
+      "CANCELLED": "已取消",
+      "OVERDUE": "已逾期",
+      "PAID": "已付清",
+      "PARTIAL": "部分已付",
+      "WAITING": "待付"
+    },
     "delete": {
       "activeTrips": "还有 %{n} 个运单未结束",
       "activeTripsText": "删除后连接将中断，这些运单将无人负责。建议先结束它们。",
@@ -415,9 +422,73 @@
       "where": "地点",
       "wherePh": "锡尔河加油站"
     },
+    "expCat": {
+      "CUSTOMS": "海关",
+      "FINE": "罚款",
+      "FOOD": "餐食",
+      "FUEL": "燃油",
+      "OTHER": "其他",
+      "PARKING": "停车",
+      "PARTS": "配件",
+      "REPAIR": "维修",
+      "TOLL": "路费",
+      "WASH": "洗车"
+    },
     "expMore": {
       "CUSTOMS": "海关",
       "PARKING": "停车"
+    },
+    "expStatus": {
+      "APPROVED": "已批准",
+      "PENDING": "待审",
+      "REJECTED": "已驳回"
+    },
+    "fin": {
+      "allCats": "全部类别",
+      "allDoneHint": "新的支出会出现在这里，我们也会通知您。",
+      "allDoneTitle": "没有待审项",
+      "approve": "批准",
+      "budgetGroup": "预算",
+      "contractN": "合同 #%{n}",
+      "debtsTitle": "欠款",
+      "editNote": "每次修改都会记录：谁、何时、从多少改到多少。日后有争议时这就是凭证。",
+      "editedN": "金额被修改过 %{n} 次",
+      "emptyTitle": "暂无记录",
+      "expense": "支出",
+      "expensesN": "%{n} 笔支出",
+      "expensesTitle": "支出",
+      "fixAmount": "修改金额",
+      "fromMe": "应付",
+      "fromMeN": "应付 · %{n}",
+      "income": "收入",
+      "itemsN": "%{n} 条记录",
+      "left": "剩余",
+      "leftSum": "剩余 %{sum}",
+      "monthTotal": "本月合计",
+      "newAmount": "新金额",
+      "noDebtsHint": "合同下有未付余额时会显示在这里。",
+      "noDebtsTitle": "没有未结欠款",
+      "noDueDate": "未约定付款期限",
+      "noReceipt": "未附收据",
+      "none": "无",
+      "notFinal": "尚未最终确定：%{n} 笔支出还在等待审批。",
+      "openN": "%{n} 笔未结",
+      "overBy": "超支 %{sum}",
+      "overdueN": "%{n} 笔欠款已逾期",
+      "paid": "已付",
+      "pendingGroup": "等待您审批",
+      "pendingN": "%{n} 笔待审",
+      "pendingNote": "在您审批前，该运单的结算无法完成。",
+      "profit": "净利润",
+      "reject": "驳回",
+      "review": "去审批",
+      "subtitle": "欠款、支出、预算",
+      "title": "财务",
+      "toMe": "应收",
+      "toMeN": "应收 · %{n}",
+      "tripN": "运单 #%{n}",
+      "unknownParty": "对方",
+      "wasSum": "当前金额：%{sum}"
     },
     "folder": {
       "count": "%{n} 份文件",
@@ -1640,6 +1711,11 @@
       "USER": "用户",
       "VEHICLE_OWNER": "车主"
     }
+  },
+  "notifyTitle": {
+    "payLate": "付款已逾期 %{days} 天",
+    "paySoon": "距付款还有 %{days} 天",
+    "payToday": "今天是付款日"
   },
   "priceKind": {
     "FIXED": "一口价",

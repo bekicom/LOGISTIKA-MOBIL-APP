@@ -1,4 +1,35 @@
 {
+  "cancelReason": {
+    "AGREED": "Taraflar anlaştı",
+    "BORDER": "Sınır sorunu",
+    "DOCS": "Belge sorunu",
+    "FORCE_MAJEURE": "Mücbir sebep",
+    "LOAD_CANCELLED": "Yük iptal oldu",
+    "OTHER": "Diğer",
+    "VEHICLE_BROKEN": "Araç bozuldu"
+  },
+  "contractPayKind": {
+    "ADVANCE": "Avans",
+    "FINAL": "Nihai",
+    "PARTIAL": "Kısmi"
+  },
+  "contractRole": {
+    "CARGO_OWNER": "Yük sahibi",
+    "CARRIER": "Taşıyıcı",
+    "DISPATCHER": "Dispeçer",
+    "DRIVER": "Sürücü"
+  },
+  "contractStatus": {
+    "APPROVED": "Onaylandı",
+    "CANCELLED": "İptal edildi",
+    "CHANGE_PENDING": "Değişiklik bekliyor",
+    "CLOSED": "Kapatıldı",
+    "DRAFT": "Taslak",
+    "PENDING": "Onay bekliyor",
+    "REJECTED": "Reddedildi",
+    "TRIP_DONE": "Sefer tamamlandı",
+    "TRIP_STARTED": "Sefer başladı"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "Afganistan",
@@ -364,6 +395,86 @@
       "signOut": "Çıkış",
       "soon": "yakında",
       "tryAgain": "Tekrar deneyin"
+    },
+    "ctr": {
+      "approve": "Onayla",
+      "cancelContract": "Sözleşmeyi iptal et",
+      "cancelDo": "İptal et",
+      "cancelLimit": "Son %{days} günde %{n} kez iptal ettiniz. %{limit} sonrasında her iptal puanda görünür.",
+      "cancelSub": "Bir sebep seçin. Karşı tarafa bildirim gider.",
+      "cancelTitle": "Sözleşmeyi iptal et",
+      "chain": "MÜZAKERE",
+      "chgAccept": "Kabul ediyorum",
+      "chgDecline": "Reddediyorum",
+      "chgMine": "Şartın değişmesini istediniz",
+      "chgSafe": "Kabul etmezseniz eski şart yürürlükte kalır — sözleşme iptal olmaz.",
+      "chgTheirs": "%{name} şartın değişmesini istedi",
+      "chgWaiting": "Karşı tarafın cevabı bekleniyor.",
+      "claimedBy": "%{name} ödediğini bildirdi. Paranın geldiğini kontrol edin — onaydan sonra geri alınamaz.",
+      "claimedSum": "%{sum} onay bekliyor",
+      "confirmedSum": "%{sum} onaylandı",
+      "counter": "Karşı teklif",
+      "counterNote": "Yeni teklif gönderilince karşı tarafın onaylaması gerekir. Eski şart yürürlükte kalır.",
+      "dPriceDown": "fiyat düştü",
+      "dPriceUp": "fiyat arttı",
+      "dispFee": "Dispeçer ücreti",
+      "done": "TAMAMLANAN",
+      "emptyHint": "Yük sahibiyle anlaştığınızda sözleşme burada görünür.",
+      "emptyTitle": "Sözleşme yok",
+      "gotIt": "Parayı aldım",
+      "history": "ÖDEME GEÇMİŞİ",
+      "live": "YÜRÜRLÜKTE",
+      "liveN": "%{n} yürürlükte",
+      "mixedFee": "Ücret başka para biriminde — çıkarılamadı, kur kaynağı yok.",
+      "mixedPay": "Başka para birimindeki ödemeler bu hesaba dahil edilmedi — kur kaynağı yok.",
+      "needsMe": "SİZİ BEKLİYOR",
+      "newPrice": "Yeni fiyat",
+      "noPayHint": "İlk ödeme kaydedildiğinde burada görünür.",
+      "noPayTitle": "Ödeme yok",
+      "noPayments": "Ödeme kaydı yok",
+      "noPenalty": "Puanı etkilemez",
+      "noTermsHint": "Fiyat onaylandıktan sonra ödeme kaydedebilirsiniz.",
+      "noTermsTitle": "Şartlar henüz kararlaştırılmadı",
+      "note": "Not (isteğe bağlı)",
+      "nowIs": "Mevcut fiyat: %{sum}",
+      "one": "Sözleşme",
+      "paid": "Ödenen",
+      "paidOf": "%{a} / %{b} %{cur} onaylandı",
+      "payTerm": "Ödeme şartı",
+      "payments": "Ödemeler",
+      "penalty": "Puanda görünür",
+      "price": "Anlaşılan fiyat",
+      "proof": "Ödeme dekontu",
+      "reject": "Reddet",
+      "rejectDo": "Reddet",
+      "rejectSub": "Bir sebep seçin. Karşı taraf görecek.",
+      "rejectTitle": "Sözleşmeyi reddet",
+      "remaining": "KALAN",
+      "route": "Güzergâh",
+      "send": "Gönder",
+      "stApproved": "onayladı",
+      "stConfirmed": "Onaylandı",
+      "stPending": "Bekliyor",
+      "stRejected": "reddetti",
+      "stWaiting": "bekleniyor",
+      "stYouWait": "kararınız bekleniyor",
+      "subtitle": "Müzakere, onay, ödemeler",
+      "terms": "YÜRÜRLÜKTEKİ ŞARTLAR",
+      "theyOffered": "%{name} %{sum} teklif etti",
+      "title": "Sözleşmeler",
+      "unknownParty": "Karşı taraf",
+      "waitApproval": "ONAYINIZI BEKLİYOR",
+      "waitPayment": "ÖDEME ONAYI BEKLİYOR",
+      "waitYourOk": "ONAYINIZI BEKLİYOR",
+      "you": "Siz",
+      "youOffered": "%{sum} teklif ettiniz",
+      "yourShare": "Size kalan"
+    },
+    "ctrDiff": {
+      "currency": "para birimi değişti",
+      "loadingAt": "yükleme tarihi kaydı",
+      "paymentTerm": "ödeme şartı değişti",
+      "unloadingAt": "boşaltma tarihi kaydı"
     },
     "deals": {
       "accept": "Kabul et",
@@ -1800,10 +1911,24 @@
     "paySoon": "Ödemeye %{days} gün kaldı",
     "payToday": "Ödeme vadesi bugün"
   },
+  "payMethod": {
+    "BANK": "Banka havalesi",
+    "CARD": "Kart",
+    "CASH": "Nakit",
+    "OTHER": "Diğer"
+  },
   "priceKind": {
     "FIXED": "Sabit fiyat",
     "NEGOTIABLE": "Pazarlıklı",
     "URGENT": "Acil satılık"
+  },
+  "rejectReason": {
+    "DATE": "Tarih uygun değil",
+    "DOCS": "Belge sorunu",
+    "OTHER": "Başka sebep",
+    "PRICE": "Fiyat uygun değil",
+    "ROUTE": "Güzergâh değişti",
+    "VEHICLE": "Araç uygun değil"
   },
   "saleCatalog": {
     "category": {

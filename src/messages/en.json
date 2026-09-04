@@ -1,4 +1,35 @@
 {
+  "cancelReason": {
+    "AGREED": "Both sides agreed",
+    "BORDER": "Border problem",
+    "DOCS": "Document problem",
+    "FORCE_MAJEURE": "Force majeure",
+    "LOAD_CANCELLED": "The load was cancelled",
+    "OTHER": "Other",
+    "VEHICLE_BROKEN": "The truck broke down"
+  },
+  "contractPayKind": {
+    "ADVANCE": "Advance",
+    "FINAL": "Final",
+    "PARTIAL": "Partial"
+  },
+  "contractRole": {
+    "CARGO_OWNER": "Shipper",
+    "CARRIER": "Carrier",
+    "DISPATCHER": "Dispatcher",
+    "DRIVER": "Driver"
+  },
+  "contractStatus": {
+    "APPROVED": "Approved",
+    "CANCELLED": "Cancelled",
+    "CHANGE_PENDING": "Change pending",
+    "CLOSED": "Closed",
+    "DRAFT": "Draft",
+    "PENDING": "Awaiting approval",
+    "REJECTED": "Rejected",
+    "TRIP_DONE": "Trip completed",
+    "TRIP_STARTED": "Trip started"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "Afghanistan",
@@ -364,6 +395,86 @@
       "signOut": "Sign out",
       "soon": "coming soon",
       "tryAgain": "Please try again"
+    },
+    "ctr": {
+      "approve": "Approve",
+      "cancelContract": "Cancel the contract",
+      "cancelDo": "Cancel it",
+      "cancelLimit": "You've cancelled %{n} times in the last %{days} days. After %{limit}, each one counts against your rating.",
+      "cancelSub": "Pick a reason — the other side gets notified.",
+      "cancelTitle": "Cancel the contract",
+      "chain": "NEGOTIATION",
+      "chgAccept": "I accept",
+      "chgDecline": "I decline",
+      "chgMine": "You asked to change the terms",
+      "chgSafe": "If you decline, the old terms stay in force — the contract isn't cancelled.",
+      "chgTheirs": "%{name} asked to change the terms",
+      "chgWaiting": "Waiting for the other side to answer.",
+      "claimedBy": "%{name} says they paid. Check the money actually arrived — confirming can't be undone.",
+      "claimedSum": "%{sum} waiting to be confirmed",
+      "confirmedSum": "%{sum} confirmed",
+      "counter": "Counter-offer",
+      "counterNote": "Once sent, the other side has to approve it. The old terms stay in force until then.",
+      "dPriceDown": "price came down",
+      "dPriceUp": "price went up",
+      "dispFee": "Dispatcher fee",
+      "done": "FINISHED",
+      "emptyHint": "A contract shows up here once you agree with a shipper.",
+      "emptyTitle": "No contracts",
+      "gotIt": "I received it",
+      "history": "PAYMENT HISTORY",
+      "live": "ACTIVE",
+      "liveN": "%{n} active",
+      "mixedFee": "The fee is in another currency — it can't be subtracted, there's no rate source.",
+      "mixedPay": "Payments in another currency aren't included here — there's no rate source.",
+      "needsMe": "WAITING FOR YOU",
+      "newPrice": "New price",
+      "noPayHint": "The first recorded payment shows up here.",
+      "noPayTitle": "No payments",
+      "noPayments": "No payments recorded",
+      "noPenalty": "Won't affect your rating",
+      "noTermsHint": "You can record payments once the price is agreed.",
+      "noTermsTitle": "Terms aren't agreed yet",
+      "note": "Note (optional)",
+      "nowIs": "Current price: %{sum}",
+      "one": "Contract",
+      "paid": "Paid",
+      "paidOf": "%{a} / %{b} %{cur} confirmed",
+      "payTerm": "Payment terms",
+      "payments": "Payments",
+      "penalty": "Counts against your rating",
+      "price": "Agreed price",
+      "proof": "Payment receipt",
+      "reject": "Reject",
+      "rejectDo": "Reject",
+      "rejectSub": "Pick a reason — the other side will see it.",
+      "rejectTitle": "Reject the contract",
+      "remaining": "LEFT TO PAY",
+      "route": "Route",
+      "send": "Send",
+      "stApproved": "approved",
+      "stConfirmed": "Confirmed",
+      "stPending": "Waiting",
+      "stRejected": "rejected",
+      "stWaiting": "waiting",
+      "stYouWait": "your decision is pending",
+      "subtitle": "Negotiation, approval, payments",
+      "terms": "CURRENT TERMS",
+      "theyOffered": "%{name} offered %{sum}",
+      "title": "Contracts",
+      "unknownParty": "The other party",
+      "waitApproval": "NEEDS YOUR APPROVAL",
+      "waitPayment": "PAYMENT NEEDS CONFIRMING",
+      "waitYourOk": "WAITING FOR YOU TO CONFIRM",
+      "you": "You",
+      "youOffered": "You offered %{sum}",
+      "yourShare": "You keep"
+    },
+    "ctrDiff": {
+      "currency": "currency changed",
+      "loadingAt": "loading date moved",
+      "paymentTerm": "payment terms changed",
+      "unloadingAt": "unloading date moved"
     },
     "deals": {
       "accept": "Accept",
@@ -1800,10 +1911,24 @@
     "paySoon": "%{days} days until payment is due",
     "payToday": "Payment is due today"
   },
+  "payMethod": {
+    "BANK": "Bank transfer",
+    "CARD": "Card",
+    "CASH": "Cash",
+    "OTHER": "Other"
+  },
   "priceKind": {
     "FIXED": "Fixed price",
     "NEGOTIABLE": "Negotiable",
     "URGENT": "Urgent sale"
+  },
+  "rejectReason": {
+    "DATE": "The date doesn't work",
+    "DOCS": "Document problem",
+    "OTHER": "Another reason",
+    "PRICE": "The price doesn't work",
+    "ROUTE": "The route changed",
+    "VEHICLE": "The truck doesn't fit"
   },
   "saleCatalog": {
     "category": {

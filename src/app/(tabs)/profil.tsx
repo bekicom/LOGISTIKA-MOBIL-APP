@@ -279,6 +279,12 @@ export default function Profil() {
               onPress={() => router.push("/analitika")}
             />
             <ListRow
+              icon={<Badge icon="doc" />}
+              title={t("mob.ctr.title")}
+              hint={t("mob.ctr.subtitle")}
+              onPress={() => router.push("/shartnoma")}
+            />
+            <ListRow
               icon={<Badge icon="heart" />}
               title={t("mob.profile.saved")}
               onPress={() => router.push("/saqlanganlar")}

@@ -1,4 +1,35 @@
 {
+  "cancelReason": {
+    "AGREED": "Tomonlar kelishdi",
+    "BORDER": "Chegara muammosi",
+    "DOCS": "Hujjat muammosi",
+    "FORCE_MAJEURE": "Force majeure",
+    "LOAD_CANCELLED": "Yuk bekor bo'ldi",
+    "OTHER": "Boshqa",
+    "VEHICLE_BROKEN": "Mashina buzildi"
+  },
+  "contractPayKind": {
+    "ADVANCE": "Avans",
+    "FINAL": "Yakuniy",
+    "PARTIAL": "Qisman"
+  },
+  "contractRole": {
+    "CARGO_OWNER": "Yuk egasi",
+    "CARRIER": "Transport egasi",
+    "DISPATCHER": "Dispetcher",
+    "DRIVER": "Haydovchi"
+  },
+  "contractStatus": {
+    "APPROVED": "Tasdiqlangan",
+    "CANCELLED": "Bekor qilindi",
+    "CHANGE_PENDING": "O'zgartirish kutilmoqda",
+    "CLOSED": "Yopildi",
+    "DRAFT": "Qoralama",
+    "PENDING": "Tasdiqlash kutilmoqda",
+    "REJECTED": "Rad etilgan",
+    "TRIP_DONE": "Reys yakunlandi",
+    "TRIP_STARTED": "Reys boshlandi"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "Afg'oniston",
@@ -364,6 +395,86 @@
       "signOut": "Chiqish",
       "soon": "tez orada",
       "tryAgain": "Qaytadan urinib ko'ring"
+    },
+    "ctr": {
+      "approve": "Tasdiqlash",
+      "cancelContract": "Shartnomani bekor qilish",
+      "cancelDo": "Bekor qilish",
+      "cancelLimit": "Oxirgi %{days} kunda %{n} marta bekor qilgansiz. %{limit} tadan keyin har bekor qilish reytingda ko'rinadi.",
+      "cancelSub": "Sababni tanlang. Ikkinchi tomonga xabar boradi.",
+      "cancelTitle": "Shartnomani bekor qilish",
+      "chain": "MUZOKARA",
+      "chgAccept": "Qabul qilaman",
+      "chgDecline": "Rad etaman",
+      "chgMine": "Siz shartni o'zgartirishni so'radingiz",
+      "chgSafe": "Qabul qilmasangiz eski shart kuchda qoladi — shartnoma bekor bo'lmaydi.",
+      "chgTheirs": "%{name} shartni o'zgartirishni so'radi",
+      "chgWaiting": "Ikkinchi tomon javobi kutilmoqda.",
+      "claimedBy": "%{name} «to'ladim» dedi. Pul kelganini tekshiring — tasdiqlagach qaytarib bo'lmaydi.",
+      "claimedSum": "%{sum} tasdiq kutmoqda",
+      "confirmedSum": "%{sum} tasdiqlangan",
+      "counter": "Qarshi taklif",
+      "counterNote": "Yangi taklif yuborilgach ikkinchi tomon uni tasdiqlashi kerak. Eski shart o'z kuchida qoladi.",
+      "dPriceDown": "narx tushirildi",
+      "dPriceUp": "narx ko'tarildi",
+      "dispFee": "Dispetcher haqi",
+      "done": "YAKUNLANGAN",
+      "emptyHint": "Yuk egasi bilan kelishganingizda shartnoma shu yerda ochiladi.",
+      "emptyTitle": "Shartnoma yo'q",
+      "gotIt": "Pulni oldim",
+      "history": "TO'LOVLAR TARIXI",
+      "live": "AMALDAGI",
+      "liveN": "%{n} ta amaldagi",
+      "mixedFee": "Dispetcher haqi boshqa valyutada — ayirib bo'lmadi, kurs manbasi yo'q.",
+      "mixedPay": "Shartnoma valyutasidan boshqa to'lovlar bu hisobga qo'shilmadi — kurs manbasi yo'q.",
+      "needsMe": "SIZDAN KUTILMOQDA",
+      "newPrice": "Yangi narx",
+      "noPayHint": "Birinchi to'lov qayd etilganda shu yerda chiqadi.",
+      "noPayTitle": "To'lov yo'q",
+      "noPayments": "To'lov qayd etilmagan",
+      "noPenalty": "Reytingga tegmaydi",
+      "noTermsHint": "Narx tasdiqlangach to'lovlarni qayd etish mumkin bo'ladi.",
+      "noTermsTitle": "Shart hali kelishilmagan",
+      "note": "Izoh (ixtiyoriy)",
+      "nowIs": "Hozirgi narx: %{sum}",
+      "one": "Shartnoma",
+      "paid": "To'langan",
+      "paidOf": "%{a} / %{b} %{cur} tasdiqlangan",
+      "payTerm": "To'lov sharti",
+      "payments": "To'lovlar",
+      "penalty": "Reytingda ko'rinadi",
+      "price": "Kelishilgan narx",
+      "proof": "To'lov cheki",
+      "reject": "Rad etish",
+      "rejectDo": "Rad etish",
+      "rejectSub": "Sababni tanlang. Ikkinchi tomon uni ko'radi.",
+      "rejectTitle": "Shartnomani rad etish",
+      "remaining": "QOLDIQ",
+      "route": "Yo'nalish",
+      "send": "Yuborish",
+      "stApproved": "tasdiqladi",
+      "stConfirmed": "Tasdiqlangan",
+      "stPending": "Kutilmoqda",
+      "stRejected": "rad etdi",
+      "stWaiting": "kutilmoqda",
+      "stYouWait": "qaroringiz kutilmoqda",
+      "subtitle": "Muzokara, tasdiq va to'lovlar",
+      "terms": "AMALDAGI SHART",
+      "theyOffered": "%{name} %{sum} taklif qildi",
+      "title": "Shartnomalar",
+      "unknownParty": "Ikkinchi tomon",
+      "waitApproval": "TASDIQLASH KUTILMOQDA",
+      "waitPayment": "TO'LOV TASDIG'I KUTILMOQDA",
+      "waitYourOk": "TASDIG'INGIZ KUTILMOQDA",
+      "you": "Siz",
+      "youOffered": "Siz %{sum} taklif qildingiz",
+      "yourShare": "Sizga qoladi"
+    },
+    "ctrDiff": {
+      "currency": "valyuta o'zgardi",
+      "loadingAt": "yuklash sanasi surildi",
+      "paymentTerm": "to'lov sharti o'zgardi",
+      "unloadingAt": "tushirish sanasi surildi"
     },
     "deals": {
       "accept": "Qabul qilish",
@@ -1800,10 +1911,24 @@
     "paySoon": "To'lovga %{days} kun qoldi",
     "payToday": "To'lov muddati bugun"
   },
+  "payMethod": {
+    "BANK": "Bank o'tkazmasi",
+    "CARD": "Karta",
+    "CASH": "Naqd",
+    "OTHER": "Boshqa"
+  },
   "priceKind": {
     "FIXED": "Qat'iy narx",
     "NEGOTIABLE": "Kelishiladi",
     "URGENT": "Shoshilinch sotiladi"
+  },
+  "rejectReason": {
+    "DATE": "Sana mos emas",
+    "DOCS": "Hujjat muammosi",
+    "OTHER": "Boshqa sabab",
+    "PRICE": "Narx mos emas",
+    "ROUTE": "Yo'nalish o'zgardi",
+    "VEHICLE": "Mashina mos emas"
   },
   "saleCatalog": {
     "category": {

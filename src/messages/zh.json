@@ -1,4 +1,35 @@
 {
+  "cancelReason": {
+    "AGREED": "双方协商一致",
+    "BORDER": "口岸问题",
+    "DOCS": "证件问题",
+    "FORCE_MAJEURE": "不可抗力",
+    "LOAD_CANCELLED": "货源取消",
+    "OTHER": "其他",
+    "VEHICLE_BROKEN": "车辆故障"
+  },
+  "contractPayKind": {
+    "ADVANCE": "预付款",
+    "FINAL": "尾款",
+    "PARTIAL": "部分付款"
+  },
+  "contractRole": {
+    "CARGO_OWNER": "货主",
+    "CARRIER": "承运人",
+    "DISPATCHER": "调度员",
+    "DRIVER": "司机"
+  },
+  "contractStatus": {
+    "APPROVED": "已确认",
+    "CANCELLED": "已取消",
+    "CHANGE_PENDING": "等待修改",
+    "CLOSED": "已关闭",
+    "DRAFT": "草稿",
+    "PENDING": "等待确认",
+    "REJECTED": "已拒绝",
+    "TRIP_DONE": "行程已完成",
+    "TRIP_STARTED": "行程已开始"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "阿富汗",
@@ -364,6 +395,86 @@
       "signOut": "退出",
       "soon": "即将推出",
       "tryAgain": "请重试"
+    },
+    "ctr": {
+      "approve": "批准",
+      "cancelContract": "取消合同",
+      "cancelDo": "确认取消",
+      "cancelLimit": "最近 %{days} 天您取消了 %{n} 次。超过 %{limit} 次后，每次都会计入评分。",
+      "cancelSub": "选择原因——对方会收到通知。",
+      "cancelTitle": "取消合同",
+      "chain": "谈判过程",
+      "chgAccept": "我接受",
+      "chgDecline": "我拒绝",
+      "chgMine": "您请求修改条款",
+      "chgSafe": "若不接受，原条款继续有效——合同不会被取消。",
+      "chgTheirs": "%{name} 请求修改条款",
+      "chgWaiting": "等待对方答复。",
+      "claimedBy": "%{name} 表示已付款。请核实款项确已到账——确认后无法撤销。",
+      "claimedSum": "%{sum} 待确认",
+      "confirmedSum": "已确认 %{sum}",
+      "counter": "还价",
+      "counterNote": "发出后需对方批准。在此之前原条款仍然有效。",
+      "dPriceDown": "价格下调",
+      "dPriceUp": "价格上调",
+      "dispFee": "调度费",
+      "done": "已结束",
+      "emptyHint": "与货主达成一致后，合同会出现在这里。",
+      "emptyTitle": "暂无合同",
+      "gotIt": "已收到款项",
+      "history": "付款记录",
+      "live": "进行中",
+      "liveN": "%{n} 份有效",
+      "mixedFee": "该费用为另一币种——无法扣减，没有汇率来源。",
+      "mixedPay": "其他币种的付款未计入本结算——没有汇率来源。",
+      "needsMe": "等待您处理",
+      "newPrice": "新价格",
+      "noPayHint": "第一笔付款记录后会显示在这里。",
+      "noPayTitle": "暂无付款",
+      "noPayments": "未记录付款",
+      "noPenalty": "不影响评分",
+      "noTermsHint": "价格确认后即可记录付款。",
+      "noTermsTitle": "条款尚未议定",
+      "note": "备注（可选）",
+      "nowIs": "当前价格：%{sum}",
+      "one": "合同",
+      "paid": "已付",
+      "paidOf": "已确认 %{a} / %{b} %{cur}",
+      "payTerm": "付款条件",
+      "payments": "付款",
+      "penalty": "会计入评分",
+      "price": "约定价格",
+      "proof": "付款凭证",
+      "reject": "驳回",
+      "rejectDo": "驳回",
+      "rejectSub": "选择原因——对方会看到。",
+      "rejectTitle": "驳回合同",
+      "remaining": "剩余",
+      "route": "线路",
+      "send": "发送",
+      "stApproved": "已批准",
+      "stConfirmed": "已确认",
+      "stPending": "待确认",
+      "stRejected": "已驳回",
+      "stWaiting": "等待中",
+      "stYouWait": "等待您决定",
+      "subtitle": "谈判、审批、付款",
+      "terms": "当前条款",
+      "theyOffered": "%{name} 报价 %{sum}",
+      "title": "合同",
+      "unknownParty": "对方",
+      "waitApproval": "待您批准",
+      "waitPayment": "待确认收款",
+      "waitYourOk": "等待您确认",
+      "you": "您",
+      "youOffered": "您报价 %{sum}",
+      "yourShare": "您实得"
+    },
+    "ctrDiff": {
+      "currency": "币种有变",
+      "loadingAt": "装货日期变动",
+      "paymentTerm": "付款条件有变",
+      "unloadingAt": "卸货日期变动"
     },
     "deals": {
       "accept": "接受",
@@ -1800,10 +1911,24 @@
     "paySoon": "距付款还有 %{days} 天",
     "payToday": "今天是付款日"
   },
+  "payMethod": {
+    "BANK": "银行转账",
+    "CARD": "银行卡",
+    "CASH": "现金",
+    "OTHER": "其他"
+  },
   "priceKind": {
     "FIXED": "一口价",
     "NEGOTIABLE": "面议",
     "URGENT": "急售"
+  },
+  "rejectReason": {
+    "DATE": "日期不合适",
+    "DOCS": "证件问题",
+    "OTHER": "其他原因",
+    "PRICE": "价格不合适",
+    "ROUTE": "线路有变",
+    "VEHICLE": "车辆不合适"
   },
   "saleCatalog": {
     "category": {

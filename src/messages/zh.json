@@ -2246,6 +2246,18 @@
     "NEW": "新用户",
     "REVIEW": "审核中"
   },
+  "vehDocKind": {
+    "BORDER": "口岸证件",
+    "INSPECTION": "年检",
+    "INSURANCE": "保险",
+    "INSURANCE_INTL": "国际保险",
+    "LICENSE": "经营许可",
+    "OTHER": "其他",
+    "PERMIT": "过境许可",
+    "POA": "委托书",
+    "RENT": "租赁合同",
+    "TECH_PASSPORT": "行驶证"
+  },
   "videoSection": {
     "ai": "AI 助手",
     "analytics": "分析",

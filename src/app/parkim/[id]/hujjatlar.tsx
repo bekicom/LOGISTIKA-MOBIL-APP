@@ -21,7 +21,7 @@ import { t } from "@/lib/i18n";
 type Doc = {
   id: string | null;
   kind: string;
-  label: string;
+  title: string | null;
   number: string | null;
   expiresAt: string | null;
   days: number | null;
@@ -30,6 +30,17 @@ type Doc = {
   missing: boolean;
 };
 type Detail = { vehicle: { plate: string; brand: string; model: string | null }; documents: Doc[] };
+
+/**
+ * Hujjat nomi — foydalanuvchi yozgani yoki tarjima.
+ *
+ * Server `title` (odam yozgan nom) va `kind` (kalit) ni ALOHIDA
+ * yuboradi. Ilgari u tayyor satr yuborardi va u o'zbekcha edi:
+ * rus tilidagi telefonda «Texko'rik 12 kun qoldi» chiqardi.
+ */
+function docName(d: { kind: string; title?: string | null }) {
+  return d.title || t(`vehDocKind.${d.kind}`);
+}
 
 export default function TransportHujjatlar() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -86,7 +97,7 @@ export default function TransportHujjatlar() {
                     ? t("mob.docs.allFineText")
                     : need
                         .map((d) =>
-                          `${d.label} — ${
+                          `${docName(d)} — ${
                             d.missing
                               ? t("mob.docs.missingShort")
                               : d.state === "expired"
@@ -162,7 +173,7 @@ function DocRow({ doc, last }: { doc: Doc; last: boolean }) {
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text style={s.name}>{doc.label}</Text>
+        <Text style={s.name}>{docName(doc)}</Text>
         <Text style={[s.when, (bad || soon) && { color: tint, fontWeight: "600" }]}>
           {doc.missing
             ? t("mob.docs.missing")

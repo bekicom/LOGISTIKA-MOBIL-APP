@@ -2246,6 +2246,18 @@
     "NEW": "Yangi foydalanuvchi",
     "REVIEW": "Tekshiruvda"
   },
+  "vehDocKind": {
+    "BORDER": "Chegara hujjati",
+    "INSPECTION": "Texko'rik",
+    "INSURANCE": "Sug'urta",
+    "INSURANCE_INTL": "Xalqaro sug'urta",
+    "LICENSE": "Litsenziya",
+    "OTHER": "Boshqa",
+    "PERMIT": "Ruxsatnoma (dozvol)",
+    "POA": "Ishonchnoma",
+    "RENT": "Ijara shartnomasi",
+    "TECH_PASSPORT": "Texpasport"
+  },
   "videoSection": {
     "ai": "AI yordamchi",
     "analytics": "Analitika",

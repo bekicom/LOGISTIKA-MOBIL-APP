@@ -2246,6 +2246,18 @@
     "NEW": "Yeni kullanıcı",
     "REVIEW": "İncelemede"
   },
+  "vehDocKind": {
+    "BORDER": "Sınır belgesi",
+    "INSPECTION": "Muayene",
+    "INSURANCE": "Sigorta",
+    "INSURANCE_INTL": "Uluslararası sigorta",
+    "LICENSE": "Lisans",
+    "OTHER": "Diğer",
+    "PERMIT": "Geçiş belgesi",
+    "POA": "Vekâletname",
+    "RENT": "Kira sözleşmesi",
+    "TECH_PASSPORT": "Ruhsat"
+  },
   "videoSection": {
     "ai": "AI asistan",
     "analytics": "Analitik",

@@ -25,11 +25,14 @@ import {
 } from "@/lib/gps";
 import { t } from "@/lib/i18n";
 
-type Step = { status: string; label: string; at: string | null; state: "done" | "current" | "next" };
+/* `label` SERVERDAN OLINMAYDI (2026-09-04, audit 03): u
+   `TRIP_STATUS_LABELS` dan o'zbekcha yasaladi. `status` kaliti
+   yetarli — `tripStatus.*` lug'atda sakkiz tilda bor. */
+type Step = { status: string; at: string | null; state: "done" | "current" | "next" };
 
 type Trip = {
-  id: string; no: number; status: string; statusLabel: string;
-  isLive: boolean; trackingOn: boolean; myRoleLabel: string;
+  id: string; no: number; status: string;
+  isLive: boolean; trackingOn: boolean;
   steps: Step[];
   route: {
     from: string; fromCountry: string; to: string; toCountry: string; distanceKm: number | null;
@@ -143,7 +146,7 @@ export default function ReysTafsiloti() {
               <View style={s.card}>
                 <View style={s.cardHead}>
                   <Text style={s.cardTitle}>{t("mob.trip.steps")}</Text>
-                  <StatusChip label={data.statusLabel} tone={toneFor(data.status)} />
+                  <StatusChip label={t(`tripStatus.${data.status}`)} tone={toneFor(data.status)} />
                 </View>
                 <View style={{ marginTop: 14 }}>
                   {data.steps.map((st, i) => (
@@ -384,7 +387,7 @@ function StepRow({ step, last }: { step: Step; last: boolean }) {
       </View>
       <View style={{ flex: 1, paddingBottom: last ? 0 : 14 }}>
         <Text style={[s.stepLabel, now && { color: color.brand, fontWeight: "700" }, step.state === "next" && s.stepNext]}>
-          {step.label}
+          {t(`tripStatus.${step.status}`)}
         </Text>
         {step.at ? <Text style={s.meta}>{when(step.at)}</Text> : now ? <Text style={s.meta}>{t("mob.last.now")}</Text> : null}
       </View>

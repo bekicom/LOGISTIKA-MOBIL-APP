@@ -2246,6 +2246,18 @@
     "NEW": "New user",
     "REVIEW": "Under review"
   },
+  "vehDocKind": {
+    "BORDER": "Border document",
+    "INSPECTION": "Roadworthiness test",
+    "INSURANCE": "Insurance",
+    "INSURANCE_INTL": "International insurance",
+    "LICENSE": "Licence",
+    "OTHER": "Other",
+    "PERMIT": "Transit permit",
+    "POA": "Power of attorney",
+    "RENT": "Lease agreement",
+    "TECH_PASSPORT": "Registration"
+  },
   "videoSection": {
     "ai": "AI assistant",
     "analytics": "Analytics",

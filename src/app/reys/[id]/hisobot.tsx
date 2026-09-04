@@ -19,7 +19,7 @@ import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Trip = {
-  no: number; statusLabel: string; status: string;
+  no: number; status: string;
   route: { from: string; to: string; distanceKm: number | null };
   cargo: { title: string | null; weightT: number | null };
   payment: { agreed: number | null; currency: string; paid: number };
@@ -65,7 +65,7 @@ export default function Hisobot() {
         <View style={s.hero}>
           <View style={s.heroChip}>
             <Icon name="check" size={12} stroke="#4ade80" />
-            <Text style={s.heroChipText}>{rep.statusLabel}</Text>
+            <Text style={s.heroChipText}>{t(`tripStatus.${rep.status}`)}</Text>
           </View>
           <View style={s.heroRoute}>
             <Text style={s.heroCity}>{rep.route.from}</Text>

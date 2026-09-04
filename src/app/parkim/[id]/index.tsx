@@ -20,7 +20,7 @@ import { t, tripStatusLabel } from "@/lib/i18n";
 type Doc = {
   id: string | null;
   kind: string;
-  label: string;
+  title: string | null;
   number: string | null;
   days: number | null;
   state: "ok" | "soon" | "expired" | "forever" | "missing";
@@ -74,6 +74,17 @@ function docLook(d: Doc): { color: string; text: string; icon: "check" | "clock"
   if (d.state === "forever")
     return { color: color.mutedForeground, text: d.number ?? t("mob.docs.forever"), icon: "check" };
   return { color: color.mutedForeground, text: t("mob.docs.daysLeft", { n: d.days ?? 0 }), icon: "check" };
+}
+
+/**
+ * Hujjat nomi — foydalanuvchi yozgani yoki tarjima.
+ *
+ * Server `title` (odam yozgan nom) va `kind` (kalit) ni ALOHIDA
+ * yuboradi. Ilgari u tayyor satr yuborardi va u o'zbekcha edi:
+ * rus tilidagi telefonda «Texko'rik 12 kun qoldi» chiqardi.
+ */
+function docName(d: { kind: string; title?: string | null }) {
+  return d.title || t(`vehDocKind.${d.kind}`);
 }
 
 export default function TransportTafsilot() {
@@ -220,7 +231,7 @@ export default function TransportTafsilot() {
                   key={d.kind + (d.id ?? "")}
                   last={i === Math.min(3, data.documents.length - 1)}
                   icon={<Icon name={look.icon} size={17} stroke={look.color} />}
-                  title={d.label}
+                  title={docName(d)}
                   hint={look.text}
                   right={
                     d.missing || d.state === "expired" || d.state === "soon" ? (

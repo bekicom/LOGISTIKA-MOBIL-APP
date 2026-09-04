@@ -2246,6 +2246,18 @@
     "NEW": "Жаңа қолданушы",
     "REVIEW": "Тексерілуде"
   },
+  "vehDocKind": {
+    "BORDER": "Шекара құжаты",
+    "INSPECTION": "Техтексеру",
+    "INSURANCE": "Сақтандыру",
+    "INSURANCE_INTL": "Халықаралық сақтандыру",
+    "LICENSE": "Лицензия",
+    "OTHER": "Басқа",
+    "PERMIT": "Рұқсат (дозвол)",
+    "POA": "Сенімхат",
+    "RENT": "Жалдау шарты",
+    "TECH_PASSPORT": "Техпаспорт"
+  },
   "videoSection": {
     "ai": "AI көмекші",
     "analytics": "Талдау",

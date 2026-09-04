@@ -19,7 +19,17 @@ import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-type DocAlert = { kind: string; label: string; state: "expired" | "soon"; days: number | null };
+type DocAlert = { kind: string; title: string | null; state: "expired" | "soon"; days: number | null };
+/**
+ * Hujjat nomi — foydalanuvchi yozgani yoki tarjima.
+ *
+ * Server `title` (odam yozgan nom) va `kind` (kalit) ni ALOHIDA
+ * yuboradi. Ilgari u tayyor satr yuborardi va u o'zbekcha edi:
+ * rus tilidagi telefonda «Texko'rik 12 kun qoldi» chiqardi.
+ */
+function docName(d: { kind: string; title?: string | null }) {
+  return d.title || t(`vehDocKind.${d.kind}`);
+}
 type Trip = {
   id: string;
   no: number;
@@ -162,7 +172,7 @@ export default function Parkim() {
                     {expired.length === 1
                       ? t("mob.park.expiredOne", {
                           plate: expired[0].plate,
-                          doc: expired[0].docAlert?.label ?? "",
+                          doc: expired[0].docAlert ? docName(expired[0].docAlert) : "",
                         })
                       : t("mob.park.expiredMany", { n: expired.length })}
                   </Text>
@@ -258,7 +268,7 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
         <View style={s.foot}>
           <Icon name="doc" size={14} stroke={bad ? color.danger : color.warning} />
           <Text style={[s.footText, { color: bad ? color.danger : color.warning, fontWeight: "600" }]}>
-            {alert.label}{" "}
+            {docName(alert)}{" "}
             {alert.days == null
               ? ""
               : alert.days < 0

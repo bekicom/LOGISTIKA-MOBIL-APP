@@ -246,6 +246,14 @@ export default function Profil() {
               hint={t("mob.sale.mineSub")}
               onPress={() => router.push("/sotuvlarim")}
             />
+            {/* Ustaxona: usta chaqirish HAMMAGA ochiq, usta bo'lish
+                esa tarif ortida — bo'lim yashirilmaydi. */}
+            <ListRow
+              icon={<Badge icon="alert" />}
+              title={t("mob.svc.title")}
+              hint={t("mob.svc.subtitle")}
+              onPress={() => router.push("/ustaxona")}
+            />
             <ListRow
               icon={<Badge icon="heart" />}
               title={t("mob.profile.saved")}

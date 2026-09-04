@@ -157,3 +157,13 @@ export const salePriceKindLabel = (key: string) => t(`priceKind.${key}`);
 export const saleStatusLabel = (key: string) => t(`saleStatus.${key}`);
 /** Texnik jadval qatorining nomi: `engine`, `axles`, `euro`… */
 export const saleSpecLabel = (key: string) => t(`mob.saleSpec.${key}`);
+
+/* ─────────────────────────── Ustaxona yorliqlari
+
+   `furam/src/lib/service.ts` dagi `SPECIALITIES`, `VEHICLE_KINDS`
+   va `STATUS_LABELS` o'zbekcha qattiq yozilgan — server kalit
+   yuboradi, tarjima shu yerda. */
+
+export const serviceSpecLabel = (key: string) => t(`serviceCatalog.spec.${key}`);
+export const serviceVehicleKindLabel = (key: string) => t(`serviceCatalog.kind.${key}`);
+export const serviceStatusLabel = (key: string) => t(`mob.svcStatus.${key}`);

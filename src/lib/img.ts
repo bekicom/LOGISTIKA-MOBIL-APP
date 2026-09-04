@@ -45,3 +45,14 @@ export function vehiclePhoto(vehicleId: string, key: string): ImgSource {
 export function salePhoto(saleId: string, key: string): ImgSource {
   return authImage(`/api/market/${saleId}/photos?p=${encodeURIComponent(key)}`);
 }
+
+/**
+ * Servis buyurtmasi rasmi.
+ *
+ * Sotuv e'lonidan farqi: bu rasm OCHIQ EMAS. Uni faqat mijoz,
+ * tanlangan usta va taklif bergan ustalar ko'radi — marshrutning
+ * o'zi shuni tekshiradi.
+ */
+export function servicePhoto(orderId: string, key: string): ImgSource {
+  return authImage(`/api/service/${orderId}/photos?p=${encodeURIComponent(key)}`);
+}

@@ -167,3 +167,13 @@ export const saleSpecLabel = (key: string) => t(`mob.saleSpec.${key}`);
 export const serviceSpecLabel = (key: string) => t(`serviceCatalog.spec.${key}`);
 export const serviceVehicleKindLabel = (key: string) => t(`serviceCatalog.kind.${key}`);
 export const serviceStatusLabel = (key: string) => t(`mob.svcStatus.${key}`);
+
+/* ─────────────────────────── Zapchast yorliqlari
+
+   `furam/src/lib/service.ts` dagi `STOCK_LABELS`,
+   `CONDITION_LABELS` va `PART_ORDER_LABELS` o'zbekcha qattiq
+   yozilgan — server kalit yuboradi. */
+
+export const partStockLabel = (key: string) => t(`mob.partStock.${key}`);
+export const partConditionLabel = (key: string) => t(`mob.partCond.${key}`);
+export const partOrderStatusLabel = (key: string) => t(`mob.partOrder.${key}`);

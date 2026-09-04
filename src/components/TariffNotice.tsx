@@ -23,6 +23,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { useAuth } from "@/lib/auth-context";
+import { isGuest } from "@/lib/guest";
 import { featureName, type FeatureKey } from "@/lib/features";
 import { color, font, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -39,6 +40,10 @@ export function TariffNotice({ feature, top = 0 }: { feature: FeatureKey; top?: 
   const router = useRouter();
 
   if (can(feature)) return null;
+  /* MEHMONGA CHIQMAYDI. Uning tarifi yo'q emas — HISOBI yo'q, va
+     «tarifingizga kirmaydi» degan xabar noto'g'ri javob berardi.
+     Mehmon uchun taklif `guestBlocked()` da (audit 06). */
+  if (isGuest()) return null;
 
   return (
     <View style={[s.box, top ? { marginTop: top } : null]}>

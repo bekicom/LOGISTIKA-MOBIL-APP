@@ -177,3 +177,16 @@ export const serviceStatusLabel = (key: string) => t(`mob.svcStatus.${key}`);
 export const partStockLabel = (key: string) => t(`mob.partStock.${key}`);
 export const partConditionLabel = (key: string) => t(`mob.partCond.${key}`);
 export const partOrderStatusLabel = (key: string) => t(`mob.partOrder.${key}`);
+
+/* ─────────────────────────── Ish topish yorliqlari
+
+   Moslik sabablari SERVERDA kalit bo'lib yasaladi
+   (`furam/src/lib/jobs.ts:MatchNote`) va matn shu yerda
+   yig'iladi — shunda «Tajriba yetarli: 8 yil» har tilda to'g'ri
+   chiqadi. */
+
+export const jobDirectionLabel = (key: string) => t(`jobCatalog.directions.${key}`);
+export const jobProfessionLabel = (key: string) => t(`jobCatalog.professions.${key}`);
+export const payKindLabel = (key: string) => t(`jobCatalog.payKinds.${key}`);
+export const matchNote = (key: string, vars?: Record<string, string | number>) =>
+  t(`matchNote.${key}`, vars);

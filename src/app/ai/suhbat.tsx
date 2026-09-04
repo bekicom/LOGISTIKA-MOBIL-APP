@@ -72,6 +72,15 @@ const SOURCE: Record<string, string> = {
   find_trucks: "feed",
   match_loads_for_my_truck: "feed",
   match_trucks_for_my_load: "feed",
+  /* Bozor qidiruvi (2026-09-05, TZ 12). Ular ham LENTADAN o'qiydi
+     (`feed.ts`), shuning uchun mavjud «feed» kaliti — yangi `mob.*`
+     kalit qo'shilmaydi. Bularsiz `SOURCE[...] ?? "data"` ishlab,
+     manba «Ma'lumot» degan umumiy so'z bo'lib chiqardi: web tomonda
+     esa (`ai-source.ts`) «FURAM yuk lentasi» deb yozilgan — ikki
+     mijoz bir javob ostida boshqa-boshqa manba ko'rsatardi. */
+  market_find_loads: "feed",
+  market_find_trucks: "feed",
+  market_match: "feed",
   fleet_state: "fleet",
   pick_vehicle: "fleet",
   expiring_documents: "docs",
@@ -80,9 +89,13 @@ const SOURCE: Record<string, string> = {
   contract_check: "contracts",
   platform_help: "guide",
   trust_of: "people",
+  my_trust: "people",
   pick_driver: "people",
   my_driver_state: "people",
   risks: "people",
+  /* Chegara navbati (2026-09-05, TZ 12) — reys manbasiga qo'shiladi.
+     Yangi tarjima kaliti kerak emas: mavjud «trips» ishlatiladi. */
+  border_queues: "trips",
 };
 
 /** Serverdagi web manzili → ilovadagi ekran */

@@ -1,41 +1,44 @@
-# Expo SDK 54 — sinov usuli o'zgarmoqda
+# Expo SDK 57
 
-Loyiha hozircha **Expo SDK 54** da (`expo@54.0.37`, `react-native@0.81`, `expo-router@6`).
-Hujjatlar: https://docs.expo.dev/versions/v54.0.0/
+Loyiha **Expo SDK 57** da (`expo@57.0.19`, `react-native@0.86`, `expo-router@57`).
+Hujjatlar: https://docs.expo.dev/versions/v57.0.0/
 
 Kod yozishdan oldin aynan **shu** versiyaning hujjatini o'qing. Expo tez
 o'zgaradi: yangiroq SDK uchun yozilgan misol bu yerda ishlamasligi mumkin.
 
-## ⚠️ 2026-09-04: sabab teskarisiga aylandi
+## ⚠️ VERSIYANI TAXMIN QILMANG — SO'RANG
 
-Ilgari 54 da qolish SHART edi: do'kondagi Expo Go 54.0.2 bo'lib,
-undan yangi SDK'da qurilgan ilova telefonda
-«Project is incompatible with this version of Expo Go» berardi.
-Bir marta 57 ga ko'tarilib, `node_modules` ni butunlay o'chirib
-qaytarishga to'g'ri kelgan.
-
-**Endi do'kondagi Expo Go — SDK 57**, va aynan o'sha xato QAYTA
-chiqyapti, lekin bu safar loyiha ESKI bo'lgani uchun. Expo Go bir
-vaqtda faqat bitta SDK ni ushlaydi, ya'ni 54 da qolish endi
-«xavfsiz» qaror emas — u sinov usulini yo'qotadi.
-
-Versiyani TAXMIN QILMANG, so'rang:
+54 dan 57 ga **2026-09-04 da ko'tarildi**, chunki do'kondagi Expo Go
+57 ga o'tdi va SDK 54 loyihasini ochmay qo'ydi. Undan oldin buning
+aksi to'g'ri edi — shuning uchun bu yerdagi raqamga emas, jonli
+javobga qarang:
 
 ```
 curl -s https://api.expo.dev/v2/versions/latest
 ```
 
 `sdkVersions` ichida har SDK uchun `iosClientVersion`,
-`androidClientVersion` va yuklab olish havolalari turadi.
+`androidClientVersion` va yuklab olish havolalari turadi. Loyiha
+do'kondagi Expo Go bilan BIR XIL SDK da bo'lishi kerak — Expo Go
+bir vaqtda faqat bittasini ushlaydi.
 
-- **Android** — eski Expo Go APK si bor (`androidClientUrl`).
-  O'rnatib, avtoyangilanishni o'chirish kifoya.
-- **iPhone** — yo'l yo'q. App Store faqat oxirgi versiyani beradi,
-  `iosClientUrl` esa SIMULYATOR arxivi (Mac kerak). iPhone'da sinash
-  uchun yo SDK ni ko'tarish, yo dev build kerak.
+- **Android** — eski Expo Go APK si bor (`androidClientUrl`), ya'ni
+  loyihani orqada qoldirsa ham bo'ladi.
+- **iPhone** — orqaga yo'l yo'q. App Store faqat oxirgi versiyani
+  beradi, `iosClientUrl` esa simulyator arxivi (Mac kerak).
 
-Ya'ni SDK'ni ko'tarish endi «texnik qaror» ham emas — kechiktirilsa
-telefonlarda umuman sinab bo'lmaydi.
+## Expo Go 57 KIRISH so'raydi
+
+Dev serverni ochish uchun kompyuterda `npx expo login`, telefondagi
+Expo Go da esa **o'sha hisob** bilan kirish kerak. Aylanib o'tish
+yo'li yo'q: begona QR ilovani ixtiyoriy kodga yo'naltirmasin deb
+ataylab qo'yilgan.
+
+## React Compiler lint qoidalari o'chirilgan
+
+`eslint-config-expo@57` `set-state-in-effect`, `purity`, `use-memo`
+qoidalarini olib keldi. Kompilyator bu loyihada yoqilmagan, ya'ni
+ular haqiqiy xarajat ko'rsatmaydi. Sabab `eslint.config.js` da.
 
 ## Amaliy eslatmalar
 

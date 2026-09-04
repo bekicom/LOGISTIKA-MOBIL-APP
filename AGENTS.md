@@ -1,21 +1,41 @@
-# Expo SDK 54 — versiyani oshirmang
+# Expo SDK 54 — sinov usuli o'zgarmoqda
 
-Loyiha **Expo SDK 54** da (`expo@54.0.37`, `react-native@0.81`, `expo-router@6`).
+Loyiha hozircha **Expo SDK 54** da (`expo@54.0.37`, `react-native@0.81`, `expo-router@6`).
 Hujjatlar: https://docs.expo.dev/versions/v54.0.0/
 
 Kod yozishdan oldin aynan **shu** versiyaning hujjatini o'qing. Expo tez
 o'zgaradi: yangiroq SDK uchun yozilgan misol bu yerda ishlamasligi mumkin.
 
-## Nega 54, undan yuqorisi emas
+## ⚠️ 2026-09-04: sabab teskarisiga aylandi
 
-App Store'dagi **Expo Go — 54.0.2**. Ilova undan yangi SDK'da qurilsa,
-telefonda «Project is incompatible with this version of Expo Go» chiqadi
-va hech narsani sinab bo'lmaydi. Bir marta 57 ga ko'tarilib, keyin
-`node_modules` ni butunlay o'chirib qaytarishga to'g'ri kelgan.
+Ilgari 54 da qolish SHART edi: do'kondagi Expo Go 54.0.2 bo'lib,
+undan yangi SDK'da qurilgan ilova telefonda
+«Project is incompatible with this version of Expo Go» berardi.
+Bir marta 57 ga ko'tarilib, `node_modules` ni butunlay o'chirib
+qaytarishga to'g'ri kelgan.
 
-Ya'ni SDK'ni oshirish — texnik qaror emas, **sinov usulini almashtirish**:
-Expo Go o'rniga dev build kerak bo'ladi. Bunga o'tish alohida ish, yo'l-yo'lakay
-qilinmaydi.
+**Endi do'kondagi Expo Go — SDK 57**, va aynan o'sha xato QAYTA
+chiqyapti, lekin bu safar loyiha ESKI bo'lgani uchun. Expo Go bir
+vaqtda faqat bitta SDK ni ushlaydi, ya'ni 54 da qolish endi
+«xavfsiz» qaror emas — u sinov usulini yo'qotadi.
+
+Versiyani TAXMIN QILMANG, so'rang:
+
+```
+curl -s https://api.expo.dev/v2/versions/latest
+```
+
+`sdkVersions` ichida har SDK uchun `iosClientVersion`,
+`androidClientVersion` va yuklab olish havolalari turadi.
+
+- **Android** — eski Expo Go APK si bor (`androidClientUrl`).
+  O'rnatib, avtoyangilanishni o'chirish kifoya.
+- **iPhone** — yo'l yo'q. App Store faqat oxirgi versiyani beradi,
+  `iosClientUrl` esa SIMULYATOR arxivi (Mac kerak). iPhone'da sinash
+  uchun yo SDK ni ko'tarish, yo dev build kerak.
+
+Ya'ni SDK'ni ko'tarish endi «texnik qaror» ham emas — kechiktirilsa
+telefonlarda umuman sinab bo'lmaydi.
 
 ## Amaliy eslatmalar
 

@@ -236,6 +236,15 @@ function OwnProfil() {
               hint={t("mob.profile.fleetHint")}
               onPress={() => router.push("/parkim")}
             />
+            {/* Parkning YONIDA: haydovchi mashina bilan birga
+                parkda, dispecher va ustaning mashinasi yo'q va
+                ular shu ro'yxatda (TZ 13) */}
+            <ListRow
+              icon={<Badge icon="user" />}
+              title={t("pgStaff.title")}
+              hint={t("pgStaff.subtitle")}
+              onPress={() => router.push("/xodimlarim")}
+            />
             <ListRow
               icon={<Badge icon="chat" />}
               title={t("mob.deals.title")}

@@ -22,7 +22,7 @@ import { currentLocale, t } from "./i18n";
 function devHost(): string | null {
   const uri =
     Constants.expoConfig?.hostUri ??
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     (Constants as any).expoGoConfig?.debuggerHost ??
     null;
   if (uri) {
@@ -61,7 +61,7 @@ export type ApiError = {
   details?: Record<string, string[]>;
   status: number;
   /** Javobning to'liq tanasi */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   data?: any;
 };
 
@@ -77,7 +77,7 @@ export class FuramError extends Error {
    * RO'YXATINI qaytaradi va ekran uni chizishi kerak. Busiz o'sha
    * ma'lumot yo'qolardi.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   data?: any;
 
   constructor(e: ApiError) {
@@ -154,7 +154,7 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
   return data as T;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function safeJson(text: string): any {
   try {
     return JSON.parse(text);

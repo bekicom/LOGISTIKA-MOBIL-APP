@@ -70,7 +70,9 @@
           "icon": "./assets/images/android-icon-monochrome.png",
           "color": "#f45a18"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true

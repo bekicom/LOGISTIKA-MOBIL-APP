@@ -406,10 +406,11 @@ export default function YukJoylash() {
 
       <LocationPicker
         open={picking !== null}
-        title={picking === "from" ? "Qayerdan" : "Qayerga"}
+        title={picking === "from" ? t("mob.loads.from") : t("mob.loads.to")}
         onClose={() => setPicking(null)}
         onPick={(l) => {
-          picking === "from" ? setFrom(l) : setTo(l);
+          if (picking === "from") setFrom(l);
+          else setTo(l);
           setPicking(null);
         }}
       />

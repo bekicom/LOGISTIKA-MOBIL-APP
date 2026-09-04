@@ -403,7 +403,7 @@ const s = StyleSheet.create({
   },
   count2Text: { fontSize: 11, fontWeight: "600", color: "#fff" },
 
-  sold: { ...StyleSheet.absoluteFillObject, backgroundColor: "#0f172a59", alignItems: "center", justifyContent: "center" },
+  sold: { ...StyleSheet.absoluteFill, backgroundColor: "#0f172a59", alignItems: "center", justifyContent: "center" },
   soldTag: {
     height: 28,
     paddingHorizontal: 14,

@@ -12,7 +12,7 @@
  */
 import { useState } from "react";
 import {
-  Alert, Image, KeyboardAvoidingView, Platform, Pressable,
+  Image, KeyboardAvoidingView, Platform, Pressable,
   ScrollView, StyleSheet, Text, View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";

@@ -31,6 +31,14 @@ export type Loadable<T> = {
 };
 
 export function useApi<T>(path: string | null, deps: unknown[] = []): Loadable<T> {
+  /* Bog'liqliklar BITTA satrga yig'iladi.
+     Ilgari `[path, ...deps]` yozilgan edi — React esa massiv uzunligi
+     renderlar orasida o'zgarmasligini talab qiladi. Hozircha hamma
+     chaqiruvchi qat'iy uzunlikdagi massiv beradi, ya'ni xato
+     chiqmagan; lekin kimdir shartli ro'yxat bersa ilova ishlash
+     paytida yiqilardi. Satr esa har doim bitta element. */
+  const depKey = JSON.stringify(deps);
+
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(!!path);
   const [refreshing, setRefreshing] = useState(false);
@@ -82,7 +90,7 @@ export function useApi<T>(path: string | null, deps: unknown[] = []): Loadable<T
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [path, ...deps],
+    [path, depKey],
   );
 
   useEffect(() => {

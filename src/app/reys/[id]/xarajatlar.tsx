@@ -8,7 +8,7 @@
 import { useState } from "react";
 import {
   FlatList, Image, Modal, Pressable, RefreshControl,
-  StyleSheet, Text, TextInput, View,
+  StyleSheet, Text, View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -48,9 +48,6 @@ function cats(): { key: string; label: string; icon: IconName }[] {
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
 
-function money(n: number, cur: string) {
-  return `${new Intl.NumberFormat("ru-RU").format(n)} ${cur}`;
-}
 
 function iconOf(cat: string): IconName {
   return cats().find((c) => c.key === cat)?.icon ?? "package";

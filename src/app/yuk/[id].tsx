@@ -8,11 +8,11 @@
 import { useState } from "react";
 import {
   Linking, Modal, Pressable, RefreshControl, ScrollView,
-  StyleSheet, Text, TextInput, View,
+  StyleSheet, Text, View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import Svg, { Circle, Path } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 import { Icon } from "@/components/Icon";
 import { TruckIcon } from "@/components/TruckIcon";
 import { Route, Chip } from "@/components/cards";

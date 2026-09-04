@@ -5,6 +5,7 @@
  * chunki ilovaga o'ndan sanoqli ikonka kerak va har biri bir necha
  * qatorlik `path`. Butun paketni bundle'ga qo'shishning ma'nosi yo'q.
  */
+import type { ColorValue } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 import { color } from "@/lib/theme";
 
@@ -31,7 +32,9 @@ export type IconName =
   | "border"
   | "check";
 
-type Props = { name: IconName; size?: number; stroke?: string; fill?: string };
+/* `stroke` — `string` emas, `ColorValue`: `Tabs.Screen` ning
+   `tabBarIcon` i rangni shu turda beradi (RN 0.86). */
+type Props = { name: IconName; size?: number; stroke?: ColorValue; fill?: string };
 
 export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "none" }: Props) {
   const p = { stroke, strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" };

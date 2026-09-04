@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   /* Ro'yxat holatda ham turadi: `features.ts` dagi to'plam sof
      modul o'zgaruvchisi, o'zgarganda ekran qayta chizilmaydi.
      Ikkalasi bir joyda — javob kelgan payt — yoziladi. */
-  const [feats, setFeats] = useState<ReadonlySet<string>>(new Set());
+  const [feats, setFeats] = useState<ReadonlySet<string> | null>(null);
 
   const load = useCallback(async () => {
     /* MEHMON BELGISI TOKENDAN OLDIN o'qiladi: `index.tsx` qayerga
@@ -64,7 +64,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
          so'rov bo'lardi va ikkisi bir-biridan orqada qolib
          ketardi. */
       setFeatures(res.features);
-      setFeats(new Set(res.features ?? []));
+      /* `null` — server maydonni yubormadi (eski versiya). Bu
+         «hech narsa ochiq emas» EMAS: `features.ts` dagi izohga
+         qarang. */
+      setFeats(res.features ? new Set(res.features) : null);
       /* TOKEN HAR OCHILISHDA QAYTA YOZILADI: Expo tokeni ilova qayta
          o'rnatilsa yoki tizim yangilansa o'zgaradi va eskisiga
          yuborilgan push hech qayerga yetib bormaydi.
@@ -122,7 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setFeats(new Set());
   }, []);
 
-  const canFeature = useCallback((f: FeatureKey) => feats.has(f), [feats]);
+  const canFeature = useCallback((f: FeatureKey) => feats === null || feats.has(f), [feats]);
 
   const value = useMemo(
     () => ({ user, loading, can: canFeature, signIn, signOut, refresh: load }),

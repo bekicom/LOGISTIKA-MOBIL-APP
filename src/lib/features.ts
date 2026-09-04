@@ -57,15 +57,30 @@ export type FeatureKey =
   | "company"
   | "auto_sale";
 
-let open: ReadonlySet<string> = new Set();
+let open: ReadonlySet<string> | null = null;
 
-/** `auth-context` chaqiradi — boshqa joydan emas */
+/**
+ * `auth-context` chaqiradi — boshqa joydan emas.
+ *
+ * ⚠️ `undefined` va `[]` BOSHQA-BOSHQA holat (2026-09-05):
+ *
+ *   • `[]`        — server javob berdi, hech narsa ochiq emas
+ *   • `undefined` — server bu maydonni UMUMAN yubormadi
+ *
+ * Ikkinchisi eski serverga ulanganda bo'ladi. O'shanda «hech
+ * narsa ochiq emas» deb hisoblasak, ilova 15 ta ekranda
+ * «tarifingizga kirmaydi» deb yolg'on gapirardi. Noma'lumlikda
+ * TO'SIQ QO'YILMAYDI: server baribir 402 bilan to'xtatadi, ya'ni
+ * hech kim pulsiz o'tib ketmaydi — faqat ogohlantirish
+ * ko'rsatilmaydi.
+ */
 export function setFeatures(list: string[] | undefined | null): void {
-  open = new Set(list ?? []);
+  open = list ? new Set(list) : null;
 }
 
+/** Ro'yxat kelmagan bo'lsa `true` — «bilmayman, to'smayman» */
 export function can(f: FeatureKey): boolean {
-  return open.has(f);
+  return open === null || open.has(f);
 }
 
 /** Funksiya nomi o'quvchining tilida — server yorlig'i emas */

@@ -285,6 +285,45 @@ export default function Profil() {
               onPress={() => router.push("/shartnoma")}
             />
             <ListRow
+              icon={<Badge icon="check" />}
+              title={t("mob.trust.title")}
+              hint={t("mob.trust.subtitle")}
+              onPress={() => router.push("/reyting")}
+            />
+            <ListRow
+              icon={<Badge icon="user" />}
+              title={t("mob.roles.title")}
+              hint={t("mob.roles.subtitle")}
+              onPress={() => router.push("/rollarim")}
+            />
+            <ListRow
+              icon={<Badge icon="alert" />}
+              title={t("mob.notes.problem")}
+              hint={t("mob.probs.hint")}
+              /* Alohida ekran emas: bildirishnomalarning muammo
+                 yorlig'i. Bir xil ro'yxatni ikki joyda chizish
+                 ikkita tuzatiladigan joy demak edi. */
+              onPress={() => router.push("/bildirishnomalar?tab=problem")}
+            />
+            <ListRow
+              icon={<Badge icon="user" />}
+              title={t("mob.disp.title")}
+              hint={t("mob.disp.subtitle")}
+              onPress={() => router.push("/dispetcherlar")}
+            />
+            <ListRow
+              icon={<Badge icon="doc" />}
+              title={t("mob.video.title")}
+              hint={t("mob.video.subtitle")}
+              onPress={() => router.push("/qollanma")}
+            />
+            <ListRow
+              icon={<Badge icon="plus" />}
+              title={t("mob.calc.title")}
+              hint={t("mob.calc.subtitle")}
+              onPress={() => router.push("/kalkulyator")}
+            />
+            <ListRow
               icon={<Badge icon="heart" />}
               title={t("mob.profile.saved")}
               onPress={() => router.push("/saqlanganlar")}

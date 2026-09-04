@@ -7,7 +7,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api } from "@/lib/api";
@@ -30,9 +30,14 @@ type Note = {
    o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
 function tabs() {
   return [
+  /* KALITLAR SERVERNIKI BILAN BIR XIL BO'LISHI SHART.
+     Ilgari bu yerda "tasks" va "problems" turardi, server esa
+     "task" va "problem" kutadi (`notify-server.ts:listNotify`).
+     Mos kelmagan kalit filtrsiz o'tib ketardi — ya'ni ikkala
+     yorliq ham JIMGINA hammasini ko'rsatib turgan. */
   { key: "all", label: t("mob.common.all") },
-  { key: "tasks", label: t("mob.notes.task") },
-  { key: "problems", label: t("mob.notes.problem") },
+  { key: "task", label: t("mob.notes.task") },
+  { key: "problem", label: t("mob.notes.problem") },
 ] as const;
 }
 
@@ -62,7 +67,13 @@ function hhmm(iso: string) {
 }
 
 export default function Bildirishnomalar() {
-  const [tab, setTab] = useState<string>("all");
+  /* Boshlang'ich yorliq marshrutdan kelishi mumkin: profildagi
+     «Muammolarim» shu ekranni to'g'ridan-to'g'ri muammo
+     yorlig'ida ochadi. Begona qiymat e'tiborsiz qoldiriladi. */
+  const { tab: want } = useLocalSearchParams<{ tab?: string }>();
+  const [tab, setTab] = useState<string>(
+    want && ["all", "task", "problem"].includes(want) ? want : "all",
+  );
   const insets = useSafeAreaInsets();
   const router = useRouter();
 

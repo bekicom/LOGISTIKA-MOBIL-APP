@@ -98,6 +98,19 @@
       "welder": "Payvandchi"
     }
   },
+  "kind": {
+    "contract": "Shartnomalarim",
+    "job": "Ish e'lonlari",
+    "load": "Yuklar",
+    "master": "Usta va servis",
+    "part": "Zapchast",
+    "ride": "Yo'lovchi reyslari",
+    "sale": "FURAM BOZOR",
+    "trip": "Reyslarim",
+    "truck": "Transportlar",
+    "user": "Foydalanuvchilar",
+    "vehicle": "Transportlarim"
+  },
   "matchNote": {
     "classMissing": "Toifa yetishmaydi: %{c}",
     "classOk": "Toifalar mos",
@@ -357,6 +370,11 @@
       "insurance": "Sug'urta",
       "visa": "Viza yordami"
     },
+    "calc": {
+      "noAnswer": "Javob yo'q",
+      "subtitle": "Oddiy to'rt amal",
+      "title": "Kalkulyator"
+    },
     "chat": {
       "camera": "Kamera",
       "conversation": "Suhbat",
@@ -561,6 +579,19 @@
       "whyText1": "Telefoningizni yo'qotsangiz yoki sotsangiz — hisobingiz begona qo'lda qolmasligi kerak. Bu yerdan uzsangiz, o'sha qurilmadagi sessiya darhol tugaydi.",
       "whyText2": "Uzoq vaqt kirilmagan qurilma sanasi jigarrang yoziladi — e'tibor bering, balki begonadir.",
       "whyTitle": "Nima uchun bu ekran bor"
+    },
+    "disp": {
+      "contactNote": "Aloqa chat orqali boshlanadi. Telefon raqami kelishuvdan keyin ochiladi.",
+      "countN": "Tasdiqlangan · %{n} ta",
+      "emptyHint": "Bu davlatda ishlaydigan tasdiqlangan dispetcher hozircha yo'q.",
+      "emptyTitle": "Dispetcher topilmadi",
+      "noRating": "Hali yo'q",
+      "rating": "Baho",
+      "response": "Javob berish",
+      "subtitle": "Tasdiqlangan dispetcherlar",
+      "title": "Dispetcherlar",
+      "trips": "Reys",
+      "yearsN": "%{n} yil"
     },
     "docKind": {
       "CMR": "CMR",
@@ -1290,6 +1321,9 @@
       "3": "Transport turini tanlang",
       "4": "Narx kiriting yoki «kelishiladi» belgilang"
     },
+    "probs": {
+      "hint": "Hal qilinmagan holatlar"
+    },
     "profile": {
       "account": "HISOB",
       "active": "FAOL",
@@ -1452,11 +1486,34 @@
       "webNote": "Saytda to'ldirgan qolgan maydonlaringiz saqlanib qoladi — bu ekran ularni o'chirmaydi."
     },
     "role": {
+      "AUTO_SELLER": "Avto sotuvchi",
+      "CARGO_OWNER": "Yuk egasi",
       "DISPATCHER": "Dispetcher",
       "DRIVER": "Haydovchi",
+      "EMPLOYER": "Ish beruvchi",
+      "LOGISTICS": "Logistika kompaniyasi",
+      "MASTER": "Usta",
+      "PARTS": "Zapchast do'koni",
+      "PASSENGER": "Yo'lovchi tashuvchi",
+      "SERVICE": "Servis markazi",
       "SHIPPER": "Yuk egasi",
       "USER": "Oddiy foydalanuvchi",
-      "VEHICLE_OWNER": "Mashina egasi"
+      "VEHICLE_OWNER": "Mashina egasi",
+      "WORKER": "Ish qidiruvchi"
+    },
+    "roles": {
+      "addGroup": "QO'SHISH MUMKIN",
+      "daysLeft": "%{n} kun qoldi",
+      "endNote": "Tugasa yangi e'lon qo'ya olmaysiz. Yozilgan ma'lumot, reys va shartnomalar joyida qoladi.",
+      "extend": "Uzaytirish",
+      "liveGroup": "AMALDAGI",
+      "noneHint": "Rol tanlaganingizda o'sha bo'limlar ochiladi va sinov muddati boshlanadi.",
+      "noneTitle": "Rol tanlanmagan",
+      "payNote": "Tarif to'lovi brauzerda qilinadi — ilova ichidagi to'lov do'kon komissiyasiga tushadi.",
+      "priceDays": "%{sum} so'm / %{n} kun",
+      "subtitle": "Rollar va tariflar",
+      "title": "Men kimman?",
+      "trial": "Sinov muddati"
     },
     "sale": {
       "about": "Tavsif",
@@ -1560,6 +1617,14 @@
     "scanNote": {
       "MRZ_FAILED": "MRZ tekshiruvidan o'tmadi — har bir maydonni solishtirib chiqing.",
       "UNVERIFIED": "Ma'lumot tasdiqlanmagan — hujjat bilan solishtiring."
+    },
+    "search": {
+      "maybeGroup": "SHUNI QIDIRAYOTGAN BO'LSANGIZ",
+      "noneHint": "Boshqacha yozib ko'ring yoki quyidagi bo'limlardan birini oching.",
+      "noneTitle": "Hech narsa topilmadi",
+      "placeholder": "Yuk, mashina, ism, raqam…",
+      "startHint": "Kamida ikki harf yozing. Qidiruv barcha bo'limlar bo'ylab ketadi.",
+      "startTitle": "Nima qidiryapsiz?"
     },
     "signIn": {
       "blocked": "Hisob vaqtincha bloklandi",
@@ -1855,6 +1920,16 @@
       "volume": "Hajmi (m³)",
       "year": "Yili"
     },
+    "trust": {
+      "howNote": "Reyting har hafta qayta hisoblanadi. Eski xatolar vaqt o'tishi bilan ta'sirini yo'qotadi.",
+      "notYet": "Ball hali hisoblanmadi — bir necha reys kerak",
+      "partsGroup": "BALL QAYERDAN KELDI",
+      "subtitle": "Ball qayerdan kelgani",
+      "title": "Reytingim",
+      "toNext": "«%{band}» darajasiga %{n} ball qoldi",
+      "topBand": "Eng yuqori darajadasiz",
+      "whyGroup": "ASOSIY OMILLAR"
+    },
     "ui": {
       "allRead": "Hammasi o'qilgan",
       "blockUser": "Foydalanuvchini bloklash",
@@ -1897,6 +1972,13 @@
       "type": "Turi",
       "vehicleTitle": "Transport",
       "volume": "Hajm"
+    },
+    "video": {
+      "countN": "Qisqa videolar · %{n} ta",
+      "emptyHint": "Qo'llanmalar tayyorlanmoqda — tez orada shu yerda chiqadi.",
+      "emptyTitle": "Video yo'q",
+      "subtitle": "Qisqa videolar",
+      "title": "Qo'llanma"
     },
     "viewerRole": {
       "DISPATCHER": "Dispetcher",
@@ -1963,6 +2045,21 @@
     "PAUSED": "Pauzada",
     "SOLD": "Sotildi"
   },
+  "searchHint": {
+    "currency": "Valyuta kalkulyatori",
+    "finance": "Moliya",
+    "jobs": "Ish topish",
+    "loads": "Yuk topish",
+    "map": "Xarita",
+    "market": "FURAM BOZOR",
+    "parcel": "Jo'natma yuborish",
+    "parts": "Zapchast qidirish",
+    "queue": "Chegara navbati",
+    "reports": "Hisobotlar",
+    "rides": "Yo'lovchi tashish",
+    "service": "Usta va servis",
+    "trucks": "Transport topish"
+  },
   "serviceCatalog": {
     "kind": {
       "bongo": "Kia Bongo",
@@ -2008,5 +2105,73 @@
     "ON_ROAD": "Yo'lda",
     "TO_LOADING": "Yuklashga ketmoqda",
     "UNLOADED": "Tushirildi"
+  },
+  "trustBand": {
+    "CAREFUL": "Ehtiyotkorlik bilan",
+    "FAIR": "Yaxshi",
+    "GOOD": "Ishonchli",
+    "LOW": "Past ishonchlilik",
+    "TOP": "Juda ishonchli"
+  },
+  "trustNote": {
+    "confirmed": "%{n} ta tasdiqlangan",
+    "contractsCancelled": "%{n} ta bajarilgan · %{c} bekor",
+    "contractsOnly": "%{n} ta bajarilgan",
+    "days": "%{n} kun",
+    "docIssues": "%{n} ta muammo",
+    "docOk": "muammo yo'q",
+    "payNone": "to'lov tarixi yo'q",
+    "payPct": "%{pct}% o'z vaqtida",
+    "ratingNone": "hali baho yo'q",
+    "ratingVal": "%{avg} · %{n} baho",
+    "tripsOnly": "%{n} ta yopilgan",
+    "tripsPct": "%{n} ta yopilgan · %{pct}% muvaffaqiyatli"
+  },
+  "trustPart": {
+    "cancels": "Sababsiz bekor qilish",
+    "contracts": "Shartnomalar",
+    "docs": "Hujjatlar",
+    "history": "Platformada tajriba",
+    "payments": "To'lov intizomi",
+    "rating": "Reyting",
+    "trips": "Yakunlangan reyslar",
+    "violations": "Qoidabuzarlik"
+  },
+  "trustReason": {
+    "cancels": "%{n} ta tasdiqlangan sababsiz bekor qilish",
+    "needMore": "Trust Score uchun kamida %{trips} yakunlangan reys yoki %{ratings} baho kerak",
+    "noActivity": "Hali faoliyat yo'q — Trust Score shakllanmagan",
+    "payDiscipline": "To'lov intizomi %{pct}%",
+    "ratingAvg": "O'rtacha reyting %{avg}",
+    "tripSuccess": "%{pct}% reys muvaffaqiyatli yakunlangan",
+    "violations": "%{n} ta tasdiqlangan qoidabuzarlik"
+  },
+  "trustStatus": {
+    "FORMING": "Baholanmoqda",
+    "NEW": "Yangi foydalanuvchi",
+    "REVIEW": "Tekshiruvda"
+  },
+  "videoSection": {
+    "ai": "AI yordamchi",
+    "analytics": "Analitika",
+    "chats": "Xabarlar",
+    "contracts": "Shartnomalar",
+    "documents": "Hujjatlar",
+    "drivers": "Haydovchilar",
+    "finance": "Moliya",
+    "jobs": "Ish topish",
+    "loads": "Yuklar",
+    "map": "Xarita",
+    "market": "FURAM BOZOR",
+    "money": "Daromadlar",
+    "post": "Yuk qo'yish",
+    "post-truck": "Bo'sh transport e'loni",
+    "profile": "Profil",
+    "queues": "Chegara va navbat",
+    "reports": "Hisobotlar",
+    "roles": "Tariflar",
+    "trips": "Reyslar",
+    "trucks": "Transportlar",
+    "trust": "Reyting va ishonch"
   }
 }

@@ -98,6 +98,19 @@
       "welder": "焊工"
     }
   },
+  "kind": {
+    "contract": "我的合同",
+    "job": "招聘信息",
+    "load": "货源",
+    "master": "技师与维修",
+    "part": "配件",
+    "ride": "客运班次",
+    "sale": "FURAM 市场",
+    "trip": "我的运单",
+    "truck": "车源",
+    "user": "用户",
+    "vehicle": "我的车辆"
+  },
   "matchNote": {
     "classMissing": "缺少准驾车型：%{c}",
     "classOk": "准驾车型匹配",
@@ -357,6 +370,11 @@
       "insurance": "保险",
       "visa": "签证协助"
     },
+    "calc": {
+      "noAnswer": "无结果",
+      "subtitle": "简单四则运算",
+      "title": "计算器"
+    },
     "chat": {
       "camera": "拍照",
       "conversation": "会话",
@@ -561,6 +579,19 @@
       "whyText1": "手机丢失或转卖时，账号不应留在他人手中。在此断开，该设备的会话会立即结束。",
       "whyText2": "长期未使用的设备日期以琥珀色标出——请留意，可能并非本人设备。",
       "whyTitle": "本页面的作用"
+    },
+    "disp": {
+      "contactNote": "沟通从聊天开始。达成一致后才开放电话号码。",
+      "countN": "已认证 · %{n} 人",
+      "emptyHint": "该国目前还没有已认证的调度员。",
+      "emptyTitle": "未找到调度员",
+      "noRating": "暂无",
+      "rating": "评分",
+      "response": "回复率",
+      "subtitle": "已认证调度员",
+      "title": "调度员",
+      "trips": "运单",
+      "yearsN": "%{n} 年"
     },
     "docKind": {
       "CMR": "CMR 运单",
@@ -1290,6 +1321,9 @@
       "3": "请选择车型",
       "4": "请填写价格或勾选「面议」"
     },
+    "probs": {
+      "hint": "未解决的问题"
+    },
     "profile": {
       "account": "账号",
       "active": "有效",
@@ -1452,11 +1486,34 @@
       "webNote": "您在网站上填写的其他字段会保留——本页面不会清除它们。"
     },
     "role": {
+      "AUTO_SELLER": "车辆卖家",
+      "CARGO_OWNER": "货主",
       "DISPATCHER": "调度员",
       "DRIVER": "司机",
+      "EMPLOYER": "雇主",
+      "LOGISTICS": "物流公司",
+      "MASTER": "技师",
+      "PARTS": "配件店",
+      "PASSENGER": "客运承运人",
+      "SERVICE": "服务中心",
       "SHIPPER": "货主",
       "USER": "普通用户",
-      "VEHICLE_OWNER": "车主"
+      "VEHICLE_OWNER": "车主",
+      "WORKER": "求职者"
+    },
+    "roles": {
+      "addGroup": "可添加",
+      "daysLeft": "还剩 %{n} 天",
+      "endNote": "到期后无法发布新信息。已保存的数据、运单和合同仍然保留。",
+      "extend": "续费",
+      "liveGroup": "生效中",
+      "noneHint": "选择角色后会开放对应板块并开始试用。",
+      "noneTitle": "未选择角色",
+      "payNote": "套餐在浏览器中付款——应用内支付会产生商店抽成。",
+      "priceDays": "%{sum} 苏姆 / %{n} 天",
+      "subtitle": "角色与套餐",
+      "title": "我是谁？",
+      "trial": "试用期"
     },
     "sale": {
       "about": "描述",
@@ -1560,6 +1617,14 @@
     "scanNote": {
       "MRZ_FAILED": "MRZ 校验未通过——请逐项核对。",
       "UNVERIFIED": "数据未经校验——请与证件核对。"
+    },
+    "search": {
+      "maybeGroup": "也许您在找",
+      "noneHint": "换个说法试试，或打开下面的板块。",
+      "noneTitle": "没有找到结果",
+      "placeholder": "货源、车辆、姓名、编号…",
+      "startHint": "请至少输入两个字母。搜索覆盖全部板块。",
+      "startTitle": "您在找什么？"
     },
     "signIn": {
       "blocked": "账号已被临时封禁",
@@ -1855,6 +1920,16 @@
       "volume": "容积（立方米）",
       "year": "年份"
     },
+    "trust": {
+      "howNote": "评分每周重算。旧的失误会随时间逐渐淡出。",
+      "notYet": "尚未评分——还需要几趟运单",
+      "partsGroup": "分数构成",
+      "subtitle": "分数从何而来",
+      "title": "我的评分",
+      "toNext": "距离「%{band}」还差 %{n} 分",
+      "topBand": "您已达到最高等级",
+      "whyGroup": "主要因素"
+    },
     "ui": {
       "allRead": "全部已读",
       "blockUser": "屏蔽该用户",
@@ -1897,6 +1972,13 @@
       "type": "类型",
       "vehicleTitle": "车辆",
       "volume": "容积"
+    },
+    "video": {
+      "countN": "短视频 · %{n} 个",
+      "emptyHint": "指南正在制作中——很快会出现在这里。",
+      "emptyTitle": "暂无视频",
+      "subtitle": "短视频",
+      "title": "使用指南"
     },
     "viewerRole": {
       "DISPATCHER": "调度员",
@@ -1963,6 +2045,21 @@
     "PAUSED": "已暂停",
     "SOLD": "已售出"
   },
+  "searchHint": {
+    "currency": "汇率计算器",
+    "finance": "财务",
+    "jobs": "找工作",
+    "loads": "找货",
+    "map": "地图",
+    "market": "FURAM 市场",
+    "parcel": "寄快递",
+    "parts": "找配件",
+    "queue": "口岸排队",
+    "reports": "报表",
+    "rides": "客运",
+    "service": "维修与服务",
+    "trucks": "找车"
+  },
   "serviceCatalog": {
     "kind": {
       "bongo": "Kia Bongo",
@@ -2008,5 +2105,73 @@
     "ON_ROAD": "在途",
     "TO_LOADING": "前往装货",
     "UNLOADED": "已卸货"
+  },
+  "trustBand": {
+    "CAREFUL": "需谨慎",
+    "FAIR": "良好",
+    "GOOD": "可靠",
+    "LOW": "可靠度低",
+    "TOP": "非常可靠"
+  },
+  "trustNote": {
+    "confirmed": "已核实 %{n} 起",
+    "contractsCancelled": "已完成 %{n} 份 · 已取消 %{c} 份",
+    "contractsOnly": "已完成 %{n} 份",
+    "days": "%{n} 天",
+    "docIssues": "%{n} 处问题",
+    "docOk": "无问题",
+    "payNone": "无付款记录",
+    "payPct": "%{pct}% 按时",
+    "ratingNone": "暂无评价",
+    "ratingVal": "%{avg} · %{n} 条评价",
+    "tripsOnly": "已结束 %{n} 次",
+    "tripsPct": "已结束 %{n} 次 · %{pct}% 成功"
+  },
+  "trustPart": {
+    "cancels": "无故取消",
+    "contracts": "合同",
+    "docs": "文件",
+    "history": "平台资历",
+    "payments": "付款守约",
+    "rating": "评分",
+    "trips": "已完成行程",
+    "violations": "违规"
+  },
+  "trustReason": {
+    "cancels": "%{n} 起已核实的无故取消",
+    "needMore": "Trust Score 至少需要 %{trips} 次已完成行程或 %{ratings} 条评价",
+    "noActivity": "尚无活动记录——Trust Score 还未形成",
+    "payDiscipline": "付款守约率 %{pct}%",
+    "ratingAvg": "平均评分 %{avg}",
+    "tripSuccess": "%{pct}% 的行程成功完成",
+    "violations": "%{n} 起已核实的违规"
+  },
+  "trustStatus": {
+    "FORMING": "形成中",
+    "NEW": "新用户",
+    "REVIEW": "审核中"
+  },
+  "videoSection": {
+    "ai": "AI 助手",
+    "analytics": "分析",
+    "chats": "消息",
+    "contracts": "合同",
+    "documents": "证件",
+    "drivers": "司机",
+    "finance": "财务",
+    "jobs": "找工作",
+    "loads": "货源",
+    "map": "地图",
+    "market": "FURAM 市场",
+    "money": "收入",
+    "post": "发布货源",
+    "post-truck": "发布空车",
+    "profile": "个人资料",
+    "queues": "口岸与排队",
+    "reports": "报表",
+    "roles": "套餐",
+    "trips": "运单",
+    "trucks": "车辆",
+    "trust": "评分与信任"
   }
 }

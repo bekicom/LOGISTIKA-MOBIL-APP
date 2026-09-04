@@ -98,6 +98,19 @@
       "welder": "Welder"
     }
   },
+  "kind": {
+    "contract": "My contracts",
+    "job": "Vacancies",
+    "load": "Loads",
+    "master": "Mechanics and service",
+    "part": "Spare parts",
+    "ride": "Passenger trips",
+    "sale": "FURAM MARKET",
+    "trip": "My trips",
+    "truck": "Trucks",
+    "user": "Users",
+    "vehicle": "My trucks"
+  },
   "matchNote": {
     "classMissing": "Missing licence class: %{c}",
     "classOk": "Licence classes match",
@@ -357,6 +370,11 @@
       "insurance": "Insurance",
       "visa": "Visa support"
     },
+    "calc": {
+      "noAnswer": "No answer",
+      "subtitle": "Plain four functions",
+      "title": "Calculator"
+    },
     "chat": {
       "camera": "Camera",
       "conversation": "Conversation",
@@ -561,6 +579,19 @@
       "whyText1": "If you lose or sell your phone, your account must not stay in someone else's hands. Disconnect here and that device's session ends immediately.",
       "whyText2": "A long-inactive device's date is shown in amber — take a look, it may not be yours.",
       "whyTitle": "Why this screen exists"
+    },
+    "disp": {
+      "contactNote": "Contact starts in chat. The phone number opens once you agree.",
+      "countN": "%{n} verified",
+      "emptyHint": "No verified dispatcher works in this country yet.",
+      "emptyTitle": "No dispatchers found",
+      "noRating": "None yet",
+      "rating": "Rating",
+      "response": "Responds",
+      "subtitle": "Verified dispatchers",
+      "title": "Dispatchers",
+      "trips": "Trips",
+      "yearsN": "%{n} years"
     },
     "docKind": {
       "CMR": "CMR",
@@ -1290,6 +1321,9 @@
       "3": "Choose the vehicle type",
       "4": "Enter a price or mark it negotiable"
     },
+    "probs": {
+      "hint": "Unresolved issues"
+    },
     "profile": {
       "account": "ACCOUNT",
       "active": "ACTIVE",
@@ -1452,11 +1486,34 @@
       "webNote": "The other fields you filled in on the website stay — this screen does not erase them."
     },
     "role": {
+      "AUTO_SELLER": "Vehicle seller",
+      "CARGO_OWNER": "Shipper",
       "DISPATCHER": "Dispatcher",
       "DRIVER": "Driver",
+      "EMPLOYER": "Employer",
+      "LOGISTICS": "Logistics company",
+      "MASTER": "Mechanic",
+      "PARTS": "Parts shop",
+      "PASSENGER": "Passenger carrier",
+      "SERVICE": "Service centre",
       "SHIPPER": "Cargo owner",
       "USER": "Regular user",
-      "VEHICLE_OWNER": "Vehicle owner"
+      "VEHICLE_OWNER": "Vehicle owner",
+      "WORKER": "Job seeker"
+    },
+    "roles": {
+      "addGroup": "YOU CAN ADD",
+      "daysLeft": "%{n} days left",
+      "endNote": "When it ends you can't post new listings. Your data, trips and contracts stay put.",
+      "extend": "Renew",
+      "liveGroup": "ACTIVE",
+      "noneHint": "Picking a role opens its sections and starts the trial.",
+      "noneTitle": "No role chosen",
+      "payNote": "Plans are paid in the browser — in-app payment would carry the store's commission.",
+      "priceDays": "%{sum} UZS / %{n} days",
+      "subtitle": "Roles and plans",
+      "title": "Who am I?",
+      "trial": "Trial"
     },
     "sale": {
       "about": "Description",
@@ -1560,6 +1617,14 @@
     "scanNote": {
       "MRZ_FAILED": "The MRZ check failed — compare every field.",
       "UNVERIFIED": "The data is not verified — compare it with the document."
+    },
+    "search": {
+      "maybeGroup": "MAYBE YOU WANT",
+      "noneHint": "Try different wording, or open one of the sections below.",
+      "noneTitle": "Nothing found",
+      "placeholder": "Load, truck, name, number…",
+      "startHint": "Type at least two letters. The search covers every section.",
+      "startTitle": "What are you looking for?"
     },
     "signIn": {
       "blocked": "The account is temporarily blocked",
@@ -1855,6 +1920,16 @@
       "volume": "Volume (m³)",
       "year": "Year"
     },
+    "trust": {
+      "howNote": "The rating is recalculated weekly. Old mistakes lose weight over time.",
+      "notYet": "Not scored yet — a few trips are needed",
+      "partsGroup": "WHERE THE POINTS COME FROM",
+      "subtitle": "Where the score comes from",
+      "title": "My rating",
+      "toNext": "%{n} points to reach “%{band}”",
+      "topBand": "You're at the top level",
+      "whyGroup": "MAIN FACTORS"
+    },
     "ui": {
       "allRead": "All read",
       "blockUser": "Block this user",
@@ -1897,6 +1972,13 @@
       "type": "Type",
       "vehicleTitle": "Vehicle",
       "volume": "Volume"
+    },
+    "video": {
+      "countN": "%{n} short videos",
+      "emptyHint": "Guides are in the works — they'll show up here soon.",
+      "emptyTitle": "No videos",
+      "subtitle": "Short videos",
+      "title": "Guides"
     },
     "viewerRole": {
       "DISPATCHER": "Dispatcher",
@@ -1963,6 +2045,21 @@
     "PAUSED": "Paused",
     "SOLD": "Sold"
   },
+  "searchHint": {
+    "currency": "Currency calculator",
+    "finance": "Money",
+    "jobs": "Find work",
+    "loads": "Find a load",
+    "map": "Map",
+    "market": "FURAM MARKET",
+    "parcel": "Send a parcel",
+    "parts": "Find parts",
+    "queue": "Border queue",
+    "reports": "Reports",
+    "rides": "Passenger rides",
+    "service": "Repairs and service",
+    "trucks": "Find a truck"
+  },
   "serviceCatalog": {
     "kind": {
       "bongo": "Kia Bongo",
@@ -2008,5 +2105,73 @@
     "ON_ROAD": "On the road",
     "TO_LOADING": "Heading to loading",
     "UNLOADED": "Unloaded"
+  },
+  "trustBand": {
+    "CAREFUL": "With caution",
+    "FAIR": "Good",
+    "GOOD": "Trusted",
+    "LOW": "Low trust",
+    "TOP": "Highly trusted"
+  },
+  "trustNote": {
+    "confirmed": "%{n} confirmed",
+    "contractsCancelled": "%{n} completed · %{c} cancelled",
+    "contractsOnly": "%{n} completed",
+    "days": "%{n} days",
+    "docIssues": "%{n} issues",
+    "docOk": "no issues",
+    "payNone": "no payment history",
+    "payPct": "%{pct}% on time",
+    "ratingNone": "no ratings yet",
+    "ratingVal": "%{avg} · %{n} ratings",
+    "tripsOnly": "%{n} closed",
+    "tripsPct": "%{n} closed · %{pct}% successful"
+  },
+  "trustPart": {
+    "cancels": "Cancellation without reason",
+    "contracts": "Contracts",
+    "docs": "Documents",
+    "history": "Time on the platform",
+    "payments": "Payment discipline",
+    "rating": "Rating",
+    "trips": "Completed trips",
+    "violations": "Violation"
+  },
+  "trustReason": {
+    "cancels": "%{n} confirmed cancellations without reason",
+    "needMore": "The Trust Score needs at least %{trips} completed trips or %{ratings} ratings",
+    "noActivity": "No activity yet — the Trust Score has not formed",
+    "payDiscipline": "Payment discipline %{pct}%",
+    "ratingAvg": "Average rating %{avg}",
+    "tripSuccess": "%{pct}% of trips completed successfully",
+    "violations": "%{n} confirmed violations"
+  },
+  "trustStatus": {
+    "FORMING": "Being formed",
+    "NEW": "New user",
+    "REVIEW": "Under review"
+  },
+  "videoSection": {
+    "ai": "AI assistant",
+    "analytics": "Analytics",
+    "chats": "Messages",
+    "contracts": "Contracts",
+    "documents": "Documents",
+    "drivers": "Drivers",
+    "finance": "Money",
+    "jobs": "Finding work",
+    "loads": "Loads",
+    "map": "Map",
+    "market": "FURAM MARKET",
+    "money": "Earnings",
+    "post": "Posting a load",
+    "post-truck": "Posting a free truck",
+    "profile": "Profile",
+    "queues": "Border and queue",
+    "reports": "Reports",
+    "roles": "Plans",
+    "trips": "Trips",
+    "trucks": "Trucks",
+    "trust": "Rating and trust"
   }
 }

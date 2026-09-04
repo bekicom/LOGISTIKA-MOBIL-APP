@@ -98,6 +98,19 @@
       "welder": "Kaynakçı"
     }
   },
+  "kind": {
+    "contract": "Sözleşmelerim",
+    "job": "İş ilanları",
+    "load": "Yükler",
+    "master": "Usta ve servis",
+    "part": "Yedek parça",
+    "ride": "Yolcu seferleri",
+    "sale": "FURAM PAZAR",
+    "trip": "Seferlerim",
+    "truck": "Araçlar",
+    "user": "Kullanıcılar",
+    "vehicle": "Araçlarım"
+  },
   "matchNote": {
     "classMissing": "Eksik sınıf: %{c}",
     "classOk": "Ehliyet sınıfları uygun",
@@ -357,6 +370,11 @@
       "insurance": "Sigorta",
       "visa": "Vize desteği"
     },
+    "calc": {
+      "noAnswer": "Sonuç yok",
+      "subtitle": "Basit dört işlem",
+      "title": "Hesap makinesi"
+    },
     "chat": {
       "camera": "Kamera",
       "conversation": "Sohbet",
@@ -561,6 +579,19 @@
       "whyText1": "Telefonunuzu kaybeder veya satarsanız hesabınız başkasının elinde kalmamalı. Buradan keserseniz o cihazdaki oturum hemen biter.",
       "whyText2": "Uzun süredir girilmeyen cihazın tarihi kahverengi yazılır — dikkat edin, yabancı olabilir.",
       "whyTitle": "Bu ekran neden var"
+    },
+    "disp": {
+      "contactNote": "İletişim sohbetle başlar. Telefon, anlaşmadan sonra açılır.",
+      "countN": "Onaylı · %{n}",
+      "emptyHint": "Bu ülkede henüz onaylı dispeçer yok.",
+      "emptyTitle": "Dispeçer bulunamadı",
+      "noRating": "Henüz yok",
+      "rating": "Puan",
+      "response": "Yanıt oranı",
+      "subtitle": "Onaylı dispeçerler",
+      "title": "Dispeçerler",
+      "trips": "Sefer",
+      "yearsN": "%{n} yıl"
     },
     "docKind": {
       "CMR": "CMR",
@@ -1290,6 +1321,9 @@
       "3": "Araç tipini seçin",
       "4": "Fiyat girin ya da «pazarlıklı» işaretleyin"
     },
+    "probs": {
+      "hint": "Çözülmemiş durumlar"
+    },
     "profile": {
       "account": "HESAP",
       "active": "AKTİF",
@@ -1452,11 +1486,34 @@
       "webNote": "Sitede doldurduğunuz diğer alanlar korunur — bu ekran onları silmez."
     },
     "role": {
+      "AUTO_SELLER": "Araç satıcısı",
+      "CARGO_OWNER": "Yük sahibi",
       "DISPATCHER": "Sevkiyatçı",
       "DRIVER": "Sürücü",
+      "EMPLOYER": "İşveren",
+      "LOGISTICS": "Lojistik şirketi",
+      "MASTER": "Usta",
+      "PARTS": "Yedek parça dükkânı",
+      "PASSENGER": "Yolcu taşıyıcı",
+      "SERVICE": "Servis merkezi",
       "SHIPPER": "Yük sahibi",
       "USER": "Normal kullanıcı",
-      "VEHICLE_OWNER": "Araç sahibi"
+      "VEHICLE_OWNER": "Araç sahibi",
+      "WORKER": "İş arayan"
+    },
+    "roles": {
+      "addGroup": "EKLENEBİLİR",
+      "daysLeft": "%{n} gün kaldı",
+      "endNote": "Bitince yeni ilan veremezsiniz. Kayıtlı veriler, seferler ve sözleşmeler yerinde kalır.",
+      "extend": "Uzat",
+      "liveGroup": "YÜRÜRLÜKTE",
+      "noneHint": "Bir rol seçince o bölümler açılır ve deneme başlar.",
+      "noneTitle": "Rol seçilmedi",
+      "payNote": "Tarife ödemesi tarayıcıda yapılır — uygulama içi ödeme mağaza komisyonuna tabidir.",
+      "priceDays": "%{sum} som / %{n} gün",
+      "subtitle": "Roller ve tarifeler",
+      "title": "Ben kimim?",
+      "trial": "Deneme süresi"
     },
     "sale": {
       "about": "Açıklama",
@@ -1560,6 +1617,14 @@
     "scanNote": {
       "MRZ_FAILED": "MRZ doğrulaması başarısız — her alanı karşılaştırın.",
       "UNVERIFIED": "Veriler doğrulanmadı — belgeyle karşılaştırın."
+    },
+    "search": {
+      "maybeGroup": "BUNU ARIYOR OLABİLİRSİNİZ",
+      "noneHint": "Farklı yazmayı deneyin ya da aşağıdaki bölümlerden birini açın.",
+      "noneTitle": "Bir şey bulunamadı",
+      "placeholder": "Yük, araç, isim, numara…",
+      "startHint": "En az iki harf yazın. Arama tüm bölümleri kapsar.",
+      "startTitle": "Ne arıyorsunuz?"
     },
     "signIn": {
       "blocked": "Hesap geçici olarak engellendi",
@@ -1855,6 +1920,16 @@
       "volume": "Hacim (m³)",
       "year": "Yıl"
     },
+    "trust": {
+      "howNote": "Puan her hafta yeniden hesaplanır. Eski hatalar zamanla ağırlığını kaybeder.",
+      "notYet": "Puan henüz hesaplanmadı — birkaç sefer gerekiyor",
+      "partsGroup": "PUAN NEREDEN GELDİ",
+      "subtitle": "Puan neyden oluşuyor",
+      "title": "Puanım",
+      "toNext": "«%{band}» seviyesine %{n} puan kaldı",
+      "topBand": "En üst seviyedesiniz",
+      "whyGroup": "BAŞLICA ETKENLER"
+    },
     "ui": {
       "allRead": "Hepsi okundu",
       "blockUser": "Kullanıcıyı engelle",
@@ -1897,6 +1972,13 @@
       "type": "Tip",
       "vehicleTitle": "Araç",
       "volume": "Hacim"
+    },
+    "video": {
+      "countN": "Kısa video · %{n}",
+      "emptyHint": "Kılavuzlar hazırlanıyor — yakında burada olacak.",
+      "emptyTitle": "Video yok",
+      "subtitle": "Kısa videolar",
+      "title": "Kılavuz"
     },
     "viewerRole": {
       "DISPATCHER": "Sevkiyatçı",
@@ -1963,6 +2045,21 @@
     "PAUSED": "Duraklatıldı",
     "SOLD": "Satıldı"
   },
+  "searchHint": {
+    "currency": "Döviz hesaplayıcı",
+    "finance": "Finans",
+    "jobs": "İş bul",
+    "loads": "Yük bul",
+    "map": "Harita",
+    "market": "FURAM PAZAR",
+    "parcel": "Kargo gönder",
+    "parts": "Yedek parça ara",
+    "queue": "Sınır kuyruğu",
+    "reports": "Raporlar",
+    "rides": "Yolcu taşıma",
+    "service": "Usta ve servis",
+    "trucks": "Araç bul"
+  },
   "serviceCatalog": {
     "kind": {
       "bongo": "Kia Bongo",
@@ -2008,5 +2105,73 @@
     "ON_ROAD": "Yolda",
     "TO_LOADING": "Yüklemeye gidiyor",
     "UNLOADED": "Boşaltıldı"
+  },
+  "trustBand": {
+    "CAREFUL": "Dikkatli olun",
+    "FAIR": "İyi",
+    "GOOD": "Güvenilir",
+    "LOW": "Düşük güvenilirlik",
+    "TOP": "Çok güvenilir"
+  },
+  "trustNote": {
+    "confirmed": "%{n} doğrulandı",
+    "contractsCancelled": "%{n} tamamlandı · %{c} iptal",
+    "contractsOnly": "%{n} tamamlandı",
+    "days": "%{n} gün",
+    "docIssues": "%{n} sorun",
+    "docOk": "sorun yok",
+    "payNone": "ödeme geçmişi yok",
+    "payPct": "%%{pct} zamanında",
+    "ratingNone": "henüz değerlendirme yok",
+    "ratingVal": "%{avg} · %{n} değerlendirme",
+    "tripsOnly": "%{n} tamamlandı",
+    "tripsPct": "%{n} tamamlandı · %%{pct} başarılı"
+  },
+  "trustPart": {
+    "cancels": "Sebepsiz iptal",
+    "contracts": "Sözleşmeler",
+    "docs": "Belgeler",
+    "history": "Platformdaki deneyim",
+    "payments": "Ödeme disiplini",
+    "rating": "Değerlendirme",
+    "trips": "Tamamlanan seferler",
+    "violations": "Kural ihlali"
+  },
+  "trustReason": {
+    "cancels": "%{n} doğrulanmış sebepsiz iptal",
+    "needMore": "Trust Score için en az %{trips} tamamlanmış sefer veya %{ratings} değerlendirme gerekir",
+    "noActivity": "Henüz hareket yok — Trust Score oluşmadı",
+    "payDiscipline": "Ödeme disiplini %%{pct}",
+    "ratingAvg": "Ortalama değerlendirme %{avg}",
+    "tripSuccess": "Başarıyla tamamlanan sefer oranı %%{pct}",
+    "violations": "%{n} doğrulanmış kural ihlali"
+  },
+  "trustStatus": {
+    "FORMING": "Oluşuyor",
+    "NEW": "Yeni kullanıcı",
+    "REVIEW": "İncelemede"
+  },
+  "videoSection": {
+    "ai": "AI asistan",
+    "analytics": "Analitik",
+    "chats": "Mesajlar",
+    "contracts": "Sözleşmeler",
+    "documents": "Belgeler",
+    "drivers": "Sürücüler",
+    "finance": "Finans",
+    "jobs": "İş bulma",
+    "loads": "Yükler",
+    "map": "Harita",
+    "market": "FURAM PAZAR",
+    "money": "Gelirler",
+    "post": "Yük ilanı",
+    "post-truck": "Boş araç ilanı",
+    "profile": "Profil",
+    "queues": "Sınır ve kuyruk",
+    "reports": "Raporlar",
+    "roles": "Tarifeler",
+    "trips": "Seferler",
+    "trucks": "Araçlar",
+    "trust": "Puan ve güven"
   }
 }

@@ -22,6 +22,8 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 /* `name` — server SO'ROV TILIDA qaytaradi (`localName`). Ilgari
    `nameUz` ishlatilardi va ruscha interfeysda o'zbekcha chiqardi. */
@@ -92,6 +94,9 @@ export default function TransportQoshish() {
   }
 
   async function save(force?: boolean) {
+    /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
+       e'tibor bermay o'tib ketgan holat uchun. */
+    if (tariffBlocked("fleet")) return;
     setBusy(true);
     setErrors({});
     try {
@@ -132,6 +137,7 @@ export default function TransportQoshish() {
       </View>
 
       <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
+        <TariffNotice feature="fleet" />
         {/* Tuzilishi — birinchi savol, qolgani shunga bog'liq */}
         <View>
           <Text style={s.label}>{t("mob.add.kind")}</Text>

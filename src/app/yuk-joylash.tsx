@@ -22,6 +22,8 @@ import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 type VehicleType = { id: number; key: string; name: string };
 
@@ -84,6 +86,9 @@ export default function YukJoylash() {
   }
 
   async function publish() {
+    /* Oxirgi to'siq. Ekran boshida `TariffNotice` allaqachon
+       ogohlantirgan — bu esa e'tibor bermay o'tib ketgan holat. */
+    if (tariffBlocked("post_load")) return;
     setErr(null);
     setBusy(true);
     try {
@@ -146,7 +151,9 @@ export default function YukJoylash() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={s.caption}>{step}-BOSQICH · 5 DAN</Text>
+        <Text style={s.caption}>{t("mob.common.stepOf", { n: step, k: 5 })}</Text>
+        {/* `s.body` da `gap` yo'q — oraliq komponentning o'ziga beriladi */}
+        <TariffNotice feature="post_load" top={space.lg} />
 
         {/* 1 — yo'nalish */}
         {step === 1 ? (

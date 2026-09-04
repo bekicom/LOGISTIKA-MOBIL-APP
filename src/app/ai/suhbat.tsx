@@ -34,6 +34,7 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t, tOr } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
+import { tariffBlocked } from "@/lib/features";
 
 type Action = { id: string; kind: string; title: string; furamNo?: number; url?: string };
 type Tool = { name: string; args?: Record<string, unknown> };
@@ -130,6 +131,9 @@ export default function Suhbat() {
     async (question: string) => {
       const clean = question.trim();
       if (!clean || busy) return;
+      /* Savol YOZILGANDAN keyin emas, YUBORISHDAN oldin: matn
+         `setText("")` bilan tozalanmasin, odam uni yo'qotmasin. */
+      if (tariffBlocked("ai")) return;
 
       setText("");
       setMsgs((m) => [...m, { id: nextId(), role: "me", text: clean }]);

@@ -29,6 +29,8 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { matchNote, payKindLabel, t } from "@/lib/i18n";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 type Note = { tk: string; v?: Record<string, string | number> };
 
@@ -90,6 +92,10 @@ export default function IshBeruvchi() {
   const [failed, setFailed] = useState("");
 
   async function act(key: string, body: Record<string, unknown>) {
+    /* FAQAT `invite` darvoza ortida (`/api/jobs` dagi PAID_ACTIONS).
+       Arizani ko'chirish bepul — hammasini to'sish pul to'lagan
+       ish beruvchini o'z arizalaridan uzib qo'yardi. */
+    if (body.action === "invite" && tariffBlocked("vacancies")) return;
     setBusy(key);
     setFailed("");
     try {
@@ -112,6 +118,7 @@ export default function IshBeruvchi() {
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
       >
+        <TariffNotice feature="vacancies" />
         {loading && !data ? (
           <Skeleton rows={3} />
         ) : error ? (

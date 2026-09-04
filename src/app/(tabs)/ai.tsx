@@ -17,6 +17,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
+import { TariffNotice } from "@/components/TariffNotice";
 
 type Left = {
   hourLimit: number;
@@ -68,6 +69,8 @@ export default function Screen() {
           <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
         }
       >
+        <TariffNotice feature="ai" />
+
         {loading ? (
           <Skeleton rows={4} />
         ) : error ? (

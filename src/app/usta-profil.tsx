@@ -37,6 +37,8 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { serviceSpecLabel, serviceVehicleKindLabel, t } from "@/lib/i18n";
 import { color, space } from "@/lib/theme";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 const SPECS = [
   "engine", "gearbox", "chassis", "electric", "diagnostic", "ac",
@@ -113,6 +115,9 @@ export default function UstaProfil() {
     set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
 
   async function save() {
+    /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
+       e'tibor bermay o'tib ketgan holat uchun. */
+    if (tariffBlocked("service")) return;
     setErr(null);
     setBusy(true);
     try {
@@ -145,6 +150,7 @@ export default function UstaProfil() {
       <Header title={t("mob.svc.myProfile")} subtitle={t("mob.svc.profileSub")} />
 
       <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 40 }]}>
+        <TariffNotice feature="service" />
         {loading && !data ? (
           <Skeleton rows={3} />
         ) : error ? (

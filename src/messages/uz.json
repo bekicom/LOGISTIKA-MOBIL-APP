@@ -123,6 +123,29 @@
     "TRIP_DONE": "Reys yakunlandi",
     "TRIP_STARTED": "Reys boshlandi"
   },
+  "feature": {
+    "ai": "AI yordamchi",
+    "ai_matching": "AI moslashtirish",
+    "analytics": "Analitika",
+    "auto_sale": "Transport sotish e'loni",
+    "company": "Kompaniya paneli",
+    "contacts": "To'liq kontaktlar",
+    "contracts": "Shartnoma",
+    "documents": "Hujjatlar",
+    "drivers": "Haydovchilarni boshqarish",
+    "fleet": "Park — mashinalar",
+    "job_apply": "Ishga ariza berish",
+    "messenger": "FURAM Messenger",
+    "money": "Daromad va xarajat",
+    "parts": "Zapchast katalogi",
+    "passenger": "Yo'lovchi reyslari",
+    "post_load": "Yuk joylash",
+    "post_truck": "Transport e'loni",
+    "queues": "Chegara navbati",
+    "service": "Servis buyurtmalari",
+    "trips": "Reys va yuk nazorati",
+    "vacancies": "Vakansiya joylash"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "Afg'oniston",
@@ -505,6 +528,7 @@
       "show": "Ko'rsatish",
       "signOut": "Chiqish",
       "soon": "tez orada",
+      "stepOf": "%{n}-BOSQICH · %{k} DAN",
       "tryAgain": "Qaytadan urinib ko'ring"
     },
     "ctr": {
@@ -1946,6 +1970,13 @@
       "NEW": "Yangi",
       "OFFERED": "Taklif keldi",
       "SEARCHING": "Usta qidirilmoqda"
+    },
+    "tariff": {
+      "askText": "«%{f}» uchun mos rolni tanlang. Har rolda sinov muddati bor.",
+      "askTitle": "Rol kerak",
+      "need": "«%{f}» tarifingizga kirmaydi",
+      "needHint": "To'ldirishni boshlashingiz mumkin, lekin saqlash uchun rol kerak bo'ladi.",
+      "pick": "Rolni tanlash"
     },
     "trip": {
       "arrives": "yetib boradi",

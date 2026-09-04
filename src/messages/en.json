@@ -123,6 +123,29 @@
     "TRIP_DONE": "Trip completed",
     "TRIP_STARTED": "Trip started"
   },
+  "feature": {
+    "ai": "AI assistant",
+    "ai_matching": "AI matching",
+    "analytics": "Analytics",
+    "auto_sale": "Vehicle sale listing",
+    "company": "Company panel",
+    "contacts": "Full contacts",
+    "contracts": "Contracts",
+    "documents": "Documents",
+    "drivers": "Managing drivers",
+    "fleet": "Fleet management",
+    "job_apply": "Applying for jobs",
+    "messenger": "FURAM Messenger",
+    "money": "Income and expenses",
+    "parts": "Spare parts catalogue",
+    "passenger": "Passenger rides",
+    "post_load": "Posting loads",
+    "post_truck": "Posting trucks",
+    "queues": "Border queue",
+    "service": "Service orders",
+    "trips": "Trip and load control",
+    "vacancies": "Posting vacancies"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "Afghanistan",
@@ -505,6 +528,7 @@
       "show": "Show",
       "signOut": "Sign out",
       "soon": "coming soon",
+      "stepOf": "STEP %{n} OF %{k}",
       "tryAgain": "Please try again"
     },
     "ctr": {
@@ -1946,6 +1970,13 @@
       "NEW": "New",
       "OFFERED": "Offers came in",
       "SEARCHING": "Looking for a mechanic"
+    },
+    "tariff": {
+      "askText": "Choose a role for “%{f}”. Every role has a trial period.",
+      "askTitle": "A role is required",
+      "need": "“%{f}” is not in your plan",
+      "needHint": "You can fill this in, but saving will need a role.",
+      "pick": "Choose a role"
     },
     "trip": {
       "arrives": "arrives",

@@ -172,7 +172,7 @@ export default function Royxat() {
 
         <Steps total={3} current={stepNo} />
 
-        <Text style={s.caption}>{stepNo}-BOSQICH · 3 DAN</Text>
+        <Text style={s.caption}>{t("mob.common.stepOf", { n: stepNo, k: 3 })}</Text>
 
         {step === "phone" ? (
           <>

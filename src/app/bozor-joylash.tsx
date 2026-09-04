@@ -49,6 +49,8 @@ import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { saleCategoryLabel, saleFeatureLabel, salePriceKindLabel, t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 const CATS = ["FURA", "TRUCK", "TRAILER", "MINIBUS", "BUS", "SPECIAL", "CAR", "OTHER"] as const;
 const FEATURES = ["gps", "webasto", "ac", "fridge", "retarder", "cruise", "hydro", "sleeper", "adr", "tir"] as const;
@@ -143,6 +145,9 @@ export default function BozorJoylash() {
   }
 
   async function submit() {
+    /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
+       e'tibor bermay o'tib ketgan holat uchun. */
+    if (tariffBlocked("auto_sale")) return;
     setErr(null);
     setBusy(true);
     try {
@@ -212,6 +217,7 @@ export default function BozorJoylash() {
       </View>
 
       <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 40 }]}>
+        <TariffNotice feature="auto_sale" />
         {err ? <ErrorBox message={err} /> : null}
 
         {/* ══ 1: nima sotilyapti ══ */}

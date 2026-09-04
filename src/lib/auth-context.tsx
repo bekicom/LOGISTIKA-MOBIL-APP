@@ -12,12 +12,21 @@ import { api, FuramError } from "./api";
 import { clearToken, getToken, saveToken, type User } from "./session";
 import { wipeLocal } from "./local-db";
 import { loadGuest, setGuest } from "./guest";
+import { setFeatures, type FeatureKey } from "./features";
 import { clearPushAsked, pushState, registerPush, unregisterPush } from "./push";
 
 type State = {
   user: User | null;
   /** Birinchi tekshiruv tugagunicha `true` — shu paytda ekran ko'rsatilmaydi */
   loading: boolean;
+  /**
+   * Tarif ochgan funksiyalar (audit 07).
+   *
+   * Ekran chizilayotganda shu ishlatiladi, `features.ts` dagi
+   * `can()` emas: bu holat, ya'ni ro'yxat kelganda ekran qayta
+   * chiziladi. Ikkalasi bir xil ro'yxatdan o'qiydi.
+   */
+  can: (f: FeatureKey) => boolean;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -28,6 +37,10 @@ const Ctx = createContext<State | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  /* Ro'yxat holatda ham turadi: `features.ts` dagi to'plam sof
+     modul o'zgaruvchisi, o'zgarganda ekran qayta chizilmaydi.
+     Ikkalasi bir joyda — javob kelgan payt — yoziladi. */
+  const [feats, setFeats] = useState<ReadonlySet<string>>(new Set());
 
   const load = useCallback(async () => {
     /* MEHMON BELGISI TOKENDAN OLDIN o'qiladi: `index.tsx` qayerga
@@ -38,12 +51,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const token = await getToken();
     if (!token) {
       setUser(null);
+      setFeatures([]);
+      setFeats(new Set());
       setLoading(false);
       return;
     }
     try {
-      const res = await api<{ user: User }>("/api/auth/me");
+      const res = await api<{ user: User; features?: string[] }>("/api/auth/me");
       setUser(res.user);
+      /* Tarif ro'yxati foydalanuvchi bilan BIR SO'ROVDA keladi:
+         alohida marshrut qo'shilsa ilova ochilishida yana bitta
+         so'rov bo'lardi va ikkisi bir-biridan orqada qolib
+         ketardi. */
+      setFeatures(res.features);
+      setFeats(new Set(res.features ?? []));
       /* TOKEN HAR OCHILISHDA QAYTA YOZILADI: Expo tokeni ilova qayta
          o'rnatilsa yoki tizim yangilansa o'zgaradi va eskisiga
          yuborilgan push hech qayerga yetib bormaydi.
@@ -56,6 +77,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // internetsiz joyda ilova foydalanuvchini chiqarib yuboradi.
       if (e instanceof FuramError && e.status === 401) await clearToken();
       setUser(null);
+      setFeatures([]);
+      setFeats(new Set());
     } finally {
       setLoading(false);
     }
@@ -95,11 +118,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await wipeLocal().catch(() => {});
     await clearPushAsked();
     setUser(null);
+    setFeatures([]);
+    setFeats(new Set());
   }, []);
 
+  const canFeature = useCallback((f: FeatureKey) => feats.has(f), [feats]);
+
   const value = useMemo(
-    () => ({ user, loading, signIn, signOut, refresh: load }),
-    [user, loading, signIn, signOut, load],
+    () => ({ user, loading, can: canFeature, signIn, signOut, refresh: load }),
+    [user, loading, canFeature, signIn, signOut, load],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

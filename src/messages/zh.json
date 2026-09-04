@@ -123,6 +123,29 @@
     "TRIP_DONE": "行程已完成",
     "TRIP_STARTED": "行程已开始"
   },
+  "feature": {
+    "ai": "AI 助手",
+    "ai_matching": "AI 智能匹配",
+    "analytics": "数据分析",
+    "auto_sale": "车辆出售信息",
+    "company": "企业面板",
+    "contacts": "完整联系方式",
+    "contracts": "合同",
+    "documents": "单证",
+    "drivers": "司机管理",
+    "fleet": "车队管理",
+    "job_apply": "求职申请",
+    "messenger": "FURAM 即时通讯",
+    "money": "收入与支出",
+    "parts": "配件目录",
+    "passenger": "客运班次",
+    "post_load": "发布货源",
+    "post_truck": "发布车源",
+    "queues": "口岸排队",
+    "service": "维修工单",
+    "trips": "运单与货物管控",
+    "vacancies": "发布招聘"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "阿富汗",
@@ -505,6 +528,7 @@
       "show": "显示",
       "signOut": "退出",
       "soon": "即将推出",
+      "stepOf": "第 %{n} 步 · 共 %{k} 步",
       "tryAgain": "请重试"
     },
     "ctr": {
@@ -1946,6 +1970,13 @@
       "NEW": "新建",
       "OFFERED": "已有报价",
       "SEARCHING": "正在寻找师傅"
+    },
+    "tariff": {
+      "askText": "请为「%{f}」选择角色。每个角色都有试用期。",
+      "askTitle": "需要角色",
+      "need": "您的套餐不包含「%{f}」",
+      "needHint": "可以填写，但保存需要相应角色。",
+      "pick": "选择角色"
     },
     "trip": {
       "arrives": "预计到达",

@@ -123,6 +123,29 @@
     "TRIP_DONE": "Sefer tamamlandı",
     "TRIP_STARTED": "Sefer başladı"
   },
+  "feature": {
+    "ai": "Yapay zekâ asistanı",
+    "ai_matching": "Yapay zekâ eşleştirme",
+    "analytics": "Analitik",
+    "auto_sale": "Araç satış ilanı",
+    "company": "Şirket paneli",
+    "contacts": "Tam iletişim bilgileri",
+    "contracts": "Sözleşmeler",
+    "documents": "Belgeler",
+    "drivers": "Sürücü yönetimi",
+    "fleet": "Filo yönetimi",
+    "job_apply": "İş başvurusu",
+    "messenger": "FURAM Messenger",
+    "money": "Gelir ve giderler",
+    "parts": "Yedek parça kataloğu",
+    "passenger": "Yolcu seferleri",
+    "post_load": "Yük ilanı verme",
+    "post_truck": "Araç ilanı",
+    "queues": "Sınır kuyruğu",
+    "service": "Servis siparişleri",
+    "trips": "Sefer ve yük takibi",
+    "vacancies": "İş ilanı verme"
+  },
   "jobCatalog": {
     "countries": {
       "AF": "Afganistan",
@@ -505,6 +528,7 @@
       "show": "Göster",
       "signOut": "Çıkış",
       "soon": "yakında",
+      "stepOf": "ADIM %{n} · %{k} İÇİNDEN",
       "tryAgain": "Tekrar deneyin"
     },
     "ctr": {
@@ -1946,6 +1970,13 @@
       "NEW": "Yeni",
       "OFFERED": "Teklif geldi",
       "SEARCHING": "Usta aranıyor"
+    },
+    "tariff": {
+      "askText": "“%{f}” için bir rol seçin. Her rolde deneme süresi var.",
+      "askTitle": "Rol gerekiyor",
+      "need": "“%{f}” tarifenize dâhil değil",
+      "needHint": "Doldurabilirsiniz, ancak kaydetmek için bir rol gerekir.",
+      "pick": "Rol seç"
     },
     "trip": {
       "arrives": "varır",

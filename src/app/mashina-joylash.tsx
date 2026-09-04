@@ -37,6 +37,8 @@ import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 type Fleet = {
   id: string;
@@ -96,6 +98,9 @@ export default function MashinaJoylash() {
         : negotiable || num(price) > 0;
 
   async function publish() {
+    /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
+       e'tibor bermay o'tib ketgan holat uchun. */
+    if (tariffBlocked("post_truck")) return;
     setErr(null);
     setBusy(true);
     try {
@@ -139,6 +144,7 @@ export default function MashinaJoylash() {
       </View>
 
       <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 40 }]}>
+        <TariffNotice feature="post_truck" />
         {/* ── 1: qaysi mashina ── */}
         {step === 1 ? (
           <>

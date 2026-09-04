@@ -34,6 +34,8 @@ import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { t, tOr } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 /** Skaner qo'llab-quvvatlaydigan shaxsiy hujjatlar */
 const KINDS = [
@@ -93,6 +95,9 @@ export default function Skaner() {
 
   /** Rozilik olingandan keyin: surat → server → maydonlar */
   async function run(from: "camera" | "gallery") {
+    /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
+       e'tibor bermay o'tib ketgan holat uchun. */
+    if (tariffBlocked("ai")) return;
     setConsent(false);
     const list = from === "camera" ? await takePhoto() : await pickPhotos(1);
     const p = list[0];
@@ -124,7 +129,10 @@ export default function Skaner() {
   }
 
   /** Tekshirilgandan keyin — odatdagi hujjat sifatida saqlanadi */
+  /* Saqlash BOSHQA funksiya: skaner «ai», hujjat esa «documents».
+     Ikkisi alohida tarifda bo'lishi mumkin. */
   async function save() {
+    if (tariffBlocked("documents")) return;
     if (!photo) return;
     setSaving(true);
     setErr("");
@@ -174,6 +182,7 @@ export default function Skaner() {
       />
 
       <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 40 }]}>
+        <TariffNotice feature="ai" />
         {!scan ? (
           <>
             {/* Qaysi hujjat */}

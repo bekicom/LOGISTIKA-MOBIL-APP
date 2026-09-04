@@ -22,6 +22,8 @@ import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 /** `personal-docs.ts` dagi PERSONAL_KINDS bilan bir xil to'plam */
 const KINDS = ["LICENSE", "PASSPORT", "MEDICAL", "ADR", "VISA", "OTHER"] as const;
@@ -60,6 +62,9 @@ export default function HujjatQoshish() {
   }
 
   async function save() {
+    /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
+       e'tibor bermay o'tib ketgan holat uchun. */
+    if (tariffBlocked("documents")) return;
     if (!photo) {
       setErr(t("mob.pdoc.needPhoto"));
       return;
@@ -107,6 +112,7 @@ export default function HujjatQoshish() {
       />
 
       <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
+        <TariffNotice feature="documents" />
         {/* Surat — birinchi va eng katta */}
         <View>
           <Text style={s.label}>{t("mob.pdoc.photo")}</Text>

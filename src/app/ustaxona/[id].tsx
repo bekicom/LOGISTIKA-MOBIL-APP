@@ -42,6 +42,7 @@ import { servicePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { serviceSpecLabel, serviceStatusLabel, t } from "@/lib/i18n";
+import { tariffBlocked } from "@/lib/features";
 
 type Offer = {
   id: string;
@@ -119,6 +120,9 @@ export default function Buyurtma() {
   const [extraForm, setExtraForm] = useState(false);
 
   async function act(body: Record<string, unknown>) {
+    /* Faqat `extra` (usta qo'shimcha ish yozishi) darvoza ortida.
+       Qabul qilish, tanlash va holat ko'chirish — bepul. */
+    if (body.action === "extra" && tariffBlocked("service")) return false;
     setBusy(true);
     setFailed("");
     try {

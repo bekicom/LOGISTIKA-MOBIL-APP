@@ -17,7 +17,15 @@
  * qator haydovchiga NIMA QILISH kerakligini aytadi.
  */
 import { useMemo, useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -96,100 +104,112 @@ export default function IshTopish() {
         </View>
       </View>
 
-      <ScrollView
-        contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
+      {/* Vakansiyalar ro'yxati `FlatList` da: server 60 tagacha
+          qaytaradi va `ScrollView` ularning hammasini bir vaqtda
+          chizardi. Qolgan bo'laklar sarlavha va poyga chiqdi —
+          ular ro'yxat bilan birga suriladi, avvalgidek. */}
+      <FlatList
+        data={loading && !data ? [] : items}
+        keyExtractor={(v) => v.id}
+        renderItem={({ item }) => (
+          <VacancyCard v={item} onPress={() => router.push(`/ish/${item.id}`)} />
+        )}
+        contentContainerStyle={[s.list, { paddingBottom: insets.bottom + space.xxl }]}
+        /* Kartochkalar orasi `gap` bilan berilmaydi: konteynerdagi
+           `gap` sarlavha va poygaga ham tegib, oraliqlar buzilardi. */
+        ItemSeparatorComponent={() => <View style={{ height: space.sm }} />}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {loading && !data ? (
-          <Skeleton rows={3} />
-        ) : error ? (
-          <ErrorBox message={error} onRetry={reload} />
-        ) : (
-          <>
-            {/* ══ REZYUME — DARVOZA ══ */}
-            {!data?.hasResume && (
-              <View style={s.gate}>
-                <View style={s.gateHead}>
-                  <View style={s.gateIcon}>
-                    <Icon name="doc" size={20} stroke={color.brand} />
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          error ? null : (
+            <View style={s.head2}>
+              {/* ══ REZYUME — DARVOZA ══ */}
+              {!data?.hasResume && (
+                <View style={s.gate}>
+                  <View style={s.gateHead}>
+                    <View style={s.gateIcon}>
+                      <Icon name="doc" size={20} stroke={color.brand} />
+                    </View>
+                    <View style={{ flexGrow: 1 }}>
+                      <Text style={s.gateTitle}>{t("mob.job.resumeTitle")}</Text>
+                      <Text style={s.gateSub}>{t("mob.job.resumeSub")}</Text>
+                    </View>
                   </View>
-                  <View style={{ flexGrow: 1 }}>
-                    <Text style={s.gateTitle}>{t("mob.job.resumeTitle")}</Text>
-                    <Text style={s.gateSub}>{t("mob.job.resumeSub")}</Text>
-                  </View>
-                </View>
-                <Pressable style={s.gateBtn} onPress={() => router.push("/rezyume")}>
-                  <Text style={s.gateBtnText}>{t("mob.job.resumeBtn")}</Text>
-                </Pressable>
-                <Text style={s.gateNote}>{t("mob.job.resumeNote")}</Text>
-              </View>
-            )}
-
-            {/* ══ MOS ISHLAR ══ */}
-            {matched && matched.length > 0 && (
-              <View>
-                <Text style={s.group}>{t("mob.job.forYou")}</Text>
-                <View style={{ gap: space.sm }}>
-                  {matched.map((v) => (
-                    <MatchCard key={v.id} v={v} onPress={() => router.push(`/ish/${v.id}`)} />
-                  ))}
-                </View>
-              </View>
-            )}
-
-            {matched && matched.length === 0 && (
-              <View style={s.empty}>
-                <Text style={s.emptyText}>{t("mob.job.noMatch")}</Text>
-              </View>
-            )}
-
-            {/* ══ HAMMA VAKANSIYALAR ══ */}
-            <View>
-              <View style={s.groupRow}>
-                <Text style={s.group}>{t("mob.job.allJobs")}</Text>
-                <Pressable onPress={() => router.push("/arizalarim")}>
-                  <Text style={s.link}>{t("mob.job.myApps")}</Text>
-                </Pressable>
-              </View>
-
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={s.chips}
-              >
-                <Pressable style={[s.chip, !dir && s.chipOn]} onPress={() => setDir(null)}>
-                  <Text style={[s.chipText, !dir && s.chipTextOn]}>{t("mob.market.all")}</Text>
-                </Pressable>
-                {DIRECTIONS.map((d) => (
-                  <Pressable
-                    key={d}
-                    style={[s.chip, dir === d && s.chipOn]}
-                    onPress={() => setDir(dir === d ? null : d)}
-                  >
-                    <Text style={[s.chipText, dir === d && s.chipTextOn]}>
-                      {jobDirectionLabel(d)}
-                    </Text>
+                  <Pressable style={s.gateBtn} onPress={() => router.push("/rezyume")}>
+                    <Text style={s.gateBtnText}>{t("mob.job.resumeBtn")}</Text>
                   </Pressable>
-                ))}
-              </ScrollView>
-
-              {items.length === 0 ? (
-                <Empty
-                  icon="package"
-                  title={t("mob.job.emptyTitle")}
-                  text={t("mob.job.emptyHint")}
-                />
-              ) : (
-                <View style={{ gap: space.sm }}>
-                  {items.map((v) => (
-                    <VacancyCard key={v.id} v={v} onPress={() => router.push(`/ish/${v.id}`)} />
-                  ))}
+                  <Text style={s.gateNote}>{t("mob.job.resumeNote")}</Text>
                 </View>
               )}
-            </View>
 
-            {/* ══ ISH BERUVCHI TOMONI ══ */}
-            <Pressable style={s.panel} onPress={() => router.push("/ish-beruvchi")}>
+              {/* ══ MOS ISHLAR ══ */}
+              {matched && matched.length > 0 && (
+                <View>
+                  <Text style={s.group}>{t("mob.job.forYou")}</Text>
+                  <View style={{ gap: space.sm }}>
+                    {matched.map((v) => (
+                      <MatchCard key={v.id} v={v} onPress={() => router.push(`/ish/${v.id}`)} />
+                    ))}
+                  </View>
+                </View>
+              )}
+
+              {matched && matched.length === 0 && (
+                <View style={s.empty}>
+                  <Text style={s.emptyText}>{t("mob.job.noMatch")}</Text>
+                </View>
+              )}
+
+              {/* ══ HAMMA VAKANSIYALAR ══ */}
+              <View>
+                <View style={s.groupRow}>
+                  <Text style={s.group}>{t("mob.job.allJobs")}</Text>
+                  <Pressable onPress={() => router.push("/arizalarim")}>
+                    <Text style={s.link}>{t("mob.job.myApps")}</Text>
+                  </Pressable>
+                </View>
+
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={s.chips}
+                >
+                  <Pressable style={[s.chip, !dir && s.chipOn]} onPress={() => setDir(null)}>
+                    <Text style={[s.chipText, !dir && s.chipTextOn]}>{t("mob.market.all")}</Text>
+                  </Pressable>
+                  {DIRECTIONS.map((d) => (
+                    <Pressable
+                      key={d}
+                      style={[s.chip, dir === d && s.chipOn]}
+                      onPress={() => setDir(dir === d ? null : d)}
+                    >
+                      <Text style={[s.chipText, dir === d && s.chipTextOn]}>
+                        {jobDirectionLabel(d)}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          )
+        }
+        ListEmptyComponent={
+          loading && !data ? (
+            <Skeleton rows={3} />
+          ) : error ? (
+            <ErrorBox message={error} onRetry={reload} />
+          ) : (
+            <Empty
+              icon="package"
+              title={t("mob.job.emptyTitle")}
+              text={t("mob.job.emptyHint")}
+            />
+          )
+        }
+        ListFooterComponent={
+          error ? null : (
+            /* ══ ISH BERUVCHI TOMONI ══ */
+            <Pressable style={[s.panel, { marginTop: space.lg }]} onPress={() => router.push("/ish-beruvchi")}>
               <View style={s.panelIcon}>
                 <Icon name="user" size={19} stroke={color.mutedForeground} />
               </View>
@@ -199,9 +219,9 @@ export default function IshTopish() {
               </View>
               <Icon name="chevron" size={18} stroke="#cbd5e1" />
             </Pressable>
-          </>
-        )}
-      </ScrollView>
+          )
+        }
+      />
     </View>
   );
 }
@@ -326,6 +346,10 @@ const s = StyleSheet.create({
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   scroll: { padding: space.lg, gap: space.lg },
+  /* Ro'yxat konteyneri: `gap` YO'Q — oraliq `ItemSeparatorComponent`
+     bilan beriladi, aks holda sarlavha va poyga ham surilib ketardi. */
+  list: { padding: space.lg },
+  head2: { gap: space.lg, marginBottom: space.lg },
   group: {
     fontSize: 12,
     fontWeight: "600",

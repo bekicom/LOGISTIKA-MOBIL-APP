@@ -19,6 +19,7 @@
  */
 import { useState } from "react";
 import {
+  FlatList,
   Image,
   KeyboardAvoidingView,
   Linking,
@@ -124,11 +125,74 @@ export default function UstaPanelim() {
         }
       />
 
-      <ScrollView
+      {/* Kelgan buyurtmalar eng uzun ro'yxat: server 40 tagacha
+          qaytaradi va ular vaqt o'tgani sari yig'iladi. Ish ustidagi
+          buyurtmalar va profil sarlavha/poyga bo'lib qoldi. */}
+      <FlatList
+        data={loading || error || !profile ? [] : (data?.orders ?? [])}
+        keyExtractor={(o) => o.id}
+        renderItem={({ item: o }) => (
+          <View style={[s.card, o.needMobile && s.cardMobile]}>
+            <View style={s.rowHead}>
+              {o.needMobile ? (
+                <View style={[s.tag, s.tagMobile]}>
+                  <Text style={[s.tagText, { color: "#c2490f" }]}>
+                    {t("mob.svc.mobileNeeded")}
+                  </Text>
+                </View>
+              ) : o.services[0] ? (
+                <View style={s.tag}>
+                  <Text style={s.tagText}>{serviceSpecLabel(o.services[0])}</Text>
+                </View>
+              ) : null}
+              <Text style={s.no}>#{o.orderNo}</Text>
+            </View>
+
+            <Text style={s.problem} numberOfLines={3}>
+              {o.problem}
+            </Text>
+            <Text style={s.meta} numberOfLines={1}>
+              {[o.vehicle, o.location, o.address].filter(Boolean).join(" · ")}
+            </Text>
+
+            {o.photos.length > 0 && (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.shots}>
+                {o.photos.map((p) => (
+                  <Image
+                    key={p}
+                    source={servicePhoto(o.id, p)}
+                    style={s.shot}
+                    resizeMode="cover"
+                  />
+                ))}
+              </ScrollView>
+            )}
+
+            <View style={s.foot}>
+              <Text style={s.footText}>
+                {o.myOffer
+                  ? t("mob.svc.myOffer", {
+                      sum: `${fmtNum(o.myOffer.price)} ${o.myOffer.currency}`,
+                    })
+                  : t("mob.svc.offersGiven", { n: o.offers })}
+              </Text>
+              <Pressable
+                style={[s.small, o.myOffer ? s.smallGhost : s.smallPri]}
+                onPress={() => setSheet(o)}
+              >
+                <Text style={o.myOffer ? s.smallGhostText : s.smallPriText}>
+                  {o.myOffer ? t("mob.svc.changeOffer") : t("mob.svc.makeOffer")}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        )}
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
+        ItemSeparatorComponent={() => <View style={{ height: space.sm }} />}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {loading && !data ? (
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          loading && !data ? (
           <Skeleton rows={3} />
         ) : error ? (
           <ErrorBox message={error} onRetry={reload} />
@@ -153,7 +217,7 @@ export default function UstaPanelim() {
             )}
           </View>
         ) : (
-          <>
+          <View style={s.head2}>
             {failed ? (
               <View style={s.failed}>
                 <Text style={s.failedText}>{failed}</Text>
@@ -219,90 +283,36 @@ export default function UstaPanelim() {
               </View>
             )}
 
-            {/* ══ Yangi buyurtmalar ══ */}
-            <View>
-              <Text style={s.group}>{t("mob.svc.newOrders")}</Text>
-              {(data?.orders ?? []).length === 0 ? (
-                <View style={s.empty}>
-                  <Text style={s.emptyText}>{t("mob.svc.noOrders")}</Text>
-                </View>
-              ) : (
-                <View style={{ gap: space.sm }}>
-                  {(data?.orders ?? []).map((o) => (
-                    <View key={o.id} style={[s.card, o.needMobile && s.cardMobile]}>
-                      <View style={s.rowHead}>
-                        {o.needMobile ? (
-                          <View style={[s.tag, s.tagMobile]}>
-                            <Text style={[s.tagText, { color: "#c2490f" }]}>
-                              {t("mob.svc.mobileNeeded")}
-                            </Text>
-                          </View>
-                        ) : o.services[0] ? (
-                          <View style={s.tag}>
-                            <Text style={s.tagText}>{serviceSpecLabel(o.services[0])}</Text>
-                          </View>
-                        ) : null}
-                        <Text style={s.no}>#{o.orderNo}</Text>
-                      </View>
-
-                      <Text style={s.problem} numberOfLines={3}>
-                        {o.problem}
-                      </Text>
-                      <Text style={s.meta} numberOfLines={1}>
-                        {[o.vehicle, o.location, o.address].filter(Boolean).join(" · ")}
-                      </Text>
-
-                      {o.photos.length > 0 && (
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.shots}>
-                          {o.photos.map((p) => (
-                            <Image
-                              key={p}
-                              source={servicePhoto(o.id, p)}
-                              style={s.shot}
-                              resizeMode="cover"
-                            />
-                          ))}
-                        </ScrollView>
-                      )}
-
-                      <View style={s.foot}>
-                        <Text style={s.footText}>
-                          {o.myOffer
-                            ? t("mob.svc.myOffer", {
-                                sum: `${fmtNum(o.myOffer.price)} ${o.myOffer.currency}`,
-                              })
-                            : t("mob.svc.offersGiven", { n: o.offers })}
-                        </Text>
-                        <Pressable
-                          style={[s.small, o.myOffer ? s.smallGhost : s.smallPri]}
-                          onPress={() => setSheet(o)}
-                        >
-                          <Text style={o.myOffer ? s.smallGhostText : s.smallPriText}>
-                            {o.myOffer ? t("mob.svc.changeOffer") : t("mob.svc.makeOffer")}
-                          </Text>
-                        </Pressable>
-                      </View>
-                    </View>
-                  ))}
-                </View>
-              )}
+            <Text style={s.group}>{t("mob.svc.newOrders")}</Text>
+          </View>
+          )
+        }
+        ListEmptyComponent={
+          profile && !loading && !error ? (
+            <View style={s.empty}>
+              <Text style={s.emptyText}>{t("mob.svc.noOrders")}</Text>
             </View>
-
-            <Pressable style={s.profileRow} onPress={() => router.push("/usta-profil")}>
-              <View style={s.profileIcon}>
-                <Icon name="user" size={19} stroke={color.mutedForeground} />
-              </View>
-              <View style={{ flexGrow: 1 }}>
-                <Text style={s.profileTitle}>{t("mob.svc.myProfile")}</Text>
-                <Text style={s.profileSub} numberOfLines={1}>
-                  {profile.specialities.map((k) => serviceSpecLabel(k)).join(", ")}
-                </Text>
-              </View>
-              <Icon name="chevron" size={18} stroke="#cbd5e1" />
-            </Pressable>
-          </>
-        )}
-      </ScrollView>
+          ) : null
+        }
+        ListFooterComponent={
+          profile && !loading && !error ? (
+            <View style={{ marginTop: space.lg }}>
+              <Pressable style={s.profileRow} onPress={() => router.push("/usta-profil")}>
+                <View style={s.profileIcon}>
+                  <Icon name="user" size={19} stroke={color.mutedForeground} />
+                </View>
+                <View style={{ flexGrow: 1 }}>
+                  <Text style={s.profileTitle}>{t("mob.svc.myProfile")}</Text>
+                  <Text style={s.profileSub} numberOfLines={1}>
+                    {profile.specialities.map((k) => serviceSpecLabel(k)).join(", ")}
+                  </Text>
+                </View>
+                <Icon name="chevron" size={18} stroke="#cbd5e1" />
+              </Pressable>
+            </View>
+          ) : null
+        }
+      />
 
       <OfferSheet
         order={sheet}
@@ -429,7 +439,10 @@ function OfferSheet({
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  scroll: { padding: space.lg, gap: space.lg },
+  scroll: { padding: space.lg },
+  /* Sarlavha oralig'ini o'zi beradi: konteynerdagi `gap` buyurtma
+     kartochkalari orasiga ham tushardi. */
+  head2: { gap: space.lg, marginBottom: space.sm },
   group: {
     fontSize: 12,
     fontWeight: "600",

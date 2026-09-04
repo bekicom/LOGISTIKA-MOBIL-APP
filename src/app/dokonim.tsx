@@ -19,6 +19,7 @@
  */
 import { useState } from "react";
 import {
+  FlatList,
   KeyboardAvoidingView,
   Linking,
   Modal,
@@ -93,6 +94,38 @@ const STOCK_TONE: Record<string, string> = {
   OUT: color.danger,
 };
 
+/** Detal qatori — ro'yxat elementi sifatida alohida chiqarildi */
+function PartRow({ p, onPress }: { p: Part; onPress: () => void }) {
+  const tone = STOCK_TONE[p.stock] ?? color.mutedForeground;
+  return (
+    <Pressable style={s.card} onPress={onPress}>
+      <View style={s.partRow}>
+        <View style={s.thumb}>
+          <Icon name="package" size={20} stroke="#94a3b8" />
+        </View>
+        <View style={{ flexGrow: 1, minWidth: 0 }}>
+          <Text style={s.name} numberOfLines={1}>
+            {p.name}
+          </Text>
+          <Text style={s.oem} numberOfLines={1}>
+            {[p.oem, p.quantity != null ? `${p.quantity} ${t("mob.part.pcs")}` : null]
+              .filter(Boolean)
+              .join(" · ")}
+          </Text>
+          <Text style={s.price}>
+            {fmtNum(p.price)} {p.currency}
+          </Text>
+        </View>
+        <View style={[s.chip, { backgroundColor: tone + "1a" }]}>
+          <Text style={[s.chipText, { color: tone }]}>
+            {partStockLabel(p.stock)}
+          </Text>
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
 export default function Dokonim() {
   const insets = useSafeAreaInsets();
 
@@ -137,11 +170,19 @@ export default function Dokonim() {
         }
       />
 
-      <ScrollView
+      {/* Do'kondagi detallar eng uzun ro'yxat: server 100 tagacha
+          qaytaradi. Qolgan bo'laklar — holat, kelgan buyurtmalar,
+          do'kon ma'lumoti — sarlavha va poyga bo'lib qoldi. */}
+      <FlatList
+        data={loading || error || !shop ? [] : (data?.parts ?? [])}
+        keyExtractor={(p) => p.id}
+        renderItem={({ item: p }) => <PartRow p={p} onPress={() => setPartForm(p)} />}
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
+        ItemSeparatorComponent={() => <View style={{ height: space.sm }} />}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {loading && !data ? (
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          loading && !data ? (
           <Skeleton rows={3} />
         ) : error ? (
           <ErrorBox message={error} onRetry={reload} />
@@ -163,7 +204,7 @@ export default function Dokonim() {
             )}
           </View>
         ) : (
-          <>
+          <View style={s.head2}>
             {failed ? (
               <View style={s.failed}>
                 <Text style={s.failedText}>{failed}</Text>
@@ -267,64 +308,34 @@ export default function Dokonim() {
               )}
             </View>
 
-            {/* ══ Detallarim ══ */}
-            <View>
-              <Text style={s.group}>{t("mob.part.myParts")}</Text>
-              <View style={{ gap: space.sm }}>
-                {(data?.parts ?? []).map((p) => {
-                  const tone = STOCK_TONE[p.stock] ?? color.mutedForeground;
-                  return (
-                    <Pressable key={p.id} style={s.card} onPress={() => setPartForm(p)}>
-                      <View style={s.partRow}>
-                        <View style={s.thumb}>
-                          <Icon name="package" size={20} stroke="#94a3b8" />
-                        </View>
-                        <View style={{ flexGrow: 1, minWidth: 0 }}>
-                          <Text style={s.name} numberOfLines={1}>
-                            {p.name}
-                          </Text>
-                          <Text style={s.oem} numberOfLines={1}>
-                            {[p.oem, p.quantity != null ? `${p.quantity} ${t("mob.part.pcs")}` : null]
-                              .filter(Boolean)
-                              .join(" · ")}
-                          </Text>
-                          <Text style={s.price}>
-                            {fmtNum(p.price)} {p.currency}
-                          </Text>
-                        </View>
-                        <View style={[s.chip, { backgroundColor: tone + "1a" }]}>
-                          <Text style={[s.chipText, { color: tone }]}>
-                            {partStockLabel(p.stock)}
-                          </Text>
-                        </View>
-                      </View>
-                    </Pressable>
-                  );
-                })}
-
-                <Pressable style={s.add} onPress={() => setPartForm(true)}>
-                  <Icon name="plus" size={17} stroke="#94a3b8" />
-                  <Text style={s.addText}>{t("mob.part.addPart")}</Text>
+            <Text style={s.group}>{t("mob.part.myParts")}</Text>
+          </View>
+          )
+        }
+        ListFooterComponent={
+          shop && !loading && !error ? (
+            <View style={s.foot2}>
+              <Pressable style={s.add} onPress={() => setPartForm(true)}>
+                <Icon name="plus" size={17} stroke="#94a3b8" />
+                <Text style={s.addText}>{t("mob.part.addPart")}</Text>
+              </Pressable>
+                <Pressable style={s.shopRow} onPress={() => setShopForm(true)}>
+                  <View style={s.shopIcon}>
+                    <Icon name="doc" size={19} stroke={color.mutedForeground} />
+                  </View>
+                  <View style={{ flexGrow: 1 }}>
+                    <Text style={s.shopTitle}>{t("mob.part.shopInfo")}</Text>
+                    <Text style={s.shopSub} numberOfLines={1}>
+                      {[shop.location, shop.workHours].filter(Boolean).join(" · ") ||
+                        t("mob.part.shopInfoSub")}
+                    </Text>
+                  </View>
+                  <Icon name="chevron" size={18} stroke="#cbd5e1" />
                 </Pressable>
-              </View>
             </View>
-
-            <Pressable style={s.shopRow} onPress={() => setShopForm(true)}>
-              <View style={s.shopIcon}>
-                <Icon name="doc" size={19} stroke={color.mutedForeground} />
-              </View>
-              <View style={{ flexGrow: 1 }}>
-                <Text style={s.shopTitle}>{t("mob.part.shopInfo")}</Text>
-                <Text style={s.shopSub} numberOfLines={1}>
-                  {[shop.location, shop.workHours].filter(Boolean).join(" · ") ||
-                    t("mob.part.shopInfoSub")}
-                </Text>
-              </View>
-              <Icon name="chevron" size={18} stroke="#cbd5e1" />
-            </Pressable>
-          </>
-        )}
-      </ScrollView>
+          ) : null
+        }
+      />
 
       <ShopSheet
         open={shopForm}
@@ -671,7 +682,11 @@ function PartSheet({
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  scroll: { padding: space.lg, gap: space.lg },
+  scroll: { padding: space.lg },
+  /* Sarlavha va poyga oralig'ini o'zi beradi: konteynerdagi `gap`
+     detal kartochkalari orasiga ham tushardi. */
+  head2: { gap: space.lg, marginBottom: space.sm },
+  foot2: { gap: space.lg, marginTop: space.lg },
   group: {
     fontSize: 12,
     fontWeight: "600",

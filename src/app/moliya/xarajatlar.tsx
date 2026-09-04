@@ -19,13 +19,13 @@
  */
 import { useState } from "react";
 import {
+  FlatList,
   Image,
   KeyboardAvoidingView,
   Modal,
   Platform,
   Pressable,
   RefreshControl,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -105,99 +105,102 @@ export default function Xarajatlar() {
         ))}
       </View>
 
-      <ScrollView
+      {/* Xarajatlar tarixi cheksiz o'sadi — har reysdan yangi
+          yozuvlar qo'shiladi. `ScrollView` ularning hammasini bir
+          vaqtda chizardi. */}
+      <FlatList
+        data={loading && !data ? [] : items}
+        keyExtractor={(e) => e.id}
+        renderItem={({ item: e }) => (
+        <View style={[s.card, e.status === "PENDING" && s.cardHot]}>
+          <View style={s.head}>
+            <View style={s.catTag}>
+              <Text style={s.catText}>{expenseCategoryLabel(e.category)}</Text>
+            </View>
+            <Text style={s.meta}>
+              {t("mob.fin.tripN", { n: e.tripNo })}
+              {e.plate ? ` · ${e.plate}` : ""}
+            </Text>
+          </View>
+
+          <Text style={s.amount}>
+            {fmtNum(e.amount)} <Text style={s.cur}>{e.currency}</Text>
+          </Text>
+          {e.title ? <Text style={s.title}>{e.title}</Text> : null}
+
+          {/* CHEK — qaror shunga qarab qabul qilinadi */}
+          {e.hasReceipt ? (
+            <Image
+              source={authImage(`/api/trips/${e.tripId}/expenses/${e.id}/receipt`)}
+              style={s.receipt}
+              resizeMode="contain"
+            />
+          ) : (
+            <View style={s.noReceipt}>
+              <Icon name="alert" size={15} stroke={color.warning} />
+              <Text style={s.noReceiptText}>{t("mob.fin.noReceipt")}</Text>
+            </View>
+          )}
+
+          {e.edits > 0 && (
+            <Text style={s.edited}>{t("mob.fin.editedN", { n: e.edits })}</Text>
+          )}
+
+          {e.status === "PENDING" && (
+            <>
+              <View style={s.row2}>
+                <Pressable
+                  style={[s.btn, s.btnGhost]}
+                  disabled={busy === e.id}
+                  onPress={() => void decide(e.id, "REJECTED")}
+                >
+                  <Text style={[s.btnGhostText, { color: color.danger }]}>
+                    {t("mob.fin.reject")}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={[s.btn, s.btnGhost]}
+                  disabled={busy === e.id}
+                  onPress={() => setEditing(e)}
+                >
+                  <Text style={s.btnGhostText}>{t("mob.fin.fixAmount")}</Text>
+                </Pressable>
+              </View>
+              <Pressable
+                style={[s.btn, s.btnOk]}
+                disabled={busy === e.id}
+                onPress={() => void decide(e.id, "APPROVED")}
+              >
+                <Text style={s.btnOkText}>{t("mob.fin.approve")}</Text>
+              </Pressable>
+            </>
+          )}
+        </View>
+        )}
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {loading && !data ? (
-          <Skeleton rows={3} />
-        ) : error ? (
-          <ErrorBox message={error} onRetry={reload} />
-        ) : items.length === 0 ? (
-          <Empty
-            icon="check"
-            title={
-              tab === "PENDING" ? t("mob.fin.allDoneTitle") : t("mob.fin.emptyTitle")
-            }
-            text={tab === "PENDING" ? t("mob.fin.allDoneHint") : ""}
-          />
-        ) : (
-          <>
-            {failed ? (
-              <View style={s.failed}>
-                <Text style={s.failedText}>{failed}</Text>
-              </View>
-            ) : null}
-
-            {items.map((e) => (
-              <View key={e.id} style={[s.card, e.status === "PENDING" && s.cardHot]}>
-                <View style={s.head}>
-                  <View style={s.catTag}>
-                    <Text style={s.catText}>{expenseCategoryLabel(e.category)}</Text>
-                  </View>
-                  <Text style={s.meta}>
-                    {t("mob.fin.tripN", { n: e.tripNo })}
-                    {e.plate ? ` · ${e.plate}` : ""}
-                  </Text>
-                </View>
-
-                <Text style={s.amount}>
-                  {fmtNum(e.amount)} <Text style={s.cur}>{e.currency}</Text>
-                </Text>
-                {e.title ? <Text style={s.title}>{e.title}</Text> : null}
-
-                {/* CHEK — qaror shunga qarab qabul qilinadi */}
-                {e.hasReceipt ? (
-                  <Image
-                    source={authImage(`/api/trips/${e.tripId}/expenses/${e.id}/receipt`)}
-                    style={s.receipt}
-                    resizeMode="contain"
-                  />
-                ) : (
-                  <View style={s.noReceipt}>
-                    <Icon name="alert" size={15} stroke={color.warning} />
-                    <Text style={s.noReceiptText}>{t("mob.fin.noReceipt")}</Text>
-                  </View>
-                )}
-
-                {e.edits > 0 && (
-                  <Text style={s.edited}>{t("mob.fin.editedN", { n: e.edits })}</Text>
-                )}
-
-                {e.status === "PENDING" && (
-                  <>
-                    <View style={s.row2}>
-                      <Pressable
-                        style={[s.btn, s.btnGhost]}
-                        disabled={busy === e.id}
-                        onPress={() => void decide(e.id, "REJECTED")}
-                      >
-                        <Text style={[s.btnGhostText, { color: color.danger }]}>
-                          {t("mob.fin.reject")}
-                        </Text>
-                      </Pressable>
-                      <Pressable
-                        style={[s.btn, s.btnGhost]}
-                        disabled={busy === e.id}
-                        onPress={() => setEditing(e)}
-                      >
-                        <Text style={s.btnGhostText}>{t("mob.fin.fixAmount")}</Text>
-                      </Pressable>
-                    </View>
-                    <Pressable
-                      style={[s.btn, s.btnOk]}
-                      disabled={busy === e.id}
-                      onPress={() => void decide(e.id, "APPROVED")}
-                    >
-                      <Text style={s.btnOkText}>{t("mob.fin.approve")}</Text>
-                    </Pressable>
-                  </>
-                )}
-              </View>
-            ))}
-          </>
-        )}
-      </ScrollView>
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          failed ? (
+            <View style={s.failed}>
+              <Text style={s.failedText}>{failed}</Text>
+            </View>
+          ) : null
+        }
+        ListEmptyComponent={
+          loading && !data ? (
+            <Skeleton rows={3} />
+          ) : error ? (
+            <ErrorBox message={error} onRetry={reload} />
+          ) : (
+            <Empty
+              icon="check"
+              title={tab === "PENDING" ? t("mob.fin.allDoneTitle") : t("mob.fin.emptyTitle")}
+              text={tab === "PENDING" ? t("mob.fin.allDoneHint") : ""}
+            />
+          )
+        }
+      />
 
       <EditSheet
         expense={editing}

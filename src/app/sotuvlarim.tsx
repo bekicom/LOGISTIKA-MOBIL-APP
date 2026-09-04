@@ -18,7 +18,7 @@
  * ichida yashirilmaydi.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Button, Field, Header } from "@/components/ui";
@@ -117,65 +117,85 @@ export default function Sotuvlarim() {
         />
       </View>
 
-      <ScrollView
-        contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {loading && !data ? (
-          <Skeleton rows={3} />
-        ) : error ? (
-          <ErrorBox message={error} onRetry={reload} />
-        ) : (
-          <>
-            {failed ? (
-              <View style={s.failed}>
-                <Text style={s.failedText}>{failed}</Text>
-              </View>
-            ) : null}
+      {/* E'lonlar ikki yorliqda va bir vaqtda faqat bittasi
+          chiziladi — shuning uchun ikkita `FlatList`, bitta
+          birlashtirilgan ro'yxat emas: kartochka turlari boshqa va
+          birlashtirilsa har qatorda tur tekshirish kerak bo'lardi.
 
-            {tab === "selling" ? (
-              selling.length === 0 ? (
-                <Empty
-                  icon="truck"
-                  title={t("mob.sale.noneTitle")}
-                  text={t("mob.sale.noneHint")}
-                  actionLabel={t("mob.market.sell")}
-                  onAction={() => router.push("/bozor-joylash")}
-                />
-              ) : (
-                selling.map((x) => (
-                  <SellCard
-                    key={x.id}
-                    x={x}
-                    busy={busy === x.id}
-                    onOpen={() => router.push(`/bozor/${x.id}`)}
-                    onAct={(body) => void act(x.id, body)}
-                  />
-                ))
-              )
-            ) : bought.length === 0 ? (
-              <Empty
-                icon="package"
-                title={t("mob.sale.noBoughtTitle")}
-                text={t("mob.sale.noBoughtHint")}
-              />
-            ) : (
-              bought.map((x) => (
-                <BuyCard
-                  key={x.id}
-                  x={x}
-                  busy={busy === x.id}
-                  onOpen={() => router.push(`/bozor/${x.id}`)}
-                  onAct={async (body) => {
-                    const r = await act(x.id, body);
-                    if (r?.vehicleId) router.push(`/parkim/${String(r.vehicleId)}`);
-                  }}
-                />
-              ))
-            )}
-          </>
-        )}
-      </ScrollView>
+          Server `/api/market/my` da cheklov qo'ymaydi: e'lonlar
+          soni faqat odamning o'ziga bog'liq. */}
+      {loading && !data ? (
+        <View style={s.scroll}>
+          <Skeleton rows={3} />
+        </View>
+      ) : error ? (
+        <View style={s.scroll}>
+          <ErrorBox message={error} onRetry={reload} />
+        </View>
+      ) : tab === "selling" ? (
+        <FlatList
+          data={selling}
+          keyExtractor={(x) => x.id}
+          renderItem={({ item: x }) => (
+            <SellCard
+              x={x}
+              busy={busy === x.id}
+              onOpen={() => router.push(`/bozor/${x.id}`)}
+              onAct={(body) => void act(x.id, body)}
+            />
+          )}
+          contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={<FailedBox text={failed} />}
+          ListEmptyComponent={
+            <Empty
+              icon="truck"
+              title={t("mob.sale.noneTitle")}
+              text={t("mob.sale.noneHint")}
+              actionLabel={t("mob.market.sell")}
+              onAction={() => router.push("/bozor-joylash")}
+            />
+          }
+        />
+      ) : (
+        <FlatList
+          data={bought}
+          keyExtractor={(x) => x.id}
+          renderItem={({ item: x }) => (
+            <BuyCard
+              x={x}
+              busy={busy === x.id}
+              onOpen={() => router.push(`/bozor/${x.id}`)}
+              onAct={async (body) => {
+                const r = await act(x.id, body);
+                if (r?.vehicleId) router.push(`/parkim/${String(r.vehicleId)}`);
+              }}
+            />
+          )}
+          contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={<FailedBox text={failed} />}
+          ListEmptyComponent={
+            <Empty
+              icon="package"
+              title={t("mob.sale.noBoughtTitle")}
+              text={t("mob.sale.noBoughtHint")}
+            />
+          }
+        />
+      )}
+    </View>
+  );
+}
+
+/** Xato yozuvi — ikkala ro'yxatning sarlavhasida bir xil */
+function FailedBox({ text }: { text: string }) {
+  if (!text) return null;
+  return (
+    <View style={s.failed}>
+      <Text style={s.failedText}>{text}</Text>
     </View>
   );
 }

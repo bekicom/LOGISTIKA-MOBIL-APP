@@ -18,7 +18,7 @@
  * orqali boshlanadi.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -88,98 +88,110 @@ export default function Dispetcherlar() {
         </ScrollView>
       )}
 
-      <ScrollView
+      <FlatList
+        data={items}
+        keyExtractor={(d) => d.id}
+        renderItem={({ item }) => <DispCard d={item} />}
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {loading && !data ? (
-          <Skeleton rows={3} />
-        ) : error ? (
-          <ErrorBox message={error} onRetry={reload} />
-        ) : items.length === 0 ? (
-          <Empty icon="user" title={t("mob.disp.emptyTitle")} text={t("mob.disp.emptyHint")} />
-        ) : (
-          <>
-            {items.map((d) => (
-              <View key={d.id} style={s.card}>
-                <View style={s.top}>
-                  <View style={s.avatar}>
-                    <Text style={s.avatarText}>{initials(d.name ?? "")}</Text>
-                  </View>
-                  <View style={{ flexGrow: 1, minWidth: 0 }}>
-                    <View style={s.nameRow}>
-                      <Text style={s.name} numberOfLines={1}>
-                        {d.name ?? `FURAM-${d.furamId}`}
-                      </Text>
-                      {d.verified && <Icon name="check" size={14} stroke={color.info} />}
-                    </View>
-                    <Text style={s.meta} numberOfLines={1}>
-                      {[
-                        `FURAM-${d.furamId}`,
-                        d.city,
-                        d.experienceY ? t("mob.disp.yearsN", { n: d.experienceY }) : null,
-                      ]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={s.stats}>
-                  <View>
-                    <Text style={s.statKey}>{t("mob.disp.rating")}</Text>
-                    {d.rating == null ? (
-                      <Text style={s.statNone}>{t("mob.disp.noRating")}</Text>
-                    ) : (
-                      <Text style={s.statVal}>
-                        {d.rating}{" "}
-                        <Text style={s.statSub}>· {d.ratingCount}</Text>
-                      </Text>
-                    )}
-                  </View>
-                  <View>
-                    <Text style={s.statKey}>{t("mob.disp.response")}</Text>
-                    {d.responseRate == null ? (
-                      <Text style={s.statNone}>—</Text>
-                    ) : (
-                      <Text
-                        style={[
-                          s.statVal,
-                          { color: d.responseRate >= 80 ? color.success : color.warning },
-                        ]}
-                      >
-                        {d.responseRate}%
-                      </Text>
-                    )}
-                  </View>
-                  <View>
-                    <Text style={s.statKey}>{t("mob.disp.trips")}</Text>
-                    <Text style={s.statVal}>{d.trips}</Text>
-                  </View>
-                </View>
-
-                {d.countries.length > 0 && (
-                  <View style={s.chips}>
-                    {d.countries.slice(0, 4).map((c) => (
-                      <View key={c} style={s.chip}>
-                        <Text style={s.chipText}>{t(`jobCatalog.countries.${c}`)}</Text>
-                      </View>
-                    ))}
-                  </View>
-                )}
-              </View>
-            ))}
-
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          loading && !data ? (
+            <Skeleton rows={3} />
+          ) : error ? (
+            <ErrorBox message={error} onRetry={reload} />
+          ) : (
+            <Empty icon="user" title={t("mob.disp.emptyTitle")} text={t("mob.disp.emptyHint")} />
+          )
+        }
+        /* Izoh ro'yxat OXIRIDA: yuqorida bo'lsa har ochilganda o'qishga
+           majbur qiladi. Bo'sh ro'yxatda chizilmaydi — u yerda `Empty`
+           o'zi gapiradi. */
+        ListFooterComponent={
+          items.length > 0 ? (
             <View style={s.note}>
               <Icon name="alert" size={16} stroke={color.mutedForeground} />
               <Text style={s.noteText}>{t("mob.disp.contactNote")}</Text>
             </View>
-          </>
-        )}
-      </ScrollView>
+          ) : null
+        }
+      />
     </View>
   );
 }
+
+function DispCard({ d }: { d: Item }) {
+  return (
+    <View style={s.card}>
+      <View style={s.top}>
+        <View style={s.avatar}>
+          <Text style={s.avatarText}>{initials(d.name ?? "")}</Text>
+        </View>
+        <View style={{ flexGrow: 1, minWidth: 0 }}>
+          <View style={s.nameRow}>
+            <Text style={s.name} numberOfLines={1}>
+              {d.name ?? `FURAM-${d.furamId}`}
+            </Text>
+            {d.verified && <Icon name="check" size={14} stroke={color.info} />}
+          </View>
+          <Text style={s.meta} numberOfLines={1}>
+            {[
+              `FURAM-${d.furamId}`,
+              d.city,
+              d.experienceY ? t("mob.disp.yearsN", { n: d.experienceY }) : null,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          </Text>
+        </View>
+      </View>
+
+      <View style={s.stats}>
+        <View>
+          <Text style={s.statKey}>{t("mob.disp.rating")}</Text>
+          {d.rating == null ? (
+            <Text style={s.statNone}>{t("mob.disp.noRating")}</Text>
+          ) : (
+            <Text style={s.statVal}>
+              {d.rating}{" "}
+              <Text style={s.statSub}>· {d.ratingCount}</Text>
+            </Text>
+          )}
+        </View>
+        <View>
+          <Text style={s.statKey}>{t("mob.disp.response")}</Text>
+          {d.responseRate == null ? (
+            <Text style={s.statNone}>—</Text>
+          ) : (
+            <Text
+              style={[
+                s.statVal,
+                { color: d.responseRate >= 80 ? color.success : color.warning },
+              ]}
+            >
+              {d.responseRate}%
+            </Text>
+          )}
+        </View>
+        <View>
+          <Text style={s.statKey}>{t("mob.disp.trips")}</Text>
+          <Text style={s.statVal}>{d.trips}</Text>
+        </View>
+      </View>
+
+      {d.countries.length > 0 && (
+        <View style={s.chips}>
+          {d.countries.slice(0, 4).map((c) => (
+            <View key={c} style={s.chip}>
+              <Text style={s.chipText}>{t(`jobCatalog.countries.${c}`)}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+}
+
 
 function initials(name: string) {
   return name

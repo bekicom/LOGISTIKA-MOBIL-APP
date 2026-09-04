@@ -16,7 +16,7 @@
  * shu kartochkani ajratib ko'rsatadi.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -102,131 +102,136 @@ export default function Ustaxona() {
         </View>
       </View>
 
-      <ScrollView
-        contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
+      {/* Ustalar katalogi cheksiz: server 60 tagacha qaytaradi va
+          filtr o'zgarganda ro'yxat butunlay almashadi. Yuqoridagi
+          bo'laklar sarlavhaga o'tdi — ular ro'yxat bilan birga
+          suriladi, avvalgidek. */}
+      <FlatList
+        data={loading && !data ? [] : masters}
+        keyExtractor={(m) => m.id}
+        renderItem={({ item: m }) => <MasterCard m={m} />}
+        contentContainerStyle={[s.list, { paddingBottom: insets.bottom + space.xxl }]}
+        ItemSeparatorComponent={() => <View style={{ height: space.sm }} />}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {/* ══ USTA CHAQIRISH — birinchi narsa ══ */}
-        <View style={s.callBox}>
-          <View style={s.callHead}>
-            <View style={s.callIcon}>
-              <Icon name="alert" size={21} stroke={color.brand} />
-            </View>
-            <View style={{ flexGrow: 1 }}>
-              <Text style={s.callTitle}>{t("mob.svc.callTitle")}</Text>
-              <Text style={s.callSub}>{t("mob.svc.callSub")}</Text>
-            </View>
-          </View>
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View style={s.head2}>
+              {/* ══ USTA CHAQIRISH — birinchi narsa ══ */}
+              <View style={s.callBox}>
+                <View style={s.callHead}>
+                  <View style={s.callIcon}>
+                    <Icon name="alert" size={21} stroke={color.brand} />
+                  </View>
+                  <View style={{ flexGrow: 1 }}>
+                    <Text style={s.callTitle}>{t("mob.svc.callTitle")}</Text>
+                    <Text style={s.callSub}>{t("mob.svc.callSub")}</Text>
+                  </View>
+                </View>
 
-          <Pressable style={s.callBtn} onPress={() => router.push("/usta-chaqirish")}>
-            <Text style={s.callBtnText}>{t("mob.svc.newOrder")}</Text>
-          </Pressable>
+                <Pressable style={s.callBtn} onPress={() => router.push("/usta-chaqirish")}>
+                  <Text style={s.callBtnText}>{t("mob.svc.newOrder")}</Text>
+                </Pressable>
 
-          <View style={s.callNote}>
-            <Icon name="border" size={15} stroke="#94a3b8" />
-            <Text style={s.callNoteText}>{t("mob.svc.mobileNote")}</Text>
-          </View>
-        </View>
-
-        {loading && !data ? (
-          <Skeleton rows={2} />
-        ) : error ? (
-          <ErrorBox message={error} onRetry={reload} />
-        ) : (
-          <>
-            {/* ══ BUYURTMALARIM ══ */}
-            {orders.length > 0 && (
-              <View>
-                <Text style={s.group}>{t("mob.svc.myOrders")}</Text>
-                <View style={{ gap: space.sm }}>
-                  {orders.map((o) => (
-                    <OrderCard
-                      key={o.id}
-                      o={o}
-                      onPress={() => router.push(`/ustaxona/${o.id}`)}
-                    />
-                  ))}
+                <View style={s.callNote}>
+                  <Icon name="border" size={15} stroke="#94a3b8" />
+                  <Text style={s.callNoteText}>{t("mob.svc.mobileNote")}</Text>
                 </View>
               </View>
-            )}
-
-            {/* ══ USTA PANELI — pullik tomon, lekin yashirilmaydi ══ */}
-            <Pressable
-              style={s.panel}
-              onPress={() => router.push("/usta-panelim")}
-            >
-              <View style={s.panelIcon}>
-                <Icon name="user" size={19} stroke={color.mutedForeground} />
-              </View>
-              <View style={{ flexGrow: 1 }}>
-                <Text style={s.panelTitle}>{t("mob.svc.masterPanel")}</Text>
-                <Text style={s.panelSub}>
-                  {data?.isMaster
-                    ? data.masterApproved
-                      ? t("mob.svc.masterOn")
-                      : t("mob.svc.masterWait")
-                    : t("mob.svc.masterOff")}
-                </Text>
-              </View>
-              <Icon name="chevron" size={18} stroke="#cbd5e1" />
-            </Pressable>
-
-            {/* ══ USTALAR KATALOGI ══ */}
-            <View>
-              <Text style={s.group}>{t("mob.svc.masters")}</Text>
-
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={s.chips}
-              >
-                <Pressable
-                  style={[s.chip, !spec && !mobileOnly && s.chipOn]}
-                  onPress={() => {
-                    setSpec(null);
-                    setMobileOnly(false);
-                  }}
-                >
-                  <Text style={[s.chipText, !spec && !mobileOnly && s.chipTextOn]}>
-                    {t("mob.market.all")}
-                  </Text>
-                </Pressable>
-                <Pressable
-                  style={[s.chip, mobileOnly && s.chipOn]}
-                  onPress={() => setMobileOnly((v) => !v)}
-                >
-                  <Text style={[s.chipText, mobileOnly && s.chipTextOn]}>
-                    {t("mob.svc.mobileOnly")}
-                  </Text>
-                </Pressable>
-                {SPECS.map((k) => (
-                  <Pressable
-                    key={k}
-                    style={[s.chip, spec === k && s.chipOn]}
-                    onPress={() => setSpec(spec === k ? null : k)}
-                  >
-                    <Text style={[s.chipText, spec === k && s.chipTextOn]}>
-                      {serviceSpecLabel(k)}
-                    </Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
-
-              {masters.length === 0 ? (
-                <View style={s.empty}>
-                  <Text style={s.emptyText}>{t("mob.svc.noMasters")}</Text>
-                </View>
-              ) : (
-                <View style={{ gap: space.sm }}>
-                  {masters.map((m) => (
-                    <MasterCard key={m.id} m={m} />
-                  ))}
+            {loading && !data ? (
+              <Skeleton rows={2} />
+            ) : error ? (
+              <ErrorBox message={error} onRetry={reload} />
+            ) : (
+              <>
+              {/* ══ BUYURTMALARIM ══ */}
+              {orders.length > 0 && (
+                <View>
+                  <Text style={s.group}>{t("mob.svc.myOrders")}</Text>
+                  <View style={{ gap: space.sm }}>
+                    {orders.map((o) => (
+                      <OrderCard
+                        key={o.id}
+                        o={o}
+                        onPress={() => router.push(`/ustaxona/${o.id}`)}
+                      />
+                    ))}
+                  </View>
                 </View>
               )}
+
+              {/* ══ USTA PANELI — pullik tomon, lekin yashirilmaydi ══ */}
+              <Pressable
+                style={s.panel}
+                onPress={() => router.push("/usta-panelim")}
+              >
+                <View style={s.panelIcon}>
+                  <Icon name="user" size={19} stroke={color.mutedForeground} />
+                </View>
+                <View style={{ flexGrow: 1 }}>
+                  <Text style={s.panelTitle}>{t("mob.svc.masterPanel")}</Text>
+                  <Text style={s.panelSub}>
+                    {data?.isMaster
+                      ? data.masterApproved
+                        ? t("mob.svc.masterOn")
+                        : t("mob.svc.masterWait")
+                      : t("mob.svc.masterOff")}
+                  </Text>
+                </View>
+                <Icon name="chevron" size={18} stroke="#cbd5e1" />
+              </Pressable>
+              {/* ══ USTALAR KATALOGI ══ */}
+              <View>
+                <Text style={s.group}>{t("mob.svc.masters")}</Text>
+
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={s.chips}
+                >
+                  <Pressable
+                    style={[s.chip, !spec && !mobileOnly && s.chipOn]}
+                    onPress={() => {
+                      setSpec(null);
+                      setMobileOnly(false);
+                    }}
+                  >
+                    <Text style={[s.chipText, !spec && !mobileOnly && s.chipTextOn]}>
+                      {t("mob.market.all")}
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={[s.chip, mobileOnly && s.chipOn]}
+                    onPress={() => setMobileOnly((v) => !v)}
+                  >
+                    <Text style={[s.chipText, mobileOnly && s.chipTextOn]}>
+                      {t("mob.svc.mobileOnly")}
+                    </Text>
+                  </Pressable>
+                  {SPECS.map((k) => (
+                    <Pressable
+                      key={k}
+                      style={[s.chip, spec === k && s.chipOn]}
+                      onPress={() => setSpec(spec === k ? null : k)}
+                    >
+                      <Text style={[s.chipText, spec === k && s.chipTextOn]}>
+                        {serviceSpecLabel(k)}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </ScrollView>
+                </View>
+              </>
+            )}
+          </View>
+        }
+        ListEmptyComponent={
+          loading || error ? null : (
+            <View style={s.empty}>
+              <Text style={s.emptyText}>{t("mob.svc.noMasters")}</Text>
             </View>
-          </>
-        )}
-      </ScrollView>
+          )
+        }
+      />
     </View>
   );
 }
@@ -366,6 +371,9 @@ const s = StyleSheet.create({
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   scroll: { padding: space.lg, gap: space.lg },
+  /* Ro'yxat konteynerida `gap` YO'Q — u sarlavhaga ham tegardi */
+  list: { padding: space.lg },
+  head2: { gap: space.lg, marginBottom: space.lg },
   group: {
     fontSize: 12,
     fontWeight: "600",

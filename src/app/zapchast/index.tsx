@@ -22,6 +22,7 @@
  */
 import { useMemo, useState } from "react";
 import {
+  FlatList,
   Modal,
   Pressable,
   RefreshControl,
@@ -188,80 +189,89 @@ export default function Zapchast() {
         </ScrollView>
       </View>
 
-      <ScrollView
+      {/* Zapchast katalogi cheksiz: har do'kon o'z ro'yxatini
+          qo'shadi. Buyurtmalar esa odamning O'ZINIKI — ular kam va
+          poyga bo'lib qoladi, avvalgi joyida. */}
+      <FlatList
+        data={loading && !data ? [] : items}
+        keyExtractor={(p) => p.id}
+        renderItem={({ item: p }) => (
+          <PartCard p={p} onPress={() => router.push(`/zapchast/${p.id}`)} />
+        )}
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
+        ItemSeparatorComponent={() => <View style={{ height: space.sm }} />}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
-      >
-        {loading && !data ? (
-          <Skeleton rows={3} />
-        ) : error ? (
-          <ErrorBox message={error} onRetry={reload} />
-        ) : (
-          <>
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          error ? null : (
             <View style={s.countRow}>
               <Text style={s.count}>{t("mob.part.foundN", { n: items.length })}</Text>
               <Pressable onPress={() => router.push("/dokonim")}>
                 <Text style={s.link}>{t("mob.part.myShop")}</Text>
               </Pressable>
             </View>
+          )
+        }
+        ListEmptyComponent={
+          loading && !data ? (
+            <Skeleton rows={3} />
+          ) : error ? (
+            <ErrorBox message={error} onRetry={reload} />
+          ) : (
+            <Empty
+              icon="package"
+              title={t("mob.part.emptyTitle")}
+              text={t("mob.part.emptyHint")}
+            />
+          )
+        }
+        ListFooterComponent={
+          error ? null : (
+            <>
+                {/* ══ Buyurtmalarim ══ */}
+                {orders.length > 0 && (
+                  <View style={{ marginTop: space.lg }}>
+                    <Text style={s.group}>{t("mob.part.myOrders")}</Text>
+                    <View style={{ gap: space.sm }}>
+                      {orders.map((o) => (
+                        <View key={o.id} style={s.card}>
+                          <View style={s.cardHead}>
+                            <View style={s.tag}>
+                              <Text style={s.tagText}>{partOrderStatusLabel(o.status)}</Text>
+                            </View>
+                            <Text style={s.no}>#{o.orderNo}</Text>
+                          </View>
+                          <Text style={s.name} numberOfLines={1}>
+                            {o.name} · {o.quantity} {t("mob.part.pcs")}
+                          </Text>
+                          <Text style={s.meta}>
+                            {[o.shop, o.delivery ? t("mob.part.delivery") : t("mob.part.pickup")]
+                              .filter(Boolean)
+                              .join(" · ")}
+                          </Text>
 
-            {items.length === 0 ? (
-              <Empty
-                icon="package"
-                title={t("mob.part.emptyTitle")}
-                text={t("mob.part.emptyHint")}
-              />
-            ) : (
-              <View style={{ gap: space.sm }}>
-                {items.map((p) => (
-                  <PartCard key={p.id} p={p} onPress={() => router.push(`/zapchast/${p.id}`)} />
-                ))}
-              </View>
-            )}
+                          {/* USTAGA BOG'LANGAN */}
+                          {o.serviceOrder && (
+                            <View style={s.linked}>
+                              <Icon name="check" size={14} stroke={color.mutedForeground} />
+                              <Text style={s.linkedText} numberOfLines={1}>
+                                {t("mob.part.linkedTo", { n: o.serviceOrder.orderNo })}
+                              </Text>
+                            </View>
+                          )}
 
-            {/* ══ Buyurtmalarim ══ */}
-            {orders.length > 0 && (
-              <View style={{ marginTop: space.lg }}>
-                <Text style={s.group}>{t("mob.part.myOrders")}</Text>
-                <View style={{ gap: space.sm }}>
-                  {orders.map((o) => (
-                    <View key={o.id} style={s.card}>
-                      <View style={s.cardHead}>
-                        <View style={s.tag}>
-                          <Text style={s.tagText}>{partOrderStatusLabel(o.status)}</Text>
-                        </View>
-                        <Text style={s.no}>#{o.orderNo}</Text>
-                      </View>
-                      <Text style={s.name} numberOfLines={1}>
-                        {o.name} · {o.quantity} {t("mob.part.pcs")}
-                      </Text>
-                      <Text style={s.meta}>
-                        {[o.shop, o.delivery ? t("mob.part.delivery") : t("mob.part.pickup")]
-                          .filter(Boolean)
-                          .join(" · ")}
-                      </Text>
-
-                      {/* USTAGA BOG'LANGAN */}
-                      {o.serviceOrder && (
-                        <View style={s.linked}>
-                          <Icon name="check" size={14} stroke={color.mutedForeground} />
-                          <Text style={s.linkedText} numberOfLines={1}>
-                            {t("mob.part.linkedTo", { n: o.serviceOrder.orderNo })}
+                          <Text style={s.price}>
+                            {fmtNum(o.total)} {o.currency}
                           </Text>
                         </View>
-                      )}
-
-                      <Text style={s.price}>
-                        {fmtNum(o.total)} {o.currency}
-                      </Text>
+                      ))}
                     </View>
-                  ))}
-                </View>
-              </View>
-            )}
-          </>
-        )}
-      </ScrollView>
+                  </View>
+                )}
+            </>
+          )
+        }
+      />
 
       {/* Mashina tanlash */}
       <Modal visible={picking} transparent animationType="slide" onRequestClose={() => setPicking(false)}>

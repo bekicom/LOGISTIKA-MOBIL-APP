@@ -1787,6 +1787,8 @@
       "startTitle": "What are you looking for?"
     },
     "signIn": {
+      "artText": "begin with a single step",
+      "artTitle": "Great journeys",
       "blocked": "The account is temporarily blocked",
       "byPhone": "Phone number",
       "failed": "Something went wrong",
@@ -1794,6 +1796,7 @@
       "noAccount": "No account yet?",
       "password": "Password",
       "passwordPh": "Enter your password",
+      "sub": "Sign in and pick up where you left off",
       "submit": "Sign in",
       "title": "Welcome"
     },
@@ -1804,6 +1807,7 @@
       "agreePre": "I agree to the",
       "bySms": "By SMS",
       "codeFailed": "The code was not sent",
+      "codeSentTo": "We sent a 6-digit code to %{phone} via %{via}",
       "devCode": "Test code: %{code}",
       "enterCode": "Enter the code",
       "noSession": "The server returned no session",
@@ -1820,6 +1824,8 @@
       "roleHint": "This decides what you see in the app. You can change it later.",
       "roleOwner": "I own trucks and hire drivers",
       "roleShipper": "I post cargo and look for transport",
+      "safeText": "FURAM is always with you",
+      "safeTitle": "Safe and secure",
       "sendSms": "Send by SMS",
       "sendTelegram": "Send via Telegram",
       "subtitle": "Fast and free",

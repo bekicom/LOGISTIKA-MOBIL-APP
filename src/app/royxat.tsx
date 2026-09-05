@@ -6,6 +6,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -23,6 +24,8 @@ import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
+
+const QALQON = require("../../assets/images/otp-qalqon.png");
 
 type Step = "phone" | "code" | "details";
 type Channel = "telegram" | "sms";
@@ -257,15 +260,20 @@ export default function Royxat() {
         {step === "code" ? (
           <>
             <Text style={s.title}>{t("mob.signUp.enterCode")}</Text>
+            {/* Matn LUG'ATDAN: ilgari «6 xonali kod yubordik» qismi
+                kodda o'zbekcha yozilgan edi va rus tilidagi
+                telefonda ham o'zbekcha chiqardi. */}
             <Text style={s.sub}>
-              {sentVia === "telegram" ? "Telegram'ga" : t("mob.signUp.bySms")} 6 xonali kod yubordik —{" "}
-              <Text style={s.strong}>{fullPhone}</Text>
+              {t("mob.signUp.codeSentTo", {
+                phone: fullPhone,
+                via: sentVia === "telegram" ? "Telegram" : "SMS",
+              })}
             </Text>
 
             {devCode ? (
               <View style={{ marginTop: space.lg }}>
                 <Notice tone="info" title={t("mob.ui.devMode")}>
-                  Kod: {devCode}
+                  {t("mob.signUp.devCode", { c: devCode })}
                 </Notice>
               </View>
             ) : null}
@@ -298,13 +306,25 @@ export default function Royxat() {
             <View style={{ alignItems: "center", marginTop: space.xl }}>
               {left > 0 ? (
                 <Text style={s.sub}>
-                  Qayta yuborish {Math.floor(left / 60)}:{String(left % 60).padStart(2, "0")}
+                  {t("mob.signUp.resendIn", {
+                    t: `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`,
+                  })}
                 </Text>
               ) : (
                 <Pressable onPress={() => sendCode()} hitSlop={8}>
                   <Text style={s.link}>{t("mob.signUp.resend")}</Text>
                 </Pressable>
               )}
+            </View>
+
+            {/* ══ PASTDAGI RASM ══
+                Kod kutish — bo'sh vaqt: odam ekranga qarab
+                turadi va hech narsa yo'q. Rasm shu bo'shliqni
+                to'ldiradi va «xavfsiz» degan fikrni beradi. */}
+            <View style={s.otpArt}>
+              <Image source={QALQON} style={s.otpImg} resizeMode="contain" />
+              <Text style={s.otpTitle}>{t("mob.signUp.safeTitle")}</Text>
+              <Text style={s.otpText}>{t("mob.signUp.safeText")}</Text>
             </View>
 
             {channels.length > 1 ? (
@@ -457,6 +477,14 @@ function RoleIcon({ value, on }: { value: string; on: boolean }) {
 }
 
 const s = StyleSheet.create({
+  /* Kod kutish ekranidagi rasm — o'lchami CHEKLANGAN: klaviatura
+     ochilganda ekran qisqaradi va rasm formani itarib
+     chiqarmasligi kerak. */
+  otpArt: { alignItems: "center", marginTop: 28 },
+  otpImg: { width: 150, height: 130 },
+  otpTitle: { fontSize: 14.5, fontWeight: "700", color: color.foreground, marginTop: 10 },
+  otpText: { fontSize: 13, color: color.mutedForeground, marginTop: 2 },
+
   root: { flex: 1, backgroundColor: color.card },
   scroll: { flexGrow: 1, paddingHorizontal: space.xl },
 

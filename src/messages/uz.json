@@ -1787,6 +1787,8 @@
       "startTitle": "Nima qidiryapsiz?"
     },
     "signIn": {
+      "artText": "birinchi qadamdan boshlanadi",
+      "artTitle": "Buyuk yo'llar",
       "blocked": "Hisob vaqtincha bloklandi",
       "byPhone": "Telefon raqam",
       "failed": "Xatolik yuz berdi",
@@ -1794,6 +1796,7 @@
       "noAccount": "Hisobingiz yo'qmi?",
       "password": "Parol",
       "passwordPh": "Parolingizni kiriting",
+      "sub": "Hisobingizga kiring va ishni davom eting",
       "submit": "Kirish",
       "title": "Xush kelibsiz"
     },
@@ -1804,6 +1807,7 @@
       "agreePre": "Men",
       "bySms": "SMS orqali",
       "codeFailed": "Kod yuborilmadi",
+      "codeSentTo": "%{phone} raqamiga %{via} orqali 6 xonali kod yubordik",
       "devCode": "Sinov kodi: %{code}",
       "enterCode": "Kodni kiriting",
       "noSession": "Server sessiya bermadi",
@@ -1820,6 +1824,8 @@
       "roleHint": "Ilovada nima ko'rinishini shu belgilaydi. Keyin o'zgartirsa bo'ladi.",
       "roleOwner": "Mashinam bor, haydovchi ishlaydi",
       "roleShipper": "Yuk joylayman, transport qidiraman",
+      "safeText": "FURAM doimo siz bilan",
+      "safeTitle": "Xavfsiz va ishonchli",
       "sendSms": "SMS orqali yuborish",
       "sendTelegram": "Telegram orqali yuborish",
       "subtitle": "Tez va bepul",

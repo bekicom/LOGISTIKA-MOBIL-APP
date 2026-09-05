@@ -1787,6 +1787,8 @@
       "startTitle": "Ne arıyorsunuz?"
     },
     "signIn": {
+      "artText": "ilk adımla başlar",
+      "artTitle": "Büyük yollar",
       "blocked": "Hesap geçici olarak engellendi",
       "byPhone": "Telefon numarası",
       "failed": "Bir hata oluştu",
@@ -1794,6 +1796,7 @@
       "noAccount": "Hesabınız yok mu?",
       "password": "Parola",
       "passwordPh": "Parolanızı girin",
+      "sub": "Hesabınıza girin ve çalışmaya devam edin",
       "submit": "Giriş yap",
       "title": "Hoş geldiniz"
     },
@@ -1804,6 +1807,7 @@
       "agreePre": "Şu koşulları kabul ediyorum:",
       "bySms": "SMS ile",
       "codeFailed": "Kod gönderilemedi",
+      "codeSentTo": "%{phone} numarasına %{via} ile 6 haneli kod gönderdik",
       "devCode": "Test kodu: %{code}",
       "enterCode": "Kodu girin",
       "noSession": "Sunucu oturum vermedi",
@@ -1820,6 +1824,8 @@
       "roleHint": "Uygulamada ne göreceğinizi bu belirler. Sonra değiştirilebilir.",
       "roleOwner": "Aracım var, sürücü çalışıyor",
       "roleShipper": "Yük veriyorum, araç arıyorum",
+      "safeText": "FURAM her zaman yanınızda",
+      "safeTitle": "Güvenli ve emniyetli",
       "sendSms": "SMS ile gönder",
       "sendTelegram": "Telegram ile gönder",
       "subtitle": "Hızlı ve ücretsiz",

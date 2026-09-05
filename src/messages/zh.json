@@ -1787,6 +1787,8 @@
       "startTitle": "您在找什么？"
     },
     "signIn": {
+      "artText": "始于足下",
+      "artTitle": "长途万里",
       "blocked": "账号已被临时封禁",
       "byPhone": "手机号",
       "failed": "发生错误",
@@ -1794,6 +1796,7 @@
       "noAccount": "还没有账号？",
       "password": "密码",
       "passwordPh": "请输入密码",
+      "sub": "登录账号，继续工作",
       "submit": "登录",
       "title": "欢迎回来"
     },
@@ -1804,6 +1807,7 @@
       "agreePre": "我同意",
       "bySms": "通过短信",
       "codeFailed": "验证码发送失败",
+      "codeSentTo": "已通过 %{via} 向 %{phone} 发送 6 位验证码",
       "devCode": "测试验证码：%{code}",
       "enterCode": "请输入验证码",
       "noSession": "服务器未返回会话",
@@ -1820,6 +1824,8 @@
       "roleHint": "这决定您在应用中看到的内容，之后可以更改。",
       "roleOwner": "我有车辆，由司机运营",
       "roleShipper": "我发布货源，寻找运力",
+      "safeText": "FURAM 始终相伴",
+      "safeTitle": "安全可靠",
       "sendSms": "通过短信发送",
       "sendTelegram": "通过 Telegram 发送",
       "subtitle": "快速且免费",

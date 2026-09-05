@@ -1638,19 +1638,42 @@
       "VEHICLE_OWNER": "Mashina egasi",
       "WORKER": "Ish qidiruvchi"
     },
+    "roleHint": {
+      "AUTO_SELLER": "Transport sotish e'lonlari",
+      "CARGO_OWNER": "Yuk joylashtirish, tashuvchi topish",
+      "DISPATCHER": "Reyslarni boshqarish, vositachilik",
+      "DRIVER": "Reys topish, yuk olish, daromad",
+      "EMPLOYER": "Vakansiya joylash, nomzodlar",
+      "LOGISTICS": "Kompaniya sifatida to'liq boshqaruv",
+      "MASTER": "Chaqiruv bo'yicha ta'mirlash",
+      "PARTS": "Zapchast do'koni va katalog",
+      "PASSENGER": "Yo'lovchi reyslari va o'rinlar",
+      "SERVICE": "Ustaxona, buyurtmalar, narxlar",
+      "USER": "Platformadan umumiy foydalanish",
+      "VEHICLE_OWNER": "Park, haydovchilar, transport e'lonlari",
+      "WORKER": "Ish qidirish, ariza berish"
+    },
     "roles": {
       "addGroup": "QO'SHISH MUMKIN",
       "daysLeft": "%{n} kun qoldi",
       "endNote": "Tugasa yangi e'lon qo'ya olmaysiz. Yozilgan ma'lumot, reys va shartnomalar joyida qoladi.",
       "extend": "Uzaytirish",
+      "free": "Bepul",
+      "iosPrice": "Rolni saytda ochasiz",
       "liveGroup": "AMALDAGI",
       "noneHint": "Rol tanlaganingizda o'sha bo'limlar ochiladi va sinov muddati boshlanadi.",
       "noneTitle": "Rol tanlanmagan",
+      "notFound": "Bunday rol topilmadi",
       "payNote": "Tarif to'lovi brauzerda qilinadi — ilova ichidagi to'lov do'kon komissiyasiga tushadi.",
+      "perMonth": "%{p} so'm/oy",
+      "pickSub": "O'zingizga mos rolni tanlang",
+      "pickTitle": "Rol tanlash",
       "priceDays": "%{sum} so'm / %{n} kun",
+      "searchPh": "Rol nomi yoki kalit so'z…",
       "subtitle": "Rollar va tariflar",
       "title": "Men kimman?",
-      "trial": "Sinov muddati"
+      "trial": "Sinov muddati",
+      "trialN": "%{n} kun bepul"
     },
     "sale": {
       "about": "Tavsif",
@@ -1803,6 +1826,10 @@
       "title": "Hisob yaratish",
       "whereCode": "Kod qayerga kelsin",
       "whoAreYou": "Siz kimsiz?"
+    },
+    "splash": {
+      "footer": "Odamlarni, yuklarni, imkoniyatlarni birlashtiramiz",
+      "tagline": "Harakatda imkoniyatlar,\nyangi ufqlar sari"
     },
     "state": {
       "noData": "Ma'lumot kelmadi"
@@ -2213,6 +2240,13 @@
     "PRICE": "Narx mos emas",
     "ROUTE": "Yo'nalish o'zgardi",
     "VEHICLE": "Mashina mos emas"
+  },
+  "roleGroup": {
+    "cargo": "Yuk va logistika",
+    "other": "Boshqalar",
+    "service": "Xizmatlar",
+    "transport": "Transport",
+    "work": "Ish va karyera"
   },
   "saleCatalog": {
     "category": {

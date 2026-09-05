@@ -1638,19 +1638,42 @@
       "VEHICLE_OWNER": "Araç sahibi",
       "WORKER": "İş arayan"
     },
+    "roleHint": {
+      "AUTO_SELLER": "Araç satış ilanları",
+      "CARGO_OWNER": "Yük ilanı ver, taşıyıcı bul",
+      "DISPATCHER": "Sefer yönetimi, aracılık",
+      "DRIVER": "Sefer bul, yük al, kazan",
+      "EMPLOYER": "İş ilanı ver, adayları gör",
+      "LOGISTICS": "Şirket düzeyinde tam yönetim",
+      "MASTER": "Çağrı üzerine yerinde tamir",
+      "PARTS": "Yedek parça mağazası ve katalog",
+      "PASSENGER": "Yolcu seferleri ve koltuklar",
+      "SERVICE": "Servis, siparişler, fiyatlar",
+      "USER": "Genel kullanım",
+      "VEHICLE_OWNER": "Filo, sürücüler, araç ilanları",
+      "WORKER": "İş ara, başvur"
+    },
     "roles": {
       "addGroup": "EKLENEBİLİR",
       "daysLeft": "%{n} gün kaldı",
       "endNote": "Bitince yeni ilan veremezsiniz. Kayıtlı veriler, seferler ve sözleşmeler yerinde kalır.",
       "extend": "Uzat",
+      "free": "Ücretsiz",
+      "iosPrice": "Bu rolü web sitesinden açarsınız",
       "liveGroup": "YÜRÜRLÜKTE",
       "noneHint": "Bir rol seçince o bölümler açılır ve deneme başlar.",
       "noneTitle": "Rol seçilmedi",
+      "notFound": "Böyle bir rol bulunamadı",
       "payNote": "Tarife ödemesi tarayıcıda yapılır — uygulama içi ödeme mağaza komisyonuna tabidir.",
+      "perMonth": "%{p} som/ay",
+      "pickSub": "Size uygun rolü seçin",
+      "pickTitle": "Rol seçimi",
       "priceDays": "%{sum} som / %{n} gün",
+      "searchPh": "Rol adı veya anahtar kelime…",
       "subtitle": "Roller ve tarifeler",
       "title": "Ben kimim?",
-      "trial": "Deneme süresi"
+      "trial": "Deneme süresi",
+      "trialN": "%{n} gün ücretsiz"
     },
     "sale": {
       "about": "Açıklama",
@@ -1803,6 +1826,10 @@
       "title": "Hesap oluştur",
       "whereCode": "Kod nereye gelsin",
       "whoAreYou": "Kimsiniz?"
+    },
+    "splash": {
+      "footer": "İnsanları, yükleri ve fırsatları birleştiriyoruz",
+      "tagline": "Hareket hâlinde fırsatlar,\nyeni ufuklara doğru"
     },
     "state": {
       "noData": "Veri gelmedi"
@@ -2213,6 +2240,13 @@
     "PRICE": "Fiyat uygun değil",
     "ROUTE": "Güzergâh değişti",
     "VEHICLE": "Araç uygun değil"
+  },
+  "roleGroup": {
+    "cargo": "Yük ve lojistik",
+    "other": "Diğer",
+    "service": "Hizmetler",
+    "transport": "Nakliye",
+    "work": "İş ve kariyer"
   },
   "saleCatalog": {
     "category": {

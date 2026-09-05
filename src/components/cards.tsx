@@ -3,7 +3,7 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Icon } from "./Icon";
 import { vehiclePhoto } from "@/lib/img";
 import { color, font, radius, shadow, space } from "@/lib/theme";
-import { t } from "@/lib/i18n";
+import { t, tOr } from "@/lib/i18n";
 
 /* ─────────────────────────────────────────────── umumiy bo'laklar */
 
@@ -248,7 +248,12 @@ export function TruckCard({ item, onPress }: { item: TruckItem; onPress?: () => 
 /* ─────────────────────────────────────────────── reys kartasi */
 
 export type TripItem = {
-  id: string; no: number; status: string; statusLabel: string;
+  id: string; no: number; status: string;
+  /* ⚠️ `statusLabel` ATAYLAB YO'Q. Server uni o'zbekcha yasaydi va
+     `Accept-Language: ru` bilan ham «Yo'lda» qaytaradi — ya'ni rus
+     tilidagi telefonda o'zbekcha chiqardi (2026-09-05 da topildi).
+     Holat `status` kalitidan `tripStatus.*` lug'ati bilan
+     chiziladi. */
   stepIndex: number; stepTotal: number;
   from: string; fromCountry?: string | null;
   to: string; toCountry?: string | null;
@@ -264,7 +269,7 @@ export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => vo
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.card, pressed && s.pressed]}>
       <View style={s.cardHead}>
-        <StatusChip label={item.statusLabel} tone={tone} />
+        <StatusChip label={tOr(`tripStatus.${item.status}`, item.status)} tone={tone} />
         <Text style={s.no}>#TR-{item.no}</Text>
       </View>
 

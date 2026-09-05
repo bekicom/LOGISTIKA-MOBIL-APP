@@ -118,7 +118,7 @@ export default function YukTafsiloti() {
             {/* Asosiy */}
             <View style={s.card}>
               <View style={s.cardHead}>
-                {data.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text="YANGI" tone="success" />}
+                {data.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
                 <Text style={s.meta}>{ago(data.createdAt)} · {data.views} marta</Text>
               </View>
 
@@ -182,7 +182,12 @@ export default function YukTafsiloti() {
               <View style={s.priceChips}>
                 <Chip text={pay()[data.price.paymentType] ?? data.price.paymentType} />
                 {data.price.advance ? (
-                  <Chip text={`Oldindan ${money(data.price.advance, data.price.currency)}`} tone="info" />
+                  <Chip
+                    text={t("mob.load.advance", {
+                      sum: money(data.price.advance, data.price.currency) ?? "",
+                    })}
+                    tone="info"
+                  />
                 ) : null}
               </View>
             </View>

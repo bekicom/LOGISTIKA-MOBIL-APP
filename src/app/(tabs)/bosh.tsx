@@ -151,7 +151,7 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={s.alertTitle}>
-              {data.expiringDocuments} ta hujjat muddati tugayapti
+              {t("mob.home.docExpiringN", { n: data.expiringDocuments })}
             </Text>
             <Text style={s.alertText}>{t("mob.home.docExpiringHint")}</Text>
           </View>

@@ -887,6 +887,7 @@
       "activeTrips": "进行中的运单",
       "border": "边境",
       "docExpiringHint": "请及时更新，以免在边境受阻",
+      "docExpiringN": "%{n} 份单证即将到期",
       "findLoad": "寻找货源",
       "gpsOn": "GPS 已开启",
       "gpsStop": "停止",
@@ -1005,6 +1006,7 @@
       "new": "最新"
     },
     "load": {
+      "advance": "预付 %{sum}",
       "alreadyTrip": "该货源已生成运单。",
       "cash": "现金",
       "loading": "装货",
@@ -1638,19 +1640,42 @@
       "VEHICLE_OWNER": "车主",
       "WORKER": "求职者"
     },
+    "roleHint": {
+      "AUTO_SELLER": "车辆出售信息",
+      "CARGO_OWNER": "发布货源、寻找承运人",
+      "DISPATCHER": "运单调度与撮合",
+      "DRIVER": "接单、承运、收入",
+      "EMPLOYER": "发布职位、查看候选人",
+      "LOGISTICS": "企业级全流程管理",
+      "MASTER": "上门维修服务",
+      "PARTS": "配件商店与目录",
+      "PASSENGER": "客运班次与座位",
+      "SERVICE": "修理厂、工单、报价",
+      "USER": "平台基础功能",
+      "VEHICLE_OWNER": "车队、司机、车源发布",
+      "WORKER": "求职与投递"
+    },
     "roles": {
       "addGroup": "可添加",
       "daysLeft": "还剩 %{n} 天",
       "endNote": "到期后无法发布新信息。已保存的数据、运单和合同仍然保留。",
       "extend": "续费",
+      "free": "免费",
+      "iosPrice": "请在网站上开通该角色",
       "liveGroup": "生效中",
       "noneHint": "选择角色后会开放对应板块并开始试用。",
       "noneTitle": "未选择角色",
+      "notFound": "未找到该角色",
       "payNote": "套餐在浏览器中付款——应用内支付会产生商店抽成。",
+      "perMonth": "%{p} 苏姆/月",
+      "pickSub": "选择适合您的角色",
+      "pickTitle": "选择角色",
       "priceDays": "%{sum} 苏姆 / %{n} 天",
+      "searchPh": "角色名称或关键词…",
       "subtitle": "角色与套餐",
       "title": "我是谁？",
-      "trial": "试用期"
+      "trial": "试用期",
+      "trialN": "免费 %{n} 天"
     },
     "sale": {
       "about": "描述",
@@ -1781,6 +1806,7 @@
       "agreePre": "我同意",
       "bySms": "通过短信",
       "codeFailed": "验证码发送失败",
+      "codeSentTo": "已通过 %{via} 向 %{phone} 发送 6 位验证码",
       "devCode": "测试验证码：%{code}",
       "enterCode": "请输入验证码",
       "noSession": "服务器未返回会话",
@@ -1797,6 +1823,8 @@
       "roleHint": "这决定您在应用中看到的内容，之后可以更改。",
       "roleOwner": "我有车辆，由司机运营",
       "roleShipper": "我发布货源，寻找运力",
+      "safeText": "FURAM 始终相伴",
+      "safeTitle": "安全可靠",
       "sendSms": "通过短信发送",
       "sendTelegram": "通过 Telegram 发送",
       "subtitle": "快速且免费",
@@ -2213,6 +2241,13 @@
     "PRICE": "价格不合适",
     "ROUTE": "线路有变",
     "VEHICLE": "车辆不合适"
+  },
+  "roleGroup": {
+    "cargo": "货运与物流",
+    "other": "其他",
+    "service": "服务",
+    "transport": "运输",
+    "work": "招聘与求职"
   },
   "saleCatalog": {
     "category": {

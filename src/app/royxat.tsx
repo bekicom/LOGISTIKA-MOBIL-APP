@@ -257,15 +257,20 @@ export default function Royxat() {
         {step === "code" ? (
           <>
             <Text style={s.title}>{t("mob.signUp.enterCode")}</Text>
+            {/* Matn LUG'ATDAN: ilgari «6 xonali kod yubordik» qismi
+                kodda o'zbekcha yozilgan edi va rus tilidagi
+                telefonda ham o'zbekcha chiqardi. */}
             <Text style={s.sub}>
-              {sentVia === "telegram" ? "Telegram'ga" : t("mob.signUp.bySms")} 6 xonali kod yubordik —{" "}
-              <Text style={s.strong}>{fullPhone}</Text>
+              {t("mob.signUp.codeSentTo", {
+                phone: fullPhone,
+                via: sentVia === "telegram" ? "Telegram" : "SMS",
+              })}
             </Text>
 
             {devCode ? (
               <View style={{ marginTop: space.lg }}>
                 <Notice tone="info" title={t("mob.ui.devMode")}>
-                  Kod: {devCode}
+                  {t("mob.signUp.devCode", { c: devCode })}
                 </Notice>
               </View>
             ) : null}
@@ -298,7 +303,9 @@ export default function Royxat() {
             <View style={{ alignItems: "center", marginTop: space.xl }}>
               {left > 0 ? (
                 <Text style={s.sub}>
-                  Qayta yuborish {Math.floor(left / 60)}:{String(left % 60).padStart(2, "0")}
+                  {t("mob.signUp.resendIn", {
+                    t: `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`,
+                  })}
                 </Text>
               ) : (
                 <Pressable onPress={() => sendCode()} hitSlop={8}>

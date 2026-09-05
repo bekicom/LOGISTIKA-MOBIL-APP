@@ -887,6 +887,7 @@
       "activeTrips": "Active trips",
       "border": "Border",
       "docExpiringHint": "Renew them to avoid problems at the border",
+      "docExpiringN": "%{n} documents are expiring",
       "findLoad": "Find cargo",
       "gpsOn": "GPS is on",
       "gpsStop": "Stop",
@@ -1005,6 +1006,7 @@
       "new": "NEW"
     },
     "load": {
+      "advance": "Advance %{sum}",
       "alreadyTrip": "A trip has already been created for this cargo.",
       "cash": "Cash",
       "loading": "Loading",
@@ -1638,19 +1640,42 @@
       "VEHICLE_OWNER": "Vehicle owner",
       "WORKER": "Job seeker"
     },
+    "roleHint": {
+      "AUTO_SELLER": "Vehicle sale listings",
+      "CARGO_OWNER": "Post loads, find carriers",
+      "DISPATCHER": "Manage trips, broker deals",
+      "DRIVER": "Find trips, take loads, earn",
+      "EMPLOYER": "Post vacancies, review candidates",
+      "LOGISTICS": "Full company-level control",
+      "MASTER": "Mobile repair on call",
+      "PARTS": "Parts shop and catalogue",
+      "PASSENGER": "Passenger rides and seats",
+      "SERVICE": "Workshop, orders, pricing",
+      "USER": "General access",
+      "VEHICLE_OWNER": "Fleet, drivers, truck listings",
+      "WORKER": "Find work, apply"
+    },
     "roles": {
       "addGroup": "YOU CAN ADD",
       "daysLeft": "%{n} days left",
       "endNote": "When it ends you can't post new listings. Your data, trips and contracts stay put.",
       "extend": "Renew",
+      "free": "Free",
+      "iosPrice": "Activate this role on the website",
       "liveGroup": "ACTIVE",
       "noneHint": "Picking a role opens its sections and starts the trial.",
       "noneTitle": "No role chosen",
+      "notFound": "No such role",
       "payNote": "Plans are paid in the browser — in-app payment would carry the store's commission.",
+      "perMonth": "%{p} UZS/mo",
+      "pickSub": "Pick the role that fits you",
+      "pickTitle": "Choose a role",
       "priceDays": "%{sum} UZS / %{n} days",
+      "searchPh": "Role name or keyword…",
       "subtitle": "Roles and plans",
       "title": "Who am I?",
-      "trial": "Trial"
+      "trial": "Trial",
+      "trialN": "%{n} days free"
     },
     "sale": {
       "about": "Description",
@@ -1781,6 +1806,7 @@
       "agreePre": "I agree to the",
       "bySms": "By SMS",
       "codeFailed": "The code was not sent",
+      "codeSentTo": "We sent a 6-digit code to %{phone} via %{via}",
       "devCode": "Test code: %{code}",
       "enterCode": "Enter the code",
       "noSession": "The server returned no session",
@@ -1797,6 +1823,8 @@
       "roleHint": "This decides what you see in the app. You can change it later.",
       "roleOwner": "I own trucks and hire drivers",
       "roleShipper": "I post cargo and look for transport",
+      "safeText": "FURAM is always with you",
+      "safeTitle": "Safe and secure",
       "sendSms": "Send by SMS",
       "sendTelegram": "Send via Telegram",
       "subtitle": "Fast and free",
@@ -2213,6 +2241,13 @@
     "PRICE": "The price doesn't work",
     "ROUTE": "The route changed",
     "VEHICLE": "The truck doesn't fit"
+  },
+  "roleGroup": {
+    "cargo": "Cargo & logistics",
+    "other": "Other",
+    "service": "Services",
+    "transport": "Transport",
+    "work": "Jobs & careers"
   },
   "saleCatalog": {
     "category": {

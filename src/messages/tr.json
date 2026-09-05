@@ -887,6 +887,7 @@
       "activeTrips": "Aktif seferler",
       "border": "Sınır",
       "docExpiringHint": "Sınırda sorun yaşamamak için yenileyin",
+      "docExpiringN": "%{n} belgenin süresi doluyor",
       "findLoad": "Yük bul",
       "gpsOn": "GPS açık",
       "gpsStop": "Durdur",
@@ -1005,6 +1006,7 @@
       "new": "YENİ"
     },
     "load": {
+      "advance": "Peşinat %{sum}",
       "alreadyTrip": "Bu yük için sefer zaten açıldı.",
       "cash": "Nakit",
       "loading": "Yükleme",
@@ -1638,19 +1640,42 @@
       "VEHICLE_OWNER": "Araç sahibi",
       "WORKER": "İş arayan"
     },
+    "roleHint": {
+      "AUTO_SELLER": "Araç satış ilanları",
+      "CARGO_OWNER": "Yük ilanı ver, taşıyıcı bul",
+      "DISPATCHER": "Sefer yönetimi, aracılık",
+      "DRIVER": "Sefer bul, yük al, kazan",
+      "EMPLOYER": "İş ilanı ver, adayları gör",
+      "LOGISTICS": "Şirket düzeyinde tam yönetim",
+      "MASTER": "Çağrı üzerine yerinde tamir",
+      "PARTS": "Yedek parça mağazası ve katalog",
+      "PASSENGER": "Yolcu seferleri ve koltuklar",
+      "SERVICE": "Servis, siparişler, fiyatlar",
+      "USER": "Genel kullanım",
+      "VEHICLE_OWNER": "Filo, sürücüler, araç ilanları",
+      "WORKER": "İş ara, başvur"
+    },
     "roles": {
       "addGroup": "EKLENEBİLİR",
       "daysLeft": "%{n} gün kaldı",
       "endNote": "Bitince yeni ilan veremezsiniz. Kayıtlı veriler, seferler ve sözleşmeler yerinde kalır.",
       "extend": "Uzat",
+      "free": "Ücretsiz",
+      "iosPrice": "Bu rolü web sitesinden açarsınız",
       "liveGroup": "YÜRÜRLÜKTE",
       "noneHint": "Bir rol seçince o bölümler açılır ve deneme başlar.",
       "noneTitle": "Rol seçilmedi",
+      "notFound": "Böyle bir rol bulunamadı",
       "payNote": "Tarife ödemesi tarayıcıda yapılır — uygulama içi ödeme mağaza komisyonuna tabidir.",
+      "perMonth": "%{p} som/ay",
+      "pickSub": "Size uygun rolü seçin",
+      "pickTitle": "Rol seçimi",
       "priceDays": "%{sum} som / %{n} gün",
+      "searchPh": "Rol adı veya anahtar kelime…",
       "subtitle": "Roller ve tarifeler",
       "title": "Ben kimim?",
-      "trial": "Deneme süresi"
+      "trial": "Deneme süresi",
+      "trialN": "%{n} gün ücretsiz"
     },
     "sale": {
       "about": "Açıklama",
@@ -1781,6 +1806,7 @@
       "agreePre": "Şu koşulları kabul ediyorum:",
       "bySms": "SMS ile",
       "codeFailed": "Kod gönderilemedi",
+      "codeSentTo": "%{phone} numarasına %{via} ile 6 haneli kod gönderdik",
       "devCode": "Test kodu: %{code}",
       "enterCode": "Kodu girin",
       "noSession": "Sunucu oturum vermedi",
@@ -1797,6 +1823,8 @@
       "roleHint": "Uygulamada ne göreceğinizi bu belirler. Sonra değiştirilebilir.",
       "roleOwner": "Aracım var, sürücü çalışıyor",
       "roleShipper": "Yük veriyorum, araç arıyorum",
+      "safeText": "FURAM her zaman yanınızda",
+      "safeTitle": "Güvenli ve emniyetli",
       "sendSms": "SMS ile gönder",
       "sendTelegram": "Telegram ile gönder",
       "subtitle": "Hızlı ve ücretsiz",
@@ -2213,6 +2241,13 @@
     "PRICE": "Fiyat uygun değil",
     "ROUTE": "Güzergâh değişti",
     "VEHICLE": "Araç uygun değil"
+  },
+  "roleGroup": {
+    "cargo": "Yük ve lojistik",
+    "other": "Diğer",
+    "service": "Hizmetler",
+    "transport": "Nakliye",
+    "work": "İş ve kariyer"
   },
   "saleCatalog": {
     "category": {

@@ -1,6 +1,7 @@
 /** A6 — kirish. Telefon yoki FURAM ID + parol. */
 import { useState } from "react";
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -12,12 +13,15 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Circle, Path } from "react-native-svg";
+import { LinearGradient } from "expo-linear-gradient";
 import { Logo } from "@/components/Logo";
 import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
 import { LOCALE_INFO, currentLocale, t } from "@/lib/i18n";
+
+const FURA = require("../../assets/images/hero-fura.png");
 
 type Mode = "phone" | "furamId";
 
@@ -97,8 +101,9 @@ export default function Kirish() {
         </View>
 
         <View style={s.hero}>
-          <Logo width={176} />
+          <Logo width={168} />
           <Text style={s.title}>{t("mob.signIn.title")}</Text>
+          <Text style={s.sub}>{t("mob.signIn.sub")}</Text>
         </View>
 
         <View style={s.segment}>
@@ -121,7 +126,11 @@ export default function Kirish() {
         <View style={s.form}>
           {mode === "phone" ? (
             <View style={s.phoneRow}>
+              {/* Bayroq emoji bilan: alohida rasm qo'shsak, u har
+                  platformada boshqacha ko'rinardi va yangi fayl
+                  kerak bo'lardi */}
               <View style={s.cc}>
+                <Text style={s.ccFlag}>🇺🇿</Text>
                 <Text style={s.ccText}>+998</Text>
               </View>
               <View style={{ flex: 1 }}>
@@ -191,6 +200,23 @@ export default function Kirish() {
             <Text style={s.link}>{t("mob.intro.signUp")}</Text>
           </Pressable>
         </View>
+
+        {/* ══ PASTDAGI RASM ══
+            Surat OQ FONGA SO'NADI: to'g'ridan-to'g'ri qo'yilsa
+            ekranning pastida keskin chegara paydo bo'lardi va
+            forma bilan bog'lanmasdi. */}
+        <View style={s.art}>
+          <Image source={FURA} style={s.artImg} resizeMode="cover" />
+          <LinearGradient
+            colors={["#ffffff", "#ffffffd9", "#ffffff00"]}
+            locations={[0, 0.35, 1]}
+            style={StyleSheet.absoluteFill}
+          />
+          <View style={s.artText}>
+            <Text style={s.artTitle}>{t("mob.signIn.artTitle")}</Text>
+            <Text style={s.artSub}>{t("mob.signIn.artText")}</Text>
+          </View>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -205,8 +231,15 @@ const s = StyleSheet.create({
   lang: { flexDirection: "row", alignItems: "center", gap: 6, height: 36 },
   langText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
 
-  hero: { alignItems: "center", gap: space.md, marginTop: space.xxl },
-  title: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.2 },
+  hero: { alignItems: "center", gap: 10, marginTop: space.xxl },
+  title: { fontSize: 26, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
+  sub: {
+    fontSize: 14,
+    color: color.mutedForeground,
+    textAlign: "center",
+    lineHeight: 20,
+    maxWidth: 300,
+  },
 
   segment: {
     flexDirection: "row",
@@ -224,7 +257,9 @@ const s = StyleSheet.create({
   form: { gap: space.lg, marginTop: space.xl },
   phoneRow: { flexDirection: "row", gap: 8, alignItems: "flex-start" },
   cc: {
-    width: 92,
+    flexDirection: "row",
+    gap: 6,
+    width: 104,
     height: 52,
     borderRadius: radius.control,
     borderWidth: 1,
@@ -232,7 +267,14 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  ccFlag: { fontSize: 17 },
   ccText: { fontSize: font.body, fontWeight: "600", color: color.foreground },
+
+  art: { height: 150, marginTop: space.lg, marginHorizontal: -space.xl, justifyContent: "flex-end" },
+  artImg: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
+  artText: { alignItems: "center", paddingBottom: 14 },
+  artTitle: { fontSize: 15, fontWeight: "700", color: color.foreground },
+  artSub: { fontSize: 13, color: color.mutedForeground, marginTop: 2 },
 
   err: { fontSize: 13, color: color.danger, marginTop: -8 },
   link: { fontSize: 14, fontWeight: "600", color: color.brand },

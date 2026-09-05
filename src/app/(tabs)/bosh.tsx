@@ -8,12 +8,15 @@ import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "r
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
-import { Logo } from "@/components/Logo";
-import { ListingCard, TripCard, type Listing, type TripItem } from "@/components/cards";
+import { ListingCard, TripCard, fmtNum, type Listing, type TripItem } from "@/components/cards";
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+
+/** Har valyuta alohida — hech qachon qo'shilmaydi */
+type Sum = { amount: number; currency: string };
+type Money = { toMe: Sum[]; fromMe: Sum[]; overdue: Sum[] };
 
 type Home =
   | {
@@ -22,6 +25,7 @@ type Home =
       unreadNotifications: number;
       expiringDocuments: number;
       activeTrips: TripItem[];
+      money: Money;
       suggestedLoads: Listing[];
     }
   | {
@@ -30,6 +34,7 @@ type Home =
       unreadNotifications: number;
       expiringDocuments: number;
       activeTrips: TripItem[];
+      money: Money;
       counts: { liveTrips: number; problems: number; awaitingReply: number; expiringDocuments: number };
       recentChats: { id: string; name: string; lastMessage: string | null; lastAt: string }[];
     };
@@ -41,10 +46,22 @@ export default function Bosh() {
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      {/* Sarlavha */}
+      {/* ══ SALOMLASHUV ══
+          Logotip o'rniga ISM: ilova ochilganda odam o'z ilovasiga
+          kirganini bilishi kerak, brendni emas. Logotip splash va
+          kirish ekranida allaqachon ko'rsatilgan. */}
       <View style={s.header}>
-        <Logo width={104} />
-        <View style={{ flex: 1 }} />
+        <View style={s.avatar}>
+          <Text style={s.avatarText}>
+            {(data?.user.firstName ?? "?").slice(0, 2).toUpperCase()}
+          </Text>
+        </View>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Text style={s.hello}>{t("mob.home.hello")}</Text>
+          <Text style={s.name} numberOfLines={1}>
+            {data?.user.firstName ?? ""}
+          </Text>
+        </View>
         {/* QIDIRUV — bosh sahifada, menyuda emas.
             Odam biror narsani qidirganda profilga kirib
             o'tirmaydi; qidiruv doim ko'z oldida turishi kerak. */}
@@ -65,11 +82,6 @@ export default function Bosh() {
             </View>
           ) : null}
         </Pressable>
-        <View style={s.avatar}>
-          <Text style={s.avatarText}>
-            {(data?.user.firstName ?? "?").slice(0, 2).toUpperCase()}
-          </Text>
-        </View>
       </View>
 
       {/* GPS chizig'i — faol reys kuzatilayotgan bo'lsa */}
@@ -103,6 +115,7 @@ export default function Bosh() {
             onLoad={(lid) => router.push(`/yuk/${lid}`)}
             onPark={() => router.push("/parkim")}
             onQueue={() => router.push("/navbat")}
+            onMoney={() => router.push("/moliya")}
           />
         ) : null}
       </ScrollView>
@@ -112,13 +125,14 @@ export default function Bosh() {
 
 /* ─────────────────────────────────────────────── haydovchi */
 
-function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
+function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue, onMoney }: {
   data: Extract<Home, { kind: "driver" }>;
   onLoads: () => void;
   onTrip: (id: string) => void;
   onLoad: (id: string) => void;
   onPark: () => void;
   onQueue: () => void;
+  onMoney: () => void;
 }) {
   const trip = data.activeTrips[0] ?? null;
 
@@ -144,6 +158,12 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
         <QuickAction icon="alert" label={t("mob.home.sos")} danger />
       </View>
 
+      {/* ══ PUL ══
+          Har valyuta ALOHIDA qator. Qo'shib bitta raqam
+          qilinmaydi: kurs har kuni o'zgaradi va yig'indi ertaga
+          yolg'on bo'lib qoladi. */}
+      <MoneyCard money={data.money} onOpen={onMoney} />
+
       {data.expiringDocuments > 0 ? (
         <View style={s.alert}>
           <View style={s.alertIcon}>
@@ -151,7 +171,7 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={s.alertTitle}>
-              {data.expiringDocuments} ta hujjat muddati tugayapti
+              {t("mob.home.docExpiringN", { n: data.expiringDocuments })}
             </Text>
             <Text style={s.alertText}>{t("mob.home.docExpiringHint")}</Text>
           </View>
@@ -173,6 +193,71 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
         </View>
       ) : null}
     </>
+  );
+}
+
+/* ─────────────────────────────────────────────────────── pul */
+
+/**
+ * Hisob-kitob — har valyuta alohida.
+ *
+ * Bu bo'lim ataylab QARZ ko'rsatadi, «balans» emas: hamyon
+ * qoldig'i degan tushuncha tizimda yo'q, odam uchun esa eng
+ * muhim raqam — kim kimga qancha qarzdor.
+ */
+function MoneyCard({ money, onOpen }: { money?: Money; onOpen: () => void }) {
+  const toMe = money?.toMe ?? [];
+  const fromMe = money?.fromMe ?? [];
+  const overdue = money?.overdue ?? [];
+  const empty = toMe.length === 0 && fromMe.length === 0;
+
+  return (
+    <View style={{ gap: space.md }}>
+      <View style={s.sectionHead}>
+        <Text style={s.sectionTitle}>{t("mob.home.myMoney")}</Text>
+        <Pressable onPress={onOpen} hitSlop={8}>
+          <Text style={s.link}>{t("mob.home.all")}</Text>
+        </Pressable>
+      </View>
+
+      <Pressable style={s.moneyCard} onPress={onOpen}>
+        {empty ? (
+          <Text style={s.moneyNone}>{t("mob.home.noMoney")}</Text>
+        ) : (
+          <>
+            {toMe.length > 0 && (
+              <MoneyRow label={t("mob.fin.toMe")} rows={toMe} tone={color.success} />
+            )}
+            {fromMe.length > 0 && (
+              <MoneyRow label={t("mob.fin.fromMe")} rows={fromMe} tone={color.foreground} />
+            )}
+            {overdue.length > 0 && (
+              <View style={s.moneyLate}>
+                <Icon name="clock" size={14} stroke={color.danger} />
+                <Text style={s.moneyLateText}>
+                  {overdue.map((m) => `${fmtNum(m.amount)} ${m.currency}`).join(" · ")}
+                </Text>
+              </View>
+            )}
+          </>
+        )}
+      </Pressable>
+    </View>
+  );
+}
+
+function MoneyRow({ label, rows, tone }: { label: string; rows: Sum[]; tone: string }) {
+  return (
+    <View style={s.moneyRow}>
+      <Text style={s.moneyLabel}>{label}</Text>
+      <View style={{ alignItems: "flex-end", gap: 2 }}>
+        {rows.map((m) => (
+          <Text key={m.currency} style={[s.moneyVal, { color: tone }]}>
+            {fmtNum(m.amount)} <Text style={s.moneyCur}>{m.currency}</Text>
+          </Text>
+        ))}
+      </View>
+    </View>
   );
 }
 
@@ -256,6 +341,32 @@ function QuickAction({ icon, label, onPress, danger }: { icon: IconName; label: 
 }
 
 const s = StyleSheet.create({
+  hello: { fontSize: 13, color: color.mutedForeground },
+  name: { fontSize: 17, fontWeight: "700", color: color.foreground, marginTop: 1 },
+
+  moneyCard: {
+    backgroundColor: color.card,
+    borderWidth: 1,
+    borderColor: color.border,
+    borderRadius: radius.card,
+    padding: space.md,
+    gap: 10,
+  },
+  moneyRow: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", gap: 12 },
+  moneyLabel: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, letterSpacing: 0.3 },
+  moneyVal: { fontSize: 15, fontWeight: "700" },
+  moneyCur: { fontSize: 12, fontWeight: "600", color: color.mutedForeground },
+  moneyNone: { fontSize: 13.5, color: color.mutedForeground },
+  moneyLate: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    borderTopWidth: 1,
+    borderTopColor: color.muted,
+    paddingTop: 9,
+  },
+  moneyLateText: { fontSize: 12.5, fontWeight: "600", color: color.danger },
+
   root: { flex: 1, backgroundColor: color.background },
   header: {
     backgroundColor: color.card,
@@ -283,7 +394,6 @@ const s = StyleSheet.create({
 
   scroll: { padding: space.lg, gap: space.md },
 
-  hello: { fontSize: 13, color: color.mutedForeground },
 
   tiles: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
   tile: {

@@ -26,8 +26,15 @@ import { useAuth } from "@/lib/auth-context";
 import { GuestPanel } from "@/components/GuestPanel";
 import { isGuest } from "@/lib/guest";
 import { color, font, radius, space } from "@/lib/theme";
-import { roleLabel, t } from "@/lib/i18n";
+import { roleLabel, t, tOr } from "@/lib/i18n";
 
+
+/** `/api/roles` → `live` */
+type LiveRole = {
+  roleKey: string;
+  status: string;
+  daysLeft: number | null;
+};
 
 type Trust = {
   score: number | null;
@@ -64,6 +71,10 @@ function OwnProfil() {
   const router = useRouter();
 
   const trust = useApi<Trust>(user ? `/api/trust/${user.id}` : null, [user?.id]);
+  /* Rollar ALOHIDA so'rov: `/api/auth/me` faqat funksiyalar
+     ro'yxatini beradi (`features`), rolning MUDDATI esa unda
+     yo'q. Ikkinchi chaqiruv shu sababdan. */
+  const roles = useApi<{ live: LiveRole[] }>("/api/roles");
 
   const vip = daysLeft(user?.vipUntil);
   const premium = daysLeft(user?.premiumUntil);
@@ -126,6 +137,7 @@ function OwnProfil() {
             {[user?.firstName, user?.lastName].filter(Boolean).join(" ") || "—"}
           </Text>
           <Text style={s.role}>{roleLabel(user?.role)}</Text>
+          {user?.phone ? <Text style={s.phone}>{user.phone}</Text> : null}
 
           <Pressable onPress={copyId} style={({ pressed }) => [s.idChip, pressed && { opacity: 0.6 }]}>
             <Text style={s.idText}>FURAM ID: {user?.furamId ?? "—"}</Text>
@@ -189,6 +201,40 @@ function OwnProfil() {
             </View>
           )}
         </Card>
+
+        {/* ══ MENING ROLLARIM ══
+            Tarif kartasi «umumiy» holatni aytadi, bu esa HAR
+            ROLNI alohida: qaysi biri faol, qaysi biri sinovda,
+            qaysi birining muddati tugagan. Odamda bir necha rol
+            bo'lishi mumkin va ular bir vaqtda bir xil holatda
+            bo'lmaydi. */}
+        <View>
+          <View style={s.rolesHead}>
+            <GroupLabel>
+              {t("mob.profile.myRoles")}
+              {roles.data?.live.length ? ` (${roles.data.live.length})` : ""}
+            </GroupLabel>
+            <Pressable onPress={() => router.push("/rollarim")} hitSlop={8}>
+              <Text style={s.rolesAll}>{t("mob.home.all")}</Text>
+            </Pressable>
+          </View>
+
+          <Card>
+            {/* `last` doim `false`: rollardan keyin «qo'shish»
+                qatori keladi, ya'ni chiziq baribir kerak. */}
+            {(roles.data?.live ?? []).map((r) => (
+              <RoleLine key={r.roleKey} role={r} last={false} />
+            ))}
+            {roles.data && roles.data.live.length === 0 ? (
+              <Text style={s.noRoles}>{t("mob.profile.noRoles")}</Text>
+            ) : null}
+            <ListRow
+              icon={<Badge icon="plus" />}
+              title={t("mob.profile.addRole")}
+              onPress={() => router.push("/rollarim")}
+            />
+          </Card>
+        </View>
 
         {/* Menyu */}
         <View>
@@ -399,7 +445,60 @@ function Badge({ icon }: { icon: IconName }) {
 }
 
 
+/**
+ * Bitta rol qatori — nomi, izohi va holati.
+ *
+ * Holat rangi MUDDATGA qarab: besh kundan kam qolsa sariq.
+ * «7 kun qoldi» degan raqam o'zi shoshirmaydi, rang esa
+ * ko'zga tashlanadi.
+ */
+function RoleLine({ role, last }: { role: LiveRole; last: boolean }) {
+  const trial = role.status === "TRIAL";
+  const left = role.daysLeft;
+  const soon = left != null && left <= 5;
+  const tone = left == null ? color.mutedForeground : soon ? color.warning : color.success;
+
+  return (
+    <View style={[s.roleRow, !last && s.roleLine]}>
+      <View style={[s.roleIcon, { backgroundColor: tone + "1a" }]}>
+        <Icon name="user" size={17} stroke={tone} />
+      </View>
+      <View style={{ flexGrow: 1, minWidth: 0 }}>
+        <Text style={s.roleName} numberOfLines={1}>
+          {tOr(`mob.role.${role.roleKey}`, role.roleKey)}
+        </Text>
+        <Text style={s.roleHint} numberOfLines={1}>
+          {tOr(`mob.roleHint.${role.roleKey}`, "")}
+        </Text>
+      </View>
+      <View style={[s.roleChip, { backgroundColor: tone + "14" }]}>
+        <Text style={[s.roleChipText, { color: tone }]} numberOfLines={1}>
+          {left != null
+            ? t("mob.roles.daysLeft", { n: Math.max(0, left) })
+            : trial
+              ? t("mob.roles.trial")
+              : t("mob.profile.expired")}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
 const s = StyleSheet.create({
+  phone: { fontSize: 14, color: color.mutedForeground, marginTop: 3 },
+
+  rolesHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  rolesAll: { fontSize: 13, fontWeight: "600", color: color.brand, marginBottom: 7 },
+  noRoles: { fontSize: 13, color: color.mutedForeground, padding: space.md, lineHeight: 19 },
+
+  roleRow: { flexDirection: "row", alignItems: "center", gap: 11, padding: 13 },
+  roleLine: { borderBottomWidth: 1, borderBottomColor: color.muted },
+  roleIcon: { width: 36, height: 36, borderRadius: 11, alignItems: "center", justifyContent: "center" },
+  roleName: { fontSize: 14, fontWeight: "600", color: color.foreground },
+  roleHint: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
+  roleChip: { paddingHorizontal: 9, paddingVertical: 5, borderRadius: 8, maxWidth: 118 },
+  roleChipText: { fontSize: 11.5, fontWeight: "700" },
+
   root: { flex: 1, backgroundColor: color.background },
   head: {
     backgroundColor: color.card, flexDirection: "row", alignItems: "center",

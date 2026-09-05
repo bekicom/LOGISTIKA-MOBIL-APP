@@ -885,19 +885,12 @@
     },
     "home": {
       "activeTrips": "Active trips",
-      "all": "See all",
       "border": "Border",
       "docExpiringHint": "Renew them to avoid problems at the border",
-      "docExpiringN": "%{n} documents are expiring",
       "findLoad": "Find cargo",
-      "gpsOff": "GPS is off",
       "gpsOn": "GPS is on",
-      "gpsStart": "Turn on",
       "gpsStop": "Stop",
-      "hello": "Hello,",
-      "myMoney": "My money",
       "noActiveTrip": "No active trips",
-      "noMoney": "Nothing outstanding",
       "noTripText": "You have no trips on the road right now. Find a new load to start.",
       "problems": "Problems",
       "recentChats": "Recent chats",
@@ -1012,7 +1005,6 @@
       "new": "NEW"
     },
     "load": {
-      "advance": "Advance %{sum}",
       "alreadyTrip": "A trip has already been created for this cargo.",
       "cash": "Cash",
       "loading": "Loading",
@@ -1646,42 +1638,19 @@
       "VEHICLE_OWNER": "Vehicle owner",
       "WORKER": "Job seeker"
     },
-    "roleHint": {
-      "AUTO_SELLER": "Vehicle sale listings",
-      "CARGO_OWNER": "Post loads, find carriers",
-      "DISPATCHER": "Manage trips, broker deals",
-      "DRIVER": "Find trips, take loads, earn",
-      "EMPLOYER": "Post vacancies, review candidates",
-      "LOGISTICS": "Full company-level control",
-      "MASTER": "Mobile repair on call",
-      "PARTS": "Parts shop and catalogue",
-      "PASSENGER": "Passenger rides and seats",
-      "SERVICE": "Workshop, orders, pricing",
-      "USER": "General access",
-      "VEHICLE_OWNER": "Fleet, drivers, truck listings",
-      "WORKER": "Find work, apply"
-    },
     "roles": {
       "addGroup": "YOU CAN ADD",
       "daysLeft": "%{n} days left",
       "endNote": "When it ends you can't post new listings. Your data, trips and contracts stay put.",
       "extend": "Renew",
-      "free": "Free",
-      "iosPrice": "Activate this role on the website",
       "liveGroup": "ACTIVE",
       "noneHint": "Picking a role opens its sections and starts the trial.",
       "noneTitle": "No role chosen",
-      "notFound": "No such role",
       "payNote": "Plans are paid in the browser — in-app payment would carry the store's commission.",
-      "perMonth": "%{p} UZS/mo",
-      "pickSub": "Pick the role that fits you",
-      "pickTitle": "Choose a role",
       "priceDays": "%{sum} UZS / %{n} days",
-      "searchPh": "Role name or keyword…",
       "subtitle": "Roles and plans",
       "title": "Who am I?",
-      "trial": "Trial",
-      "trialN": "%{n} days free"
+      "trial": "Trial"
     },
     "sale": {
       "about": "Description",
@@ -1795,8 +1764,6 @@
       "startTitle": "What are you looking for?"
     },
     "signIn": {
-      "artText": "begin with a single step",
-      "artTitle": "Great journeys",
       "blocked": "The account is temporarily blocked",
       "byPhone": "Phone number",
       "failed": "Something went wrong",
@@ -1804,7 +1771,6 @@
       "noAccount": "No account yet?",
       "password": "Password",
       "passwordPh": "Enter your password",
-      "sub": "Sign in and pick up where you left off",
       "submit": "Sign in",
       "title": "Welcome"
     },
@@ -1815,7 +1781,6 @@
       "agreePre": "I agree to the",
       "bySms": "By SMS",
       "codeFailed": "The code was not sent",
-      "codeSentTo": "We sent a 6-digit code to %{phone} via %{via}",
       "devCode": "Test code: %{code}",
       "enterCode": "Enter the code",
       "noSession": "The server returned no session",
@@ -1832,18 +1797,12 @@
       "roleHint": "This decides what you see in the app. You can change it later.",
       "roleOwner": "I own trucks and hire drivers",
       "roleShipper": "I post cargo and look for transport",
-      "safeText": "FURAM is always with you",
-      "safeTitle": "Safe and secure",
       "sendSms": "Send by SMS",
       "sendTelegram": "Send via Telegram",
       "subtitle": "Fast and free",
       "title": "Create an account",
       "whereCode": "Where should the code go",
       "whoAreYou": "Who are you?"
-    },
-    "splash": {
-      "footer": "Connecting people, cargo and opportunity",
-      "tagline": "Opportunities in motion,\ntoward new horizons"
     },
     "state": {
       "noData": "No data received"
@@ -2254,13 +2213,6 @@
     "PRICE": "The price doesn't work",
     "ROUTE": "The route changed",
     "VEHICLE": "The truck doesn't fit"
-  },
-  "roleGroup": {
-    "cargo": "Cargo & logistics",
-    "other": "Other",
-    "service": "Services",
-    "transport": "Transport",
-    "work": "Jobs & careers"
   },
   "saleCatalog": {
     "category": {

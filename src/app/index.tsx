@@ -1,28 +1,25 @@
 /**
- * Kirish nuqtasi — yo'naltiradi va splash'ni ushlab turadi.
+ * Kirish nuqtasi — hech narsa chizmaydi, faqat yo'naltiradi.
  *
- * Sessiya tekshirilgunicha `Splash` turadi. U tizimning o'z
- * splash'i bilan bir xil to'q fonda boshlanadi, shuning uchun
- * o'tish ko'zga tashlanmaydi.
+ * Sessiya tekshirilgunicha bo'sh to'q ekran turadi: bu splash bilan bir
+ * xil rangda, shuning uchun foydalanuvchi «miltillash» ko'rmaydi.
  */
-import { useState } from "react";
 import { Redirect } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
-import { Splash, useSplashDone } from "@/components/Splash";
+import { color } from "@/lib/theme";
 
 export default function Index() {
   const { user, loading } = useAuth();
-  /* Ikkita shart YONMA-YON kutiladi, ketma-ket emas: sessiya
-     tekshiruvi 1,1 soniyadan uzoq cho'zilsa, splash qo'shimcha
-     vaqt qo'shmaydi. */
-  const shown = useSplashDone();
-  const ready = !loading && shown;
 
-  /* Yo'naltirish SO'NISH TUGAGACH bo'ladi: `Redirect` darhol
-     chizilsa, splash o'rtasida kesilib qolardi. */
-  const [gone, setGone] = useState(false);
-  if (!gone) return <Splash fadeOut={ready} onGone={() => setGone(true)} />;
+  if (loading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: color.navy, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator color={color.brand} />
+      </View>
+    );
+  }
 
   /* MEHMON YUKLARGA TUSHADI, bosh sahifaga emas: `/api/home`
      kirish talab qiladi va bosh sahifa mehmonda bo'sh chiqardi.

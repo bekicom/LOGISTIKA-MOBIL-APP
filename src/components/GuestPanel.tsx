@@ -23,11 +23,6 @@ import { Logo } from "@/components/Logo";
 import { color, font, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-/**
- * `hint` hozir CHIZILMAYDI — katakchada faqat nom sig'adi.
- * O'chirilmadi: matnlar sakkiz tilga tarjima qilingan va ro'yxat
- * ko'rinishiga qaytilsa darrov kerak bo'ladi.
- */
 type Row = { icon: IconName; title: string; hint: string; href: string };
 
 /** Kirmasdan ochiladigan bo'limlar — server ham shularni beradi */
@@ -77,28 +72,26 @@ export function GuestPanel() {
           </View>
         </View>
 
-        {/* ══ OCHIQ BO'LIMLAR ══
-            KATAKCHA, ro'yxat emas: ettita bo'lim ro'yxat holida
-            butun ekranni egallardi va odam pastdagi «qulfli»
-            qismini umuman ko'rmasdi. Katakchada ikkalasi ham bir
-            ekranga sig'adi — taqqoslash shundan tug'iladi. */}
+        {/* ══ OCHIQ BO'LIMLAR ══ */}
         <View>
-          <Text style={s.group}>
-            {t("mob.guest.openGroup")} ({openRows().length})
-          </Text>
-          <View style={s.grid}>
-            {openRows().map((r) => (
+          <Text style={s.group}>{t("mob.guest.openGroup")}</Text>
+          <View style={s.card}>
+            {openRows().map((r, i) => (
               <Pressable
                 key={r.href}
-                style={({ pressed }) => [s.tile, pressed && { backgroundColor: color.muted }]}
+                style={[s.row, i < openRows().length - 1 && s.rowLine]}
                 onPress={() => router.push(r.href as Parameters<typeof router.push>[0])}
               >
-                <View style={s.tileIcon}>
-                  <Icon name={r.icon} size={19} stroke={color.brand} />
+                <View style={s.icon}>
+                  <Icon name={r.icon} size={18} stroke={color.mutedForeground} />
                 </View>
-                <Text style={s.tileText} numberOfLines={2}>
-                  {r.title}
-                </Text>
+                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                  <Text style={s.rowTitle}>{r.title}</Text>
+                  <Text style={s.rowHint} numberOfLines={1}>
+                    {r.hint}
+                  </Text>
+                </View>
+                <Icon name="chevron" size={17} stroke={color.mutedForeground} />
               </Pressable>
             ))}
           </View>
@@ -106,18 +99,17 @@ export function GuestPanel() {
 
         {/* ══ KIRGANDAN KEYIN OCHILADI ══ */}
         <View>
-          <Text style={s.group}>
-            {t("mob.guest.lockedGroup")} ({lockedRows().length})
-          </Text>
-          <View style={s.grid}>
-            {lockedRows().map((r) => (
-              <View key={r.title} style={[s.tile, s.tileOff]}>
-                <View style={[s.tileIcon, { backgroundColor: color.muted }]}>
-                  <Icon name={r.icon} size={19} stroke="#cbd5e1" />
+          <Text style={s.group}>{t("mob.guest.lockedGroup")}</Text>
+          <View style={s.card}>
+            {lockedRows().map((r, i) => (
+              <View key={r.title} style={[s.row, i < lockedRows().length - 1 && s.rowLine]}>
+                <View style={s.icon}>
+                  <Icon name={r.icon} size={18} stroke="#cbd5e1" />
                 </View>
-                <Text style={[s.tileText, { color: color.mutedForeground }]} numberOfLines={2}>
+                <Text style={[s.rowTitle, { flexGrow: 1, color: color.mutedForeground }]}>
                   {r.title}
                 </Text>
+                <Icon name="close" size={15} stroke="#cbd5e1" />
               </View>
             ))}
           </View>
@@ -153,37 +145,24 @@ const s = StyleSheet.create({
   },
   heroText: { fontSize: 14, color: "#f1f5f9bf", marginTop: 6, lineHeight: 21 },
 
-  /* Uch ustun: to'rtta bo'lsa yozuv ikki qatorga bo'linib ketardi
-     («Dispetcherlar» ruschada yanada uzun). */
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 9 },
-  tile: {
-    width: "31.5%",
-    flexGrow: 1,
-    alignItems: "center",
-    gap: 8,
-    paddingVertical: 15,
-    paddingHorizontal: 8,
+  card: {
     backgroundColor: color.card,
     borderWidth: 1,
     borderColor: color.border,
     borderRadius: radius.card,
   },
-  tileOff: { backgroundColor: color.muted + "80", borderStyle: "dashed" },
-  tileIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
-    backgroundColor: color.brand + "14",
+  row: { flexDirection: "row", alignItems: "center", gap: 12, padding: space.md },
+  rowLine: { borderBottomWidth: 1, borderBottomColor: color.muted },
+  icon: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    backgroundColor: color.muted,
     alignItems: "center",
     justifyContent: "center",
   },
-  tileText: {
-    fontSize: 12.5,
-    fontWeight: "600",
-    color: color.foreground,
-    textAlign: "center",
-    lineHeight: 16,
-  },
+  rowTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
+  rowHint: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   lang: { alignSelf: "center", paddingVertical: 10, paddingHorizontal: 16 },
   langText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },

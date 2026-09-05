@@ -118,7 +118,7 @@ export default function YukTafsiloti() {
             {/* Asosiy */}
             <View style={s.card}>
               <View style={s.cardHead}>
-                {data.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
+                {data.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text="YANGI" tone="success" />}
                 <Text style={s.meta}>{ago(data.createdAt)} · {data.views} marta</Text>
               </View>
 
@@ -133,28 +133,6 @@ export default function YukTafsiloti() {
               </View>
 
               {data.title ? <Text style={s.cargoName}>{data.title}</Text> : null}
-
-              {/* ══ NARX ENG TEPADA ══
-                  Ilgari u alohida kartada, pastda turardi. Odam yuk
-                  ro'yxatini ko'rib chiqayotganda birinchi qaraydigan
-                  narsa — narx; uni izlab pastga surish kerak
-                  bo'lmasin. */}
-              <Text style={s.priceBig}>
-                {data.price.isNegotiable || data.price.amount == null
-                  ? t("mob.loads.negotiable")
-                  : money(data.price.amount, data.price.currency)}
-              </Text>
-              <View style={s.priceChips}>
-                <Chip text={pay()[data.price.paymentType] ?? data.price.paymentType} />
-                {data.price.advance ? (
-                  <Chip
-                    text={t("mob.load.advance", {
-                      sum: money(data.price.advance, data.price.currency) ?? "",
-                    })}
-                    tone="info"
-                  />
-                ) : null}
-              </View>
 
               <View style={s.grid}>
                 <Cell label={t("mob.load.weight")} value={c.weightT != null ? `${c.weightT} t` : "—"} />
@@ -191,6 +169,22 @@ export default function YukTafsiloti() {
                   <Chip text={t("mob.post2.extraHint")} tone="info" />
                 </View>
               ) : null}
+            </View>
+
+            {/* Narx */}
+            <View style={s.card}>
+              <Text style={s.meta}>{t("mob.load.price")}</Text>
+              <Text style={s.price}>
+                {data.price.isNegotiable || data.price.amount == null
+                  ? t("mob.loads.negotiable")
+                  : money(data.price.amount, data.price.currency)}
+              </Text>
+              <View style={s.priceChips}>
+                <Chip text={pay()[data.price.paymentType] ?? data.price.paymentType} />
+                {data.price.advance ? (
+                  <Chip text={`Oldindan ${money(data.price.advance, data.price.currency)}`} tone="info" />
+                ) : null}
+              </View>
             </View>
 
             {/* Izoh */}
@@ -428,16 +422,6 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
 }
 
 const s = StyleSheet.create({
-  /* Narx — sahifadagi eng katta raqam. Dizaynda ham shunday:
-     ro'yxatdan kelgan odam avval narxni qidiradi. */
-  priceBig: {
-    fontSize: 30,
-    fontWeight: "800",
-    color: color.brand,
-    letterSpacing: -0.6,
-    marginTop: 10,
-  },
-
   root: { flex: 1, backgroundColor: color.background },
   header: { backgroundColor: color.card, flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
@@ -471,6 +455,7 @@ const s = StyleSheet.create({
   typeAltText: { fontSize: 13, fontWeight: "500", color: "#475569" },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8 },
 
+  price: { fontSize: 30, fontWeight: "700", color: color.foreground, letterSpacing: -0.6, marginTop: 2 },
   priceChips: { flexDirection: "row", gap: 7, marginTop: 12, flexWrap: "wrap" },
   desc: { fontSize: 14, color: "#475569", lineHeight: 22 },
 

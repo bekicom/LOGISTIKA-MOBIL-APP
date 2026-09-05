@@ -84,15 +84,28 @@ export default function Bosh() {
         </Pressable>
       </View>
 
-      {/* GPS chizig'i — faol reys kuzatilayotgan bo'lsa */}
+      {/* ══ GPS CHIZIG'I ══
+          Faqat FAOL REYS bo'lganda ko'rinadi: reyssiz kuzatuv
+          ham yo'q, chiziq esa bo'sh va'da bo'lib qolardi.
+
+          ⚠️ HOLATNI ROSTINI AYTADI. Ilgari u reys bor bo'lsa
+          doim «GPS yoqilgan» derdi — kuzatuv o'chiq bo'lsa ham.
+          Ya'ni chiziq yolg'on gapirishi mumkin edi.
+
+          Bosilsa joylashuv sozlamasi ochiladi. Ilgari
+          «To'xtatish» oddiy yozuv edi va hech narsa qilmasdi —
+          ishlamaydigan tugma umuman yo'qidan yomon. */}
       {data?.activeTrips?.[0] ? (
-        <View style={s.gps}>
-          <View style={s.gpsDot} />
+        <Pressable style={s.gps} onPress={() => router.push("/joylashuv")}>
+          <View style={[s.gpsDot, !data.activeTrips[0].trackingOn && s.gpsDotOff]} />
           <Text style={s.gpsText}>
-            {t("mob.home.gpsOn")} <Text style={{ fontWeight: "600", color: "#fff" }}>#TR-{data.activeTrips[0].no}</Text>
+            {data.activeTrips[0].trackingOn ? t("mob.home.gpsOn") : t("mob.home.gpsOff")}{" "}
+            <Text style={{ fontWeight: "600", color: "#fff" }}>#TR-{data.activeTrips[0].no}</Text>
           </Text>
-          <Text style={s.gpsStop}>{t("mob.home.gpsStop")}</Text>
-        </View>
+          <Text style={s.gpsStop}>
+            {data.activeTrips[0].trackingOn ? t("mob.home.gpsStop") : t("mob.home.gpsStart")}
+          </Text>
+        </Pressable>
       ) : null}
 
       <ScrollView
@@ -389,6 +402,9 @@ const s = StyleSheet.create({
 
   gps: { backgroundColor: color.navy, paddingHorizontal: space.lg, paddingVertical: 9, flexDirection: "row", alignItems: "center", gap: 9 },
   gpsDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.brand },
+  /* O'chiq holatda kulrang: to'q sariq nuqta «ishlayapti» degan
+     ma'noni beradi va o'chiq holatda chalg'itardi. */
+  gpsDotOff: { backgroundColor: "#64748b" },
   gpsText: { flex: 1, fontSize: 13, color: "#e2e8f0" },
   gpsStop: { fontSize: 13, fontWeight: "600", color: color.brand },
 

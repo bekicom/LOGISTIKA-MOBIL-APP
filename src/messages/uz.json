@@ -1010,6 +1010,7 @@
       "new": "YANGI"
     },
     "load": {
+      "advance": "Oldindan %{sum}",
       "alreadyTrip": "Bu yukka allaqachon reys ochilgan.",
       "cash": "Naqd",
       "loading": "Yuklash",

@@ -1010,6 +1010,7 @@
       "new": "YENİ"
     },
     "load": {
+      "advance": "Peşinat %{sum}",
       "alreadyTrip": "Bu yük için sefer zaten açıldı.",
       "cash": "Nakit",
       "loading": "Yükleme",

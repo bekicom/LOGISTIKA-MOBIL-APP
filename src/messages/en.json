@@ -1010,6 +1010,7 @@
       "new": "NEW"
     },
     "load": {
+      "advance": "Advance %{sum}",
       "alreadyTrip": "A trip has already been created for this cargo.",
       "cash": "Cash",
       "loading": "Loading",

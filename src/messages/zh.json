@@ -1010,6 +1010,7 @@
       "new": "最新"
     },
     "load": {
+      "advance": "预付 %{sum}",
       "alreadyTrip": "该货源已生成运单。",
       "cash": "现金",
       "loading": "装货",

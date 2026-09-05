@@ -16,9 +16,15 @@
  * sessiya tez tekshirilgan holatda seziladi; sekin tarmoqda
  * qo'shimcha kutish YO'Q — ikkalasi parallel ketadi.
  *
+ * ── SO'NIB O'TADI, KESILMAYDI ───────────────────────────────────
+ *
+ * Tayyor bo'lganda ekran BIRDAN almashmaydi: 260 ms ichida
+ * so'nadi va shundan keyingina yo'naltirish bo'ladi. Keskin
+ * kesish «ilova qayta ishga tushdi» degan taassurot qoldirardi.
+ *
  * ── SURAT ───────────────────────────────────────────────────────
  *
- * `assets/images/splash-fura.jpg`. Hozir o'rin egallovchi 1×1
+ * `assets/images/splash-fura.png`. Hozir o'rin egallovchi 1×1
  * fayl turishi mumkin — o'shanda ekran shunchaki to'q fon bo'lib
  * chiqadi, lekin YIQILMAYDI. Haqiqiy surat ustiga yozilsa,
  * boshqa hech narsa o'zgartirilmaydi.
@@ -42,7 +48,12 @@ export function useSplashDone(): boolean {
   return done;
 }
 
-export function Splash() {
+/**
+ * @param fadeOut  `true` bo'lganda ekran so'na boshlaydi
+ * @param onGone   so'nish tugagach chaqiriladi — shundan keyin
+ *                 yo'naltirish bo'ladi
+ */
+export function Splash({ fadeOut, onGone }: { fadeOut?: boolean; onGone?: () => void } = {}) {
   /* Chiziq TO'LMAYDI, faqat harakatlanadi: haqiqiy foizni
      ko'rsatolmaymiz — sessiya tekshiruvi bosqichlarga
      bo'linmagan. Yolg'on foiz ko'rsatgandan ko'ra, «ishlayapti»
@@ -52,6 +63,19 @@ export function Splash() {
      aynan chizishda kerak. Boshlang'ich qiymat funksiya bilan
      berilgani uchun obyekt bir marta yaratiladi. */
   const [slide] = useState(() => new Animated.Value(0));
+  const [fade] = useState(() => new Animated.Value(1));
+
+  useEffect(() => {
+    if (!fadeOut) return;
+    Animated.timing(fade, {
+      toValue: 0,
+      duration: 260,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: true,
+    }).start(({ finished }) => {
+      if (finished) onGone?.();
+    });
+  }, [fadeOut, fade, onGone]);
 
   useEffect(() => {
     const loop = Animated.loop(
@@ -67,8 +91,8 @@ export function Splash() {
   }, [slide]);
 
   return (
-    <View style={s.root}>
-      <ImageBackground source={require("../../assets/images/splash-fura.jpg")} style={s.bg} resizeMode="cover">
+    <Animated.View style={[s.root, { opacity: fade }]}>
+      <ImageBackground source={require("../../assets/images/splash-fura.png")} style={s.bg} resizeMode="cover">
         {/* Tepadan va pastdan qoraytirish — logotip va matn
             suratning yorug' joyiga tushib qolsa ham o'qiladi */}
         <LinearGradient
@@ -103,7 +127,7 @@ export function Splash() {
           </View>
         </View>
       </ImageBackground>
-    </View>
+    </Animated.View>
   );
 }
 

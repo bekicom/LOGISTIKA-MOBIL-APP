@@ -1,20 +1,23 @@
 /**
  * A2 — tanishtiruv (2026-09-05, yangi dizayn).
  *
+ * ── SURILADI, ALMASHMAYDI ───────────────────────────────────────
+ *
+ * Ilgari panellar bosilganda BIRDAN almashardi — matn joyida
+ * o'zgarib qolardi va odam qayerga o'tganini sezmasdi. Endi ular
+ * yonma-yon turadi va barmoq bilan suriladi: qaysi tomonga
+ * ketayotgani, nechtadan nechanchisi ekani harakatning o'zidan
+ * ko'rinadi.
+ *
+ * Nuqtalar ham sakramaydi — surish bilan birga cho'ziladi
+ * (`scrollX` ga bog'langan).
+ *
  * ── OXIRGI PANELGACHA BITTA TUGMA ───────────────────────────────
  *
  * Ilgari uchala panelda ham «Ro'yxatdan o'tish / Kirish / Avval
  * ko'rib chiqaman» turardi — ya'ni birinchi ekrandayoq qaror
  * so'ralardi, holbuki odam hali nima taklif qilinayotganini
- * bilmaydi. Endi oxirgi panelgacha faqat «Davom etish», qaror esa
- * oxirida.
- *
- * ── «O'TKAZIB YUBORISH» KIRISHGA EMAS, OXIRGI PANELGA ───────────
- *
- * Ilgari u to'g'ridan-to'g'ri kirish ekraniga tashlardi — ya'ni
- * «o'tkazib yuborish» aslida «ro'yxatdan o'tishga majburlash»
- * edi. Endi u oxirgi panelga sakraydi: u yerda uchala yo'l ham
- * ochiq, «avval ko'rib chiqaman» ham bor.
+ * bilmaydi. Endi oxirgi panelgacha faqat «Davom etish».
  *
  * ── ILLYUSTRATSIYALAR ───────────────────────────────────────────
  *
@@ -22,8 +25,18 @@
  * uchun o'z rasmi kerak (reys kuzatuvi, hujjat va pul) — kelganda
  * `PANELS` dagi `img` almashtiriladi, boshqa hech narsa emas.
  */
-import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useRef, useState } from "react";
+import {
+  Animated,
+  Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Logo } from "@/components/Logo";
@@ -46,39 +59,86 @@ const PANELS = [
 const LAST = PANELS.length - 1;
 
 export default function Tanishtiruv() {
+  const { width } = useWindowDimensions();
   const [i, setI] = useState(0);
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const panel = PANELS[i];
   const end = i === LAST;
+
+  const list = useRef<Animated.FlatList<(typeof PANELS)[number]>>(null);
+  /* `useRef` EMAS, `useState`: `react-hooks/refs` qoidasi ref ni
+     chizish paytida o'qishni taqiqlaydi, `interpolate()` esa
+     aynan chizishda kerak. */
+  const [scrollX] = useState(() => new Animated.Value(0));
+
+  function go(next: number) {
+    list.current?.scrollToOffset({ offset: next * width, animated: true });
+  }
+
+  function onEnd(e: NativeSyntheticEvent<NativeScrollEvent>) {
+    const n = Math.round(e.nativeEvent.contentOffset.x / width);
+    if (n !== i) setI(n);
+  }
 
   return (
     <View style={[s.root, { paddingTop: insets.top, paddingBottom: insets.bottom + space.lg }]}>
       <View style={s.top}>
         <Logo width={112} />
         {!end && (
-          <Pressable onPress={() => setI(LAST)} hitSlop={12}>
+          <Pressable onPress={() => go(LAST)} hitSlop={12}>
             <Text style={s.skip}>{t("mob.intro.skip")}</Text>
           </Pressable>
         )}
       </View>
 
-      {/* Rasm bosilsa ham oldinga o'tadi: telefonni bir qo'lda
-          ushlagan odam pastdagi tugmaga har safar cho'zilmasin */}
-      <Pressable style={s.body} onPress={() => !end && setI(i + 1)}>
-        <View style={s.art}>
-          <Image source={panel.img} style={s.img} resizeMode="contain" />
-        </View>
+      <Animated.FlatList
+        ref={list}
+        data={PANELS}
+        keyExtractor={(p) => p.title}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={onEnd}
+        /* `useNativeDriver: false` — nuqtaning KENGLIGI o'zgaradi,
+           bu esa joylashuv xossasi va tabiiy ipda hisoblanadi.
+           Uchta nuqta uchun bu arzon. */
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+          useNativeDriver: false,
+        })}
+        scrollEventThrottle={16}
+        renderItem={({ item }) => (
+          <View style={[s.page, { width }]}>
+            <View style={s.art}>
+              <Image source={item.img} style={s.img} resizeMode="contain" />
+            </View>
+            <Text style={s.title}>{t(item.title)}</Text>
+            <Text style={s.text}>{t(item.body)}</Text>
+          </View>
+        )}
+      />
 
-        <Text style={s.title}>{t(panel.title)}</Text>
-        <Text style={s.text}>{t(panel.body)}</Text>
-
-        <View style={s.dots}>
-          {PANELS.map((_, k) => (
-            <View key={k} style={[s.dot, k === i && s.dotOn]} />
-          ))}
-        </View>
-      </Pressable>
+      <View style={s.dots}>
+        {PANELS.map((p, k) => (
+          <Animated.View
+            key={p.title}
+            style={[
+              s.dot,
+              {
+                width: scrollX.interpolate({
+                  inputRange: [(k - 1) * width, k * width, (k + 1) * width],
+                  outputRange: [7, 24, 7],
+                  extrapolate: "clamp",
+                }),
+                backgroundColor: scrollX.interpolate({
+                  inputRange: [(k - 1) * width, k * width, (k + 1) * width],
+                  outputRange: [color.border, color.brand, color.border],
+                  extrapolate: "clamp",
+                }),
+              },
+            ]}
+          />
+        ))}
+      </View>
 
       <View style={s.footer}>
         {end ? (
@@ -108,7 +168,7 @@ export default function Tanishtiruv() {
         ) : (
           <Pressable
             style={({ pressed }) => [s.next, pressed && { backgroundColor: color.brandHover }]}
-            onPress={() => setI(i + 1)}
+            onPress={() => go(i + 1)}
           >
             <Text style={s.nextText}>{t("mob.common.continueBtn")}</Text>
             <Icon name="arrow-right" size={19} stroke="#fff" />
@@ -131,10 +191,10 @@ const s = StyleSheet.create({
   },
   skip: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
 
-  body: { flex: 1, justifyContent: "center", paddingHorizontal: 28 },
+  page: { justifyContent: "center", paddingHorizontal: 28 },
   /* Rasm balandligi FOIZDA: kichik telefonlarda (SE) sarlavhani
      ekrandan itarib chiqarmasin */
-  art: { height: "48%", alignItems: "center", justifyContent: "center", marginBottom: 30 },
+  art: { height: "46%", alignItems: "center", justifyContent: "center", marginBottom: 28 },
   img: { width: "100%", height: "100%" },
 
   /* Matn chapga tekislangan: sarlavha ruschada uch qatorga
@@ -153,9 +213,8 @@ const s = StyleSheet.create({
     lineHeight: 23,
   },
 
-  dots: { flexDirection: "row", gap: 7, marginTop: 26 },
-  dot: { width: 7, height: 7, borderRadius: 4, backgroundColor: color.border },
-  dotOn: { width: 24, backgroundColor: color.brand },
+  dots: { flexDirection: "row", gap: 7, paddingHorizontal: 28, paddingVertical: 22 },
+  dot: { height: 7, borderRadius: 4 },
 
   footer: { paddingHorizontal: space.xl, gap: 10 },
   next: {

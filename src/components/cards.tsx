@@ -1,6 +1,9 @@
 /** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
+import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Icon } from "./Icon";
+import { TruckIcon } from "./TruckIcon";
+import { API_BASE } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -85,6 +88,9 @@ export type Listing = {
   isTop?: boolean;
   createdAt?: string;
   owner?: { name: string } | null;
+  /* Transport turining KALITI — rasm shundan topiladi. Nomning
+     o'zi yaramaydi: u tarjima qilinadi. */
+  vehicleTypeKey?: string | null;
 };
 
 /**
@@ -125,11 +131,13 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
         <Icon name="heart" size={20} stroke="#cbd5e1" />
       </View>
 
-      <View style={{ marginTop: 11 }}>
-        <Route from={item.from} fromC={item.fromCountry} to={item.to} toC={item.toCountry} />
+      <View style={s.headRow}>
+        <TypeThumb typeKey={item.vehicleTypeKey} />
+        <View style={{ flexGrow: 1, minWidth: 0 }}>
+          <Route from={item.from} fromC={item.fromCountry} to={item.to} toC={item.toCountry} />
+          {item.title ? <Text style={s.cargo} numberOfLines={1}>{item.title}</Text> : null}
+        </View>
       </View>
-
-      {item.title ? <Text style={s.cargo} numberOfLines={1}>{item.title}</Text> : null}
 
       <View style={s.chips}>
         {item.weightT != null ? <Chip text={`${item.weightT} t`} /> : null}
@@ -144,6 +152,45 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
         {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
       </View>
     </Pressable>
+  );
+}
+
+/**
+ * Transport turi rasmi.
+ *
+ * ── NEGA SERVERDAN, ILOVA ICHIDAN EMAS ──────────────────────────
+ *
+ * Rasmlar `furam/public/trucks/{key}.webp` da — o'n to'rttasi,
+ * webda allaqachon ishlatiladi. Ilova ichiga ko'chirilsa, ular
+ * bundle'ni ~3 MB ga oshirardi va yangi tur qo'shilganda ikkita
+ * joyni yangilash kerak bo'lardi.
+ *
+ * ── XATOLIKDA VEKTOR ─────────────────────────────────────────────
+ *
+ * Internet sekin bo'lsa yoki kalit noma'lum bo'lsa, rasm o'rniga
+ * `TruckIcon` chiziladi — u ilova ichida va doim ishlaydi.
+ * Kartochka hech qachon bo'sh kvadrat bilan qolmaydi.
+ */
+function TypeThumb({ typeKey }: { typeKey?: string | null }) {
+  const [failed, setFailed] = useState(false);
+
+  if (!typeKey || failed) {
+    return (
+      <View style={s.thumb}>
+        <TruckIcon type={typeKey ?? "boshqa"} size={34} />
+      </View>
+    );
+  }
+
+  return (
+    <View style={s.thumb}>
+      <Image
+        source={{ uri: `${API_BASE}/trucks/${typeKey}.webp` }}
+        style={s.thumbImg}
+        resizeMode="contain"
+        onError={() => setFailed(true)}
+      />
+    </View>
   );
 }
 
@@ -320,6 +367,21 @@ export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => vo
 }
 
 const s = StyleSheet.create({
+  headRow: { flexDirection: "row", alignItems: "center", gap: 11, marginTop: 11 },
+  /* Rasm KVADRAT va o'lchami qat'iy: turli nisbatdagi rasmlar
+     kartochka balandligini har xil qilib yuborardi va ro'yxat
+     tekis ko'rinmasdi. */
+  thumb: {
+    width: 56,
+    height: 56,
+    borderRadius: 12,
+    backgroundColor: color.muted,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  thumbImg: { width: "100%", height: "100%" },
+
   card: {
     backgroundColor: color.card,
     borderRadius: radius.card,

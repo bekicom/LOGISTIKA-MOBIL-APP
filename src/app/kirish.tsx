@@ -1,22 +1,23 @@
 /** A6 — kirish. Telefon yoki FURAM ID + parol. */
 import { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Circle, Path } from "react-native-svg";
+import {
+  AuthTexture,
+  BackButton,
+  DarkInput,
+  EyeButton,
+  GlassPanel,
+  LabeledDarkInput,
+  PrimaryAction,
+  SecondaryAction,
+} from "@/components/AuthDesign";
 import { Logo } from "@/components/Logo";
-import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, space } from "@/lib/theme";
 import { LOCALE_INFO, currentLocale, t } from "@/lib/i18n";
 
 type Mode = "phone" | "furamId";
@@ -33,6 +34,9 @@ export default function Kirish() {
   const { signIn } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const cleanPhone = phone.replace(/\D/g, "");
+  const locked = err?.code === "TOO_MANY_ATTEMPTS" || err?.code === "BLOCKED";
+  const ready = password.length > 0 && (mode === "phone" ? cleanPhone.length >= 9 : furamId.length > 0);
 
   async function submit() {
     setErr(null);
@@ -40,7 +44,7 @@ export default function Kirish() {
     try {
       const body =
         mode === "phone"
-          ? { phone: "+998" + phone.replace(/\D/g, ""), password }
+          ? { phone: "+998" + cleanPhone, password }
           : { furamId: Number(furamId), password };
 
       const res = await api<{ token?: string }>("/api/auth/login", {
@@ -50,7 +54,6 @@ export default function Kirish() {
       });
 
       if (!res.token) {
-        // Server mobil sessiyani qaytarmadi — bu backend sozlamasi muammosi
         setErr({ code: "NO_TOKEN", message: t("mob.ui.supportContact") });
         return;
       }
@@ -64,14 +67,9 @@ export default function Kirish() {
     }
   }
 
-  const locked = err?.code === "TOO_MANY_ATTEMPTS";
-  const ready = password.length > 0 && (mode === "phone" ? phone.length >= 9 : furamId.length > 0);
-
   return (
-    <KeyboardAvoidingView
-      style={s.root}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
+    <KeyboardAvoidingView style={s.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <AuthTexture />
       <ScrollView
         contentContainerStyle={[
           s.scroll,
@@ -80,52 +78,41 @@ export default function Kirish() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={s.top}>
-          <Pressable onPress={() => router.back()} hitSlop={12} style={s.back}>
-            <Svg width={22} height={22} viewBox="0 0 24 24">
-              <Path d="m15 18-6-6 6-6" stroke={color.foreground} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            </Svg>
-          </Pressable>
-          <View style={{ flex: 1 }} />
-          <View style={s.lang}>
+        <View style={s.header}>
+          <BackButton onPress={() => router.back()} />
+          <Pressable onPress={() => router.push("/til")} style={s.lang} hitSlop={8}>
             <Svg width={16} height={16} viewBox="0 0 24 24">
-              <Circle cx={12} cy={12} r={10} stroke={color.mutedForeground} strokeWidth={2} fill="none" />
-              <Path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z" stroke={color.mutedForeground} strokeWidth={2} fill="none" />
+              <Circle cx={12} cy={12} r={10} stroke="#9eb5d5" strokeWidth={2} fill="none" />
+              <Path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z" stroke="#9eb5d5" strokeWidth={2} fill="none" />
             </Svg>
             <Text style={s.langText}>{LOCALE_INFO[currentLocale()].native}</Text>
-          </View>
+          </Pressable>
         </View>
 
         <View style={s.hero}>
-          <Logo width={176} />
+          <Logo width={166} light />
+          <Text style={s.caption}>A6 · KIRISH</Text>
           <Text style={s.title}>{t("mob.signIn.title")}</Text>
+          <Text style={s.sub}>Hisobingizga xavfsiz kiring va ishni davom ettiring.</Text>
         </View>
 
-        <View style={s.segment}>
-          <Pressable style={[s.segItem, mode === "phone" && s.segOn]} onPress={() => setMode("phone")}>
-            <Text style={[s.segText, mode === "phone" && s.segTextOn]}>{t("mob.signIn.byPhone")}</Text>
-          </Pressable>
-          <Pressable style={[s.segItem, mode === "furamId" && s.segOn]} onPress={() => setMode("furamId")}>
-            <Text style={[s.segText, mode === "furamId" && s.segTextOn]}>FURAM ID</Text>
-          </Pressable>
-        </View>
-
-        {locked ? (
-          <View style={{ marginTop: space.lg }}>
-            <Notice tone="danger" title={t("mob.signIn.blocked")}>
-              {err.message}
-            </Notice>
+        <GlassPanel style={s.panel}>
+          <View style={s.segment}>
+            <SegmentButton label={t("mob.signIn.byPhone")} active={mode === "phone"} onPress={() => setMode("phone")} />
+            <SegmentButton label="FURAM ID" active={mode === "furamId"} onPress={() => setMode("furamId")} />
           </View>
-        ) : null}
 
-        <View style={s.form}>
+          {locked ? <LockedCard message={err?.message ?? t("mob.signIn.blocked")} /> : null}
+
           {mode === "phone" ? (
-            <View style={s.phoneRow}>
-              <View style={s.cc}>
-                <Text style={s.ccText}>+998</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Field
+            <View>
+              <Text style={s.label}>{t("mob.signIn.byPhone")}</Text>
+              <View style={s.phoneRow}>
+                <View style={s.cc}>
+                  <Text style={s.ccText}>+998</Text>
+                </View>
+                <DarkInput
+                  style={{ flex: 1 }}
                   placeholder="90 123 45 67"
                   keyboardType="phone-pad"
                   autoComplete="tel"
@@ -137,7 +124,7 @@ export default function Kirish() {
               </View>
             </View>
           ) : (
-            <Field
+            <LabeledDarkInput
               label="FURAM ID"
               placeholder="11186"
               keyboardType="number-pad"
@@ -147,7 +134,7 @@ export default function Kirish() {
             />
           )}
 
-          <Field
+          <LabeledDarkInput
             label={t("mob.signIn.password")}
             placeholder={t("mob.signIn.passwordPh")}
             secureTextEntry={!show}
@@ -156,22 +143,7 @@ export default function Kirish() {
             value={password}
             onChangeText={setPassword}
             editable={!locked}
-            right={
-              <Pressable onPress={() => setShow((v) => !v)} hitSlop={10}>
-                <Svg width={20} height={20} viewBox="0 0 24 24">
-                  <Path
-                    d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"
-                    stroke={color.mutedForeground}
-                    strokeWidth={2}
-                    fill="none"
-                  />
-                  <Circle cx={12} cy={12} r={3} stroke={color.mutedForeground} strokeWidth={2} fill="none" />
-                  {show ? (
-                    <Path d="M3 3l18 18" stroke={color.mutedForeground} strokeWidth={2} strokeLinecap="round" />
-                  ) : null}
-                </Svg>
-              </Pressable>
-            }
+            right={<EyeButton shown={show} onPress={() => setShow((v) => !v)} />}
           />
 
           {err && !locked ? <Text style={s.err}>{err.message}</Text> : null}
@@ -179,64 +151,90 @@ export default function Kirish() {
           <Pressable hitSlop={8} onPress={() => router.push("/parol")} accessibilityRole="button">
             <Text style={s.link}>{t("mob.signIn.forgot")}</Text>
           </Pressable>
-        </View>
+        </GlassPanel>
 
-        <View style={{ marginTop: space.xxl }}>
-          <Button title={t("mob.signIn.submit")} onPress={submit} loading={busy} disabled={!ready || locked} />
-        </View>
-
-        <View style={s.bottom}>
-          <Text style={s.bottomText}>{t("mob.signIn.noAccount")}</Text>
-          <Pressable onPress={() => router.replace("/royxat")} hitSlop={8}>
-            <Text style={s.link}>{t("mob.intro.signUp")}</Text>
-          </Pressable>
+        <View style={s.actions}>
+          <PrimaryAction title={t("mob.signIn.submit")} onPress={submit} loading={busy} disabled={!ready || locked} />
+          <SecondaryAction title={t("mob.intro.signUp")} onPress={() => router.replace("/royxat")} />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
+function SegmentButton({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+  return (
+    <Pressable onPress={onPress} style={[s.segItem, active && s.segOn]}>
+      <Text style={[s.segText, active && s.segTextOn]}>{label}</Text>
+    </Pressable>
+  );
+}
+
+function LockedCard({ message }: { message: string }) {
+  return (
+    <View style={s.locked}>
+      <View style={s.lockIcon}>
+        <Svg width={24} height={24} viewBox="0 0 24 24">
+          <Path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12v10H6z" stroke="#ffffff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        </Svg>
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text style={s.lockTitle}>{t("mob.signIn.blocked")}</Text>
+        <Text style={s.lockText}>{message}</Text>
+      </View>
+    </View>
+  );
+}
+
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.card },
+  root: { flex: 1, backgroundColor: color.navy },
   scroll: { flexGrow: 1, paddingHorizontal: space.xl },
-
-  top: { flexDirection: "row", alignItems: "center" },
-  back: { width: 44, height: 44, marginLeft: -12, alignItems: "center", justifyContent: "center" },
-  lang: { flexDirection: "row", alignItems: "center", gap: 6, height: 36 },
-  langText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
-
-  hero: { alignItems: "center", gap: space.md, marginTop: space.xxl },
-  title: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.2 },
-
-  segment: {
-    flexDirection: "row",
-    gap: 4,
-    backgroundColor: color.muted,
-    borderRadius: radius.control,
-    padding: 3,
-    marginTop: 28,
-  },
-  segItem: { flex: 1, height: 40, alignItems: "center", justifyContent: "center", borderRadius: 6 },
-  segOn: { backgroundColor: color.card },
-  segText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
-  segTextOn: { fontWeight: "600", color: color.foreground },
-
-  form: { gap: space.lg, marginTop: space.xl },
-  phoneRow: { flexDirection: "row", gap: 8, alignItems: "flex-start" },
+  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 48 },
+  lang: { flexDirection: "row", alignItems: "center", gap: 7, minHeight: 40 },
+  langText: { fontSize: 14, fontWeight: "700", color: "#9eb5d5" },
+  hero: { alignItems: "center", marginTop: 28, marginBottom: 26 },
+  caption: { fontSize: 12, fontWeight: "800", color: "#8fa7c7", letterSpacing: 0.8, marginTop: 24 },
+  title: { fontSize: 34, lineHeight: 40, fontWeight: "800", color: "#ffffff", marginTop: 8 },
+  sub: { fontSize: font.body, color: "#a9bddc", textAlign: "center", marginTop: 9, lineHeight: 23 },
+  panel: { gap: space.lg },
+  segment: { flexDirection: "row", gap: 6, padding: 4, borderRadius: 15, backgroundColor: "#0c1f3a" },
+  segItem: { flex: 1, minHeight: 42, borderRadius: 12, alignItems: "center", justifyContent: "center", paddingHorizontal: 8 },
+  segOn: { backgroundColor: color.brand },
+  segText: { fontSize: 14, fontWeight: "800", color: "#9eb5d5" },
+  segTextOn: { color: "#ffffff" },
+  label: { fontSize: font.caption, fontWeight: "700", color: "#ffffff", marginBottom: 8 },
+  phoneRow: { flexDirection: "row", gap: 9 },
   cc: {
-    width: 92,
-    height: 52,
-    borderRadius: radius.control,
-    borderWidth: 1,
-    borderColor: color.border,
+    width: 94,
+    height: 56,
+    borderRadius: 14,
+    borderWidth: 1.2,
+    borderColor: "#33577f",
+    backgroundColor: "#0c1f3a",
     alignItems: "center",
     justifyContent: "center",
   },
-  ccText: { fontSize: font.body, fontWeight: "600", color: color.foreground },
-
-  err: { fontSize: 13, color: color.danger, marginTop: -8 },
-  link: { fontSize: 14, fontWeight: "600", color: color.brand },
-
-  bottom: { flexDirection: "row", justifyContent: "center", gap: 5, marginTop: space.xl, paddingTop: space.sm },
-  bottomText: { fontSize: 14, color: color.mutedForeground },
+  ccText: { fontSize: font.bodyLg, fontWeight: "800", color: "#ffffff" },
+  link: { fontSize: 14.5, fontWeight: "800", color: color.brand, textAlign: "right" },
+  err: { fontSize: 13, color: "#ff9b73", lineHeight: 19 },
+  locked: {
+    flexDirection: "row",
+    gap: 12,
+    padding: 14,
+    borderRadius: 16,
+    borderWidth: 1.2,
+    borderColor: "#f45a18",
+    backgroundColor: "rgba(244, 90, 24, 0.12)",
+  },
+  lockIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    backgroundColor: color.brand,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  lockTitle: { fontSize: font.body, fontWeight: "800", color: "#ffffff" },
+  lockText: { fontSize: 12.5, color: "#ffd2c0", lineHeight: 18, marginTop: 3 },
+  actions: { gap: 12, marginTop: space.xxl },
 });

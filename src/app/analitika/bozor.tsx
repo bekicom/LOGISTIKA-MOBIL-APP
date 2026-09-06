@@ -18,7 +18,8 @@
  *
  * Faqat rangda bo'lsa rang ko'rmaydigan odam o'qiy olmasdi.
  */
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";

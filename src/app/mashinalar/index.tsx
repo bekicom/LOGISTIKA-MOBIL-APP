@@ -10,7 +10,8 @@
  * bo'limini alohida ilova ichida ko'mib qo'ymaslik uchun.
  */
 import { useCallback, useMemo, useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";

@@ -8,7 +8,8 @@
  * Hujjat muddati SANA bilan emas, «necha kun qoldi» bilan yoziladi —
  * haydovchi kalendar hisoblab o'tirmaydi.
  */
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";

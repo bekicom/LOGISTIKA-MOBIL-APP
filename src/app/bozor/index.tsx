@@ -21,7 +21,8 @@
  * jiddiy farqi, shuning uchun ro'yxatdayoq ko'rinadi.
  */
 import { useMemo, useState } from "react";
-import { FlatList, Image, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";

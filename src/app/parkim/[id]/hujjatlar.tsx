@@ -9,7 +9,8 @@
  * odam nimasi yetishmayotganini bilmaydi: yo'q narsa ko'rinmaydi.
  */
 import { useMemo } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useLocalSearchParams } from "expo-router";
 import { Card, GroupLabel, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";

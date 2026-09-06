@@ -12,7 +12,8 @@
  * turish yolg'on bo'lardi, shuning uchun yozilmadi.
  */
 import { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Button, Card, Field, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";

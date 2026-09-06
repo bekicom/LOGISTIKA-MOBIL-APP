@@ -1,5 +1,6 @@
 /** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { Icon } from "./Icon";
 import { vehiclePhoto } from "@/lib/img";
 import { color, font, radius, shadow, space } from "@/lib/theme";

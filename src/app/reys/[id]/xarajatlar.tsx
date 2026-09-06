@@ -7,9 +7,15 @@
  */
 import { useState } from "react";
 import {
-  FlatList, Image, Modal, Pressable, RefreshControl,
-  StyleSheet, Text, View,
+  FlatList,
+  Image,
+  Modal,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  View,
 } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";

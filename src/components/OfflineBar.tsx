@@ -15,7 +15,8 @@
  *   sariq  — aloqa bor, navbatda yozuv turibdi
  *   qizil  — yuborilmagan (server rad etgan) yozuv bor
  */
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "./Icon";
 import { useOutboxCounts } from "@/lib/use-outbox";

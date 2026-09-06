@@ -15,7 +15,8 @@
  * Atamalar ham ataylab tanlangan: «obuna» so'zi Apple tekshiruvida
  * IAP talabini chaqiradi, shuning uchun «xizmat rejasi» deyiladi.
  */
-import { Alert, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";

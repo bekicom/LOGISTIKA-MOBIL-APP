@@ -8,11 +8,11 @@ import {
   Pressable,
   StyleSheet,
   Switch as RNSwitch,
-  Text,
   TextInput,
   View,
   type TextInputProps,
 } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "./Icon";
@@ -309,7 +309,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 14,
     gap: 10,
   },
-  input: { flex: 1, fontSize: font.bodyLg, color: color.foreground, padding: 0 },
+  input: { flex: 1, fontSize: font.bodyLg, color: color.foreground, padding: 0, fontFamily: "Manrope_500Medium" },
   error: { fontSize: 12, color: color.danger, marginTop: 6 },
 
   notice: { borderWidth: 1, borderRadius: radius.card, padding: 14 },

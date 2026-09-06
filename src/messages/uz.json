@@ -1641,6 +1641,14 @@
       "title": "Rezyume",
       "webNote": "Saytda to'ldirgan qolgan maydonlaringiz saqlanib qoladi — bu ekran ularni o'chirmaydi."
     },
+    "rol": {
+      "guest": "Mehmon sifatida",
+      "guestHint": "Kirmasdan ko'rib chiqing",
+      "later": "Boshqa rollarni keyin qo'shasiz — usta, do'kon, ish beruvchi…",
+      "selected": "Tanlangan",
+      "subtitle": "Kim sifatida kirasiz?",
+      "title": "Xush kelibsiz!"
+    },
     "role": {
       "AUTO_SELLER": "Avto sotuvchi",
       "CARGO_OWNER": "Yuk egasi",
@@ -1814,6 +1822,7 @@
       "password": "Parol",
       "passwordPh": "Parolingizni kiriting",
       "submit": "Kirish",
+      "subtitle": "Hisobingizga kiring",
       "title": "Xush kelibsiz"
     },
     "signUp": {
@@ -1822,13 +1831,16 @@
       "agreePost": "shartlariga roziman",
       "agreePre": "Men",
       "bySms": "SMS orqali",
+      "changePhone": "Raqamni o'zgartirish",
       "codeFailed": "Kod yuborilmadi",
       "codeSentTo": "%{phone} raqamiga %{via} orqali 6 xonali kod yubordik",
       "devCode": "Sinov kodi: %{code}",
       "enterCode": "Kodni kiriting",
+      "haveAccount": "Hisobingiz bormi?",
       "noSession": "Server sessiya bermadi",
       "offer": "Ommaviy oferta",
       "offerRequired": "Davom etish uchun ofertaga rozilik bering",
+      "otherRole": "Boshqa rol",
       "passwordMin": "Kamida 6 belgi",
       "phone": "Telefon raqamingiz",
       "phoneHint": "Raqamni tasdiqlash uchun kod yuboramiz",
@@ -2024,6 +2036,20 @@
       "need": "«%{f}» tarifingizga kirmaydi",
       "needHint": "To'ldirishni boshlashingiz mumkin, lekin saqlash uchun rol kerak bo'ladi.",
       "pick": "Rolni tanlash"
+    },
+    "tour": {
+      "done": "Tushunarli",
+      "loads": "Bozor shu yerda: yuk yoki bo'sh mashina qidiring, filtrlang, saqlang",
+      "loadsT": "Yuklar va mashinalar",
+      "menu": "Ilovaning hamma bo'limi: reyslar, parkim, moliya, ustaxona…",
+      "menuT": "Menyu",
+      "next": "Keyingi",
+      "post": "Yuk, mashina, ish o'rni — hammasi shu tugmadan",
+      "postT": "E'lon berish",
+      "profile": "Rollaringiz, tarif va sozlamalar",
+      "profileT": "Profil",
+      "top": "Yozishmalar va bildirishnomalar — tepada, sanoq bilan",
+      "topT": "Chat va xabarlar"
     },
     "trip": {
       "arrives": "yetib boradi",

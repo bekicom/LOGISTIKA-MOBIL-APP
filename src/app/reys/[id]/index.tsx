@@ -4,7 +4,8 @@
  * Ma'lumot bitta so'rovdan (`/api/trips/[id]`): bosqichlar, marshrut, yuk,
  * mashina, hujjat va xarajat soni, pul, ishtirokchilar.
  */
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCallback, useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";

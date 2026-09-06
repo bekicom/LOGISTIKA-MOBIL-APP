@@ -6,7 +6,8 @@
  * bozori — lentaning YARMI, uni menyu ichiga yashirsak bo'limni hech
  * kim topmasdi.
  */
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { color, font, radius } from "@/lib/theme";
 
 export function Segment({

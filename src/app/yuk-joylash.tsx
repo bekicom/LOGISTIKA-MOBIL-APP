@@ -7,9 +7,15 @@
  */
 import { useState } from "react";
 import {
-  KeyboardAvoidingView, Platform, Pressable, ScrollView,
-  StyleSheet, Text, TextInput, View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
 } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";

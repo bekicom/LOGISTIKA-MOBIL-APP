@@ -9,7 +9,8 @@
  * Mehmonda ikonkalar yo'q — ularning serveri 401 beradi.
  */
 import { useEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";

@@ -19,7 +19,8 @@
  * Buni aytmasak odam «hammasi yo'qoladi» deb qo'rqadi va shu
  * qo'rquv bilan qaror qiladi.
  */
-import { RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View, Pressable } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header, Button } from "@/components/ui";
 import { Icon } from "@/components/Icon";

@@ -8,7 +8,8 @@
  * CHEKLOV YASHIRILMAYDI. Odam «nega javob bermayapti» deb o'ylagandan
  * ko'ra, qancha qolganini oldindan ko'rgani yaxshi.
  */
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Card, GroupLabel, ListRow } from "@/components/ui";

@@ -12,9 +12,16 @@
  */
 import { useState } from "react";
 import {
-  Alert, KeyboardAvoidingView, Modal, Platform, Pressable,
-  ScrollView, StyleSheet, Text, View,
+  Alert,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
 } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Button, Card, Field, Header, ListRow, Steps } from "@/components/ui";
 import { Icon } from "@/components/Icon";

@@ -10,7 +10,8 @@
  * `driverQueues()`, aks holda `ownerQueues()`.
  */
 import { useMemo } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";

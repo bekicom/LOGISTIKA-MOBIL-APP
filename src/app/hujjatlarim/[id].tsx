@@ -12,9 +12,16 @@
  */
 import { useState } from "react";
 import {
-  Alert, Image, Linking, Pressable, RefreshControl,
-  ScrollView, StyleSheet, Text, View,
+  Alert,
+  Image,
+  Linking,
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
 } from "react-native";
+import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";

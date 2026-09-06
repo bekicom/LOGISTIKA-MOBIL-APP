@@ -19,7 +19,8 @@
  * shu qoidadan kelib chiqadi.
  */
 import { useState } from "react";
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";

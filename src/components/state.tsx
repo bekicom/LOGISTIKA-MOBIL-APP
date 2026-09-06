@@ -4,7 +4,8 @@
  * TZ §9: har ekranda shu uchtasi bo'lishi shart. Bitta joyda yozilgan —
  * har ekranda qayta o'ylab o'tirilmaydi va ko'rinishi bir xil bo'ladi.
  */
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { Icon, type IconName } from "./Icon";
 import { Button } from "./ui";
 import { color, font, radius, space } from "@/lib/theme";

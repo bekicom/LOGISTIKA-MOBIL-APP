@@ -16,7 +16,8 @@
  * «Pulim qayerda» degan savolga shartnomani ochmasdan javob
  * beriladi. Faqat IKKALA tomon tasdiqlagan to'lov hisoblanadi.
  */
-import { RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View, Pressable } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Header } from "@/components/ui";

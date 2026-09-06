@@ -1641,6 +1641,14 @@
       "title": "Özgeçmiş",
       "webNote": "Sitede doldurduğunuz diğer alanlar korunur — bu ekran onları silmez."
     },
+    "rol": {
+      "guest": "Misafir olarak",
+      "guestHint": "Giriş yapmadan göz atın",
+      "later": "Diğer rolleri sonra ekleyebilirsiniz — usta, mağaza, işveren…",
+      "selected": "Seçildi",
+      "subtitle": "Kim olarak giriyorsunuz?",
+      "title": "Hoş geldiniz!"
+    },
     "role": {
       "AUTO_SELLER": "Araç satıcısı",
       "CARGO_OWNER": "Yük sahibi",
@@ -1814,6 +1822,7 @@
       "password": "Parola",
       "passwordPh": "Parolanızı girin",
       "submit": "Giriş yap",
+      "subtitle": "Hesabınıza giriş yapın",
       "title": "Hoş geldiniz"
     },
     "signUp": {
@@ -1822,13 +1831,16 @@
       "agreePost": "",
       "agreePre": "Şu koşulları kabul ediyorum:",
       "bySms": "SMS ile",
+      "changePhone": "Numarayı değiştir",
       "codeFailed": "Kod gönderilemedi",
       "codeSentTo": "%{phone} numarasına %{via} ile 6 haneli kod gönderdik",
       "devCode": "Test kodu: %{code}",
       "enterCode": "Kodu girin",
+      "haveAccount": "Hesabınız var mı?",
       "noSession": "Sunucu oturum vermedi",
       "offer": "Kamu sözleşmesi",
       "offerRequired": "Devam etmek için sözleşmeyi kabul edin",
+      "otherRole": "Başka rol",
       "passwordMin": "En az 6 karakter",
       "phone": "Telefon numaranız",
       "phoneHint": "Numarayı doğrulamak için kod göndeririz",
@@ -2024,6 +2036,20 @@
       "need": "“%{f}” tarifenize dâhil değil",
       "needHint": "Doldurabilirsiniz, ancak kaydetmek için bir rol gerekir.",
       "pick": "Rol seç"
+    },
+    "tour": {
+      "done": "Anladım",
+      "loads": "Pazar burada: yük veya boş araç arayın, filtreleyin, kaydedin",
+      "loadsT": "Yükler ve araçlar",
+      "menu": "Uygulamanın tüm bölümleri: seferler, filo, finans, servis…",
+      "menuT": "Menü",
+      "next": "İleri",
+      "post": "Yük, araç, iş ilanı — hepsi bu düğmeden",
+      "postT": "İlan ver",
+      "profile": "Rolleriniz, tarifeniz ve ayarlar",
+      "profileT": "Profil",
+      "top": "Mesajlar ve bildirimler — üstte, sayaçla",
+      "topT": "Sohbet ve bildirimler"
     },
     "trip": {
       "arrives": "varır",

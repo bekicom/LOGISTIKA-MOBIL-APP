@@ -5,19 +5,11 @@
  * telefon → kod → ma'lumot. Rollar va matnlar ham o'sha yerdan.
  */
 import { useEffect, useRef, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Text } from "@/components/Text";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
+import { AuthLine, AuthShell } from "@/components/AuthShell";
 import { Button, Field, Notice, Steps } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
@@ -48,7 +40,12 @@ export default function Royxat() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<string>("DRIVER");
+  /* Rol `rol.tsx` da tanlanadi va parametr bilan keladi. Parametr
+     bo'lmasa (kirishdan «Ro'yxatdan o'tish» bosilgan) — ro'yxat
+     shu yerda ko'rsatiladi. */
+  const { role: roleParam } = useLocalSearchParams<{ role?: string }>();
+  const preset = ROLES.some((r) => r.value === roleParam) ? (roleParam as string) : null;
+  const [role, setRole] = useState<string>(preset ?? "DRIVER");
   const [agreed, setAgreed] = useState(false);
   const [left, setLeft] = useState(0);
 
@@ -57,7 +54,6 @@ export default function Royxat() {
 
   const { signIn } = useAuth();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const codeRef = useRef<TextInput>(null);
 
   const fullPhone = "+998" + phone.replace(/\D/g, "");
@@ -151,28 +147,23 @@ export default function Royxat() {
   const stepNo = step === "phone" ? 1 : step === "code" ? 2 : 3;
 
   return (
-    <KeyboardAvoidingView style={s.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <ScrollView
-        contentContainerStyle={[
-          s.scroll,
-          { paddingTop: insets.top + space.xs, paddingBottom: insets.bottom + space.xl },
-        ]}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <Pressable
-          onPress={() => (step === "phone" ? router.back() : setStep(step === "code" ? "phone" : "code"))}
-          hitSlop={12}
-          style={s.back}
-        >
-          <Svg width={22} height={22} viewBox="0 0 24 24">
-            <Path d="m15 18-6-6 6-6" stroke={color.foreground} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-          </Svg>
-        </Pressable>
-
+    <AuthShell
+      title={t("mob.signUp.title")}
+      subtitle={t("mob.common.stepOf", { n: stepNo, k: 3 })}
+      tab={step === "phone" ? "signUp" : undefined}
+      compact={step !== "phone"}
+      onBack={() => (step === "phone" ? (router.canGoBack() ? router.back() : router.replace("/rol")) : setStep(step === "code" ? "phone" : "code"))}
+      footer={
+        step === "phone" ? (
+          <AuthLine
+            text={t("mob.signUp.haveAccount")}
+            link={t("mob.intro.signIn")}
+            onPress={() => router.replace("/kirish")}
+          />
+        ) : null
+      }
+    >
         <Steps total={3} current={stepNo} />
-
-        <Text style={s.caption}>{t("mob.common.stepOf", { n: stepNo, k: 3 })}</Text>
 
         {step === "phone" ? (
           <>
@@ -300,7 +291,11 @@ export default function Royxat() {
 
             {err ? <Text style={[s.err, { textAlign: "center" }]}>{err}</Text> : null}
 
-            <View style={{ alignItems: "center", marginTop: space.xl }}>
+            <Pressable onPress={() => setStep("phone")} hitSlop={8} style={{ alignSelf: "center", marginTop: space.md }}>
+              <Text style={s.link}>{t("mob.signUp.changePhone")}</Text>
+            </Pressable>
+
+            <View style={{ alignItems: "center", marginTop: space.lg }}>
               {left > 0 ? (
                 <Text style={s.sub}>
                   {t("mob.signUp.resendIn", {
@@ -342,32 +337,50 @@ export default function Royxat() {
               />
             </View>
 
-            <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.signUp.whoAreYou")}</Text>
-            <Text style={s.hint}>{t("mob.signUp.roleHint")}</Text>
+            {preset ? (
+              /* Rol `rol.tsx` da tanlangan — shu yerda faqat eslatma */
+              <View style={[s.role, s.roleOn, { marginTop: space.xxl }]}>
+                <View style={[s.roleIcon, { backgroundColor: color.brand }]}>
+                  <RoleIcon value={role} on />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.roleName}>{roleLabel(role)}</Text>
+                  <Text style={s.roleDesc}>{t(ROLES.find((r) => r.value === role)?.desc ?? "mob.signUp.roleHint")}</Text>
+                </View>
+                <Pressable onPress={() => router.replace("/rol")} hitSlop={8}>
+                  <Text style={s.link}>{t("mob.signUp.otherRole")}</Text>
+                </Pressable>
+              </View>
+            ) : (
+              <>
+                <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.signUp.whoAreYou")}</Text>
+                <Text style={s.hint}>{t("mob.signUp.roleHint")}</Text>
 
-            <View style={{ gap: 9, marginTop: space.md }}>
-              {ROLES.map((r) => {
-                const on = role === r.value;
-                return (
-                  <Pressable key={r.value} onPress={() => setRole(r.value)} style={[s.role, on && s.roleOn]}>
-                    <View style={[s.roleIcon, on && { backgroundColor: color.brand }]}>
-                      <RoleIcon value={r.value} on={on} />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={s.roleName}>{roleLabel(r.value)}</Text>
-                      <Text style={s.roleDesc}>{t(r.desc)}</Text>
-                    </View>
-                    <View style={[s.radio, on && s.radioOn]}>
-                      {on ? (
-                        <Svg width={13} height={13} viewBox="0 0 24 24">
-                          <Path d="M20 6 9 17l-5-5" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                        </Svg>
-                      ) : null}
-                    </View>
-                  </Pressable>
-                );
-              })}
-            </View>
+                <View style={{ gap: 9, marginTop: space.md }}>
+                  {ROLES.map((r) => {
+                    const on = role === r.value;
+                    return (
+                      <Pressable key={r.value} onPress={() => setRole(r.value)} style={[s.role, on && s.roleOn]}>
+                        <View style={[s.roleIcon, on && { backgroundColor: color.brand }]}>
+                          <RoleIcon value={r.value} on={on} />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={s.roleName}>{roleLabel(r.value)}</Text>
+                          <Text style={s.roleDesc}>{t(r.desc)}</Text>
+                        </View>
+                        <View style={[s.radio, on && s.radioOn]}>
+                          {on ? (
+                            <Svg width={13} height={13} viewBox="0 0 24 24">
+                              <Path d="M20 6 9 17l-5-5" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            </Svg>
+                          ) : null}
+                        </View>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </>
+            )}
 
             <Pressable onPress={() => setAgreed((v) => !v)} style={s.offer}>
               <View style={[s.check, agreed && s.checkOn]}>
@@ -407,8 +420,7 @@ export default function Royxat() {
             </View>
           </>
         ) : null}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </AuthShell>
   );
 }
 
@@ -464,12 +476,8 @@ function RoleIcon({ value, on }: { value: string; on: boolean }) {
 }
 
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.card },
-  scroll: { flexGrow: 1, paddingHorizontal: space.xl },
 
-  back: { width: 44, height: 44, marginLeft: -12, alignItems: "center", justifyContent: "center" },
 
-  caption: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, letterSpacing: 0.5, marginTop: 22 },
   title: { fontSize: font.display, fontWeight: "700", color: color.foreground, marginTop: 6, letterSpacing: -0.4 },
   sub: { fontSize: 14, color: color.mutedForeground, marginTop: 7, lineHeight: 21 },
   strong: { fontWeight: "600", color: color.foreground },
@@ -559,5 +567,5 @@ const s = StyleSheet.create({
   offerText: { flex: 1, fontSize: 13, color: color.foreground, lineHeight: 20 },
 
   err: { fontSize: 13, color: color.danger, marginTop: space.md },
-  link: { fontSize: 14, fontWeight: "600", color: color.brand },
+  link: { fontSize: 14, fontWeight: "600", color: color.blue },
 });

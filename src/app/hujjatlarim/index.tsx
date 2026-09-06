@@ -10,7 +10,8 @@
  * odam nimasi yetishmayotganini bilmay qoladi.
  */
 import { useMemo } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";

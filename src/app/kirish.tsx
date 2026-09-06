@@ -1,23 +1,20 @@
-/** A6 — kirish. Telefon yoki FURAM ID + parol. */
+/**
+ * A6 — kirish. Telefon yoki FURAM ID + parol.
+ *
+ * Dizayn-2: `AuthShell` (ko'k fon, oq karta), kartaning tepasida
+ * «Kirish | Ro'yxatdan o'tish» almashtirgichi. Mantiq o'zgarmadi.
+ */
 import { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Circle, Path } from "react-native-svg";
-import { Logo } from "@/components/Logo";
+import { AuthLine, AuthShell } from "@/components/AuthShell";
+import { Text } from "@/components/Text";
 import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
-import { LOCALE_INFO, currentLocale, t } from "@/lib/i18n";
+import { t } from "@/lib/i18n";
 
 type Mode = "phone" | "furamId";
 
@@ -32,7 +29,6 @@ export default function Kirish() {
 
   const { signIn } = useAuth();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
 
   async function submit() {
     setErr(null);
@@ -68,175 +64,141 @@ export default function Kirish() {
   const ready = password.length > 0 && (mode === "phone" ? phone.length >= 9 : furamId.length > 0);
 
   return (
-    <KeyboardAvoidingView
-      style={s.root}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    <AuthShell
+      title={t("mob.signIn.title")}
+      subtitle={t("mob.signIn.subtitle")}
+      tab="signIn"
+      onBack={() => (router.canGoBack() ? router.back() : router.replace("/tanishtiruv"))}
+      footer={
+        <AuthLine
+          text={t("mob.signIn.noAccount")}
+          link={t("mob.intro.signUp")}
+          onPress={() => router.replace("/rol")}
+        />
+      }
     >
-      <ScrollView
-        contentContainerStyle={[
-          s.scroll,
-          { paddingTop: insets.top + space.xs, paddingBottom: insets.bottom + space.xl },
-        ]}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={s.top}>
-          <Pressable onPress={() => router.back()} hitSlop={12} style={s.back}>
-            <Svg width={22} height={22} viewBox="0 0 24 24">
-              <Path d="m15 18-6-6 6-6" stroke={color.foreground} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            </Svg>
-          </Pressable>
-          <View style={{ flex: 1 }} />
-          <View style={s.lang}>
-            <Svg width={16} height={16} viewBox="0 0 24 24">
-              <Circle cx={12} cy={12} r={10} stroke={color.mutedForeground} strokeWidth={2} fill="none" />
-              <Path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z" stroke={color.mutedForeground} strokeWidth={2} fill="none" />
-            </Svg>
-            <Text style={s.langText}>{LOCALE_INFO[currentLocale()].native}</Text>
-          </View>
+      {/* Telefon | FURAM ID */}
+      <View style={s.mode}>
+        <Pressable style={[s.modeItem, mode === "phone" && s.modeOn]} onPress={() => setMode("phone")}>
+          <Text style={[s.modeText, mode === "phone" && s.modeTextOn]}>{t("mob.signIn.byPhone")}</Text>
+        </Pressable>
+        <Pressable style={[s.modeItem, mode === "furamId" && s.modeOn]} onPress={() => setMode("furamId")}>
+          <Text style={[s.modeText, mode === "furamId" && s.modeTextOn]}>FURAM ID</Text>
+        </Pressable>
+      </View>
+
+      {locked ? (
+        <View style={{ marginBottom: space.lg }}>
+          <Notice tone="danger" title={t("mob.signIn.blocked")}>
+            {err.message}
+          </Notice>
         </View>
+      ) : null}
 
-        <View style={s.hero}>
-          <Logo width={176} />
-          <Text style={s.title}>{t("mob.signIn.title")}</Text>
-        </View>
-
-        <View style={s.segment}>
-          <Pressable style={[s.segItem, mode === "phone" && s.segOn]} onPress={() => setMode("phone")}>
-            <Text style={[s.segText, mode === "phone" && s.segTextOn]}>{t("mob.signIn.byPhone")}</Text>
-          </Pressable>
-          <Pressable style={[s.segItem, mode === "furamId" && s.segOn]} onPress={() => setMode("furamId")}>
-            <Text style={[s.segText, mode === "furamId" && s.segTextOn]}>FURAM ID</Text>
-          </Pressable>
-        </View>
-
-        {locked ? (
-          <View style={{ marginTop: space.lg }}>
-            <Notice tone="danger" title={t("mob.signIn.blocked")}>
-              {err.message}
-            </Notice>
-          </View>
-        ) : null}
-
-        <View style={s.form}>
-          {mode === "phone" ? (
-            <View style={s.phoneRow}>
-              <View style={s.cc}>
-                <Text style={s.ccText}>+998</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Field
-                  placeholder="90 123 45 67"
-                  keyboardType="phone-pad"
-                  autoComplete="tel"
-                  textContentType="telephoneNumber"
-                  value={phone}
-                  onChangeText={setPhone}
-                  editable={!locked}
-                />
-              </View>
+      <View style={s.form}>
+        {mode === "phone" ? (
+          <View style={s.phoneRow}>
+            <View style={s.cc}>
+              <Text style={s.ccText}>+998</Text>
             </View>
-          ) : (
-            <Field
-              label="FURAM ID"
-              placeholder="11186"
-              keyboardType="number-pad"
-              value={furamId}
-              onChangeText={setFuramId}
-              editable={!locked}
-            />
-          )}
-
+            <View style={{ flex: 1 }}>
+              <Field
+                placeholder="90 123 45 67"
+                keyboardType="phone-pad"
+                autoComplete="tel"
+                textContentType="telephoneNumber"
+                value={phone}
+                onChangeText={setPhone}
+                editable={!locked}
+              />
+            </View>
+          </View>
+        ) : (
           <Field
-            label={t("mob.signIn.password")}
-            placeholder={t("mob.signIn.passwordPh")}
-            secureTextEntry={!show}
-            autoComplete="current-password"
-            textContentType="password"
-            value={password}
-            onChangeText={setPassword}
+            label="FURAM ID"
+            placeholder="11186"
+            keyboardType="number-pad"
+            value={furamId}
+            onChangeText={setFuramId}
             editable={!locked}
-            right={
-              <Pressable onPress={() => setShow((v) => !v)} hitSlop={10}>
-                <Svg width={20} height={20} viewBox="0 0 24 24">
-                  <Path
-                    d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"
-                    stroke={color.mutedForeground}
-                    strokeWidth={2}
-                    fill="none"
-                  />
-                  <Circle cx={12} cy={12} r={3} stroke={color.mutedForeground} strokeWidth={2} fill="none" />
-                  {show ? (
-                    <Path d="M3 3l18 18" stroke={color.mutedForeground} strokeWidth={2} strokeLinecap="round" />
-                  ) : null}
-                </Svg>
-              </Pressable>
-            }
           />
+        )}
 
-          {err && !locked ? <Text style={s.err}>{err.message}</Text> : null}
+        <Field
+          label={t("mob.signIn.password")}
+          placeholder={t("mob.signIn.passwordPh")}
+          secureTextEntry={!show}
+          autoComplete="current-password"
+          textContentType="password"
+          value={password}
+          onChangeText={setPassword}
+          editable={!locked}
+          right={
+            <Pressable onPress={() => setShow((v) => !v)} hitSlop={10}>
+              <Svg width={20} height={20} viewBox="0 0 24 24">
+                <Path
+                  d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"
+                  stroke={color.mutedForeground}
+                  strokeWidth={2}
+                  fill="none"
+                />
+                <Circle cx={12} cy={12} r={3} stroke={color.mutedForeground} strokeWidth={2} fill="none" />
+                {show ? (
+                  <Path d="M3 3l18 18" stroke={color.mutedForeground} strokeWidth={2} strokeLinecap="round" />
+                ) : null}
+              </Svg>
+            </Pressable>
+          }
+        />
 
-          <Pressable hitSlop={8} onPress={() => router.push("/parol")} accessibilityRole="button">
-            <Text style={s.link}>{t("mob.signIn.forgot")}</Text>
-          </Pressable>
-        </View>
+        {err && !locked ? <Text style={s.err}>{err.message}</Text> : null}
 
-        <View style={{ marginTop: space.xxl }}>
-          <Button title={t("mob.signIn.submit")} onPress={submit} loading={busy} disabled={!ready || locked} />
-        </View>
+        <Pressable
+          hitSlop={8}
+          onPress={() => router.push("/parol")}
+          accessibilityRole="button"
+          style={{ alignSelf: "flex-end" }}
+        >
+          <Text style={s.link}>{t("mob.signIn.forgot")}</Text>
+        </Pressable>
+      </View>
 
-        <View style={s.bottom}>
-          <Text style={s.bottomText}>{t("mob.signIn.noAccount")}</Text>
-          <Pressable onPress={() => router.replace("/royxat")} hitSlop={8}>
-            <Text style={s.link}>{t("mob.intro.signUp")}</Text>
-          </Pressable>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      <View style={{ marginTop: space.xl }}>
+        <Button title={t("mob.signIn.submit")} onPress={submit} loading={busy} disabled={!ready || locked} />
+      </View>
+    </AuthShell>
   );
 }
 
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.card },
-  scroll: { flexGrow: 1, paddingHorizontal: space.xl },
-
-  top: { flexDirection: "row", alignItems: "center" },
-  back: { width: 44, height: 44, marginLeft: -12, alignItems: "center", justifyContent: "center" },
-  lang: { flexDirection: "row", alignItems: "center", gap: 6, height: 36 },
-  langText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
-
-  hero: { alignItems: "center", gap: space.md, marginTop: space.xxl },
-  title: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.2 },
-
-  segment: {
-    flexDirection: "row",
-    gap: 4,
-    backgroundColor: color.muted,
+  mode: { flexDirection: "row", gap: 8, marginBottom: space.lg },
+  modeItem: {
+    flex: 1,
+    height: 38,
     borderRadius: radius.control,
-    padding: 3,
-    marginTop: 28,
-  },
-  segItem: { flex: 1, height: 40, alignItems: "center", justifyContent: "center", borderRadius: 6 },
-  segOn: { backgroundColor: color.card },
-  segText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
-  segTextOn: { fontWeight: "600", color: color.foreground },
-
-  form: { gap: space.lg, marginTop: space.xl },
-  phoneRow: { flexDirection: "row", gap: 8, alignItems: "flex-start" },
-  cc: {
-    width: 92,
-    height: 52,
-    borderRadius: radius.control,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: color.border,
     alignItems: "center",
     justifyContent: "center",
   },
-  ccText: { fontSize: font.body, fontWeight: "600", color: color.foreground },
+  modeOn: { borderColor: color.blue, backgroundColor: color.blueSoft },
+  modeText: { fontSize: 13.5, fontWeight: "600", color: color.mutedForeground },
+  modeTextOn: { color: color.blue },
 
-  err: { fontSize: 13, color: color.danger, marginTop: -8 },
-  link: { fontSize: 14, fontWeight: "600", color: color.brand },
+  form: { gap: space.md },
+  phoneRow: { flexDirection: "row", gap: 8, alignItems: "flex-start" },
+  cc: {
+    width: 88,
+    height: 52,
+    borderRadius: radius.control,
+    borderWidth: 1,
+    borderColor: color.border,
+    backgroundColor: color.muted,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  ccText: { fontSize: font.body, fontWeight: "700", color: color.foreground },
 
-  bottom: { flexDirection: "row", justifyContent: "center", gap: 5, marginTop: space.xl, paddingTop: space.sm },
-  bottomText: { fontSize: 14, color: color.mutedForeground },
+  err: { fontSize: 13, color: color.danger },
+  link: { fontSize: 14, fontWeight: "600", color: color.blue },
 });

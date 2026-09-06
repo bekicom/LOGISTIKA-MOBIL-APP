@@ -12,9 +12,15 @@
  */
 import { useState } from "react";
 import {
-  Image, KeyboardAvoidingView, Platform, Pressable,
-  ScrollView, StyleSheet, Text, View,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
 } from "react-native";
+import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Field, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";

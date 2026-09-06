@@ -17,7 +17,8 @@
  * batafsil sozlama ishlayveradi.
  */
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { Card, GroupLabel, Header, ListRow, Switch } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";

@@ -19,7 +19,8 @@
  * Ochiq bo'lsa HECH NARSA chizilmaydi: to'lagan odam har ekranda
  * tarif haqida o'qib yurmasligi kerak.
  */
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { useAuth } from "@/lib/auth-context";

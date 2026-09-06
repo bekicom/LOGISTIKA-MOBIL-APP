@@ -8,7 +8,8 @@
  * nizo chiqsa dalil shu bo'ladi.
  */
 import { useState } from "react";
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "./Icon";
 import { Button, Notice } from "./ui";

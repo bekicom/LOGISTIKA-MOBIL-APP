@@ -19,7 +19,8 @@
  * chizadi. Bu yerga esa `key` va RAQAMLAR keladi (`vars`), jumla
  * o'quvchining tilida yasaladi.
  */
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Header, Button } from "@/components/ui";

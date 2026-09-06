@@ -27,12 +27,15 @@
  * YASHIRILADI (`href: null`), o'chirilmaydi — kirgandan keyin darrov
  * paydo bo'ladi. «+» mehmonda kirish taklifini chiqaradi.
  */
-import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon, type IconName } from "@/components/Icon";
 import { PostSheet } from "@/components/PostSheet";
+import { Tour } from "@/components/Tour";
+import { markSeen, seen, useSplashDone } from "@/lib/first-run";
 import { color, shadow } from "@/lib/theme";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
@@ -86,6 +89,21 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   const [post, setPost] = useState(false);
 
+  /* Yo'l-yo'riq — kirgan odamga, bir marta, splash tugagach.
+     Mehmonga emas: uning tab bari boshqacha (bosh yo'q). */
+  const [tour, setTour] = useState(false);
+  const splashDone = useSplashDone();
+  useEffect(() => {
+    if (!user || guest || !splashDone) return;
+    let alive = true;
+    void seen("tourSeen").then((v) => {
+      if (alive && !v) setTour(true);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [user, guest, splashDone]);
+
   function openPost() {
     if (guest && guestBlocked()) return;
     setPost(true);
@@ -107,7 +125,7 @@ export default function TabsLayout() {
             ...shadow.bar,
           },
           tabBarItemStyle: { paddingVertical: 2 },
-          tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
+          tabBarLabelStyle: { fontSize: 11, fontFamily: "Manrope_600SemiBold" },
         }}
       >
         {tabs(guest).map((tab) => (
@@ -127,6 +145,13 @@ export default function TabsLayout() {
       </Tabs>
 
       <PostSheet open={post} onClose={() => setPost(false)} />
+      <Tour
+        open={tour}
+        onDone={() => {
+          setTour(false);
+          void markSeen("tourSeen");
+        }}
+      />
     </>
   );
 }

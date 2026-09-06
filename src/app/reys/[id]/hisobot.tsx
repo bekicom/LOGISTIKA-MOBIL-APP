@@ -6,7 +6,8 @@
  * endpoint yozilmadi, chunki hammasi allaqachon bor.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Path } from "react-native-svg";

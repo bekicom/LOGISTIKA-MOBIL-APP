@@ -11,7 +11,8 @@
  * tilda ishlaydi, server esa bitta tilda yozib yuborardi.
  */
 import { useState } from "react";
-import { Alert, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";

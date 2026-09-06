@@ -15,7 +15,8 @@
  * Modal olib tashlanadi; aks holda panel «g'oyib bo'lardi».
  */
 import { useEffect, useState, type ReactNode } from "react";
-import { Animated, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, Modal, Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { color, radius, space } from "@/lib/theme";
 

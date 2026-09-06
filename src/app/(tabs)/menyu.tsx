@@ -20,7 +20,8 @@
  * Ro'yxat qo'lda yozilgan, serverdan kelmaydi — shuning uchun
  * `ScrollView` da `.map()` bo'lishi to'g'ri (`test-lists`).
  */
-import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";

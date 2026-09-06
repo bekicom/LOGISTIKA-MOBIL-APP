@@ -3,32 +3,71 @@ import { Stack, useRouter } from "expo-router";
 import * as Notifications from "expo-notifications";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  Manrope_400Regular,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+  Manrope_800ExtraBold,
+  useFonts,
+} from "@expo-google-fonts/manrope";
 import { AuthProvider } from "@/lib/auth-context";
 import { OfflineBar } from "@/components/OfflineBar";
 import { PushAsk } from "@/components/PushAsk";
+import { Splash } from "@/components/Splash";
 import { useOutboxRunner } from "@/lib/use-outbox";
 import { color } from "@/lib/theme";
 import { deviceLocale, readLocale, setLocale } from "@/lib/i18n";
+import { markSeen, markSplashDone, seen } from "@/lib/first-run";
 import { routeOf } from "@/lib/push";
 
 export default function RootLayout() {
+  /* Shrift — Manrope, beshta og'irlik (~480 KB). Yuklanmaguncha
+     hech narsa chizilmaydi: aks holda matn tizim shriftida chiqib,
+     keyin «sakrab» almashardi. Yuklanmasa (xato) — tizim shrifti
+     bilan davom etamiz, ilova to'xtab qolmaydi. */
+  const [fontsReady, fontError] = useFonts({
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+    Manrope_800ExtraBold,
+  });
+
   /* Til birinchi chizishdan OLDIN tiklanadi: aks holda ekran bir
      zum o'zbekcha chiqib, keyin tanlangan tilga sakrardi. */
   const [ready, setReady] = useState(false);
+  /* Splash: birinchi marta to'liq (~3 s), keyin qisqa (~1 s) */
+  const [splash, setSplash] = useState<"full" | "short" | "done">("short");
+
   useEffect(() => {
     void (async () => {
-      await setLocale((await readLocale()) ?? deviceLocale());
+      const [, before] = await Promise.all([
+        setLocale((await readLocale()) ?? deviceLocale()),
+        seen("splashSeen"),
+      ]);
+      setSplash(before ? "short" : "full");
       setReady(true);
     })();
   }, []);
 
-  if (!ready) return null;
+  if (!ready || (!fontsReady && !fontError)) return null;
 
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <StatusBar style="auto" />
         <Shell />
+        {splash !== "done" ? (
+          <Splash
+            full={splash === "full"}
+            onDone={() => {
+              setSplash("done");
+              markSplashDone();
+              void markSeen("splashSeen");
+            }}
+          />
+        ) : null}
       </AuthProvider>
     </SafeAreaProvider>
   );

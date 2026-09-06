@@ -10,7 +10,8 @@
  * kirib xato ko'rgandan ko'ra oldindan aytilgani yaxshi (qoida 5).
  * Usta chaqirish — hammaga ochiq, to'siq yo'q.
  */
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";

@@ -11,7 +11,8 @@
  * raqamni ko'radi-yu, qo'lidan hech narsa kelmaydi.
  */
 import { useState } from "react";
-import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Header } from "@/components/ui";

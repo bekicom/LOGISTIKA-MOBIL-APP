@@ -14,19 +14,11 @@
  * uchun ekran oxirida odam qaytadan kiradi.
  */
 import { useEffect, useRef, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
-import { Button, Field, Header, Steps } from "@/components/ui";
+import { AuthShell } from "@/components/AuthShell";
+import { Button, Field, Steps } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
@@ -46,7 +38,6 @@ export default function Parol() {
   const [err, setErr] = useState<string | null>(null);
   const [done, setDone] = useState(false);
 
-  const insets = useSafeAreaInsets();
   const router = useRouter();
   const codeRef = useRef<TextInput>(null);
 
@@ -127,34 +118,31 @@ export default function Parol() {
      endi ishlamaydi, avvalgi ekranga qaytishning ma'nosi yo'q. */
   if (done) {
     return (
-      <View style={[s.root, { paddingTop: insets.top + space.xxl }]}>
+      <AuthShell title={t("mob.reset.doneTitle")} compact>
         <View style={s.doneWrap}>
           <View style={s.doneIcon}>
             <Text style={s.doneTick}>✓</Text>
           </View>
-          <Text style={s.doneTitle}>{t("mob.reset.doneTitle")}</Text>
           <Text style={s.doneText}>{t("mob.reset.doneText")}</Text>
           <View style={{ alignSelf: "stretch", marginTop: space.xxl }}>
             <Button title={t("mob.reset.toSignIn")} onPress={() => router.replace("/kirish")} />
           </View>
         </View>
-      </View>
+      </AuthShell>
     );
   }
 
   return (
-    <KeyboardAvoidingView style={s.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <Header
-        title={t("mob.reset.title")}
-        onBack={() =>
-          step === "phone" ? router.back() : setStep(step === "code" ? "phone" : "code")
-        }
-      />
-      <View style={s.steps}>
-        <Steps total={3} current={stepNo} />
-      </View>
-
-      <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 40 }]}>
+    <AuthShell
+      title={t("mob.reset.title")}
+      subtitle={t("mob.common.stepOf", { n: stepNo, k: 3 })}
+      compact
+      onBack={() =>
+        step === "phone" ? router.back() : setStep(step === "code" ? "phone" : "code")
+      }
+    >
+      <Steps total={3} current={stepNo} />
+      <View style={{ height: space.lg }} />
         {step === "phone" ? (
           <>
             <Text style={s.title}>{t("mob.reset.phoneTitle")}</Text>
@@ -248,9 +236,8 @@ export default function Parol() {
         )}
 
         {err ? <Text style={s.err}>{err}</Text> : null}
-      </ScrollView>
 
-      <View style={[s.foot, { paddingBottom: insets.bottom + 14 }]}>
+      <View style={{ marginTop: space.xl }}>
         <Button
           title={t(step === "password" ? "mob.reset.save" : "mob.common.next")}
           loading={busy}
@@ -258,14 +245,11 @@ export default function Parol() {
           onPress={step === "phone" ? send : step === "code" ? () => verify(code) : save}
         />
       </View>
-    </KeyboardAvoidingView>
+    </AuthShell>
   );
 }
 
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.background },
-  steps: { backgroundColor: color.card, paddingHorizontal: space.lg, paddingBottom: space.md },
-  scroll: { padding: space.lg },
 
   title: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.5 },
   sub: { fontSize: font.body, color: "#475569", marginTop: 8, lineHeight: 22 },
@@ -320,15 +304,8 @@ const s = StyleSheet.create({
 
   err: { fontSize: font.caption, color: color.danger, marginTop: 16 },
 
-  foot: {
-    backgroundColor: color.card,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
-    paddingHorizontal: space.lg,
-    paddingTop: 12,
-  },
 
-  doneWrap: { flex: 1, alignItems: "center", paddingHorizontal: space.xl, paddingTop: space.xxl },
+  doneWrap: { alignItems: "center", paddingVertical: space.md },
   doneIcon: {
     width: 72,
     height: 72,
@@ -338,13 +315,6 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   doneTick: { fontSize: 34, color: color.success, fontWeight: "700" },
-  doneTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: color.foreground,
-    marginTop: 20,
-    textAlign: "center",
-  },
   doneText: {
     fontSize: font.body,
     color: "#475569",

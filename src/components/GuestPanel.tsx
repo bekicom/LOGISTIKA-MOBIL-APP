@@ -14,7 +14,8 @@
  * qulf bilan: odam ro'yxatdan o'tsa NIMA olishini bilishi kerak.
  * Ularni umuman yashirsak, kirishning sababi ko'rinmay qolardi.
  */
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";

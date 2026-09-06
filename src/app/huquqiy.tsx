@@ -14,7 +14,8 @@
  * qarab ochiladi (`Accept-Language`). Ikkalasi deyarli har doim bir
  * xil; farq qilsa ham hujjatning O'ZI to'g'ri, faqat tili boshqa.
  */
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Card, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";

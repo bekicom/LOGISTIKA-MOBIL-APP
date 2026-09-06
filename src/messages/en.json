@@ -1641,6 +1641,14 @@
       "title": "CV",
       "webNote": "The other fields you filled in on the website stay — this screen does not erase them."
     },
+    "rol": {
+      "guest": "As a guest",
+      "guestHint": "Look around without signing in",
+      "later": "You can add other roles later — mechanic, shop, employer…",
+      "selected": "Selected",
+      "subtitle": "How will you use FURAM?",
+      "title": "Welcome!"
+    },
     "role": {
       "AUTO_SELLER": "Vehicle seller",
       "CARGO_OWNER": "Shipper",
@@ -1814,6 +1822,7 @@
       "password": "Password",
       "passwordPh": "Enter your password",
       "submit": "Sign in",
+      "subtitle": "Sign in to your account",
       "title": "Welcome"
     },
     "signUp": {
@@ -1822,13 +1831,16 @@
       "agreePost": "",
       "agreePre": "I agree to the",
       "bySms": "By SMS",
+      "changePhone": "Change number",
       "codeFailed": "The code was not sent",
       "codeSentTo": "We sent a 6-digit code to %{phone} via %{via}",
       "devCode": "Test code: %{code}",
       "enterCode": "Enter the code",
+      "haveAccount": "Already have an account?",
       "noSession": "The server returned no session",
       "offer": "Public offer",
       "offerRequired": "Accept the offer to continue",
+      "otherRole": "Other role",
       "passwordMin": "At least 6 characters",
       "phone": "Your phone number",
       "phoneHint": "We will send a code to confirm the number",
@@ -2024,6 +2036,20 @@
       "need": "“%{f}” is not in your plan",
       "needHint": "You can fill this in, but saving will need a role.",
       "pick": "Choose a role"
+    },
+    "tour": {
+      "done": "Got it",
+      "loads": "The marketplace lives here: find loads or empty trucks, filter, save",
+      "loadsT": "Loads and trucks",
+      "menu": "Every section of the app: trips, fleet, finance, service…",
+      "menuT": "Menu",
+      "next": "Next",
+      "post": "Load, truck, job opening — all from this button",
+      "postT": "Post",
+      "profile": "Your roles, plan and settings",
+      "profileT": "Profile",
+      "top": "Messages and notifications — at the top, with counters",
+      "topT": "Chat and alerts"
     },
     "trip": {
       "arrives": "arrives",

@@ -478,6 +478,16 @@
       "REJECTED": "Reddet",
       "REVIEWING": "İncelemeye al"
     },
+    "balance": {
+      "kind": {
+        "ADJUST": "Yönetici düzeltmesi",
+        "CASHBACK": "Referans iadesi",
+        "REVOKE": "İade iptal edildi",
+        "SPEND": "Tarife için harcandı",
+        "TOPUP": "Bakiye yüklendi",
+        "WITHDRAW": "Karta çekildi"
+      }
+    },
     "benefit": {
       "advance": "Avans",
       "bonus": "Prim",
@@ -602,9 +612,16 @@
       "tryAgain": "Tekrar deneyin"
     },
     "company": {
+      "account": "Hesap numarası",
+      "addr": "Yasal adres",
+      "bank": "Banka adı",
+      "dir": "Yönetici",
       "hint": "Bu bilgiler sözleşme ve faturalarda kullanılır. Şahıs iseniz boş bırakın.",
+      "line": "Faaliyet alanı",
+      "mfo": "Banka kodu",
       "name": "Şirket adı",
       "saved": "Kaydedildi",
+      "tin": "Vergi no",
       "title": "Şirket bilgileri"
     },
     "ctr": {
@@ -1548,6 +1565,22 @@
     "pay": {
       "empty": "Ödeme yok",
       "emptyHint": "Tarife veya bakiye ödemesi burada görünür",
+      "plan": {
+        "HALF_YEAR": "6 aylık tarife",
+        "MONTHLY": "Aylık tarife",
+        "QUARTERLY": "3 aylık tarife",
+        "YEARLY": "Yıllık tarife"
+      },
+      "purpose": {
+        "ROLE": "Rol ödemesi",
+        "TOPUP": "Bakiye yükleme"
+      },
+      "status": {
+        "FAILED": "Başarısız",
+        "PAID": "Ödendi",
+        "PENDING": "Bekliyor",
+        "REFUNDED": "İade edildi"
+      },
       "title": "Ödeme geçmişi"
     },
     "pdoc": {
@@ -1855,6 +1888,7 @@
       "newTitle": "Yeni şifre",
       "phoneHint": "Bu numaraya doğrulama kodu göndereceğiz.",
       "phoneTitle": "Telefon numaranız",
+      "save": "Şifreyi kaydet",
       "sessionsNote": "Şifre değişince tüm cihazlardaki oturumlar kapanır — telefon, bilgisayar, tablet. Her birinde yeniden giriş yaparsınız.",
       "title": "Şifre sıfırlama",
       "toSignIn": "Giriş yap"

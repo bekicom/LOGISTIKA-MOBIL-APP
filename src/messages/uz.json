@@ -478,6 +478,16 @@
       "REJECTED": "Rad etaman",
       "REVIEWING": "Ko'rib chiqaman"
     },
+    "balance": {
+      "kind": {
+        "ADJUST": "Admin tuzatishi",
+        "CASHBACK": "Referal cashback",
+        "REVOKE": "Cashback bekor qilindi",
+        "SPEND": "Tarif uchun sarflandi",
+        "TOPUP": "Balans to'ldirildi",
+        "WITHDRAW": "Kartaga chiqarildi"
+      }
+    },
     "benefit": {
       "advance": "Avans",
       "bonus": "Bonus",
@@ -602,9 +612,16 @@
       "tryAgain": "Qaytadan urinib ko'ring"
     },
     "company": {
+      "account": "Hisob raqami",
+      "addr": "Yuridik manzil",
+      "bank": "Bank nomi",
+      "dir": "Rahbar",
       "hint": "Shartnoma va hisob-fakturalarda shu rekvizitlar ishlatiladi. Jismoniy shaxs bo'lsangiz bo'sh qoldiring.",
+      "line": "Faoliyat turi",
+      "mfo": "MFO",
       "name": "Tashkilot nomi",
       "saved": "Saqlandi",
+      "tin": "STIR / INN",
       "title": "Kompaniya ma'lumoti"
     },
     "ctr": {
@@ -1548,6 +1565,22 @@
     "pay": {
       "empty": "To'lov yo'q",
       "emptyHint": "Tarif yoki balans to'ldirilganda shu yerda ko'rinadi",
+      "plan": {
+        "HALF_YEAR": "6 oylik tarif",
+        "MONTHLY": "Oylik tarif",
+        "QUARTERLY": "3 oylik tarif",
+        "YEARLY": "Yillik tarif"
+      },
+      "purpose": {
+        "ROLE": "Rol uchun to'lov",
+        "TOPUP": "Balans to'ldirish"
+      },
+      "status": {
+        "FAILED": "O'tmadi",
+        "PAID": "To'landi",
+        "PENDING": "Kutilmoqda",
+        "REFUNDED": "Qaytarildi"
+      },
       "title": "To'lovlar tarixi"
     },
     "pdoc": {
@@ -1855,6 +1888,7 @@
       "newTitle": "Yangi parol",
       "phoneHint": "Shu raqamga tasdiqlash kodi yuboramiz.",
       "phoneTitle": "Telefon raqamingiz",
+      "save": "Parolni saqlash",
       "sessionsNote": "Parol almashtirilgach barcha qurilmalardagi seanslar yopiladi — telefon, kompyuter va planshet. Har birida qaytadan kirasiz.",
       "title": "Parolni tiklash",
       "toSignIn": "Kirish"

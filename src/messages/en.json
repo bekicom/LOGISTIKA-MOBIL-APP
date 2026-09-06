@@ -478,6 +478,16 @@
       "REJECTED": "Reject",
       "REVIEWING": "Start reviewing"
     },
+    "balance": {
+      "kind": {
+        "ADJUST": "Admin adjustment",
+        "CASHBACK": "Referral cashback",
+        "REVOKE": "Cashback revoked",
+        "SPEND": "Spent on a plan",
+        "TOPUP": "Balance top-up",
+        "WITHDRAW": "Withdrawn to card"
+      }
+    },
     "benefit": {
       "advance": "Advance pay",
       "bonus": "Bonus",
@@ -602,9 +612,16 @@
       "tryAgain": "Please try again"
     },
     "company": {
+      "account": "Account number",
+      "addr": "Legal address",
+      "bank": "Bank name",
+      "dir": "Director",
       "hint": "These details appear on contracts and invoices. Leave empty if you are an individual.",
+      "line": "Line of business",
+      "mfo": "Bank code",
       "name": "Company name",
       "saved": "Saved",
+      "tin": "Tax ID",
       "title": "Company details"
     },
     "ctr": {
@@ -1548,6 +1565,22 @@
     "pay": {
       "empty": "No payments",
       "emptyHint": "Payments for plans and top-ups appear here",
+      "plan": {
+        "HALF_YEAR": "6-month plan",
+        "MONTHLY": "Monthly plan",
+        "QUARTERLY": "3-month plan",
+        "YEARLY": "Yearly plan"
+      },
+      "purpose": {
+        "ROLE": "Role payment",
+        "TOPUP": "Balance top-up"
+      },
+      "status": {
+        "FAILED": "Failed",
+        "PAID": "Paid",
+        "PENDING": "Pending",
+        "REFUNDED": "Refunded"
+      },
       "title": "Payment history"
     },
     "pdoc": {
@@ -1855,6 +1888,7 @@
       "newTitle": "New password",
       "phoneHint": "We will send a confirmation code to this number.",
       "phoneTitle": "Your phone number",
+      "save": "Save the password",
       "sessionsNote": "Changing the password closes your sessions on every device — phone, computer, tablet. You will sign in again on each.",
       "title": "Reset password",
       "toSignIn": "Sign in"

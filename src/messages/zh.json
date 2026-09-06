@@ -478,6 +478,16 @@
       "REJECTED": "拒绝",
       "REVIEWING": "开始审阅"
     },
+    "balance": {
+      "kind": {
+        "ADJUST": "管理员调整",
+        "CASHBACK": "推荐返现",
+        "REVOKE": "返现已撤销",
+        "SPEND": "用于套餐",
+        "TOPUP": "余额充值",
+        "WITHDRAW": "已提现到银行卡"
+      }
+    },
     "benefit": {
       "advance": "预支",
       "bonus": "奖金",
@@ -602,9 +612,16 @@
       "tryAgain": "请重试"
     },
     "company": {
+      "account": "账号",
+      "addr": "注册地址",
+      "bank": "开户行",
+      "dir": "负责人",
       "hint": "这些信息将用于合同和发票。若为个人，请留空。",
+      "line": "经营范围",
+      "mfo": "银行代码",
       "name": "公司名称",
       "saved": "已保存",
+      "tin": "税号",
       "title": "公司信息"
     },
     "ctr": {
@@ -1548,6 +1565,22 @@
     "pay": {
       "empty": "暂无付款",
       "emptyHint": "支付套餐或充值后将显示在这里",
+      "plan": {
+        "HALF_YEAR": "半年套餐",
+        "MONTHLY": "月度套餐",
+        "QUARTERLY": "季度套餐",
+        "YEARLY": "年度套餐"
+      },
+      "purpose": {
+        "ROLE": "角色付费",
+        "TOPUP": "余额充值"
+      },
+      "status": {
+        "FAILED": "失败",
+        "PAID": "已支付",
+        "PENDING": "处理中",
+        "REFUNDED": "已退款"
+      },
       "title": "付款记录"
     },
     "pdoc": {
@@ -1855,6 +1888,7 @@
       "newTitle": "新密码",
       "phoneHint": "我们会向该号码发送验证码。",
       "phoneTitle": "您的手机号",
+      "save": "保存密码",
       "sessionsNote": "更改密码后，所有设备上的登录都会退出——手机、电脑、平板。需要重新登录。",
       "title": "重置密码",
       "toSignIn": "登录"

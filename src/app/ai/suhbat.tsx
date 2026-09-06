@@ -33,7 +33,7 @@ import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t, tOr } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { tariffBlocked } from "@/lib/features";
 
 type Action = { id: string; kind: string; title: string; furamNo?: number; url?: string };
@@ -521,13 +521,10 @@ const s = StyleSheet.create({
   grow: { flex: 1 },
 
   header: {
-    backgroundColor: color.card,
     paddingLeft: 4,
     paddingRight: space.lg,
     paddingTop: 4,
     paddingBottom: space.md,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
@@ -571,10 +568,7 @@ const s = StyleSheet.create({
     backgroundColor: color.card,
     borderRadius: radius.card,
     borderBottomLeftRadius: 4,
-    borderWidth: 1,
-    borderColor: color.border,
-    padding: 15,
-  },
+    padding: 15, ...shadow.card,},
   aiWarn: { borderColor: color.warning + "66", backgroundColor: "#fffdf7" },
 
   txt: { fontSize: font.body, color: color.foreground, lineHeight: 23 },
@@ -634,9 +628,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 11,
     borderRadius: 10,
-    backgroundColor: color.success + "14",
-    borderWidth: 1,
-    borderColor: color.success + "4d",
+    backgroundColor: color.successSoft,
   },
   toastText: { flex: 1, fontSize: font.caption, color: "#15803d" },
 
@@ -645,11 +637,8 @@ const s = StyleSheet.create({
     alignItems: "flex-end",
     gap: 10,
     backgroundColor: color.card,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
     paddingHorizontal: 12,
-    paddingTop: 10,
-  },
+    paddingTop: 10, ...shadow.bar,},
   field: {
     flex: 1,
     minHeight: 44,

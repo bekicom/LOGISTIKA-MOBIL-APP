@@ -33,7 +33,7 @@ import { Icon } from "@/components/Icon";
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { t, tOr } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -501,12 +501,9 @@ const s = StyleSheet.create({
 
   card: {
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
     borderRadius: radius.card,
     padding: space.lg,
-    gap: 14,
-  },
+    gap: 14, ...shadow.card,},
   cardTitle: { fontSize: font.caption, fontWeight: "700", color: color.foreground },
 
   fLabel: { fontSize: 12, color: color.mutedForeground, marginBottom: 5 },
@@ -556,9 +553,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     gap: 9,
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: color.danger + "4d",
-    backgroundColor: color.danger + "0d",
+    backgroundColor: color.dangerSoft,
     borderRadius: radius.control,
     padding: 12,
   },

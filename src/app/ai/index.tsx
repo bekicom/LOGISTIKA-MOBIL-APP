@@ -17,7 +17,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 
 type Left = {
@@ -246,12 +246,9 @@ const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
   grow: { flex: 1 },
   head: {
-    backgroundColor: color.card,
     paddingHorizontal: space.lg,
     paddingTop: 4,
     paddingBottom: space.md,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
   },
   title: { fontSize: font.titleLg, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
@@ -281,11 +278,10 @@ const s = StyleSheet.create({
   },
 
   usage: {
-    borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.card,
     borderRadius: radius.card,
     padding: space.lg,
+    ...shadow.card,
   },
   usageHead: { flexDirection: "row", alignItems: "center", gap: 10 },
   usageTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
@@ -305,8 +301,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
+    ...shadow.card,
     borderRadius: radius.pill,
     paddingLeft: 18,
     paddingRight: 5,
@@ -323,9 +318,7 @@ const s = StyleSheet.create({
   },
 
   limit: {
-    backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.warning + "66",
+    backgroundColor: color.warningSoft,
     borderRadius: radius.card,
     padding: 18,
   },

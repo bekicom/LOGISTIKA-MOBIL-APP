@@ -4,9 +4,13 @@
  * Reysga bog'langan suhbat ostida reys belgisi turadi: dispetcherda
  * o'nlab suhbat bo'ladi va qaysi biri qaysi reysga tegishli ekani
  * darrov bilinishi kerak.
+ *
+ * Dizayn-2: bu ekran tab emas, menyudan/sarlavhadan ochiladi —
+ * orqaga tugmasi bor. Sarlavha chegarasiz, yorliqlar pill (faol
+ * yarmi ko'k), suhbat kartalari soyali. Oy nomlari tizimdan.
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -14,7 +18,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
-import { t } from "@/lib/i18n";
+import { currentLocale, t } from "@/lib/i18n";
 
 type Chat = {
   id: string;
@@ -33,11 +37,11 @@ type Chat = {
    o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
 function tabs() {
   return [
-  { key: "all", label: t("mob.common.all") },
-  { key: "unread", label: t("mob.ui.unread") },
-  { key: "trip", label: t("mob.ui.tripChats") },
-  { key: "private", label: t("mob.chat.private") },
-] as const;
+    { key: "all", label: t("mob.common.all") },
+    { key: "unread", label: t("mob.ui.unread") },
+    { key: "trip", label: t("mob.ui.tripChats") },
+    { key: "private", label: t("mob.chat.private") },
+  ] as const;
 }
 
 function when(iso: string | null) {
@@ -49,7 +53,8 @@ function when(iso: string | null) {
   }
   const y = new Date(Date.now() - 86400000);
   if (d.toDateString() === y.toDateString()) return t("mob.chat.yesterday");
-  return `${d.getDate()}-${["yanv", "fev", "mart", "apr", "may", "iyun", "iyul", "avg", "sent", "okt", "noya", "dek"][d.getMonth()]}`;
+  /* Oy nomi tizimdan, tanlangan tilda — o'zbekcha ro'yxat qotib turardi */
+  return d.toLocaleDateString(currentLocale(), { day: "numeric", month: "short" });
 }
 
 export default function ChatRoyxati() {
@@ -72,53 +77,62 @@ export default function ChatRoyxati() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <View style={{ flexDirection: "row", alignItems: "center", marginLeft: -10 }}>
-          {/* Dizayn-2: bu ekran endi tab emas, menyudan ochiladi —
-              orqaga tugmasi kerak. Tarix bo'lmasa (push/deep link)
-              bosh sahifaga. */}
+        <View style={s.headRow}>
+          {/* Tarix bo'lmasa (push/deep link) bosh sahifaga */}
           <Pressable
             onPress={() => (router.canGoBack() ? router.back() : router.replace("/bosh"))}
             hitSlop={8}
             accessibilityRole="button"
-            style={{ width: 40, height: 40, alignItems: "center", justifyContent: "center" }}
+            style={s.back}
           >
             <Icon name="back" size={22} stroke={color.foreground} />
           </Pressable>
           <Text style={s.title}>{t("mob.chat.title")}</Text>
+          {(data?.unread ?? 0) > 0 ? (
+            <View style={s.unreadPill}>
+              <Text style={s.unreadPillText}>{data!.unread}</Text>
+            </View>
+          ) : null}
         </View>
 
-        <View style={s.tabs}>
-          {tabs().map((t) => {
-            const on = tab === t.key;
-            const n = t.key === "unread" ? (data?.unread ?? 0) : 0;
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.tabs}>
+          {tabs().map((tb) => {
+            const on = tab === tb.key;
+            const n = tb.key === "unread" ? (data?.unread ?? 0) : 0;
             return (
-              <Pressable key={t.key} onPress={() => setTab(t.key)} style={[s.tab, on && s.tabOn]}>
-                <Text style={[s.tabText, on && s.tabTextOn]}>{t.label}</Text>
+              <Pressable
+                key={tb.key}
+                onPress={() => setTab(tb.key)}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: on }}
+                style={[s.tab, on && s.tabOn]}
+              >
+                <Text style={[s.tabText, on && s.tabTextOn]}>{tb.label}</Text>
                 {n > 0 ? (
-                  <View style={s.tabBadge}>
+                  <View style={[s.tabBadge, on && { backgroundColor: "#ffffff33" }]}>
                     <Text style={s.tabBadgeText}>{n}</Text>
                   </View>
                 ) : null}
               </Pressable>
             );
           })}
-        </View>
+        </ScrollView>
       </View>
 
       <FlatList
         data={chats}
         keyExtractor={(c) => c.id}
-        contentContainerStyle={[s.list, { paddingBottom: space.xl }]}
+        contentContainerStyle={[s.list, { paddingBottom: insets.bottom + space.xl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <Pressable
             onPress={() => router.push(`/suhbat/${item.id}`)}
-            style={({ pressed }) => [s.row, item.unread > 0 && s.rowUnread, pressed && { backgroundColor: "#fafbfc" }]}
+            style={({ pressed }) => [s.row, item.unread > 0 && s.rowUnread, pressed && { opacity: 0.85 }]}
           >
             <View style={[s.avatar, item.type === "GROUP" && s.avatarGroup]}>
               {item.type === "GROUP" ? (
-                <Icon name="user" size={22} stroke={color.brand} />
+                <Icon name="users" size={22} stroke={color.brand} />
               ) : (
                 <Text style={s.avatarText}>{item.title.slice(0, 2).toUpperCase()}</Text>
               )}
@@ -171,41 +185,57 @@ export default function ChatRoyxati() {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  head: {
-    backgroundColor: color.card, paddingHorizontal: space.lg, paddingTop: 4,
-    paddingBottom: space.md, borderBottomWidth: 1, borderBottomColor: color.border, gap: space.md,
+  head: { paddingTop: 4, paddingBottom: space.sm, gap: space.md },
+  headRow: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: space.lg },
+  back: { width: 40, height: 40, marginLeft: -10, alignItems: "center", justifyContent: "center" },
+  title: { fontSize: 24, fontWeight: "800", color: color.foreground, letterSpacing: -0.5 },
+  unreadPill: {
+    minWidth: 24,
+    height: 24,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+    backgroundColor: color.brand,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 4,
   },
-  title: { fontSize: 22, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
+  unreadPillText: { fontSize: 12, fontWeight: "800", color: "#ffffff" },
 
-  tabs: { flexDirection: "row", gap: 7 },
+  tabs: { flexDirection: "row", gap: 7, paddingHorizontal: space.lg },
   tab: {
-    height: 32, paddingHorizontal: 13, borderRadius: radius.control, backgroundColor: color.muted,
-    flexDirection: "row", alignItems: "center", gap: 6,
+    height: 34,
+    paddingHorizontal: 14,
+    borderRadius: radius.pill,
+    backgroundColor: color.card,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    ...shadow.card,
   },
-  tabOn: { backgroundColor: color.foreground },
-  tabText: { fontSize: 13, fontWeight: "500", color: "#475569" },
-  tabTextOn: { fontWeight: "600", color: "#fff" },
+  tabOn: { backgroundColor: color.blue },
+  tabText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
+  tabTextOn: { fontWeight: "700", color: "#fff" },
   tabBadge: {
     minWidth: 18, height: 18, paddingHorizontal: 5, borderRadius: 9,
     backgroundColor: color.brand, alignItems: "center", justifyContent: "center",
   },
   tabBadgeText: { fontSize: 10, fontWeight: "700", color: "#fff" },
 
-  list: { padding: space.lg, gap: space.sm },
+  list: { padding: space.lg, paddingTop: space.sm, gap: space.sm },
   row: {
     flexDirection: "row", gap: space.md, alignItems: "center", backgroundColor: color.card,
-    borderRadius: radius.card, borderWidth: 1, borderColor: color.border, padding: space.md, ...shadow.card,
+    borderRadius: radius.card, padding: space.md, ...shadow.card,
   },
-  rowUnread: { backgroundColor: "#fffaf7", borderColor: "#f45a1826" },
+  rowUnread: { backgroundColor: color.brandSoft },
   avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
-  avatarGroup: { backgroundColor: "#f45a181f" },
-  avatarText: { fontSize: 15, fontWeight: "600", color: color.mutedForeground },
+  avatarGroup: { backgroundColor: "#ffffff" },
+  avatarText: { fontSize: 15, fontWeight: "700", color: color.mutedForeground },
 
-  name: { fontSize: font.body, fontWeight: "600", color: color.foreground },
-  nameRead: { fontWeight: "500", color: "#475569" },
+  name: { fontSize: font.body, fontWeight: "700", color: color.foreground },
+  nameRead: { fontWeight: "600", color: "#475569" },
   last: { fontSize: font.caption, color: color.mutedForeground, marginTop: 2 },
   tripTag: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 5 },
-  tripText: { fontSize: 11, fontWeight: "500", color: "#c2490f", flexShrink: 1 },
+  tripText: { fontSize: 11, fontWeight: "600", color: "#c2490f", flexShrink: 1 },
 
   time: { fontSize: 11, color: color.mutedForeground },
   badge: {

@@ -15,7 +15,7 @@ import { api } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { setBadge } from "@/lib/push";
 import { color, font, radius, shadow, space } from "@/lib/theme";
-import { t } from "@/lib/i18n";
+import { currentLocale, t } from "@/lib/i18n";
 
 type Note = {
   id: string;
@@ -59,7 +59,8 @@ function day(iso: string) {
   const y = new Date(Date.now() - 86400000);
   if (d.toDateString() === today.toDateString()) return t("mob.notes.today");
   if (d.toDateString() === y.toDateString()) return t("mob.notes.yesterday");
-  return d.toLocaleDateString("uz-UZ", { day: "numeric", month: "long" }).toUpperCase();
+  /* Til — tanlangan, «uz-UZ» qotib turardi */
+  return d.toLocaleDateString(currentLocale(), { day: "numeric", month: "long" }).toUpperCase();
 }
 
 function hhmm(iso: string) {
@@ -177,33 +178,30 @@ export default function Bildirishnomalar() {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  head: {
-    backgroundColor: color.card, flexDirection: "row", alignItems: "center",
+  head: { flexDirection: "row", alignItems: "center",
     paddingHorizontal: 8, paddingVertical: 4, gap: 4,
   },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  title: { flex: 1, fontSize: 19, fontWeight: "700", color: color.foreground },
+  title: { flex: 1, fontSize: 20, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
   link: { fontSize: 13, fontWeight: "600", color: color.brand, paddingRight: space.md },
 
-  tabs: {
-    backgroundColor: color.card, flexDirection: "row", gap: 7,
+  tabs: { flexDirection: "row", gap: 7,
     paddingHorizontal: space.lg, paddingBottom: space.md,
-    borderBottomWidth: 1, borderBottomColor: color.border,
   },
-  tab: { height: 32, paddingHorizontal: 13, borderRadius: radius.control, backgroundColor: color.muted, justifyContent: "center" },
-  tabOn: { backgroundColor: color.foreground },
-  tabText: { fontSize: 13, fontWeight: "500", color: "#475569" },
-  tabTextOn: { fontWeight: "600", color: "#fff" },
+  tab: { height: 34, paddingHorizontal: 14, borderRadius: radius.pill, backgroundColor: color.card, justifyContent: "center", ...shadow.card },
+  tabOn: { backgroundColor: color.blue },
+  tabText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
+  tabTextOn: { fontWeight: "700", color: "#fff" },
 
   list: { padding: space.lg, gap: space.sm },
   day: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, letterSpacing: 0.4, marginTop: space.sm, marginBottom: 2 },
 
   note: {
     flexDirection: "row", gap: space.md, backgroundColor: color.card,
-    borderRadius: radius.card, borderWidth: 1, borderColor: color.border,
+    borderRadius: radius.card,
     padding: space.lg, ...shadow.card,
   },
-  noteUnread: { backgroundColor: "#fffaf7", borderColor: "#f45a1826" },
+  noteUnread: { backgroundColor: color.brandSoft },
   noteIcon: { width: 38, height: 38, borderRadius: 19, alignItems: "center", justifyContent: "center" },
   noteTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
   noteBody: { fontSize: font.caption, color: "#475569", marginTop: 2, lineHeight: 19 },

@@ -26,7 +26,7 @@ import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload } from "@/lib/photo";
 import { useAuth } from "@/lib/auth-context";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { P_SOON, P_WIFI, sendOrQueue } from "@/lib/outbox";
 import { t } from "@/lib/i18n";
 
@@ -297,10 +297,8 @@ function MenuRow({ icon, label, danger, last }: { icon: IconName; label: string;
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  header: {
-    backgroundColor: color.card, flexDirection: "row", alignItems: "center",
+  header: { flexDirection: "row", alignItems: "center",
     paddingHorizontal: 8, paddingVertical: 6, gap: 8,
-    borderBottomWidth: 1, borderBottomColor: color.border,
   },
   back: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
   dots: { fontSize: 22, color: color.foreground, marginTop: -6 },
@@ -311,7 +309,7 @@ const s = StyleSheet.create({
   list: { padding: space.lg, gap: 10 },
 
   bubble: { maxWidth: "80%", padding: 11, borderRadius: 14 },
-  in: { alignSelf: "flex-start", backgroundColor: color.card, borderWidth: 1, borderColor: color.border, borderBottomLeftRadius: 4 },
+  in: { alignSelf: "flex-start", backgroundColor: color.card, borderBottomLeftRadius: 4, ...shadow.card },
   out: { alignSelf: "flex-end", backgroundColor: color.brand, borderBottomRightRadius: 4 },
   sender: { fontSize: 11, fontWeight: "700", color: color.brand, marginBottom: 3 },
   text: { fontSize: 14, lineHeight: 20, color: color.foreground },
@@ -330,9 +328,8 @@ const s = StyleSheet.create({
   errText: { fontSize: 12, color: color.danger, flex: 1 },
 
   inputBar: {
-    backgroundColor: color.card, borderTopWidth: 1, borderTopColor: color.border,
-    flexDirection: "row", alignItems: "flex-end", gap: 9, paddingHorizontal: 12, paddingTop: 10,
-  },
+    backgroundColor: color.card,
+    flexDirection: "row", alignItems: "flex-end", gap: 9, paddingHorizontal: 12, paddingTop: 10, ...shadow.bar,},
   plus: { width: 42, height: 42, borderRadius: 21, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   field: { flex: 1, minHeight: 42, maxHeight: 120, borderWidth: 1, borderColor: color.border, borderRadius: 21, justifyContent: "center", paddingHorizontal: 16 },
   input: { fontSize: font.body, color: color.foreground, paddingVertical: 10 },

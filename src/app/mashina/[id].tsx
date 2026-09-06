@@ -37,11 +37,13 @@ import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { guestBlocked } from "@/lib/guest-gate";
+import { ShareButton } from "@/components/ShareSheet";
 
 type Doc = { kind: string; state: string };
 
 type Detail = {
   id: string;
+  slug: string | null;
   description: string | null;
   isMine: boolean;
   source: "USER" | "TELEGRAM";
@@ -157,6 +159,15 @@ export default function MashinaTafsilot() {
           >
             <Icon name="back" size={21} stroke="#fff" />
           </Pressable>
+
+          {/* Ulashish — surat ustida, «orqaga» ning ro'parasida */}
+          <View style={[s.shareWrap, { top: insets.top + 4 }]}>
+            <ShareButton
+              kind="truck"
+              id={data.id}
+              href={data.slug ? `/trucks/${data.slug}` : null}
+            />
+          </View>
 
           {photos.length > 1 ? (
             <>
@@ -322,6 +333,24 @@ export default function MashinaTafsilot() {
         </View>
       </ScrollView>
 
+      {/* O'z e'loni: shu mashinaga qanday yuk bor */}
+      {data.isMine ? (
+        <View style={[s.foot, { paddingBottom: insets.bottom + 14 }]}>
+          <View style={{ flex: 1 }}>
+            <Button
+              title={t("mob.match.loadsTitle")}
+              onPress={() =>
+                router.push({
+                  pathname: "/moslar/[kind]/[id]",
+                  params: { kind: "mashina", id: data.id },
+                })
+              }
+              icon={<Icon name="sparkle" size={18} stroke="#fff" />}
+            />
+          </View>
+        </View>
+      ) : null}
+
       {/* Pastdagi tugmalar */}
       {!data.isMine ? (
         <View style={[s.foot, { paddingBottom: insets.bottom + 14 }]}>
@@ -370,6 +399,8 @@ function Stat({ label, value, good }: { label: string; value: string | number; g
 }
 
 const s = StyleSheet.create({
+  shareWrap: { position: "absolute", right: 12 },
+
   root: { flex: 1, backgroundColor: color.background },
 
   gallery: { height: 260, backgroundColor: "#b9c3cf" },

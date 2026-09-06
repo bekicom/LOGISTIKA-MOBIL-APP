@@ -29,10 +29,15 @@ import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
+import { ShareButton } from "@/components/ShareSheet";
+import { InviteOwner } from "@/components/InviteOwner";
 
 type Load = {
-  id: string; title: string | null; description: string | null;
+  id: string; slug: string | null; title: string | null; description: string | null;
   isMine: boolean; isTaken: boolean; isTop: boolean;
+  /* Serverning qarori: «Egasini chaqirish» ma'noli bo'ladigan
+     yagona holat — Telegram e'loni va matnida raqam bor */
+  canInviteOwner: boolean;
   views: number; createdAt: string;
   route: { from: string; fromCountry: string; to: string; toCountry: string };
   cargo: {
@@ -98,6 +103,7 @@ export default function YukTafsiloti() {
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
         <View style={{ flex: 1 }} />
+        {data ? <ShareButton kind="load" id={data.id} href={data.slug ? `/loads/${data.slug}` : null} /> : null}
         <Pressable hitSlop={10} style={s.back}>
           <Icon name="heart" size={22} stroke="#cbd5e1" />
         </Pressable>
@@ -276,6 +282,30 @@ export default function YukTafsiloti() {
               </View>
             ) : null}
 
+            {/* Telegram e'loni: egasini FURAM'ga chaqirish.
+                Shart SERVERDA hisoblangan — bu yerda takrorlansa,
+                ikkita bir-biriga mos kelmaydigan qoida bo'lardi. */}
+            {data.canInviteOwner ? <InviteOwner loadId={data.id} /> : null}
+
+            {/* O'z e'loni: kim olib keta oladi */}
+            {data.isMine && !data.isTaken ? (
+              <Pressable
+                onPress={() =>
+                  router.push({ pathname: "/moslar/[kind]/[id]", params: { kind: "yuk", id: data.id } })
+                }
+                style={({ pressed }) => [s.matchLink, pressed && { opacity: 0.85 }]}
+              >
+                <View style={s.matchIcon}>
+                  <Icon name="sparkle" size={19} stroke={color.brand} />
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text style={s.matchTitle}>{t("mob.match.trucksTitle")}</Text>
+                  <Text style={s.matchHint}>{t("mob.match.lead")}</Text>
+                </View>
+                <Icon name="chevron" size={17} stroke="#cbd5e1" />
+              </Pressable>
+            ) : null}
+
             {data.isTaken ? (
               <Notice tone="warning">{t("mob.load.alreadyTrip")}</Notice>
             ) : null}
@@ -425,6 +455,26 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
 }
 
 const s = StyleSheet.create({
+  matchLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: color.card,
+    borderRadius: radius.card,
+    padding: space.md,
+    ...shadow.card,
+  },
+  matchIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    backgroundColor: color.brandSoft,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  matchTitle: { fontSize: 14.5, fontWeight: "700", color: color.foreground },
+  matchHint: { fontSize: 12, color: color.mutedForeground, marginTop: 2, lineHeight: 17 },
+
   root: { flex: 1, backgroundColor: color.background },
   header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },

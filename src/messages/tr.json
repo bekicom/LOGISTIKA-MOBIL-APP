@@ -69,6 +69,7 @@
     "NOT_FOUND": "Bulunamadı. Silinmiş olabilir ya da bağlantı yanlış.",
     "NOT_LINKED": "Bu kişiyle henüz bağınız yok. Önce şoför olarak ekleyin ya da anlaşma yapın.",
     "NOT_LIVE": "Sefer henüz başlamadı.",
+    "NOT_MAIN": "Bunu asıl şoför yapar.",
     "NOT_MARKED": "Ödeme henüz işaretlenmedi.",
     "NOT_PENDING": "Bu kayıt zaten işlendi.",
     "NO_ANSWER": "Cevap seçilmedi.",
@@ -86,6 +87,7 @@
     "NO_SHOP": "Önce mağaza profilinizi oluşturun.",
     "NO_TRIP": "Bu kişiyle ortak sefer yok.",
     "NO_TRUCK": "Önce araç atanmalı.",
+    "NO_VEHICLE": "Size atanmış araç yok. Önce araç sahibi sizi bir araca eklesin.",
     "NO_VERSION": "Sözleşmede henüz şart yok.",
     "ON_TRIP": "Araç seferde — şimdi değiştirilemez.",
     "OWN": "Kendi ilanınızda olmaz.",
@@ -120,6 +122,7 @@
     "UNKNOWN_ACTION": "Bu işlem desteklenmiyor. Uygulamayı güncelleyin.",
     "USER_NOT_FOUND": "Böyle bir FURAM ID yok.",
     "VALIDATION": "Girdiğiniz bilgileri kontrol edin.",
+    "VEHICLE_BUSY": "Araç bu arada meşgul oldu.",
     "WRONG_PASSWORD": "Şifre yanlış."
   },
   "cancelReason": {
@@ -1020,6 +1023,15 @@
       "PENDING": "Bekliyor",
       "REJECTED": "Reddedildi"
     },
+    "extLoad": {
+      "create": "Seferi başlat",
+      "customer": "Müşteri",
+      "customerPh": "Yükü kim verdi",
+      "lead": "Yükü FURAM dışında bulduysanız buraya yazın: sefer hemen canlı olur; masraf, belge ve kâr her zamanki gibi hesaplanır. İlan akışa çıkmaz — zaten anlaşılmış.",
+      "title": "FURAM dışında bulunan yük",
+      "what": "Yük adı",
+      "whatPh": "Örneğin: pamuk elyafı"
+    },
     "fan": {
       "ask": "Filom hakkında sor",
       "askPh": "Örneğin: en çok yakıtı hangi araç harcadı?",
@@ -1206,6 +1218,13 @@
       "t2": "Her sefer gözünüzün önünde",
       "t3": "Belge ve para kontrolü"
     },
+    "invOwner": {
+      "btn": "Sahibini FURAM'a davet et",
+      "hint": "Bu ilan bir Telegram grubundan alındı. Sahibi FURAM'da yok — kendisine SMS ile davet gider.",
+      "noPhone": "Numara gösterilmez — davet doğrudan ona gider.",
+      "remaining": "Bugün %{n} tane daha",
+      "sent": "Davet gönderildi"
+    },
     "job": {
       "acceptOffer": "Kabul ediyorum",
       "addDocs": "Belgelerime ekle",
@@ -1333,6 +1352,7 @@
       "notFound": "Bulunamadı",
       "post": "Yük ilanı ver",
       "postedPrice": "İlandaki fiyat: %{sum}",
+      "publish": "İlanı yayınla",
       "readyNow": "Şimdi hazır",
       "readyOnly": "Sadece şimdi hazır yükler",
       "route": "Güzergâh",
@@ -1386,6 +1406,25 @@
       "urgent": "ACİL",
       "viewsN": "%{n} görüntülenme",
       "yearN": "%{n} model"
+    },
+    "match": {
+      "exactType": "Araç tipi tam uyuyor",
+      "found": "%{n} uygun sonuç bulundu",
+      "good": "Uygun",
+      "lead": "Güzergâh, araç tipi, tonaj ve tarihe göre seçildi — en uygunlar üstte.",
+      "loadsTitle": "Uygun yükler",
+      "nearFrom": "Araç yakında",
+      "noneHint": "Daha sonra tekrar bakın ya da akıştan kendiniz arayın.",
+      "noneLoads": "Uygun yük bulunamadı",
+      "noneTrucks": "Uygun boş araç bulunamadı",
+      "okDate": "Tarih uygun",
+      "okType": "Araç tipi uygun",
+      "okWeight": "Tonaj uygun",
+      "partial": "Kısmen uygun",
+      "sameFrom": "Yükleme noktası aynı",
+      "sameTo": "Güzergâh tam uyuyor",
+      "trucksTitle": "Uygun araçlar",
+      "veryGood": "Çok uygun"
     },
     "menu": {
       "finance": "Finans",
@@ -2302,6 +2341,17 @@
       "placeholder": "Yük, araç, isim, numara…",
       "startHint": "En az iki harf yazın. Arama tüm bölümleri kapsar.",
       "startTitle": "Ne arıyorsunuz?"
+    },
+    "share": {
+      "btn": "Paylaş",
+      "noChats": "Henüz sohbet yok",
+      "outside": "Başka uygulamayla",
+      "outsideHint": "Bağlantı Telegram, SMS ya da istediğiniz yere gider.",
+      "pickChat": "Hangi sohbete?",
+      "sent": "Gönderildi",
+      "title": "Paylaş",
+      "toChat": "FURAM sohbetine gönder",
+      "toChatHint": "İlan kart olarak gider — partneriniz tek dokunuşla açar."
     },
     "signIn": {
       "blocked": "Hesap geçici olarak engellendi",

@@ -69,6 +69,7 @@
     "NOT_FOUND": "Not found. It may have been deleted, or the link is wrong.",
     "NOT_LINKED": "You have no working link with this person yet. Attach them as a driver or make a deal first.",
     "NOT_LIVE": "The trip hasn't started yet.",
+    "NOT_MAIN": "Only the main driver can do this.",
     "NOT_MARKED": "The payment hasn't been marked yet.",
     "NOT_PENDING": "This has already been decided.",
     "NO_ANSWER": "No answer was chosen.",
@@ -86,6 +87,7 @@
     "NO_SHOP": "Set up your shop profile first.",
     "NO_TRIP": "You have no shared trip with this person.",
     "NO_TRUCK": "A vehicle must be assigned first.",
+    "NO_VEHICLE": "No vehicle is assigned to you. Ask the vehicle owner to attach you to one first.",
     "NO_VERSION": "The contract has no terms yet.",
     "ON_TRIP": "The truck is on a trip — you can't change it now.",
     "OWN": "You can't do this on your own listing.",
@@ -120,6 +122,7 @@
     "UNKNOWN_ACTION": "That action isn't supported. Update the app.",
     "USER_NOT_FOUND": "No such FURAM ID.",
     "VALIDATION": "Check what you entered.",
+    "VEHICLE_BUSY": "The vehicle became busy in the meantime.",
     "WRONG_PASSWORD": "Wrong password."
   },
   "cancelReason": {
@@ -1020,6 +1023,15 @@
       "PENDING": "Waiting",
       "REJECTED": "Rejected"
     },
+    "extLoad": {
+      "create": "Start the trip",
+      "customer": "Customer",
+      "customerPh": "Who gave you the load",
+      "lead": "Found a load outside FURAM? Record it here: the trip goes live at once, and costs, documents and profit are tracked as usual. It never reaches the feed — the deal is already made.",
+      "title": "A load found outside FURAM",
+      "what": "What is the load",
+      "whatPh": "For example: cotton fibre"
+    },
     "fan": {
       "ask": "Ask about my fleet",
       "askPh": "For example: which vehicle burned the most fuel?",
@@ -1206,6 +1218,13 @@
       "t2": "Every trip in plain sight",
       "t3": "Documents and money under control"
     },
+    "invOwner": {
+      "btn": "Invite the owner to FURAM",
+      "hint": "This listing came from a Telegram group. The owner is not on FURAM — an SMS invitation is sent to them.",
+      "noPhone": "The number is not shown — the invitation goes straight to them.",
+      "remaining": "%{n} more today",
+      "sent": "The invitation was sent"
+    },
     "job": {
       "acceptOffer": "I accept",
       "addDocs": "Add to my documents",
@@ -1333,6 +1352,7 @@
       "notFound": "Not found",
       "post": "Post cargo",
       "postedPrice": "Price in the listing: %{sum}",
+      "publish": "Publish the listing",
       "readyNow": "Ready now",
       "readyOnly": "Only cargo ready now",
       "route": "Route",
@@ -1386,6 +1406,25 @@
       "urgent": "URGENT",
       "viewsN": "%{n} views",
       "yearN": "%{n}"
+    },
+    "match": {
+      "exactType": "Exactly the right vehicle type",
+      "found": "%{n} matches found",
+      "good": "Good fit",
+      "lead": "Picked by route, vehicle type, capacity and date — the best fits come first.",
+      "loadsTitle": "Matching loads",
+      "nearFrom": "The vehicle is nearby",
+      "noneHint": "Check back later, or search the feed yourself.",
+      "noneLoads": "No matching loads",
+      "noneTrucks": "No matching free vehicles",
+      "okDate": "The date fits",
+      "okType": "The vehicle type works",
+      "okWeight": "Capacity fits",
+      "partial": "Partial fit",
+      "sameFrom": "Same loading point",
+      "sameTo": "The route matches exactly",
+      "trucksTitle": "Matching vehicles",
+      "veryGood": "Great fit"
     },
     "menu": {
       "finance": "Finance",
@@ -2302,6 +2341,17 @@
       "placeholder": "Load, truck, name, number…",
       "startHint": "Type at least two letters. The search covers every section.",
       "startTitle": "What are you looking for?"
+    },
+    "share": {
+      "btn": "Share",
+      "noChats": "No chats yet",
+      "outside": "Via another app",
+      "outsideHint": "The link goes to Telegram, SMS or wherever you choose.",
+      "pickChat": "Which chat?",
+      "sent": "Sent",
+      "title": "Share",
+      "toChat": "Send to a FURAM chat",
+      "toChatHint": "The listing goes as a card — your partner opens it with one tap."
     },
     "signIn": {
       "blocked": "The account is temporarily blocked",

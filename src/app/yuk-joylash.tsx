@@ -409,7 +409,7 @@ export default function YukJoylash() {
 
       <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
         <Button
-          title={step === 5 ? "E'lonni joylash" : t("mob.common.continueBtn")}
+          title={step === 5 ? t("mob.loads.publish") : t("mob.common.continueBtn")}
           onPress={() => (step === 5 ? publish() : setStep(step + 1))}
           disabled={!ready}
           loading={busy}

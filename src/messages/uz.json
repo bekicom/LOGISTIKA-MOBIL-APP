@@ -69,6 +69,7 @@
     "NOT_FOUND": "Topilmadi. O'chirilgan yoki manzil noto'g'ri bo'lishi mumkin.",
     "NOT_LINKED": "Bu odam bilan hali kelishuvingiz yo'q. Avval haydovchi sifatida biriktiring yoki kelishuv tuzing.",
     "NOT_LIVE": "Reys hali boshlanmagan.",
+    "NOT_MAIN": "Buni asosiy shofyor qiladi.",
     "NOT_MARKED": "To'lov hali belgilanmagan.",
     "NOT_PENDING": "Bu yozuv allaqachon hal qilingan.",
     "NO_ANSWER": "Javob tanlanmagan.",
@@ -86,6 +87,7 @@
     "NO_SHOP": "Avval do'kon profilini oching.",
     "NO_TRIP": "Bu odam bilan umumiy reys yo'q.",
     "NO_TRUCK": "Avval mashina biriktirilishi kerak.",
+    "NO_VEHICLE": "Sizga biriktirilgan mashina yo'q. Avval transport egasi sizni mashinaga qo'shsin.",
     "NO_VERSION": "Shartnomada hali shart yozilmagan.",
     "ON_TRIP": "Transport reysda — hozir o'zgartirib bo'lmaydi.",
     "OWN": "O'z e'loningizga bo'lmaydi.",
@@ -120,6 +122,7 @@
     "UNKNOWN_ACTION": "Bu amal qo'llab-quvvatlanmaydi. Ilovani yangilang.",
     "USER_NOT_FOUND": "Bunday FURAM ID topilmadi.",
     "VALIDATION": "Kiritilgan ma'lumotni tekshiring.",
+    "VEHICLE_BUSY": "Mashina shu orada band bo'ldi.",
     "WRONG_PASSWORD": "Parol noto'g'ri."
   },
   "cancelReason": {
@@ -1020,6 +1023,15 @@
       "PENDING": "Kutmoqda",
       "REJECTED": "Rad etilgan"
     },
+    "extLoad": {
+      "create": "Reysni boshlash",
+      "customer": "Buyurtmachi",
+      "customerPh": "Kim yuk berdi",
+      "lead": "Yukni FURAM'dan tashqarida topgan bo'lsangiz shu yerga yozing: reys darhol jonli bo'ladi va xarajat, hujjat, foyda odatdagidek hisoblanadi. E'lon lentaga chiqmaydi — u allaqachon kelishilgan.",
+      "title": "Tashqaridan topilgan yuk",
+      "what": "Yuk nomi",
+      "whatPh": "Masalan: paxta tolasi"
+    },
     "fan": {
       "ask": "Parkim haqida so'rash",
       "askPh": "Masalan: qaysi mashina eng ko'p yoqilg'i yoqdi?",
@@ -1206,6 +1218,13 @@
       "t2": "Har bir reys ko'z oldingizda",
       "t3": "Hujjat va pul nazorati"
     },
+    "invOwner": {
+      "btn": "Egasini FURAM'ga chaqirish",
+      "hint": "Bu e'lon Telegram guruhidan olingan. Egasi FURAM'da yo'q — unga SMS bilan taklif yuboriladi.",
+      "noPhone": "Raqami ko'rsatilmaydi — taklif to'g'ridan-to'g'ri unga boradi.",
+      "remaining": "Bugun yana %{n} ta",
+      "sent": "Taklif yuborildi"
+    },
     "job": {
       "acceptOffer": "Qabul qilaman",
       "addDocs": "Hujjatlarimga qo'shish",
@@ -1333,6 +1352,7 @@
       "notFound": "Topilmadi",
       "post": "Yuk joylash",
       "postedPrice": "E'londagi narx: %{sum}",
+      "publish": "E'lonni joylash",
       "readyNow": "Hozir tayyor",
       "readyOnly": "Faqat hozir tayyor yuklar",
       "route": "Yo'nalish",
@@ -1386,6 +1406,25 @@
       "urgent": "SHOSHILINCH",
       "viewsN": "%{n} ko'rish",
       "yearN": "%{n}-yil"
+    },
+    "match": {
+      "exactType": "Transport turi aynan mos",
+      "found": "%{n} ta mos topildi",
+      "good": "Mos",
+      "lead": "Yo'nalish, transport turi, tonnaj va sana bo'yicha tanlandi — eng moslari yuqorida.",
+      "loadsTitle": "Mos yuklar",
+      "nearFrom": "Mashina yaqin hududda",
+      "noneHint": "Keyinroq qaytib ko'ring yoki lentadan o'zingiz qidiring.",
+      "noneLoads": "Mos yuk topilmadi",
+      "noneTrucks": "Mos bo'sh mashina topilmadi",
+      "okDate": "Sana mos",
+      "okType": "Transport turi mos keladi",
+      "okWeight": "Tonnaj mos",
+      "partial": "Qisman mos",
+      "sameFrom": "Yuklash nuqtasi bir xil",
+      "sameTo": "Yo'nalish to'liq mos",
+      "trucksTitle": "Mos mashinalar",
+      "veryGood": "Juda mos"
     },
     "menu": {
       "finance": "Moliya",
@@ -2302,6 +2341,17 @@
       "placeholder": "Yuk, mashina, ism, raqam…",
       "startHint": "Kamida ikki harf yozing. Qidiruv barcha bo'limlar bo'ylab ketadi.",
       "startTitle": "Nima qidiryapsiz?"
+    },
+    "share": {
+      "btn": "Ulashish",
+      "noChats": "Hali suhbat yo'q",
+      "outside": "Boshqa ilova orqali",
+      "outsideHint": "Telegram, SMS yoki xohlagan joyingizga havola ketadi.",
+      "pickChat": "Qaysi suhbatga?",
+      "sent": "Yuborildi",
+      "title": "Ulashish",
+      "toChat": "FURAM suhbatiga yuborish",
+      "toChatHint": "E'lon kartochka bo'lib boradi — hamkoringiz uni bosib ochadi."
     },
     "signIn": {
       "blocked": "Hisob vaqtincha bloklandi",

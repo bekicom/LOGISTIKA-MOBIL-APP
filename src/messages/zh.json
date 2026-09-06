@@ -69,6 +69,7 @@
     "NOT_FOUND": "未找到。可能已被删除，或链接有误。",
     "NOT_LINKED": "您与此人尚无关联。请先将其设为司机或达成协议。",
     "NOT_LIVE": "运单尚未开始。",
+    "NOT_MAIN": "这需要由主驾驶来操作。",
     "NOT_MARKED": "付款尚未标记。",
     "NOT_PENDING": "该记录已处理。",
     "NO_ANSWER": "未选择答案。",
@@ -86,6 +87,7 @@
     "NO_SHOP": "请先创建店铺资料。",
     "NO_TRIP": "与该用户没有共同的运单。",
     "NO_TRUCK": "需要先指派车辆。",
+    "NO_VEHICLE": "还没有为您指派车辆。请先让车主把您绑定到一辆车上。",
     "NO_VERSION": "合同尚未填写条款。",
     "ON_TRIP": "车辆正在运输中，暂时无法修改。",
     "OWN": "不能对自己的信息执行此操作。",
@@ -120,6 +122,7 @@
     "UNKNOWN_ACTION": "不支持该操作，请更新应用。",
     "USER_NOT_FOUND": "找不到该 FURAM ID。",
     "VALIDATION": "请检查输入的内容。",
+    "VEHICLE_BUSY": "车辆在此期间已被占用。",
     "WRONG_PASSWORD": "密码不正确。"
   },
   "cancelReason": {
@@ -1020,6 +1023,15 @@
       "PENDING": "待审",
       "REJECTED": "已驳回"
     },
+    "extLoad": {
+      "create": "开始行程",
+      "customer": "客户",
+      "customerPh": "谁给的这单货",
+      "lead": "如果这单货是在 FURAM 之外谈成的，请记在这里：行程立即开始，费用、单证与利润照常统计。信息不会进入公开信息流。",
+      "title": "在 FURAM 之外找到的货",
+      "what": "货物名称",
+      "whatPh": "例如：棉纤维"
+    },
     "fan": {
       "ask": "询问我的车队",
       "askPh": "例如：哪辆车油耗最高？",
@@ -1206,6 +1218,13 @@
       "t2": "每一趟运输尽在眼前",
       "t3": "单据与资金全程可控"
     },
+    "invOwner": {
+      "btn": "邀请货主加入 FURAM",
+      "hint": "该信息来自 Telegram 群组。货主不在 FURAM——将通过短信发送邀请。",
+      "noPhone": "不会显示号码——邀请直接发给对方。",
+      "remaining": "今天还剩 %{n} 次",
+      "sent": "邀请已发送"
+    },
     "job": {
       "acceptOffer": "接受",
       "addDocs": "添加到我的证件",
@@ -1333,6 +1352,7 @@
       "notFound": "未找到",
       "post": "发布货源",
       "postedPrice": "信息中的价格：%{sum}",
+      "publish": "发布信息",
       "readyNow": "现可装货",
       "readyOnly": "仅显示现可装货",
       "route": "路线",
@@ -1386,6 +1406,25 @@
       "urgent": "急售",
       "viewsN": "%{n} 次浏览",
       "yearN": "%{n} 年"
+    },
+    "match": {
+      "exactType": "车型完全匹配",
+      "found": "找到 %{n} 个匹配",
+      "good": "匹配",
+      "lead": "按线路、车型、载重和日期筛选——最合适的排在前面。",
+      "loadsTitle": "匹配的货物",
+      "nearFrom": "车辆就在附近",
+      "noneHint": "稍后再看，或自己在信息流中搜索。",
+      "noneLoads": "未找到合适的货物",
+      "noneTrucks": "未找到合适的空车",
+      "okDate": "日期合适",
+      "okType": "车型可以",
+      "okWeight": "载重合适",
+      "partial": "部分匹配",
+      "sameFrom": "装货地点相同",
+      "sameTo": "线路完全一致",
+      "trucksTitle": "匹配的车辆",
+      "veryGood": "非常匹配"
     },
     "menu": {
       "finance": "财务",
@@ -2302,6 +2341,17 @@
       "placeholder": "货源、车辆、姓名、编号…",
       "startHint": "请至少输入两个字母。搜索覆盖全部板块。",
       "startTitle": "您在找什么？"
+    },
+    "share": {
+      "btn": "分享",
+      "noChats": "还没有聊天",
+      "outside": "通过其他应用",
+      "outsideHint": "链接可发到 Telegram、短信或任何地方。",
+      "pickChat": "发送到哪个聊天？",
+      "sent": "已发送",
+      "title": "分享",
+      "toChat": "发送到 FURAM 聊天",
+      "toChatHint": "以卡片形式发送——对方一点即可打开。"
     },
     "signIn": {
       "blocked": "账号已被临时封禁",

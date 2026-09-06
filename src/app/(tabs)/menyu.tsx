@@ -63,6 +63,9 @@ function groups(): Group[] {
         { icon: "border", title: t("mob.queue.title"), href: "/navbat", feature: "queues" },
         { icon: "doc", title: t("mob.profile.myDocs"), href: "/hujjatlarim", feature: "documents" },
         { icon: "user", title: t("mob.panel.title"), href: "/panelim" },
+        /* Tashqarida topilgan yuk: reysni darhol jonli qiladi, ya'ni
+           «Reys va yuk nazorati» tarifi ostida */
+        { icon: "package", title: t("mob.extLoad.title"), href: "/tashqi-yuk", feature: "trips" },
         { icon: "calc", title: t("mob.calc.title"), href: "/kalkulyator", open: true },
       ],
     },

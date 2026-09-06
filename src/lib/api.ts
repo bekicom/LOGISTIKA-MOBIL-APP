@@ -217,6 +217,50 @@ export type Upload = { field: string; uri: string; name: string; type: string };
  *
  * Timeout uzunroq (60s): surat mobil internetda sekin ketadi.
  */
+/**
+ * Multipart so'rov — `fetch` EMAS, `XMLHttpRequest` (2026-09-06).
+ *
+ * ⚠️ SABAB, VA UNI QAYTA `fetch` GA O'TKAZMANG.
+ *
+ * Expo SDK 54 dan boshlab global `fetch` — Expo'ning WinterCG
+ * amalga oshirilishi. Uning `FormData` o'giruvchisi FAYL URI'SINI
+ * QO'LLAB-QUVVATLAMAYDI: `expo/src/winter/fetch/convertFormData.ts`
+ * faqat matn, `Blob` yoki `bytes()` bor obyektni oladi, qolganida
+ * «Unsupported FormDataPart implementation» deb tashlaydi. Ya'ni
+ * `{ uri, name, type }` bilan yuborilgan HAR QANDAY fayl —
+ * suratlar, hujjatlar, cheklar, ovozli xabar — jimgina «tarmoq
+ * xatosi» bo'lib qaytardi (2026-09-06 da Bekzod chatda topdi).
+ *
+ * `XMLHttpRequest` esa RN'ning o'z tarmoq moduliga boradi va URI'ni
+ * tushunadi. Ustiga faylni XOTIRAGA O'QIMAYDI — diskdan oqim bilan
+ * yuboradi; 50 MB video uchun bu farq hal qiluvchi.
+ */
+export function postForm(
+  path: string,
+  headers: Record<string, string>,
+  form: FormData,
+  timeoutMs = 60000,
+  method = "POST",
+): Promise<{ status: number; text: string }> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, `${API_BASE}${path}`);
+    for (const [k, v] of Object.entries(headers)) xhr.setRequestHeader(k, v);
+    /* `Content-Type` QO'YILMAYDI — XHR uni boundary bilan o'zi
+       yozadi; qo'lda yozilsa boundary tushib qoladi. */
+    xhr.timeout = timeoutMs;
+    xhr.onload = () => resolve({ status: xhr.status, text: xhr.responseText ?? "" });
+    xhr.onerror = () => reject(new Error("NETWORK"));
+    xhr.ontimeout = () => reject(new Error("TIMEOUT"));
+    xhr.send(form);
+  });
+}
+
+/** Faylni RN'ning `FormData` qismiga aylantiradi */
+export function formPart(f: Upload): unknown {
+  return { uri: f.uri, name: f.name, type: f.type };
+}
+
 export async function apiUpload<T>(
   path: string,
   fields: Record<string, string | number | undefined>,
@@ -227,28 +271,18 @@ export async function apiUpload<T>(
     if (v !== undefined && v !== "") form.append(k, String(v));
   }
   for (const f of files) {
-    // RN'da fayl shu uchlik bilan beriladi
-    form.append(f.field, { uri: f.uri, name: f.name, type: f.type } as unknown as Blob);
+    form.append(f.field, formPart(f) as Blob);
   }
 
   const headers: Record<string, string> = { "X-Client": "mobile" };
   const token = await getToken();
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 60000);
-
-  let res: Response;
+  let res: { status: number; text: string };
   try {
-    res = await fetch(`${API_BASE}${path}`, {
-      method: "POST",
-      headers,
-      body: form,
-      signal: ctrl.signal,
-    });
+    res = await postForm(path, headers, form);
   } catch (e) {
-    clearTimeout(timer);
-    const aborted = e instanceof Error && e.name === "AbortError";
+    const aborted = e instanceof Error && e.message === "TIMEOUT";
     /* Sabab JURNALGA yoziladi (2026-09-06): ekranda faqat umumiy
        matn ko'rinadi va nosozlikni topib bo'lmasdi — «rasm
        ketmadi» degan gapdan keyin taxmin qilishga to'g'ri kelardi.
@@ -262,12 +296,11 @@ export async function apiUpload<T>(
       status: 0,
     });
   }
-  clearTimeout(timer);
 
-  const text = await res.text();
+  const text = res.text;
   const data = text ? safeJson(text) : null;
 
-  if (!res.ok) {
+  if (res.status < 200 || res.status >= 300) {
     if (__DEV__) {
       console.warn("[apiUpload]", path, res.status, text.slice(0, 300));
     }

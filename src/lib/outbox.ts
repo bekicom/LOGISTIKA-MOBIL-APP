@@ -21,7 +21,7 @@
  */
 import * as Crypto from "expo-crypto";
 import { openDb } from "./local-db";
-import { API_BASE, FuramError } from "./api";
+import { API_BASE, FuramError, formPart, postForm } from "./api";
 import { getToken } from "./session";
 import { isOnline, isWifi } from "./net";
 
@@ -191,7 +191,8 @@ async function send(job: Job): Promise<boolean> {
   };
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
-  let res: Response;
+  let status: number;
+  let text: string;
   try {
     /* «message» turi FAYLSIZ ham multipart: chat marshruti
        `req.formData()` kutadi, JSON kelsa 400 BAD_FORM qaytaradi
@@ -202,16 +203,23 @@ async function send(job: Job): Promise<boolean> {
         if (v !== undefined && v !== null) form.append(k, String(v));
       }
       for (const f of files) {
-        // ⚠️ Content-Type QO'LDA QO'YILMAYDI — RN boundary'ni o'zi yozadi
-        form.append(f.field, { uri: f.uri, name: f.name, type: f.type } as unknown as Blob);
+        form.append(f.field, formPart(f) as Blob);
       }
-      res = await fetch(`${API_BASE}${job.path}`, { method: job.method, headers, body: form });
+      /* `fetch` EMAS — Expo'ning yangi `fetch` i fayl URI'sini
+         qo'llab-quvvatlamaydi (`api.ts:postForm` izohiga qarang).
+         Navbatdagi surat va hujjatlar aynan shu sababdan
+         yuborilmasdi. */
+      const r = await postForm(job.path, headers, form, 120000, job.method);
+      status = r.status;
+      text = r.text;
     } else {
-      res = await fetch(`${API_BASE}${job.path}`, {
+      const res = await fetch(`${API_BASE}${job.path}`, {
         method: job.method,
         headers: { ...headers, "Content-Type": "application/json" },
         body: job.body ?? undefined,
       });
+      status = res.status;
+      text = await res.text().catch(() => "");
     }
   } catch {
     // Aloqa yo'q — xato emas, kutamiz
@@ -219,19 +227,18 @@ async function send(job: Job): Promise<boolean> {
     return false;
   }
 
-  if (res.ok) {
+  if (status >= 200 && status < 300) {
     await d.runAsync(`DELETE FROM outbox WHERE id = ?`, job.id);
     return true;
   }
 
-  const text = await res.text().catch(() => "");
-  const message = safeMessage(text) ?? `HTTP ${res.status}`;
+  const message = safeMessage(text) ?? `HTTP ${status}`;
 
   /* 4xx — server RAD ETDI. Qayta yuborish yordam bermaydi:
      ma'lumot noto'g'ri yoki huquq yo'q. Yozuvni jimgina
      tashlamaymiz — foydalanuvchi nima o'tmaganini KO'RISHI kerak.
      429 va 408 esa vaqtinchalik, ular kutadi. */
-  if (res.status >= 400 && res.status < 500 && res.status !== 429 && res.status !== 408) {
+  if (status >= 400 && status < 500 && status !== 429 && status !== 408) {
     await d.runAsync(`UPDATE outbox SET failed = 1, lastError = ? WHERE id = ?`, message, job.id);
     return true;
   }

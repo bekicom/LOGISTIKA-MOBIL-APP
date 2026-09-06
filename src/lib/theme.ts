@@ -38,10 +38,12 @@ export const color = {
   navyForeground: "#f1f5f9",
   /** Logotipdagi ko'k — interfeys navy'sidan boshqa, ataylab */
   logoBlue: "#0a376e",
-  /* Kirish ekranlari va ikkinchi aksent — logodagi ko'kning
-     yorug'roq turi (2-qadamda to'liq fon bo'ladi) */
-  blue: "#1f56c9",
-  blueSoft: "#e9effb",
+  /* Kirish ekranlari va ikkinchi aksent — LOGODAGI ko'k, katta
+     yuza uchun biroz ochroq. Bekzod (2026-09-06): «rangni boshqa
+     appdan olma, bizniki to'q ko'k + to'q sariq». Kornet uslubidagi
+     yorqin #1f56c9 rad etildi. */
+  blue: "#0f4a94",
+  blueSoft: "#e8f0fb",
 
   success: "#16a34a",
   successSoft: "#e8f7ee",

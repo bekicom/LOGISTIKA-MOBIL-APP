@@ -1,5 +1,5 @@
 /**
- * Kirish ekranlarining umumiy qobig'i — ko'k fon, tepada logo va
+ * Kirish ekranlarining umumiy qobig'i — to'q ko'k fon, tepada logo va
  * til, pastda oq karta.
  *
  * Kirish, ro'yxat va parolni tiklash ilgari har biri o'z sahifasini
@@ -9,6 +9,13 @@
  * «Kirish | Ro'yxatdan o'tish» almashtirgichi — namunadagidek
  * (Kornet) kartaning tepasida; ikkala ekran bir-biriga `replace`
  * bilan o'tadi, tarix to'planmaydi.
+ *
+ * ── SARLAVHA IXCHAM ─────────────────────────────────────────────
+ *
+ * Bekzod (sinov): «logoni teparoqqa, kichikroq — input ko'rinmay
+ * qolmasin». Logo 104, sarlavha 22, oraliqlar kichik. Klaviatura
+ * ochilganda iOS `automaticallyAdjustKeyboardInsets` maydonni
+ * yuqoriga suradi.
  */
 import type { ReactNode } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
@@ -39,7 +46,7 @@ export function AuthShell({
   children: ReactNode;
   /** Karta ostida, ko'k fonda — masalan «Hisobingiz bormi? Kirish» */
   footer?: ReactNode;
-  /** Klaviatura ochiq ekranlar uchun kichik logo */
+  /** Klaviatura ochiq ekranlar uchun yanada kichik sarlavha */
   compact?: boolean;
 }) {
   const insets = useSafeAreaInsets();
@@ -49,8 +56,9 @@ export function AuthShell({
     <View style={s.root}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView
-          contentContainerStyle={[s.scroll, { paddingTop: insets.top + 6, paddingBottom: insets.bottom + space.xl }]}
+          contentContainerStyle={[s.scroll, { paddingTop: insets.top + 4, paddingBottom: insets.bottom + space.xl }]}
           keyboardShouldPersistTaps="handled"
+          automaticallyAdjustKeyboardInsets
           showsVerticalScrollIndicator={false}
         >
           <View style={s.top}>
@@ -73,9 +81,9 @@ export function AuthShell({
             </Pressable>
           </View>
 
-          <View style={[s.hero, compact && { marginTop: 4, marginBottom: 14 }]}>
-            <Logo width={compact ? 120 : 156} light />
-            <Text style={[s.title, compact && { fontSize: 22, marginTop: 14 }]}>{title}</Text>
+          <View style={[s.hero, compact && s.heroCompact]}>
+            <Logo width={compact ? 88 : 104} light />
+            <Text style={[s.title, compact && s.titleCompact]}>{title}</Text>
             {subtitle ? <Text style={s.sub}>{subtitle}</Text> : null}
           </View>
 
@@ -126,23 +134,25 @@ const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.blue },
   scroll: { flexGrow: 1, paddingHorizontal: space.lg },
 
-  top: { flexDirection: "row", alignItems: "center", minHeight: 44 },
-  back: { width: 44, height: 44, marginLeft: -10, alignItems: "center", justifyContent: "center" },
+  top: { flexDirection: "row", alignItems: "center", minHeight: 40 },
+  back: { width: 40, height: 40, marginLeft: -10, alignItems: "center", justifyContent: "center" },
   lang: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    height: 34,
+    height: 32,
     paddingHorizontal: 12,
-    borderRadius: 17,
+    borderRadius: 16,
     backgroundColor: "#ffffff22",
   },
-  langFlag: { fontSize: 14 },
+  langFlag: { fontSize: 13 },
   langText: { fontSize: 13, fontWeight: "600", color: "#ffffff" },
 
-  hero: { alignItems: "center", marginTop: 18, marginBottom: 22 },
-  title: { fontSize: 26, fontWeight: "800", color: "#ffffff", marginTop: 22, letterSpacing: -0.4, textAlign: "center" },
-  sub: { fontSize: 14, color: "#ffffffcc", marginTop: 6, textAlign: "center", lineHeight: 20, paddingHorizontal: 12 },
+  hero: { alignItems: "center", marginTop: 6, marginBottom: 16 },
+  heroCompact: { marginTop: 0, marginBottom: 12 },
+  title: { fontSize: 22, fontWeight: "800", color: "#ffffff", marginTop: 12, letterSpacing: -0.3, textAlign: "center" },
+  titleCompact: { fontSize: 19, marginTop: 8 },
+  sub: { fontSize: 13, color: "#ffffffcc", marginTop: 3, textAlign: "center", lineHeight: 18, paddingHorizontal: 12 },
 
   card: {
     backgroundColor: color.card,
@@ -155,7 +165,7 @@ const s = StyleSheet.create({
     backgroundColor: color.muted,
     borderRadius: radius.pill,
     padding: 4,
-    marginBottom: space.xl,
+    marginBottom: space.lg,
   },
   segItem: { flex: 1, height: 40, alignItems: "center", justifyContent: "center", borderRadius: radius.pill },
   segOn: { backgroundColor: color.brand },

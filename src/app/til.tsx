@@ -1,23 +1,28 @@
 /**
  * A1 — til tanlash. Birinchi ochilishda ko'rinadi.
  *
- * Dizayn-2: to'liq ko'k fon, oq pill tugmalar (Kornet). Tanlov
- * saqlanadi va tanishtiruvga o'tiladi. `?back=1` bilan ochilsa
- * (kirish ekranidagi til tugmasi) — tanlagach orqaga qaytadi.
+ * Dizayn-2: to'q ko'k fon (logodagi), tillar 3 ustunli karta
+ * panjarasida — Bekzod: «ustun emas, 3 tadan qator, karta
+ * ko'rinishida». Tanlov saqlanadi va tanishtiruvga o'tiladi.
+ * `?back=1` bilan ochilsa (kirish ekranidagi til tugmasi) —
+ * tanlagach orqaga qaytadi.
  */
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import { Text } from "@/components/Text";
-import { color, radius, space } from "@/lib/theme";
+import { color, space } from "@/lib/theme";
 import { LOCALES, LOCALE_INFO, currentLocale, deviceLocale, setLocale, t, type Locale } from "@/lib/i18n";
 
 /* Ro'yxat `lib/i18n.ts` dan olinadi — til nomlari ikki joyda
    yozilsa, biri qo'shilib ikkinchisi unutilardi. */
 const LANGS = LOCALES.map((code) => ({ code, ...LOCALE_INFO[code] }));
+
+const COLS = 3;
+const GAP = 10;
 
 export default function TilTanlash() {
   const { back } = useLocalSearchParams<{ back?: string }>();
@@ -25,6 +30,8 @@ export default function TilTanlash() {
   const [busy, setBusy] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const cardW = (width - space.xl * 2 - GAP * (COLS - 1)) / COLS;
 
   async function choose(code: Locale) {
     if (busy) return;
@@ -46,13 +53,13 @@ export default function TilTanlash() {
         showsVerticalScrollIndicator={false}
       >
         <View style={s.hero}>
-          <Logo width={190} light />
+          <Logo width={180} light />
           <Text style={s.tagline}>{t("mob.lang.tagline")}</Text>
         </View>
 
         <Text style={s.caption}>{t("mob.lang.pick")}</Text>
 
-        <View style={s.list}>
+        <View style={s.grid}>
           {LANGS.map((l) => {
             const on = picked === l.code;
             return (
@@ -61,15 +68,17 @@ export default function TilTanlash() {
                 onPress={() => void choose(l.code)}
                 accessibilityRole="radio"
                 accessibilityState={{ selected: on }}
-                style={({ pressed }) => [s.lang, on && s.langOn, pressed && { opacity: 0.85 }]}
+                style={({ pressed }) => [s.card, { width: cardW }, on && s.cardOn, pressed && { opacity: 0.85 }]}
               >
-                <Text style={s.flag}>{l.flag}</Text>
-                <Text style={[s.langText, on && s.langTextOn]}>{l.native}</Text>
                 {on ? (
                   <View style={s.tick}>
-                    <Icon name="check" size={14} stroke="#ffffff" />
+                    <Icon name="check" size={11} stroke="#ffffff" />
                   </View>
                 ) : null}
+                <Text style={s.flag}>{l.flag}</Text>
+                <Text style={[s.name, on && s.nameOn]} numberOfLines={1} adjustsFontSizeToFit>
+                  {l.native}
+                </Text>
               </Pressable>
             );
           })}
@@ -97,25 +106,28 @@ const s = StyleSheet.create({
     marginBottom: space.md,
   },
 
-  list: { gap: 10 },
-  lang: {
-    height: 54,
-    borderRadius: radius.control + 4,
+  grid: { flexDirection: "row", flexWrap: "wrap", gap: GAP },
+  card: {
+    height: 92,
+    borderRadius: 18,
     backgroundColor: "#ffffff",
-    flexDirection: "row",
     alignItems: "center",
-    gap: 12,
-    paddingHorizontal: 16,
+    justifyContent: "center",
+    gap: 6,
+    paddingHorizontal: 8,
   },
-  langOn: { backgroundColor: color.brand },
-  flag: { fontSize: 20 },
-  langText: { flex: 1, fontSize: 16, fontWeight: "600", color: color.foreground },
-  langTextOn: { color: "#ffffff" },
+  cardOn: { backgroundColor: color.brand },
+  flag: { fontSize: 28 },
+  name: { fontSize: 13.5, fontWeight: "700", color: color.foreground },
+  nameOn: { color: "#ffffff" },
   tick: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: "#ffffff33",
+    position: "absolute",
+    top: 8,
+    right: 8,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: "#ffffff44",
     alignItems: "center",
     justifyContent: "center",
   },

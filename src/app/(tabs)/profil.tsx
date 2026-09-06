@@ -26,6 +26,7 @@ import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
 import { GuestPanel } from "@/components/GuestPanel";
 import { isGuest } from "@/lib/guest";
+import { forget, requestTour } from "@/lib/first-run";
 import { color, font, radius, space } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
 
@@ -232,6 +233,16 @@ function OwnProfil() {
               icon={<Badge icon="play" />}
               title={t("mob.video.title")}
               onPress={() => router.push("/qollanma")}
+            />
+            <ListRow
+              icon={<Badge icon="sparkle" />}
+              title={t("mob.tour.replay")}
+              hint={t("mob.tour.replayHint")}
+              onPress={() => {
+                void forget("tourSeen");
+                requestTour();
+                router.replace("/bosh");
+              }}
             />
             {/* Do'kon talabi: maxfiylik havolasi ilovada BO'LISHI shart */}
             <ListRow

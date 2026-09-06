@@ -35,7 +35,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon, type IconName } from "@/components/Icon";
 import { PostSheet } from "@/components/PostSheet";
 import { Tour } from "@/components/Tour";
-import { markSeen, seen, useSplashDone } from "@/lib/first-run";
+import { clearTourRequest, markSeen, seen, useSplashDone, useTourRequest } from "@/lib/first-run";
 import { color, shadow } from "@/lib/theme";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
@@ -93,6 +93,13 @@ export default function TabsLayout() {
      Mehmonga emas: uning tab bari boshqacha (bosh yo'q). */
   const [tour, setTour] = useState(false);
   const splashDone = useSplashDone();
+  const wanted = useTourRequest();
+  useEffect(() => {
+    if (wanted) {
+      clearTourRequest();
+      setTour(true);
+    }
+  }, [wanted]);
   useEffect(() => {
     if (!user || guest || !splashDone) return;
     let alive = true;

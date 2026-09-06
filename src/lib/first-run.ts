@@ -61,3 +61,30 @@ export function useSplashDone(): boolean {
     () => splashDone,
   );
 }
+
+/* ── Yo'l-yo'riqni qayta ko'rsatish so'rovi ─────────────────────
+   Profildagi «Yo'l-yo'riqni qayta ko'rish» bosilganda tab bar
+   eshitadi va bosh sahifada boshlaydi. */
+let tourWanted = false;
+const tourSubs = new Set<() => void>();
+
+export function requestTour(): void {
+  tourWanted = true;
+  for (const fn of tourSubs) fn();
+}
+
+export function clearTourRequest(): void {
+  tourWanted = false;
+  for (const fn of tourSubs) fn();
+}
+
+export function useTourRequest(): boolean {
+  return useSyncExternalStore(
+    (fn) => {
+      tourSubs.add(fn);
+      return () => tourSubs.delete(fn);
+    },
+    () => tourWanted,
+    () => tourWanted,
+  );
+}

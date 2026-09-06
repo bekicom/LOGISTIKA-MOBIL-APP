@@ -2048,6 +2048,8 @@
       "postT": "Post",
       "profile": "Your roles, plan and settings",
       "profileT": "Profile",
+      "replay": "Show the tour again",
+      "replayHint": "Where things are — shown again on the home screen",
       "top": "Messages and notifications — at the top, with counters",
       "topT": "Chat and alerts"
     },

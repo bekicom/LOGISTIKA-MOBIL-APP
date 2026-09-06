@@ -12,27 +12,43 @@
  * Tab bar tugmalarini `measure` bilan olish uchun react-navigation
  * ichiga ref kirgizish kerak — mo'rt. Tab bar geometriyasi esa
  * ma'lum: beshta teng katak, balandligi 60 + pastki inset. Shundan
- * hisoblanadi. Sarlavha ikonkalari ham: o'ng burchak, `TabHeader`
- * o'lchamlari.
+ * hisoblanadi. Sarlavha ikonkalari ham — bosh sahifa sarlavhasi
+ * (`bosh.tsx`): o'ngdan avatar 36 + oraliq 12, keyin chat va
+ * qo'ng'iroq (42 + 8 + 42).
  *
- * ── TESHIK ──────────────────────────────────────────────────────
+ * ── TESHIK — SVG ────────────────────────────────────────────────
  *
- * RN da pardaga teshik ochib bo'lmaydi — teshik atrofiga to'rtta
- * qorong'i to'rtburchak qo'yiladi (tepa, chap, o'ng, past).
+ * Ilgari parda to'rtta to'rtburchakdan yig'ilgan edi va teshik
+ * burchakli chiqardi (Bekzod: «dumaloq ustiga to'rtburchak fon»).
+ * Endi bitta SVG yo'l: butun ekran + teshik, `evenodd` — teshik
+ * istalgan radiusda, «+» uchun to'liq aylana.
  */
 import { useEffect, useState } from "react";
 import { Animated, Modal, Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Svg, { Path } from "react-native-svg";
 import { Text } from "@/components/Text";
 import { Button } from "@/components/ui";
 import { color, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-type Step = { title: string; text: string; x: number; y: number; w: number; h: number; r: number };
+type Hole = { x: number; y: number; w: number; h: number; r: number };
+type Step = Hole & { title: string; text: string };
 
 const TABS = 5;
 const BAR = 60;
-const DIM = "#0b1526c9";
+const DIM = "#0b1526cc";
+
+/** Teshikli parda: tashqi to'rtburchak + ichki yumaloq to'rtburchak, evenodd */
+function dimPath(W: number, H: number, { x, y, w, h, r }: Hole): string {
+  const rr = Math.min(r, w / 2, h / 2);
+  return (
+    `M0 0H${W}V${H}H0Z ` +
+    `M${x + rr} ${y}H${x + w - rr}A${rr} ${rr} 0 0 1 ${x + w} ${y + rr}V${y + h - rr}` +
+    `A${rr} ${rr} 0 0 1 ${x + w - rr} ${y + h}H${x + rr}A${rr} ${rr} 0 0 1 ${x} ${y + h - rr}` +
+    `V${y + rr}A${rr} ${rr} 0 0 1 ${x + rr} ${y}Z`
+  );
+}
 
 export function Tour({ open, onDone }: { open: boolean; onDone: () => void }) {
   const { width, height } = useWindowDimensions();
@@ -42,7 +58,7 @@ export function Tour({ open, onDone }: { open: boolean; onDone: () => void }) {
 
   const barH = BAR + insets.bottom;
   const slot = width / TABS;
-  const tab = (k: number): Pick<Step, "x" | "y" | "w" | "h" | "r"> => ({
+  const tab = (k: number): Hole => ({
     x: slot * k + 4,
     y: height - barH + 2,
     w: slot - 8,
@@ -55,18 +71,19 @@ export function Tour({ open, onDone }: { open: boolean; onDone: () => void }) {
     {
       title: t("mob.tour.postT"),
       text: t("mob.tour.post"),
-      x: slot * 2 + slot / 2 - 38,
+      x: slot * 2 + slot / 2 - 37,
       y: height - barH - 22,
-      w: 76,
-      h: 76,
-      r: 38,
+      w: 74,
+      h: 74,
+      r: 37,
     },
     { title: t("mob.tour.menuT"), text: t("mob.tour.menu"), ...tab(3) },
     { title: t("mob.tour.profileT"), text: t("mob.tour.profile"), ...tab(4) },
     {
       title: t("mob.tour.topT"),
       text: t("mob.tour.top"),
-      x: width - space.lg - 92 - 6,
+      /* bosh.tsx sarlavhasi: pad 16 + avatar 36 + oraliq 12, keyin 92 */
+      x: width - 16 - 36 - 12 - 92 - 6,
       y: insets.top + 2,
       w: 92 + 12,
       h: 50,
@@ -80,9 +97,13 @@ export function Tour({ open, onDone }: { open: boolean; onDone: () => void }) {
     Animated.timing(fade, { toValue: 1, duration: 220, useNativeDriver: true }).start();
   }, [open, i, fade]);
 
+  useEffect(() => {
+    if (open) setI(0);
+  }, [open]);
+
   if (!open) return null;
 
-  const st = steps[i];
+  const st = steps[Math.min(i, steps.length - 1)];
   const last = i === steps.length - 1;
   /* Izoh kartasi: teshik pastda bo'lsa — ustida, tepada bo'lsa — ostida */
   const below = st.y < height / 2;
@@ -90,13 +111,17 @@ export function Tour({ open, onDone }: { open: boolean; onDone: () => void }) {
 
   return (
     <Modal transparent visible statusBarTranslucent animationType="fade" onRequestClose={onDone}>
-      {/* Parda — to'rt bo'lak, o'rtada teshik */}
-      <View style={[s.dim, { top: 0, left: 0, right: 0, height: st.y }]} />
-      <View style={[s.dim, { top: st.y, left: 0, width: st.x, height: st.h }]} />
-      <View style={[s.dim, { top: st.y, left: st.x + st.w, right: 0, height: st.h }]} />
-      <View style={[s.dim, { top: st.y + st.h, left: 0, right: 0, bottom: 0 }]} />
+      <Svg width={width} height={height} style={StyleSheet.absoluteFill as object} pointerEvents="none">
+        <Path d={dimPath(width, height, st)} fill={DIM} fillRule="evenodd" />
+      </Svg>
       {/* Yoritilgan joy atrofidagi halqa */}
-      <View style={[s.ring, { left: st.x - 3, top: st.y - 3, width: st.w + 6, height: st.h + 6, borderRadius: st.r + 3 }]} pointerEvents="none" />
+      <View
+        style={[
+          s.ring,
+          { left: st.x - 3, top: st.y - 3, width: st.w + 6, height: st.h + 6, borderRadius: st.r + 3 },
+        ]}
+        pointerEvents="none"
+      />
 
       <Animated.View style={[s.card, cardPos, { opacity: fade }]}>
         <View style={s.cardTop}>
@@ -126,7 +151,6 @@ export function Tour({ open, onDone }: { open: boolean; onDone: () => void }) {
 }
 
 const s = StyleSheet.create({
-  dim: { position: "absolute", backgroundColor: DIM },
   ring: { position: "absolute", borderWidth: 2.5, borderColor: "#ffffff" },
   card: {
     position: "absolute",

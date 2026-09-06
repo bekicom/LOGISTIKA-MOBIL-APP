@@ -117,18 +117,29 @@ export default function Tanishtiruv() {
           <Text style={s.look}>{t("mob.intro.lookFirst")}</Text>
         </Pressable>
 
-        <Pressable
-          onPress={() => (last ? router.push("/rol") : go(i + 1))}
-          accessibilityRole="button"
-          accessibilityLabel={last ? t("mob.common.continueBtn") : t("mob.tour.next")}
-          style={({ pressed }) => [s.next, last && s.nextLast, pressed && { opacity: 0.85 }]}
-        >
-          {last ? (
+        {/* Oxirgi panelda tugma dumaloq emas, cho'zilgan: matn +
+            strelka. Ikki alohida uslub — bitta uslubni `width:
+            undefined` bilan bekor qilish RN da ishlamaydi (matn
+            «D / a» bo'lib sinib chiqdi). */}
+        {last ? (
+          <Pressable
+            onPress={() => router.push("/rol")}
+            accessibilityRole="button"
+            style={({ pressed }) => [s.nextPill, pressed && { opacity: 0.85 }]}
+          >
             <Text style={s.nextText}>{t("mob.common.continueBtn")}</Text>
-          ) : (
+            <Icon name="arrow-right" size={20} stroke="#ffffff" />
+          </Pressable>
+        ) : (
+          <Pressable
+            onPress={() => go(i + 1)}
+            accessibilityRole="button"
+            accessibilityLabel={t("mob.tour.next")}
+            style={({ pressed }) => [s.next, pressed && { opacity: 0.85 }]}
+          >
             <Icon name="arrow-right" size={26} stroke={color.blue} />
-          )}
-        </Pressable>
+          </Pressable>
+        )}
       </View>
     </View>
   );
@@ -181,6 +192,15 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  nextLast: { width: undefined, paddingHorizontal: 26, backgroundColor: color.brand },
-  nextText: { fontSize: 15, fontWeight: "700", color: "#ffffff" },
+  nextPill: {
+    height: 56,
+    paddingLeft: 24,
+    paddingRight: 18,
+    borderRadius: 28,
+    backgroundColor: color.brand,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  nextText: { fontSize: 15.5, fontWeight: "700", color: "#ffffff" },
 });

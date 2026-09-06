@@ -21,7 +21,8 @@
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Telefon cho'ntagingizda bo'lganda ham reys yo'li yozilib borishi uchun. Faqat reys davomida, reys yopilishi bilan to'xtaydi.",
         "NSCameraUsageDescription": "Hujjat, chek va nosozlik suratini shu yerda olasiz. Surat faqat siz biriktirgan reysga yuboriladi.",
         "NSPhotoLibraryUsageDescription": "Hujjat va chek suratlarini yuborish uchun galereyaga kirish so'raladi. Boshqa rasmlar ochilmaydi.",
-        "NSPhotoLibraryAddUsageDescription": "Ilova galereyangizga hech narsa yozmaydi."
+        "NSPhotoLibraryAddUsageDescription": "Ilova galereyangizga hech narsa yozmaydi.",
+        "NSMicrophoneUsageDescription": "Ovozli xabar yozish uchun mikrofon so'raladi. Yozuv faqat siz tanlagan suhbatga yuboriladi."
       }
     },
     "android": {
@@ -84,7 +85,14 @@
         }
       ],
       "expo-font",
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Ovozli xabar yozish uchun mikrofon so'raladi. Yozuv faqat siz tanlagan suhbatga yuboriladi."
+        }
+      ],
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true

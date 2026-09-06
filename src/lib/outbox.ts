@@ -193,7 +193,10 @@ async function send(job: Job): Promise<boolean> {
 
   let res: Response;
   try {
-    if (files.length) {
+    /* «message» turi FAYLSIZ ham multipart: chat marshruti
+       `req.formData()` kutadi, JSON kelsa 400 BAD_FORM qaytaradi
+       (2026-09-06 da topildi — matnli xabar navbatdan o'tmasdi). */
+    if (files.length || job.kind === "message") {
       const form = new FormData();
       for (const [k, v] of Object.entries(job.body ? JSON.parse(job.body) : {})) {
         if (v !== undefined && v !== null) form.append(k, String(v));

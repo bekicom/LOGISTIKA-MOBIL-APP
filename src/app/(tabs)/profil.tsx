@@ -235,6 +235,18 @@ function OwnProfil() {
               onPress={() => router.push("/qollanma")}
             />
             <ListRow
+              icon={<Badge icon="globe" />}
+              title={t("mob.chatLang.title")}
+              hint={t("mob.chatLang.auto")}
+              onPress={() => router.push("/profil/messenger")}
+            />
+            <ListRow
+              icon={<Badge icon="headset" />}
+              title={t("mob.support.title")}
+              hint={t("mob.support.hint")}
+              onPress={() => router.push("/yordam")}
+            />
+            <ListRow
               icon={<Badge icon="sparkle" />}
               title={t("mob.tour.replay")}
               hint={t("mob.tour.replayHint")}

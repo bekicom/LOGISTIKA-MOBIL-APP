@@ -8,6 +8,7 @@
  * build bilan qo'shiladi.
  */
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 import type { Upload } from "./api";
 
 export type Photo = { uri: string; name: string; type: string };
@@ -66,4 +67,27 @@ export async function pickPhotos(limit = 5): Promise<Photo[]> {
 /** `apiUpload` kutgan ko'rinishga o'giradi */
 export function toUpload(p: Photo, field: string): Upload {
   return { field, uri: p.uri, name: p.name, type: p.type };
+}
+
+/**
+ * Hujjat tanlash — PDF, Word, Excel, rasm yoki video (chat va
+ * suhbat hujjatlari uchun). Bekor qilinsa `null`.
+ */
+export async function pickDocument(): Promise<Photo | null> {
+  const r = await DocumentPicker.getDocumentAsync({
+    copyToCacheDirectory: true,
+    multiple: false,
+    type: [
+      "application/pdf",
+      "image/*",
+      "video/*",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ],
+  });
+  if (r.canceled || !r.assets[0]) return null;
+  const a = r.assets[0];
+  return { uri: a.uri, name: a.name, type: a.mimeType ?? "application/octet-stream" };
 }

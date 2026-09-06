@@ -506,9 +506,76 @@
       "report": "Şikayet et",
       "sendFailed": "Mesaj gönderilemedi",
       "sending": "Gönderiliyor",
+      "support": "Destek",
       "title": "Sohbet",
       "whatSend": "Ne göndereceksiniz?",
       "yesterday": "Dün"
+    },
+    "chatAct": {
+      "agreement": "Anlaşma",
+      "agreementHint": "Karşı taraf onayladığında anlaşma yürürlüğe girer ve sohbet geçmişinde kalır.",
+      "agreementTitle": "Anlaşma oluştur",
+      "amount": "Tutar",
+      "askLocation": "Konum iste",
+      "askLocationSent": "Konum istendi",
+      "confirm": "Onay iste",
+      "confirmHint": "Önemli bilgiyi gönderirsiniz, karşı taraf «Onaylıyorum»a basar. Onay geçmişte kalır.",
+      "confirmPh": "Örn: Yük fiyatının 2 800 USD olduğunu onaylayın",
+      "confirmTitle": "Onay gerekli",
+      "incDetails": "Ayrıntı",
+      "incDone": "Olay kaydedildi",
+      "incWhat": "Ne oldu",
+      "incWhatPh": "Örn: balata sıkıştı",
+      "incWithLocation": "Konumu da ekle",
+      "incident": "Olay",
+      "incidentTitle": "Olay kaydet",
+      "note": "Not",
+      "pay": "Ödeme iste",
+      "payHint": "Talep sohbette görünür. Resmî ödeme kaydı sözleşmede tutulur.",
+      "payTitle": "Ödeme talebi",
+      "service": "Hizmet türü",
+      "serviceDefault": "Sevkiyat hizmeti",
+      "text": "Metin",
+      "title": "Sohbet işlemleri"
+    },
+    "chatDoc": {
+      "kind": "Belge türü",
+      "kinds": {
+        "CMR": "CMR",
+        "CUSTOMS": "Gümrük",
+        "DOZVOL": "Dozvol",
+        "INSURANCE": "Sigorta",
+        "INVOICE": "Fatura",
+        "OTHER": "Diğer",
+        "PACKING": "Çeki listesi",
+        "TECH_PASSPORT": "Ruhsat",
+        "TIR": "TIR",
+        "UNLOAD_PHOTO": "Boşaltma fotoğrafı"
+      },
+      "noDocs": "Belge yok",
+      "pickFile": "Dosya seç",
+      "replace": "Yeni sürüm yükle",
+      "seenBy": "Görenler",
+      "title": "Sohbet belgeleri",
+      "upload": "Belge yükle",
+      "version": "v%{n}"
+    },
+    "chatLang": {
+      "auto": "Otomatik çeviri",
+      "autoHint": "Kapalıysa mesajlar orijinal dilde görünür.",
+      "saved": "Kaydedildi",
+      "text": "Karşı taraf başka dilde yazarsa mesaj bu dile çevrilir. Orijinal saklanır ve «Orijinali göster» ile açılır.",
+      "title": "Sohbet dili"
+    },
+    "chatList": {
+      "contracts": "Sözleşmeler",
+      "groups": "Gruplar",
+      "groupsHint": "Güzergâha göre açık gruplar — sınır kuyruğu, yol durumu, park. Katılan üye olur.",
+      "join": "Katıl",
+      "leave": "Ayrıl",
+      "members": "%{n} üye",
+      "open": "Aç",
+      "pinned": "Önemli"
     },
     "common": {
       "add": "Ekle",
@@ -905,6 +972,39 @@
       "todayProblems": "Bugün %{n} iş ilgi bekliyor",
       "waitingReply": "Yanıt bekliyor"
     },
+    "inc": {
+      "addLocation": "Konum ekle",
+      "addNote": "Not ekle",
+      "addPhoto": "Fotoğraf ekle",
+      "evidence": "Kanıtlar",
+      "itemKind": {
+        "file": "Belge",
+        "location": "Konum",
+        "note": "Not",
+        "photo": "Fotoğraf",
+        "video": "Video"
+      },
+      "kind": {
+        "accident": "Trafik kazası",
+        "breakdown": "Araç arızası",
+        "cargo": "Yük sorunu",
+        "customs": "Gümrük sorunu",
+        "delay": "Gecikme",
+        "other": "Diğer",
+        "payment": "Ödeme sorunu",
+        "weather": "Hava / yol durumu"
+      },
+      "moveTo": "Durumu değiştir",
+      "none": "Olay yok",
+      "openN": "%{n} açık",
+      "resolveNote": "Kapanış notu",
+      "status": {
+        "IN_PROGRESS": "İşlemde",
+        "OPEN": "Açık",
+        "RESOLVED": "Çözüldü"
+      },
+      "title": "Olaylar"
+    },
     "intro": {
       "b1": "Sekiz ülkede binlerce ilan. Aradığınızı bulun ya da kendi ilanınızı verin.",
       "b2": "Araç nerede, ne zaman varır, hangi belgeler yüklendi — hepsi haritada.",
@@ -1133,6 +1233,74 @@
       "noUpcoming": "Yaklaşan sefer yok",
       "noUpcomingText": "Anlaşılmış ama başlamamış sefer yok.",
       "widenFilters": "Filtreleri genişletmeyi deneyin — örneğin araç tipini kaldırın."
+    },
+    "msg": {
+      "actionFailed": "İşlem yapılamadı",
+      "aiSuggest": "AI önerisi",
+      "aiTranslate": "AI çevirisi",
+      "apply": "Uygula",
+      "confirmBtn": "Onaylıyorum",
+      "confirmedBy": "%{names} onayladı",
+      "contact": "Kişi",
+      "copied": "Kopyalandı",
+      "copy": "Kopyala",
+      "delete": "Sil",
+      "deleteAsk": "Mesaj silinsin mi? Karşı taraf da göremez.",
+      "dismiss": "Gerek yok",
+      "holdToRecord": "Kaydetmek için basılı tutun",
+      "improve": "AI ile iyileştir",
+      "kind": {
+        "AGREEMENT": "Anlaşma",
+        "CONFIRM": "Onay gerekli",
+        "EVIDENCE": "Kanıt",
+        "INCIDENT": "Olay",
+        "PAY_REQUEST": "Ödeme talebi"
+      },
+      "listing": {
+        "contract": "Sözleşme",
+        "job": "İş ilanı",
+        "load": "Yük ilanı",
+        "master": "Usta / servis",
+        "open": "Aç",
+        "part": "Yedek parça",
+        "ride": "Yolcu seferi",
+        "sale": "Satılık araç",
+        "truck": "Araç"
+      },
+      "locDenied": "Konum izni verilmedi",
+      "menu": {
+        "actions": "İşlemler",
+        "docs": "Sohbet belgeleri",
+        "incidents": "Olaylar",
+        "lang": "Sohbet dili",
+        "mute": "Sessize al",
+        "pinChat": "Önemli sohbet",
+        "search": "Ara",
+        "unmute": "Sesi aç",
+        "unpinChat": "Önemlilerden kaldır"
+      },
+      "micDenied": "Mikrofon izni verilmedi",
+      "noMessages": "Henüz mesaj yok",
+      "notFound": "Bulunamadı",
+      "openFile": "Dosyayı aç",
+      "openMap": "Haritada aç",
+      "pin": "Sabitle",
+      "pinned": "Sabitlendi",
+      "readOnly": "Sohbet kapalı — yeni mesaj yazılamaz",
+      "recording": "Kaydediliyor… %{s}",
+      "releaseToSend": "Bırakın — gönderilir",
+      "reply": "Yanıtla",
+      "search": "Mesajlarda ara",
+      "seen": "%{a}/%{b} gördü",
+      "sent": "Gönderildi",
+      "showOriginal": "Orijinali göster",
+      "showTranslation": "Çeviriyi göster",
+      "translateTo": "Hangi dile çevrilsin?",
+      "translated": "Çeviri",
+      "unpin": "Sabitlemeyi kaldır",
+      "voice": "Sesli mesaj",
+      "voiceBusy": "Yazıya dökülüyor…",
+      "voiceToText": "Yazıya dök"
     },
     "nav": {
       "chat": "Sohbet",
@@ -1711,6 +1879,19 @@
       "trial": "Deneme süresi",
       "trialN": "%{n} gün ücretsiz"
     },
+    "routeGroup": {
+      "about": {
+        "cn-ru": "Sınır kuyruğu, Çin'e yeniden giriş, yol durumu",
+        "cn-uz": "Horgos, İrkeştam, gümrük ve kuyruk",
+        "help": "Servis, çekici, yedek parça — tüm güzergâhlar için",
+        "kz-ru": "Yol durumu, park, yakıt",
+        "tr-uz": "İran ve Hazar güzergâhı",
+        "uz-eu": "TIR, dozvol, çok taraflı izin",
+        "uz-kz": "Sınır ve gümrük",
+        "uz-ru": "Dozvol, sınır, yol durumu"
+      },
+      "help": "Yolda yardım"
+    },
     "sale": {
       "about": "Açıklama",
       "aboutPh": "Durumu, değişen parçalar, satış nedeni…",
@@ -1899,6 +2080,16 @@
       "ON_ROAD": "Yola çıktınız mı?",
       "TO_LOADING": "Yüklemeye çıktınız mı?",
       "UNLOADED": "Boşaltmayı onaylayın"
+    },
+    "support": {
+      "closed": "Talep kapatıldı — yeni mesaj yeni talep açar",
+      "hint": "Genellikle birkaç dakikada yanıtlarız",
+      "lead": "Soru veya sorun varsa yazın, ekip yanıtlar",
+      "placeholder": "Sorunuzu yazın",
+      "rowHint": "Sorunuz varsa yazın",
+      "team": "FURAM destek ekibi",
+      "title": "FURAM destek",
+      "waiting": "Yanıt bekleniyor"
     },
     "svc": {
       "about": "Kendiniz hakkında",
@@ -2160,10 +2351,8 @@
     },
     "ui": {
       "allRead": "Hepsi okundu",
-      "blockUser": "Kullanıcıyı engelle",
       "chatEmptyText": "Bir yük ilanına teklif verdiğinizde ya da biri size yazdığında sohbet burada görünür.",
       "devMode": "Geliştirici modu",
-      "mute": "Sessize al",
       "noExpense": "Masraf kaydı yok",
       "noExpenseText": "Yakıt, yol ücreti ve diğer masrafları buraya kaydedin — sefer kapanınca rapora girer.",
       "noNewNotes": "Yeni bildirim yok.",

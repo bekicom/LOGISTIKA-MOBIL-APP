@@ -506,9 +506,76 @@
       "report": "Shikoyat qilish",
       "sendFailed": "Xabar yuborilmadi",
       "sending": "Yuborilmoqda",
+      "support": "Yordam",
       "title": "Chat",
       "whatSend": "Nima yuborasiz?",
       "yesterday": "Kecha"
+    },
+    "chatAct": {
+      "agreement": "Kelishuv",
+      "agreementHint": "Ikkinchi tomon tasdiqlagach kelishuv kuchga kiradi va suhbat tarixida qoladi.",
+      "agreementTitle": "Kelishuv yaratish",
+      "amount": "Summa",
+      "askLocation": "Joylashuv so'rash",
+      "askLocationSent": "Joylashuv so'raldi",
+      "confirm": "Tasdiq so'rash",
+      "confirmHint": "Muhim ma'lumotni yuborasiz, qarshi tomon «Tasdiqlayman» bosadi. Tasdiq tarixda qoladi.",
+      "confirmPh": "Masalan: Yuk narxi 2 800 USD ekanini tasdiqlang",
+      "confirmTitle": "Tasdiqlash talab qilinadi",
+      "incDetails": "Batafsil",
+      "incDone": "Hodisa qayd qilindi",
+      "incWhat": "Nima bo'ldi",
+      "incWhatPh": "Masalan: kolodka qisib qoldi",
+      "incWithLocation": "Joylashuvni ham qo'shish",
+      "incident": "Hodisa",
+      "incidentTitle": "Hodisa qayd qilish",
+      "note": "Izoh",
+      "pay": "To'lov so'rash",
+      "payHint": "So'rov chatda ko'rinadi. Rasmiy to'lov yozuvi shartnomada qayd qilinadi.",
+      "payTitle": "To'lov so'rash",
+      "service": "Xizmat turi",
+      "serviceDefault": "Dispetcher xizmati",
+      "text": "Matn",
+      "title": "Suhbatdan amallar"
+    },
+    "chatDoc": {
+      "kind": "Hujjat turi",
+      "kinds": {
+        "CMR": "CMR",
+        "CUSTOMS": "Bojxona",
+        "DOZVOL": "Dozvol",
+        "INSURANCE": "Sug'urta",
+        "INVOICE": "Invoys",
+        "OTHER": "Boshqa",
+        "PACKING": "Yuk ro'yxati",
+        "TECH_PASSPORT": "Texpasport",
+        "TIR": "TIR",
+        "UNLOAD_PHOTO": "Tushirish rasmi"
+      },
+      "noDocs": "Hujjat yo'q",
+      "pickFile": "Fayl tanlash",
+      "replace": "Yangi versiya yuklash",
+      "seenBy": "Ko'rganlar",
+      "title": "Suhbat hujjatlari",
+      "upload": "Hujjat yuklash",
+      "version": "v%{n}"
+    },
+    "chatLang": {
+      "auto": "Avtomatik tarjima",
+      "autoHint": "O'chirilsa xabarlar asl tilida ko'rinadi.",
+      "saved": "Saqlandi",
+      "text": "Suhbatdosh boshqa tilda yozsa, xabar shu tilga o'giriladi. Asl matn saqlanadi va «Asl matnni ko'rish» orqali ochiladi.",
+      "title": "Suhbat tili"
+    },
+    "chatList": {
+      "contracts": "Shartnomalar",
+      "groups": "Guruhlar",
+      "groupsHint": "Yo'nalish bo'yicha ochiq guruhlar — chegara navbati, yo'l holati, parking. Kirgan odam a'zo bo'ladi.",
+      "join": "Qo'shilish",
+      "leave": "Chiqish",
+      "members": "%{n} a'zo",
+      "open": "Ochish",
+      "pinned": "Muhim"
     },
     "common": {
       "add": "Qo'shish",
@@ -905,6 +972,39 @@
       "todayProblems": "Bugun %{n} ta ish diqqat talab qiladi",
       "waitingReply": "Javob kutmoqda"
     },
+    "inc": {
+      "addLocation": "Joylashuv qo'shish",
+      "addNote": "Izoh qo'shish",
+      "addPhoto": "Rasm qo'shish",
+      "evidence": "Dalillar",
+      "itemKind": {
+        "file": "Hujjat",
+        "location": "Joylashuv",
+        "note": "Izoh",
+        "photo": "Rasm",
+        "video": "Video"
+      },
+      "kind": {
+        "accident": "Yo'l-transport hodisasi",
+        "breakdown": "Mashina buzildi",
+        "cargo": "Yuk muammosi",
+        "customs": "Bojxona muammosi",
+        "delay": "Kechikish",
+        "other": "Boshqa",
+        "payment": "To'lov muammosi",
+        "weather": "Ob-havo / yo'l holati"
+      },
+      "moveTo": "Holatni o'zgartirish",
+      "none": "Hodisa yo'q",
+      "openN": "%{n} ta ochiq",
+      "resolveNote": "Yakuniy izoh",
+      "status": {
+        "IN_PROGRESS": "Jarayonda",
+        "OPEN": "Ochiq",
+        "RESOLVED": "Hal qilindi"
+      },
+      "title": "Hodisalar"
+    },
     "intro": {
       "b1": "Sakkiz davlat bo'ylab minglab e'lon. Kerakligini toping yoki o'zingiznikini joylang.",
       "b2": "Mashina qayerda, qachon yetib boradi, qaysi hujjat yuklangan — hammasi xaritada.",
@@ -1133,6 +1233,74 @@
       "noUpcoming": "Kutilayotgan reys yo'q",
       "noUpcomingText": "Kelishilgan, lekin hali boshlanmagan reys yo'q.",
       "widenFilters": "Filtrlarni kengaytirib ko'ring — masalan transport turini olib tashlang."
+    },
+    "msg": {
+      "actionFailed": "Amal bajarilmadi",
+      "aiSuggest": "AI taklifi",
+      "aiTranslate": "AI tarjimasi",
+      "apply": "Qo'llash",
+      "confirmBtn": "Tasdiqlayman",
+      "confirmedBy": "%{names} tasdiqladi",
+      "contact": "Kontakt",
+      "copied": "Nusxa olindi",
+      "copy": "Nusxa olish",
+      "delete": "O'chirish",
+      "deleteAsk": "Xabar o'chirilsinmi? Suhbatdosh ham ko'rmaydi.",
+      "dismiss": "Kerak emas",
+      "holdToRecord": "Yozish uchun bosib turing",
+      "improve": "AI bilan yaxshilash",
+      "kind": {
+        "AGREEMENT": "Kelishuv",
+        "CONFIRM": "Tasdiqlash talab qilinadi",
+        "EVIDENCE": "Dalil",
+        "INCIDENT": "Hodisa",
+        "PAY_REQUEST": "To'lov so'rovi"
+      },
+      "listing": {
+        "contract": "Shartnoma",
+        "job": "Ish e'loni",
+        "load": "Yuk e'loni",
+        "master": "Usta / servis",
+        "open": "Ko'rish",
+        "part": "Zapchast",
+        "ride": "Yo'lovchi reysi",
+        "sale": "Sotuvdagi transport",
+        "truck": "Transport"
+      },
+      "locDenied": "Joylashuvga ruxsat berilmadi",
+      "menu": {
+        "actions": "Amallar",
+        "docs": "Suhbat hujjatlari",
+        "incidents": "Hodisalar",
+        "lang": "Suhbat tili",
+        "mute": "Ovozsiz",
+        "pinChat": "Muhim suhbat",
+        "search": "Qidirish",
+        "unmute": "Ovozni yoqish",
+        "unpinChat": "Muhimlardan olish"
+      },
+      "micDenied": "Mikrofonga ruxsat berilmadi",
+      "noMessages": "Hali xabar yo'q",
+      "notFound": "Topilmadi",
+      "openFile": "Faylni ochish",
+      "openMap": "Xaritada ochish",
+      "pin": "Qadash",
+      "pinned": "Qadalgan",
+      "readOnly": "Suhbat yopilgan — yangi xabar yozilmaydi",
+      "recording": "Yozilmoqda… %{s}",
+      "releaseToSend": "Qo'yib yuboring — yuboriladi",
+      "reply": "Javob berish",
+      "search": "Xabarlarda qidirish",
+      "seen": "%{a}/%{b} ko'rdi",
+      "sent": "Yuborildi",
+      "showOriginal": "Asl matnni ko'rish",
+      "showTranslation": "Tarjimani ko'rish",
+      "translateTo": "Qaysi tilga o'girilsin?",
+      "translated": "Tarjima",
+      "unpin": "Olib tashlash",
+      "voice": "Ovozli xabar",
+      "voiceBusy": "O'girilmoqda…",
+      "voiceToText": "Matnga o'girish"
     },
     "nav": {
       "chat": "Chat",
@@ -1711,6 +1879,19 @@
       "trial": "Sinov muddati",
       "trialN": "%{n} kun bepul"
     },
+    "routeGroup": {
+      "about": {
+        "cn-ru": "Chegara navbati, Xitoyga qayta kirish, yo'l holati",
+        "cn-uz": "Xorgos, Irkeshtam, bojxona va navbat",
+        "help": "Ustaxona, evakuator, zapchast — barcha yo'nalish uchun",
+        "kz-ru": "Yo'l holati, parking, yoqilg'i",
+        "tr-uz": "Eron va Kaspiy yo'nalishi",
+        "uz-eu": "TIR, dozvol, ko'p tomonlama ruxsat",
+        "uz-kz": "Chegara va bojxona",
+        "uz-ru": "Dozvol, chegara, yo'l holati"
+      },
+      "help": "Yo'lda yordam"
+    },
     "sale": {
       "about": "Tavsif",
       "aboutPh": "Holati, almashtirilgan qismlar, nima uchun sotilyapti…",
@@ -1899,6 +2080,16 @@
       "ON_ROAD": "Yo'lga chiqdingizmi?",
       "TO_LOADING": "Yuklashga yo'l oldingizmi?",
       "UNLOADED": "Yuk tushirilganini tasdiqlang"
+    },
+    "support": {
+      "closed": "Murojaat yopilgan — yangi xabar yangi murojaat ochadi",
+      "hint": "Odatda bir necha daqiqada javob beramiz",
+      "lead": "Savol yoki muammo bo'lsa — yozing, jamoa javob beradi",
+      "placeholder": "Savolingizni yozing",
+      "rowHint": "Savol bo'lsa — yozing",
+      "team": "FURAM yordam jamoasi",
+      "title": "FURAM yordam",
+      "waiting": "Javob kutilmoqda"
     },
     "svc": {
       "about": "O'zingiz haqingizda",
@@ -2160,10 +2351,8 @@
     },
     "ui": {
       "allRead": "Hammasi o'qilgan",
-      "blockUser": "Foydalanuvchini bloklash",
       "chatEmptyText": "Yuk e'loniga taklif yuborsangiz yoki kimdir sizga yozsa, suhbat shu yerda paydo bo'ladi.",
       "devMode": "Dev rejimi",
-      "mute": "Ovozni o'chirish",
       "noExpense": "Xarajat yozilmagan",
       "noExpenseText": "Yoqilg'i, yo'l haqi va boshqa xarajatlarni shu yerda qayd eting — reys yopilganda hisobotga tushadi.",
       "noNewNotes": "Yangi bildirishnoma yo'q.",

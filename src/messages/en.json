@@ -506,9 +506,76 @@
       "report": "Report",
       "sendFailed": "The message was not sent",
       "sending": "Sending",
+      "support": "Support",
       "title": "Chat",
       "whatSend": "What do you want to send?",
       "yesterday": "Yesterday"
+    },
+    "chatAct": {
+      "agreement": "Agreement",
+      "agreementHint": "The agreement takes effect once the other side confirms and stays in the chat history.",
+      "agreementTitle": "Create an agreement",
+      "amount": "Amount",
+      "askLocation": "Ask for location",
+      "askLocationSent": "Location requested",
+      "confirm": "Request confirmation",
+      "confirmHint": "You send important information and the other side taps “I confirm”. The confirmation stays in the history.",
+      "confirmPh": "e.g. Confirm the load price is 2,800 USD",
+      "confirmTitle": "Confirmation required",
+      "incDetails": "Details",
+      "incDone": "Incident recorded",
+      "incWhat": "What happened",
+      "incWhatPh": "e.g. brake pad jammed",
+      "incWithLocation": "Attach my location",
+      "incident": "Incident",
+      "incidentTitle": "Report an incident",
+      "note": "Note",
+      "pay": "Request payment",
+      "payHint": "The request appears in the chat. The official payment record is kept in the contract.",
+      "payTitle": "Request payment",
+      "service": "Service",
+      "serviceDefault": "Dispatcher service",
+      "text": "Text",
+      "title": "Chat actions"
+    },
+    "chatDoc": {
+      "kind": "Document type",
+      "kinds": {
+        "CMR": "CMR",
+        "CUSTOMS": "Customs",
+        "DOZVOL": "Permit (dozvol)",
+        "INSURANCE": "Insurance",
+        "INVOICE": "Invoice",
+        "OTHER": "Other",
+        "PACKING": "Packing list",
+        "TECH_PASSPORT": "Vehicle registration",
+        "TIR": "TIR",
+        "UNLOAD_PHOTO": "Unloading photo"
+      },
+      "noDocs": "No documents",
+      "pickFile": "Choose a file",
+      "replace": "Upload a new version",
+      "seenBy": "Seen by",
+      "title": "Chat documents",
+      "upload": "Upload a document",
+      "version": "v%{n}"
+    },
+    "chatLang": {
+      "auto": "Auto-translate",
+      "autoHint": "When off, messages are shown in their original language.",
+      "saved": "Saved",
+      "text": "When the other side writes in another language, messages are translated into this one. The original is kept and opens via “Show original”.",
+      "title": "Chat language"
+    },
+    "chatList": {
+      "contracts": "Contracts",
+      "groups": "Groups",
+      "groupsHint": "Open groups by route — border queues, road conditions, parking. Anyone who joins is a member.",
+      "join": "Join",
+      "leave": "Leave",
+      "members": "%{n} members",
+      "open": "Open",
+      "pinned": "Important"
     },
     "common": {
       "add": "Add",
@@ -905,6 +972,39 @@
       "todayProblems": "%{n} things need attention today",
       "waitingReply": "Awaiting reply"
     },
+    "inc": {
+      "addLocation": "Add location",
+      "addNote": "Add a note",
+      "addPhoto": "Add a photo",
+      "evidence": "Evidence",
+      "itemKind": {
+        "file": "File",
+        "location": "Location",
+        "note": "Note",
+        "photo": "Photo",
+        "video": "Video"
+      },
+      "kind": {
+        "accident": "Road accident",
+        "breakdown": "Vehicle breakdown",
+        "cargo": "Cargo issue",
+        "customs": "Customs issue",
+        "delay": "Delay",
+        "other": "Other",
+        "payment": "Payment issue",
+        "weather": "Weather / road condition"
+      },
+      "moveTo": "Change status",
+      "none": "No incidents",
+      "openN": "%{n} open",
+      "resolveNote": "Closing note",
+      "status": {
+        "IN_PROGRESS": "In progress",
+        "OPEN": "Open",
+        "RESOLVED": "Resolved"
+      },
+      "title": "Incidents"
+    },
     "intro": {
       "b1": "Thousands of listings across eight countries. Find what you need or post your own.",
       "b2": "Where the truck is, when it arrives, which documents are uploaded — all on the map.",
@@ -1133,6 +1233,74 @@
       "noUpcoming": "No upcoming trips",
       "noUpcomingText": "There are no agreed trips that have not started yet.",
       "widenFilters": "Try widening the filters — for example, remove the vehicle type."
+    },
+    "msg": {
+      "actionFailed": "Action failed",
+      "aiSuggest": "AI suggestion",
+      "aiTranslate": "AI translation",
+      "apply": "Use it",
+      "confirmBtn": "I confirm",
+      "confirmedBy": "Confirmed by %{names}",
+      "contact": "Contact",
+      "copied": "Copied",
+      "copy": "Copy",
+      "delete": "Delete",
+      "deleteAsk": "Delete this message? The other side won't see it either.",
+      "dismiss": "Dismiss",
+      "holdToRecord": "Hold to record",
+      "improve": "Improve with AI",
+      "kind": {
+        "AGREEMENT": "Agreement",
+        "CONFIRM": "Confirmation required",
+        "EVIDENCE": "Evidence",
+        "INCIDENT": "Incident",
+        "PAY_REQUEST": "Payment request"
+      },
+      "listing": {
+        "contract": "Contract",
+        "job": "Job listing",
+        "load": "Load listing",
+        "master": "Mechanic / service",
+        "open": "Open",
+        "part": "Spare part",
+        "ride": "Passenger ride",
+        "sale": "Vehicle for sale",
+        "truck": "Truck"
+      },
+      "locDenied": "Location access denied",
+      "menu": {
+        "actions": "Actions",
+        "docs": "Chat documents",
+        "incidents": "Incidents",
+        "lang": "Chat language",
+        "mute": "Mute",
+        "pinChat": "Mark important",
+        "search": "Search",
+        "unmute": "Unmute",
+        "unpinChat": "Unmark important"
+      },
+      "micDenied": "Microphone access denied",
+      "noMessages": "No messages yet",
+      "notFound": "Nothing found",
+      "openFile": "Open file",
+      "openMap": "Open in maps",
+      "pin": "Pin",
+      "pinned": "Pinned",
+      "readOnly": "This chat is closed — no new messages",
+      "recording": "Recording… %{s}",
+      "releaseToSend": "Release to send",
+      "reply": "Reply",
+      "search": "Search messages",
+      "seen": "Seen by %{a}/%{b}",
+      "sent": "Sent",
+      "showOriginal": "Show original",
+      "showTranslation": "Show translation",
+      "translateTo": "Translate to which language?",
+      "translated": "Translated",
+      "unpin": "Unpin",
+      "voice": "Voice message",
+      "voiceBusy": "Transcribing…",
+      "voiceToText": "Transcribe"
     },
     "nav": {
       "chat": "Chat",
@@ -1711,6 +1879,19 @@
       "trial": "Trial",
       "trialN": "%{n} days free"
     },
+    "routeGroup": {
+      "about": {
+        "cn-ru": "Border queue, re-entry to China, road conditions",
+        "cn-uz": "Khorgos, Irkeshtam, customs and queues",
+        "help": "Repair, towing, spare parts — for every route",
+        "kz-ru": "Road conditions, parking, fuel",
+        "tr-uz": "Iran and Caspian route",
+        "uz-eu": "TIR, permits, multilateral permits",
+        "uz-kz": "Border and customs",
+        "uz-ru": "Permits, border, road conditions"
+      },
+      "help": "Roadside help"
+    },
     "sale": {
       "about": "Description",
       "aboutPh": "Condition, parts replaced, why you're selling…",
@@ -1899,6 +2080,16 @@
       "ON_ROAD": "Are you on the road?",
       "TO_LOADING": "Heading to loading?",
       "UNLOADED": "Confirm the cargo is unloaded"
+    },
+    "support": {
+      "closed": "This request is closed — a new message opens a new one",
+      "hint": "We usually reply within minutes",
+      "lead": "Have a question or a problem? Write to us — the team will answer",
+      "placeholder": "Type your question",
+      "rowHint": "Have a question? Write to us",
+      "team": "FURAM support team",
+      "title": "FURAM support",
+      "waiting": "Waiting for a reply"
     },
     "svc": {
       "about": "About you",
@@ -2160,10 +2351,8 @@
     },
     "ui": {
       "allRead": "All read",
-      "blockUser": "Block this user",
       "chatEmptyText": "A chat appears here once you send an offer on a load or someone writes to you.",
       "devMode": "Dev mode",
-      "mute": "Mute",
       "noExpense": "No expenses recorded",
       "noExpenseText": "Record fuel, road tolls and other costs here — they go into the report when the trip closes.",
       "noNewNotes": "No new notifications.",

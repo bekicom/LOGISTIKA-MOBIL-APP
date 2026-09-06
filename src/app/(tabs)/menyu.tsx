@@ -111,6 +111,7 @@ function groups(): Group[] {
       bg: color.muted,
       items: [
         { icon: "user", title: t("mob.roles.title"), href: "/rollarim" },
+        { icon: "headset", title: t("mob.support.title"), href: "/yordam" },
         { icon: "play", title: t("mob.video.title"), href: "/qollanma", open: true },
         { icon: "shield", title: t("mob.legal.title"), href: "/huquqiy", open: true },
       ],

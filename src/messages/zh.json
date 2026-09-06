@@ -506,9 +506,76 @@
       "report": "举报",
       "sendFailed": "消息发送失败",
       "sending": "发送中",
+      "support": "客服",
       "title": "聊天",
       "whatSend": "要发送什么？",
       "yesterday": "昨天"
+    },
+    "chatAct": {
+      "agreement": "协议",
+      "agreementHint": "对方确认后协议生效，并保留在聊天记录中。",
+      "agreementTitle": "创建协议",
+      "amount": "金额",
+      "askLocation": "请求位置",
+      "askLocationSent": "已请求位置",
+      "confirm": "请求确认",
+      "confirmHint": "您发送重要信息，对方点击“我确认”。确认将保留在记录中。",
+      "confirmPh": "例如：请确认货物价格为 2,800 美元",
+      "confirmTitle": "需要确认",
+      "incDetails": "详情",
+      "incDone": "事件已记录",
+      "incWhat": "发生了什么",
+      "incWhatPh": "例如：刹车片卡住了",
+      "incWithLocation": "同时附上位置",
+      "incident": "事件",
+      "incidentTitle": "记录事件",
+      "note": "备注",
+      "pay": "请求付款",
+      "payHint": "请求将显示在聊天中。正式付款记录保存在合同中。",
+      "payTitle": "付款请求",
+      "service": "服务类型",
+      "serviceDefault": "调度服务",
+      "text": "内容",
+      "title": "聊天操作"
+    },
+    "chatDoc": {
+      "kind": "文件类型",
+      "kinds": {
+        "CMR": "CMR",
+        "CUSTOMS": "海关",
+        "DOZVOL": "许可证",
+        "INSURANCE": "保险",
+        "INVOICE": "发票",
+        "OTHER": "其他",
+        "PACKING": "装箱单",
+        "TECH_PASSPORT": "行驶证",
+        "TIR": "TIR",
+        "UNLOAD_PHOTO": "卸货照片"
+      },
+      "noDocs": "暂无文件",
+      "pickFile": "选择文件",
+      "replace": "上传新版本",
+      "seenBy": "已查看",
+      "title": "聊天文件",
+      "upload": "上传文件",
+      "version": "v%{n}"
+    },
+    "chatLang": {
+      "auto": "自动翻译",
+      "autoHint": "关闭后，消息将以原文显示。",
+      "saved": "已保存",
+      "text": "对方使用其他语言时，消息将翻译成该语言。原文会保留，可通过“查看原文”打开。",
+      "title": "聊天语言"
+    },
+    "chatList": {
+      "contracts": "合同",
+      "groups": "群组",
+      "groupsHint": "按路线划分的公开群组——边境排队、路况、停车。加入即成为成员。",
+      "join": "加入",
+      "leave": "退出",
+      "members": "%{n} 名成员",
+      "open": "打开",
+      "pinned": "重要"
     },
     "common": {
       "add": "添加",
@@ -905,6 +972,39 @@
       "todayProblems": "今天有 %{n} 项事务需要关注",
       "waitingReply": "等待回复"
     },
+    "inc": {
+      "addLocation": "添加位置",
+      "addNote": "添加备注",
+      "addPhoto": "添加照片",
+      "evidence": "证据",
+      "itemKind": {
+        "file": "文件",
+        "location": "位置",
+        "note": "备注",
+        "photo": "照片",
+        "video": "视频"
+      },
+      "kind": {
+        "accident": "交通事故",
+        "breakdown": "车辆故障",
+        "cargo": "货物问题",
+        "customs": "海关问题",
+        "delay": "延误",
+        "other": "其他",
+        "payment": "付款问题",
+        "weather": "天气/路况"
+      },
+      "moveTo": "更改状态",
+      "none": "暂无事件",
+      "openN": "%{n} 个未处理",
+      "resolveNote": "结案备注",
+      "status": {
+        "IN_PROGRESS": "处理中",
+        "OPEN": "未处理",
+        "RESOLVED": "已解决"
+      },
+      "title": "事件"
+    },
     "intro": {
       "b1": "覆盖八国的海量货源信息。找到所需，或发布您自己的。",
       "b2": "车在哪、何时到、上传了哪些单据——地图上一目了然。",
@@ -1133,6 +1233,74 @@
       "noUpcoming": "暂无待开始的运单",
       "noUpcomingText": "没有已达成但尚未开始的运单。",
       "widenFilters": "试着放宽筛选条件——比如去掉车型限制。"
+    },
+    "msg": {
+      "actionFailed": "操作失败",
+      "aiSuggest": "AI 建议",
+      "aiTranslate": "AI 翻译",
+      "apply": "采用",
+      "confirmBtn": "我确认",
+      "confirmedBy": "%{names} 已确认",
+      "contact": "联系人",
+      "copied": "已复制",
+      "copy": "复制",
+      "delete": "删除",
+      "deleteAsk": "删除此消息？对方也将看不到。",
+      "dismiss": "不需要",
+      "holdToRecord": "按住录音",
+      "improve": "用 AI 润色",
+      "kind": {
+        "AGREEMENT": "协议",
+        "CONFIRM": "需要确认",
+        "EVIDENCE": "证据",
+        "INCIDENT": "事件",
+        "PAY_REQUEST": "付款请求"
+      },
+      "listing": {
+        "contract": "合同",
+        "job": "招聘信息",
+        "load": "货物信息",
+        "master": "技师/服务",
+        "open": "查看",
+        "part": "配件",
+        "ride": "乘客行程",
+        "sale": "在售车辆",
+        "truck": "车辆"
+      },
+      "locDenied": "未授予位置权限",
+      "menu": {
+        "actions": "操作",
+        "docs": "聊天文件",
+        "incidents": "事件",
+        "lang": "聊天语言",
+        "mute": "静音",
+        "pinChat": "标为重要",
+        "search": "搜索",
+        "unmute": "取消静音",
+        "unpinChat": "取消重要"
+      },
+      "micDenied": "未授予麦克风权限",
+      "noMessages": "还没有消息",
+      "notFound": "未找到",
+      "openFile": "打开文件",
+      "openMap": "在地图中打开",
+      "pin": "置顶",
+      "pinned": "已置顶",
+      "readOnly": "聊天已关闭——无法发送新消息",
+      "recording": "录音中… %{s}",
+      "releaseToSend": "松开即发送",
+      "reply": "回复",
+      "search": "搜索消息",
+      "seen": "%{a}/%{b} 已读",
+      "sent": "已发送",
+      "showOriginal": "查看原文",
+      "showTranslation": "查看翻译",
+      "translateTo": "翻译成哪种语言？",
+      "translated": "译文",
+      "unpin": "取消置顶",
+      "voice": "语音消息",
+      "voiceBusy": "转换中…",
+      "voiceToText": "转为文字"
     },
     "nav": {
       "chat": "聊天",
@@ -1711,6 +1879,19 @@
       "trial": "试用期",
       "trialN": "免费 %{n} 天"
     },
+    "routeGroup": {
+      "about": {
+        "cn-ru": "边境排队、再次进入中国、路况",
+        "cn-uz": "霍尔果斯、伊尔克什坦、海关与排队",
+        "help": "维修、拖车、配件——适用于所有路线",
+        "kz-ru": "路况、停车、燃油",
+        "tr-uz": "伊朗与里海路线",
+        "uz-eu": "TIR、许可证、多边许可",
+        "uz-kz": "边境与海关",
+        "uz-ru": "许可证、边境、路况"
+      },
+      "help": "路上救援"
+    },
     "sale": {
       "about": "描述",
       "aboutPh": "车况、更换过的部件、出售原因……",
@@ -1899,6 +2080,16 @@
       "ON_ROAD": "已经上路了吗？",
       "TO_LOADING": "已出发去装货了吗？",
       "UNLOADED": "确认已卸货"
+    },
+    "support": {
+      "closed": "此请求已关闭——发送新消息将开启新请求",
+      "hint": "通常几分钟内回复",
+      "lead": "如有疑问或问题，请留言，团队会回复",
+      "placeholder": "输入您的问题",
+      "rowHint": "有问题请留言",
+      "team": "FURAM 客服团队",
+      "title": "FURAM 客服",
+      "waiting": "等待回复"
     },
     "svc": {
       "about": "个人介绍",
@@ -2160,10 +2351,8 @@
     },
     "ui": {
       "allRead": "全部已读",
-      "blockUser": "屏蔽该用户",
       "chatEmptyText": "当您对货源报价或有人给您留言时，聊天会出现在这里。",
       "devMode": "开发模式",
-      "mute": "静音",
       "noExpense": "未记录费用",
       "noExpenseText": "在此记录燃油、路桥费及其他支出——运单结算时会计入报告。",
       "noNewNotes": "没有新通知。",

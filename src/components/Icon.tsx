@@ -45,7 +45,25 @@ export type IconName =
   | "shield"
   | "headset"
   | "handshake"
-  | "tag";
+  | "tag"
+  /* Muloqot (A-qadam) */
+  | "mic"
+  | "paperclip"
+  | "send"
+  | "pin"
+  | "reply"
+  | "globe"
+  | "map-pin"
+  | "phone"
+  | "play"
+  | "pause"
+  | "stop"
+  | "file"
+  | "image"
+  | "check-check"
+  | "more"
+  | "trash"
+  | "copy";
 
 /* `stroke` — `string` emas, `ColorValue`: `Tabs.Screen` ning
    `tabBarIcon` i rangni shu turda beradi (RN 0.86). */
@@ -192,6 +210,65 @@ export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "
         <>
           <Path {...p} d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z" />
           <Circle {...p} cx={7} cy={7} r={1.5} />
+        </>
+      )}
+      {/* ── Muloqot ── */}
+      {name === "mic" && (
+        <>
+          <Path {...p} d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+          <Path {...p} d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8" />
+        </>
+      )}
+      {name === "paperclip" && (
+        <Path {...p} d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+      )}
+      {name === "send" && <Path {...p} d="m22 2-7 20-4-9-9-4zM22 2 11 13" />}
+      {name === "pin" && <Path {...p} d="M12 17v5M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" />}
+      {name === "reply" && <Path {...p} d="M9 17H7A5 5 0 0 1 7 7h9M13 3l4 4-4 4" />}
+      {name === "globe" && (
+        <>
+          <Circle {...p} cx={12} cy={12} r={10} />
+          <Path {...p} d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </>
+      )}
+      {name === "map-pin" && (
+        <>
+          <Path {...p} d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+          <Circle {...p} cx={12} cy={10} r={3} />
+        </>
+      )}
+      {name === "phone" && (
+        <Path {...p} d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+      )}
+      {name === "play" && <Path {...p} fill={fill} d="M6 4l14 8-14 8z" />}
+      {name === "pause" && <Path {...p} d="M8 5v14M16 5v14" />}
+      {name === "stop" && <Path {...p} d="M6 6h12v12H6z" />}
+      {name === "file" && (
+        <>
+          <Path {...p} d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <Path {...p} d="M14 2v6h6M8 13h8M8 17h8" />
+        </>
+      )}
+      {name === "image" && (
+        <>
+          <Path {...p} d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+          <Circle {...p} cx={9} cy={9} r={2} />
+          <Path {...p} d="m21 15-5-5L5 21" />
+        </>
+      )}
+      {name === "check-check" && <Path {...p} d="M18 6 7 17l-5-5M22 10l-7.5 7.5L13 16" />}
+      {name === "more" && (
+        <>
+          <Circle {...p} cx={12} cy={12} r={1} />
+          <Circle {...p} cx={19} cy={12} r={1} />
+          <Circle {...p} cx={5} cy={12} r={1} />
+        </>
+      )}
+      {name === "trash" && <Path {...p} d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6" />}
+      {name === "copy" && (
+        <>
+          <Path {...p} d="M10 8h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z" />
+          <Path {...p} d="M4 16H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1" />
         </>
       )}
     </Svg>

@@ -26,14 +26,22 @@ type Note = {
   createdAt: string;
 };
 
+/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
+   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
 function tabs() {
   return [
-    { key: "all", label: t("mob.common.all") },
-    { key: "task", label: t("mob.notes.task") },
-    { key: "problem", label: t("mob.notes.problem") },
-  ] as const;
+  /* KALITLAR SERVERNIKI BILAN BIR XIL BO'LISHI SHART.
+     Ilgari bu yerda "tasks" va "problems" turardi, server esa
+     "task" va "problem" kutadi (`notify-server.ts:listNotify`).
+     Mos kelmagan kalit filtrsiz o'tib ketardi — ya'ni ikkala
+     yorliq ham JIMGINA hammasini ko'rsatib turgan. */
+  { key: "all", label: t("mob.common.all") },
+  { key: "task", label: t("mob.notes.task") },
+  { key: "problem", label: t("mob.notes.problem") },
+] as const;
 }
 
+/** Turini ikonka va rangga bog'lash — web'dagi kategoriyalarga tayanadi */
 function look(type: string): { icon: IconName; tint: string } {
   if (type.startsWith("trip")) return { icon: "route", tint: color.brand };
   if (type.startsWith("chat") || type.startsWith("message")) return { icon: "chat", tint: color.info };
@@ -59,6 +67,9 @@ function hhmm(iso: string) {
 }
 
 export default function Bildirishnomalar() {
+  /* Boshlang'ich yorliq marshrutdan kelishi mumkin: profildagi
+     «Muammolarim» shu ekranni to'g'ridan-to'g'ri muammo
+     yorlig'ida ochadi. Begona qiymat e'tiborsiz qoldiriladi. */
   const { tab: want } = useLocalSearchParams<{ tab?: string }>();
   const [tab, setTab] = useState<string>(
     want && ["all", "task", "problem"].includes(want) ? want : "all",
@@ -71,11 +82,16 @@ export default function Bildirishnomalar() {
     [tab],
   );
 
+  /* NISHONCHA RO'YXAT BILAN BIR XIL BO'LSIN. Push kelganda uni server
+     qo'yadi, lekin xabar web'da o'qilsa telefonda raqam osilib
+     qolardi — bu ekran ochilganda tekislanadi. */
   useEffect(() => {
     if (data) void setBadge(data.unread ?? 0);
   }, [data]);
 
   async function markAll() {
+    // Server har bir xabarni alohida belgilaydi — hammasi uchun bitta
+    // amal yo'q. Ro'yxat kichik (40 tagacha), shuning uchun yetarli.
     const unread = (data?.items ?? []).filter((n) => !n.isRead);
     await Promise.all(
       unread.map((n) => api("/api/notifications", { method: "POST", body: { id: n.id, action: "read" } }).catch(() => null)),
@@ -83,6 +99,7 @@ export default function Bildirishnomalar() {
     reload();
   }
 
+  // Kun bo'yicha guruhlash — ro'yxatga sarlavha qatorlari qo'shiladi
   const rows: ({ kind: "day"; label: string } | ({ kind: "note" } & Note))[] = [];
   let last = "";
   for (const n of data?.items ?? []) {
@@ -95,27 +112,25 @@ export default function Bildirishnomalar() {
   }
 
   return (
-    <View style={s.root}>
-      <View style={[s.headerWrap, { paddingTop: insets.top + space.xs }]}>
-        <View style={s.head}>
-          <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
-            <Icon name="back" size={22} stroke={color.foreground} />
+    <View style={[s.root, { paddingTop: insets.top }]}>
+      <View style={s.head}>
+        <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
+          <Icon name="back" size={22} stroke={color.foreground} />
+        </Pressable>
+        <Text style={s.title}>{t("mob.notes.title")}</Text>
+        {(data?.unread ?? 0) > 0 ? (
+          <Pressable onPress={markAll} hitSlop={8}>
+            <Text style={s.link}>{t("mob.notes.markAll")}</Text>
           </Pressable>
-          <Text style={s.title}>{t("mob.notes.title")}</Text>
-          {(data?.unread ?? 0) > 0 ? (
-            <Pressable onPress={markAll} hitSlop={8} style={({ pressed }) => [s.mark, pressed && { opacity: 0.7 }]}>
-              <Text style={s.markText}>{t("mob.notes.markAll")}</Text>
-            </Pressable>
-          ) : null}
-        </View>
+        ) : null}
+      </View>
 
-        <View style={s.tabs}>
-          {tabs().map((item) => (
-            <Pressable key={item.key} onPress={() => setTab(item.key)} style={[s.tab, tab === item.key && s.tabOn]}>
-              <Text style={[s.tabText, tab === item.key && s.tabTextOn]}>{item.label}</Text>
-            </Pressable>
-          ))}
-        </View>
+      <View style={s.tabs}>
+        {tabs().map((t) => (
+          <Pressable key={t.key} onPress={() => setTab(t.key)} style={[s.tab, tab === t.key && s.tabOn]}>
+            <Text style={[s.tabText, tab === t.key && s.tabTextOn]}>{t.label}</Text>
+          </Pressable>
+        ))}
       </View>
 
       <FlatList
@@ -126,7 +141,24 @@ export default function Bildirishnomalar() {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           if (item.kind === "day") return <Text style={s.day}>{item.label}</Text>;
-          return <NotificationCard item={item} />;
+          const l = look(item.type);
+          return (
+            <View style={[s.note, !item.isRead && s.noteUnread]}>
+              <View style={[s.noteIcon, { backgroundColor: l.tint + "1f" }]}>
+                <Icon name={l.icon} size={19} stroke={l.tint} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[s.noteTitle, item.isRead && { fontWeight: "500", color: "#475569" }]}>
+                  {item.title}
+                </Text>
+                {item.body ? <Text style={s.noteBody}>{item.body}</Text> : null}
+              </View>
+              <View style={{ alignItems: "flex-end", gap: 6 }}>
+                <Text style={s.time}>{hhmm(item.createdAt)}</Text>
+                {!item.isRead ? <View style={s.dot} /> : null}
+              </View>
+            </View>
+          );
         }}
         ListEmptyComponent={
           loading ? (
@@ -142,95 +174,38 @@ export default function Bildirishnomalar() {
   );
 }
 
-function NotificationCard({ item }: { item: Note }) {
-  const l = look(item.type);
-
-  return (
-    <View style={[s.note, !item.isRead && s.noteUnread]}>
-      <View style={[s.noteIcon, { backgroundColor: l.tint + "1f" }]}>
-        <Icon name={l.icon} size={19} stroke={l.tint} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text style={[s.noteTitle, item.isRead && s.noteTitleRead]}>{item.title}</Text>
-        {item.body ? <Text style={s.noteBody}>{item.body}</Text> : null}
-        {item.category ? <Text style={s.category}>{item.category}</Text> : null}
-      </View>
-      <View style={s.noteSide}>
-        <Text style={s.time}>{hhmm(item.createdAt)}</Text>
-        {!item.isRead ? <View style={s.dot} /> : null}
-      </View>
-    </View>
-  );
-}
-
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  headerWrap: {
-    backgroundColor: color.card,
-    paddingHorizontal: space.lg,
-    paddingBottom: space.md,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
+  head: {
+    backgroundColor: color.card, flexDirection: "row", alignItems: "center",
+    paddingHorizontal: 8, paddingVertical: 4, gap: 4,
   },
-  head: { flexDirection: "row", alignItems: "center", minHeight: 48 },
-  back: { width: 44, height: 44, marginLeft: -12, alignItems: "center", justifyContent: "center" },
-  mark: {
-    minHeight: 38,
-    borderRadius: 13,
-    borderWidth: 1,
-    borderColor: "rgba(244,90,24,0.42)",
-    backgroundColor: "rgba(244,90,24,0.12)",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 12,
+  back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
+  title: { flex: 1, fontSize: 19, fontWeight: "700", color: color.foreground },
+  link: { fontSize: 13, fontWeight: "600", color: color.brand, paddingRight: space.md },
+
+  tabs: {
+    backgroundColor: color.card, flexDirection: "row", gap: 7,
+    paddingHorizontal: space.lg, paddingBottom: space.md,
+    borderBottomWidth: 1, borderBottomColor: color.border,
   },
-  markText: { fontSize: 13, fontWeight: "800", color: color.brand },
-  title: { flex: 1, fontSize: 19, fontWeight: "800", color: color.foreground },
-  tabs: { flexDirection: "row", gap: 8, marginTop: space.sm },
-  tab: {
-    minHeight: 36,
-    paddingHorizontal: 14,
-    borderRadius: 13,
-    borderWidth: 1,
-    borderColor: color.border,
-    backgroundColor: color.muted,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  tabOn: { backgroundColor: color.foreground, borderColor: color.foreground },
-  tabText: { fontSize: 13, fontWeight: "700", color: "#64748b" },
-  tabTextOn: { color: "#ffffff" },
+  tab: { height: 32, paddingHorizontal: 13, borderRadius: radius.control, backgroundColor: color.muted, justifyContent: "center" },
+  tabOn: { backgroundColor: color.foreground },
+  tabText: { fontSize: 13, fontWeight: "500", color: "#475569" },
+  tabTextOn: { fontWeight: "600", color: "#fff" },
+
   list: { padding: space.lg, gap: space.sm },
-  day: {
-    fontSize: 12,
-    fontWeight: "800",
-    color: color.mutedForeground,
-    letterSpacing: 0.45,
-    marginTop: space.sm,
-    marginBottom: 2,
-  },
+  day: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, letterSpacing: 0.4, marginTop: space.sm, marginBottom: 2 },
+
   note: {
-    flexDirection: "row",
-    gap: space.md,
-    backgroundColor: color.card,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    borderColor: color.border,
-    padding: space.lg,
-    ...shadow.card,
+    flexDirection: "row", gap: space.md, backgroundColor: color.card,
+    borderRadius: radius.card, borderWidth: 1, borderColor: color.border,
+    padding: space.lg, ...shadow.card,
   },
-  noteUnread: {
-    borderColor: "#f45a1840",
-    backgroundColor: "#fffaf7",
-    borderLeftWidth: 3,
-    borderLeftColor: color.brand,
-  },
-  noteIcon: { width: 40, height: 40, borderRadius: 14, alignItems: "center", justifyContent: "center" },
-  noteTitle: { fontSize: 14.5, fontWeight: "800", color: color.foreground },
-  noteTitleRead: { fontWeight: "600", color: "#475569" },
-  noteBody: { fontSize: font.caption, color: "#475569", marginTop: 3, lineHeight: 19 },
-  category: { fontSize: 11.5, color: color.mutedForeground, fontWeight: "700", marginTop: 7, textTransform: "uppercase" },
-  noteSide: { alignItems: "flex-end", gap: 7 },
-  time: { fontSize: 11.5, color: color.mutedForeground, fontWeight: "700" },
+  noteUnread: { backgroundColor: "#fffaf7", borderColor: "#f45a1826" },
+  noteIcon: { width: 38, height: 38, borderRadius: 19, alignItems: "center", justifyContent: "center" },
+  noteTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
+  noteBody: { fontSize: font.caption, color: "#475569", marginTop: 2, lineHeight: 19 },
+  time: { fontSize: 11, color: color.mutedForeground },
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.brand },
 });

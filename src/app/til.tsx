@@ -5,9 +5,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Path } from "react-native-svg";
 import { Logo } from "@/components/Logo";
-import { color, font, space } from "@/lib/theme";
+import { Button } from "@/components/ui";
+import { color, font, radius, space } from "@/lib/theme";
 import { LOCALES, LOCALE_INFO, deviceLocale, setLocale, t, type Locale } from "@/lib/i18n";
 
+/* Ro'yxat `lib/i18n.ts` dan olinadi — til nomlari ikki joyda
+   yozilsa, biri qo'shilib ikkinchisi unutilardi. */
 const LANGS = LOCALES.map((code) => ({ code, label: LOCALE_INFO[code].native }));
 
 export default function TilTanlash() {
@@ -15,56 +18,57 @@ export default function TilTanlash() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  async function next() {
-    await setLocale(picked);
-    router.push("/tanishtiruv");
-  }
-
   return (
-    <View style={[s.root, { paddingTop: insets.top + 14, paddingBottom: insets.bottom + space.lg }]}>
+    <View style={[s.root, { paddingTop: insets.top, paddingBottom: insets.bottom + space.lg }]}>
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <View style={s.hero}>
-          <Logo width={216} light />
+          <Logo width={244} light />
           <Text style={s.tagline}>{t("mob.lang.tagline")}</Text>
         </View>
 
-        <View style={s.panel}>
-          <Text style={s.caption}>{t("mob.lang.pick")}</Text>
-          <View style={s.grid}>
-            {LANGS.map((l) => {
-              const on = picked === l.code;
-              return (
-                <Pressable
-                  key={l.code}
-                  onPress={() => setPicked(l.code)}
-                  accessibilityRole="radio"
-                  accessibilityState={{ selected: on }}
-                  style={({ pressed }) => [s.lang, on && s.langOn, pressed && { opacity: 0.86 }]}
-                >
-                  <Text style={[s.langText, on && s.langTextOn]}>{l.label}</Text>
-                  {on ? (
-                    <Svg width={18} height={18} viewBox="0 0 24 24">
-                      <Path
-                        d="M20 6 9 17l-5-5"
-                        stroke="#ffffff"
-                        strokeWidth={2.8}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        fill="none"
-                      />
-                    </Svg>
-                  ) : null}
-                </Pressable>
-              );
-            })}
-          </View>
+        <Text style={s.caption}>{t("mob.lang.pick")}</Text>
+
+        <View style={s.grid}>
+          {LANGS.map((l) => {
+            const on = picked === l.code;
+            return (
+              <Pressable
+                key={l.code}
+                onPress={() => setPicked(l.code)}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: on }}
+                style={[s.lang, on && s.langOn]}
+              >
+                <Text style={[s.langText, on && s.langTextOn]}>{l.label}</Text>
+                {on ? (
+                  <Svg width={17} height={17} viewBox="0 0 24 24">
+                    <Path
+                      d="M20 6 9 17l-5-5"
+                      stroke="#ffffff"
+                      strokeWidth={2.6}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                    />
+                  </Svg>
+                ) : null}
+              </Pressable>
+            );
+          })}
         </View>
       </ScrollView>
 
       <View style={s.footer}>
-        <Pressable onPress={next} style={({ pressed }) => [s.primary, pressed && { opacity: 0.8 }]}>
-          <Text style={s.primaryText}>{t("mob.common.continueBtn")}</Text>
-        </Pressable>
+        <Button
+          title={t("mob.common.continueBtn")}
+          onPress={async () => {
+            /* Tanlov SAQLANADI. Ilgari bu ekran faqat ko'rinish edi:
+               til tanlansa ham keyingi ekranga o'tib ketardi va
+               tanlov yo'qolardi. */
+            await setLocale(picked);
+            router.push("/tanishtiruv");
+          }}
+        />
         <Text style={s.note}>{t("mob.lang.later")}</Text>
       </View>
     </View>
@@ -72,28 +76,38 @@ export default function TilTanlash() {
 }
 
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#3556d8" },
+  root: { flex: 1, backgroundColor: color.navy },
   scroll: { flexGrow: 1, justifyContent: "center", paddingHorizontal: space.xl },
-  hero: { alignItems: "center", gap: 14, paddingBottom: 46 },
-  tagline: { fontSize: 15, color: "rgba(255,255,255,0.82)", textAlign: "center" },
-  panel: { gap: space.md },
-  caption: { fontSize: 24, fontWeight: "800", color: "#ffffff", textAlign: "center", marginBottom: 10 },
-  grid: { gap: 14 },
+
+  hero: { alignItems: "center", gap: 14, paddingVertical: space.xxl },
+  tagline: { fontSize: 14, color: "#94a3b8", textAlign: "center" },
+
+  caption: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#64748b",
+    letterSpacing: 0.8,
+    marginBottom: space.md,
+  },
+
+  grid: { flexDirection: "row", flexWrap: "wrap", gap: 9 },
   lang: {
-    minHeight: 54,
-    borderRadius: 14,
-    backgroundColor: "#ffffff",
+    width: "48%",
+    flexGrow: 1,
+    height: 50,
+    borderRadius: radius.control,
+    borderWidth: 1,
+    borderColor: "#1e3048",
+    backgroundColor: "#10203a",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    paddingHorizontal: 18,
+    justifyContent: "space-between",
+    paddingHorizontal: 14,
   },
-  langOn: { backgroundColor: color.brand },
-  langText: { fontSize: font.bodyLg, fontWeight: "700", color: "#202638" },
-  langTextOn: { color: "#ffffff" },
+  langOn: { backgroundColor: color.brand, borderColor: color.brand },
+  langText: { fontSize: font.body, fontWeight: "500", color: "#e2e8f0" },
+  langTextOn: { fontWeight: "600", color: "#ffffff" },
+
   footer: { paddingHorizontal: space.xl, gap: space.md },
-  primary: { height: 56, borderRadius: 18, backgroundColor: "#ffffff", alignItems: "center", justifyContent: "center" },
-  primaryText: { fontSize: font.bodyLg, fontWeight: "800", color: "#3556d8" },
-  note: { fontSize: 12.5, color: "rgba(255,255,255,0.78)", textAlign: "center" },
+  note: { fontSize: 12, color: "#64748b", textAlign: "center" },
 });

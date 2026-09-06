@@ -369,16 +369,16 @@ function RouteTexture() {
       <Svg width="100%" height="100%" viewBox="0 0 393 852" preserveAspectRatio="none">
         <Defs>
           <LinearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0" stopColor="#08162b" />
-            <Stop offset="0.62" stopColor="#071326" />
-            <Stop offset="1" stopColor="#0b1d35" />
+            <Stop offset="0" stopColor="#3556d8" />
+            <Stop offset="0.62" stopColor="#365bdc" />
+            <Stop offset="1" stopColor="#2847c8" />
           </LinearGradient>
         </Defs>
         <Rect width="393" height="852" fill="url(#bg)" />
-        <Circle cx="336" cy="74" r="150" fill="#12345f" opacity="0.17" />
-        <Circle cx="60" cy="690" r="210" fill="#12345f" opacity="0.12" />
-        <Path d="M-24 405 C58 364 95 431 158 387 C215 347 253 272 417 301" fill="none" stroke="#f45a18" strokeOpacity="0.12" strokeWidth={1.4} />
-        <Path d="M20 196 C76 168 108 224 160 196 C222 162 260 88 364 124" fill="none" stroke="#7aa3d8" strokeOpacity="0.12" strokeWidth={1} strokeDasharray="4 7" />
+        <Circle cx="336" cy="74" r="150" fill="#ffffff" opacity="0.06" />
+        <Circle cx="60" cy="690" r="210" fill="#ffffff" opacity="0.05" />
+        <Path d="M-24 405 C58 364 95 431 158 387 C215 347 253 272 417 301" fill="none" stroke="#ffffff" strokeOpacity="0.12" strokeWidth={1.4} />
+        <Path d="M20 196 C76 168 108 224 160 196 C222 162 260 88 364 124" fill="none" stroke="#ffffff" strokeOpacity="0.13" strokeWidth={1} strokeDasharray="4 7" />
       </Svg>
     </View>
   );
@@ -546,7 +546,7 @@ function RoleIcon({ value, on }: { value: string; on: boolean }) {
 }
 
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.navy },
+  root: { flex: 1, backgroundColor: "#3556d8" },
   scroll: { flexGrow: 1, paddingHorizontal: space.xl },
 
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 48 },
@@ -554,25 +554,25 @@ const s = StyleSheet.create({
   headerStep: { minWidth: 44, textAlign: "right", fontSize: 14, fontWeight: "700", color: "#9eb5d5" },
 
   progress: { flexDirection: "row", gap: 7, marginTop: 12 },
-  progressItem: { flex: 1, height: 5, borderRadius: 999, backgroundColor: "#294566" },
-  progressOn: { backgroundColor: color.brand },
+  progressItem: { flex: 1, height: 5, borderRadius: 999, backgroundColor: "rgba(255,255,255,0.28)" },
+  progressOn: { backgroundColor: "#ffffff" },
 
-  caption: { fontSize: 12, fontWeight: "700", color: "#8fa7c7", letterSpacing: 0.6, marginTop: 24 },
+  caption: { fontSize: 12, fontWeight: "700", color: "rgba(255,255,255,0.72)", letterSpacing: 0.6, marginTop: 24 },
   title: { fontSize: 34, lineHeight: 40, fontWeight: "800", color: "#ffffff", marginTop: 8 },
-  sub: { fontSize: font.body, color: "#a9bddc", marginTop: 9, lineHeight: 23 },
-  subtleText: { fontSize: 14.5, color: "#9eb5d5", lineHeight: 21 },
+  sub: { fontSize: font.body, color: "rgba(255,255,255,0.82)", marginTop: 9, lineHeight: 23 },
+  subtleText: { fontSize: 14.5, color: "rgba(255,255,255,0.78)", lineHeight: 21 },
 
   panel: {
     marginTop: 28,
     padding: space.lg,
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: "#294566",
-    backgroundColor: "rgba(15, 37, 68, 0.72)",
+    borderColor: "rgba(255,255,255,0.55)",
+    backgroundColor: "rgba(255,255,255,0.96)",
     gap: space.lg,
   },
-  label: { fontSize: font.caption, fontWeight: "700", color: "#ffffff", marginBottom: 8 },
-  labelHint: { fontWeight: "500", color: "#9eb5d5" },
+  label: { fontSize: font.caption, fontWeight: "700", color: color.foreground, marginBottom: 8 },
+  labelHint: { fontWeight: "500", color: color.mutedForeground },
   fieldBlock: { gap: 0 },
 
   phoneRow: { flexDirection: "row", gap: 9 },
@@ -581,20 +581,20 @@ const s = StyleSheet.create({
     height: 56,
     borderRadius: 14,
     borderWidth: 1.2,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
+    borderColor: color.border,
+    backgroundColor: color.card,
     alignItems: "center",
     justifyContent: "center",
   },
-  ccText: { fontSize: font.bodyLg, fontWeight: "800", color: "#ffffff" },
+  ccText: { fontSize: font.bodyLg, fontWeight: "800", color: color.foreground },
   input: {
     flex: 1,
     height: 56,
     borderRadius: 14,
     borderWidth: 1.2,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
-    color: "#ffffff",
+    borderColor: color.border,
+    backgroundColor: color.card,
+    color: color.foreground,
     fontSize: font.bodyLg,
     fontWeight: "600",
     paddingHorizontal: 15,
@@ -606,20 +606,20 @@ const s = StyleSheet.create({
     padding: 14,
     borderRadius: 16,
     borderWidth: 1.2,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
+    borderColor: color.border,
+    backgroundColor: color.card,
   },
-  channelOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "rgba(244, 90, 24, 0.1)" },
+  channelOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#fff7ed" },
   channelTop: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  channelName: { fontSize: font.body, fontWeight: "800", color: "#ffffff", marginTop: 12 },
-  channelNote: { fontSize: 12.5, color: "#9eb5d5", marginTop: 3 },
+  channelName: { fontSize: font.body, fontWeight: "800", color: color.foreground, marginTop: 12 },
+  channelNote: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3 },
 
   radio: {
     width: 22,
     height: 22,
     borderRadius: 11,
     borderWidth: 2,
-    borderColor: "#45668c",
+    borderColor: "#cbd5e1",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -631,13 +631,13 @@ const s = StyleSheet.create({
     height: 62,
     borderRadius: 14,
     borderWidth: 1.4,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
+    borderColor: color.border,
+    backgroundColor: color.card,
     alignItems: "center",
     justifyContent: "center",
   },
-  boxActive: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#102947" },
-  boxText: { fontSize: 26, fontWeight: "800", color: "#ffffff" },
+  boxActive: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#fff7ed" },
+  boxText: { fontSize: 26, fontWeight: "800", color: color.foreground },
   hidden: { position: "absolute", opacity: 0, height: 1, width: 1 },
   editPhone: { flexDirection: "row", alignItems: "center", gap: 7, marginTop: 12 },
   resendWrap: { alignItems: "center", marginTop: space.xl, marginBottom: space.lg },
@@ -650,20 +650,20 @@ const s = StyleSheet.create({
     padding: 13,
     borderRadius: 16,
     borderWidth: 1.2,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
+    borderColor: color.border,
+    backgroundColor: color.card,
   },
-  roleOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "rgba(244, 90, 24, 0.1)" },
+  roleOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#fff7ed" },
   roleIcon: {
     width: 42,
     height: 42,
     borderRadius: radius.control,
-    backgroundColor: "#142d4f",
+    backgroundColor: color.muted,
     alignItems: "center",
     justifyContent: "center",
   },
-  roleName: { fontSize: font.body, fontWeight: "800", color: "#ffffff" },
-  roleDesc: { fontSize: 12.5, color: "#9eb5d5", marginTop: 3, lineHeight: 18 },
+  roleName: { fontSize: font.body, fontWeight: "800", color: color.foreground },
+  roleDesc: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3, lineHeight: 18 },
 
   offer: { flexDirection: "row", gap: 11, marginTop: 22, alignItems: "flex-start" },
   check: {
@@ -677,7 +677,7 @@ const s = StyleSheet.create({
     marginTop: 1,
   },
   checkOn: { backgroundColor: color.brand, borderColor: color.brand },
-  offerText: { flex: 1, fontSize: 13, color: "#d8e6fb", lineHeight: 20 },
+  offerText: { flex: 1, fontSize: 13, color: "#ffffff", lineHeight: 20 },
 
   primary: {
     minHeight: 62,
@@ -707,7 +707,7 @@ const s = StyleSheet.create({
   secondaryText: { color: "#ffffff", fontSize: font.body, fontWeight: "800" },
 
   signLine: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 16 },
-  hintCenter: { fontSize: 12.5, color: "#9eb5d5", textAlign: "center", marginTop: 10 },
-  err: { fontSize: 13, color: "#ff9b73", marginTop: space.md, lineHeight: 19 },
+  hintCenter: { fontSize: 12.5, color: "rgba(255,255,255,0.8)", textAlign: "center", marginTop: 10 },
+  err: { fontSize: 13, color: "#ffffff", marginTop: space.md, lineHeight: 19 },
   link: { fontSize: 14.5, fontWeight: "800", color: color.brand },
 });

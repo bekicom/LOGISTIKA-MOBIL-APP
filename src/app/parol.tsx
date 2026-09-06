@@ -271,15 +271,15 @@ export default function Parol() {
 }
 
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.navy },
+  root: { flex: 1, backgroundColor: "#3556d8" },
   scroll: { flexGrow: 1, paddingHorizontal: space.xl },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 48 },
   headerStep: { minWidth: 44, textAlign: "right", fontSize: 14, fontWeight: "800", color: "#9eb5d5" },
-  caption: { fontSize: 12, fontWeight: "800", color: "#8fa7c7", letterSpacing: 0.6, marginTop: 24 },
+  caption: { fontSize: 12, fontWeight: "800", color: "rgba(255,255,255,0.72)", letterSpacing: 0.6, marginTop: 24 },
   title: { fontSize: 34, lineHeight: 40, fontWeight: "800", color: "#ffffff", marginTop: 8 },
-  sub: { fontSize: font.body, color: "#a9bddc", marginTop: 9, lineHeight: 23 },
+  sub: { fontSize: font.body, color: "rgba(255,255,255,0.82)", marginTop: 9, lineHeight: 23 },
   panel: { gap: space.lg, marginTop: 28 },
-  label: { fontSize: font.caption, fontWeight: "700", color: "#ffffff", marginBottom: 8 },
+  label: { fontSize: font.caption, fontWeight: "700", color: color.foreground, marginBottom: 8 },
   phoneRow: { flexDirection: "row", gap: 9 },
   cc: {
     width: 94,
@@ -306,7 +306,7 @@ const s = StyleSheet.create({
   boxActive: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#102947" },
   boxText: { fontSize: 26, fontWeight: "800", color: "#ffffff" },
   hidden: { position: "absolute", opacity: 0, height: 1, width: 1 },
-  dev: { fontSize: font.caption, color: "#9eb5d5", textAlign: "center" },
+  dev: { fontSize: font.caption, color: color.mutedForeground, textAlign: "center" },
   link: { fontSize: font.body, fontWeight: "800", color: color.brand, textAlign: "center" },
   linkOff: { color: "#7891b1" },
   notice: {
@@ -317,7 +317,7 @@ const s = StyleSheet.create({
     backgroundColor: "rgba(12, 31, 58, 0.78)",
   },
   noticeText: { fontSize: 12.5, color: "#a9bddc", lineHeight: 19 },
-  err: { fontSize: 13, color: "#ff9b73", lineHeight: 19, marginTop: space.md },
+  err: { fontSize: 13, color: "#ffffff", lineHeight: 19, marginTop: space.md },
   actions: { marginTop: space.xxl },
   doneWrap: { flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: space.xl },
   doneIcon: {

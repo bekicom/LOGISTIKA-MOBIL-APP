@@ -4,7 +4,6 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Path } from "react-native-svg";
-import { AuthTexture, GlassPanel, PrimaryAction } from "@/components/AuthDesign";
 import { Logo } from "@/components/Logo";
 import { color, font, space } from "@/lib/theme";
 import { LOCALES, LOCALE_INFO, deviceLocale, setLocale, t, type Locale } from "@/lib/i18n";
@@ -23,14 +22,13 @@ export default function TilTanlash() {
 
   return (
     <View style={[s.root, { paddingTop: insets.top + 14, paddingBottom: insets.bottom + space.lg }]}>
-      <AuthTexture />
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <View style={s.hero}>
           <Logo width={216} light />
           <Text style={s.tagline}>{t("mob.lang.tagline")}</Text>
         </View>
 
-        <GlassPanel style={s.panel}>
+        <View style={s.panel}>
           <Text style={s.caption}>{t("mob.lang.pick")}</Text>
           <View style={s.grid}>
             {LANGS.map((l) => {
@@ -60,11 +58,13 @@ export default function TilTanlash() {
               );
             })}
           </View>
-        </GlassPanel>
+        </View>
       </ScrollView>
 
       <View style={s.footer}>
-        <PrimaryAction title={t("mob.common.continueBtn")} onPress={next} />
+        <Pressable onPress={next} style={({ pressed }) => [s.primary, pressed && { opacity: 0.8 }]}>
+          <Text style={s.primaryText}>{t("mob.common.continueBtn")}</Text>
+        </Pressable>
         <Text style={s.note}>{t("mob.lang.later")}</Text>
       </View>
     </View>
@@ -72,29 +72,28 @@ export default function TilTanlash() {
 }
 
 const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.navy },
+  root: { flex: 1, backgroundColor: "#3556d8" },
   scroll: { flexGrow: 1, justifyContent: "center", paddingHorizontal: space.xl },
-  hero: { alignItems: "center", gap: 14, paddingBottom: 36 },
-  tagline: { fontSize: 14.5, color: "#a9bddc", textAlign: "center" },
+  hero: { alignItems: "center", gap: 14, paddingBottom: 46 },
+  tagline: { fontSize: 15, color: "rgba(255,255,255,0.82)", textAlign: "center" },
   panel: { gap: space.md },
-  caption: { fontSize: 12, fontWeight: "800", color: "#8fa7c7", letterSpacing: 0.8 },
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 9 },
+  caption: { fontSize: 24, fontWeight: "800", color: "#ffffff", textAlign: "center", marginBottom: 10 },
+  grid: { gap: 14 },
   lang: {
-    width: "48%",
-    flexGrow: 1,
-    minHeight: 52,
+    minHeight: 54,
     borderRadius: 14,
-    borderWidth: 1.2,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
+    backgroundColor: "#ffffff",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 14,
+    justifyContent: "center",
+    gap: 10,
+    paddingHorizontal: 18,
   },
-  langOn: { backgroundColor: color.brand, borderColor: color.brand },
-  langText: { fontSize: font.body, fontWeight: "700", color: "#e2e8f0" },
+  langOn: { backgroundColor: color.brand },
+  langText: { fontSize: font.bodyLg, fontWeight: "700", color: "#202638" },
   langTextOn: { color: "#ffffff" },
   footer: { paddingHorizontal: space.xl, gap: space.md },
-  note: { fontSize: 12.5, color: "#9eb5d5", textAlign: "center" },
+  primary: { height: 56, borderRadius: 18, backgroundColor: "#ffffff", alignItems: "center", justifyContent: "center" },
+  primaryText: { fontSize: font.bodyLg, fontWeight: "800", color: "#3556d8" },
+  note: { fontSize: 12.5, color: "rgba(255,255,255,0.78)", textAlign: "center" },
 });

@@ -8,7 +8,6 @@ import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "r
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Circle, Defs, LinearGradient, Path, Rect, Stop } from "react-native-svg";
-import { AuthTexture } from "@/components/AuthDesign";
 import { Icon, type IconName } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import {
@@ -52,10 +51,9 @@ export default function Bosh() {
 
   return (
     <View style={s.root}>
-      <View style={[s.hero, { paddingTop: insets.top + 10 }]}>
-        <AuthTexture />
+      <View style={[s.headerWrap, { paddingTop: insets.top + 8 }]}>
         <View style={s.header}>
-          <Logo width={118} light />
+          <Logo width={118} />
           <View style={{ flex: 1 }} />
           <RoundButton icon="search" onPress={() => router.push("/qidiruv")} />
           <RoundButton
@@ -67,21 +65,9 @@ export default function Bosh() {
             <Text style={s.avatarText}>{(name || "?").slice(0, 2).toUpperCase()}</Text>
           </View>
         </View>
-
-        <Text style={s.eyebrow}>B1 · BOSH SAHIFA</Text>
-        <Text style={s.title}>
-          {data?.kind === "dispatcher"
-            ? `Salom, ${name || "dispetcher"}`
-            : `Salom, ${name || "haydovchi"}`}
-        </Text>
-        <Text style={s.subtitle}>
-          {data?.kind === "dispatcher"
-            ? "Reyslar, muammolar va javob kutayotgan ishlar bir joyda."
-            : "Faol reysingiz, mos yuklar va tez harakatlar bir joyda."}
-        </Text>
-
-        {data?.activeTrips?.[0] ? <GpsLine trip={data.activeTrips[0]} /> : null}
       </View>
+
+      {data?.activeTrips?.[0] ? <GpsLine trip={data.activeTrips[0]} /> : null}
 
       <ScrollView
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xl }]}
@@ -258,7 +244,7 @@ function Dispatcher({
 function RoundButton({ icon, onPress, badge }: { icon: IconName; onPress: () => void; badge?: number }) {
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.round, pressed && { opacity: 0.72 }]} hitSlop={8}>
-      <Icon name={icon} size={21} stroke="#ffffff" />
+      <Icon name={icon} size={21} stroke={color.foreground} />
       {badge && badge > 0 ? (
         <View style={s.badge}>
           <Text style={s.badgeText}>{badge > 99 ? "99+" : badge}</Text>
@@ -401,11 +387,12 @@ function time(iso: string) {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  hero: {
-    backgroundColor: color.navy,
+  headerWrap: {
+    backgroundColor: color.card,
     paddingHorizontal: space.lg,
-    paddingBottom: space.lg,
-    overflow: "hidden",
+    paddingBottom: space.md,
+    borderBottomWidth: 1,
+    borderBottomColor: color.border,
   },
   header: { flexDirection: "row", alignItems: "center", gap: space.sm },
   round: {
@@ -413,10 +400,11 @@ const s = StyleSheet.create({
     height: 42,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "rgba(158,181,213,0.26)",
-    backgroundColor: "rgba(15,37,68,0.72)",
+    borderColor: color.border,
+    backgroundColor: color.card,
     alignItems: "center",
     justifyContent: "center",
+    ...shadow.card,
   },
   badge: {
     position: "absolute",
@@ -428,7 +416,7 @@ const s = StyleSheet.create({
     borderRadius: 9,
     backgroundColor: color.brand,
     borderWidth: 2,
-    borderColor: color.navy,
+    borderColor: color.card,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -442,17 +430,10 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   avatarText: { fontSize: 13, fontWeight: "800", color: "#fff" },
-  eyebrow: { fontSize: 12, fontWeight: "800", color: "#8fa7c7", letterSpacing: 0.7, marginTop: 24 },
-  title: { fontSize: 31, lineHeight: 37, fontWeight: "800", color: "#ffffff", marginTop: 5 },
-  subtitle: { fontSize: font.body, color: "#a9bddc", lineHeight: 22, marginTop: 7, maxWidth: 320 },
   gps: {
-    minHeight: 42,
-    borderRadius: 15,
-    backgroundColor: "rgba(15,37,68,0.82)",
-    borderWidth: 1,
-    borderColor: "rgba(158,181,213,0.22)",
-    paddingHorizontal: 13,
-    marginTop: 16,
+    minHeight: 40,
+    backgroundColor: color.navy,
+    paddingHorizontal: space.lg,
     flexDirection: "row",
     alignItems: "center",
     gap: 9,

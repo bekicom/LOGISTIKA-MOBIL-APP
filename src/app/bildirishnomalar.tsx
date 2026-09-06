@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { AuthTexture, BackButton } from "@/components/AuthDesign";
 import { Icon, type IconName } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api } from "@/lib/api";
@@ -97,24 +96,18 @@ export default function Bildirishnomalar() {
 
   return (
     <View style={s.root}>
-      <View style={[s.hero, { paddingTop: insets.top + space.xs }]}>
-        <AuthTexture />
+      <View style={[s.headerWrap, { paddingTop: insets.top + space.xs }]}>
         <View style={s.head}>
-          <BackButton onPress={() => router.back()} />
-          <View style={{ flex: 1 }} />
+          <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
+            <Icon name="back" size={22} stroke={color.foreground} />
+          </Pressable>
+          <Text style={s.title}>{t("mob.notes.title")}</Text>
           {(data?.unread ?? 0) > 0 ? (
             <Pressable onPress={markAll} hitSlop={8} style={({ pressed }) => [s.mark, pressed && { opacity: 0.7 }]}>
               <Text style={s.markText}>{t("mob.notes.markAll")}</Text>
             </Pressable>
           ) : null}
         </View>
-        <Text style={s.eyebrow}>B2 · BILDIRISHNOMALAR</Text>
-        <Text style={s.title}>{t("mob.notes.title")}</Text>
-        <Text style={s.subtitle}>
-          {(data?.unread ?? 0) > 0
-            ? `${data?.unread ?? 0} ta yangi xabar bor.`
-            : "Hozircha hammasi o'qilgan."}
-        </Text>
 
         <View style={s.tabs}>
           {tabs().map((item) => (
@@ -172,13 +165,15 @@ function NotificationCard({ item }: { item: Note }) {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  hero: {
-    backgroundColor: color.navy,
+  headerWrap: {
+    backgroundColor: color.card,
     paddingHorizontal: space.lg,
-    paddingBottom: space.lg,
-    overflow: "hidden",
+    paddingBottom: space.md,
+    borderBottomWidth: 1,
+    borderBottomColor: color.border,
   },
   head: { flexDirection: "row", alignItems: "center", minHeight: 48 },
+  back: { width: 44, height: 44, marginLeft: -12, alignItems: "center", justifyContent: "center" },
   mark: {
     minHeight: 38,
     borderRadius: 13,
@@ -190,22 +185,20 @@ const s = StyleSheet.create({
     paddingHorizontal: 12,
   },
   markText: { fontSize: 13, fontWeight: "800", color: color.brand },
-  eyebrow: { fontSize: 12, fontWeight: "800", color: "#8fa7c7", letterSpacing: 0.7, marginTop: 20 },
-  title: { fontSize: 32, lineHeight: 38, fontWeight: "800", color: "#ffffff", marginTop: 5 },
-  subtitle: { fontSize: font.body, color: "#a9bddc", lineHeight: 22, marginTop: 7 },
-  tabs: { flexDirection: "row", gap: 8, marginTop: 18 },
+  title: { flex: 1, fontSize: 19, fontWeight: "800", color: color.foreground },
+  tabs: { flexDirection: "row", gap: 8, marginTop: space.sm },
   tab: {
     minHeight: 36,
     paddingHorizontal: 14,
     borderRadius: 13,
     borderWidth: 1,
-    borderColor: "rgba(158,181,213,0.26)",
-    backgroundColor: "rgba(15,37,68,0.72)",
+    borderColor: color.border,
+    backgroundColor: color.muted,
     alignItems: "center",
     justifyContent: "center",
   },
-  tabOn: { backgroundColor: color.brand, borderColor: color.brand },
-  tabText: { fontSize: 13, fontWeight: "800", color: "#9eb5d5" },
+  tabOn: { backgroundColor: color.foreground, borderColor: color.foreground },
+  tabText: { fontSize: 13, fontWeight: "700", color: "#64748b" },
   tabTextOn: { color: "#ffffff" },
   list: { padding: space.lg, gap: space.sm },
   day: {

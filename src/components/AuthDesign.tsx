@@ -17,19 +17,19 @@ export function AuthTexture() {
       <Svg width="100%" height="100%" viewBox="0 0 393 852" preserveAspectRatio="none">
         <Defs>
           <LinearGradient id="authBg" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0" stopColor="#08162b" />
-            <Stop offset="0.58" stopColor="#071326" />
-            <Stop offset="1" stopColor="#0b1d35" />
+            <Stop offset="0" stopColor="#3556d8" />
+            <Stop offset="0.58" stopColor="#365bdc" />
+            <Stop offset="1" stopColor="#2847c8" />
           </LinearGradient>
           <LinearGradient id="authLine" x1="0" y1="0" x2="1" y2="0">
-            <Stop offset="0" stopColor="#f45a18" stopOpacity="0.08" />
+            <Stop offset="0" stopColor="#ffffff" stopOpacity="0.05" />
             <Stop offset="0.52" stopColor="#ffffff" stopOpacity="0.16" />
-            <Stop offset="1" stopColor="#f45a18" stopOpacity="0.05" />
+            <Stop offset="1" stopColor="#ffffff" stopOpacity="0.05" />
           </LinearGradient>
         </Defs>
         <Rect width="393" height="852" fill="url(#authBg)" />
-        <Circle cx="326" cy="70" r="152" fill="#12345f" opacity="0.16" />
-        <Circle cx="55" cy="688" r="210" fill="#12345f" opacity="0.11" />
+        <Circle cx="326" cy="70" r="152" fill="#ffffff" opacity="0.06" />
+        <Circle cx="55" cy="688" r="210" fill="#ffffff" opacity="0.05" />
         <Path
           d="M-24 440 C61 391 93 466 158 424 C218 386 260 318 420 344"
           fill="none"
@@ -40,7 +40,7 @@ export function AuthTexture() {
         <Path
           d="M18 196 C78 166 106 226 164 195 C224 162 262 93 370 128"
           fill="none"
-          stroke="#7aa3d8"
+          stroke="#ffffff"
           strokeOpacity="0.13"
           strokeWidth={1}
           strokeDasharray="4 7"
@@ -131,7 +131,7 @@ export function PrimaryAction({
       style={({ pressed }) => [s.primary, pressed && !off && s.primaryDown, off && s.buttonOff]}
     >
       {loading ? (
-        <ActivityIndicator color="#ffffff" />
+        <ActivityIndicator color="#3556d8" />
       ) : (
         <>
           <Text style={[s.primaryText, off && s.buttonOffText]}>{title}</Text>
@@ -176,19 +176,19 @@ const s = StyleSheet.create({
   panel: {
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: "#294566",
-    backgroundColor: "rgba(15, 37, 68, 0.72)",
+    borderColor: "rgba(255,255,255,0.55)",
+    backgroundColor: "rgba(255,255,255,0.96)",
     padding: space.lg,
   },
-  label: { fontSize: font.caption, fontWeight: "700", color: "#ffffff", marginBottom: 8 },
-  labelHint: { fontWeight: "500", color: "#9eb5d5" },
+  label: { fontSize: font.caption, fontWeight: "700", color: color.foreground, marginBottom: 8 },
+  labelHint: { fontWeight: "500", color: color.mutedForeground },
   input: {
     height: 56,
     borderRadius: 14,
     borderWidth: 1.2,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
-    color: "#ffffff",
+    borderColor: color.border,
+    backgroundColor: color.card,
+    color: color.foreground,
     fontSize: font.bodyLg,
     fontWeight: "600",
     paddingHorizontal: 15,
@@ -197,8 +197,8 @@ const s = StyleSheet.create({
     height: 56,
     borderRadius: 14,
     borderWidth: 1.2,
-    borderColor: "#33577f",
-    backgroundColor: "#0c1f3a",
+    borderColor: color.border,
+    backgroundColor: color.card,
     flexDirection: "row",
     alignItems: "center",
     paddingRight: 14,
@@ -206,23 +206,23 @@ const s = StyleSheet.create({
   primary: {
     minHeight: 62,
     borderRadius: 16,
-    backgroundColor: color.brand,
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     paddingHorizontal: space.xl,
   },
   primaryDown: { backgroundColor: color.brandHover },
-  primaryText: { flex: 1, textAlign: "center", color: "#ffffff", fontSize: 18, fontWeight: "800" },
-  primaryArrow: { color: "#ffffff", fontSize: 30, fontWeight: "600", marginLeft: -28 },
-  buttonOff: { backgroundColor: "#294566" },
-  buttonOffText: { color: "#7891b1" },
+  primaryText: { flex: 1, textAlign: "center", color: "#3556d8", fontSize: 18, fontWeight: "800" },
+  primaryArrow: { color: "#3556d8", fontSize: 30, fontWeight: "600", marginLeft: -28 },
+  buttonOff: { backgroundColor: "rgba(255,255,255,0.42)" },
+  buttonOffText: { color: "rgba(255,255,255,0.72)" },
   secondary: {
     minHeight: 56,
     borderRadius: 16,
     borderWidth: 1.3,
-    borderColor: "#33577f",
-    backgroundColor: "rgba(15, 37, 68, 0.58)",
+    borderColor: "rgba(255,255,255,0.4)",
+    backgroundColor: "rgba(255,255,255,0.12)",
     alignItems: "center",
     justifyContent: "center",
   },

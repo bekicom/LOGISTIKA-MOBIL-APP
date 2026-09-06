@@ -23,18 +23,28 @@
  * xato deb o'ylardi.
  */
 import { useState } from "react";
-import { Alert, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
-import { Header, Button } from "@/components/ui";
+import { Header, Button, Field } from "@/components/ui";
+import { Sheet } from "@/components/Sheet";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
-import { api } from "@/lib/api";
+import { api, apiUpload, FuramError } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
+import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
+import { afterSheet } from "@/lib/native-ui";
 import { useApi } from "@/lib/use-api";
 import { color, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+
+/** `furam/src/app/api/contracts/[id]/payments/route.ts:KINDS` */
+const PAY_KINDS = ["ADVANCE", "PARTIAL", "FINAL"];
+/** `furam/src/lib/contract-pay.ts:PAY_METHODS` */
+const PAY_METHODS = ["CASH", "BANK", "CARD", "OTHER"];
+const CURRENCIES = ["USD", "UZS", "KZT", "RUB"];
 
 type Payment = {
   id: string;
@@ -83,6 +93,51 @@ export default function Tolovlar() {
       Alert.alert(t("mob.ctr.payments"), (e as Error).message);
     } finally {
       setBusy(null);
+    }
+  }
+
+  /* «To'ladim» oynasi */
+  const [add, setAdd] = useState(false);
+  const [kind, setKind] = useState("PARTIAL");
+  const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState("USD");
+  const [method, setMethod] = useState("BANK");
+  const [proof, setProof] = useState<Photo | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const payValue = Number(amount.replace(/\s/g, "").replace(",", "."));
+  const payReady = Number.isFinite(payValue) && payValue > 0;
+
+  /* ⚠️ iOS varaq USTIDAN tizim tanlagichini ocholmaydi */
+  function pickProof() {
+    void afterSheet(
+      () => setAdd(false),
+      async () => {
+        const r = (await takePhoto())[0] ?? (await pickPhotos(1))[0] ?? null;
+        if (r) setProof(r);
+        setAdd(true);
+      },
+    );
+  }
+
+  async function declare() {
+    setSaving(true);
+    setErr(null);
+    try {
+      await apiUpload(
+        `/api/contracts/${id}/payments`,
+        { kind, amount: payValue, currency, method },
+        proof ? [toUpload(proof, "proof")] : [],
+      );
+      setAdd(false);
+      setAmount("");
+      setProof(null);
+      reload();
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -164,11 +219,25 @@ export default function Tolovlar() {
                   {t("mob.ctr.claimedBy", { name: p.byName ?? t("mob.ctr.unknownParty") })}
                 </Text>
 
+                {/* ⚠️ Dalil BOSILADI (2026-09-06): ilgari u shunchaki
+                    yozuv edi va chekni ilovada ko'rib bo'lmasdi.
+                    `openRemoteFile` — oddiy havola `Authorization`
+                    sarlavhasisiz boradi va 401 oladi. */}
                 {p.hasProof && (
-                  <View style={s.proof}>
-                    <Icon name="doc" size={16} stroke={color.mutedForeground} />
-                    <Text style={s.proofText}>{t("mob.ctr.proof")}</Text>
-                  </View>
+                  <Pressable
+                    onPress={() =>
+                      void openRemoteFile(
+                        `/api/contracts/${id}/payments/${p.id}/proof`,
+                        `chek-${p.id.slice(-6)}`,
+                      )
+                    }
+                    style={({ pressed }) => [s.proof, pressed && { opacity: 0.75 }]}
+                  >
+                    <Icon name="doc" size={16} stroke={color.brand} />
+                    <Text style={[s.proofText, { color: color.brand, fontWeight: "600" }]}>
+                      {t("mob.cpay.viewProof")}
+                    </Text>
+                  </Pressable>
                 )}
 
                 <View style={{ marginTop: 12 }}>
@@ -232,14 +301,98 @@ export default function Tolovlar() {
                 <Text style={s.noteText}>{t("mob.ctr.mixedPay")}</Text>
               </View>
             )}
+
+            {/* «To'ladim» — chek surati bilan. Ilgari to'lovni
+                faqat webda qayd qilib bo'lardi. */}
+            <Button
+              title={t("mob.cpay.proof")}
+              variant="secondary"
+              onPress={() => setAdd(true)}
+              icon={<Icon name="plus" size={18} stroke={color.foreground} />}
+            />
           </>
         )}
       </ScrollView>
+
+      <Sheet open={add} onClose={() => setAdd(false)} title={t("mob.cpay.proof")}>
+        <Text style={s.label}>{t("mob.money.kind")}</Text>
+        <View style={s.chips}>
+          {PAY_KINDS.map((k) => (
+            <Pressable key={k} onPress={() => setKind(k)} style={[s.chip, kind === k && s.chipOn]}>
+              <Text style={[s.chipText, kind === k && { color: "#fff" }]}>
+                {t(`contractPayKind.${k}`)}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+
+        <View style={{ marginTop: space.md }}>
+          <Field
+            label={t("mob.money.amount")}
+            value={amount}
+            onChangeText={setAmount}
+            keyboardType="numeric"
+            placeholder="0"
+          />
+        </View>
+        <View style={[s.chips, { marginTop: 8 }]}>
+          {CURRENCIES.map((c) => (
+            <Pressable
+              key={c}
+              onPress={() => setCurrency(c)}
+              style={[s.chip, currency === c && s.chipOn]}
+            >
+              <Text style={[s.chipText, currency === c && { color: "#fff" }]}>{c}</Text>
+            </Pressable>
+          ))}
+        </View>
+
+        <Text style={[s.label, { marginTop: space.md }]}>{t("mob.ctr.payTerm")}</Text>
+        <View style={s.chips}>
+          {PAY_METHODS.map((m) => (
+            <Pressable
+              key={m}
+              onPress={() => setMethod(m)}
+              style={[s.chip, method === m && s.chipOn]}
+            >
+              <Text style={[s.chipText, method === m && { color: "#fff" }]}>
+                {t(`payMethod.${m}`)}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+
+        <View style={{ marginTop: space.md, gap: 9 }}>
+          <Button
+            title={proof ? t("mob.common.renew") : t("mob.cpay.addProof")}
+            variant="secondary"
+            onPress={pickProof}
+            icon={<Icon name="image" size={17} stroke={color.foreground} />}
+          />
+          {err ? <Text style={s.err}>{err}</Text> : null}
+          <Button
+            title={t("mob.common.save")}
+            onPress={declare}
+            loading={saving}
+            disabled={!payReady}
+          />
+        </View>
+      </Sheet>
     </View>
   );
 }
 
 const s = StyleSheet.create({
+  label: { fontSize: 12, fontWeight: "700", color: color.mutedForeground, marginBottom: 8 },
+  chips: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
+  chip: {
+    paddingHorizontal: 12, paddingVertical: 8,
+    borderRadius: radius.pill, backgroundColor: color.muted,
+  },
+  chipOn: { backgroundColor: color.brand },
+  chipText: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground },
+  err: { fontSize: 12.5, color: color.danger },
+
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
   group: {

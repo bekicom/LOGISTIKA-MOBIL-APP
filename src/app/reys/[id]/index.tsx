@@ -227,10 +227,12 @@ export default function ReysTafsiloti() {
                     icon="wrench"
                     title={t("mob.trip.tech")}
                     sub={t("mob.trip.techHint")}
+                    /* Ekran MASHINA marshrutida turadi — u yerdan ham
+                       ochiladi. Reys ixtiyoriy parametr bo'lib ketadi. */
                     onPress={() =>
                       router.push({
-                        pathname: "/reys/[id]/nosozlik",
-                        params: { id: String(id), vehicle: data.truck!.id, plate: data.truck!.plate },
+                        pathname: "/parkim/[id]/nosozlik",
+                        params: { id: data.truck!.id, trip: String(id), plate: data.truck!.plate },
                       })
                     }
                   />

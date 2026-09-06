@@ -8,13 +8,17 @@
  * Hujjat muddati SANA bilan emas, «necha kun qoldi» bilan yoziladi —
  * haydovchi kalendar hisoblab o'tirmaydi.
  */
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, Share, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
+import { useState } from "react";
+import * as Clipboard from "expo-clipboard";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
+import { Button, Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
+import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { tariffBlocked } from "@/lib/features";
 import { color, font, radius, space } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
 
@@ -196,13 +200,16 @@ export default function TransportTafsilot() {
                 title={v.mainDriver.fullName}
                 hint={`${t("mob.vehicle.mainDriver")}${v.mainDriver.phone ? ` · ${v.mainDriver.phone}` : ""}`}
                 last={!v.coDriver}
+                /* Qo'ng'iroq emas, KARTA ochiladi: telefon kartada
+                   ham bor, lekin ish haqi va reyslari faqat u yerda */
+                onPress={() => router.push(`/haydovchi/${v.mainDriver!.id}`)}
                 right={
                   v.mainDriver.phone ? (
                     <Pressable
                       hitSlop={10}
                       onPress={() => Linking.openURL(`tel:${v.mainDriver!.phone}`)}
                     >
-                      <Icon name="chevron" size={18} stroke={color.brand} />
+                      <Icon name="phone" size={17} stroke={color.brand} />
                     </Pressable>
                   ) : undefined
                 }
@@ -216,9 +223,17 @@ export default function TransportTafsilot() {
                 title={v.coDriver.fullName}
                 hint={`${t("mob.vehicle.coDriver")}${v.coDriver.phone ? ` · ${v.coDriver.phone}` : ""}`}
                 last
+                onPress={() => router.push(`/haydovchi/${v.coDriver!.id}`)}
               />
             ) : null}
           </Card>
+
+          {/* Taklif havolasi — o'rin bo'sh bo'lsagina.
+              FURAM ID izlash o'rniga havola: haydovchi uni ochib,
+              o'z hisobi bilan shu o'ringa qo'shiladi. */}
+          {!v.mainDriver || !v.coDriver ? (
+            <DriverInvite vehicleId={v.id} seat={v.mainDriver ? "CO" : "MAIN"} />
+          ) : null}
         </View>
 
         {/* 3. Nima to'sqinlik qiladi */}
@@ -292,7 +307,33 @@ export default function TransportTafsilot() {
           </Card>
         </View>
 
-        {/* 5. Xizmat tarixi */}
+        {/* 5. Boshqaruv — kamdan-kam ochiladi, shuning uchun pastda */}
+        <View>
+          <GroupLabel>{t("mob.own.title")}</GroupLabel>
+          <Card>
+            <ListRow
+              icon={<Icon name="wrench" size={18} stroke={color.warning} />}
+              title={t("mob.tstate.title")}
+              hint={t("mob.tstate.issues")}
+              onPress={() => router.push(`/parkim/${v.id}/texnik`)}
+            />
+            <ListRow
+              icon={<Icon name="truck" size={18} stroke={color.blue} />}
+              title={t("mob.trailer.title")}
+              hint={v.trailer ? v.trailer.plate : t("mob.trailer.none")}
+              onPress={() => router.push(`/parkim/${v.id}/tirkama`)}
+            />
+            <ListRow
+              last
+              icon={<Icon name="handshake" size={18} stroke={color.mutedForeground} />}
+              title={t("mob.own.title")}
+              hint={t(`vehStatus.${v.status}`)}
+              onPress={() => router.push(`/parkim/${v.id}/egalik`)}
+            />
+          </Card>
+        </View>
+
+        {/* 6. Xizmat tarixi */}
         {data.services.length > 0 ? (
           <View>
             <GroupLabel>{t("mob.vehicle.service")}</GroupLabel>
@@ -315,6 +356,94 @@ export default function TransportTafsilot() {
           </View>
         ) : null}
       </ScrollView>
+    </View>
+  );
+}
+
+/**
+ * Haydovchi taklif havolasi.
+ *
+ * ── NEGA FURAM ID EMAS ──────────────────────────────────────────
+ *
+ * Haydovchidan «FURAM ID ingni ayt» deb so'rash — u profilini ochib,
+ * raqamni topib, to'g'ri o'qib berishini kutish degani. Havola esa
+ * bitta xabar: ochadi, kirib, o'sha o'ringa qo'shiladi.
+ *
+ * Server tayyor XABAR MATNINI ham qaytaradi (`message`) — unda
+ * mashina raqami va egasining ismi bor, ya'ni haydovchi havola
+ * kimdan kelganini biladi.
+ */
+function DriverInvite({ vehicleId, seat }: { vehicleId: string; seat: "MAIN" | "CO" }) {
+  const [link, setLink] = useState<{ url: string; message: string; expiresAt: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  async function create() {
+    /* Qoida 5: to'siq OLDINDAN. Taklif havolasi «Haydovchilarni
+       boshqarish» tarifiga kiradi — havola yasalmasdan aytiladi. */
+    if (tariffBlocked("drivers")) return;
+    setBusy(true);
+    setErr(null);
+    try {
+      const r = await api<{ url: string; message: string; expiresAt: string }>(
+        "/api/driver-invites",
+        { method: "POST", body: { vehicleId, seat } },
+      );
+      setLink(r);
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (!link) {
+    return (
+      <View style={{ marginTop: space.sm }}>
+        <Pressable
+          onPress={create}
+          disabled={busy}
+          style={({ pressed }) => [s.invite, pressed && { backgroundColor: color.muted }]}
+        >
+          <Icon name="paperclip" size={17} stroke={color.brand} />
+          <Text style={s.inviteText}>
+            {busy ? t("mob.common.saving") : t("mob.dinv.create")}
+          </Text>
+        </Pressable>
+        {err ? <Text style={s.inviteErr}>{err}</Text> : null}
+      </View>
+    );
+  }
+
+  return (
+    <View style={s.inviteBox}>
+      <Text style={s.inviteTitle}>{t("mob.dinv.title")}</Text>
+      <Text style={s.inviteLead}>{t("mob.dinv.lead")}</Text>
+      <Text style={s.inviteUrl} numberOfLines={2}>
+        {link.url}
+      </Text>
+      <Text style={s.inviteMeta}>
+        {t("mob.dinv.expires", { date: link.expiresAt.slice(0, 10) })}
+      </Text>
+      <View style={{ flexDirection: "row", gap: 9, marginTop: space.md }}>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={copied ? t("mob.dinv.copied") : t("mob.dinv.copy")}
+            variant="secondary"
+            onPress={async () => {
+              await Clipboard.setStringAsync(link.url);
+              setCopied(true);
+            }}
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={t("mob.dinv.share")}
+            onPress={() => void Share.share({ message: link.message })}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -344,6 +473,23 @@ function Cell({ k, v, right }: { k: string; v: string; right?: boolean }) {
 }
 
 const s = StyleSheet.create({
+  invite: {
+    flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
+    height: 46, borderRadius: radius.control,
+    borderWidth: 1, borderStyle: "dashed", borderColor: color.brand + "66",
+    backgroundColor: color.card,
+  },
+  inviteText: { fontSize: 13.5, fontWeight: "700", color: color.brand },
+  inviteErr: { fontSize: 12, color: color.danger, marginTop: 6, textAlign: "center" },
+  inviteBox: {
+    marginTop: space.sm, backgroundColor: color.card, borderRadius: radius.card,
+    padding: space.lg, borderWidth: 1, borderColor: color.brand + "44",
+  },
+  inviteTitle: { fontSize: 13.5, fontWeight: "800", color: color.foreground },
+  inviteLead: { fontSize: 12, color: color.mutedForeground, marginTop: 5, lineHeight: 18 },
+  inviteUrl: { fontSize: 12.5, color: color.blue, marginTop: 10 },
+  inviteMeta: { fontSize: 11.5, color: color.mutedForeground, marginTop: 5 },
+
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
 

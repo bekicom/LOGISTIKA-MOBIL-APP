@@ -24,13 +24,16 @@
     "BAD_GROUP": "未找到该群组或不匹配。",
     "BAD_INPUT": "请检查输入的内容。",
     "BAD_KIND": "证件类型无效。",
+    "BAD_METHOD": "支付方式无效。",
     "BAD_ORDER": "无法从当前状态切换到该状态。",
     "BAD_OUTPUT": "无法解析 AI 的返回，请重新拍照。",
     "BAD_PASSWORD": "当前密码不正确。",
+    "BAD_PHONE": "请检查电话号码。",
     "BAD_PRICE": "请检查价格。",
     "BAD_REFS": "所选内容无效，请从列表中重新选择。",
     "BAD_STATUS": "状态无效。",
     "BAD_TAB": "选择的板块无效，请更新应用。",
+    "BAD_TRIP": "该行程不匹配。",
     "BAD_TYPE": "不支持该文件类型，请发送图片或 PDF。",
     "BAD_VEHICLE": "该车辆不属于您，或正在使用中。",
     "BAD_YEARS": "年份无效。",
@@ -45,9 +48,11 @@
     "FILE_MISSING": "服务器上找不到该文件。",
     "FOLDER_NOT_FOUND": "未找到该文件夹。",
     "FORBIDDEN": "您没有权限访问。",
+    "FUTURE_DATE": "日期不能是将来的时间。",
     "GUEST": "该板块需要账号，请注册或登录。",
     "ID_REQUIRED": "未指明是哪条记录。",
     "INVALID_CREDENTIALS": "手机号或密码不正确。",
+    "IS_TRAILER": "挂车不能再挂挂车。",
     "JOB_CONTRACT": "该合同与货运无关——无法据此开单。",
     "LIMIT": "已达上限。",
     "LIVE": "运单正在途中，暂时无法执行。",
@@ -92,6 +97,7 @@
     "RATE_LIMIT": "请求过于频繁，请稍候。",
     "READ_ONLY": "此处为只读。",
     "SAME_DRIVER": "主司机和副司机不能是同一人。",
+    "SEAT_TAKEN": "该座位已被占用。请先解除关联，或改为第二座位。",
     "SECTION_LOCKED": "该板块未对您的角色开放。",
     "SELF": "不能对自己执行此操作。",
     "SELLER_ONLY": "该操作仅限卖家。",
@@ -180,6 +186,11 @@
     "service": "维修工单",
     "trips": "运单与货物管控",
     "vacancies": "发布招聘"
+  },
+  "issueStatus": {
+    "FIXED": "已修复",
+    "IGNORED": "已忽略",
+    "OPEN": "未处理"
   },
   "jobCatalog": {
     "countries": {
@@ -723,6 +734,11 @@
       "openTrip": "创建行程",
       "pdf": "下载 PDF"
     },
+    "cpay": {
+      "addProof": "添加收据照片",
+      "proof": "付款凭证",
+      "viewProof": "查看凭证"
+    },
     "ctr": {
       "approve": "批准",
       "cancelContract": "取消合同",
@@ -889,6 +905,15 @@
       "whyText2": "长期未使用的设备日期以琥珀色标出——请留意，可能并非本人设备。",
       "whyTitle": "本页面的作用"
     },
+    "dinv": {
+      "copied": "已复制",
+      "copy": "复制",
+      "create": "生成链接",
+      "expires": "有效期至 %{date}",
+      "lead": "把链接发给司机——他打开后即可用自己的账号加入您的车队，无需查找 FURAM ID。",
+      "share": "分享",
+      "title": "邀请链接"
+    },
     "disp": {
       "contactNote": "沟通从聊天开始。达成一致后才开放电话号码。",
       "countN": "已认证 · %{n} 人",
@@ -926,6 +951,21 @@
       "reminder": "到期提醒",
       "reminderText": "将在到期前 30、7 和 1 天提醒。需在通知设置中开启「证件有效期」。",
       "title": "证件"
+    },
+    "drv": {
+      "addPay": "添加一笔支付",
+      "held": "已扣款",
+      "license": "驾照有效期",
+      "noAccount": "他没有账号——行程中由您代为回应。",
+      "noPay": "暂无支付记录",
+      "onTrip": "当前在行程中",
+      "paid": "已支付",
+      "payroll": "工资记录",
+      "period": "对应月份",
+      "periodPh": "2026-08",
+      "title": "司机",
+      "trips": "近期行程",
+      "vehicles": "所驾车辆"
     },
     "err": {
       "generic": "发生错误",
@@ -979,6 +1019,25 @@
       "APPROVED": "已批准",
       "PENDING": "待审",
       "REJECTED": "已驳回"
+    },
+    "fan": {
+      "ask": "询问我的车队",
+      "askPh": "例如：哪辆车油耗最高？",
+      "byDriver": "按司机",
+      "byRoute": "按线路",
+      "byVehicle": "按车辆",
+      "days": "%{n} 天",
+      "expenses": "支出",
+      "fuel": "燃油",
+      "income": "收入",
+      "lead": "哪辆车、哪位司机创造的利润更高，以及燃油与维修费用。",
+      "losses": "亏损行程",
+      "noData": "该期间没有行程",
+      "noDataHint": "行程关闭后，数据会显示在这里",
+      "profit": "利润",
+      "repairs": "维修",
+      "title": "车队分析",
+      "trips": "行程"
     },
     "fin": {
       "allCats": "全部类别",
@@ -1094,6 +1153,13 @@
       "todayOk": "今天一切正常",
       "todayProblems": "今天有 %{n} 项事务需要关注",
       "waitingReply": "等待回复"
+    },
+    "inTransfer": {
+      "accept": "接受",
+      "from": "来自：%{name}",
+      "reject": "拒绝",
+      "title": "有车辆正在转给您",
+      "why": "拒绝原因——不写的话同样的请求会再来一次"
     },
     "inc": {
       "addLocation": "添加位置",
@@ -1525,6 +1591,31 @@
       "photo": "照片",
       "queue": "口岸排队",
       "status": "运单状态"
+    },
+    "own": {
+      "archive": "移入归档",
+      "archiveQ": "要归档这辆车吗？数据与历史会保留，只是从列表中移出。",
+      "cancelReq": "取消请求",
+      "empty": "尚无转让记录",
+      "endAt": "结束（可选）",
+      "endLoan": "收回",
+      "history": "转让记录",
+      "lead": "出售车辆、临时转交他人，或手动更改状态。",
+      "lend": "临时转交",
+      "lendHint": "所有权仍归您，对方在约定期限内使用。",
+      "loans": "临时转交记录",
+      "onTripBlock": "行程中的车辆不能转让——请先关闭行程。",
+      "openLoan": "目前在其手中",
+      "price": "价格（可选）",
+      "send": "发送请求",
+      "startAt": "开始",
+      "statusAuto": "“行程中”和证件相关状态由系统设置，无法手动更改。",
+      "statusNow": "当前状态",
+      "statusPick": "更改状态",
+      "title": "所有权与状态",
+      "toFuramId": "转给谁 — FURAM ID",
+      "transfer": "转让所有权",
+      "transferHint": "对方接受后车辆随证件与历史记录一并转移。"
     },
     "panel": {
       "days": "%{n} 天",
@@ -2444,6 +2535,12 @@
       "workHours": "营业时间",
       "workHoursPh": "09:00–19:00，周一至周六"
     },
+    "svcRec": {
+      "cost": "费用",
+      "odometer": "里程",
+      "unit": "部件",
+      "what": "做了什么？"
+    },
     "svcStatus": {
       "ASSIGNED": "已选定师傅",
       "CANCELLED": "已取消",
@@ -2506,6 +2603,15 @@
       "role": "角色",
       "title": "参与者",
       "you": "您"
+    },
+    "trailer": {
+      "add": "添加挂车",
+      "bodyType": "车厢类型",
+      "detach": "摘挂",
+      "detachQ": "要摘掉挂车吗？它会作为独立车辆留在车队中。",
+      "lead": "挂在牵引车上的挂车单独管理：有自己的车牌、证件和期限。",
+      "none": "未挂接挂车",
+      "title": "挂车"
     },
     "trip": {
       "ai": "AI 行程总结",
@@ -2617,6 +2723,18 @@
       "topBand": "您已达到最高等级",
       "whyGroup": "主要因素"
     },
+    "tstate": {
+      "costs": "费用",
+      "issues": "故障",
+      "lead": "故障与行程外费用。未处理的问题也会显示在车辆卡片上。",
+      "markFixed": "标记为已修复",
+      "markIgnored": "忽略",
+      "noCosts": "尚未记录费用",
+      "noIssues": "没有故障",
+      "noIssuesHint": "路上出问题时，请在行程页面记录",
+      "reopen": "重新打开",
+      "title": "技术状况"
+    },
     "ui": {
       "allRead": "全部已读",
       "chatEmptyText": "当您对货源报价或有人给您留言时，聊天会出现在这里。",
@@ -2644,7 +2762,9 @@
     },
     "vehicle": {
       "allDocuments": "全部证件（%{n}）",
+      "axles": "轴数",
       "body": "车厢",
+      "brand": "品牌",
       "capacity": "载重",
       "coDriver": "副驾",
       "documents": "证件",
@@ -2652,17 +2772,20 @@
       "drivers": "司机",
       "fuel": "燃料",
       "mainDriver": "主驾",
+      "model": "型号",
       "needAttention": "%{n} 项需要处理",
       "notFound": "未找到",
       "odometer": "里程表",
       "odometerAt": "%{date} 更新",
+      "plate": "车牌号",
       "service": "保养与维修",
       "specs": "技术参数",
       "tank": "油箱",
       "trailer": "挂车 %{plate}",
       "type": "类型",
       "vehicleTitle": "车辆",
-      "volume": "容积"
+      "volume": "容积",
+      "year": "年份"
     },
     "video": {
       "countN": "短视频 · %{n} 个",
@@ -2718,6 +2841,13 @@
     "CARD": "银行卡",
     "CASH": "现金",
     "OTHER": "其他"
+  },
+  "payrollKind": {
+    "ADVANCE": "预付款",
+    "BONUS": "奖金",
+    "DEDUCTION": "扣款",
+    "SALARY": "工资",
+    "TRIP_FEE": "行程费"
   },
   "pgStaff": {
     "aboutBody": "只有本人确认后才会进入名单：您发送邀请链接，对方打开并接受。双方都可以随时解除关系。除您之外没有人能看到这份名单。",
@@ -2926,6 +3056,12 @@
     "video": "视频",
     "warehouse": "仓库"
   },
+  "transferStatus": {
+    "ACCEPTED": "已接受",
+    "CANCELLED": "已取消",
+    "PENDING": "等待答复",
+    "REJECTED": "已拒绝"
+  },
   "tripStatus": {
     "ASSIGNED": "已分配车辆",
     "AT_BORDER": "在边境",
@@ -2995,6 +3131,33 @@
     "POA": "委托书",
     "RENT": "租赁合同",
     "TECH_PASSPORT": "行驶证"
+  },
+  "vehStatus": {
+    "ARCHIVED": "已归档",
+    "DOC_EXPIRED": "证件已过期",
+    "DOC_ISSUE": "证件有问题",
+    "FREE": "空闲",
+    "INACTIVE": "未使用",
+    "ON_TRIP": "行程中",
+    "REPAIR": "维修中",
+    "SOLD": "已售出"
+  },
+  "vehUnit": {
+    "AXLE": "车桥",
+    "BATTERY": "蓄电池",
+    "BODY": "车厢",
+    "BRAKES": "刹车",
+    "CHASSIS": "底盘",
+    "COOLING": "冷却系统",
+    "DISCS": "刹车盘",
+    "ELECTRICS": "电气系统",
+    "FILTERS": "滤芯",
+    "GEARBOX": "变速箱",
+    "MOTOR": "发动机",
+    "OIL": "机油",
+    "OTHER": "其他",
+    "PADS": "刹车片",
+    "TIRES": "轮胎"
   },
   "videoSection": {
     "ai": "AI 助手",

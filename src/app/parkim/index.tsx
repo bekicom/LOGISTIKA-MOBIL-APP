@@ -10,12 +10,13 @@
  * xato (chegarada to'xtatiladi), ro'yxat ichida ko'zdan qochmasin.
  */
 import { useMemo, useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { Alert, FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
+import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -55,6 +56,11 @@ type Vehicle = {
   trip: Trip | null;
 };
 type Feed = { items: Vehicle[]; counts: Record<string, number>; total: number };
+type Transfer = {
+  id: string; plate: string; vehicleNo: number; brand: string;
+  fromName: string; fromFuramId: number;
+  price: number | null; currency: string | null; note: string | null;
+};
 
 /* Yorliqlar FUNKSIYA ichida: modul yuklanganda til hali
    o'qilmagan bo'lishi mumkin, ular esa bir marta hisoblanardi. */
@@ -118,13 +124,22 @@ export default function Parkim() {
             : undefined
         }
         right={
-          <Pressable
-            onPress={() => router.push("/parkim/qoshish")}
-            style={({ pressed }) => [s.add, pressed && { backgroundColor: color.brandHover }]}
-          >
-            <Icon name="plus" size={15} stroke="#fff" />
-            <Text style={s.addText}>{t("mob.common.add")}</Text>
-          </Pressable>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Pressable
+              onPress={() => router.push("/parkim/tahlil")}
+              hitSlop={8}
+              style={({ pressed }) => [s.iconBtn, pressed && { backgroundColor: color.muted }]}
+            >
+              <Icon name="chart" size={17} stroke={color.foreground} />
+            </Pressable>
+            <Pressable
+              onPress={() => router.push("/parkim/qoshish")}
+              style={({ pressed }) => [s.add, pressed && { backgroundColor: color.brandHover }]}
+            >
+              <Icon name="plus" size={15} stroke="#fff" />
+              <Text style={s.addText}>{t("mob.common.add")}</Text>
+            </Pressable>
+          </View>
         }
       />
 
@@ -165,22 +180,30 @@ export default function Parkim() {
             <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
           }
           ListHeaderComponent={
-            expired.length > 0 && !filter ? (
-              <View style={s.warn}>
-                <Icon name="alert" size={19} stroke={color.danger} />
-                <View style={{ flex: 1 }}>
-                  <Text style={s.warnTitle}>
-                    {expired.length === 1
-                      ? t("mob.park.expiredOne", {
-                          plate: expired[0].plate,
-                          doc: expired[0].docAlert ? docName(expired[0].docAlert) : "",
-                        })
-                      : t("mob.park.expiredMany", { n: expired.length })}
-                  </Text>
-                  <Text style={s.warnBody}>{t("mob.park.expiredHint")}</Text>
+            <>
+              {/* Sizga o'tkazilayotgan mashina — eng tepada.
+                  Sabab serverda yozilgan: so'rov yuborilib, javob
+                  beradigan joy topilmay qolardi (mashina hali
+                  o'tmagan, ya'ni uning kartasi ko'rinmaydi). */}
+              <IncomingTransfers onDone={reload} />
+
+              {expired.length > 0 && !filter ? (
+                <View style={s.warn}>
+                  <Icon name="alert" size={19} stroke={color.danger} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={s.warnTitle}>
+                      {expired.length === 1
+                        ? t("mob.park.expiredOne", {
+                            plate: expired[0].plate,
+                            doc: expired[0].docAlert ? docName(expired[0].docAlert) : "",
+                          })
+                        : t("mob.park.expiredMany", { n: expired.length })}
+                    </Text>
+                    <Text style={s.warnBody}>{t("mob.park.expiredHint")}</Text>
+                  </View>
                 </View>
-              </View>
-            ) : null
+              ) : null}
+            </>
           }
           ListEmptyComponent={
             <Empty
@@ -196,6 +219,96 @@ export default function Parkim() {
           )}
         />
       )}
+    </View>
+  );
+}
+
+/**
+ * Menga o'tkazilayotgan mashinalar.
+ *
+ * ── NEGA SHU YERDA ──────────────────────────────────────────────
+ *
+ * So'rov kelganda mashina hali MENIKI EMAS: uning kartasi menga
+ * ochilmaydi, ya'ni javob beradigan joy yo'q. Qabul qilingach esa
+ * mashina aynan shu ro'yxatga tushadi — odam qayerga qarashini
+ * bilishi uchun so'rov ham shu yerda turadi.
+ *
+ * ⚠️ Rad etishda SABAB so'raladi: sababsiz rad etilsa, xuddi
+ * o'sha so'rov qayta kelaveradi.
+ */
+function IncomingTransfers({ onDone }: { onDone: () => void }) {
+  const { data, reload } = useApi<{ items: Transfer[] }>("/api/fleet/transfers");
+  const [busy, setBusy] = useState<string | null>(null);
+
+  async function answer(id: string, accept: boolean, note?: string) {
+    setBusy(id);
+    try {
+      await api(`/api/fleet/transfers/${id}`, { method: "PATCH", body: { accept, note } });
+      reload();
+      onDone();
+    } catch (e) {
+      Alert.alert(t("mob.common.notSaved"), (e as FuramError).message ?? t("mob.common.tryAgain"));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  function reject(id: string) {
+    Alert.prompt?.(
+      t("mob.inTransfer.reject"),
+      t("mob.inTransfer.why"),
+      [
+        { text: t("mob.common.cancel"), style: "cancel" },
+        {
+          text: t("mob.inTransfer.reject"),
+          style: "destructive",
+          onPress: (note?: string) => answer(id, false, note),
+        },
+      ],
+      "plain-text",
+    );
+    /* Androidda `Alert.prompt` yo'q — sababsiz rad etiladi.
+       Server uni majburiy qilmaydi, shuning uchun oqim uzilmaydi. */
+    if (!Alert.prompt) void answer(id, false);
+  }
+
+  if (!data || data.items.length === 0) return null;
+
+  return (
+    <View style={{ gap: 8, marginBottom: space.md }}>
+      {data.items.map((x) => (
+        <View key={x.id} style={s.transfer}>
+          <Text style={s.transferTitle}>{t("mob.inTransfer.title")}</Text>
+          <Text style={s.transferPlate}>
+            {x.plate}
+            {x.brand ? ` · ${x.brand}` : ""}
+          </Text>
+          <Text style={s.transferMeta}>{t("mob.inTransfer.from", { name: x.fromName })}</Text>
+          {x.price ? (
+            <Text style={s.transferPrice}>
+              {new Intl.NumberFormat("ru-RU").format(x.price)} {x.currency}
+            </Text>
+          ) : null}
+          {x.note ? <Text style={s.transferMeta}>{x.note}</Text> : null}
+
+          <View style={{ flexDirection: "row", gap: 9, marginTop: space.md }}>
+            <Pressable
+              disabled={busy === x.id}
+              onPress={() => answer(x.id, true)}
+              style={({ pressed }) => [s.tAccept, pressed && { opacity: 0.9 }]}
+            >
+              <Text style={s.tAcceptText}>{t("mob.inTransfer.accept")}</Text>
+            </Pressable>
+            <Pressable
+              disabled={busy === x.id}
+              onPress={() => reject(x.id)}
+              style={({ pressed }) => [s.tReject, pressed && { opacity: 0.9 }]}
+            >
+              <Text style={s.tRejectText}>{t("mob.inTransfer.reject")}</Text>
+            </Pressable>
+          </View>
+        </View>
+      ))}
     </View>
   );
 }
@@ -283,6 +396,34 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
 }
 
 const s = StyleSheet.create({
+  iconBtn: {
+    width: 34, height: 34, borderRadius: 11,
+    alignItems: "center", justifyContent: "center", backgroundColor: color.card,
+  },
+
+  transfer: {
+    backgroundColor: color.card,
+    borderRadius: radius.card,
+    borderWidth: 1.5,
+    borderColor: color.brand + "55",
+    padding: space.lg,
+    ...shadow.card,
+  },
+  transferTitle: { fontSize: 11.5, fontWeight: "800", color: color.brand, letterSpacing: 0.3 },
+  transferPlate: { fontSize: 17, fontWeight: "800", color: color.foreground, marginTop: 6 },
+  transferMeta: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3 },
+  transferPrice: { fontSize: 15, fontWeight: "800", color: color.foreground, marginTop: 6 },
+  tAccept: {
+    flex: 1, height: 44, borderRadius: radius.control,
+    backgroundColor: color.success, alignItems: "center", justifyContent: "center",
+  },
+  tAcceptText: { fontSize: 14, fontWeight: "800", color: "#fff" },
+  tReject: {
+    flex: 1, height: 44, borderRadius: radius.control,
+    backgroundColor: color.muted, alignItems: "center", justifyContent: "center",
+  },
+  tRejectText: { fontSize: 14, fontWeight: "800", color: color.mutedForeground },
+
   root: { flex: 1, backgroundColor: color.background },
 
   add: {

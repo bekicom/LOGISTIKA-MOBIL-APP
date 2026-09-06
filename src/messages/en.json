@@ -24,13 +24,16 @@
     "BAD_GROUP": "The group was not found or does not match.",
     "BAD_INPUT": "Check what you entered.",
     "BAD_KIND": "That document type isn't valid.",
+    "BAD_METHOD": "Invalid payment method.",
     "BAD_ORDER": "You can't move to that status from here.",
     "BAD_OUTPUT": "The AI's answer couldn't be read. Take the photo again.",
     "BAD_PASSWORD": "The current password is wrong.",
+    "BAD_PHONE": "Check the phone number.",
     "BAD_PRICE": "Check the price.",
     "BAD_REFS": "The chosen values aren't valid. Pick again from the list.",
     "BAD_STATUS": "That status isn't valid.",
     "BAD_TAB": "Invalid section selected. Please update the app.",
+    "BAD_TRIP": "That trip does not match.",
     "BAD_TYPE": "That file type isn't accepted. Send an image or a PDF.",
     "BAD_VEHICLE": "That truck isn't yours, or it's busy.",
     "BAD_YEARS": "That year isn't valid.",
@@ -45,9 +48,11 @@
     "FILE_MISSING": "The file is missing on the server.",
     "FOLDER_NOT_FOUND": "That folder wasn't found.",
     "FORBIDDEN": "You don't have access to this.",
+    "FUTURE_DATE": "The date cannot be in the future.",
     "GUEST": "This section needs an account. Sign up or sign in.",
     "ID_REQUIRED": "It's not clear which record this is.",
     "INVALID_CREDENTIALS": "Wrong phone number or password.",
+    "IS_TRAILER": "A trailer cannot be coupled to a trailer.",
     "JOB_CONTRACT": "This contract isn't about a load — a trip can't be opened from it.",
     "LIMIT": "You've hit the limit.",
     "LIVE": "The trip is under way — you can't do this now.",
@@ -92,6 +97,7 @@
     "RATE_LIMIT": "Too many requests. Wait a moment.",
     "READ_ONLY": "This is read-only.",
     "SAME_DRIVER": "The main and second driver can't be the same person.",
+    "SEAT_TAKEN": "That seat is taken. End the existing link first, or offer the second seat.",
     "SECTION_LOCKED": "This section isn't open for your role.",
     "SELF": "You can't do this with yourself.",
     "SELLER_ONLY": "Only the seller can do this.",
@@ -180,6 +186,11 @@
     "service": "Service orders",
     "trips": "Trip and load control",
     "vacancies": "Posting vacancies"
+  },
+  "issueStatus": {
+    "FIXED": "Fixed",
+    "IGNORED": "Ignored",
+    "OPEN": "Open"
   },
   "jobCatalog": {
     "countries": {
@@ -723,6 +734,11 @@
       "openTrip": "Open a trip",
       "pdf": "Download the PDF"
     },
+    "cpay": {
+      "addProof": "Attach the receipt photo",
+      "proof": "Payment proof",
+      "viewProof": "Open the proof"
+    },
     "ctr": {
       "approve": "Approve",
       "cancelContract": "Cancel the contract",
@@ -889,6 +905,15 @@
       "whyText2": "A long-inactive device's date is shown in amber — take a look, it may not be yours.",
       "whyTitle": "Why this screen exists"
     },
+    "dinv": {
+      "copied": "Copied",
+      "copy": "Copy",
+      "create": "Create a link",
+      "expires": "Valid until %{date}",
+      "lead": "Send the link to the driver — they open it and join your fleet with their own account. No need to look up a FURAM ID.",
+      "share": "Share",
+      "title": "Invite link"
+    },
     "disp": {
       "contactNote": "Contact starts in chat. The phone number opens once you agree.",
       "countN": "%{n} verified",
@@ -926,6 +951,21 @@
       "reminder": "Expiry reminder",
       "reminderText": "You are notified 30, 7 and 1 day before. The «Document expiry» category must be enabled in notification settings.",
       "title": "Documents"
+    },
+    "drv": {
+      "addPay": "Add a payment",
+      "held": "Withheld",
+      "license": "Licence valid until",
+      "noAccount": "They have no account — on a trip you answer on their behalf.",
+      "noPay": "No payments yet",
+      "onTrip": "On a trip now",
+      "paid": "Paid",
+      "payroll": "Payroll",
+      "period": "For which month",
+      "periodPh": "2026-08",
+      "title": "Driver",
+      "trips": "Recent trips",
+      "vehicles": "Their vehicles"
     },
     "err": {
       "generic": "Something went wrong",
@@ -979,6 +1019,25 @@
       "APPROVED": "Approved",
       "PENDING": "Waiting",
       "REJECTED": "Rejected"
+    },
+    "fan": {
+      "ask": "Ask about my fleet",
+      "askPh": "For example: which vehicle burned the most fuel?",
+      "byDriver": "By driver",
+      "byRoute": "By route",
+      "byVehicle": "By vehicle",
+      "days": "%{n} days",
+      "expenses": "Expenses",
+      "fuel": "Fuel",
+      "income": "Income",
+      "lead": "Which vehicle and which driver earned the most, plus fuel and repair costs.",
+      "losses": "Loss-making trips",
+      "noData": "No trips in this period",
+      "noDataHint": "The numbers show up here once a trip is closed",
+      "profit": "Profit",
+      "repairs": "Repairs",
+      "title": "Fleet analytics",
+      "trips": "Trips"
     },
     "fin": {
       "allCats": "All categories",
@@ -1094,6 +1153,13 @@
       "todayOk": "All good today",
       "todayProblems": "%{n} things need attention today",
       "waitingReply": "Awaiting reply"
+    },
+    "inTransfer": {
+      "accept": "Accept",
+      "from": "From: %{name}",
+      "reject": "Reject",
+      "title": "A vehicle is being transferred to you",
+      "why": "Reason for rejecting — without it the same request comes back"
     },
     "inc": {
       "addLocation": "Add location",
@@ -1525,6 +1591,31 @@
       "photo": "Photo",
       "queue": "Border queue",
       "status": "Trip status"
+    },
+    "own": {
+      "archive": "Move to the archive",
+      "archiveQ": "Archive the vehicle? Its data and history stay; it just leaves the list.",
+      "cancelReq": "Cancel the request",
+      "empty": "No handovers yet",
+      "endAt": "Ends — optional",
+      "endLoan": "Take it back",
+      "history": "Transfer history",
+      "lead": "Sell the vehicle, lend it to someone for a while, or set its status by hand.",
+      "lend": "Lend temporarily",
+      "lendHint": "You keep ownership; the other person uses it until the given date.",
+      "loans": "Temporary handovers",
+      "onTripBlock": "A vehicle on a trip cannot be handed over — close the trip first.",
+      "openLoan": "With them now",
+      "price": "Price — optional",
+      "send": "Send the request",
+      "startAt": "Starts",
+      "statusAuto": "“On a trip” and the document statuses are set by the system — they cannot be changed by hand.",
+      "statusNow": "Current status",
+      "statusPick": "Change the status",
+      "title": "Ownership and status",
+      "toFuramId": "To whom — FURAM ID",
+      "transfer": "Transfer ownership",
+      "transferHint": "The vehicle moves over once accepted — with its documents and history."
     },
     "panel": {
       "days": "%{n} days",
@@ -2444,6 +2535,12 @@
       "workHours": "Working hours",
       "workHoursPh": "09:00–19:00, Mon–Sat"
     },
+    "svcRec": {
+      "cost": "Cost",
+      "odometer": "Odometer",
+      "unit": "Unit",
+      "what": "What was done?"
+    },
     "svcStatus": {
       "ASSIGNED": "Mechanic chosen",
       "CANCELLED": "Cancelled",
@@ -2506,6 +2603,15 @@
       "role": "Role",
       "title": "Participants",
       "you": "You"
+    },
+    "trailer": {
+      "add": "Add a trailer",
+      "bodyType": "Body type",
+      "detach": "Detach",
+      "detachQ": "Detach the trailer? It stays in the fleet as a separate unit.",
+      "lead": "A trailer coupled to the tractor is kept separately: it has its own plate, documents and dates.",
+      "none": "No trailer attached",
+      "title": "Trailer"
     },
     "trip": {
       "ai": "AI trip summary",
@@ -2617,6 +2723,18 @@
       "topBand": "You're at the top level",
       "whyGroup": "MAIN FACTORS"
     },
+    "tstate": {
+      "costs": "Costs",
+      "issues": "Faults",
+      "lead": "Faults and costs outside a trip. An open issue also shows on the vehicle card.",
+      "markFixed": "Mark as fixed",
+      "markIgnored": "Ignore it",
+      "noCosts": "No costs recorded",
+      "noIssues": "No faults",
+      "noIssuesHint": "If something happens on the road, record it from the trip screen",
+      "reopen": "Reopen",
+      "title": "Technical condition"
+    },
     "ui": {
       "allRead": "All read",
       "chatEmptyText": "A chat appears here once you send an offer on a load or someone writes to you.",
@@ -2644,7 +2762,9 @@
     },
     "vehicle": {
       "allDocuments": "All documents (%{n})",
+      "axles": "Number of axles",
       "body": "Body",
+      "brand": "Make",
       "capacity": "Capacity",
       "coDriver": "Co-driver",
       "documents": "DOCUMENTS",
@@ -2652,17 +2772,20 @@
       "drivers": "DRIVERS",
       "fuel": "Fuel",
       "mainDriver": "Main",
+      "model": "Model",
       "needAttention": "%{n} need attention",
       "notFound": "Not found",
       "odometer": "Odometer",
       "odometerAt": "updated %{date}",
+      "plate": "Plate number",
       "service": "SERVICE & REPAIR",
       "specs": "SPECIFICATIONS",
       "tank": "Tank",
       "trailer": "Trailer %{plate}",
       "type": "Type",
       "vehicleTitle": "Vehicle",
-      "volume": "Volume"
+      "volume": "Volume",
+      "year": "Year"
     },
     "video": {
       "countN": "%{n} short videos",
@@ -2718,6 +2841,13 @@
     "CARD": "Card",
     "CASH": "Cash",
     "OTHER": "Other"
+  },
+  "payrollKind": {
+    "ADVANCE": "Advance",
+    "BONUS": "Bonus",
+    "DEDUCTION": "Deduction",
+    "SALARY": "Salary",
+    "TRIP_FEE": "Trip fee"
   },
   "pgStaff": {
     "aboutBody": "A person joins the list only after confirming it: you send an invite link, they open it and accept. Either side can end the link at any time. Nobody but you can see this list.",
@@ -2926,6 +3056,12 @@
     "video": "Video",
     "warehouse": "Warehouse"
   },
+  "transferStatus": {
+    "ACCEPTED": "Accepted",
+    "CANCELLED": "Cancelled",
+    "PENDING": "Awaiting a reply",
+    "REJECTED": "Rejected"
+  },
   "tripStatus": {
     "ASSIGNED": "Vehicle assigned",
     "AT_BORDER": "At the border",
@@ -2995,6 +3131,33 @@
     "POA": "Power of attorney",
     "RENT": "Lease agreement",
     "TECH_PASSPORT": "Registration"
+  },
+  "vehStatus": {
+    "ARCHIVED": "Archived",
+    "DOC_EXPIRED": "Document expired",
+    "DOC_ISSUE": "Document problem",
+    "FREE": "Free",
+    "INACTIVE": "Not in use",
+    "ON_TRIP": "On a trip",
+    "REPAIR": "In repair",
+    "SOLD": "Sold"
+  },
+  "vehUnit": {
+    "AXLE": "Axle",
+    "BATTERY": "Battery",
+    "BODY": "Body",
+    "BRAKES": "Brakes",
+    "CHASSIS": "Chassis",
+    "COOLING": "Cooling system",
+    "DISCS": "Discs",
+    "ELECTRICS": "Electrics",
+    "FILTERS": "Filters",
+    "GEARBOX": "Gearbox",
+    "MOTOR": "Engine",
+    "OIL": "Oil",
+    "OTHER": "Other",
+    "PADS": "Brake pads",
+    "TIRES": "Tyres"
   },
   "videoSection": {
     "ai": "AI assistant",

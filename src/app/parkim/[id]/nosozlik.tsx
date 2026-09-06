@@ -1,16 +1,17 @@
 /**
- * E11 — reys ichidan texnik nosozlik qayd etish.
+ * D5 — texnik nosozlik qayd etish.
  *
- * ── NEGA REYS EKRANIDA ──────────────────────────────────────────
+ * ── IKKI JOYDAN OCHILADI, EKRAN BITTA ───────────────────────────
  *
- * Nosozlik yo'lda bilinadi, garajda emas. Haydovchi «Parkim» ni
- * ochib mashinani izlab, hujjatlar orasidan tegishli tugmani
- * topishi kerak bo'lsa — hech kim yozmaydi va muammo faqat
- * ta'mirlash hisobida ko'rinadi.
+ * Reys ekranidan (yo'lda buzildi) va mashina kartasidan (garajda
+ * ko'rindi). Nosozlik yo'lda bilinadi, shuning uchun reysdan ham
+ * ochilishi SHART: haydovchi «Parkim» ni ochib mashinani izlashi
+ * kerak bo'lsa, hech kim yozmaydi.
  *
- * Yozuv `VehicleIssue` bo'lib parkga tushadi va `tripId` bilan
- * SHU reysga bog'lanadi: keyin «qaysi reysda buzildi» degan savolga
- * javob bor.
+ * Marshrutda mashina turadi (`/parkim/[id]/nosozlik`), reys esa
+ * ixtiyoriy `trip` parametri bilan qo'shiladi — yozuv `VehicleIssue`
+ * bo'lib parkga tushadi va `tripId` bilan o'sha reysga bog'lanadi.
+ * Keyin «qaysi reysda buzildi» degan savolga javob bor.
  */
 import { useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
@@ -27,9 +28,10 @@ import { t } from "@/lib/i18n";
 const PRESETS = ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"];
 
 export default function Nosozlik() {
-  const { id, vehicle, plate } = useLocalSearchParams<{
+  /* `id` — MASHINA (marshrutdan), `trip` — ixtiyoriy reys */
+  const { id, trip, plate } = useLocalSearchParams<{
     id: string;
-    vehicle: string;
+    trip?: string;
     plate?: string;
   }>();
   const insets = useSafeAreaInsets();
@@ -47,8 +49,8 @@ export default function Nosozlik() {
     setErr(null);
     try {
       await apiUpload(
-        `/api/fleet/vehicles/${vehicle}/tech`,
-        { kind: "issue", title: title.trim(), tripId: String(id), note: note.trim() || undefined },
+        `/api/fleet/vehicles/${id}/tech`,
+        { kind: "issue", title: title.trim(), tripId: trip, note: note.trim() || undefined },
         photo ? [toUpload(photo, "photo")] : [],
       );
       setDone(true);

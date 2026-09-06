@@ -212,9 +212,46 @@ export default function Xodimlarim() {
                 </Pressable>
               )}
             </View>
-            {/* Javob kutilayotgan bog'lanishga tegilmaydi: qabul
-                yoki rad javobini XODIM beradi, ega emas */}
-            {x.status === "PENDING" && <Text style={s.wait}>{t("pgStaff.answerThere")}</Text>}
+            {/* ⚠️ JAVOBNI EGA BERADI (2026-09-06 da tuzatildi).
+                Ilgari bu yerda «avtoparkda javob bering» yozuvi
+                turardi va odam saytga o'tishi kerak edi.
+
+                Sabab: `PENDING` bog'lanishni HAR DOIM xodim
+                yaratadi (`POST /api/driver-links`) — o'zi yuborgan
+                taklif esa boshqa jadvalda va yuqoridagi «Javob
+                kutayotgan takliflar» ro'yxatida turadi. Ya'ni bu
+                yerdagi har bir `PENDING` — menga kelgan ariza. */}
+            {x.status === "PENDING" ? (
+              <View style={[s.row2, { marginTop: space.sm }]}>
+                <Pressable
+                  style={[s.btn, s.btnAccept]}
+                  disabled={busy === x.id}
+                  onPress={() =>
+                    void act(x.id, `/api/driver-links/${x.id}`, {
+                      method: "PATCH",
+                      body: { action: "accept" },
+                    })
+                  }
+                >
+                  <Icon name="check" size={15} stroke="#fff" />
+                  <Text style={s.btnAcceptText}>{t("mob.inTransfer.accept")}</Text>
+                </Pressable>
+                <Pressable
+                  style={[s.btn, s.btnGhost]}
+                  disabled={busy === x.id}
+                  onPress={() =>
+                    void act(x.id, `/api/driver-links/${x.id}`, {
+                      method: "PATCH",
+                      body: { action: "reject" },
+                    })
+                  }
+                >
+                  <Text style={[s.btnGhostText, { color: color.danger }]}>
+                    {t("mob.inTransfer.reject")}
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
           </View>
         )}
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
@@ -480,6 +517,9 @@ function AddSheet({
 }
 
 const s = StyleSheet.create({
+  btnAccept: { backgroundColor: color.success },
+  btnAcceptText: { fontSize: 13, fontWeight: "700", color: "#fff" },
+
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
   head2: { gap: space.md, marginBottom: space.md },

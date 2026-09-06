@@ -24,13 +24,16 @@
     "BAD_GROUP": "Grup bulunamadı ya da uymuyor.",
     "BAD_INPUT": "Girdiğiniz bilgileri kontrol edin.",
     "BAD_KIND": "Belge türü geçersiz.",
+    "BAD_METHOD": "Ödeme yöntemi geçersiz.",
     "BAD_ORDER": "Buradan bu duruma geçilemez.",
     "BAD_OUTPUT": "AI yanıtı okunamadı. Fotoğrafı tekrar çekin.",
     "BAD_PASSWORD": "Mevcut şifre yanlış.",
+    "BAD_PHONE": "Telefon numarasını kontrol edin.",
     "BAD_PRICE": "Fiyatı kontrol edin.",
     "BAD_REFS": "Seçilen değerler geçersiz. Listeden yeniden seçin.",
     "BAD_STATUS": "Durum geçersiz.",
     "BAD_TAB": "Geçersiz bölüm seçildi. Uygulamayı güncelleyin.",
+    "BAD_TRIP": "Bu sefer uygun değil.",
     "BAD_TYPE": "Bu dosya türü kabul edilmiyor. Görsel veya PDF gönderin.",
     "BAD_VEHICLE": "Bu araç size ait değil ya da meşgul.",
     "BAD_YEARS": "Yıl geçersiz.",
@@ -45,9 +48,11 @@
     "FILE_MISSING": "Dosya sunucuda bulunamadı.",
     "FOLDER_NOT_FOUND": "Klasör bulunamadı.",
     "FORBIDDEN": "Buna erişiminiz yok.",
+    "FUTURE_DATE": "Tarih gelecekte olamaz.",
     "GUEST": "Bu bölüm için hesap gerekiyor. Kaydolun veya giriş yapın.",
     "ID_REQUIRED": "Hangi kayıt olduğu belirtilmemiş.",
     "INVALID_CREDENTIALS": "Telefon veya şifre yanlış.",
+    "IS_TRAILER": "Römorka römork bağlanmaz.",
     "JOB_CONTRACT": "Bu sözleşme yükle ilgili değil — ondan sefer açılmaz.",
     "LIMIT": "Sınıra ulaştınız.",
     "LIVE": "Sefer yolda — şu an mümkün değil.",
@@ -92,6 +97,7 @@
     "RATE_LIMIT": "Çok sık istek. Biraz bekleyin.",
     "READ_ONLY": "Burada yalnızca okuma yapılabilir.",
     "SAME_DRIVER": "Ana ve ikinci sürücü aynı kişi olamaz.",
+    "SEAT_TAKEN": "Bu koltuk dolu. Önce bağlantıyı bitirin ya da ikinci koltuğu önerin.",
     "SECTION_LOCKED": "Bu bölüm rolünüze açık değil.",
     "SELF": "Kendinizle olmaz.",
     "SELLER_ONLY": "Bu işlem yalnızca satıcı içindir.",
@@ -180,6 +186,11 @@
     "service": "Servis siparişleri",
     "trips": "Sefer ve yük takibi",
     "vacancies": "İş ilanı verme"
+  },
+  "issueStatus": {
+    "FIXED": "Giderildi",
+    "IGNORED": "Yok sayıldı",
+    "OPEN": "Açık"
   },
   "jobCatalog": {
     "countries": {
@@ -723,6 +734,11 @@
       "openTrip": "Sefer aç",
       "pdf": "PDF indir"
     },
+    "cpay": {
+      "addProof": "Dekont fotoğrafı ekle",
+      "proof": "Ödeme kanıtı",
+      "viewProof": "Kanıtı aç"
+    },
     "ctr": {
       "approve": "Onayla",
       "cancelContract": "Sözleşmeyi iptal et",
@@ -889,6 +905,15 @@
       "whyText2": "Uzun süredir girilmeyen cihazın tarihi kahverengi yazılır — dikkat edin, yabancı olabilir.",
       "whyTitle": "Bu ekran neden var"
     },
+    "dinv": {
+      "copied": "Kopyalandı",
+      "copy": "Kopyala",
+      "create": "Bağlantı oluştur",
+      "expires": "Geçerlilik: %{date}",
+      "lead": "Bağlantıyı şoföre gönderin — açıp kendi hesabıyla filonuza katılır. FURAM ID aramaya gerek yok.",
+      "share": "Gönder",
+      "title": "Davet bağlantısı"
+    },
     "disp": {
       "contactNote": "İletişim sohbetle başlar. Telefon, anlaşmadan sonra açılır.",
       "countN": "Onaylı · %{n}",
@@ -926,6 +951,21 @@
       "reminder": "Süre hatırlatıcısı",
       "reminderText": "30, 7 ve 1 gün kala bildirim gelir. Bildirim ayarlarında «Belge süresi» açık olmalı.",
       "title": "Belgeler"
+    },
+    "drv": {
+      "addPay": "Ödeme ekle",
+      "held": "Kesilen",
+      "license": "Ehliyet süresi",
+      "noAccount": "Hesabı yok — seferde onun adına siz yanıt verirsiniz.",
+      "noPay": "Henüz ödeme yok",
+      "onTrip": "Şu anda seferde",
+      "paid": "Ödendi",
+      "payroll": "Ücret",
+      "period": "Hangi ay için",
+      "periodPh": "2026-08",
+      "title": "Şoför",
+      "trips": "Son seferler",
+      "vehicles": "Araçları"
     },
     "err": {
       "generic": "Bir hata oluştu",
@@ -979,6 +1019,25 @@
       "APPROVED": "Onaylandı",
       "PENDING": "Bekliyor",
       "REJECTED": "Reddedildi"
+    },
+    "fan": {
+      "ask": "Filom hakkında sor",
+      "askPh": "Örneğin: en çok yakıtı hangi araç harcadı?",
+      "byDriver": "Şoföre göre",
+      "byRoute": "Güzergâha göre",
+      "byVehicle": "Araca göre",
+      "days": "%{n} gün",
+      "expenses": "Gider",
+      "fuel": "Yakıt",
+      "income": "Gelir",
+      "lead": "Hangi araç ve hangi şoför daha çok kazandırdı; yakıt ve onarım masrafı.",
+      "losses": "Zarar eden seferler",
+      "noData": "Bu dönemde sefer yok",
+      "noDataHint": "Sefer kapandıktan sonra rakamlar burada görünür",
+      "profit": "Kâr",
+      "repairs": "Onarım",
+      "title": "Filo analizi",
+      "trips": "Seferler"
     },
     "fin": {
       "allCats": "Tüm kategoriler",
@@ -1094,6 +1153,13 @@
       "todayOk": "Bugün her şey yolunda",
       "todayProblems": "Bugün %{n} iş ilgi bekliyor",
       "waitingReply": "Yanıt bekliyor"
+    },
+    "inTransfer": {
+      "accept": "Kabul et",
+      "from": "Kimden: %{name}",
+      "reject": "Reddet",
+      "title": "Size araç devrediliyor",
+      "why": "Ret sebebi — yazılmazsa aynı istek tekrar gelir"
     },
     "inc": {
       "addLocation": "Konum ekle",
@@ -1525,6 +1591,31 @@
       "photo": "Fotoğraf",
       "queue": "Sınır kuyruğu",
       "status": "Sefer durumu"
+    },
+    "own": {
+      "archive": "Arşive al",
+      "archiveQ": "Araç arşivlensin mi? Veriler ve geçmiş korunur, listeden çıkar.",
+      "cancelReq": "İsteği iptal et",
+      "empty": "Henüz devir olmadı",
+      "endAt": "Bitiş — isteğe bağlı",
+      "endLoan": "Geri al",
+      "history": "Devir geçmişi",
+      "lead": "Aracı satmak, geçici olarak başkasına vermek ve durumu elle değiştirmek.",
+      "lend": "Geçici olarak ver",
+      "lendHint": "Sahiplik sizde kalır; diğer kişi belirtilen tarihe kadar kullanır.",
+      "loans": "Geçici devirler",
+      "onTripBlock": "Seferdeki araç devredilemez — önce seferi kapatın.",
+      "openLoan": "Şu anda onda",
+      "price": "Fiyat — isteğe bağlı",
+      "send": "İsteği gönder",
+      "startAt": "Başlangıç",
+      "statusAuto": "“Seferde” ve belge durumlarını sistem koyar — elle değiştirilmez.",
+      "statusNow": "Mevcut durum",
+      "statusPick": "Durumu değiştir",
+      "title": "Sahiplik ve durum",
+      "toFuramId": "Kime — FURAM ID",
+      "transfer": "Sahipliği devret",
+      "transferHint": "Araç kabul edildikten sonra geçer — belgeleri ve geçmişiyle birlikte."
     },
     "panel": {
       "days": "%{n} gün",
@@ -2444,6 +2535,12 @@
       "workHours": "Çalışma saatleri",
       "workHoursPh": "09:00–19:00, Pzt–Cmt"
     },
+    "svcRec": {
+      "cost": "Maliyet",
+      "odometer": "Kilometre",
+      "unit": "Aksam",
+      "what": "Ne yapıldı?"
+    },
     "svcStatus": {
       "ASSIGNED": "Usta seçildi",
       "CANCELLED": "İptal edildi",
@@ -2506,6 +2603,15 @@
       "role": "Rol",
       "title": "Katılımcılar",
       "you": "Siz"
+    },
+    "trailer": {
+      "add": "Römork ekle",
+      "bodyType": "Kasa tipi",
+      "detach": "Ayır",
+      "detachQ": "Römork ayrılsın mı? Filoda ayrı bir araç olarak kalır.",
+      "lead": "Çekiciye bağlı römork ayrı tutulur: kendi plakası, belgeleri ve süreleri vardır.",
+      "none": "Römork bağlı değil",
+      "title": "Römork"
     },
     "trip": {
       "ai": "AI sefer özeti",
@@ -2617,6 +2723,18 @@
       "topBand": "En üst seviyedesiniz",
       "whyGroup": "BAŞLICA ETKENLER"
     },
+    "tstate": {
+      "costs": "Masraflar",
+      "issues": "Arızalar",
+      "lead": "Arızalar ve sefer dışı masraflar. Açık sorun araç kartında da görünür.",
+      "markFixed": "Giderildi olarak işaretle",
+      "markIgnored": "Yok say",
+      "noCosts": "Masraf kaydedilmemiş",
+      "noIssues": "Arıza yok",
+      "noIssuesHint": "Yolda sorun çıkarsa sefer ekranından kaydedin",
+      "reopen": "Yeniden aç",
+      "title": "Teknik durum"
+    },
     "ui": {
       "allRead": "Hepsi okundu",
       "chatEmptyText": "Bir yük ilanına teklif verdiğinizde ya da biri size yazdığında sohbet burada görünür.",
@@ -2644,7 +2762,9 @@
     },
     "vehicle": {
       "allDocuments": "Tüm belgeler (%{n})",
+      "axles": "Aks sayısı",
       "body": "Kasa",
+      "brand": "Marka",
       "capacity": "Yük kapasitesi",
       "coDriver": "İkinci",
       "documents": "BELGELER",
@@ -2652,17 +2772,20 @@
       "drivers": "SÜRÜCÜLER",
       "fuel": "Yakıt",
       "mainDriver": "Ana",
+      "model": "Model",
       "needAttention": "%{n} tanesi dikkat istiyor",
       "notFound": "Bulunamadı",
       "odometer": "Kilometre",
       "odometerAt": "%{date} tarihinde güncellendi",
+      "plate": "Plaka",
       "service": "SERVİS VE ONARIM",
       "specs": "TEKNİK ÖZELLİKLER",
       "tank": "Depo",
       "trailer": "Römork %{plate}",
       "type": "Tip",
       "vehicleTitle": "Araç",
-      "volume": "Hacim"
+      "volume": "Hacim",
+      "year": "Yıl"
     },
     "video": {
       "countN": "Kısa video · %{n}",
@@ -2718,6 +2841,13 @@
     "CARD": "Kart",
     "CASH": "Nakit",
     "OTHER": "Diğer"
+  },
+  "payrollKind": {
+    "ADVANCE": "Avans",
+    "BONUS": "Prim",
+    "DEDUCTION": "Kesinti",
+    "SALARY": "Maaş",
+    "TRIP_FEE": "Sefer ücreti"
   },
   "pgStaff": {
     "aboutBody": "Kişi listeye ancak kendisi onayladıktan sonra girer: siz davet bağlantısını gönderirsiniz, o açıp kabul eder. Bağlantıyı her iki taraf da istediği an sonlandırabilir. Listeyi sizden başkası görmez.",
@@ -2926,6 +3056,12 @@
     "video": "Video",
     "warehouse": "Depo"
   },
+  "transferStatus": {
+    "ACCEPTED": "Kabul edildi",
+    "CANCELLED": "İptal edildi",
+    "PENDING": "Yanıt bekleniyor",
+    "REJECTED": "Reddedildi"
+  },
   "tripStatus": {
     "ASSIGNED": "Araç atandı",
     "AT_BORDER": "Sınırda",
@@ -2995,6 +3131,33 @@
     "POA": "Vekâletname",
     "RENT": "Kira sözleşmesi",
     "TECH_PASSPORT": "Ruhsat"
+  },
+  "vehStatus": {
+    "ARCHIVED": "Arşivde",
+    "DOC_EXPIRED": "Belge süresi doldu",
+    "DOC_ISSUE": "Belge sorunu",
+    "FREE": "Boşta",
+    "INACTIVE": "Kullanılmıyor",
+    "ON_TRIP": "Seferde",
+    "REPAIR": "Onarımda",
+    "SOLD": "Satıldı"
+  },
+  "vehUnit": {
+    "AXLE": "Aks",
+    "BATTERY": "Akü",
+    "BODY": "Kasa",
+    "BRAKES": "Frenler",
+    "CHASSIS": "Şasi",
+    "COOLING": "Soğutma sistemi",
+    "DISCS": "Diskler",
+    "ELECTRICS": "Elektrik",
+    "FILTERS": "Filtreler",
+    "GEARBOX": "Şanzıman",
+    "MOTOR": "Motor",
+    "OIL": "Yağ",
+    "OTHER": "Diğer",
+    "PADS": "Balata",
+    "TIRES": "Lastikler"
   },
   "videoSection": {
     "ai": "AI asistan",

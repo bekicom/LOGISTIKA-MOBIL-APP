@@ -24,13 +24,16 @@
     "BAD_GROUP": "Guruh topilmadi yoki mos kelmadi.",
     "BAD_INPUT": "Kiritilgan ma'lumotni tekshiring.",
     "BAD_KIND": "Hujjat turi noto'g'ri.",
+    "BAD_METHOD": "To'lov usuli noto'g'ri.",
     "BAD_ORDER": "Bu holatga bu yerdan o'tib bo'lmaydi.",
     "BAD_OUTPUT": "AI javobini o'qib bo'lmadi. Suratni qayta oling.",
     "BAD_PASSWORD": "Joriy parol noto'g'ri.",
+    "BAD_PHONE": "Telefon raqamini tekshiring.",
     "BAD_PRICE": "Narxni tekshiring.",
     "BAD_REFS": "Tanlangan qiymatlar noto'g'ri. Ro'yxatdan qayta tanlang.",
     "BAD_STATUS": "Holat noto'g'ri.",
     "BAD_TAB": "Noto'g'ri bo'lim tanlandi. Ilovani yangilang.",
+    "BAD_TRIP": "Bu reys mos kelmadi.",
     "BAD_TYPE": "Bu turdagi fayl qabul qilinmaydi. Rasm yoki PDF yuboring.",
     "BAD_VEHICLE": "Bu transport sizga tegishli emas yoki band.",
     "BAD_YEARS": "Yil noto'g'ri.",
@@ -45,9 +48,11 @@
     "FILE_MISSING": "Fayl serverdan topilmadi.",
     "FOLDER_NOT_FOUND": "Papka topilmadi.",
     "FORBIDDEN": "Bu narsaga ruxsatingiz yo'q.",
+    "FUTURE_DATE": "Sana kelajakda bo'lolmaydi.",
     "GUEST": "Bu bo'lim uchun hisob kerak. Ro'yxatdan o'ting yoki kiring.",
     "ID_REQUIRED": "Qaysi yozuv ekani ko'rsatilmagan.",
     "INVALID_CREDENTIALS": "Telefon yoki parol noto'g'ri.",
+    "IS_TRAILER": "Tirkamaga tirkama ulanmaydi.",
     "JOB_CONTRACT": "Bu shartnoma yukka oid emas — undan reys ochilmaydi.",
     "LIMIT": "Chegaraga yetdingiz.",
     "LIVE": "Reys yo'lda — bu amal hozir mumkin emas.",
@@ -92,6 +97,7 @@
     "RATE_LIMIT": "Juda tez-tez so'rayapsiz. Biroz kuting.",
     "READ_ONLY": "Bu yerda faqat o'qish mumkin.",
     "SAME_DRIVER": "Asosiy va ikkinchi haydovchi bir odam bo'lmaydi.",
+    "SEAT_TAKEN": "Bu o'rin band. Avval bog'lanishni uzing yoki ikkinchi o'rinni taklif qiling.",
     "SECTION_LOCKED": "Bu bo'lim rolingizga ochilmagan.",
     "SELF": "O'zingiz bilan bo'lmaydi.",
     "SELLER_ONLY": "Bu amal faqat sotuvchi uchun.",
@@ -180,6 +186,11 @@
     "service": "Servis buyurtmalari",
     "trips": "Reys va yuk nazorati",
     "vacancies": "Vakansiya joylash"
+  },
+  "issueStatus": {
+    "FIXED": "Tuzatildi",
+    "IGNORED": "E'tiborsiz qoldirildi",
+    "OPEN": "Ochiq"
   },
   "jobCatalog": {
     "countries": {
@@ -723,6 +734,11 @@
       "openTrip": "Reys ochish",
       "pdf": "PDF yuklab olish"
     },
+    "cpay": {
+      "addProof": "Chek suratini qo'shish",
+      "proof": "To'lov dalili",
+      "viewProof": "Dalilni ochish"
+    },
     "ctr": {
       "approve": "Tasdiqlash",
       "cancelContract": "Shartnomani bekor qilish",
@@ -889,6 +905,15 @@
       "whyText2": "Uzoq vaqt kirilmagan qurilma sanasi jigarrang yoziladi — e'tibor bering, balki begonadir.",
       "whyTitle": "Nima uchun bu ekran bor"
     },
+    "dinv": {
+      "copied": "Nusxa olindi",
+      "copy": "Nusxa olish",
+      "create": "Havola yaratish",
+      "expires": "Muddati: %{date}",
+      "lead": "Havolani haydovchiga yuboring — u ochib, o'z hisobi bilan parkingizga qo'shiladi. FURAM ID izlash shart emas.",
+      "share": "Yuborish",
+      "title": "Taklif havolasi"
+    },
     "disp": {
       "contactNote": "Aloqa chat orqali boshlanadi. Telefon raqami kelishuvdan keyin ochiladi.",
       "countN": "Tasdiqlangan · %{n} ta",
@@ -926,6 +951,21 @@
       "reminder": "Muddat eslatmasi",
       "reminderText": "30, 7 va 1 kun qolganda xabar keladi. Bildirishnoma sozlamalarida «Hujjat muddati» bo'limi yoqiq bo'lishi kerak.",
       "title": "Hujjatlar"
+    },
+    "drv": {
+      "addPay": "To'lov qo'shish",
+      "held": "Ushlab qolingan",
+      "license": "Prava muddati",
+      "noAccount": "Ilovada hisobi yo'q — reysda uning nomidan siz javob berasiz.",
+      "noPay": "To'lov yozuvi yo'q",
+      "onTrip": "Hozir reysda",
+      "paid": "To'langan",
+      "payroll": "Ish haqi",
+      "period": "Qaysi oy uchun",
+      "periodPh": "2026-08",
+      "title": "Haydovchi",
+      "trips": "Oxirgi reyslar",
+      "vehicles": "Mashinalari"
     },
     "err": {
       "generic": "Xatolik yuz berdi",
@@ -979,6 +1019,25 @@
       "APPROVED": "Tasdiqlangan",
       "PENDING": "Kutmoqda",
       "REJECTED": "Rad etilgan"
+    },
+    "fan": {
+      "ask": "Parkim haqida so'rash",
+      "askPh": "Masalan: qaysi mashina eng ko'p yoqilg'i yoqdi?",
+      "byDriver": "Haydovchi bo'yicha",
+      "byRoute": "Yo'nalish bo'yicha",
+      "byVehicle": "Mashina bo'yicha",
+      "days": "%{n} kun",
+      "expenses": "Xarajat",
+      "fuel": "Yoqilg'i",
+      "income": "Daromad",
+      "lead": "Qaysi mashina va qaysi haydovchi ko'proq foyda keltirgani, yoqilg'i va ta'mir xarajati.",
+      "losses": "Zarar chiqqan reyslar",
+      "noData": "Bu davrda reys yo'q",
+      "noDataHint": "Reys yopilgach raqamlar shu yerda paydo bo'ladi",
+      "profit": "Foyda",
+      "repairs": "Ta'mir",
+      "title": "Park tahlili",
+      "trips": "Reyslar"
     },
     "fin": {
       "allCats": "Barcha kategoriya",
@@ -1094,6 +1153,13 @@
       "todayOk": "Bugun hammasi joyida",
       "todayProblems": "Bugun %{n} ta ish diqqat talab qiladi",
       "waitingReply": "Javob kutmoqda"
+    },
+    "inTransfer": {
+      "accept": "Qabul qilish",
+      "from": "Kimdan: %{name}",
+      "reject": "Rad etish",
+      "title": "Sizga mashina o'tkazilmoqda",
+      "why": "Rad etish sababi — u yozilmasa, o'sha so'rov qayta kelaveradi"
     },
     "inc": {
       "addLocation": "Joylashuv qo'shish",
@@ -1525,6 +1591,31 @@
       "photo": "Surat",
       "queue": "Chegara navbati",
       "status": "Reys holati"
+    },
+    "own": {
+      "archive": "Arxivga olish",
+      "archiveQ": "Mashina arxivga olinsinmi? Ma'lumot va tarix saqlanadi, ro'yxatdan chiqadi.",
+      "cancelReq": "So'rovni bekor qilish",
+      "empty": "Hali o'tkazma bo'lmagan",
+      "endAt": "Tugashi — ixtiyoriy",
+      "endLoan": "Qaytarib olish",
+      "history": "O'tkazmalar tarixi",
+      "lead": "Mashinani sotish, vaqtincha boshqa odamga berish va holatini qo'lda o'zgartirish.",
+      "lend": "Vaqtincha berish",
+      "lendHint": "Egalik sizda qoladi, boshqa odam belgilangan muddatgacha ishlatadi.",
+      "loans": "Vaqtincha berilganlar",
+      "onTripBlock": "Reysdagi mashina o'tkazilmaydi — avval reys yopilsin.",
+      "openLoan": "Hozir unda",
+      "price": "Narx — ixtiyoriy",
+      "send": "So'rov yuborish",
+      "startAt": "Boshlanishi",
+      "statusAuto": "«Reysda» va hujjat holatlarini tizim o'zi qo'yadi — qo'lda o'zgartirilmaydi.",
+      "statusNow": "Hozirgi holati",
+      "statusPick": "Holatni o'zgartirish",
+      "title": "Egalik va holat",
+      "toFuramId": "Kimga — FURAM ID",
+      "transfer": "Egalikni o'tkazish",
+      "transferHint": "Mashina qabul qilingandan keyin o'tadi — hujjatlari va tarixi bilan."
     },
     "panel": {
       "days": "%{n} kun",
@@ -2444,6 +2535,12 @@
       "workHours": "Ish vaqti",
       "workHoursPh": "09:00–19:00, dush–shan"
     },
+    "svcRec": {
+      "cost": "Narxi",
+      "odometer": "Spidometr",
+      "unit": "Uzel",
+      "what": "Nima qilindi?"
+    },
     "svcStatus": {
       "ASSIGNED": "Usta tanlandi",
       "CANCELLED": "Bekor qilindi",
@@ -2506,6 +2603,15 @@
       "role": "Roli",
       "title": "Ishtirokchilar",
       "you": "Siz"
+    },
+    "trailer": {
+      "add": "Tirkama qo'shish",
+      "bodyType": "Kuzov turi",
+      "detach": "Ajratish",
+      "detachQ": "Tirkama ajratilsinmi? U parkda alohida mashina bo'lib qoladi.",
+      "lead": "Tyagachga ulangan tirkama alohida yuritiladi: uning o'z raqami, hujjatlari va muddatlari bor.",
+      "none": "Tirkama ulanmagan",
+      "title": "Tirkama"
     },
     "trip": {
       "ai": "AI reys yakuni",
@@ -2617,6 +2723,18 @@
       "topBand": "Eng yuqori darajadasiz",
       "whyGroup": "ASOSIY OMILLAR"
     },
+    "tstate": {
+      "costs": "Xarajatlar",
+      "issues": "Nosozliklar",
+      "lead": "Nosozliklar va reysdan tashqari xarajatlar. Ochiq muammo mashina kartasida ham ko'rinadi.",
+      "markFixed": "Tuzatildi",
+      "markIgnored": "E'tiborsiz qoldirish",
+      "noCosts": "Xarajat yozilmagan",
+      "noIssues": "Nosozlik yo'q",
+      "noIssuesHint": "Yo'lda muammo chiqsa reys ekranidan qayd eting",
+      "reopen": "Qayta ochish",
+      "title": "Texnik holat"
+    },
     "ui": {
       "allRead": "Hammasi o'qilgan",
       "chatEmptyText": "Yuk e'loniga taklif yuborsangiz yoki kimdir sizga yozsa, suhbat shu yerda paydo bo'ladi.",
@@ -2644,7 +2762,9 @@
     },
     "vehicle": {
       "allDocuments": "Barcha hujjatlar (%{n})",
+      "axles": "O'qlar soni",
       "body": "Kuzov",
+      "brand": "Rusum",
       "capacity": "Yuk ko'tarish",
       "coDriver": "Ikkinchi",
       "documents": "HUJJATLAR",
@@ -2652,17 +2772,20 @@
       "drivers": "HAYDOVCHILAR",
       "fuel": "Yoqilg'i",
       "mainDriver": "Asosiy",
+      "model": "Modeli",
       "needAttention": "%{n} tasi e'tibor talab qiladi",
       "notFound": "Topilmadi",
       "odometer": "Spidometr",
       "odometerAt": "%{date} da yangilangan",
+      "plate": "Davlat raqami",
       "service": "XIZMAT VA TA'MIR",
       "specs": "TEXNIK KO'RSATKICHLAR",
       "tank": "Bak",
       "trailer": "Tirkama %{plate}",
       "type": "Turi",
       "vehicleTitle": "Transport",
-      "volume": "Hajm"
+      "volume": "Hajm",
+      "year": "Yili"
     },
     "video": {
       "countN": "Qisqa videolar · %{n} ta",
@@ -2718,6 +2841,13 @@
     "CARD": "Karta",
     "CASH": "Naqd",
     "OTHER": "Boshqa"
+  },
+  "payrollKind": {
+    "ADVANCE": "Avans",
+    "BONUS": "Ustama",
+    "DEDUCTION": "Ushlab qolish",
+    "SALARY": "Oylik",
+    "TRIP_FEE": "Reys haqi"
   },
   "pgStaff": {
     "aboutBody": "Xodim ro'yxatga faqat o'zi tasdiqlagach qo'shiladi: siz taklif havolasini yuborasiz, u ochib qabul qiladi. Bog'lanishni ikkala tomon ham istalgan payt uzadi. Ro'yxatni sizdan boshqa hech kim ko'rmaydi.",
@@ -2926,6 +3056,12 @@
     "video": "Video",
     "warehouse": "Ombor"
   },
+  "transferStatus": {
+    "ACCEPTED": "Qabul qilindi",
+    "CANCELLED": "Bekor qilindi",
+    "PENDING": "Javob kutilmoqda",
+    "REJECTED": "Rad etildi"
+  },
   "tripStatus": {
     "ASSIGNED": "Mashina biriktirildi",
     "AT_BORDER": "Chegarada",
@@ -2995,6 +3131,33 @@
     "POA": "Ishonchnoma",
     "RENT": "Ijara shartnomasi",
     "TECH_PASSPORT": "Texpasport"
+  },
+  "vehStatus": {
+    "ARCHIVED": "Arxivda",
+    "DOC_EXPIRED": "Hujjat muddati tugagan",
+    "DOC_ISSUE": "Hujjat muammoli",
+    "FREE": "Bo'sh",
+    "INACTIVE": "Foydalanilmayapti",
+    "ON_TRIP": "Reysda",
+    "REPAIR": "Ta'mirda",
+    "SOLD": "Sotilgan"
+  },
+  "vehUnit": {
+    "AXLE": "Most",
+    "BATTERY": "Akkumulyator",
+    "BODY": "Kuzov",
+    "BRAKES": "Tormoz",
+    "CHASSIS": "Hodovoy",
+    "COOLING": "Sovutish tizimi",
+    "DISCS": "Disk",
+    "ELECTRICS": "Elektrika",
+    "FILTERS": "Filtrlar",
+    "GEARBOX": "Korobka",
+    "MOTOR": "Motor",
+    "OIL": "Moy",
+    "OTHER": "Boshqa",
+    "PADS": "Kolodka",
+    "TIRES": "Balon"
   },
   "videoSection": {
     "ai": "AI yordamchi",

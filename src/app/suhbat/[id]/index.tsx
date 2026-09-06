@@ -48,6 +48,7 @@ import { useAuth } from "@/lib/auth-context";
 import { tariffBlocked } from "@/lib/features";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { P_SOON, sendOrQueue } from "@/lib/outbox";
+import { composerPad, useKeyboardOpen } from "@/lib/keyboard";
 import { LOCALES, LOCALE_INFO, t } from "@/lib/i18n";
 
 const POLL_MS = 6000;
@@ -96,6 +97,7 @@ export default function Suhbat() {
   const [chatMuted, setChatMuted] = useState(params.muted === "1");
 
   const listRef = useRef<FlatList<ChatMsg>>(null);
+  const kbOpen = useKeyboardOpen();
 
   /* ── yuklash ─────────────────────────────────────────────── */
   const load = useCallback(
@@ -380,7 +382,11 @@ export default function Suhbat() {
     <KeyboardAvoidingView
       style={[s.root, { paddingTop: insets.top }]}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={insets.top}
+      /* `keyboardVerticalOffset` YO'Q: bu View ekranning eng
+         tepasidan boshlanadi (`paddingTop` uni ichidan suradi,
+         ramkasini emas). Offset berilsa klaviatura balandligiga
+         o'sha son QO'SHILIB, qator bilan klaviatura orasida bo'sh
+         chiziq qolardi (2026-09-06). */
     >
       {/* Sarlavha */}
       <View style={s.header}>
@@ -485,12 +491,12 @@ export default function Suhbat() {
 
       {/* Yozish */}
       {readOnly ? (
-        <View style={[s.readOnly, { paddingBottom: insets.bottom + 12 }]}>
+        <View style={[s.readOnly, { paddingBottom: composerPad(insets.bottom, kbOpen, 12) }]}>
           <Icon name="lock" size={16} stroke={color.mutedForeground} />
           <Text style={s.readOnlyText}>{t("mob.msg.readOnly")}</Text>
         </View>
       ) : (
-        <View style={[s.composer, { paddingBottom: insets.bottom + 8 }]}>
+        <View style={[s.composer, { paddingBottom: composerPad(insets.bottom, kbOpen) }]}>
           {replyTo ? (
             <View style={s.replyBar}>
               <Icon name="reply" size={15} stroke={color.brand} />

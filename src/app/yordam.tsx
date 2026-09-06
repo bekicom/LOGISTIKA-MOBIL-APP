@@ -14,6 +14,7 @@ import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { color, font, shadow, space } from "@/lib/theme";
+import { composerPad, useKeyboardOpen } from "@/lib/keyboard";
 import { t } from "@/lib/i18n";
 
 type Msg = { id: string; from: string; text: string | null; shown: string | null; createdAt: string; senderName: string; pending?: boolean };
@@ -34,6 +35,7 @@ export default function Yordam() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const list = useRef<FlatList<Msg>>(null);
+  const kbOpen = useKeyboardOpen();
 
   const load = useCallback(async () => {
     try {
@@ -74,7 +76,7 @@ export default function Yordam() {
   const rows = [...thread.messages, ...pending];
 
   return (
-    <KeyboardAvoidingView style={[s.root, { paddingTop: insets.top }]} behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={insets.top}>
+    <KeyboardAvoidingView style={[s.root, { paddingTop: insets.top }]} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <View style={s.header}>
         <Pressable onPress={() => (router.canGoBack() ? router.back() : router.replace("/chat"))} hitSlop={10} style={s.hBtn}>
           <Icon name="back" size={22} stroke={color.foreground} />
@@ -128,7 +130,7 @@ export default function Yordam() {
         </View>
       ) : null}
 
-      <View style={[s.composer, { paddingBottom: insets.bottom + 8 }]}>
+      <View style={[s.composer, { paddingBottom: composerPad(insets.bottom, kbOpen) }]}>
         <View style={s.field}>
           <TextInput value={text} onChangeText={setText} placeholder={t("mob.support.placeholder")} placeholderTextColor="#94a3b8" style={s.input} multiline maxLength={2000} />
         </View>

@@ -293,7 +293,6 @@ const s = StyleSheet.create({
 
   tabsWrap: {
     flexDirection: "row", gap: 8, paddingHorizontal: space.lg, paddingVertical: space.md,
-    backgroundColor: color.card, borderBottomWidth: 1, borderBottomColor: color.border,
   },
   tab: {
     height: 34, paddingHorizontal: 14, borderRadius: radius.pill,
@@ -307,16 +306,14 @@ const s = StyleSheet.create({
   list: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 2 },
 
   warn: {
-    flexDirection: "row", gap: 11, padding: 13,
-    borderWidth: 1, borderColor: color.danger + "59", backgroundColor: color.danger + "0d",
+    flexDirection: "row", gap: 11, padding: 13, backgroundColor: color.dangerSoft,
     borderRadius: radius.card, marginBottom: space.md,
   },
   warnTitle: { fontSize: font.caption, fontWeight: "700", color: "#b91c1c" },
   warnBody: { fontSize: 12, color: "#b91c1c", marginTop: 3, lineHeight: 18 },
 
   card: {
-    backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1,
-    borderColor: color.border, padding: 14, ...shadow.card,
+    backgroundColor: color.card, borderRadius: radius.card, padding: 14, ...shadow.card,
   },
   thumb: {
     width: 62, height: 62, borderRadius: 10, backgroundColor: color.muted,

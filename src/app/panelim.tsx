@@ -36,7 +36,7 @@ import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
 import { t, tripStatusLabel } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 
 type DocItem = { kind: string; state: string; days: number | null };
 
@@ -406,12 +406,9 @@ function Fig({ value, label, good }: { value: string; label: string; good?: bool
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
   head: {
-    backgroundColor: color.card,
     paddingHorizontal: space.lg,
     paddingTop: 4,
     paddingBottom: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
@@ -554,11 +551,8 @@ const s = StyleSheet.create({
 
   sec: {
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
     borderRadius: radius.card,
-    padding: space.lg,
-  },
+    padding: space.lg, ...shadow.card,},
   secLabel: {
     fontSize: 12,
     fontWeight: "600",
@@ -587,11 +581,8 @@ const s = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
     borderRadius: radius.card,
-    padding: 12,
-  },
+    padding: 12, ...shadow.card,},
   vehShot: { width: 64, height: 64, borderRadius: 10, backgroundColor: "#cbd5e1" },
   vehShotEmpty: { backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   vehPlate: { fontSize: font.body, fontWeight: "700", color: color.foreground },

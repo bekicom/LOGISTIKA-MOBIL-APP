@@ -16,7 +16,7 @@ import { Card, GroupLabel, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Doc = {
@@ -206,9 +206,8 @@ const s = StyleSheet.create({
 
   summary: {
     flexDirection: "row", alignItems: "center", gap: 14,
-    backgroundColor: color.card, borderWidth: 1, borderColor: color.border,
-    borderRadius: radius.card, padding: space.lg,
-  },
+    backgroundColor: color.card,
+    borderRadius: radius.card, padding: space.lg, ...shadow.card,},
   ring: {
     width: 54, height: 54, borderRadius: 27, borderWidth: 4, borderColor: color.border,
     borderTopColor: color.success, borderRightColor: color.success,

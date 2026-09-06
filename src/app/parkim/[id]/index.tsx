@@ -364,11 +364,8 @@ const s = StyleSheet.create({
   },
   trailerText: { fontSize: font.caption, color: color.mutedForeground },
 
-  trip: {
-    borderWidth: 1, borderColor: color.info + "4d", backgroundColor: color.info + "0d",
-    borderRadius: radius.card, padding: space.lg,
-  },
-  tripTitle: { fontSize: font.caption, fontWeight: "700", color: color.info },
+  trip: { backgroundColor: color.blueSoft, borderRadius: radius.card, padding: space.lg },
+  tripTitle: { fontSize: font.caption, fontWeight: "700", color: color.blue },
   tripRoute: { fontSize: font.caption, color: color.foreground, marginTop: 7 },
   tripWhere: { fontSize: 12, color: color.mutedForeground, marginTop: 4 },
 

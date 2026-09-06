@@ -319,18 +319,17 @@ const s = StyleSheet.create({
   steps: { flexDirection: "row", gap: 6 },
   step: { flex: 1, height: 4, borderRadius: 2 },
 
+  /* Dizayn-2: sarlavha shaffof — oq fon va pastki chiziq yo'q,
+     sahifa foni o'zi ko'rinadi */
   head: {
-    backgroundColor: color.card,
     flexDirection: "row",
     alignItems: "center",
     gap: space.xs,
     paddingRight: space.lg,
-    paddingBottom: space.md,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
+    paddingBottom: space.sm,
   },
   headBack: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  headTitle: { fontSize: 17, fontWeight: "700", color: color.foreground, letterSpacing: -0.3 },
+  headTitle: { fontSize: 18, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
   headSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   row: { flexDirection: "row", alignItems: "center", gap: space.md, paddingHorizontal: space.lg, paddingVertical: 13 },

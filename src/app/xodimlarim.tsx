@@ -50,7 +50,7 @@ import { TariffNotice } from "@/components/TariffNotice";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { tariffBlocked } from "@/lib/features";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 type Staff = {
@@ -491,11 +491,8 @@ const s = StyleSheet.create({
 
   card: {
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
     borderRadius: radius.card,
-    padding: space.md,
-  },
+    padding: space.md, ...shadow.card,},
   cardHead: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 8 },
   tag: {
     paddingHorizontal: 8,
@@ -563,11 +560,8 @@ const s = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
     borderRadius: radius.card,
-    padding: space.md,
-  },
+    padding: space.md, ...shadow.card,},
   fleetIcon: {
     width: 34,
     height: 34,

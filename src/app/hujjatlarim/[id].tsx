@@ -311,8 +311,7 @@ const s = StyleSheet.create({
   },
 
   del: {
-    height: 48, borderRadius: radius.control, borderWidth: 1,
-    borderColor: color.danger + "59", backgroundColor: color.card,
+    height: 48, borderRadius: radius.control, backgroundColor: color.card,
     alignItems: "center", justifyContent: "center", marginTop: space.xs,
   },
   delText: { fontSize: 14, fontWeight: "600", color: color.danger },

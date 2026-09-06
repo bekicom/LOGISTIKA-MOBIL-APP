@@ -18,7 +18,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 
 type Doc = {
   id: string | null;
@@ -272,7 +272,7 @@ const s = StyleSheet.create({
 
   ready: {
     flexDirection: "row", alignItems: "center", gap: 14,
-    backgroundColor: color.card, borderWidth: 1, borderColor: color.success + "59",
+    backgroundColor: color.card,
     borderRadius: radius.card, padding: space.lg,
   },
   ring: {
@@ -312,9 +312,8 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   privacy: {
-    backgroundColor: color.card, borderWidth: 1, borderColor: color.border,
-    borderRadius: radius.card, padding: space.lg,
-  },
+    backgroundColor: color.card,
+    borderRadius: radius.card, padding: space.lg, ...shadow.card,},
   privacyTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
   privacyText: { fontSize: 12, color: "#475569", lineHeight: 19, marginTop: 8 },
 });

@@ -67,7 +67,7 @@ function OwnProfil() {
 
   const vip = daysLeft(user?.vipUntil);
   const premium = daysLeft(user?.premiumUntil);
-  const plan = vip ? "VIP" : premium ? "Kengaytirilgan" : null;
+  const plan = vip ? "VIP" : premium ? t("mob.profile.planPremium") : null;
   const left = vip ?? premium;
 
   async function copyId() {
@@ -215,106 +215,12 @@ function OwnProfil() {
           </Card>
         </View>
 
+        {/* Dizayn-2: bo'limlar ro'yxati (27 ta) MENYU yorlig'iga
+            ko'chdi — `(tabs)/menyu.tsx`. Profilda faqat odamning
+            o'zi haqidagi narsalar qoldi. */}
         <View>
-          <GroupLabel>{t("mob.profile.myWork")}</GroupLabel>
+          <GroupLabel>{t("mob.menu.more")}</GroupLabel>
           <Card>
-            {/* Haydovchining ish markazi — reysi, haqi, hujjati bir joyda */}
-            <ListRow
-              icon={<Badge icon="user" />}
-              title={t("mob.panel.title")}
-              hint={t("mob.profile.panelHint")}
-              onPress={() => router.push("/panelim")}
-            />
-            <ListRow
-              icon={<Badge icon="border" />}
-              title={t("mob.queue.title")}
-              onPress={() => router.push("/navbat")}
-            />
-            <ListRow
-              icon={<Badge icon="truck" />}
-              title={t("mob.park.title")}
-              hint={t("mob.profile.fleetHint")}
-              onPress={() => router.push("/parkim")}
-            />
-            {/* Parkning YONIDA: haydovchi mashina bilan birga
-                parkda, dispecher va ustaning mashinasi yo'q va
-                ular shu ro'yxatda (TZ 13) */}
-            <ListRow
-              icon={<Badge icon="user" />}
-              title={t("pgStaff.title")}
-              hint={t("pgStaff.subtitle")}
-              onPress={() => router.push("/xodimlarim")}
-            />
-            <ListRow
-              icon={<Badge icon="chat" />}
-              title={t("mob.deals.title")}
-              hint={t("mob.deals.subtitle")}
-              onPress={() => router.push("/kelishuvlar")}
-            />
-            <ListRow
-              icon={<Badge icon="package" />}
-              title={t("mob.profile.myListings")}
-              onPress={() => router.push("/elonlarim")}
-            />
-            {/* Bozor — transport SOTUVI. Yuk/mashina e'lonlaridan
-                boshqa narsa: u yerda bir reysga olinadi, bu yerda
-                sotib olinadi. */}
-            <ListRow
-              icon={<Badge icon="truck" />}
-              title={t("mob.market.title")}
-              hint={t("mob.market.subtitle")}
-              onPress={() => router.push("/bozor")}
-            />
-            <ListRow
-              icon={<Badge icon="check" />}
-              title={t("mob.sale.mine")}
-              hint={t("mob.sale.mineSub")}
-              onPress={() => router.push("/sotuvlarim")}
-            />
-            {/* Ustaxona: usta chaqirish HAMMAGA ochiq, usta bo'lish
-                esa tarif ortida — bo'lim yashirilmaydi. */}
-            <ListRow
-              icon={<Badge icon="alert" />}
-              title={t("mob.svc.title")}
-              hint={t("mob.svc.subtitle")}
-              onPress={() => router.push("/ustaxona")}
-            />
-            <ListRow
-              icon={<Badge icon="package" />}
-              title={t("mob.part.title")}
-              hint={t("mob.part.subtitle")}
-              onPress={() => router.push("/zapchast")}
-            />
-            <ListRow
-              icon={<Badge icon="user" />}
-              title={t("mob.job.title")}
-              hint={t("mob.job.subtitle")}
-              onPress={() => router.push("/ish")}
-            />
-            <ListRow
-              icon={<Badge icon="doc" />}
-              title={t("mob.fin.title")}
-              hint={t("mob.fin.subtitle")}
-              onPress={() => router.push("/moliya")}
-            />
-            <ListRow
-              icon={<Badge icon="chart" />}
-              title={t("mob.an.title")}
-              hint={t("mob.an.subtitle")}
-              onPress={() => router.push("/analitika")}
-            />
-            <ListRow
-              icon={<Badge icon="doc" />}
-              title={t("mob.ctr.title")}
-              hint={t("mob.ctr.subtitle")}
-              onPress={() => router.push("/shartnoma")}
-            />
-            <ListRow
-              icon={<Badge icon="check" />}
-              title={t("mob.trust.title")}
-              hint={t("mob.trust.subtitle")}
-              onPress={() => router.push("/reyting")}
-            />
             <ListRow
               icon={<Badge icon="user" />}
               title={t("mob.roles.title")}
@@ -322,46 +228,13 @@ function OwnProfil() {
               onPress={() => router.push("/rollarim")}
             />
             <ListRow
-              icon={<Badge icon="alert" />}
-              title={t("mob.notes.problem")}
-              hint={t("mob.probs.hint")}
-              /* Alohida ekran emas: bildirishnomalarning muammo
-                 yorlig'i. Bir xil ro'yxatni ikki joyda chizish
-                 ikkita tuzatiladigan joy demak edi. */
-              onPress={() => router.push("/bildirishnomalar?tab=problem")}
-            />
-            <ListRow
-              icon={<Badge icon="user" />}
-              title={t("mob.disp.title")}
-              hint={t("mob.disp.subtitle")}
-              onPress={() => router.push("/dispetcherlar")}
-            />
-            <ListRow
-              icon={<Badge icon="doc" />}
+              icon={<Badge icon="play" />}
               title={t("mob.video.title")}
-              hint={t("mob.video.subtitle")}
               onPress={() => router.push("/qollanma")}
-            />
-            <ListRow
-              icon={<Badge icon="plus" />}
-              title={t("mob.calc.title")}
-              hint={t("mob.calc.subtitle")}
-              onPress={() => router.push("/kalkulyator")}
-            />
-            <ListRow
-              icon={<Badge icon="heart" />}
-              title={t("mob.profile.saved")}
-              onPress={() => router.push("/saqlanganlar")}
-            />
-            <ListRow
-              icon={<Badge icon="doc" />}
-              title={t("mob.profile.myDocs")}
-              hint={t("mob.pdoc.subtitle")}
-              onPress={() => router.push("/hujjatlarim")}
             />
             {/* Do'kon talabi: maxfiylik havolasi ilovada BO'LISHI shart */}
             <ListRow
-              icon={<Badge icon="doc" />}
+              icon={<Badge icon="shield" />}
               title={t("mob.legal.title")}
               onPress={() => router.push("/huquqiy")}
               last

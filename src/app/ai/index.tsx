@@ -57,7 +57,20 @@ export default function Screen() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <Text style={s.title}>{t("mob.ai.title")}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", marginLeft: -10 }}>
+          {/* Dizayn-2: bu ekran endi tab emas, menyudan ochiladi —
+              orqaga tugmasi kerak. Tarix bo'lmasa (push/deep link)
+              bosh sahifaga. */}
+          <Pressable
+            onPress={() => (router.canGoBack() ? router.back() : router.replace("/bosh"))}
+            hitSlop={8}
+            accessibilityRole="button"
+            style={{ width: 40, height: 40, alignItems: "center", justifyContent: "center" }}
+          >
+            <Icon name="back" size={22} stroke={color.foreground} />
+          </Pressable>
+          <Text style={s.title}>{t("mob.ai.title")}</Text>
+        </View>
         <Text style={[s.sub, over ? { color: color.danger } : null]}>
           {over ? t("mob.ai.limitOver") : t("mob.ai.subtitle")}
         </Text>

@@ -328,8 +328,6 @@ const s = StyleSheet.create({
   card: {
     backgroundColor: color.card,
     borderRadius: radius.card,
-    borderWidth: 1,
-    borderColor: color.border,
     padding: space.lg,
     ...shadow.card,
   },

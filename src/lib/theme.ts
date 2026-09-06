@@ -1,39 +1,64 @@
 /**
  * FURAM dizayn token'lari.
  *
- * Qiymatlar web loyihasidagi `furam/src/app/globals.css` dan KO'CHIRILGAN —
- * o'ylab topilmagan. Web o'zgarsa shu fayl ham yangilanadi, aks holda
- * ikkalasi ajralib ketadi.
+ * ── DIZAYN-2 (2026-09-06) ────────────────────────────────────────
+ *
+ * Ilgari qiymatlar web `globals.css` dan ko'chirilgan edi va ilova
+ * saytga o'xshab qolgandi: kulrang fon, 1px chegarali karta, soya
+ * yo'q. Bekzod «zamonaviy emas» dedi va namuna berdi (Kornet, diip,
+ * Egasi). Ularning umumiy tomoni: oq/juda och fon, chegarasiz karta
+ * + yumshoq soya, katta radius, aksent rang dadil.
+ *
+ * Bu fayl 94 ta ekran tomonidan o'qiladi — bir o'zgarish hammasiga
+ * tarqaladi. Shuning uchun dizayn shu yerdan boshlanadi, ekrandan
+ * emas.
+ *
+ * Web bilan endi ATAYLAB farq qiladi: telefon va brauzer bir xil
+ * ko'rinmasligi kerak, faqat bir xil ma'lumot ko'rsatishi kerak.
  */
 
 export const color = {
-  background: "#e9edf3",
+  /* Fon deyarli oq, lekin sovuq: oq karta ustida ko'rinsin */
+  background: "#f4f6fa",
   foreground: "#0f172a",
   card: "#ffffff",
-  muted: "#f1f5f9",
+  muted: "#f1f4f9",
   mutedForeground: "#64748b",
-  border: "#e2e8f0",
+  /* Chegara endi «bor-yo'q» — ko'p ekran o'z kartasini 1px chegara
+     bilan chizadi, ularni birma-bir tuzatmasdan yumshatish yo'li shu */
+  border: "#eaeef4",
 
   brand: "#f45a18",
   brandHover: "#d84e12",
   brandForeground: "#ffffff",
+  /* Ikonka orqasi uchun och rang — to'q sariqning 8% i */
+  brandSoft: "#fff0e8",
 
   navy: "#0b1526",
   navyForeground: "#f1f5f9",
   /** Logotipdagi ko'k — interfeys navy'sidan boshqa, ataylab */
   logoBlue: "#0a376e",
+  /* Kirish ekranlari va ikkinchi aksent — logodagi ko'kning
+     yorug'roq turi (2-qadamda to'liq fon bo'ladi) */
+  blue: "#1f56c9",
+  blueSoft: "#e9effb",
 
   success: "#16a34a",
+  successSoft: "#e8f7ee",
   warning: "#b45309",
+  warningSoft: "#fff4e5",
   danger: "#dc2626",
+  dangerSoft: "#fdecec",
   info: "#1d4ed8",
+  purple: "#7c3aed",
+  purpleSoft: "#f1ecfb",
 } as const;
 
-/** Radius: karta 14 (`--radius-card`), boshqaruv 8 (`rounded-lg`) */
+/** Radius: karta 20, boshqaruv 12 — namunalardagi kabi */
 export const radius = {
-  control: 8,
-  card: 14,
-  sheet: 20,
+  control: 12,
+  card: 20,
+  sheet: 24,
   pill: 9999,
 } as const;
 
@@ -46,9 +71,9 @@ export const space = {
   xxl: 24,
 } as const;
 
-/** Balandliklar — web'dagi `h-11` / `h-12` va mobil uchun kattaroq asosiy tugma */
+/** Balandliklar — asosiy tugma 52, boshqaruv 46 */
 export const size = {
-  control: 44,
+  control: 46,
   controlLg: 52,
   touch: 44,
 } as const;
@@ -63,12 +88,33 @@ export const font = {
   display: 26,
 } as const;
 
+/**
+ * Soya — endi haqiqiy. Ilgari 0.05/2px edi, ya'ni ko'rinmasdi va
+ * karta chegaraga muhtoj bo'lardi. Android'da `elevation`, iOS'da
+ * `shadow*` — ikkalasi ham beriladi.
+ */
 export const shadow = {
   card: {
     shadowColor: "#0f172a",
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
+  },
+  /** Ko'tarilgan narsa — tab bardagi «+», suzuvchi tugma */
+  float: {
+    shadowColor: "#f45a18",
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 8,
+  },
+  /** Tab bar — yuqoriga tushadigan yengil soya */
+  bar: {
+    shadowColor: "#0f172a",
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: -4 },
+    elevation: 12,
   },
 } as const;

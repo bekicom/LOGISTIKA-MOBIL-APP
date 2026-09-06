@@ -31,7 +31,21 @@ export type IconName =
   | "doc"
   | "border"
   | "check"
-  | "chart";
+  | "chart"
+  /* Dizayn-2: menyu va «+» varag'i uchun */
+  | "grid"
+  | "wrench"
+  | "briefcase"
+  | "wallet"
+  | "star"
+  | "calc"
+  | "play"
+  | "lock"
+  | "users"
+  | "shield"
+  | "headset"
+  | "handshake"
+  | "tag";
 
 /* `stroke` — `string` emas, `ColorValue`: `Tabs.Screen` ning
    `tabBarIcon` i rangni shu turda beradi (RN 0.86). */
@@ -116,6 +130,68 @@ export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "
         <>
           <Path {...p} d="M4 18l5-6 4 3 6-8" />
           <Path {...p} d="M15 7h4v4" />
+        </>
+      )}
+      {/* ── Dizayn-2 ── */}
+      {name === "grid" && <Path {...p} d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />}
+      {name === "wrench" && (
+        <Path
+          {...p}
+          d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+        />
+      )}
+      {name === "briefcase" && (
+        <>
+          <Path {...p} d="M4 7h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" />
+          <Path {...p} d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M2 13h20" />
+        </>
+      )}
+      {name === "wallet" && (
+        <>
+          <Path {...p} d="M21 12V7H5a2 2 0 0 1 0-4h14v4M3 5v14a2 2 0 0 0 2 2h16v-5" />
+          <Path {...p} d="M18 12a2 2 0 0 0 0 4h4v-4z" />
+        </>
+      )}
+      {name === "star" && (
+        <Path {...p} fill={fill} d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" />
+      )}
+      {name === "calc" && (
+        <>
+          <Path {...p} d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+          <Path {...p} d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01" />
+        </>
+      )}
+      {name === "play" && <Path {...p} fill={fill} d="M6 4l14 8-14 8z" />}
+      {name === "lock" && (
+        <>
+          <Path {...p} d="M5 11h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1z" />
+          <Path {...p} d="M8 11V7a4 4 0 0 1 8 0v4" />
+        </>
+      )}
+      {name === "users" && (
+        <>
+          <Path {...p} d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <Circle {...p} cx={9} cy={7} r={4} />
+          <Path {...p} d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </>
+      )}
+      {name === "shield" && <Path {...p} d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />}
+      {name === "headset" && (
+        <>
+          <Path {...p} d="M3 18v-6a9 9 0 0 1 18 0v6" />
+          <Path {...p} d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+        </>
+      )}
+      {name === "handshake" && (
+        <Path
+          {...p}
+          d="m11 17 2 2a1 1 0 1 0 3-3M14 14l2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.54l.48.32a1 1 0 0 0 1.11 0L21 4M21 3l1 11h-2M3 3 2 14h2M3 4l4.44-.35a3 3 0 0 1 2.1.55L11 5"
+        />
+      )}
+      {name === "tag" && (
+        <>
+          <Path {...p} d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z" />
+          <Circle {...p} cx={7} cy={7} r={1.5} />
         </>
       )}
     </Svg>

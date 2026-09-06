@@ -4,11 +4,14 @@
  * Ma'lumot bitta so'rovdan keladi (`/api/home`): server rolni o'zi biladi
  * va `kind` bilan qaysi ko'rinish kerakligini aytadi.
  */
+import { useEffect } from "react";
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
+import { HeaderIcons } from "@/components/TabHeader";
+import { setCounts } from "@/lib/counts";
 import { ListingCard, TripCard, type Listing, type TripItem } from "@/components/cards";
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
 import { useApi } from "@/lib/use-api";
@@ -39,32 +42,21 @@ export default function Bosh() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
+  /* Qo'ng'iroq nishoni endi sarlavha komponentida — sanoqni
+     do'konga yozib qo'yamiz, u yerdan o'qiydi */
+  useEffect(() => {
+    if (data) setCounts({ notif: data.unreadNotifications });
+  }, [data]);
+
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       {/* Sarlavha */}
       <View style={s.header}>
         <Logo width={104} />
         <View style={{ flex: 1 }} />
-        {/* QIDIRUV — bosh sahifada, menyuda emas.
-            Odam biror narsani qidirganda profilga kirib
-            o'tirmaydi; qidiruv doim ko'z oldida turishi kerak. */}
-        <Pressable
-          onPress={() => router.push("/qidiruv")}
-          style={s.bell}
-          hitSlop={8}
-          accessibilityRole="button"
-          accessibilityLabel={t("mob.search.startTitle")}
-        >
-          <Icon name="search" size={21} stroke={color.foreground} />
-        </Pressable>
-        <Pressable onPress={() => router.push("/bildirishnomalar")} style={s.bell} hitSlop={8}>
-          <Icon name="bell" size={22} stroke={color.foreground} />
-          {data && data.unreadNotifications > 0 ? (
-            <View style={s.badge}>
-              <Text style={s.badgeText}>{data.unreadNotifications > 99 ? "99+" : data.unreadNotifications}</Text>
-            </View>
-          ) : null}
-        </Pressable>
+        {/* Dizayn-2: qidiruv, chat va qo'ng'iroq — hamma tabda bir xil
+            (`TabHeader`). Sanoqlar `lib/counts` do'konidan. */}
+        <HeaderIcons search />
         <View style={s.avatar}>
           <Text style={s.avatarText}>
             {(data?.user.firstName ?? "?").slice(0, 2).toUpperCase()}

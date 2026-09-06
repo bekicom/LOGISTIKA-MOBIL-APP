@@ -16,7 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "./Icon";
-import { color, font, radius, size, space } from "@/lib/theme";
+import { color, font, radius, shadow, size, space } from "@/lib/theme";
 
 /* ─────────────────────────────────────────────── Tugma */
 
@@ -338,12 +338,14 @@ const s = StyleSheet.create({
   rowTitle: { fontSize: font.body, color: color.foreground },
   rowHint: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
 
+  /* Dizayn-2: chegara yo'q, soya bor. `overflow: hidden` qator
+     bosilganda fon burchakdan chiqib ketmasin uchun. Android'da
+     `elevation` soyasi bunga qaramay chiziladi. */
   card: {
     backgroundColor: color.card,
     borderRadius: radius.card,
-    borderWidth: 1,
-    borderColor: color.border,
     overflow: "hidden",
+    ...shadow.card,
   },
   group: {
     fontSize: 12,

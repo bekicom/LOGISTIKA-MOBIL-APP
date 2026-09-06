@@ -30,6 +30,7 @@ function IconButton({
   label: string;
   onPress: () => void;
 }) {
+  const n = count ?? 0;
   return (
     <Pressable
       onPress={onPress}
@@ -39,9 +40,11 @@ function IconButton({
       style={({ pressed }) => [s.btn, pressed && { opacity: 0.6 }]}
     >
       <Icon name={icon} size={21} stroke={color.foreground} />
-      {count && count > 0 ? (
+      {/* `count && …` EMAS: 0 bo'lsa RN «0» ni matnsiz chizmoqchi
+          bo'ladi va qizil ekran beradi */}
+      {n > 0 ? (
         <View style={s.badge}>
-          <Text style={s.badgeText}>{count > 99 ? "99+" : count}</Text>
+          <Text style={s.badgeText}>{n > 99 ? "99+" : n}</Text>
         </View>
       ) : null}
     </Pressable>

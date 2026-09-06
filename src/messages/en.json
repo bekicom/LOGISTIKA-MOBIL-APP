@@ -891,12 +891,17 @@
       "findLoad": "Find cargo",
       "gpsOn": "GPS is on",
       "gpsStop": "Stop",
+      "hello": "Hello,",
       "noActiveTrip": "No active trips",
       "noTripText": "You have no trips on the road right now. Find a new load to start.",
       "problems": "Problems",
       "recentChats": "Recent chats",
+      "searchHint": "Route, vehicle type, date",
+      "searchTitle": "Find a load",
       "sos": "SOS",
       "suggested": "Cargo that suits you",
+      "todayOk": "All good today",
+      "todayProblems": "%{n} things need attention today",
       "waitingReply": "Awaiting reply"
     },
     "intro": {
@@ -1009,6 +1014,7 @@
       "advance": "Advance %{sum}",
       "alreadyTrip": "A trip has already been created for this cargo.",
       "cash": "Cash",
+      "contactFailed": "Couldn't open the contact",
       "loading": "Loading",
       "mixed": "Mixed",
       "offer": "Send an offer",
@@ -1018,10 +1024,12 @@
       "orMessage": "Or send a free message",
       "phoneLocked": "The phone number is hidden",
       "price": "Price",
+      "ratingsN": "%{n} ratings",
       "tapToCall": "Tap to call",
       "transfer": "Bank transfer",
       "vehicleType": "Vehicle type",
-      "weight": "Weight"
+      "weight": "Weight",
+      "yourPrice": "Your price (%{cur})"
     },
     "loads": {
       "apply": "Apply",
@@ -1836,6 +1844,7 @@
       "codeSentTo": "We sent a 6-digit code to %{phone} via %{via}",
       "devCode": "Test code: %{code}",
       "enterCode": "Enter the code",
+      "failed": "Registration failed",
       "haveAccount": "Already have an account?",
       "noSession": "The server returned no session",
       "offer": "Public offer",

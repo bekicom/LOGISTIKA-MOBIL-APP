@@ -8,7 +8,7 @@
  */
 import { Pressable, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
-import { color, font, radius } from "@/lib/theme";
+import { color, radius } from "@/lib/theme";
 
 export function Segment({
   value,
@@ -42,22 +42,23 @@ export function Segment({
 }
 
 const s = StyleSheet.create({
+  /* Dizayn-2: pill, faol yarmi ko'k (brend aksenti) */
   wrap: {
     flexDirection: "row",
-    backgroundColor: color.muted,
-    borderRadius: radius.control + 2,
-    padding: 3,
+    backgroundColor: color.card,
+    borderRadius: radius.pill,
+    padding: 4,
     gap: 3,
   },
   item: {
     flex: 1,
-    height: 38,
-    borderRadius: radius.control,
+    height: 36,
+    borderRadius: radius.pill,
     alignItems: "center",
     justifyContent: "center",
   },
-  itemOn: { backgroundColor: color.card },
-  pressed: { backgroundColor: "#e2e8f0" },
-  text: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-  textOn: { color: color.foreground },
+  itemOn: { backgroundColor: color.blue },
+  pressed: { backgroundColor: color.muted },
+  text: { fontSize: 14, fontWeight: "700", color: color.mutedForeground },
+  textOn: { color: "#ffffff" },
 });

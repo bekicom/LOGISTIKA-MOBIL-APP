@@ -891,12 +891,17 @@
       "findLoad": "寻找货源",
       "gpsOn": "GPS 已开启",
       "gpsStop": "停止",
+      "hello": "您好，",
       "noActiveTrip": "暂无进行中的运单",
       "noTripText": "当前没有在途运单。先找一单货吧。",
       "problems": "问题",
       "recentChats": "最近的聊天",
+      "searchHint": "路线、车型、日期",
+      "searchTitle": "查找货物",
       "sos": "SOS",
       "suggested": "为您匹配的货源",
+      "todayOk": "今天一切正常",
+      "todayProblems": "今天有 %{n} 项事务需要关注",
       "waitingReply": "等待回复"
     },
     "intro": {
@@ -1009,6 +1014,7 @@
       "advance": "预付 %{sum}",
       "alreadyTrip": "该货源已生成运单。",
       "cash": "现金",
+      "contactFailed": "无法打开联系方式",
       "loading": "装货",
       "mixed": "混合",
       "offer": "发送报价",
@@ -1018,10 +1024,12 @@
       "orMessage": "或免费发送消息",
       "phoneLocked": "电话号码已隐藏",
       "price": "价格",
+      "ratingsN": "%{n} 条评价",
       "tapToCall": "点击即可拨打",
       "transfer": "转账",
       "vehicleType": "车辆类型",
-      "weight": "重量"
+      "weight": "重量",
+      "yourPrice": "您的报价（%{cur}）"
     },
     "loads": {
       "apply": "应用",
@@ -1836,6 +1844,7 @@
       "codeSentTo": "已通过 %{via} 向 %{phone} 发送 6 位验证码",
       "devCode": "测试验证码：%{code}",
       "enterCode": "请输入验证码",
+      "failed": "注册失败",
       "haveAccount": "已有账号？",
       "noSession": "服务器未返回会话",
       "offer": "公开要约",

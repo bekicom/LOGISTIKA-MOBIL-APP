@@ -3,6 +3,15 @@
  *
  * Ma'lumot bitta so'rovdan keladi (`/api/home`): server rolni o'zi biladi
  * va `kind` bilan qaysi ko'rinish kerakligini aytadi.
+ *
+ * ── DIZAYN-2, 3-QADAM ────────────────────────────────────────────
+ *
+ * Salomlashish katta, tez amallar rangli ikonka bilan, haydovchiga
+ * «Yuk qidirish» kartasi (LoadMe uslubi — yo'nalish bilan qidiruv
+ * bosh sahifadan boshlanadi). Karta chegarasiz, soya bilan.
+ *
+ * Dispetcher salomlashuvi kodda o'zbekcha qotib qolgan edi
+ * («Salom, … Bugun hammasi joyida») — lug'atga ko'chdi.
  */
 import { useEffect } from "react";
 import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
@@ -58,11 +67,11 @@ export default function Bosh() {
         {/* Dizayn-2: qidiruv, chat va qo'ng'iroq — hamma tabda bir xil
             (`TabHeader`). Sanoqlar `lib/counts` do'konidan. */}
         <HeaderIcons search />
-        <View style={s.avatar}>
+        <Pressable style={s.avatar} onPress={() => router.push("/profil")} accessibilityRole="button">
           <Text style={s.avatarText}>
             {(data?.user.firstName ?? "?").slice(0, 2).toUpperCase()}
           </Text>
-        </View>
+        </Pressable>
       </View>
 
       {/* GPS chizig'i — faol reys kuzatilayotgan bo'lsa */}
@@ -77,12 +86,28 @@ export default function Bosh() {
       ) : null}
 
       <ScrollView
-        contentContainerStyle={[s.scroll, { paddingBottom: space.xl }]}
+        contentContainerStyle={[s.scroll, { paddingBottom: space.xxl * 2 }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
       >
         {loading ? <Skeleton /> : null}
         {error ? <ErrorBox message={error} onRetry={reload} /> : null}
+
+        {data ? (
+          <Hello
+            name={data.user.firstName}
+            sub={
+              data.kind === "dispatcher"
+                ? data.counts.problems > 0
+                  ? t("mob.home.todayProblems", { n: data.counts.problems })
+                  : t("mob.home.todayOk")
+                : data.expiringDocuments > 0
+                  ? t("mob.home.docExpiringN", { n: data.expiringDocuments })
+                  : t("mob.home.todayOk")
+            }
+            warn={data.kind === "dispatcher" ? data.counts.problems > 0 : data.expiringDocuments > 0}
+          />
+        ) : null}
 
         {data?.kind === "dispatcher" ? (
           <Dispatcher data={data} onTrip={(tid) => router.push(`/reys/${tid}`)} />
@@ -92,10 +117,12 @@ export default function Bosh() {
           <Driver
             data={data}
             onLoads={() => router.push("/yuklar")}
+            onSearch={() => router.push({ pathname: "/yuklar", params: { filtr: "1" } })}
             onTrip={(tid) => router.push(`/reys/${tid}`)}
             onLoad={(lid) => router.push(`/yuk/${lid}`)}
             onPark={() => router.push("/parkim")}
             onQueue={() => router.push("/navbat")}
+            onDocs={() => router.push("/hujjatlarim")}
           />
         ) : null}
       </ScrollView>
@@ -103,20 +130,49 @@ export default function Bosh() {
   );
 }
 
+/* ─────────────────────────────────────────────── salomlashish */
+
+function Hello({ name, sub, warn }: { name: string; sub: string; warn: boolean }) {
+  return (
+    <View style={s.hello}>
+      <Text style={s.helloName}>
+        {t("mob.home.hello")} {name} 👋
+      </Text>
+      <Text style={[s.helloSub, warn && { color: color.warning }]}>{sub}</Text>
+    </View>
+  );
+}
+
 /* ─────────────────────────────────────────────── haydovchi */
 
-function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
+function Driver({ data, onLoads, onSearch, onTrip, onLoad, onPark, onQueue, onDocs }: {
   data: Extract<Home, { kind: "driver" }>;
   onLoads: () => void;
+  onSearch: () => void;
   onTrip: (id: string) => void;
   onLoad: (id: string) => void;
   onPark: () => void;
   onQueue: () => void;
+  onDocs: () => void;
 }) {
   const trip = data.activeTrips[0] ?? null;
 
   return (
     <>
+      {/* Qidiruv kartasi — yuk topish bosh sahifadan boshlanadi */}
+      <Pressable onPress={onSearch} style={({ pressed }) => [s.search, pressed && { opacity: 0.85 }]}>
+        <View style={s.searchIcon}>
+          <Icon name="search" size={22} stroke="#ffffff" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={s.searchTitle}>{t("mob.home.searchTitle")}</Text>
+          <Text style={s.searchHint} numberOfLines={1}>
+            {t("mob.home.searchHint")}
+          </Text>
+        </View>
+        <Icon name="chevron" size={20} stroke="#94a3b8" />
+      </Pressable>
+
       {trip ? (
         <TripCard item={trip} onPress={() => onTrip(trip.id)} />
       ) : (
@@ -131,14 +187,14 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
 
       {/* Tez harakatlar */}
       <View style={s.quick}>
-        <QuickAction icon="search" label={t("mob.home.findLoad")} onPress={onLoads} />
-        <QuickAction icon="truck" label={t("mob.park.title")} onPress={onPark} />
-        <QuickAction icon="border" label={t("mob.home.border")} onPress={onQueue} />
-        <QuickAction icon="alert" label={t("mob.home.sos")} danger />
+        <QuickAction icon="package" label={t("mob.home.findLoad")} tint={color.brand} bg={color.brandSoft} onPress={onLoads} />
+        <QuickAction icon="truck" label={t("mob.park.title")} tint={color.blue} bg={color.blueSoft} onPress={onPark} />
+        <QuickAction icon="border" label={t("mob.home.border")} tint={color.warning} bg={color.warningSoft} onPress={onQueue} />
+        <QuickAction icon="alert" label={t("mob.home.sos")} tint={color.danger} bg={color.dangerSoft} />
       </View>
 
       {data.expiringDocuments > 0 ? (
-        <View style={s.alert}>
+        <Pressable onPress={onDocs} style={({ pressed }) => [s.alert, pressed && { opacity: 0.85 }]}>
           <View style={s.alertIcon}>
             <Icon name="clock" size={19} stroke={color.warning} />
           </View>
@@ -148,8 +204,8 @@ function Driver({ data, onLoads, onTrip, onLoad, onPark, onQueue }: {
             </Text>
             <Text style={s.alertText}>{t("mob.home.docExpiringHint")}</Text>
           </View>
-          <Icon name="chevron" size={18} stroke="#94a3b8" />
-        </View>
+          <Icon name="chevron" size={18} stroke={color.warning} />
+        </Pressable>
       ) : null}
 
       {data.suggestedLoads.length > 0 ? (
@@ -178,16 +234,11 @@ function Dispatcher({ data, onTrip }: {
   const c = data.counts;
   return (
     <>
-      <Text style={s.hello}>
-        Salom, {data.user.firstName}.{" "}
-        {c.problems > 0 ? `Bugun ${c.problems} ta ish diqqat talab qiladi.` : "Bugun hammasi joyida."}
-      </Text>
-
       <View style={s.tiles}>
-        <Tile icon="route" label={t("mob.home.activeTrips")} value={c.liveTrips} />
-        <Tile icon="alert" label={t("mob.home.problems")} value={c.problems} tone={color.danger} />
-        <Tile icon="chat" label={t("mob.home.waitingReply")} value={c.awaitingReply} />
-        <Tile icon="doc" label={t("mob.misc.docExpiryTile")} value={c.expiringDocuments} tone={color.warning} />
+        <Tile icon="route" label={t("mob.home.activeTrips")} value={c.liveTrips} tint={color.brand} bg={color.brandSoft} />
+        <Tile icon="alert" label={t("mob.home.problems")} value={c.problems} tint={color.danger} bg={color.dangerSoft} hot />
+        <Tile icon="chat" label={t("mob.home.waitingReply")} value={c.awaitingReply} tint={color.blue} bg={color.blueSoft} />
+        <Tile icon="doc" label={t("mob.misc.docExpiryTile")} value={c.expiringDocuments} tint={color.warning} bg={color.warningSoft} hot />
       </View>
 
       {data.activeTrips.length > 0 ? (
@@ -227,23 +278,32 @@ function Dispatcher({ data, onTrip }: {
 
 /* ─────────────────────────────────────────────── bo'laklar */
 
-function Tile({ icon, label, value, tone }: { icon: IconName; label: string; value: number; tone?: string }) {
+function Tile({ icon, label, value, tint, bg, hot }: {
+  icon: IconName; label: string; value: number; tint: string; bg: string;
+  /** Nol bo'lmasa rang bilan ogohlantiradi (muammo, muddat) */
+  hot?: boolean;
+}) {
+  const alert = hot && value > 0;
   return (
-    <View style={[s.tile, tone && value > 0 ? { borderColor: tone + "47" } : null]}>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-        <Icon name={icon} size={17} stroke={tone ?? color.brand} />
-        <Text style={s.tileLabel}>{label}</Text>
+    <View style={s.tile}>
+      <View style={[s.tileIcon, { backgroundColor: alert ? tint : bg }]}>
+        <Icon name={icon} size={18} stroke={alert ? "#ffffff" : tint} />
       </View>
-      <Text style={[s.tileValue, tone && value > 0 ? { color: tone } : null]}>{value}</Text>
+      <Text style={[s.tileValue, alert && { color: tint }]}>{value}</Text>
+      <Text style={s.tileLabel} numberOfLines={1}>{label}</Text>
     </View>
   );
 }
 
-function QuickAction({ icon, label, onPress, danger }: { icon: IconName; label: string; onPress?: () => void; danger?: boolean }) {
+function QuickAction({ icon, label, tint, bg, onPress }: {
+  icon: IconName; label: string; tint: string; bg: string; onPress?: () => void;
+}) {
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [s.quickItem, danger && s.quickDanger, pressed && { opacity: 0.6 }]}>
-      <Icon name={icon} size={22} stroke={danger ? color.danger : color.brand} />
-      <Text style={[s.quickLabel, danger && { color: color.danger, fontWeight: "600" }]}>{label}</Text>
+    <Pressable onPress={onPress} style={({ pressed }) => [s.quickItem, pressed && { opacity: 0.6 }]}>
+      <View style={[s.quickIcon, { backgroundColor: bg }]}>
+        <Icon name={icon} size={22} stroke={tint} />
+      </View>
+      <Text style={s.quickLabel} numberOfLines={1}>{label}</Text>
     </Pressable>
   );
 }
@@ -251,21 +311,13 @@ function QuickAction({ icon, label, onPress, danger }: { icon: IconName; label: 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
   header: {
-    backgroundColor: color.card,
     paddingHorizontal: space.lg,
     paddingTop: 6,
-    paddingBottom: space.md,
+    paddingBottom: space.sm,
     flexDirection: "row",
     alignItems: "center",
     gap: space.md,
   },
-  bell: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
-  badge: {
-    position: "absolute", top: 4, right: 2, minWidth: 17, height: 17, paddingHorizontal: 4,
-    borderRadius: 9, backgroundColor: color.brand, borderWidth: 2, borderColor: color.card,
-    alignItems: "center", justifyContent: "center",
-  },
-  badgeText: { fontSize: 9, fontWeight: "700", color: "#fff" },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: color.logoBlue, alignItems: "center", justifyContent: "center" },
   avatarText: { fontSize: 13, fontWeight: "600", color: "#fff" },
 
@@ -274,43 +326,61 @@ const s = StyleSheet.create({
   gpsText: { flex: 1, fontSize: 13, color: "#e2e8f0" },
   gpsStop: { fontSize: 13, fontWeight: "600", color: color.brand },
 
-  scroll: { padding: space.lg, gap: space.md },
+  scroll: { padding: space.lg, paddingTop: space.sm, gap: space.md },
 
-  hello: { fontSize: 13, color: color.mutedForeground },
+  hello: { marginBottom: 2 },
+  helloName: { fontSize: 22, fontWeight: "800", color: color.foreground, letterSpacing: -0.4 },
+  helloSub: { fontSize: 13.5, color: color.mutedForeground, marginTop: 2 },
+
+  search: {
+    backgroundColor: color.card,
+    borderRadius: radius.card,
+    padding: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    ...shadow.card,
+  },
+  searchIcon: { width: 46, height: 46, borderRadius: 15, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
+  searchTitle: { fontSize: 16, fontWeight: "700", color: color.foreground },
+  searchHint: { fontSize: 12.5, color: color.mutedForeground, marginTop: 2 },
 
   tiles: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
   tile: {
     width: "47.5%", flexGrow: 1, backgroundColor: color.card, borderRadius: radius.card,
-    borderWidth: 1, borderColor: color.border, padding: space.lg, ...shadow.card,
+    padding: space.lg, ...shadow.card,
   },
-  tileLabel: { fontSize: 12, color: color.mutedForeground },
-  tileValue: { fontSize: 28, fontWeight: "700", color: color.foreground, marginTop: 6 },
+  tileIcon: { width: 36, height: 36, borderRadius: 12, alignItems: "center", justifyContent: "center" },
+  tileValue: { fontSize: 28, fontWeight: "800", color: color.foreground, marginTop: 10, letterSpacing: -0.5 },
+  tileLabel: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   quick: { flexDirection: "row", gap: 9 },
   quickItem: {
-    flex: 1, backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1,
-    borderColor: color.border, paddingVertical: 13, alignItems: "center", gap: 7,
+    flex: 1, backgroundColor: color.card, borderRadius: radius.card,
+    paddingVertical: 12, paddingHorizontal: 4, alignItems: "center", gap: 8, ...shadow.card,
   },
-  quickDanger: { borderColor: "#dc26264d" },
-  quickLabel: { fontSize: 11, fontWeight: "500", color: color.foreground, textAlign: "center" },
+  quickIcon: { width: 44, height: 44, borderRadius: 14, alignItems: "center", justifyContent: "center" },
+  quickLabel: { fontSize: 11.5, fontWeight: "600", color: color.foreground, textAlign: "center" },
 
   alert: {
-    backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1, borderColor: "#b4530947",
+    backgroundColor: color.warningSoft, borderRadius: radius.card,
     padding: space.lg, flexDirection: "row", alignItems: "center", gap: space.md,
   },
-  alertIcon: { width: 38, height: 38, borderRadius: 19, backgroundColor: "#b453091f", alignItems: "center", justifyContent: "center" },
-  alertTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
+  alertIcon: { width: 38, height: 38, borderRadius: 19, backgroundColor: "#ffffff", alignItems: "center", justifyContent: "center" },
+  alertTitle: { fontSize: 14, fontWeight: "700", color: color.foreground },
   alertText: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
 
   sectionHead: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
-  sectionTitle: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground },
-  link: { fontSize: 13, fontWeight: "600", color: color.brand },
+  sectionTitle: { fontSize: 17, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
+  link: { fontSize: 13, fontWeight: "700", color: color.brand },
 
-  list: { backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1, borderColor: color.border, ...shadow.card },
+  list: { backgroundColor: color.card, borderRadius: radius.card, ...shadow.card },
   chatRow: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md },
   divider: { borderTopWidth: 1, borderTopColor: color.border },
   chatAvatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   chatAvatarText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
   chatName: { fontSize: 14, fontWeight: "600", color: color.foreground },
   chatMsg: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
+  /* eskirgan (font import saqlanadi) */
+  unused: { fontSize: font.caption },
 });

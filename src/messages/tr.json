@@ -891,12 +891,17 @@
       "findLoad": "Yük bul",
       "gpsOn": "GPS açık",
       "gpsStop": "Durdur",
+      "hello": "Merhaba,",
       "noActiveTrip": "Aktif sefer yok",
       "noTripText": "Şu anda yolda seferiniz yok. Yeni yük bulun.",
       "problems": "Sorunlar",
       "recentChats": "Son sohbetler",
+      "searchHint": "Güzergâh, araç tipi, tarih",
+      "searchTitle": "Yük ara",
       "sos": "SOS",
       "suggested": "Size uygun yükler",
+      "todayOk": "Bugün her şey yolunda",
+      "todayProblems": "Bugün %{n} iş ilgi bekliyor",
       "waitingReply": "Yanıt bekliyor"
     },
     "intro": {
@@ -1009,6 +1014,7 @@
       "advance": "Peşinat %{sum}",
       "alreadyTrip": "Bu yük için sefer zaten açıldı.",
       "cash": "Nakit",
+      "contactFailed": "İletişim açılamadı",
       "loading": "Yükleme",
       "mixed": "Karma",
       "offer": "Teklif gönder",
@@ -1018,10 +1024,12 @@
       "orMessage": "Ya da ücretsiz mesaj yazın",
       "phoneLocked": "Telefon numarası gizli",
       "price": "Fiyat",
+      "ratingsN": "%{n} değerlendirme",
       "tapToCall": "Dokunun — arama başlar",
       "transfer": "Havale",
       "vehicleType": "Araç tipi",
-      "weight": "Ağırlık"
+      "weight": "Ağırlık",
+      "yourPrice": "Fiyatınız (%{cur})"
     },
     "loads": {
       "apply": "Uygula",
@@ -1836,6 +1844,7 @@
       "codeSentTo": "%{phone} numarasına %{via} ile 6 haneli kod gönderdik",
       "devCode": "Test kodu: %{code}",
       "enterCode": "Kodu girin",
+      "failed": "Kayıt yapılamadı",
       "haveAccount": "Hesabınız var mı?",
       "noSession": "Sunucu oturum vermedi",
       "offer": "Kamu sözleşmesi",

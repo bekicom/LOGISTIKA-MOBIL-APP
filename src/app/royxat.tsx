@@ -107,7 +107,7 @@ export default function Royxat() {
       setToken(r.verificationToken);
       setStep("details");
     } catch (e) {
-      setErr((e as FuramError).message ?? "Kod noto'g'ri");
+      setErr((e as FuramError).message ?? t("mob.reset.badCode"));
       setCode("");
     } finally {
       setBusy(false);
@@ -138,7 +138,7 @@ export default function Royxat() {
       await signIn(res.token);
       router.replace("/bosh");
     } catch (e) {
-      setErr((e as FuramError).message ?? "Ro'yxatdan o'tib bo'lmadi");
+      setErr((e as FuramError).message ?? t("mob.signUp.failed"));
     } finally {
       setBusy(false);
     }

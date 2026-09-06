@@ -891,12 +891,17 @@
       "findLoad": "Yuk topish",
       "gpsOn": "GPS yoqilgan",
       "gpsStop": "To'xtatish",
+      "hello": "Assalomu alaykum,",
       "noActiveTrip": "Faol reys yo'q",
       "noTripText": "Hozir yo'lda bo'lgan reysingiz yo'q. Yangi yuk topib boshlang.",
       "problems": "Muammolar",
       "recentChats": "So'nggi suhbatlar",
+      "searchHint": "Yo'nalish, transport turi, sana",
+      "searchTitle": "Yuk qidirish",
       "sos": "SOS",
       "suggested": "Sizga mos yuklar",
+      "todayOk": "Bugun hammasi joyida",
+      "todayProblems": "Bugun %{n} ta ish diqqat talab qiladi",
       "waitingReply": "Javob kutmoqda"
     },
     "intro": {
@@ -1009,6 +1014,7 @@
       "advance": "Oldindan %{sum}",
       "alreadyTrip": "Bu yukka allaqachon reys ochilgan.",
       "cash": "Naqd",
+      "contactFailed": "Kontakt ochilmadi",
       "loading": "Yuklash",
       "mixed": "Aralash",
       "offer": "Taklif yuborish",
@@ -1018,10 +1024,12 @@
       "orMessage": "Yoki bepul xabar yozing",
       "phoneLocked": "Telefon raqam yopiq",
       "price": "Narx",
+      "ratingsN": "%{n} baho",
       "tapToCall": "Bosing — qo'ng'iroq qilinadi",
       "transfer": "O'tkazma",
       "vehicleType": "Transport turi",
-      "weight": "Og'irlik"
+      "weight": "Og'irlik",
+      "yourPrice": "Narxingiz (%{cur})"
     },
     "loads": {
       "apply": "Qo'llash",
@@ -1836,6 +1844,7 @@
       "codeSentTo": "%{phone} raqamiga %{via} orqali 6 xonali kod yubordik",
       "devCode": "Sinov kodi: %{code}",
       "enterCode": "Kodni kiriting",
+      "failed": "Ro'yxatdan o'tib bo'lmadi",
       "haveAccount": "Hisobingiz bormi?",
       "noSession": "Server sessiya bermadi",
       "offer": "Ommaviy oferta",

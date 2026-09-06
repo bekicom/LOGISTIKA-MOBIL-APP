@@ -2,6 +2,7 @@
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Icon } from "./Icon";
+import { TruckIcon } from "./TruckIcon";
 import { vehiclePhoto } from "@/lib/img";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
@@ -17,8 +18,10 @@ export function Route({ from, fromC, to, toC, size = 18 }: {
         <Text style={[s.city, { fontSize: size }]} numberOfLines={1}>{from}</Text>
         {fromC ? <Text style={s.country}>{country(fromC)}</Text> : null}
       </View>
-      <View style={{ paddingTop: 5 }}>
-        <Icon name="arrow-right" size={19} stroke="#94a3b8" />
+      {/* Dizayn-2: strelka brend rangida, aylanada — yo'nalish
+          kartaning bosh belgisi (diip: «TOSHKENT → BUXORO») */}
+      <View style={s.arrow}>
+        <Icon name="arrow-right" size={16} stroke={color.brand} />
       </View>
       <View style={{ flex: 1, alignItems: "flex-end" }}>
         <Text style={[s.city, { fontSize: size, textAlign: "right" }]} numberOfLines={1}>{to}</Text>
@@ -86,6 +89,8 @@ export type Listing = {
   isTop?: boolean;
   createdAt?: string;
   owner?: { name: string } | null;
+  /** Transport turi kaliti — kartada ikonka uchun (`/api/loads/list`) */
+  vehicleTypeKey?: string | null;
 };
 
 /**
@@ -123,6 +128,12 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
     <Pressable onPress={onPress} style={({ pressed }) => [s.card, item.isTop && s.cardTop, pressed && s.pressed]}>
       <View style={s.cardHead}>
         {item.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
+        <View style={{ flex: 1 }} />
+        {item.vehicleTypeKey ? (
+          <View style={s.typeIcon}>
+            <TruckIcon type={item.vehicleTypeKey} size={26} color={color.mutedForeground} />
+          </View>
+        ) : null}
         <Icon name="heart" size={20} stroke="#cbd5e1" />
       </View>
 
@@ -356,7 +367,9 @@ const s = StyleSheet.create({
   cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
 
   route: { flexDirection: "row", alignItems: "flex-start", gap: 10 },
-  city: { fontWeight: "700", color: color.foreground, letterSpacing: -0.2 },
+  arrow: { width: 26, height: 26, borderRadius: 13, backgroundColor: color.brandSoft, alignItems: "center", justifyContent: "center", marginTop: 1 },
+  typeIcon: { width: 34, height: 34, borderRadius: 11, backgroundColor: color.muted, alignItems: "center", justifyContent: "center", marginRight: 10 },
+  city: { fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
   country: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   cargo: { fontSize: 14, color: "#475569", marginTop: 10 },
@@ -366,7 +379,7 @@ const s = StyleSheet.create({
   chipText: { fontSize: 12, fontWeight: "500" },
 
   cardFoot: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginTop: 13 },
-  price: { fontSize: 20, fontWeight: "700", color: color.foreground, letterSpacing: -0.3 },
+  price: { fontSize: 21, fontWeight: "800", color: color.brand, letterSpacing: -0.4 },
   meta: { fontSize: 12, color: color.mutedForeground },
   no: { fontSize: 12, color: color.mutedForeground, fontFamily: "monospace" },
 

@@ -3,29 +3,41 @@
  *
  * Ma'lumot `/api/loads/list` dan, u web'dagi `/loads` sahifasi bilan
  * BITTA kodni (`lib/feed.ts`) ishlatadi — natija bir xil bo'lishi kerak.
+ *
+ * Dizayn-2: sarlavha chegarasiz, qidiruv — oq karta soya bilan,
+ * «Yuk joylash» suzuvchi tugmasi OLIB TASHLANDI — endi tab bardagi
+ * «+» shu ishni qiladi, ikkita bir xil tugma chalg'itardi.
+ * `?filtr=1` bilan ochilsa (bosh sahifadagi qidiruv kartasi) filtr
+ * varag'i o'zi ochiladi.
  */
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Segment } from "@/components/Segment";
+import { HeaderIcons } from "@/components/TabHeader";
 import { ListingCard, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
-import { guestBlocked } from "@/lib/guest-gate";
 
 type Feed = { items: Listing[]; page: number; total: number; hasMore: boolean };
 
 export default function Yuklar() {
+  const { filtr: openParam } = useLocalSearchParams<{ filtr?: string }>();
   const [filtr, setFiltr] = useState<Filtr>(EMPTY_FILTR);
   const [sheet, setSheet] = useState(false);
   const insets = useSafeAreaInsets();
   const router = useRouter();
+
+  /* Bosh sahifadagi «Yuk qidirish» kartasi shu parametr bilan keladi */
+  useEffect(() => {
+    if (openParam === "1") setSheet(true);
+  }, [openParam]);
 
   const query = useMemo(() => filtrToQuery(filtr), [filtr]);
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
@@ -43,37 +55,37 @@ export default function Yuklar() {
     <View style={[s.root, { paddingTop: insets.top }]}>
       {/* Sarlavha va qidiruv */}
       <View style={s.head}>
-        {/* Yuklar va mashinalar — lentaning ikki yarmi. Mashinalar
-            uchun yettinchi tab qo'shib bo'lmaydi, menyuga yashirsak
-            esa bo'limni hech kim topmasdi. */}
-        <Segment
-          value="loads"
-          onChange={(v) => v === "trucks" && router.push("/mashinalar")}
-          options={[
-            { key: "loads", label: t("mob.loads.title") },
-            { key: "trucks", label: t("mob.trucks.title") },
-          ]}
-        />
+        <View style={s.headRow}>
+          {/* Yuklar va mashinalar — lentaning ikki yarmi. Mashinalar
+              uchun alohida tab yo'q, menyuga yashirsak esa bo'limni
+              hech kim topmasdi. */}
+          <View style={{ flex: 1 }}>
+            <Segment
+              value="loads"
+              onChange={(v) => v === "trucks" && router.push("/mashinalar")}
+              options={[
+                { key: "loads", label: t("mob.loads.title") },
+                { key: "trucks", label: t("mob.trucks.title") },
+              ]}
+            />
+          </View>
+          <HeaderIcons />
+        </View>
 
-        {data ? (
-          <Text style={s.count}>
-            <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text>{" "}
-            {t("mob.loads.count", { n: data?.total ?? 0 })}
-          </Text>
-        ) : null}
-
-        <Pressable style={s.search} onPress={() => setSheet(true)}>
-          <Icon name="search" size={19} />
-          <Text style={[s.searchText, !filtr.fromName && s.searchPlaceholder]}>
+        <Pressable style={({ pressed }) => [s.search, pressed && { opacity: 0.85 }]} onPress={() => setSheet(true)}>
+          <View style={s.searchIcon}>
+            <Icon name="search" size={19} stroke={color.brand} />
+          </View>
+          <Text style={[s.searchText, !filtr.fromName && s.searchPlaceholder]} numberOfLines={1}>
             {filtr.fromName ?? t("mob.loads.from")}
           </Text>
-          <Icon name="arrow-right" size={16} stroke="#94a3b8" />
-          <Text style={[s.searchText, !filtr.toName && s.searchPlaceholder]}>
+          <Icon name="arrow-right" size={16} stroke={color.brand} />
+          <Text style={[s.searchText, !filtr.toName && s.searchPlaceholder]} numberOfLines={1}>
             {filtr.toName ?? t("mob.loads.to")}
           </Text>
         </Pressable>
 
-        {/* Filtr chiplari */}
+        {/* Filtr chiplari va sanoq */}
         <View style={s.chipRow}>
           <Pressable style={s.filterBtn} onPress={() => setSheet(true)}>
             <Icon name="filter" size={15} stroke="#fff" />
@@ -91,6 +103,13 @@ export default function Yuklar() {
               <Icon name="close" size={13} stroke="#c2490f" />
             </Pressable>
           ))}
+
+          {data && chips.length === 0 ? (
+            <Text style={s.count}>
+              <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text>{" "}
+              {t("mob.loads.count", { n: data?.total ?? 0 })}
+            </Text>
+          ) : null}
         </View>
       </View>
 
@@ -98,7 +117,7 @@ export default function Yuklar() {
         data={data?.items ?? []}
         keyExtractor={(it) => it.id}
         renderItem={({ item }) => <ListingCard item={item} onPress={() => router.push(`/yuk/${item.id}`)} />}
-        contentContainerStyle={[s.list, { paddingBottom: space.xl }]}
+        contentContainerStyle={[s.list, { paddingBottom: space.xxl * 2 }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
@@ -119,14 +138,6 @@ export default function Yuklar() {
         }
       />
 
-      <Pressable style={[s.fab, { bottom: insets.bottom + space.lg }]} onPress={() => {
-          if (guestBlocked()) return;
-          router.push("/yuk-joylash");
-        }}>
-        <Icon name="plus" size={20} stroke="#fff" />
-        <Text style={s.fabText}>{t("mob.loads.post")}</Text>
-      </Pressable>
-
       <FiltrSheet
         open={sheet}
         value={filtr}
@@ -145,35 +156,34 @@ const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
 
   head: {
-    backgroundColor: color.card,
     paddingHorizontal: space.lg,
-    paddingTop: 4,
-    paddingBottom: space.md,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
+    paddingTop: 6,
+    paddingBottom: space.sm,
     gap: space.md,
   },
-  title: { fontSize: 22, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
-  count: { fontSize: 13, color: color.mutedForeground },
+  headRow: { flexDirection: "row", alignItems: "center", gap: space.md },
+  count: { fontSize: 13, color: color.mutedForeground, marginLeft: 4 },
 
   search: {
-    height: 52,
-    borderWidth: 1,
-    borderColor: color.border,
-    borderRadius: radius.control,
+    height: 56,
+    backgroundColor: color.card,
+    borderRadius: radius.card,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 14,
-    gap: 11,
+    paddingLeft: 8,
+    paddingRight: 14,
+    gap: 10,
+    ...shadow.card,
   },
-  searchText: { flex: 1, fontSize: font.body, fontWeight: "600", color: color.foreground },
-  searchPlaceholder: { fontWeight: "400", color: "#94a3b8" },
+  searchIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: color.brandSoft, alignItems: "center", justifyContent: "center" },
+  searchText: { flex: 1, fontSize: font.body, fontWeight: "700", color: color.foreground },
+  searchPlaceholder: { fontWeight: "500", color: "#94a3b8" },
 
   chipRow: { flexDirection: "row", gap: 7, alignItems: "center", flexWrap: "wrap" },
   filterBtn: {
     height: 34,
     paddingHorizontal: 12,
-    borderRadius: radius.control,
+    borderRadius: radius.pill,
     backgroundColor: color.foreground,
     flexDirection: "row",
     alignItems: "center",
@@ -190,21 +200,13 @@ const s = StyleSheet.create({
     height: 34,
     paddingLeft: 12,
     paddingRight: 10,
-    borderRadius: radius.control,
-    backgroundColor: "#f45a181a",
-    borderWidth: 1,
-    borderColor: "#f45a184d",
+    borderRadius: radius.pill,
+    backgroundColor: color.brandSoft,
     flexDirection: "row",
     alignItems: "center",
     gap: 7,
   },
-  activeChipText: { fontSize: 13, fontWeight: "500", color: "#c2490f" },
+  activeChipText: { fontSize: 13, fontWeight: "600", color: "#c2490f" },
 
-  list: { padding: space.lg, gap: space.md },
-  fab: {
-    position: "absolute", right: space.lg, height: 52, paddingHorizontal: 20, borderRadius: 26,
-    backgroundColor: color.brand, flexDirection: "row", alignItems: "center", gap: 8,
-    shadowColor: color.brand, shadowOpacity: 0.45, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 6,
-  },
-  fabText: { fontSize: font.body, fontWeight: "600", color: "#fff" },
+  list: { padding: space.lg, paddingTop: space.sm, gap: space.md },
 });

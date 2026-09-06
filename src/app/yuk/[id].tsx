@@ -21,13 +21,13 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Path } from "react-native-svg";
 import { Icon } from "@/components/Icon";
 import { TruckIcon } from "@/components/TruckIcon";
-import { Route, Chip } from "@/components/cards";
+import { Route, Chip, ago } from "@/components/cards";
 import { Button, Field, Notice } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
-import { t } from "@/lib/i18n";
+import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
 
 type Load = {
@@ -63,14 +63,6 @@ function money(n: number, cur: string) {
   return `${new Intl.NumberFormat("ru-RU").format(n)} ${cur}`;
 }
 
-function ago(iso: string) {
-  const m = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
-  if (m < 60) return `${m} daqiqa oldin`;
-  const h = Math.round(m / 60);
-  if (h < 24) return `${h} soat oldin`;
-  return `${Math.round(h / 24)} kun oldin`;
-}
-
 export default function YukTafsiloti() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [offer, setOffer] = useState(false);
@@ -91,7 +83,7 @@ export default function YukTafsiloti() {
       await api("/api/contact-reveal", { method: "POST", body: { kind: "load", id: String(id) } });
       reload();
     } catch (e) {
-      setRevealErr((e as FuramError).message ?? "Kontakt ochilmadi");
+      setRevealErr((e as FuramError).message ?? t("mob.load.contactFailed"));
     } finally {
       setRevealing(false);
     }
@@ -125,7 +117,7 @@ export default function YukTafsiloti() {
             <View style={s.card}>
               <View style={s.cardHead}>
                 {data.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
-                <Text style={s.meta}>{ago(data.createdAt)} · {data.views} marta</Text>
+                <Text style={s.meta}>{ago(data.createdAt)} · {t("mob.trucks.viewed", { n: data.views })}</Text>
               </View>
 
               <View style={{ marginTop: 14 }}>
@@ -143,7 +135,7 @@ export default function YukTafsiloti() {
               <View style={s.grid}>
                 <Cell label={t("mob.load.weight")} value={c.weightT != null ? `${c.weightT} t` : "—"} />
                 <Cell label={t("mob.last.volume")} value={c.volumeM3 != null ? `${c.volumeM3} m³` : "—"} />
-                <Cell label={t("mob.last.truckCount")} value={`${c.vehicleCount} ta`} />
+                <Cell label={t("mob.last.truckCount")} value={String(c.vehicleCount)} />
                 <Cell
                   label={t("mob.load.loading")}
                   value={c.isReadyNow ? t("mob.loads.readyNow") : c.loadingDate ? date(c.loadingDate) : "—"}
@@ -235,7 +227,7 @@ export default function YukTafsiloti() {
                       <Path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" fill={color.brand} />
                     </Svg>
                     <Text style={s.trustValue}>{data.owner.rating.toFixed(1)}</Text>
-                    <Text style={s.meta}>· {data.owner.ratingCount} baho</Text>
+                    <Text style={s.meta}>· {t("mob.load.ratingsN", { n: data.owner.ratingCount })}</Text>
                   </View>
                 ) : null}
 
@@ -321,10 +313,10 @@ export default function YukTafsiloti() {
   );
 }
 
+/* Oy nomi tizimdan, tanlangan tilda — ilgari o'zbekcha ro'yxat
+   qotib turardi va ruscha ekranda ham «sent» chiqardi */
 function date(iso: string) {
-  const d = new Date(iso);
-  const M = ["yanv", "fev", "mart", "apr", "may", "iyun", "iyul", "avg", "sent", "okt", "noya", "dek"];
-  return `${d.getDate()}-${M[d.getMonth()]}`;
+  return new Date(iso).toLocaleDateString(currentLocale(), { day: "numeric", month: "short" });
 }
 
 function Cell({ label, value, tone }: { label: string; value: string; tone?: string }) {
@@ -390,7 +382,7 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
 
                 <View style={{ marginTop: space.xl }}>
                   <Field
-                    label={`Narxingiz (${currency})`}
+                    label={t("mob.load.yourPrice", { cur: currency })}
                     placeholder={suggested ? new Intl.NumberFormat("ru-RU").format(suggested) : "0"}
                     keyboardType="numeric"
                     value={fee}
@@ -434,13 +426,12 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  header: { backgroundColor: color.card, flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4 },
+  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
 
   body: { padding: space.lg, gap: space.md },
   card: {
-    backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1,
-    borderColor: color.border, padding: space.lg, ...shadow.card,
+    backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, ...shadow.card,
   },
   cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   cardTitle: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginBottom: 8 },
@@ -466,7 +457,7 @@ const s = StyleSheet.create({
   typeAltText: { fontSize: 13, fontWeight: "500", color: "#475569" },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8 },
 
-  price: { fontSize: 30, fontWeight: "700", color: color.foreground, letterSpacing: -0.6, marginTop: 2 },
+  price: { fontSize: 30, fontWeight: "800", color: color.brand, letterSpacing: -0.6, marginTop: 2 },
   priceChips: { flexDirection: "row", gap: 7, marginTop: 12, flexWrap: "wrap" },
   desc: { fontSize: 14, color: "#475569", lineHeight: 22 },
 
@@ -493,9 +484,7 @@ const s = StyleSheet.create({
 
   actions: {
     flexDirection: "row", gap: 8, backgroundColor: color.card,
-    paddingHorizontal: space.lg, paddingTop: space.md,
-    borderTopWidth: 1, borderTopColor: color.border,
-  },
+    paddingHorizontal: space.lg, paddingTop: space.md, ...shadow.bar },
   primary: { flex: 1, height: 52, borderRadius: radius.control, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
   primaryText: { fontSize: font.body, fontWeight: "600", color: "#fff" },
   iconBtn: { width: 52, height: 52, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, alignItems: "center", justifyContent: "center" },

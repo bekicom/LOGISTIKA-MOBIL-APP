@@ -8,7 +8,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Icon, type IconName } from "./Icon";
 import { Button } from "./ui";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /** Kartochka shaklidagi kutish — aylanuvchi spinner emas.
@@ -85,19 +85,17 @@ const s = StyleSheet.create({
   sk: {
     backgroundColor: color.card,
     borderRadius: radius.card,
-    borderWidth: 1,
-    borderColor: color.border,
     padding: space.lg,
+    ...shadow.card,
   },
   bar: { backgroundColor: color.muted, borderRadius: 6 },
 
   box: {
     backgroundColor: color.card,
     borderRadius: radius.card,
-    borderWidth: 1,
-    borderColor: color.border,
     padding: space.xxl,
     alignItems: "center",
+    ...shadow.card,
   },
   circle: {
     width: 56,

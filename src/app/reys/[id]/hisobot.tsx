@@ -141,8 +141,8 @@ export default function Hisobot() {
               <Text style={s.cardTitle}>{t("mob.report.composition")}</Text>
               <Line label={t("mob.trip.cargo")} value={rep.cargo.title ?? "—"} />
               {rep.cargo.weightT != null ? <Line label={t("mob.trip.weight")} value={`${rep.cargo.weightT} t`} /> : null}
-              <Line label={t("mob.trip.documents")} value={`${rep.counts.documents} ta`} />
-              <Line label={t("mob.report.expenseRows")} value={`${rep.counts.expenses} ta`} />
+              <Line label={t("mob.trip.documents")} value={t("mob.common.countN", { n: rep.counts.documents })} />
+              <Line label={t("mob.report.expenseRows")} value={t("mob.common.countN", { n: rep.counts.expenses })} />
             </View>
 
             {/* Ishtirokchilar */}
@@ -301,8 +301,7 @@ const s = StyleSheet.create({
 
   body: { padding: space.lg, gap: space.md },
   card: {
-    backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1,
-    borderColor: color.border, padding: space.lg, ...shadow.card,
+    backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, ...shadow.card,
   },
   cardTitle: { fontSize: font.body, fontWeight: "600", color: color.foreground },
   cardSub: { fontSize: font.caption, color: color.mutedForeground, marginTop: 4, lineHeight: 19 },

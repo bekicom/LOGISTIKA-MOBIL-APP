@@ -25,7 +25,7 @@ import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { P_WIFI, sendOrQueue } from "@/lib/outbox";
-import { t } from "@/lib/i18n";
+import { currentLocale, t } from "@/lib/i18n";
 
 type Doc = {
   id: string; kind: string | null; kindLabel: string; name: string;
@@ -64,7 +64,7 @@ export default function Hujjatlar() {
         </Pressable>
         <View style={{ flex: 1 }}>
           <Text style={s.title}>{t("mob.tripDocs.title")}</Text>
-          <Text style={s.sub}>{data ? `${data.count} ta` : "…"}</Text>
+          <Text style={s.sub}>{data ? t("mob.common.countN", { n: data.count }) : "…"}</Text>
         </View>
       </View>
 
@@ -125,10 +125,11 @@ export default function Hujjatlar() {
   );
 }
 
+/* Oy nomi tizimdan, tanlangan tilda */
 function when(iso: string) {
   const d = new Date(iso);
-  const M = ["yanv", "fev", "mart", "apr", "may", "iyun", "iyul", "avg", "sent", "okt", "noya", "dek"];
-  return `${d.getDate()}-${M[d.getMonth()]}, ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  const day = d.toLocaleDateString(currentLocale(), { day: "numeric", month: "short" });
+  return `${day}, ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
 /* ─────────────────────────────────────────────── qo'shish */
@@ -254,15 +255,14 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  header: { backgroundColor: color.card, flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
+  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   title: { fontSize: 17, fontWeight: "700", color: color.foreground },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   list: { padding: space.lg, gap: space.md },
   card: {
-    flex: 1, backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1,
-    borderColor: color.border, overflow: "hidden", ...shadow.card,
+    flex: 1, backgroundColor: color.card, borderRadius: radius.card, overflow: "hidden", ...shadow.card,
   },
   preview: { height: 118, backgroundColor: "#eef2f7", alignItems: "center", justifyContent: "center" },
   version: {

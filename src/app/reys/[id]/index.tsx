@@ -24,7 +24,7 @@ import {
   start as gpsStart,
   stop as gpsStop,
 } from "@/lib/gps";
-import { t } from "@/lib/i18n";
+import { currentLocale, t } from "@/lib/i18n";
 
 /* `label` SERVERDAN OLINMAYDI (2026-09-04, audit 03): u
    `TRIP_STATUS_LABELS` dan o'zbekcha yasaladi. `status` kaliti
@@ -101,7 +101,7 @@ export default function ReysTafsiloti() {
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={s.title}>Reys #TR-{data?.no ?? "…"}</Text>
+          <Text style={s.title}>{t("mob.trip.numbered", { n: data?.no ?? "…" })}</Text>
           {data ? (
             <Text style={s.sub}>
               {data.route.from} → {data.route.to}
@@ -316,7 +316,7 @@ function GpsCard({ tripId, on }: { tripId: string; on: boolean }) {
   }
 
   return (
-    <View style={[s.card, running && { borderColor: color.success + "66" }]}>
+    <View style={[s.card, running && { backgroundColor: color.successSoft }]}>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 11 }}>
         <View style={[s.gpsIcon, running && { backgroundColor: color.success + "1f" }]}>
           <Icon name="route" size={19} stroke={running ? color.success : "#94a3b8"} />
@@ -396,10 +396,12 @@ function StepRow({ step, last }: { step: Step; last: boolean }) {
   );
 }
 
+/* Oy nomi tizimdan, tanlangan tilda — o'zbekcha ro'yxat qotib
+   turardi va ruscha ekranda ham «sent» chiqardi */
 function when(iso: string) {
   const d = new Date(iso);
-  const M = ["yanv", "fev", "mart", "apr", "may", "iyun", "iyul", "avg", "sent", "okt", "noya", "dek"];
-  return `${d.getDate()}-${M[d.getMonth()]}, ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  const day = d.toLocaleDateString(currentLocale(), { day: "numeric", month: "short" });
+  return `${day}, ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
 function Cell({ label, value }: { label: string; value: string }) {
@@ -496,9 +498,9 @@ function RouteMap({ trip }: { trip: Trip }) {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  header: { backgroundColor: color.card, flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
+  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  title: { fontSize: 17, fontWeight: "700", color: color.foreground },
+  title: { fontSize: 17, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   gpsIcon: {
@@ -530,7 +532,7 @@ const s = StyleSheet.create({
 
   figures: {
     backgroundColor: color.card, flexDirection: "row", paddingVertical: space.lg,
-    borderBottomWidth: 1, borderBottomColor: color.border,
+    ...shadow.card,
   },
   vline: { width: 1, backgroundColor: color.border },
   figureNum: { fontSize: 26, fontWeight: "700", color: color.foreground, letterSpacing: -0.5 },
@@ -538,11 +540,10 @@ const s = StyleSheet.create({
 
   body: { padding: space.lg, gap: space.md },
   card: {
-    backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1,
-    borderColor: color.border, padding: space.lg, ...shadow.card,
+    backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, ...shadow.card,
   },
   cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  cardTitle: { fontSize: font.body, fontWeight: "600", color: color.foreground },
+  cardTitle: { fontSize: font.body, fontWeight: "700", color: color.foreground },
 
   dotNow: { width: 20, height: 20, borderRadius: 10, backgroundColor: "#f45a182e", alignItems: "center", justifyContent: "center" },
   dotNowInner: { width: 9, height: 9, borderRadius: 5, backgroundColor: color.brand },
@@ -562,7 +563,7 @@ const s = StyleSheet.create({
   call: { height: 36, paddingHorizontal: 14, borderRadius: radius.control, backgroundColor: "#16a34a1a", justifyContent: "center" },
   callText: { fontSize: 13, fontWeight: "600", color: color.success },
 
-  list: { backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1, borderColor: color.border, ...shadow.card },
+  list: { backgroundColor: color.card, borderRadius: radius.card, overflow: "hidden", ...shadow.card },
   listRow: { flexDirection: "row", alignItems: "center", gap: 12, padding: space.lg },
   listDivider: { borderBottomWidth: 1, borderBottomColor: color.border },
   listIcon: { width: 36, height: 36, borderRadius: radius.control, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
@@ -580,7 +581,7 @@ const s = StyleSheet.create({
   actions: {
     flexDirection: "row", gap: 8, backgroundColor: color.card,
     paddingHorizontal: space.lg, paddingTop: space.md,
-    borderTopWidth: 1, borderTopColor: color.border,
+    ...shadow.bar,
   },
   primary: {
     flex: 1, height: 52, borderRadius: radius.control, backgroundColor: color.brand,

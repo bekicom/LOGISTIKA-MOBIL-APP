@@ -340,14 +340,14 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  header: { backgroundColor: color.card, flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
+  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   title: { fontSize: 17, fontWeight: "700", color: color.foreground },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   totals: {
     backgroundColor: color.card, paddingHorizontal: space.lg, paddingVertical: space.lg,
-    borderBottomWidth: 1, borderBottomColor: color.border, flexDirection: "row", gap: space.xl, flexWrap: "wrap",
+    flexDirection: "row", gap: space.xl, flexWrap: "wrap", ...shadow.card,
   },
   total: { flexDirection: "row", alignItems: "baseline", gap: 5 },
   totalValue: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
@@ -356,7 +356,7 @@ const s = StyleSheet.create({
   list: { padding: space.lg, gap: space.sm },
   row: {
     flexDirection: "row", alignItems: "center", gap: space.md, backgroundColor: color.card,
-    borderRadius: radius.card, borderWidth: 1, borderColor: color.border, padding: space.md, ...shadow.card,
+    borderRadius: radius.card, padding: space.md, ...shadow.card,
   },
   rowIcon: { width: 40, height: 40, borderRadius: radius.control, backgroundColor: "#f45a181a", alignItems: "center", justifyContent: "center" },
   rowTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },

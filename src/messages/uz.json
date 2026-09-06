@@ -1295,6 +1295,7 @@
       "sent": "Yuborildi",
       "showOriginal": "Asl matnni ko'rish",
       "showTranslation": "Tarjimani ko'rish",
+      "tooShort": "Juda qisqa — mikrofonni bosib turing",
       "translateTo": "Qaysi tilga o'girilsin?",
       "translated": "Tarjima",
       "unpin": "Olib tashlash",

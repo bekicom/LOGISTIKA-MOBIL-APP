@@ -16,6 +16,7 @@ import { apiUpload, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { pickDocument, pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { openRemoteFile } from "@/lib/files";
+import { afterSheet } from "@/lib/native-ui";
 import { color, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -40,7 +41,14 @@ export default function SuhbatHujjatlari() {
   const [seenOf, setSeenOf] = useState<Doc | null>(null);
 
   async function choose(from: "camera" | "gallery" | "doc") {
-    const got = from === "camera" ? (await takePhoto())[0] : from === "gallery" ? (await pickPhotos(1))[0] : await pickDocument();
+    /* Varaq YOPILADI, keyin tanlagich ochiladi — iOS ochiq `Modal`
+       ustiga tizim oynasini chiqara olmaydi. Tanlangach varaq
+       qaytadan ochiladi va fayl ko'rinadi. */
+    const back = pick;
+    const got = await afterSheet(() => setPick(null), async () =>
+      from === "camera" ? (await takePhoto())[0] : from === "gallery" ? (await pickPhotos(1))[0] : await pickDocument(),
+    );
+    setPick(back);
     if (got) setFile(got);
   }
 

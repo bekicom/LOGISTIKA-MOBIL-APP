@@ -1295,6 +1295,7 @@
       "sent": "Gönderildi",
       "showOriginal": "Orijinali göster",
       "showTranslation": "Çeviriyi göster",
+      "tooShort": "Çok kısa — mikrofonu basılı tutun",
       "translateTo": "Hangi dile çevrilsin?",
       "translated": "Çeviri",
       "unpin": "Sabitlemeyi kaldır",

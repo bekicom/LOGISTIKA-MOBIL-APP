@@ -249,6 +249,13 @@ export async function apiUpload<T>(
   } catch (e) {
     clearTimeout(timer);
     const aborted = e instanceof Error && e.name === "AbortError";
+    /* Sabab JURNALGA yoziladi (2026-09-06): ekranda faqat umumiy
+       matn ko'rinadi va nosozlikni topib bo'lmasdi — «rasm
+       ketmadi» degan gapdan keyin taxmin qilishga to'g'ri kelardi.
+       Faqat `__DEV__` da: chiqarilgan ilovada jurnal yozilmaydi. */
+    if (__DEV__) {
+      console.warn("[apiUpload]", path, aborted ? "TIMEOUT" : "NETWORK", String(e));
+    }
     throw new FuramError({
       error: aborted ? "TIMEOUT" : "NETWORK",
       message: aborted ? t("mob.err.uploadTimeout") : t("mob.err.network"),
@@ -261,6 +268,9 @@ export async function apiUpload<T>(
   const data = text ? safeJson(text) : null;
 
   if (!res.ok) {
+    if (__DEV__) {
+      console.warn("[apiUpload]", path, res.status, text.slice(0, 300));
+    }
     throw new FuramError({
       error: guestCode(res.status, data?.error ?? "HTTP_" + res.status),
       message: data?.message,

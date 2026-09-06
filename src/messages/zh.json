@@ -1295,6 +1295,7 @@
       "sent": "已发送",
       "showOriginal": "查看原文",
       "showTranslation": "查看翻译",
+      "tooShort": "太短了——请按住麦克风",
       "translateTo": "翻译成哪种语言？",
       "translated": "译文",
       "unpin": "取消置顶",

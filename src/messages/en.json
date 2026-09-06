@@ -1295,6 +1295,7 @@
       "sent": "Sent",
       "showOriginal": "Show original",
       "showTranslation": "Show translation",
+      "tooShort": "Too short — hold the microphone",
       "translateTo": "Translate to which language?",
       "translated": "Translated",
       "unpin": "Unpin",

@@ -43,6 +43,7 @@ import { MicButton, type VoiceFile } from "@/components/Recorder";
 import { api, apiUpload, FuramError } from "@/lib/api";
 import { pickDocument, pickPhotos, takePhoto, toUpload } from "@/lib/photo";
 import { openRemoteFile } from "@/lib/files";
+import { afterSheet } from "@/lib/native-ui";
 import { extOf, messageFile, messageFilePath, type ChatMsg } from "@/lib/chat";
 import { useAuth } from "@/lib/auth-context";
 import { tariffBlocked } from "@/lib/features";
@@ -216,15 +217,18 @@ export default function Suhbat() {
   }
 
   async function addAttachment(kind: "camera" | "gallery" | "doc") {
-    setAttach(false);
-    const got =
-      kind === "camera" ? (await takePhoto())[0] : kind === "gallery" ? (await pickPhotos(1))[0] : await pickDocument();
+    /* Varaq yopilmaguncha tizim oynasi ochilmaydi (`afterSheet`) —
+       aks holda kamera/galereya jimgina «bekor qilindi» qaytarardi */
+    const got = await afterSheet(() => setAttach(false), async () =>
+      kind === "camera" ? (await takePhoto())[0] : kind === "gallery" ? (await pickPhotos(1))[0] : await pickDocument(),
+    );
     if (got) await sendFile(got);
   }
 
   async function sendLocation() {
-    setAttach(false);
-    const perm = await Location.requestForegroundPermissionsAsync();
+    const perm = await afterSheet(() => setAttach(false), () =>
+      Location.requestForegroundPermissionsAsync(),
+    );
     if (!perm.granted) {
       setErr(t("mob.msg.locDenied"));
       return;
@@ -558,7 +562,7 @@ export default function Suhbat() {
                 {busy ? <ActivityIndicator color="#fff" size="small" /> : <Icon name="send" size={19} stroke="#fff" />}
               </Pressable>
             ) : (
-              <MicButton onDone={sendVoice} onError={setErr} disabled={busy} />
+              <MicButton onDone={sendVoice} onError={setErr} onHint={setErr} disabled={busy} />
             )}
           </View>
         </View>

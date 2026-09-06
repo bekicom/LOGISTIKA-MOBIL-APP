@@ -15,7 +15,9 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Card, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
-import { api, API_BASE, FuramError } from "@/lib/api";
+import { api, apiUpload, FuramError } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
+import { pickDocument, takePhoto, toUpload } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
@@ -160,9 +162,14 @@ export default function NavbatTafsilot() {
             <Text style={[s.proofName, !q.hasProof && { color: color.mutedForeground }]}>
               {q.hasProof ? `talon-${q.queueNo ?? q.id.slice(0, 6)}.pdf` : t("mob.queue.noProof")}
             </Text>
+            {/* ⚠️ `Linking.openURL` EMAS (2026-09-06): talon
+                `Authorization` talab qiladi, oddiy havola
+                sarlavhasiz boradi va 401 oladi. */}
             {q.hasProof ? (
               <Pressable
-                onPress={() => Linking.openURL(`${API_BASE}/api/queues/${q.id}/proof`)}
+                onPress={() =>
+                  void openRemoteFile(`/api/queues/${q.id}/proof`, `talon-${q.queueNo ?? q.id.slice(0, 6)}`)
+                }
                 style={({ pressed }) => [s.btnSm, pressed && { backgroundColor: color.muted }]}
               >
                 <Text style={s.btnSmText}>{t("mob.queue.open")}</Text>
@@ -170,6 +177,14 @@ export default function NavbatTafsilot() {
             ) : null}
           </View>
           <Text style={s.proofHint}>{t("mob.queue.proofHint")}</Text>
+
+          {/* Talonni faqat navbat egasi qo'ya oladi — server ham
+              shunday tekshiradi (`ownerId: user.id`) */}
+          {q.isOwner ? (
+            <View style={{ marginTop: space.md }}>
+              <ProofUpload queueId={q.id} has={q.hasProof} onDone={reload} />
+            </View>
+          ) : null}
         </Card>
 
         {/* Tarix */}
@@ -223,6 +238,60 @@ export default function NavbatTafsilot() {
           ) : null}
         </View>
       </ScrollView>
+    </View>
+  );
+}
+
+/**
+ * Navbat daliliini qo'yish — chegaradagi talon surati yoki PDF.
+ *
+ * Dalil bahsni yopadi: navbat raqami tizimga qo'lda yoziladi va
+ * «men boshqa raqam olgandim» degan gap chiqsa, talonning o'zi
+ * javob bo'ladi.
+ */
+function ProofUpload({ queueId, has, onDone }: { queueId: string; has: boolean; onDone: () => void }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function pick(from: "camera" | "file") {
+    const f = from === "camera" ? (await takePhoto())[0] : await pickDocument();
+    if (!f) return;
+    setBusy(true);
+    setErr(null);
+    try {
+      await apiUpload(`/api/queues/${queueId}/proof`, {}, [toUpload(f, "file")]);
+      onDone();
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <View style={{ gap: 9 }}>
+      <View style={{ flexDirection: "row", gap: 9 }}>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={t("mob.tech.photo")}
+            variant="secondary"
+            loading={busy}
+            onPress={() => pick("camera")}
+            icon={<Icon name="image" size={17} stroke={color.foreground} />}
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={has ? t("mob.common.renew") : t("mob.qproof.add")}
+            variant="secondary"
+            loading={busy}
+            onPress={() => pick("file")}
+            icon={<Icon name="paperclip" size={17} stroke={color.foreground} />}
+          />
+        </View>
+      </View>
+      <Text style={s.proofHint}>{t("mob.qproof.hint")}</Text>
+      {err ? <Text style={[s.proofHint, { color: color.danger }]}>{err}</Text> : null}
     </View>
   );
 }

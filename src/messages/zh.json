@@ -4,17 +4,24 @@
     "ACTION_REQUIRED": "未指定操作。",
     "ACTIVE_TRIPS": "还有未结束的运单——请先完成。",
     "AI_OFF": "AI 助手暂时关闭。",
+    "ALREADY": "已经添加过了。",
     "ALREADY_APPLIED": "您已申请过该职位。",
     "ALREADY_LINKED": "您已与该雇主绑定。",
+    "ALREADY_LIVE": "跟踪已经开始。",
     "ALREADY_MANAGED": "该货源已由其他调度员负责。",
+    "ALREADY_REPLACED": "该单证已有更新版本。",
+    "BAD_AMOUNT": "请检查金额。",
     "BAD_CATEGORY": "分类无效。",
     "BAD_CONTENT": "无法读取文件内容。",
+    "BAD_COORDS": "无法确定位置。",
+    "BAD_CURRENCY": "请检查币种。",
     "BAD_DATE": "日期无效。",
     "BAD_DATES": "日期有误——开始不能晚于结束。",
     "BAD_DIRECTION": "方向无效。",
     "BAD_DISPATCHER": "未找到该调度员，或其未通过认证。",
     "BAD_DRIVER": "该司机未与您绑定。",
     "BAD_FORM": "表单未完整提交，请重试。",
+    "BAD_GROUP": "未找到该群组或不匹配。",
     "BAD_INPUT": "请检查输入的内容。",
     "BAD_KIND": "证件类型无效。",
     "BAD_ORDER": "无法从当前状态切换到该状态。",
@@ -49,8 +56,13 @@
     "NEED_CARRIER": "请指定承运人。",
     "NEED_TITLE": "请填写支出名称。",
     "NOT_ACCEPTED": "该交易尚未被接受。",
+    "NOT_APPROVED": "合同批准后即可使用。",
+    "NOT_CARGO_CONTRACT": "该合同使用的是另一种模板。",
+    "NOT_CLOSING": "请先进入“关闭中”阶段。",
+    "NOT_CONFIRMABLE": "该笔付款无法确认。",
     "NOT_DISPATCHER": "该操作仅限调度员。",
     "NOT_FOUND": "未找到。可能已被删除，或链接有误。",
+    "NOT_LINKED": "您与此人尚无关联。请先将其设为司机或达成协议。",
     "NOT_LIVE": "运单尚未开始。",
     "NOT_MARKED": "付款尚未标记。",
     "NOT_PENDING": "该记录已处理。",
@@ -62,26 +74,35 @@
     "NO_ID": "未指明是哪条记录。",
     "NO_LOAD": "未找到货源。",
     "NO_MAIN": "请先指定主司机。",
+    "NO_OLD": "请输入当前密码。",
+    "NO_OPEN_SOS": "没有未解决的 SOS。",
+    "NO_RESULT": "没有结果，请重试。",
     "NO_RESUME": "请先填写简历。",
     "NO_SHOP": "请先创建店铺资料。",
     "NO_TRIP": "与该用户没有共同的运单。",
+    "NO_TRUCK": "需要先指派车辆。",
+    "NO_VERSION": "合同尚未填写条款。",
     "ON_TRIP": "车辆正在运输中，暂时无法修改。",
     "OWN": "不能对自己的信息执行此操作。",
+    "OWN_MESSAGE": "无法对自己的消息执行此操作。",
     "PASSWORD_REQUIRED": "请输入密码。",
     "PHONE_NOT_VERIFIED": "请先验证手机号。",
     "PHONE_TAKEN": "该号码已注册。",
     "RADIUS_REQUIRED": "请设置服务半径。",
     "RATE_LIMIT": "请求过于频繁，请稍候。",
+    "READ_ONLY": "此处为只读。",
     "SAME_DRIVER": "主司机和副司机不能是同一人。",
     "SECTION_LOCKED": "该板块未对您的角色开放。",
     "SELF": "不能对自己执行此操作。",
     "SELLER_ONLY": "该操作仅限卖家。",
+    "SERVICE_CONTRACT": "这是服务合同——该操作不适用。",
     "SOLD": "该信息已售出，无法修改。",
     "SPECIALITY_REQUIRED": "请至少选择一个专长。",
     "TAKEN": "该位置已被占用。",
     "TARIFF_LIMIT": "已达套餐上限，请升级套餐。",
     "TARIFF_REQUIRED": "这不在您的套餐内。请选择角色或续费。",
     "TELEGRAM_SOURCE": "该信息来自 Telegram——无法在应用内私信。",
+    "TOO_BIG": "文件过大——最大 10 MB。",
     "TOO_LARGE": "文件过大——请控制在 10 MB 以内。",
     "TOO_MANY": "图片数量超出限制。",
     "TOO_MANY_ATTEMPTS": "尝试次数过多，请几分钟后再试。",
@@ -91,7 +112,9 @@
     "UNAUTHORIZED": "会话已过期，请重新登录。",
     "UNAVAILABLE": "当前不可用。",
     "UNKNOWN_ACTION": "不支持该操作，请更新应用。",
-    "VALIDATION": "请检查输入的内容。"
+    "USER_NOT_FOUND": "找不到该 FURAM ID。",
+    "VALIDATION": "请检查输入的内容。",
+    "WRONG_PASSWORD": "密码不正确。"
   },
   "cancelReason": {
     "AGREED": "双方协商一致",
@@ -123,6 +146,17 @@
     "REJECTED": "已拒绝",
     "TRIP_DONE": "行程已完成",
     "TRIP_STARTED": "行程已开始"
+  },
+  "docKind": {
+    "CMR": "CMR（国际运单）",
+    "CUSTOMS": "海关单证",
+    "DOZVOL": "通行许可",
+    "INSURANCE": "保险",
+    "INVOICE": "发票",
+    "OTHER": "其他单证",
+    "PACKING": "装箱单",
+    "TIR": "TIR",
+    "UNLOAD_PHOTO": "卸货照片"
   },
   "feature": {
     "ai": "AI 助手",
@@ -380,6 +414,14 @@
       "people": "司机",
       "trips": "运单"
     },
+    "aiSum": {
+      "again": "重新生成",
+      "lead": "关于天数、里程、费用、油耗、单证与问题的简要总结。",
+      "note": "数字取自记录，AI 只作解读。",
+      "run": "生成总结",
+      "running": "正在生成…",
+      "title": "AI 行程总结"
+    },
     "an": {
       "bestGroup": "最佳表现",
       "catGroup": "钱花在哪里",
@@ -502,6 +544,24 @@
       "subtitle": "简单四则运算",
       "title": "计算器"
     },
+    "cdoc": {
+      "add": "添加单证",
+      "del": "删除",
+      "delQ": "要删除这份单证吗？",
+      "empty": "暂无单证",
+      "emptyHint": "把 CMR 或发票放在这里",
+      "kind": "类型",
+      "lead": "CMR、发票、装箱单。开启行程后同样会在行程中显示。",
+      "locked": "已取消的合同不能再添加单证",
+      "title": "合同单证"
+    },
+    "cexp": {
+      "lead": "AI 会用通俗的话解释合同条款：谁付什么、何时付、出问题会怎样。",
+      "note": "这不是法律意见——正式文件仍以合同本身为准。",
+      "run": "为我解释",
+      "running": "正在阅读…",
+      "title": "这些条款是什么意思"
+    },
     "chat": {
       "camera": "拍照",
       "conversation": "会话",
@@ -587,6 +647,38 @@
       "open": "打开",
       "pinned": "重要"
     },
+    "close": {
+      "answered": "已回复 %{done} / %{total}",
+      "approve": "同意关闭",
+      "changeMind": "更改我的决定",
+      "checksHint": "这些不会阻止关闭——请留意即可。",
+      "checksTitle": "关闭前有 %{n} 项需注意",
+      "chk": {
+        "approvals": "%{n} 位参与者尚未回复",
+        "docs": "未上传行程单证（CMR、运单）",
+        "expenses": "未录入行程费用",
+        "issues": "车辆有 %{n} 项未处理的技术问题",
+        "price": "未填运费金额——无法计算利润",
+        "salary": "尚未询问司机报酬",
+        "salaryDebt": "司机未收到报酬——将留下欠款",
+        "sos": "%{n} 条 SOS 未解决"
+      },
+      "closedOk": "行程已关闭",
+      "lead": "所有参与者同意后，行程关闭，数据被原样锁定。",
+      "mine": "您已同意",
+      "no": "没有收到",
+      "notYet": "行程尚未进入“关闭中”阶段",
+      "rate": "为行程评分",
+      "ratePh": "评论（可选）",
+      "ratePhLow": "原因（必填）",
+      "reject": "我不同意",
+      "salaryHint": "您的回答将记入行程历史。",
+      "salaryQ": "本次行程的报酬您收到了吗？",
+      "salaryUnpaid": "司机反馈尚未收到报酬",
+      "title": "关闭行程",
+      "waiting": "还在等待 %{n} 位参与者",
+      "yes": "是的，收到了"
+    },
     "common": {
       "add": "添加",
       "all": "全部",
@@ -605,6 +697,7 @@
       "or": "或",
       "renew": "更新",
       "save": "保存",
+      "saving": "保存中…",
       "show": "显示",
       "signOut": "退出",
       "soon": "即将推出",
@@ -623,6 +716,12 @@
       "saved": "已保存",
       "tin": "税号",
       "title": "公司信息"
+    },
+    "contract": {
+      "docs": "单证",
+      "explain": "AI 解读",
+      "openTrip": "创建行程",
+      "pdf": "下载 PDF"
     },
     "ctr": {
       "approve": "批准",
@@ -1258,6 +1357,19 @@
       "noUpcomingText": "没有已达成但尚未开始的运单。",
       "widenFilters": "试着放宽筛选条件——比如去掉车型限制。"
     },
+    "money": {
+      "add": "我收到了款项",
+      "amount": "金额",
+      "currency": "币种",
+      "empty": "尚未收到款项",
+      "emptyHint": "收到预付款或工资，请记在这里",
+      "kind": "类型",
+      "lead": "行程中收到的款项。不同币种不合并——各占一行。",
+      "lockedRole": "这由司机或承运方录入",
+      "notePh": "备注（可选）",
+      "title": "已收款项",
+      "total": "合计"
+    },
     "msg": {
       "actionFailed": "操作失败",
       "aiSuggest": "AI 建议",
@@ -1787,6 +1899,10 @@
       "note": "修改密码后，其他设备上的会话将退出。",
       "title": "修改密码"
     },
+    "qproof": {
+      "add": "排队凭证",
+      "hint": "口岸取号单或截图"
+    },
     "queue": {
       "bookedGroup": "已取号",
       "changeTime": "修改时间",
@@ -1871,6 +1987,7 @@
       "rateFailed": "评分发送失败",
       "rateHint": "您的评分构成 FURAM 信任评级",
       "rateSubmit": "提交评分",
+      "rated": "%{name} 已评分",
       "title": "运单报表",
       "whatWrong": "哪里不满意？"
     },
@@ -1919,9 +2036,11 @@
     "role": {
       "AUTO_SELLER": "车辆卖家",
       "CARGO_OWNER": "货主",
+      "CO_DRIVER": "副驾驶",
       "DISPATCHER": "调度员",
       "DRIVER": "司机",
       "EMPLOYER": "雇主",
+      "FORWARDER": "货运代理",
       "LOGISTICS": "物流公司",
       "MASTER": "技师",
       "PARTS": "配件店",
@@ -2142,6 +2261,20 @@
       "whereCode": "验证码发送方式",
       "whoAreYou": "您的身份是？"
     },
+    "sos": {
+      "active": "SOS — 尚未解决",
+      "btn": "SOS — 遇到问题",
+      "holdHint": "若无法说话，长按按钮 2 秒——将发出静默 SOS",
+      "holding": "请继续按住…",
+      "lead": "所有参与者会立即收到通知，并自动附上您的位置。",
+      "notePh": "简要说明",
+      "reason": "原因",
+      "resolve": "问题已解决",
+      "send": "发送 SOS",
+      "silent": "静默 SOS",
+      "silentSent": "信号已发送",
+      "title": "发送 SOS"
+    },
     "state": {
       "noData": "未获取到数据"
     },
@@ -2328,6 +2461,25 @@
       "needHint": "可以填写，但保存需要相应角色。",
       "pick": "选择角色"
     },
+    "tech": {
+      "again": "再添加一条",
+      "lead": "车主会立即收到通知，问题会在车队看板上保持开启。",
+      "notePh": "详细说明（可选）",
+      "p1": "轮胎损坏",
+      "p2": "刹车故障",
+      "p3": "发动机无法运转",
+      "p4": "机油泄漏",
+      "p5": "蓄电池",
+      "p6": "冷机故障",
+      "p7": "车灯不亮",
+      "p8": "挂车故障",
+      "photo": "添加照片",
+      "send": "发送给车主",
+      "sent": "问题已记录",
+      "title": "技术故障",
+      "what": "出了什么问题？",
+      "whatPh": "简要描述"
+    },
     "tour": {
       "done": "明白了",
       "loads": "市场在这里：查找货物或空车，筛选并收藏",
@@ -2344,19 +2496,45 @@
       "top": "消息和通知——在顶部，带计数",
       "topT": "聊天与通知"
     },
+    "tpart": {
+      "add": "添加人员",
+      "cantAdd": "由货主或车主决定是否添加人员",
+      "furamId": "FURAM ID",
+      "furamIdHint": "个人页里的编号，例如 10042",
+      "knownOnly": "只能添加已有往来的人：自己的司机，或已达成协议的伙伴。",
+      "lead": "本次行程的人员。电话仅参与者可见。",
+      "role": "角色",
+      "title": "参与者",
+      "you": "您"
+    },
     "trip": {
+      "ai": "AI 行程总结",
+      "aiHint": "按天数、费用与油耗汇总",
       "arrives": "预计到达",
       "call": "拨打",
       "cargo": "货物",
+      "close": "关闭行程",
+      "docWarn": "车辆证件有 %{n} 处问题——行程仍已开始",
       "documents": "单据",
+      "download": "下载报告",
+      "downloading": "正在下载…",
+      "excel": "Excel",
       "expenses": "费用",
       "expensesHint": "燃油、路费",
       "kmDone": "已行驶公里",
       "kmLeft": "剩余公里",
+      "money": "已收款项",
+      "moneyHint": "预付款、工资、运费",
       "numbered": "行程 #TR-%{n}",
       "participants": "参与人",
+      "pdf": "PDF",
+      "queuesMade": "已开启 %{n} 个口岸排队",
       "settlement": "结算",
+      "start": "开始跟踪",
+      "startHint": "行程转为进行中：阶段、跟踪与口岸排队随之开启。",
       "steps": "运单阶段",
+      "tech": "技术故障",
+      "techHint": "车主会立即收到通知",
       "truckDriver": "车辆与司机",
       "viewReport": "查看报表",
       "weight": "重量"
@@ -2458,6 +2636,12 @@
       "CLOSED": "已关闭",
       "OPEN": "招聘中"
     },
+    "vdoc": {
+      "country": "未提供 %{c} 方向的单证",
+      "expired": "%{doc} 已过期",
+      "missing": "%{doc} 未上传",
+      "soon": "%{doc} 将在 %{n} 天后到期"
+    },
     "vehicle": {
       "allDocuments": "全部证件（%{n}）",
       "body": "车厢",
@@ -2494,6 +2678,12 @@
       "USER": "用户",
       "VEHICLE_OWNER": "车主"
     }
+  },
+  "moneyKind": {
+    "ADVANCE": "预付款",
+    "FREIGHT": "运费",
+    "OTHER": "其他",
+    "SALARY": "工资"
   },
   "notifyTitle": {
     "payLate": "付款已逾期 %{days} 天",
@@ -2687,6 +2877,13 @@
       "vulcan": "硫化补胎",
       "welder": "焊工"
     }
+  },
+  "sosReason": {
+    "ACCIDENT": "交通事故",
+    "BREAKDOWN": "车辆故障",
+    "DOCUMENTS": "证件问题",
+    "HEALTH": "健康问题",
+    "OTHER": "其他"
   },
   "svc": {
     "account": "我的账号",

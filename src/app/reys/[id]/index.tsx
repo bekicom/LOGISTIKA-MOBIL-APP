@@ -10,10 +10,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCallback, useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, G, Path, Rect } from "react-native-svg";
-import { Icon } from "@/components/Icon";
+import { Icon, type IconName } from "@/components/Icon";
 import { StatusChip, toneFor } from "@/components/cards";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { HolatSheet } from "@/components/HolatSheet";
+import { SosButton, SosCard, type ActiveSos } from "@/components/SosSheet";
+import { Notice } from "@/components/ui";
+import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import {
@@ -43,11 +46,15 @@ type Trip = {
     speedKmh: number | null; at: string;
   } | null;
   cargo: { title: string | null; weightT: number | null; volumeM3: number | null; vehicleType: string };
-  truck: { plate: string; model: string | null } | null;
+  truck: { id: string; plate: string; model: string | null } | null;
   driver: { name: string; phone: string | null } | null;
   counts: { documents: number; expenses: number };
   payment: { status: string; agreed: number | null; currency: string; paid: number };
   participants: { role: string; roleLabel: string; name: string; phone: string | null }[];
+  /* Kim nima qila olishini SERVER aytadi — ilovada takrorlansa
+     tugma ko'rinadi-yu, bosilganda 403 kelardi */
+  can: { start: boolean; money: boolean; participants: boolean; close: boolean; tech: boolean };
+  sos: ActiveSos;
 };
 
 /**
@@ -156,6 +163,11 @@ export default function ReysTafsiloti() {
                 </View>
               </View>
 
+              {/* Ochiq SOS — eng tepada, kartalar orasida yo'qolmasin */}
+              {data.sos ? (
+                <SosCard tripId={String(id)} sos={data.sos} onDone={reload} />
+              ) : null}
+
               {/* Kuzatuv — faqat faol reysda va faqat haydovchida */}
               {data.isLive ? <GpsCard tripId={String(id)} on={data.trackingOn} /> : null}
 
@@ -202,7 +214,29 @@ export default function ReysTafsiloti() {
                   onPress={() => router.push(`/reys/${id}/hujjatlar`)} />
                 <ListRow icon="package" title={t("mob.trip.expenses")} sub={t("mob.trip.expensesHint")} value={String(data.counts.expenses)}
                   onPress={() => router.push(`/reys/${id}/xarajatlar`)} />
-                <ListRow icon="user" title={t("mob.trip.participants")} sub={data.participants.map((p) => t(`mob.role.${p.role}`)).join(", ")} value={String(data.participants.length)} last />
+                <ListRow icon="wallet" title={t("mob.trip.money")} sub={t("mob.trip.moneyHint")}
+                  onPress={() => router.push(`/reys/${id}/pul`)} />
+                <ListRow icon="user" title={t("mob.trip.participants")} sub={data.participants.map((p) => t(`mob.role.${p.role}`)).join(", ")} value={String(data.participants.length)}
+                  onPress={() => router.push(`/reys/${id}/ishtirokchilar`)} last />
+              </View>
+
+              {/* Yordamchi amallar */}
+              <View style={s.list}>
+                {data.can.tech && data.truck ? (
+                  <ListRow
+                    icon="wrench"
+                    title={t("mob.trip.tech")}
+                    sub={t("mob.trip.techHint")}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/reys/[id]/nosozlik",
+                        params: { id: String(id), vehicle: data.truck!.id, plate: data.truck!.plate },
+                      })
+                    }
+                  />
+                ) : null}
+                <ListRow icon="sparkle" title={t("mob.trip.ai")} sub={t("mob.trip.aiHint")}
+                  onPress={() => router.push(`/reys/${id}/yakun`)} last />
               </View>
 
               {/* Pul */}
@@ -224,32 +258,49 @@ export default function ReysTafsiloti() {
         ) : null}
       </ScrollView>
 
-      {/* Pastki harakat paneli */}
-      {data && !next ? (
-        <View style={[s.actions, { paddingBottom: insets.bottom + space.lg }]}>
-          <Pressable
-            style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
-            onPress={() => router.push(`/reys/${id}/hisobot`)}
-          >
-            <Icon name="doc" size={19} stroke="#fff" />
-            <Text style={s.primaryText}>{t("mob.trip.viewReport")}</Text>
-          </Pressable>
-        </View>
-      ) : null}
+      {/* ── Pastki harakat paneli ──────────────────────────────────
 
-      {next ? (
+          Uch holat, tartib muhim:
+            · reys hali boshlanmagan → «Nazoratni boshlash»
+            · «Yopilmoqda» bosqichida → yopish oqimi
+            · yo'lda → keyingi bosqich + SOS
+          Yopilgan reysda faqat hisobot qoladi. */}
+      {data ? (
         <View style={[s.actions, { paddingBottom: insets.bottom + space.lg }]}>
-          <Pressable
-            style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
-            onPress={() => setSheet(true)}
-          >
-            <Icon name="check" size={19} stroke="#fff" />
-            <Text style={s.primaryText}>{action(next)}</Text>
-          </Pressable>
-          <View style={s.sos}>
-            <Icon name="alert" size={18} stroke={color.danger} />
-            <Text style={s.sosText}>SOS</Text>
-          </View>
+          {data.can.start ? (
+            <StartButton tripId={String(id)} onDone={reload} />
+          ) : data.can.close ? (
+            <Pressable
+              style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
+              onPress={() => router.push(`/reys/${id}/yopish`)}
+            >
+              <Icon name="lock" size={19} stroke="#fff" />
+              <Text style={s.primaryText}>{t("mob.trip.close")}</Text>
+            </Pressable>
+          ) : next ? (
+            <Pressable
+              style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
+              onPress={() => setSheet(true)}
+            >
+              <Icon name="check" size={19} stroke="#fff" />
+              <Text style={s.primaryText}>{action(next)}</Text>
+            </Pressable>
+          ) : (
+            <Pressable
+              style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
+              onPress={() => router.push(`/reys/${id}/hisobot`)}
+            >
+              <Icon name="doc" size={19} stroke="#fff" />
+              <Text style={s.primaryText}>{t("mob.trip.viewReport")}</Text>
+            </Pressable>
+          )}
+
+          {/* SOS faqat yo'ldagi reysda va ochig'i bo'lmasa */}
+          {data.isLive && !data.sos ? (
+            <View style={{ marginTop: 9 }}>
+              <SosButton tripId={String(id)} onSent={reload} />
+            </View>
+          ) : null}
         </View>
       ) : null}
 
@@ -351,6 +402,73 @@ function GpsCard({ tripId, on }: { tripId: string; on: boolean }) {
   );
 }
 
+/**
+ * «Nazoratni boshlash» — reys jonli holatga o'tadi.
+ *
+ * ⚠️ HUJJAT KAMCHILIGI TO'SIQ EMAS. Server hujjatlarni tekshiradi,
+ * lekin reysni to'xtatmaydi: hujjat yo'lda ham rasmiylashtiriladi
+ * va reysni ushlab turish undan ko'ra ko'proq zarar. Kamchilik
+ * SONI aytiladi — matn serverdan olinmaydi (qoida 1), u yerda
+ * o'zbekcha jumla yasaladi.
+ */
+function StartButton({ tripId, onDone }: { tripId: string; onDone: () => void }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [warn, setWarn] = useState<{ docs: number; queues: number } | null>(null);
+
+  async function start() {
+    setBusy(true);
+    setErr(null);
+    try {
+      const r = await api<{ docWarnings?: string[]; queues?: number }>(
+        `/api/trips/${tripId}/start`,
+        { method: "POST" },
+      );
+      const docs = r.docWarnings?.length ?? 0;
+      const queues = r.queues ?? 0;
+      if (docs > 0 || queues > 0) setWarn({ docs, queues });
+      onDone();
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <>
+      {warn ? (
+        <View style={{ marginBottom: 9 }}>
+          <Notice tone={warn.docs > 0 ? "warning" : "info"}>
+            {warn.docs > 0 ? t("mob.trip.docWarn", { n: warn.docs }) : ""}
+            {warn.docs > 0 && warn.queues > 0 ? "\n" : ""}
+            {warn.queues > 0 ? t("mob.trip.queuesMade", { n: warn.queues }) : ""}
+          </Notice>
+        </View>
+      ) : null}
+      {err ? (
+        <View style={{ marginBottom: 9 }}>
+          <Notice tone="danger">{err}</Notice>
+        </View>
+      ) : null}
+      <Pressable
+        onPress={start}
+        disabled={busy}
+        style={({ pressed }) => [
+          s.primary,
+          { backgroundColor: color.blue },
+          pressed && { opacity: 0.9 },
+          busy && { opacity: 0.6 },
+        ]}
+      >
+        <Icon name="play" size={19} stroke="#fff" />
+        <Text style={s.primaryText}>{busy ? t("mob.common.saving") : t("mob.trip.start")}</Text>
+      </Pressable>
+      <Text style={s.startHint}>{t("mob.trip.startHint")}</Text>
+    </>
+  );
+}
+
 /* ─────────────────────────────────────────────── bo'laklar */
 
 function fmt(n: number, cur: string) {
@@ -423,7 +541,7 @@ function Row({ label, value, tone }: { label: string; value: string; tone?: stri
 }
 
 function ListRow({ icon, title, sub, value, last, onPress }: {
-  icon: "doc" | "package" | "user"; title: string; sub: string; value: string;
+  icon: IconName; title: string; sub: string; value?: string;
   last?: boolean; onPress?: () => void;
 }) {
   return (
@@ -588,9 +706,5 @@ const s = StyleSheet.create({
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
   },
   primaryText: { fontSize: font.body, fontWeight: "600", color: "#fff" },
-  sos: {
-    width: 52, height: 52, borderRadius: radius.control, borderWidth: 1,
-    borderColor: "#dc262659", backgroundColor: "#dc26260f", alignItems: "center", justifyContent: "center", gap: 1,
-  },
-  sosText: { fontSize: 9, fontWeight: "700", color: color.danger },
+  startHint: { fontSize: 11.5, color: color.mutedForeground, textAlign: "center", marginTop: 7, lineHeight: 16 },
 });

@@ -4,17 +4,24 @@
     "ACTION_REQUIRED": "İşlem belirtilmedi.",
     "ACTIVE_TRIPS": "Açık seferler var — önce onları kapatın.",
     "AI_OFF": "AI asistan geçici olarak kapalı.",
+    "ALREADY": "Bu zaten eklendi.",
     "ALREADY_APPLIED": "Bu ilana zaten başvurdunuz.",
     "ALREADY_LINKED": "Bu işverene zaten bağlısınız.",
+    "ALREADY_LIVE": "Takip zaten başlatıldı.",
     "ALREADY_MANAGED": "Bu yük zaten başka bir dispeçerde.",
+    "ALREADY_REPLACED": "Bu belgenin zaten yeni bir sürümü var.",
+    "BAD_AMOUNT": "Tutarı kontrol edin.",
     "BAD_CATEGORY": "Kategori geçersiz.",
     "BAD_CONTENT": "Dosya içeriği okunamadı.",
+    "BAD_COORDS": "Konum belirlenemedi.",
+    "BAD_CURRENCY": "Para birimini kontrol edin.",
     "BAD_DATE": "Tarih geçersiz.",
     "BAD_DATES": "Tarihler hatalı — başlangıç bitişten sonra olamaz.",
     "BAD_DIRECTION": "Yön geçersiz.",
     "BAD_DISPATCHER": "Dispeçer bulunamadı ya da onaylı değil.",
     "BAD_DRIVER": "Bu sürücü size bağlı değil.",
     "BAD_FORM": "Form tam gönderilmedi. Tekrar deneyin.",
+    "BAD_GROUP": "Grup bulunamadı ya da uymuyor.",
     "BAD_INPUT": "Girdiğiniz bilgileri kontrol edin.",
     "BAD_KIND": "Belge türü geçersiz.",
     "BAD_ORDER": "Buradan bu duruma geçilemez.",
@@ -49,8 +56,13 @@
     "NEED_CARRIER": "Taşıyıcıyı belirtin.",
     "NEED_TITLE": "Gider adını yazın.",
     "NOT_ACCEPTED": "Anlaşma henüz kabul edilmedi.",
+    "NOT_APPROVED": "Sözleşme onaylandıktan sonra hazır olur.",
+    "NOT_CARGO_CONTRACT": "Bu sözleşmenin şablonu farklı.",
+    "NOT_CLOSING": "Önce “Kapanıyor” aşamasına geçin.",
+    "NOT_CONFIRMABLE": "Bu ödeme onaylanamaz.",
     "NOT_DISPATCHER": "Bu işlem yalnızca dispeçer içindir.",
     "NOT_FOUND": "Bulunamadı. Silinmiş olabilir ya da bağlantı yanlış.",
+    "NOT_LINKED": "Bu kişiyle henüz bağınız yok. Önce şoför olarak ekleyin ya da anlaşma yapın.",
     "NOT_LIVE": "Sefer henüz başlamadı.",
     "NOT_MARKED": "Ödeme henüz işaretlenmedi.",
     "NOT_PENDING": "Bu kayıt zaten işlendi.",
@@ -62,26 +74,35 @@
     "NO_ID": "Hangi kayıt olduğu belirtilmemiş.",
     "NO_LOAD": "Yük bulunamadı.",
     "NO_MAIN": "Önce ana sürücüyü atayın.",
+    "NO_OLD": "Mevcut şifrenizi girin.",
+    "NO_OPEN_SOS": "Açık SOS yok.",
+    "NO_RESULT": "Sonuç çıkmadı. Tekrar deneyin.",
     "NO_RESUME": "Önce özgeçmişinizi doldurun.",
     "NO_SHOP": "Önce mağaza profilinizi oluşturun.",
     "NO_TRIP": "Bu kişiyle ortak sefer yok.",
+    "NO_TRUCK": "Önce araç atanmalı.",
+    "NO_VERSION": "Sözleşmede henüz şart yok.",
     "ON_TRIP": "Araç seferde — şimdi değiştirilemez.",
     "OWN": "Kendi ilanınızda olmaz.",
+    "OWN_MESSAGE": "Kendi mesajınıza bu işlem uygulanmaz.",
     "PASSWORD_REQUIRED": "Şifreyi girin.",
     "PHONE_NOT_VERIFIED": "Önce telefon numaranızı doğrulayın.",
     "PHONE_TAKEN": "Bu numara zaten kayıtlı.",
     "RADIUS_REQUIRED": "Hizmet yarıçapını belirtin.",
     "RATE_LIMIT": "Çok sık istek. Biraz bekleyin.",
+    "READ_ONLY": "Burada yalnızca okuma yapılabilir.",
     "SAME_DRIVER": "Ana ve ikinci sürücü aynı kişi olamaz.",
     "SECTION_LOCKED": "Bu bölüm rolünüze açık değil.",
     "SELF": "Kendinizle olmaz.",
     "SELLER_ONLY": "Bu işlem yalnızca satıcı içindir.",
+    "SERVICE_CONTRACT": "Bu bir hizmet sözleşmesi — işlem buna uygulanmaz.",
     "SOLD": "İlan satıldı — değiştirilemez.",
     "SPECIALITY_REQUIRED": "En az bir uzmanlık seçin.",
     "TAKEN": "Bu yer zaten dolu.",
     "TARIFF_LIMIT": "Tarife sınırına ulaştınız. Tarifeyi genişletin.",
     "TARIFF_REQUIRED": "Bu tarifenize dahil değil. Rol seçin ya da tarifeyi yenileyin.",
     "TELEGRAM_SOURCE": "Bu ilan Telegram'dan alındı — uygulama içinden yazılamaz.",
+    "TOO_BIG": "Dosya çok büyük — en fazla 10 MB.",
     "TOO_LARGE": "Dosya çok büyük — 10 MB'ı aşmasın.",
     "TOO_MANY": "Görsel sayısı sınırı aştı.",
     "TOO_MANY_ATTEMPTS": "Çok fazla deneme. Birkaç dakika sonra tekrar deneyin.",
@@ -91,7 +112,9 @@
     "UNAUTHORIZED": "Oturum sona erdi. Yeniden giriş yapın.",
     "UNAVAILABLE": "Şu anda kullanılamıyor.",
     "UNKNOWN_ACTION": "Bu işlem desteklenmiyor. Uygulamayı güncelleyin.",
-    "VALIDATION": "Girdiğiniz bilgileri kontrol edin."
+    "USER_NOT_FOUND": "Böyle bir FURAM ID yok.",
+    "VALIDATION": "Girdiğiniz bilgileri kontrol edin.",
+    "WRONG_PASSWORD": "Şifre yanlış."
   },
   "cancelReason": {
     "AGREED": "Taraflar anlaştı",
@@ -123,6 +146,17 @@
     "REJECTED": "Reddedildi",
     "TRIP_DONE": "Sefer tamamlandı",
     "TRIP_STARTED": "Sefer başladı"
+  },
+  "docKind": {
+    "CMR": "CMR (uluslararası taşıma belgesi)",
+    "CUSTOMS": "Gümrük belgesi",
+    "DOZVOL": "Dozvol izni",
+    "INSURANCE": "Sigorta",
+    "INVOICE": "Fatura",
+    "OTHER": "Diğer belge",
+    "PACKING": "Çeki listesi",
+    "TIR": "TIR",
+    "UNLOAD_PHOTO": "Boşaltma fotoğrafı"
   },
   "feature": {
     "ai": "Yapay zekâ asistanı",
@@ -380,6 +414,14 @@
       "people": "sürücüler",
       "trips": "seferler"
     },
+    "aiSum": {
+      "again": "Yeniden hazırla",
+      "lead": "Gün, mesafe, masraf, yakıt, belge ve sorunların kısa özeti.",
+      "note": "Rakamlar kayıtlardan alınır — AI yalnızca yorumlar.",
+      "run": "Özeti hazırla",
+      "running": "Hazırlanıyor…",
+      "title": "AI sefer özeti"
+    },
     "an": {
       "bestGroup": "EN İYİ SONUÇLAR",
       "catGroup": "GİDERLER NEREYE GİTTİ",
@@ -502,6 +544,24 @@
       "subtitle": "Basit dört işlem",
       "title": "Hesap makinesi"
     },
+    "cdoc": {
+      "add": "Belge ekle",
+      "del": "Sil",
+      "delQ": "Belge silinsin mi?",
+      "empty": "Belge yok",
+      "emptyHint": "CMR ya da faturayı buraya koyun",
+      "kind": "Tür",
+      "lead": "CMR, fatura, çeki listesi. Sefer açılınca seferde de görünür.",
+      "locked": "İptal edilmiş sözleşmeye belge eklenmez",
+      "title": "Sözleşme belgeleri"
+    },
+    "cexp": {
+      "lead": "AI sözleşme şartlarını sade dille anlatır: kim ne öder, ne zaman ve ters giderse ne olur.",
+      "note": "Bu hukuki tavsiye değildir — asıl belge sözleşmenin kendisidir.",
+      "run": "Açıkla",
+      "running": "Okunuyor…",
+      "title": "Bu ne demek"
+    },
     "chat": {
       "camera": "Kamera",
       "conversation": "Sohbet",
@@ -587,6 +647,38 @@
       "open": "Aç",
       "pinned": "Önemli"
     },
+    "close": {
+      "answered": "%{done} / %{total} yanıtladı",
+      "approve": "Onaylıyorum, kapansın",
+      "changeMind": "Kararımı değiştir",
+      "checksHint": "Bunlar kapatmayı engellemez — yalnızca aklınızda olsun.",
+      "checksTitle": "Kapatmadan önce %{n} konu var",
+      "chk": {
+        "approvals": "%{n} katılımcı yanıtlamadı",
+        "docs": "Sefer belgesi yüklenmedi (CMR, irsaliye)",
+        "expenses": "Sefer masrafı girilmedi",
+        "issues": "Araçta %{n} açık teknik sorun var",
+        "price": "Navlun tutarı girilmedi — kâr hesaplanmaz",
+        "salary": "Şoför ödemesi sorulmadı",
+        "salaryDebt": "Şoför ödemeyi almadı — borç olarak kalır",
+        "sos": "%{n} SOS çözülmedi"
+      },
+      "closedOk": "Sefer kapatıldı",
+      "lead": "Tüm katılımcılar onaylayınca sefer kapanır ve veriler değiştirilemez şekilde kilitlenir.",
+      "mine": "Onay verdiniz",
+      "no": "Hayır, almadım",
+      "notYet": "Sefer henüz “Kapanıyor” aşamasına gelmedi",
+      "rate": "Seferi puanlayın",
+      "ratePh": "Yorum — isteğe bağlı",
+      "ratePhLow": "Sebep — zorunlu",
+      "reject": "İtiraz ediyorum",
+      "salaryHint": "Cevabınız sefer geçmişinde saklanır.",
+      "salaryQ": "Bu sefer için ödemenizi aldınız mı?",
+      "salaryUnpaid": "Şoför ödemeyi almadığını bildirdi",
+      "title": "Seferi kapatma",
+      "waiting": "%{n} katılımcı bekleniyor",
+      "yes": "Evet, aldım"
+    },
     "common": {
       "add": "Ekle",
       "all": "Tümü",
@@ -605,6 +697,7 @@
       "or": "veya",
       "renew": "Yenile",
       "save": "Kaydet",
+      "saving": "Kaydediliyor...",
       "show": "Göster",
       "signOut": "Çıkış",
       "soon": "yakında",
@@ -623,6 +716,12 @@
       "saved": "Kaydedildi",
       "tin": "Vergi no",
       "title": "Şirket bilgileri"
+    },
+    "contract": {
+      "docs": "Belgeler",
+      "explain": "AI açıklaması",
+      "openTrip": "Sefer aç",
+      "pdf": "PDF indir"
     },
     "ctr": {
       "approve": "Onayla",
@@ -1258,6 +1357,19 @@
       "noUpcomingText": "Anlaşılmış ama başlamamış sefer yok.",
       "widenFilters": "Filtreleri genişletmeyi deneyin — örneğin araç tipini kaldırın."
     },
+    "money": {
+      "add": "Para aldım",
+      "amount": "Tutar",
+      "currency": "Para birimi",
+      "empty": "Henüz para alınmadı",
+      "emptyHint": "Avans ya da maaş aldıysanız buraya yazın",
+      "kind": "Tür",
+      "lead": "Sefer boyunca alınan paralar. Para birimleri toplanmaz — her biri ayrı satırda.",
+      "lockedRole": "Bunu şoför ya da taşıyıcı tarafı girer",
+      "notePh": "Not — isteğe bağlı",
+      "title": "Alınan paralar",
+      "total": "Toplam"
+    },
     "msg": {
       "actionFailed": "İşlem yapılamadı",
       "aiSuggest": "AI önerisi",
@@ -1787,6 +1899,10 @@
       "note": "Şifre değişince diğer cihazlardaki oturumlar kapanır — hesabınızı ele geçiren varsa çıkarılır.",
       "title": "Şifre değiştir"
     },
+    "qproof": {
+      "add": "Sıra kanıtı",
+      "hint": "Sınırdaki fiş ya da ekran görüntüsü"
+    },
     "queue": {
       "bookedGroup": "SIRA ALINDI",
       "changeTime": "Saati değiştir",
@@ -1871,6 +1987,7 @@
       "rateFailed": "Değerlendirme gönderilemedi",
       "rateHint": "Değerlendirmeleriniz FURAM güven puanını oluşturur",
       "rateSubmit": "Değerlendir",
+      "rated": "%{name} puanlandı",
       "title": "Sefer raporu",
       "whatWrong": "Ne beğenmediniz?"
     },
@@ -1919,9 +2036,11 @@
     "role": {
       "AUTO_SELLER": "Araç satıcısı",
       "CARGO_OWNER": "Yük sahibi",
+      "CO_DRIVER": "Yardımcı şoför",
       "DISPATCHER": "Sevkiyatçı",
       "DRIVER": "Sürücü",
       "EMPLOYER": "İşveren",
+      "FORWARDER": "Nakliyeci",
       "LOGISTICS": "Lojistik şirketi",
       "MASTER": "Usta",
       "PARTS": "Yedek parça dükkânı",
@@ -2142,6 +2261,20 @@
       "whereCode": "Kod nereye gelsin",
       "whoAreYou": "Kimsiniz?"
     },
+    "sos": {
+      "active": "SOS — çözülmedi",
+      "btn": "SOS — sorun var",
+      "holdHint": "Konuşamıyorsanız düğmeyi 2 saniye basılı tutun — sessiz SOS gider",
+      "holding": "Basılı tutun…",
+      "lead": "Tüm katılımcılara anında bildirilir. Konumunuz otomatik eklenir.",
+      "notePh": "Kısaca yazın",
+      "reason": "Sebep",
+      "resolve": "Sorun çözüldü",
+      "send": "SOS gönder",
+      "silent": "Sessiz SOS",
+      "silentSent": "Sinyal gönderildi",
+      "title": "SOS gönder"
+    },
     "state": {
       "noData": "Veri gelmedi"
     },
@@ -2328,6 +2461,25 @@
       "needHint": "Doldurabilirsiniz, ancak kaydetmek için bir rol gerekir.",
       "pick": "Rol seç"
     },
+    "tech": {
+      "again": "Bir tane daha ekle",
+      "lead": "Araç sahibine hemen bildirilir ve filo panosunda açık kalır.",
+      "notePh": "Ayrıntı — isteğe bağlı",
+      "p1": "Lastik hasarlı",
+      "p2": "Fren sorunu",
+      "p3": "Motor çalışmıyor",
+      "p4": "Yağ kaçırıyor",
+      "p5": "Akü",
+      "p6": "Soğutucu çalışmıyor",
+      "p7": "Far çalışmıyor",
+      "p8": "Römork sorunu",
+      "photo": "Fotoğraf ekle",
+      "send": "Sahibine gönder",
+      "sent": "Sorun kaydedildi",
+      "title": "Teknik arıza",
+      "what": "Ne oldu?",
+      "whatPh": "Kısaca yazın"
+    },
     "tour": {
       "done": "Anladım",
       "loads": "Pazar burada: yük veya boş araç arayın, filtreleyin, kaydedin",
@@ -2344,19 +2496,45 @@
       "top": "Mesajlar ve bildirimler — üstte, sayaçla",
       "topT": "Sohbet ve bildirimler"
     },
+    "tpart": {
+      "add": "Kişi ekle",
+      "cantAdd": "Kişi eklemeye yük ya da araç sahibi karar verir",
+      "furamId": "FURAM ID",
+      "furamIdHint": "profildeki numara, örn. 10042",
+      "knownOnly": "Yalnızca tanıdığınız kişiyi ekleyebilirsiniz: kendi şoförünüz ya da anlaşmalı ortağınız.",
+      "lead": "Seferdeki kişiler. Telefon yalnızca katılımcılara görünür.",
+      "role": "Rol",
+      "title": "Katılımcılar",
+      "you": "Siz"
+    },
     "trip": {
+      "ai": "AI sefer özeti",
+      "aiHint": "Gün, masraf ve yakıt özeti",
       "arrives": "varır",
       "call": "Ara",
       "cargo": "Yük",
+      "close": "Seferi kapat",
+      "docWarn": "Araç belgelerinde %{n} eksik var — sefer yine de başladı",
       "documents": "Belgeler",
+      "download": "Raporu indir",
+      "downloading": "İndiriliyor…",
+      "excel": "Excel",
       "expenses": "Masraflar",
       "expensesHint": "Yakıt, yol ücreti",
       "kmDone": "km gidildi",
       "kmLeft": "km kaldı",
+      "money": "Alınan paralar",
+      "moneyHint": "Avans, maaş, navlun",
       "numbered": "Sefer #TR-%{n}",
       "participants": "Katılımcılar",
+      "pdf": "PDF",
+      "queuesMade": "%{n} sınır sırası açıldı",
       "settlement": "Hesaplaşma",
+      "start": "Takibi başlat",
+      "startHint": "Sefer canlı olur: aşamalar, takip ve sınır sıraları açılır.",
       "steps": "Sefer aşamaları",
+      "tech": "Teknik arıza",
+      "techHint": "Araç sahibine hemen bildirilir",
       "truckDriver": "Araç ve sürücü",
       "viewReport": "Raporu gör",
       "weight": "Ağırlık"
@@ -2458,6 +2636,12 @@
       "CLOSED": "Kapalı",
       "OPEN": "Açık"
     },
+    "vdoc": {
+      "country": "%{c} güzergâhı için belge yok",
+      "expired": "%{doc} süresi doldu",
+      "missing": "%{doc} yüklenmedi",
+      "soon": "%{doc} %{n} gün sonra bitiyor"
+    },
     "vehicle": {
       "allDocuments": "Tüm belgeler (%{n})",
       "body": "Kasa",
@@ -2494,6 +2678,12 @@
       "USER": "Kullanıcı",
       "VEHICLE_OWNER": "Araç sahibi"
     }
+  },
+  "moneyKind": {
+    "ADVANCE": "Avans",
+    "FREIGHT": "Navlun",
+    "OTHER": "Diğer",
+    "SALARY": "Maaş"
   },
   "notifyTitle": {
     "payLate": "Ödeme %{days} gün gecikti",
@@ -2687,6 +2877,13 @@
       "vulcan": "Vulkanizasyon",
       "welder": "Kaynakçı"
     }
+  },
+  "sosReason": {
+    "ACCIDENT": "Kaza",
+    "BREAKDOWN": "Araç arızası",
+    "DOCUMENTS": "Belge sorunu",
+    "HEALTH": "Sağlık sorunu",
+    "OTHER": "Diğer"
   },
   "svc": {
     "account": "Hesabım",

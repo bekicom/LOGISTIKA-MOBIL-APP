@@ -4,17 +4,24 @@
     "ACTION_REQUIRED": "Amal ko'rsatilmagan.",
     "ACTIVE_TRIPS": "Ochiq reyslar bor — avval ularni yakunlang.",
     "AI_OFF": "AI yordamchi vaqtincha o'chirilgan.",
+    "ALREADY": "Bu allaqachon qo'shilgan.",
     "ALREADY_APPLIED": "Bu vakansiyaga allaqachon ariza berdingiz.",
     "ALREADY_LINKED": "Siz allaqachon shu ish beruvchiga bog'langansiz.",
+    "ALREADY_LIVE": "Nazorat allaqachon boshlangan.",
     "ALREADY_MANAGED": "Bu yuk allaqachon boshqa dispetcherda.",
+    "ALREADY_REPLACED": "Bu hujjatning yangi versiyasi allaqachon bor.",
+    "BAD_AMOUNT": "Summani tekshiring.",
     "BAD_CATEGORY": "Kategoriya noto'g'ri.",
     "BAD_CONTENT": "Fayl mazmuni o'qilmadi.",
+    "BAD_COORDS": "Joylashuv aniqlanmadi.",
+    "BAD_CURRENCY": "Valyutani tekshiring.",
     "BAD_DATE": "Sana noto'g'ri.",
     "BAD_DATES": "Sanalar noto'g'ri — boshlanish tugashdan keyin bo'lmasin.",
     "BAD_DIRECTION": "Yo'nalish noto'g'ri.",
     "BAD_DISPATCHER": "Bu dispetcher topilmadi yoki tasdiqlanmagan.",
     "BAD_DRIVER": "Bu haydovchi sizga bog'langan emas.",
     "BAD_FORM": "Forma to'liq yuborilmadi. Qayta urinib ko'ring.",
+    "BAD_GROUP": "Guruh topilmadi yoki mos kelmadi.",
     "BAD_INPUT": "Kiritilgan ma'lumotni tekshiring.",
     "BAD_KIND": "Hujjat turi noto'g'ri.",
     "BAD_ORDER": "Bu holatga bu yerdan o'tib bo'lmaydi.",
@@ -49,8 +56,13 @@
     "NEED_CARRIER": "Tashuvchini ko'rsating.",
     "NEED_TITLE": "Xarajat nomini yozing.",
     "NOT_ACCEPTED": "Kelishuv hali qabul qilinmagan.",
+    "NOT_APPROVED": "Shartnoma tasdiqlangach tayyor bo'ladi.",
+    "NOT_CARGO_CONTRACT": "Bu shartnomaning shabloni boshqa.",
+    "NOT_CLOSING": "Avval «Yopilmoqda» bosqichiga o'ting.",
+    "NOT_CONFIRMABLE": "Bu to'lovni tasdiqlab bo'lmaydi.",
     "NOT_DISPATCHER": "Bu amal faqat dispetcher uchun.",
     "NOT_FOUND": "Topilmadi. O'chirilgan yoki manzil noto'g'ri bo'lishi mumkin.",
+    "NOT_LINKED": "Bu odam bilan hali kelishuvingiz yo'q. Avval haydovchi sifatida biriktiring yoki kelishuv tuzing.",
     "NOT_LIVE": "Reys hali boshlanmagan.",
     "NOT_MARKED": "To'lov hali belgilanmagan.",
     "NOT_PENDING": "Bu yozuv allaqachon hal qilingan.",
@@ -62,26 +74,35 @@
     "NO_ID": "Qaysi yozuv ekani ko'rsatilmagan.",
     "NO_LOAD": "Yuk topilmadi.",
     "NO_MAIN": "Avval asosiy haydovchini tayinlang.",
+    "NO_OLD": "Joriy parolni kiriting.",
+    "NO_OPEN_SOS": "Ochiq SOS yo'q.",
+    "NO_RESULT": "Natija chiqmadi. Qaytadan urinib ko'ring.",
     "NO_RESUME": "Avval rezyume to'ldiring.",
     "NO_SHOP": "Avval do'kon profilini oching.",
     "NO_TRIP": "Bu odam bilan umumiy reys yo'q.",
+    "NO_TRUCK": "Avval mashina biriktirilishi kerak.",
+    "NO_VERSION": "Shartnomada hali shart yozilmagan.",
     "ON_TRIP": "Transport reysda — hozir o'zgartirib bo'lmaydi.",
     "OWN": "O'z e'loningizga bo'lmaydi.",
+    "OWN_MESSAGE": "O'z xabaringizga bu amalni qo'llab bo'lmaydi.",
     "PASSWORD_REQUIRED": "Parolni kiriting.",
     "PHONE_NOT_VERIFIED": "Avval telefon raqamini tasdiqlang.",
     "PHONE_TAKEN": "Bu raqam allaqachon ro'yxatdan o'tgan.",
     "RADIUS_REQUIRED": "Xizmat radiusini ko'rsating.",
     "RATE_LIMIT": "Juda tez-tez so'rayapsiz. Biroz kuting.",
+    "READ_ONLY": "Bu yerda faqat o'qish mumkin.",
     "SAME_DRIVER": "Asosiy va ikkinchi haydovchi bir odam bo'lmaydi.",
     "SECTION_LOCKED": "Bu bo'lim rolingizga ochilmagan.",
     "SELF": "O'zingiz bilan bo'lmaydi.",
     "SELLER_ONLY": "Bu amal faqat sotuvchi uchun.",
+    "SERVICE_CONTRACT": "Bu xizmat shartnomasi — bu amal unga tegishli emas.",
     "SOLD": "E'lon sotilgan — o'zgartirib bo'lmaydi.",
     "SPECIALITY_REQUIRED": "Kamida bitta mutaxassislik tanlang.",
     "TAKEN": "Bu joy allaqachon band.",
     "TARIFF_LIMIT": "Tarifingizdagi chegara to'ldi. Tarifni kengaytiring.",
     "TARIFF_REQUIRED": "Bu tarifingizga kirmaydi. Rolingizni tanlang yoki tarifni yangilang.",
     "TELEGRAM_SOURCE": "Bu e'lon Telegram'dan olingan — ilova ichida yozib bo'lmaydi.",
+    "TOO_BIG": "Fayl juda katta — 10 MB gacha bo'lsin.",
     "TOO_LARGE": "Fayl juda katta — 10 MB dan oshmasin.",
     "TOO_MANY": "Rasm soni chegaradan oshdi.",
     "TOO_MANY_ATTEMPTS": "Juda ko'p urinish. Bir necha daqiqadan keyin qayta urinib ko'ring.",
@@ -91,7 +112,9 @@
     "UNAUTHORIZED": "Sessiya tugadi. Qaytadan kiring.",
     "UNAVAILABLE": "Hozir mavjud emas.",
     "UNKNOWN_ACTION": "Bu amal qo'llab-quvvatlanmaydi. Ilovani yangilang.",
-    "VALIDATION": "Kiritilgan ma'lumotni tekshiring."
+    "USER_NOT_FOUND": "Bunday FURAM ID topilmadi.",
+    "VALIDATION": "Kiritilgan ma'lumotni tekshiring.",
+    "WRONG_PASSWORD": "Parol noto'g'ri."
   },
   "cancelReason": {
     "AGREED": "Tomonlar kelishdi",
@@ -123,6 +146,17 @@
     "REJECTED": "Rad etilgan",
     "TRIP_DONE": "Reys yakunlandi",
     "TRIP_STARTED": "Reys boshlandi"
+  },
+  "docKind": {
+    "CMR": "CMR (xalqaro yuk xati)",
+    "CUSTOMS": "Bojxona hujjati",
+    "DOZVOL": "Dozvol",
+    "INSURANCE": "Sug'urta",
+    "INVOICE": "Invoys",
+    "OTHER": "Boshqa hujjat",
+    "PACKING": "Qadoqlash varaqasi",
+    "TIR": "TIR",
+    "UNLOAD_PHOTO": "Tushirish surati"
   },
   "feature": {
     "ai": "AI yordamchi",
@@ -380,6 +414,14 @@
       "people": "haydovchilar",
       "trips": "reyslar"
     },
+    "aiSum": {
+      "again": "Qaytadan tayyorlash",
+      "lead": "Kun, masofa, xarajat, yoqilg'i, hujjat va muammolar bo'yicha qisqa xulosa.",
+      "note": "Raqamlar hisobdan olingan — AI ularni faqat izohlaydi.",
+      "run": "Yakun tayyorlash",
+      "running": "Tayyorlanmoqda…",
+      "title": "AI reys yakuni"
+    },
     "an": {
       "bestGroup": "ENG YAXSHI NATIJALAR",
       "catGroup": "XARAJAT QAYERGA KETDI",
@@ -502,6 +544,24 @@
       "subtitle": "Oddiy to'rt amal",
       "title": "Kalkulyator"
     },
+    "cdoc": {
+      "add": "Hujjat qo'shish",
+      "del": "O'chirish",
+      "delQ": "Hujjat o'chirilsinmi?",
+      "empty": "Hujjat yo'q",
+      "emptyHint": "CMR yoki invoysni shu yerga qo'ying",
+      "kind": "Turi",
+      "lead": "CMR, invoys, qadoqlash varaqasi. Reys ochilganda ular reysda ham ko'rinadi.",
+      "locked": "Bekor qilingan shartnomaga hujjat qo'shilmaydi",
+      "title": "Shartnoma hujjatlari"
+    },
+    "cexp": {
+      "lead": "AI shartnoma shartlarini oddiy tilda tushuntiradi: kim nima to'laydi, qachon va nima bo'lsa nima bo'ladi.",
+      "note": "Bu huquqiy maslahat emas — asosiy hujjat shartnomaning o'zi.",
+      "run": "Tushuntirib ber",
+      "running": "O'qilmoqda…",
+      "title": "Bu shart nima degani"
+    },
     "chat": {
       "camera": "Kamera",
       "conversation": "Suhbat",
@@ -587,6 +647,38 @@
       "open": "Ochish",
       "pinned": "Muhim"
     },
+    "close": {
+      "answered": "%{done} / %{total} javob berdi",
+      "approve": "Roziman, yopilsin",
+      "changeMind": "Fikrimni o'zgartirish",
+      "checksHint": "Bular yopishga to'sqinlik qilmaydi — faqat esingizda bo'lsin.",
+      "checksTitle": "Yopishdan oldin %{n} ta masala bor",
+      "chk": {
+        "approvals": "%{n} ta ishtirokchi javob bermagan",
+        "docs": "Reys hujjati yuklanmagan (CMR, TTN)",
+        "expenses": "Reys xarajati kiritilmagan",
+        "issues": "Mashinada %{n} ta ochiq texnik muammo",
+        "price": "Fraxt summasi kiritilmagan — foyda hisoblanmaydi",
+        "salary": "Haydovchi to'lovi so'ralmagan",
+        "salaryDebt": "Haydovchi to'lovni olmagan — qarzdorlik bo'lib qoladi",
+        "sos": "%{n} ta SOS hal qilinmagan"
+      },
+      "closedOk": "Reys yopildi",
+      "lead": "Barcha ishtirokchilar rozi bo'lgach reys yopiladi va ma'lumotlar o'zgarmas holatda qulflanadi.",
+      "mine": "Siz rozilik bildirdingiz",
+      "no": "Yo'q, olmadim",
+      "notYet": "Reys hali «Yopilmoqda» bosqichiga o'tmagan",
+      "rate": "Reysni baholang",
+      "ratePh": "Izoh — ixtiyoriy",
+      "ratePhLow": "Sabab — majburiy",
+      "reject": "Noroziman",
+      "salaryHint": "Javobingiz reys tarixida saqlanadi.",
+      "salaryQ": "Shu reys bo'yicha oyligingizni oldingizmi?",
+      "salaryUnpaid": "Shofyor oyligini olmaganini bildirgan",
+      "title": "Reysni yopish",
+      "waiting": "%{n} ta ishtirokchi javobi kutilmoqda",
+      "yes": "Ha, oldim"
+    },
     "common": {
       "add": "Qo'shish",
       "all": "Hammasi",
@@ -605,6 +697,7 @@
       "or": "yoki",
       "renew": "Yangilash",
       "save": "Saqlash",
+      "saving": "Saqlanmoqda...",
       "show": "Ko'rsatish",
       "signOut": "Chiqish",
       "soon": "tez orada",
@@ -623,6 +716,12 @@
       "saved": "Saqlandi",
       "tin": "STIR / INN",
       "title": "Kompaniya ma'lumoti"
+    },
+    "contract": {
+      "docs": "Hujjatlar",
+      "explain": "AI tushuntirish",
+      "openTrip": "Reys ochish",
+      "pdf": "PDF yuklab olish"
     },
     "ctr": {
       "approve": "Tasdiqlash",
@@ -1258,6 +1357,19 @@
       "noUpcomingText": "Kelishilgan, lekin hali boshlanmagan reys yo'q.",
       "widenFilters": "Filtrlarni kengaytirib ko'ring — masalan transport turini olib tashlang."
     },
+    "money": {
+      "add": "Pul oldim",
+      "amount": "Summa",
+      "currency": "Valyuta",
+      "empty": "Hali pul olinmagan",
+      "emptyHint": "Avans yoki oylik olsangiz shu yerga yozing",
+      "kind": "Turi",
+      "lead": "Reys davomida olingan pullar. Valyutalar qo'shilmaydi — har biri o'z qatorida turadi.",
+      "lockedRole": "Buni shofyor yoki transport tomoni kiritadi",
+      "notePh": "Izoh — ixtiyoriy",
+      "title": "Olingan pullar",
+      "total": "Jami"
+    },
     "msg": {
       "actionFailed": "Amal bajarilmadi",
       "aiSuggest": "AI taklifi",
@@ -1787,6 +1899,10 @@
       "note": "Parol o'zgargach boshqa qurilmalardagi seanslar yopiladi — hisobingizni kimdir egallagan bo'lsa, chiqib ketadi.",
       "title": "Parolni o'zgartirish"
     },
+    "qproof": {
+      "add": "Navbat dalili",
+      "hint": "Chegaradagi talon yoki ekran surati"
+    },
     "queue": {
       "bookedGroup": "NAVBAT OLINGAN",
       "changeTime": "Vaqtni o'zgartirish",
@@ -1871,6 +1987,7 @@
       "rateFailed": "Baho yuborilmadi",
       "rateHint": "Baholaringiz FURAM ishonch reytingini shakllantiradi",
       "rateSubmit": "Baho berish",
+      "rated": "%{name} baholandi",
       "title": "Reys hisoboti",
       "whatWrong": "Nima yoqmadi?"
     },
@@ -1919,9 +2036,11 @@
     "role": {
       "AUTO_SELLER": "Avto sotuvchi",
       "CARGO_OWNER": "Yuk egasi",
+      "CO_DRIVER": "Yordamchi shofyor",
       "DISPATCHER": "Dispetcher",
       "DRIVER": "Haydovchi",
       "EMPLOYER": "Ish beruvchi",
+      "FORWARDER": "Ekspeditor",
       "LOGISTICS": "Logistika kompaniyasi",
       "MASTER": "Usta",
       "PARTS": "Zapchast do'koni",
@@ -2142,6 +2261,20 @@
       "whereCode": "Kod qayerga kelsin",
       "whoAreYou": "Siz kimsiz?"
     },
+    "sos": {
+      "active": "SOS — hal qilinmagan",
+      "btn": "SOS — muammo bor",
+      "holdHint": "Gapira olmasangiz tugmani 2 soniya bosib turing — jim SOS ketadi",
+      "holding": "Ushlab turing…",
+      "lead": "Barcha ishtirokchilarga darhol xabar boradi. Joylashuvingiz avtomatik qo'shiladi.",
+      "notePh": "Qisqacha tafsilot",
+      "reason": "Sabab",
+      "resolve": "Muammo hal bo'ldi",
+      "send": "SOS yuborish",
+      "silent": "Jim SOS",
+      "silentSent": "Signal yuborildi",
+      "title": "SOS yuborish"
+    },
     "state": {
       "noData": "Ma'lumot kelmadi"
     },
@@ -2328,6 +2461,25 @@
       "needHint": "To'ldirishni boshlashingiz mumkin, lekin saqlash uchun rol kerak bo'ladi.",
       "pick": "Rolni tanlash"
     },
+    "tech": {
+      "again": "Yana qo'shish",
+      "lead": "Mashina egasiga darhol xabar boradi va park taxtasida ochiq muammo bo'lib turadi.",
+      "notePh": "Batafsil — ixtiyoriy",
+      "p1": "Balon shikastlangan",
+      "p2": "Tormoz muammosi",
+      "p3": "Dvigatel ishlamayapti",
+      "p4": "Moy oqmoqda",
+      "p5": "Akkumulyator",
+      "p6": "Muzlatgich ishlamayapti",
+      "p7": "Chiroq ishlamayapti",
+      "p8": "Tirkama muammosi",
+      "photo": "Surat qo'shish",
+      "send": "Egasiga yuborish",
+      "sent": "Muammo qayd etildi",
+      "title": "Texnik nosozlik",
+      "what": "Nima bo'ldi?",
+      "whatPh": "Qisqacha yozing"
+    },
     "tour": {
       "done": "Tushunarli",
       "loads": "Bozor shu yerda: yuk yoki bo'sh mashina qidiring, filtrlang, saqlang",
@@ -2344,19 +2496,45 @@
       "top": "Yozishmalar va bildirishnomalar — tepada, sanoq bilan",
       "topT": "Chat va xabarlar"
     },
+    "tpart": {
+      "add": "Odam qo'shish",
+      "cantAdd": "Reysga odam qo'shishni yuk yoki mashina egasi hal qiladi",
+      "furamId": "FURAM ID",
+      "furamIdHint": "profildagi raqam, masalan 10042",
+      "knownOnly": "Faqat tanish odamni qo'shish mumkin: o'z haydovchingiz yoki kelishuv tuzgan hamkoringiz.",
+      "lead": "Reysdagi odamlar. Telefon raqami faqat ishtirokchilarga ko'rinadi.",
+      "role": "Roli",
+      "title": "Ishtirokchilar",
+      "you": "Siz"
+    },
     "trip": {
+      "ai": "AI reys yakuni",
+      "aiHint": "Kun, xarajat, yoqilg'i bo'yicha xulosa",
       "arrives": "yetib boradi",
       "call": "Qo'ng'iroq",
       "cargo": "Yuk",
+      "close": "Reysni yopish",
+      "docWarn": "Mashina hujjatlarida %{n} ta kamchilik bor — reys baribir boshlandi",
       "documents": "Hujjatlar",
+      "download": "Hisobotni yuklab olish",
+      "downloading": "Yuklanmoqda…",
+      "excel": "Excel",
       "expenses": "Xarajatlar",
       "expensesHint": "Yoqilg'i, yo'l haqi",
       "kmDone": "km bosildi",
       "kmLeft": "km qoldi",
+      "money": "Olingan pullar",
+      "moneyHint": "Avans, oylik, yuk haqi",
       "numbered": "Reys #TR-%{n}",
       "participants": "Ishtirokchilar",
+      "pdf": "PDF",
+      "queuesMade": "%{n} ta chegara navbati ochildi",
       "settlement": "Hisob-kitob",
+      "start": "Nazoratni boshlash",
+      "startHint": "Reys jonli holatga o'tadi: bosqichlar, kuzatuv va chegara navbatlari ochiladi.",
       "steps": "Reys bosqichlari",
+      "tech": "Texnik nosozlik",
+      "techHint": "Mashina egasiga darhol xabar boradi",
       "truckDriver": "Mashina va haydovchi",
       "viewReport": "Hisobotni ko'rish",
       "weight": "Og'irlik"
@@ -2458,6 +2636,12 @@
       "CLOSED": "Yopilgan",
       "OPEN": "Ochiq"
     },
+    "vdoc": {
+      "country": "%{c} yo'nalishi uchun hujjat ko'rsatilmagan",
+      "expired": "%{doc} muddati o'tgan",
+      "missing": "%{doc} yuklanmagan",
+      "soon": "%{doc} %{n} kundan keyin tugaydi"
+    },
     "vehicle": {
       "allDocuments": "Barcha hujjatlar (%{n})",
       "body": "Kuzov",
@@ -2494,6 +2678,12 @@
       "USER": "Foydalanuvchi",
       "VEHICLE_OWNER": "Transport egasi"
     }
+  },
+  "moneyKind": {
+    "ADVANCE": "Avans",
+    "FREIGHT": "Yuk haqi",
+    "OTHER": "Boshqa",
+    "SALARY": "Oylik"
   },
   "notifyTitle": {
     "payLate": "To'lov %{days} kun kechikdi",
@@ -2687,6 +2877,13 @@
       "vulcan": "Vulkanizatsiya",
       "welder": "Payvandchi"
     }
+  },
+  "sosReason": {
+    "ACCIDENT": "Avariya",
+    "BREAKDOWN": "Mashina buzildi",
+    "DOCUMENTS": "Hujjat muammosi",
+    "HEALTH": "Sog'liq muammosi",
+    "OTHER": "Boshqa"
   },
   "svc": {
     "account": "Hisobim",

@@ -32,11 +32,12 @@ import {
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Button, Field, Header } from "@/components/ui";
+import { Button, Field, Header, Notice } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
-import { api } from "@/lib/api";
+import { api, FuramError } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
 import { color, radius, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -368,6 +369,50 @@ export default function Shartnoma() {
               </View>
             </Pressable>
 
+            {/* ══ HUJJAT VA TUSHUNTIRISH ══ */}
+            <Pressable
+              style={s.card}
+              onPress={() =>
+                router.push({ pathname: "/shartnoma/[id]/hujjatlar", params: { id: c.id } })
+              }
+            >
+              <View style={s.linkRow}>
+                <View style={[s.icon, { backgroundColor: color.blueSoft }]}>
+                  <Icon name="file" size={20} stroke={color.blue} />
+                </View>
+                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                  <Text style={s.linkTitle}>{t("mob.contract.docs")}</Text>
+                  <Text style={s.linkSub}>{t("mob.cdoc.lead")}</Text>
+                </View>
+                <Icon name="chevron" size={17} stroke={color.mutedForeground} />
+              </View>
+            </Pressable>
+
+            <Pressable
+              style={s.card}
+              onPress={() =>
+                router.push({ pathname: "/shartnoma/[id]/tushuntir", params: { id: c.id } })
+              }
+            >
+              <View style={s.linkRow}>
+                <View style={[s.icon, { backgroundColor: color.purpleSoft }]}>
+                  <Icon name="sparkle" size={20} stroke={color.purple} />
+                </View>
+                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                  <Text style={s.linkTitle}>{t("mob.contract.explain")}</Text>
+                  <Text style={s.linkSub}>{t("mob.cexp.title")}</Text>
+                </View>
+                <Icon name="chevron" size={17} stroke={color.mutedForeground} />
+              </View>
+            </Pressable>
+
+            {/* ══ PDF VA REYS ══
+
+                PDF faqat tasdiqlangan shartnomada yasaladi, reys esa
+                bir marta ochiladi — ikkalasining sharti serverda
+                ham bor, bu yerda tugmani ko'rsatmaslik uchun. */}
+            <ContractFiles id={c.id} status={c.status} hasTrip={!!c.trip} />
+
             {/* ══ BEKOR QILISH ══ */}
             {!["CLOSED", "CANCELLED", "REJECTED"].includes(c.status) && (
               <Pressable onPress={() => setSheet("cancel")} style={s.cancelLink}>
@@ -409,6 +454,74 @@ export default function Shartnoma() {
           })
         }
       />
+    </View>
+  );
+}
+
+/**
+ * Shartnoma fayllari va undan reys ochish.
+ *
+ * ── PDF NEGA SERVERDA YASALADI ──────────────────────────────────
+ *
+ * Shartnoma bosma varaqasi huquqiy hujjat: undagi tomonlar, narx va
+ * shartlar aynan tasdiqlangan versiyadan bo'lishi kerak. Ilova uni
+ * o'zi chizsa, ikkita boshqa-boshqa hujjat paydo bo'lardi.
+ *
+ * Fayl `Authorization` talab qiladi, shuning uchun avval keshga
+ * yuklanadi, keyin tizimning «ulashish» oynasi chaqiriladi.
+ */
+function ContractFiles({ id, status, hasTrip }: { id: string; status: string; hasTrip: boolean }) {
+  const router = useRouter();
+  const [busy, setBusy] = useState<"pdf" | "trip" | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function pdf() {
+    setBusy("pdf");
+    setErr(null);
+    try {
+      await openRemoteFile(`/api/contracts/${id}/pdf`, `shartnoma-${id.slice(-6)}.pdf`);
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function openTrip() {
+    setBusy("trip");
+    setErr(null);
+    try {
+      const r = await api<{ tripId: string }>(`/api/contracts/${id}/trip`, { method: "POST" });
+      router.push({ pathname: "/reys/[id]", params: { id: r.tripId } });
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  /* Tasdiqlanmagan shartnomada ikkalasi ham ma'nosiz — server ham
+     rad etadi, tugma esa umid berardi */
+  if (status !== "APPROVED" && status !== "CLOSED") return null;
+
+  return (
+    <View style={{ gap: 9 }}>
+      <Button
+        title={busy === "pdf" ? t("mob.trip.downloading") : t("mob.contract.pdf")}
+        variant="secondary"
+        loading={busy === "pdf"}
+        onPress={pdf}
+        icon={<Icon name="doc" size={18} stroke={color.foreground} />}
+      />
+      {!hasTrip ? (
+        <Button
+          title={t("mob.contract.openTrip")}
+          loading={busy === "trip"}
+          onPress={openTrip}
+          icon={<Icon name="truck" size={18} stroke="#fff" />}
+        />
+      ) : null}
+      {err ? <Notice tone="danger">{err}</Notice> : null}
     </View>
   );
 }

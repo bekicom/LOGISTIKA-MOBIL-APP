@@ -15,6 +15,7 @@ import { Icon } from "@/components/Icon";
 import { Button, Notice } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -155,19 +156,75 @@ export default function Hisobot() {
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={s.personName}>{p.name || "—"}</Text>
-                    <Text style={s.meta}>{p.roleLabel}</Text>
+                    <Text style={s.meta}>{t(`mob.role.${p.role}`)}</Text>
                   </View>
                 </View>
               ))}
             </View>
 
-            <Notice tone="info">
-              To&apos;liq hisobotni PDF yoki Excel qilib yuklab olish saytda mavjud —
-              ilovada keyingi bosqichda qo&apos;shiladi.
-            </Notice>
+            {/* To'liq hisobot — fayl bo'lib. `openRemoteFile` avval
+                keshga yuklab, keyin tizimning «ulashish» oynasini
+                ochadi: oddiy havola `Authorization` sarlavhasisiz
+                boradi va 401 oladi. */}
+            <Downloads tripId={String(id)} no={rep.no} />
           </>
         ) : null}
       </ScrollView>
+    </View>
+  );
+}
+
+/**
+ * Hisobotni fayl qilib olish (TZ 27).
+ *
+ * PDF — chegarada va bankda ko'rsatish uchun; Excel — buxgalteriya
+ * o'z jadvaliga ko'chirib olishi uchun. Ikkalasi ham serverda
+ * yasaladi: ilova raqamni qayta hisoblasa, ikkita boshqa-boshqa
+ * hisobot paydo bo'lardi.
+ */
+function Downloads({ tripId, no }: { tripId: string; no: number }) {
+  const [busy, setBusy] = useState<"pdf" | "excel" | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function get(kind: "pdf" | "excel") {
+    setBusy(kind);
+    setErr(null);
+    try {
+      await openRemoteFile(
+        `/api/trips/${tripId}/report/${kind}`,
+        `FURAM-${no}.${kind === "pdf" ? "pdf" : "xlsx"}`,
+      );
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  return (
+    <View style={{ gap: 9 }}>
+      <Text style={s.cardTitle}>{t("mob.trip.download")}</Text>
+      <View style={{ flexDirection: "row", gap: 9 }}>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={busy === "pdf" ? t("mob.trip.downloading") : t("mob.trip.pdf")}
+            variant="secondary"
+            loading={busy === "pdf"}
+            onPress={() => get("pdf")}
+            icon={<Icon name="doc" size={17} stroke={color.foreground} />}
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={busy === "excel" ? t("mob.trip.downloading") : t("mob.trip.excel")}
+            variant="secondary"
+            loading={busy === "excel"}
+            onPress={() => get("excel")}
+            icon={<Icon name="chart" size={17} stroke={color.foreground} />}
+          />
+        </View>
+      </View>
+      {err ? <Notice tone="danger">{err}</Notice> : null}
     </View>
   );
 }
@@ -202,7 +259,7 @@ function RateBlock({ tripId, target, onDone }: { tripId: string; target: Target;
     return (
       <View style={s.rated}>
         <Icon name="check" size={17} stroke={color.success} />
-        <Text style={s.ratedText}>{target.name} baholandi</Text>
+        <Text style={s.ratedText}>{t("mob.report.rated", { name: target.name })}</Text>
       </View>
     );
   }
@@ -215,7 +272,7 @@ function RateBlock({ tripId, target, onDone }: { tripId: string; target: Target;
         </View>
         <View style={{ flex: 1 }}>
           <Text style={s.personName}>{target.name}</Text>
-          <Text style={s.meta}>{target.roleLabel ?? target.role}</Text>
+          <Text style={s.meta}>{t(`mob.role.${target.role}`)}</Text>
         </View>
       </View>
 

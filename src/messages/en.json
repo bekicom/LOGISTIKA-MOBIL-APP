@@ -4,17 +4,24 @@
     "ACTION_REQUIRED": "No action was given.",
     "ACTIVE_TRIPS": "You have open trips — close them first.",
     "AI_OFF": "The AI assistant is switched off for now.",
+    "ALREADY": "This has already been added.",
     "ALREADY_APPLIED": "You've already applied to this vacancy.",
     "ALREADY_LINKED": "You're already linked to this employer.",
+    "ALREADY_LIVE": "Tracking has already started.",
     "ALREADY_MANAGED": "Another dispatcher already has this load.",
+    "ALREADY_REPLACED": "This document already has a newer version.",
+    "BAD_AMOUNT": "Check the amount.",
     "BAD_CATEGORY": "That category isn't valid.",
     "BAD_CONTENT": "The file's contents couldn't be read.",
+    "BAD_COORDS": "The location could not be determined.",
+    "BAD_CURRENCY": "Check the currency.",
     "BAD_DATE": "That date isn't valid.",
     "BAD_DATES": "The dates don't work — the start can't be after the end.",
     "BAD_DIRECTION": "That direction isn't valid.",
     "BAD_DISPATCHER": "That dispatcher wasn't found, or isn't approved.",
     "BAD_DRIVER": "That driver isn't linked to you.",
     "BAD_FORM": "The form didn't send fully. Try again.",
+    "BAD_GROUP": "The group was not found or does not match.",
     "BAD_INPUT": "Check what you entered.",
     "BAD_KIND": "That document type isn't valid.",
     "BAD_ORDER": "You can't move to that status from here.",
@@ -49,8 +56,13 @@
     "NEED_CARRIER": "Choose a carrier.",
     "NEED_TITLE": "Name the expense.",
     "NOT_ACCEPTED": "The deal hasn't been accepted yet.",
+    "NOT_APPROVED": "This becomes available once the contract is approved.",
+    "NOT_CARGO_CONTRACT": "This contract uses a different template.",
+    "NOT_CLOSING": "Move to the “Closing” stage first.",
+    "NOT_CONFIRMABLE": "This payment cannot be confirmed.",
     "NOT_DISPATCHER": "Only a dispatcher can do this.",
     "NOT_FOUND": "Not found. It may have been deleted, or the link is wrong.",
+    "NOT_LINKED": "You have no working link with this person yet. Attach them as a driver or make a deal first.",
     "NOT_LIVE": "The trip hasn't started yet.",
     "NOT_MARKED": "The payment hasn't been marked yet.",
     "NOT_PENDING": "This has already been decided.",
@@ -62,26 +74,35 @@
     "NO_ID": "It's not clear which record this is.",
     "NO_LOAD": "Load not found.",
     "NO_MAIN": "Assign a main driver first.",
+    "NO_OLD": "Enter your current password.",
+    "NO_OPEN_SOS": "There is no open SOS.",
+    "NO_RESULT": "No result. Please try again.",
     "NO_RESUME": "Fill in your resume first.",
     "NO_SHOP": "Set up your shop profile first.",
     "NO_TRIP": "You have no shared trip with this person.",
+    "NO_TRUCK": "A vehicle must be assigned first.",
+    "NO_VERSION": "The contract has no terms yet.",
     "ON_TRIP": "The truck is on a trip — you can't change it now.",
     "OWN": "You can't do this on your own listing.",
+    "OWN_MESSAGE": "You cannot do this to your own message.",
     "PASSWORD_REQUIRED": "Enter your password.",
     "PHONE_NOT_VERIFIED": "Confirm your phone number first.",
     "PHONE_TAKEN": "That number is already registered.",
     "RADIUS_REQUIRED": "Set your service radius.",
     "RATE_LIMIT": "Too many requests. Wait a moment.",
+    "READ_ONLY": "This is read-only.",
     "SAME_DRIVER": "The main and second driver can't be the same person.",
     "SECTION_LOCKED": "This section isn't open for your role.",
     "SELF": "You can't do this with yourself.",
     "SELLER_ONLY": "Only the seller can do this.",
+    "SERVICE_CONTRACT": "This is a service contract — the action does not apply to it.",
     "SOLD": "The listing is sold — it can't be changed.",
     "SPECIALITY_REQUIRED": "Pick at least one speciality.",
     "TAKEN": "That spot is already taken.",
     "TARIFF_LIMIT": "You've hit your plan's limit. Upgrade the plan.",
     "TARIFF_REQUIRED": "That's not in your plan. Pick a role or renew the plan.",
     "TELEGRAM_SOURCE": "This listing came from Telegram — you can't message inside the app.",
+    "TOO_BIG": "The file is too large — 10 MB maximum.",
     "TOO_LARGE": "The file is too big — keep it under 10 MB.",
     "TOO_MANY": "That's more photos than allowed.",
     "TOO_MANY_ATTEMPTS": "Too many attempts. Try again in a few minutes.",
@@ -91,7 +112,9 @@
     "UNAUTHORIZED": "Your session expired. Sign in again.",
     "UNAVAILABLE": "Not available right now.",
     "UNKNOWN_ACTION": "That action isn't supported. Update the app.",
-    "VALIDATION": "Check what you entered."
+    "USER_NOT_FOUND": "No such FURAM ID.",
+    "VALIDATION": "Check what you entered.",
+    "WRONG_PASSWORD": "Wrong password."
   },
   "cancelReason": {
     "AGREED": "Both sides agreed",
@@ -123,6 +146,17 @@
     "REJECTED": "Rejected",
     "TRIP_DONE": "Trip completed",
     "TRIP_STARTED": "Trip started"
+  },
+  "docKind": {
+    "CMR": "CMR (international consignment note)",
+    "CUSTOMS": "Customs document",
+    "DOZVOL": "Dozvol permit",
+    "INSURANCE": "Insurance",
+    "INVOICE": "Invoice",
+    "OTHER": "Other document",
+    "PACKING": "Packing list",
+    "TIR": "TIR",
+    "UNLOAD_PHOTO": "Unloading photo"
   },
   "feature": {
     "ai": "AI assistant",
@@ -380,6 +414,14 @@
       "people": "drivers",
       "trips": "trips"
     },
+    "aiSum": {
+      "again": "Prepare again",
+      "lead": "A short summary of days, distance, costs, fuel, documents and problems.",
+      "note": "The numbers come from the records — the AI only explains them.",
+      "run": "Prepare the summary",
+      "running": "Preparing…",
+      "title": "AI trip summary"
+    },
     "an": {
       "bestGroup": "BEST RESULTS",
       "catGroup": "WHERE THE MONEY WENT",
@@ -502,6 +544,24 @@
       "subtitle": "Plain four functions",
       "title": "Calculator"
     },
+    "cdoc": {
+      "add": "Add a document",
+      "del": "Delete",
+      "delQ": "Delete this document?",
+      "empty": "No documents",
+      "emptyHint": "Put the CMR or the invoice here",
+      "kind": "Type",
+      "lead": "CMR, invoice, packing list. When a trip opens they show up there too.",
+      "locked": "Documents cannot be added to a cancelled contract",
+      "title": "Contract documents"
+    },
+    "cexp": {
+      "lead": "The AI explains the contract terms in plain words: who pays what, when, and what happens if something goes wrong.",
+      "note": "This is not legal advice — the contract itself is the binding document.",
+      "run": "Explain it",
+      "running": "Reading…",
+      "title": "What this means"
+    },
     "chat": {
       "camera": "Camera",
       "conversation": "Conversation",
@@ -587,6 +647,38 @@
       "open": "Open",
       "pinned": "Important"
     },
+    "close": {
+      "answered": "%{done} of %{total} answered",
+      "approve": "I approve, close it",
+      "changeMind": "Change my mind",
+      "checksHint": "None of these block the closing — just keep them in mind.",
+      "checksTitle": "%{n} things to note before closing",
+      "chk": {
+        "approvals": "%{n} participants have not answered",
+        "docs": "No trip documents uploaded (CMR, waybill)",
+        "expenses": "No trip expenses were entered",
+        "issues": "The vehicle has %{n} open technical issues",
+        "price": "The freight amount is missing — profit cannot be computed",
+        "salary": "The driver has not been asked about pay",
+        "salaryDebt": "The driver was not paid — this stays as a debt",
+        "sos": "%{n} SOS calls are unresolved"
+      },
+      "closedOk": "The trip is closed",
+      "lead": "Once everyone approves, the trip closes and its data is locked unchanged.",
+      "mine": "You have approved",
+      "no": "No, I did not",
+      "notYet": "The trip has not reached the “Closing” stage yet",
+      "rate": "Rate the trip",
+      "ratePh": "Comment — optional",
+      "ratePhLow": "Reason — required",
+      "reject": "I object",
+      "salaryHint": "Your answer is kept in the trip history.",
+      "salaryQ": "Did you receive your pay for this trip?",
+      "salaryUnpaid": "The driver reported not being paid",
+      "title": "Closing the trip",
+      "waiting": "Waiting on %{n} participants",
+      "yes": "Yes, I did"
+    },
     "common": {
       "add": "Add",
       "all": "All",
@@ -605,6 +697,7 @@
       "or": "or",
       "renew": "Renew",
       "save": "Save",
+      "saving": "Saving...",
       "show": "Show",
       "signOut": "Sign out",
       "soon": "coming soon",
@@ -623,6 +716,12 @@
       "saved": "Saved",
       "tin": "Tax ID",
       "title": "Company details"
+    },
+    "contract": {
+      "docs": "Documents",
+      "explain": "AI explanation",
+      "openTrip": "Open a trip",
+      "pdf": "Download the PDF"
     },
     "ctr": {
       "approve": "Approve",
@@ -1258,6 +1357,19 @@
       "noUpcomingText": "There are no agreed trips that have not started yet.",
       "widenFilters": "Try widening the filters — for example, remove the vehicle type."
     },
+    "money": {
+      "add": "I received money",
+      "amount": "Amount",
+      "currency": "Currency",
+      "empty": "No money received yet",
+      "emptyHint": "Got an advance or salary? Write it down here",
+      "kind": "Type",
+      "lead": "Money received during the trip. Currencies are never summed — each has its own line.",
+      "lockedRole": "The driver or the carrier side enters this",
+      "notePh": "Note — optional",
+      "title": "Money received",
+      "total": "Total"
+    },
     "msg": {
       "actionFailed": "Action failed",
       "aiSuggest": "AI suggestion",
@@ -1787,6 +1899,10 @@
       "note": "Changing the password signs you out on other devices — anyone who took over the account is kicked out.",
       "title": "Change password"
     },
+    "qproof": {
+      "add": "Queue proof",
+      "hint": "The border slip or a screenshot"
+    },
     "queue": {
       "bookedGroup": "QUEUE BOOKED",
       "changeTime": "Change the time",
@@ -1871,6 +1987,7 @@
       "rateFailed": "The rating was not sent",
       "rateHint": "Your ratings build the FURAM trust score",
       "rateSubmit": "Submit rating",
+      "rated": "%{name} has been rated",
       "title": "Trip report",
       "whatWrong": "What went wrong?"
     },
@@ -1919,9 +2036,11 @@
     "role": {
       "AUTO_SELLER": "Vehicle seller",
       "CARGO_OWNER": "Shipper",
+      "CO_DRIVER": "Co-driver",
       "DISPATCHER": "Dispatcher",
       "DRIVER": "Driver",
       "EMPLOYER": "Employer",
+      "FORWARDER": "Forwarder",
       "LOGISTICS": "Logistics company",
       "MASTER": "Mechanic",
       "PARTS": "Parts shop",
@@ -2142,6 +2261,20 @@
       "whereCode": "Where should the code go",
       "whoAreYou": "Who are you?"
     },
+    "sos": {
+      "active": "SOS — unresolved",
+      "btn": "SOS — I have a problem",
+      "holdHint": "If you cannot speak, hold the button for 2 seconds — a silent SOS goes out",
+      "holding": "Keep holding…",
+      "lead": "Every participant is notified at once. Your location is attached automatically.",
+      "notePh": "Briefly describe it",
+      "reason": "Reason",
+      "resolve": "The problem is solved",
+      "send": "Send SOS",
+      "silent": "Silent SOS",
+      "silentSent": "Signal sent",
+      "title": "Send SOS"
+    },
     "state": {
       "noData": "No data received"
     },
@@ -2328,6 +2461,25 @@
       "needHint": "You can fill this in, but saving will need a role.",
       "pick": "Choose a role"
     },
+    "tech": {
+      "again": "Add another",
+      "lead": "The vehicle owner is notified at once and the issue stays open on the fleet board.",
+      "notePh": "Details — optional",
+      "p1": "Damaged tyre",
+      "p2": "Brake problem",
+      "p3": "Engine not running",
+      "p4": "Oil leak",
+      "p5": "Battery",
+      "p6": "Reefer not working",
+      "p7": "Light not working",
+      "p8": "Trailer problem",
+      "photo": "Add a photo",
+      "send": "Send to the owner",
+      "sent": "The issue was recorded",
+      "title": "Technical fault",
+      "what": "What happened?",
+      "whatPh": "Describe it briefly"
+    },
     "tour": {
       "done": "Got it",
       "loads": "The marketplace lives here: find loads or empty trucks, filter, save",
@@ -2344,19 +2496,45 @@
       "top": "Messages and notifications — at the top, with counters",
       "topT": "Chat and alerts"
     },
+    "tpart": {
+      "add": "Add a person",
+      "cantAdd": "Adding people is up to the cargo or vehicle owner",
+      "furamId": "FURAM ID",
+      "furamIdHint": "the number from the profile, e.g. 10042",
+      "knownOnly": "You may only add someone you already work with: your own driver or a partner you have a deal with.",
+      "lead": "People on this trip. Phone numbers are visible to participants only.",
+      "role": "Role",
+      "title": "Participants",
+      "you": "You"
+    },
     "trip": {
+      "ai": "AI trip summary",
+      "aiHint": "A summary of days, costs and fuel",
       "arrives": "arrives",
       "call": "Call",
       "cargo": "Cargo",
+      "close": "Close the trip",
+      "docWarn": "%{n} issues with the vehicle documents — the trip started anyway",
       "documents": "Documents",
+      "download": "Download the report",
+      "downloading": "Downloading…",
+      "excel": "Excel",
       "expenses": "Expenses",
       "expensesHint": "Fuel, road fees",
       "kmDone": "km covered",
       "kmLeft": "km left",
+      "money": "Money received",
+      "moneyHint": "Advance, salary, freight",
       "numbered": "Trip #TR-%{n}",
       "participants": "Participants",
+      "pdf": "PDF",
+      "queuesMade": "%{n} border queues opened",
       "settlement": "Settlement",
+      "start": "Start tracking",
+      "startHint": "The trip goes live: stages, tracking and border queues open up.",
       "steps": "Trip stages",
+      "tech": "Technical fault",
+      "techHint": "The vehicle owner is notified right away",
       "truckDriver": "Truck and driver",
       "viewReport": "View the report",
       "weight": "Weight"
@@ -2458,6 +2636,12 @@
       "CLOSED": "Closed",
       "OPEN": "Open"
     },
+    "vdoc": {
+      "country": "No document listed for the %{c} route",
+      "expired": "%{doc} has expired",
+      "missing": "%{doc} is not uploaded",
+      "soon": "%{doc} expires in %{n} days"
+    },
     "vehicle": {
       "allDocuments": "All documents (%{n})",
       "body": "Body",
@@ -2494,6 +2678,12 @@
       "USER": "User",
       "VEHICLE_OWNER": "Vehicle owner"
     }
+  },
+  "moneyKind": {
+    "ADVANCE": "Advance",
+    "FREIGHT": "Freight",
+    "OTHER": "Other",
+    "SALARY": "Salary"
   },
   "notifyTitle": {
     "payLate": "Payment is %{days} days overdue",
@@ -2687,6 +2877,13 @@
       "vulcan": "Vulcanising",
       "welder": "Welder"
     }
+  },
+  "sosReason": {
+    "ACCIDENT": "Accident",
+    "BREAKDOWN": "Vehicle breakdown",
+    "DOCUMENTS": "Document problem",
+    "HEALTH": "Health problem",
+    "OTHER": "Other"
   },
   "svc": {
     "account": "My account",

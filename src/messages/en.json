@@ -580,6 +580,7 @@
     "common": {
       "add": "Add",
       "all": "All",
+      "back": "Back",
       "cancel": "Cancel",
       "confirm": "Confirm",
       "continueBtn": "Continue",
@@ -599,6 +600,12 @@
       "soon": "coming soon",
       "stepOf": "STEP %{n} OF %{k}",
       "tryAgain": "Please try again"
+    },
+    "company": {
+      "hint": "These details appear on contracts and invoices. Leave empty if you are an individual.",
+      "name": "Company name",
+      "saved": "Saved",
+      "title": "Company details"
     },
     "ctr": {
       "approve": "Approve",
@@ -1538,6 +1545,11 @@
       "LOW": "Low stock",
       "OUT": "Out of stock"
     },
+    "pay": {
+      "empty": "No payments",
+      "emptyHint": "Payments for plans and top-ups appear here",
+      "title": "Payment history"
+    },
     "pdoc": {
       "addTitle": "Add a document",
       "borderHint": "Sort this out before an international trip.",
@@ -1663,10 +1675,12 @@
     "profile": {
       "account": "ACCOUNT",
       "active": "ACTIVE",
+      "addRole": "Add a role",
       "avatarSoon": "Photo upload coming soon",
       "closedTrips": "closed trips",
       "copied": "Copied",
       "daysLeft": "%{n} days left",
+      "deleteAccount": "Delete account",
       "devices": "Devices",
       "devicesHint": "See and disconnect signed-in devices",
       "editTitle": "Edit profile",
@@ -1676,6 +1690,7 @@
       "extraPhone": "Additional phone",
       "extraPhoneHint": "This number is called when you cannot be reached.",
       "firstName": "First name",
+      "fleetHint": "My vehicles, documents and maintenance",
       "freePlan": "Free plan",
       "freePlanHint": "Core features are available",
       "iosNote": "Plan management is available in the web version. Your active plan is shown here.",
@@ -1683,9 +1698,13 @@
       "mainPhone": "Primary phone",
       "myDocs": "My documents",
       "myListings": "My listings",
+      "myRoles": "My roles",
+      "myWork": "MY WORK",
+      "noRoles": "No role yet — each one has a trial period",
       "notifications": "Notifications",
       "notificationsHint": "About what and how",
       "openPlan": "Get the plan",
+      "panelHint": "Trip, pay, documents and truck in one place",
       "phoneNote": "This number is your sign-in key. Changing it requires verifying the new number, so it is a separate step.",
       "planName": "%{plan} plan",
       "planPremium": "Extended",
@@ -1696,6 +1715,18 @@
       "signOutAsk": "Sign out of your account?",
       "title": "Profile",
       "trust": "Trust score"
+    },
+    "prog": {
+      "allDone": "You have tried everything",
+      "count": "%{done} of %{total} sections",
+      "lead": "Try each section available to you at least once — the reminders then stop.",
+      "left": "%{n} more to go",
+      "mastered": "Already used",
+      "next": "Next step",
+      "noneBody": "Sections open once you pick a role",
+      "noneTitle": "No sections open yet",
+      "title": "My learning path",
+      "waiting": "Not used yet"
     },
     "push": {
       "allow": "Turn on",
@@ -1712,6 +1743,16 @@
       "noHereBody": "Notifications only arrive in the installed app — not in a preview or an emulator.",
       "noHereTitle": "Push doesn't work here",
       "openSettings": "Open settings"
+    },
+    "pwd": {
+      "again": "Repeat the new password",
+      "current": "Current password",
+      "done": "Password changed",
+      "min": "At least 8 characters",
+      "mismatch": "Passwords do not match",
+      "new": "New password",
+      "note": "Changing the password signs you out on other devices — anyone who took over the account is kicked out.",
+      "title": "Change password"
     },
     "queue": {
       "bookedGroup": "QUEUE BOOKED",
@@ -1768,6 +1809,20 @@
       "reminder": "Reminder sent",
       "route_changed": "Route changed",
       "updated": "Updated"
+    },
+    "ref": {
+      "balance": "Balance",
+      "cashbackHint": "You get %{pct}% back from each invited user's payment",
+      "copied": "Link copied",
+      "from": "From FURAM ID %{id}",
+      "history": "Balance history",
+      "invited": "Invited",
+      "lead": "Everyone who signs up with your code and buys a plan earns you cashback on your balance.",
+      "noTx": "No transactions yet",
+      "purchased": "Bought a plan",
+      "share": "Share the link",
+      "title": "Invite friends",
+      "yourCode": "Your code"
     },
     "rep": {
       "distance": "Distance covered",
@@ -2411,6 +2466,29 @@
     "paySoon": "%{days} days until payment is due",
     "payToday": "Payment is due today"
   },
+  "onboardBody": {
+    "ai": "It answers questions about prices, routes and documents in your own language, and finds matching loads for you.",
+    "analytics": "Which route pays better and which month is busier — the numbers show it, and you pick the next trip accordingly.",
+    "chats": "Message cargo owners, drivers and dispatchers right here — what you agreed on stays in the chat.",
+    "contracts": "Create the agreement from a ready template, both sides sign it, and it stays in your account for good.",
+    "documents": "Licences, vehicle papers and permits are kept in one place — the system reminds you before they expire.",
+    "drivers": "Add drivers to your base, assign them to vehicles and track their document expiry in one list.",
+    "finance": "Who owes you and whom you owe — all split by currency, with a budget to keep spending in check.",
+    "jobs": "Driver, dispatcher and forwarder vacancies are all here. Leave a CV and employers will find you themselves.",
+    "loads": "On FURAM.UZ every posted load is in one list. Filter by route and vehicle type, then open the cargo owner's phone number.",
+    "map": "Loads, free trucks, border crossings and roadside services on one map. You also calculate distance and trip costs here.",
+    "market": "Trucks, trailers and spare parts are bought and sold here: post an ad or save what you need.",
+    "money": "Money from each trip, driver payouts and road costs on one screen, every currency counted separately.",
+    "post": "Posting a load takes a minute — it appears on the board and matching carriers contact you themselves.",
+    "post-truck": "Post a free vehicle and cargo owners on that route will find you in search.",
+    "profile": "An account with a photo, a second phone and company details looks more trustworthy — people pick you sooner.",
+    "queues": "Put a vehicle in the border queue and watch the waiting time and crossing status right on your phone.",
+    "reports": "Get trip, income and expense reports as PDF or Excel — send the same file to your accountant or your client.",
+    "roles": "Every role has its own plan and you can see in advance which sections it opens — no need to pay for extras.",
+    "trips": "Mark each trip stage by stage: loaded, on the way, delivered. Driver, cargo owner and dispatcher all see the same status.",
+    "trucks": "Find a free vehicle for your load by route, tonnage and body type, then contact the driver directly.",
+    "trust": "A rating after a finished job lifts both your scores — a trusted partner gets work faster."
+  },
   "payMethod": {
     "BANK": "Bank transfer",
     "CARD": "Card",
@@ -2575,6 +2653,47 @@
       "vulcan": "Vulcanising",
       "welder": "Welder"
     }
+  },
+  "svc": {
+    "account": "My account",
+    "addLoad": "+ Post a load",
+    "ai": "AI assistant",
+    "analytics": "Analytics",
+    "calc": "Calculator",
+    "cargo": "Cargo & trucks",
+    "chats": "Messages",
+    "contracts": "Contracts",
+    "currency": "Currency",
+    "dispatchers": "Dispatchers",
+    "documents": "Documents",
+    "drivers": "Drivers",
+    "finance": "Debts",
+    "jobs": "Jobs",
+    "loads": "Loads",
+    "map": "Map",
+    "market": "FURAM MARKET",
+    "money": "Income",
+    "my-loads": "My loads",
+    "my-trucks": "My trucks",
+    "park": "My fleet",
+    "parts": "Spare parts",
+    "passenger": "Passenger transport",
+    "post": "Post cargo",
+    "post-truck": "Post free truck",
+    "profile": "Profile",
+    "queues": "Border / Queue",
+    "repair": "Service / Mechanic",
+    "reports": "Reports",
+    "roles": "Plans",
+    "search": "Search",
+    "service": "Services",
+    "tools": "Tools",
+    "trip": "Trips & control",
+    "trips": "Trips",
+    "trucks": "Trucks",
+    "trust": "Rating",
+    "video": "Video",
+    "warehouse": "Warehouse"
   },
   "tripStatus": {
     "ASSIGNED": "Vehicle assigned",

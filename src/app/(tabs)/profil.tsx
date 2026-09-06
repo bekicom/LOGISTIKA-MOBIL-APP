@@ -235,6 +235,34 @@ function OwnProfil() {
               onPress={() => router.push("/qollanma")}
             />
             <ListRow
+              icon={<Badge icon="briefcase" />}
+              title={t("mob.company.title")}
+              hint={t("mob.company.name")}
+              onPress={() => router.push("/profil/kompaniya")}
+            />
+            <ListRow
+              icon={<Badge icon="lock" />}
+              title={t("mob.pwd.title")}
+              onPress={() => router.push("/profil/parol")}
+            />
+            <ListRow
+              icon={<Badge icon="users" />}
+              title={t("mob.ref.title")}
+              hint={t("mob.ref.balance")}
+              onPress={() => router.push("/profil/referal")}
+            />
+            <ListRow
+              icon={<Badge icon="wallet" />}
+              title={t("mob.pay.title")}
+              onPress={() => router.push("/profil/tolovlar")}
+            />
+            <ListRow
+              icon={<Badge icon="chart" />}
+              title={t("mob.prog.title")}
+              hint={t("mob.prog.next")}
+              onPress={() => router.push("/profil/organish")}
+            />
+            <ListRow
               icon={<Badge icon="globe" />}
               title={t("mob.chatLang.title")}
               hint={t("mob.chatLang.auto")}

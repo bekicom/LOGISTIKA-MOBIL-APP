@@ -580,6 +580,7 @@
     "common": {
       "add": "Ekle",
       "all": "Tümü",
+      "back": "Geri",
       "cancel": "İptal",
       "confirm": "Onayla",
       "continueBtn": "Devam et",
@@ -599,6 +600,12 @@
       "soon": "yakında",
       "stepOf": "ADIM %{n} · %{k} İÇİNDEN",
       "tryAgain": "Tekrar deneyin"
+    },
+    "company": {
+      "hint": "Bu bilgiler sözleşme ve faturalarda kullanılır. Şahıs iseniz boş bırakın.",
+      "name": "Şirket adı",
+      "saved": "Kaydedildi",
+      "title": "Şirket bilgileri"
     },
     "ctr": {
       "approve": "Onayla",
@@ -1538,6 +1545,11 @@
       "LOW": "Az kaldı",
       "OUT": "Stokta yok"
     },
+    "pay": {
+      "empty": "Ödeme yok",
+      "emptyHint": "Tarife veya bakiye ödemesi burada görünür",
+      "title": "Ödeme geçmişi"
+    },
     "pdoc": {
       "addTitle": "Belge ekle",
       "borderHint": "Uluslararası sefere çıkmadan önce halledin.",
@@ -1663,10 +1675,12 @@
     "profile": {
       "account": "HESAP",
       "active": "AKTİF",
+      "addRole": "Yeni rol ekle",
       "avatarSoon": "Fotoğraf ekleme yakında",
       "closedTrips": "kapanan sefer",
       "copied": "Kopyalandı",
       "daysLeft": "%{n} gün kaldı",
+      "deleteAccount": "Hesabı sil",
       "devices": "Cihazlar",
       "devicesHint": "Giriş yapılan cihazları gör ve kes",
       "editTitle": "Profili düzenle",
@@ -1676,6 +1690,7 @@
       "extraPhone": "Ek telefon",
       "extraPhoneHint": "Size ulaşılamazsa bu numara aranır.",
       "firstName": "Ad",
+      "fleetHint": "Araçlarım, belgeler ve bakım",
       "freePlan": "Ücretsiz plan",
       "freePlanHint": "Temel özellikler açık",
       "iosNote": "Plan yönetimi web sürümünde yapılır. Aktif planınız burada görünür.",
@@ -1683,9 +1698,13 @@
       "mainPhone": "Ana telefon",
       "myDocs": "Belgelerim",
       "myListings": "İlanlarım",
+      "myRoles": "Rollerim",
+      "myWork": "İŞİM",
+      "noRoles": "Henüz rol yok — her birinde deneme süresi var",
       "notifications": "Bildirimler",
       "notificationsHint": "Ne hakkında ve nasıl",
       "openPlan": "Planı aç",
+      "panelHint": "Sefer, ücret, belgeler ve araç tek yerde",
       "phoneNote": "Bu numara giriş anahtarınızdır. Değiştirmek için yeni numara doğrulanmalı, bu yüzden ayrı bir adımdır.",
       "planName": "%{plan} planı",
       "planPremium": "Genişletilmiş",
@@ -1696,6 +1715,18 @@
       "signOutAsk": "Hesaptan çıkmak istiyor musunuz?",
       "title": "Profil",
       "trust": "Güven puanı"
+    },
+    "prog": {
+      "allDone": "Hepsini denediniz",
+      "count": "%{done} / %{total} bölüm",
+      "lead": "Size açık her bölümü en az bir kez deneyin — sonrasında hatırlatma gelmez.",
+      "left": "%{n} tane daha var",
+      "mastered": "Kullanıldı",
+      "next": "Sonraki adım",
+      "noneBody": "Rol seçilince bölümler açılır",
+      "noneTitle": "Henüz açık bölüm yok",
+      "title": "Öğrenme yolum",
+      "waiting": "Henüz kullanılmadı"
     },
     "push": {
       "allow": "Aç",
@@ -1712,6 +1743,16 @@
       "noHereBody": "Bildirimler yalnızca kurulu uygulamada gelir. Önizlemede ve emülatörde gelmez.",
       "noHereTitle": "Burada push çalışmaz",
       "openSettings": "Ayarları aç"
+    },
+    "pwd": {
+      "again": "Yeni şifreyi tekrarlayın",
+      "current": "Mevcut şifre",
+      "done": "Şifre değiştirildi",
+      "min": "En az 8 karakter",
+      "mismatch": "Şifreler eşleşmiyor",
+      "new": "Yeni şifre",
+      "note": "Şifre değişince diğer cihazlardaki oturumlar kapanır — hesabınızı ele geçiren varsa çıkarılır.",
+      "title": "Şifre değiştir"
     },
     "queue": {
       "bookedGroup": "SIRA ALINDI",
@@ -1768,6 +1809,20 @@
       "reminder": "Hatırlatma gönderildi",
       "route_changed": "Güzergâh değişti",
       "updated": "Güncellendi"
+    },
+    "ref": {
+      "balance": "Bakiye",
+      "cashbackHint": "Davet ettiğiniz kişinin her ödemesinden %%{pct} geri döner",
+      "copied": "Bağlantı kopyalandı",
+      "from": "FURAM ID %{id} tarafından",
+      "history": "Bakiye hareketleri",
+      "invited": "Davet edilen",
+      "lead": "Kodunuzla kayıt olup tarife alan herkes bakiyenize iade kazandırır.",
+      "noTx": "Henüz hareket yok",
+      "purchased": "Tarife alan",
+      "share": "Bağlantıyı paylaş",
+      "title": "Arkadaşları davet et",
+      "yourCode": "Kodunuz"
     },
     "rep": {
       "distance": "Kat edilen yol",
@@ -2411,6 +2466,29 @@
     "paySoon": "Ödemeye %{days} gün kaldı",
     "payToday": "Ödeme vadesi bugün"
   },
+  "onboardBody": {
+    "ai": "Fiyat, güzergâh ve belge sorularını kendi dilinizde yanıtlar, uygun yükü de kendisi bulur.",
+    "analytics": "Hangi güzergâh kârlı, hangi ay iş yoğun — rakamlar gösterir, bir sonraki seferi buna göre seçersiniz.",
+    "chats": "Yük sahibi, şoför ve operatörle burada yazışırsınız — anlaştığınız her şey sohbette kalır.",
+    "contracts": "Anlaşmayı hazır şablondan oluşturursunuz, iki taraf imzalar ve sözleşme hesabınızda kalır.",
+    "documents": "Ehliyet, ruhsat, lisans ve izinler tek yerde saklanır — süresi dolmadan sistem hatırlatır.",
+    "drivers": "Şoförleri kayıt altına alır, araca atar ve belge sürelerini tek listede takip edersiniz.",
+    "finance": "Kimden ne kadar alacağınız, kime ne kadar borcunuz olduğu para birimiyle durur; bütçe koyup kontrol edersiniz.",
+    "jobs": "Şoför, operatör ve sevkiyat ilanları burada. Özgeçmiş bırakırsanız işverenler sizi kendileri bulur.",
+    "loads": "FURAM.UZ'da yayınlanan tüm yükler tek listede. Güzergâh ve araç tipine göre süzüp yük sahibinin numarasını açarsınız.",
+    "map": "Yükler, boş araçlar, sınır kapıları ve yol üstü servisler tek haritada. Mesafeyi ve yol masrafını da burada hesaplarsınız.",
+    "market": "Araç, dorse ve yedek parça alım satımı burada: ilan verirsiniz ya da beğendiğinizi kaydedersiniz.",
+    "money": "Her seferden gelen para, şoför ödemesi ve yol gideri tek ekranda, her para birimi ayrı görünür.",
+    "post": "Yükü bir dakikada ilan edersiniz — listeye düşer ve uygun nakliyeciler size kendileri ulaşır.",
+    "post-truck": "Boş aracı ilan ederseniz, o güzergâhta yük arayan sahipler sizi aramada bulur.",
+    "profile": "Fotoğrafı, ikinci telefonu ve şirket bilgisi olan hesaba daha çok güvenilir — sizi daha çabuk seçerler.",
+    "queues": "Aracı sınır kuyruğuna eklersiniz ve bekleme süresi ile geçiş durumunu telefonunuzdan izlersiniz.",
+    "reports": "Sefer, gelir ve gider raporunu PDF veya Excel olarak alırsınız — aynı dosyayı muhasebeye de müşteriye de gönderirsiniz.",
+    "roles": "Her rolün kendi tarifesi var ve hangi bölümlerin açılacağını önceden görürsünüz — gereksizini almanıza gerek kalmaz.",
+    "trips": "Her seferi adım adım işaretlersiniz: yüklendi, yolda, teslim edildi. Şoför, yük sahibi ve operatör aynı durumu görür.",
+    "trucks": "Yükünüze uygun boş aracı güzergâh, tonaj ve kasa tipine göre bulup şoförle doğrudan iletişime geçersiniz.",
+    "trust": "Biten işten sonra verilen puan iki tarafın da itibarını yükseltir — güvenilir ortak daha çabuk iş bulur."
+  },
   "payMethod": {
     "BANK": "Banka havalesi",
     "CARD": "Kart",
@@ -2575,6 +2653,47 @@
       "vulcan": "Vulkanizasyon",
       "welder": "Kaynakçı"
     }
+  },
+  "svc": {
+    "account": "Hesabım",
+    "addLoad": "+ Yük ekle",
+    "ai": "AI asistan",
+    "analytics": "Analitik",
+    "calc": "Hesaplayıcı",
+    "cargo": "Yük ve araç",
+    "chats": "Mesajlar",
+    "contracts": "Sözleşmeler",
+    "currency": "Döviz",
+    "dispatchers": "Dispeçerler",
+    "documents": "Evraklar",
+    "drivers": "Sürücüler",
+    "finance": "Borçlar",
+    "jobs": "İş bul",
+    "loads": "Yükler",
+    "map": "Harita",
+    "market": "FURAM PAZAR",
+    "money": "Gelirler",
+    "my-loads": "Yüklerim",
+    "my-trucks": "Araçlarım",
+    "park": "Filom",
+    "parts": "Yedek parça",
+    "passenger": "Yolcu taşıma",
+    "post": "Yük ilanı ver",
+    "post-truck": "Boş araç ilanı",
+    "profile": "Profil",
+    "queues": "Sınır / Sıra",
+    "repair": "Servis / Usta",
+    "reports": "Raporlar",
+    "roles": "Tarifeler",
+    "search": "Arama",
+    "service": "Hizmetler",
+    "tools": "Araçlar",
+    "trip": "Sefer ve takip",
+    "trips": "Seferler",
+    "trucks": "Araçlar",
+    "trust": "Puan",
+    "video": "Video",
+    "warehouse": "Depo"
   },
   "tripStatus": {
     "ASSIGNED": "Araç atandı",

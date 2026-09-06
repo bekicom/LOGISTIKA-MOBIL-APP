@@ -580,6 +580,7 @@
     "common": {
       "add": "添加",
       "all": "全部",
+      "back": "返回",
       "cancel": "取消",
       "confirm": "确认",
       "continueBtn": "继续",
@@ -599,6 +600,12 @@
       "soon": "即将推出",
       "stepOf": "第 %{n} 步 · 共 %{k} 步",
       "tryAgain": "请重试"
+    },
+    "company": {
+      "hint": "这些信息将用于合同和发票。若为个人，请留空。",
+      "name": "公司名称",
+      "saved": "已保存",
+      "title": "公司信息"
     },
     "ctr": {
       "approve": "批准",
@@ -1538,6 +1545,11 @@
       "LOW": "库存不多",
       "OUT": "缺货"
     },
+    "pay": {
+      "empty": "暂无付款",
+      "emptyHint": "支付套餐或充值后将显示在这里",
+      "title": "付款记录"
+    },
     "pdoc": {
       "addTitle": "添加证件",
       "borderHint": "请在国际运输前处理。",
@@ -1663,10 +1675,12 @@
     "profile": {
       "account": "账号",
       "active": "有效",
+      "addRole": "添加角色",
       "avatarSoon": "上传头像即将支持",
       "closedTrips": "已完成运单",
       "copied": "已复制",
       "daysLeft": "剩余 %{n} 天",
+      "deleteAccount": "删除账号",
       "devices": "设备",
       "devicesHint": "查看并断开已登录设备",
       "editTitle": "编辑资料",
@@ -1676,6 +1690,7 @@
       "extraPhone": "备用电话",
       "extraPhoneHint": "无法联系到您时将拨打此号码。",
       "firstName": "名字",
+      "fleetHint": "我的车辆、证件与维保",
       "freePlan": "免费方案",
       "freePlanHint": "基础功能已开放",
       "iosNote": "方案管理请在网页版进行。当前有效方案显示于此。",
@@ -1683,9 +1698,13 @@
       "mainPhone": "主要电话",
       "myDocs": "我的证件",
       "myListings": "我的发布",
+      "myRoles": "我的角色",
+      "myWork": "我的业务",
+      "noRoles": "尚未选择角色 — 每个角色都有试用期",
       "notifications": "通知",
       "notificationsHint": "通知内容与方式",
       "openPlan": "开通方案",
+      "panelHint": "运单、报酬、证件与车辆，尽在一处",
       "phoneNote": "该号码是登录凭据。更换需验证新号码，因此为独立步骤。",
       "planName": "%{plan} 方案",
       "planPremium": "扩展版",
@@ -1696,6 +1715,18 @@
       "signOutAsk": "确定退出账号？",
       "title": "个人资料",
       "trust": "信任分"
+    },
+    "prog": {
+      "allDone": "您已全部体验完毕",
+      "count": "%{done} / %{total} 个板块",
+      "lead": "把对您开放的板块都用一次——之后就不会再提醒了。",
+      "left": "还剩 %{n} 个",
+      "mastered": "已使用",
+      "next": "下一步",
+      "noneBody": "选择角色后即可开放",
+      "noneTitle": "暂无开放板块",
+      "title": "我的学习路径",
+      "waiting": "尚未使用"
     },
     "push": {
       "allow": "开启",
@@ -1712,6 +1743,16 @@
       "noHereBody": "通知只在已安装的应用中送达，预览版和模拟器中不会。",
       "noHereTitle": "此处推送不可用",
       "openSettings": "打开设置"
+    },
+    "pwd": {
+      "again": "再次输入新密码",
+      "current": "当前密码",
+      "done": "密码已修改",
+      "min": "至少 8 个字符",
+      "mismatch": "两次输入的密码不一致",
+      "new": "新密码",
+      "note": "修改密码后，其他设备上的会话将退出。",
+      "title": "修改密码"
     },
     "queue": {
       "bookedGroup": "已取号",
@@ -1768,6 +1809,20 @@
       "reminder": "已发送提醒",
       "route_changed": "路线已变更",
       "updated": "已更新"
+    },
+    "ref": {
+      "balance": "余额",
+      "cashbackHint": "受邀用户每笔付款可返 %{pct}%",
+      "copied": "链接已复制",
+      "from": "来自 FURAM ID %{id}",
+      "history": "余额记录",
+      "invited": "已邀请",
+      "lead": "凡使用您的邀请码注册并购买套餐的用户，都会为您带来返现。",
+      "noTx": "暂无记录",
+      "purchased": "已购买套餐",
+      "share": "分享链接",
+      "title": "邀请好友",
+      "yourCode": "您的邀请码"
     },
     "rep": {
       "distance": "行驶里程",
@@ -2411,6 +2466,29 @@
     "paySoon": "距付款还有 %{days} 天",
     "payToday": "今天是付款日"
   },
+  "onboardBody": {
+    "ai": "它用您的语言回答价格、路线和单证方面的问题，还会帮您找到合适的货源。",
+    "analytics": "哪条线路更赚钱、哪个月活儿更多，数据会告诉您，下一趟就据此选择。",
+    "chats": "在这里直接与货主、司机和调度沟通，谈好的内容都留在聊天记录里。",
+    "contracts": "用现成模板生成协议，双方签署后，合同会一直保存在您的账户里。",
+    "documents": "驾照、行驶证、许可证集中保存，到期前系统会主动提醒。",
+    "drivers": "把司机录入名单、分配到车辆，并在一个列表里跟踪他们的证件有效期。",
+    "finance": "谁欠您多少、您欠谁多少，按币种分别列出，还能设预算来控制支出。",
+    "jobs": "司机、调度和货运代理的职位都在这里。留下简历，雇主会主动找到您。",
+    "loads": "FURAM.UZ 上所有发布的货源都在一个列表里。按路线和车型筛选，即可查看货主电话。",
+    "map": "货源、空车、口岸和沿途服务都在同一张地图上，还能在这里计算里程和路费。",
+    "market": "这里买卖车辆、挂车和配件：您可以发布广告，也可以收藏需要的商品。",
+    "money": "每趟运输的收入、司机付款和路上支出在同一屏，各币种分开显示。",
+    "post": "一分钟即可发布货源，货源进入列表后，合适的承运人会主动联系您。",
+    "post-truck": "发布空车后，该路线上找车的货主就能在搜索中找到您。",
+    "profile": "有头像、备用电话和公司信息的账户更受信任，也更容易被选中。",
+    "queues": "把车辆加入口岸排队，就能在手机上看到等待时长和通关状态。",
+    "reports": "运输、收入和支出报表可导出为 PDF 或 Excel，同一份文件既能发给会计，也能发给客户。",
+    "roles": "每个角色都有自己的套餐，开通哪些板块一目了然，不必为用不上的功能付费。",
+    "trips": "每趟运输按阶段标记：已装货、在途、已交付。司机、货主和调度看到的是同一状态。",
+    "trucks": "按路线、载重和车厢类型查找适合您货物的空车，然后直接联系司机。",
+    "trust": "完成合作后的评分会提升双方的信誉分——可信的伙伴接单更快。"
+  },
   "payMethod": {
     "BANK": "银行转账",
     "CARD": "银行卡",
@@ -2575,6 +2653,47 @@
       "vulcan": "硫化补胎",
       "welder": "焊工"
     }
+  },
+  "svc": {
+    "account": "我的账号",
+    "addLoad": "+ 发布货源",
+    "ai": "AI 助手",
+    "analytics": "数据分析",
+    "calc": "计算器",
+    "cargo": "货物与车辆",
+    "chats": "消息",
+    "contracts": "合同",
+    "currency": "汇率",
+    "dispatchers": "调度员",
+    "documents": "单证",
+    "drivers": "司机",
+    "finance": "欠款",
+    "jobs": "找工作",
+    "loads": "货源",
+    "map": "地图",
+    "market": "FURAM 市场",
+    "money": "收入",
+    "my-loads": "我的货源",
+    "my-trucks": "我的车辆",
+    "park": "我的车队",
+    "parts": "配件",
+    "passenger": "客运",
+    "post": "发布货源",
+    "post-truck": "发布空车",
+    "profile": "个人资料",
+    "queues": "口岸 / 排队",
+    "repair": "维修 / 技师",
+    "reports": "报表",
+    "roles": "套餐",
+    "search": "搜索",
+    "service": "服务",
+    "tools": "工具",
+    "trip": "运单与监控",
+    "trips": "运单",
+    "trucks": "车源",
+    "trust": "评分",
+    "video": "视频",
+    "warehouse": "仓库"
   },
   "tripStatus": {
     "ASSIGNED": "已分配车辆",

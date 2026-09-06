@@ -63,7 +63,9 @@ export type IconName =
   | "check-check"
   | "more"
   | "trash"
-  | "copy";
+  | "copy"
+  | "eye"
+  | "eye-off";
 
 /* `stroke` — `string` emas, `ColorValue`: `Tabs.Screen` ning
    `tabBarIcon` i rangni shu turda beradi (RN 0.86). */
@@ -269,6 +271,19 @@ export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "
         <>
           <Path {...p} d="M10 8h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z" />
           <Path {...p} d="M4 16H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1" />
+        </>
+      )}
+      {name === "eye" && (
+        <>
+          <Path {...p} d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z" />
+          <Circle {...p} cx={12} cy={12} r={3} />
+        </>
+      )}
+      {name === "eye-off" && (
+        <>
+          <Path {...p} d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z" />
+          <Circle {...p} cx={12} cy={12} r={3} />
+          <Path {...p} d="M3 3l18 18" />
         </>
       )}
     </Svg>

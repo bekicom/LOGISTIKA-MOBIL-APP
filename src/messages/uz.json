@@ -580,6 +580,7 @@
     "common": {
       "add": "Qo'shish",
       "all": "Hammasi",
+      "back": "Orqaga",
       "cancel": "Bekor qilish",
       "confirm": "Tasdiqlash",
       "continueBtn": "Davom etish",
@@ -599,6 +600,12 @@
       "soon": "tez orada",
       "stepOf": "%{n}-BOSQICH · %{k} DAN",
       "tryAgain": "Qaytadan urinib ko'ring"
+    },
+    "company": {
+      "hint": "Shartnoma va hisob-fakturalarda shu rekvizitlar ishlatiladi. Jismoniy shaxs bo'lsangiz bo'sh qoldiring.",
+      "name": "Tashkilot nomi",
+      "saved": "Saqlandi",
+      "title": "Kompaniya ma'lumoti"
     },
     "ctr": {
       "approve": "Tasdiqlash",
@@ -1538,6 +1545,11 @@
       "LOW": "Kam qolgan",
       "OUT": "Mavjud emas"
     },
+    "pay": {
+      "empty": "To'lov yo'q",
+      "emptyHint": "Tarif yoki balans to'ldirilganda shu yerda ko'rinadi",
+      "title": "To'lovlar tarixi"
+    },
     "pdoc": {
       "addTitle": "Hujjat qo'shish",
       "borderHint": "Xalqaro reysga chiqishdan oldin hal qiling.",
@@ -1663,10 +1675,12 @@
     "profile": {
       "account": "HISOB",
       "active": "FAOL",
+      "addRole": "Yangi rol qo'shish",
       "avatarSoon": "Rasm qo'yish tez orada",
       "closedTrips": "yopilgan reys",
       "copied": "Nusxalandi",
       "daysLeft": "%{n} kun qoldi",
+      "deleteAccount": "Hisobni o'chirish",
       "devices": "Qurilmalar",
       "devicesHint": "Kirgan qurilmalarni ko'rish va uzish",
       "editTitle": "Profilni tahrirlash",
@@ -1676,6 +1690,7 @@
       "extraPhone": "Qo'shimcha telefon",
       "extraPhoneHint": "Sizga yetib bo'lmaganda shu raqamga qo'ng'iroq qilishadi.",
       "firstName": "Ism",
+      "fleetHint": "Transportlarim, hujjat va texnika",
       "freePlan": "Bepul reja",
       "freePlanHint": "Asosiy imkoniyatlar ochiq",
       "iosNote": "Xizmat rejasini boshqarish veb-versiyada mavjud. Faol reja shu yerda ko'rinadi.",
@@ -1683,9 +1698,13 @@
       "mainPhone": "Asosiy telefon",
       "myDocs": "Hujjatlarim",
       "myListings": "E'lonlarim",
+      "myRoles": "Mening rollarim",
+      "myWork": "MENING ISHIM",
+      "noRoles": "Rol tanlanmagan — har birida sinov muddati bor",
       "notifications": "Bildirishnomalar",
       "notificationsHint": "Nima haqida va qaysi yo'l bilan",
       "openPlan": "Rejani ochish",
+      "panelHint": "Reys, haq, hujjat va mashina — bir joyda",
       "phoneNote": "Bu raqam — kirish kaliti. O'zgartirish uchun yangi raqam tasdiqlanishi kerak, shuning uchun u alohida qadamda bo'ladi.",
       "planName": "%{plan} rejasi",
       "planPremium": "Kengaytirilgan",
@@ -1696,6 +1715,18 @@
       "signOutAsk": "Hisobdan chiqmoqchimisiz?",
       "title": "Profil",
       "trust": "Ishonch bali"
+    },
+    "prog": {
+      "allDone": "Hammasini ishlatib chiqdingiz",
+      "count": "%{done} / %{total} bo'lim",
+      "lead": "Sizga ochiq bo'limlarni bir marta ishlatib chiqing — shundan keyin ular haqida eslatma kelmaydi.",
+      "left": "Yana %{n} ta bor",
+      "mastered": "Ishlatib ko'rilgan",
+      "next": "Keyingi qadam",
+      "noneBody": "Rol tanlansa bo'limlar ochiladi",
+      "noneTitle": "Hozircha ochiq bo'lim yo'q",
+      "title": "Mening o'rganish yo'lim",
+      "waiting": "Hali ishlatilmagan"
     },
     "push": {
       "allow": "Yoqish",
@@ -1712,6 +1743,16 @@
       "noHereBody": "Bildirishnomalar faqat o'rnatilgan ilovada keladi. Sinov ko'rinishida va emulyatorda kelmaydi.",
       "noHereTitle": "Bu yerda push ishlamaydi",
       "openSettings": "Sozlamalarni ochish"
+    },
+    "pwd": {
+      "again": "Yangi parolni takrorlang",
+      "current": "Joriy parol",
+      "done": "Parol o'zgartirildi",
+      "min": "Kamida 8 belgi",
+      "mismatch": "Parollar mos kelmadi",
+      "new": "Yangi parol",
+      "note": "Parol o'zgargach boshqa qurilmalardagi seanslar yopiladi — hisobingizni kimdir egallagan bo'lsa, chiqib ketadi.",
+      "title": "Parolni o'zgartirish"
     },
     "queue": {
       "bookedGroup": "NAVBAT OLINGAN",
@@ -1768,6 +1809,20 @@
       "reminder": "Eslatma yuborildi",
       "route_changed": "Yo'nalish o'zgardi",
       "updated": "O'zgartirildi"
+    },
+    "ref": {
+      "balance": "Balans",
+      "cashbackHint": "Har bir taklif qilingan odamning to'lovidan %{pct}% qaytadi",
+      "copied": "Havola nusxa olindi",
+      "from": "FURAM ID %{id} dan",
+      "history": "Balans harakati",
+      "invited": "Taklif qilingan",
+      "lead": "Kodingiz bilan ro'yxatdan o'tgan har bir odam tarif sotib olsa, balansingizga cashback tushadi.",
+      "noTx": "Hali harakat yo'q",
+      "purchased": "Tarif sotib olgan",
+      "share": "Havolani ulashish",
+      "title": "Do'stlarni taklif qilish",
+      "yourCode": "Sizning kodingiz"
     },
     "rep": {
       "distance": "Bosib o'tilgan yo'l",
@@ -2411,6 +2466,29 @@
     "paySoon": "To'lovga %{days} kun qoldi",
     "payToday": "To'lov muddati bugun"
   },
+  "onboardBody": {
+    "ai": "Narx, yo'nalish va hujjat haqidagi savolga o'z tilingizda javob beradi, mos yukni ham o'zi topib beradi.",
+    "analytics": "Qaysi yo'nalish foydali, qaysi oyda ish ko'p — raqamlar ko'rsatib beradi va keyingi reysni shunga qarab tanlaysiz.",
+    "chats": "Yuk egasi, haydovchi va dispetcher bilan shu yerda yozishasiz — kelishuv yozishmada saqlanib qoladi.",
+    "contracts": "Kelishuvni tayyor namunadan chiqarasiz, ikki tomon imzolaydi va u doim hisobingizda saqlanib qoladi.",
+    "documents": "Prava, texpasport, litsenziya va ruxsatnomalar bitta joyda saqlanadi — muddati tugashidan oldin tizim o'zi eslatadi.",
+    "drivers": "Haydovchilarni bazaga kiritasiz, mashinaga biriktirasiz va hujjatlari muddatini bitta ro'yxatda kuzatasiz.",
+    "finance": "Kimdan qancha olasiz, kimga qancha berasiz — hammasi valyutasi bilan turadi, budjet qo'yib nazorat qilasiz.",
+    "jobs": "Haydovchi, dispetcher va ekspeditor vakansiyalari shu yerda. Rezyume yozib qo'ysangiz, ish beruvchilar o'zlari topadi.",
+    "loads": "FURAM.UZ'da butun mamlakat bo'ylab e'lon qilingan yuklar bitta ro'yxatda. Yo'nalish va transport turi bo'yicha saralab, yuk egasining raqamini ochasiz.",
+    "map": "Yuklar, bo'sh transportlar, chegara nuqtalari va yo'ldagi xizmatlar bitta xaritada. Masofa va yo'l xarajatini ham shu yerda hisoblaysiz.",
+    "market": "Mashina, tirkama va ehtiyot qism oldi-sotdisi shu yerda: e'lon qo'yasiz yoki keraklisini saqlab qo'yasiz.",
+    "money": "Har reysdan tushgan pul, haydovchiga to'lov va yo'l xarajati bitta ekranda, har valyuta alohida ko'rinadi.",
+    "post": "Yukni bir daqiqada e'lon qilasiz — u yuk lentasiga tushadi va mos transport egalari o'zlari bog'lanadi.",
+    "post-truck": "Bo'sh transportni e'lon qilsangiz, o'sha yo'nalishda yuk izlayotgan egalar sizni qidiruvdan topadi.",
+    "profile": "Surat, qo'shimcha telefon va kompaniya ma'lumoti bo'lgan hisobga ishonch ko'proq — sizni tezroq tanlashadi.",
+    "queues": "Mashinani chegara navbatiga qo'yasiz va kutish vaqti bilan o'tish holatini telefoningizdan ko'rib turasiz.",
+    "reports": "Reys, daromad va xarajat hisobotini PDF yoki Excel qilib olasiz — buxgalteriyaga ham, mijozga ham shuni yuborasiz.",
+    "roles": "Har rolning o'z tarifi bor va qaysi bo'lim ochilishini oldindan ko'rasiz — keraksizini olishning hojati yo'q.",
+    "trips": "Har reysni bosqichma-bosqich belgilaysiz: yuklandi, yo'lda, topshirildi. Haydovchi, yuk egasi va dispetcher bir xil holatni ko'radi.",
+    "trucks": "Yukingizga mos bo'sh mashinani yo'nalish, tonnaj va kuzov turi bo'yicha topasiz, keyin haydovchi bilan to'g'ridan-to'g'ri bog'lanasiz.",
+    "trust": "Har tugagan ishdan keyin qo'yilgan baho ikkalangizning reytingini oshiradi — ishonchli sherik tezroq ish topadi."
+  },
   "payMethod": {
     "BANK": "Bank o'tkazmasi",
     "CARD": "Karta",
@@ -2575,6 +2653,47 @@
       "vulcan": "Vulkanizatsiya",
       "welder": "Payvandchi"
     }
+  },
+  "svc": {
+    "account": "Hisobim",
+    "addLoad": "+ Yuk joylash",
+    "ai": "AI yordamchi",
+    "analytics": "Analitika",
+    "calc": "Kalkulyator",
+    "cargo": "Yuk va transport",
+    "chats": "Xabarlar",
+    "contracts": "Shartnomalar",
+    "currency": "Valyuta",
+    "dispatchers": "Dispetcherlar",
+    "documents": "Hujjatlar",
+    "drivers": "Haydovchilar",
+    "finance": "Qarzdorlik",
+    "jobs": "Ish topish",
+    "loads": "Yuklar",
+    "map": "Xarita",
+    "market": "FURAM BOZOR",
+    "money": "Daromadlar",
+    "my-loads": "Yuklarim",
+    "my-trucks": "Transportlarim",
+    "park": "Parkim",
+    "parts": "Zapchast",
+    "passenger": "Yo'lovchi tashish",
+    "post": "Yuk qo'yish",
+    "post-truck": "Bo'sh transport e'loni",
+    "profile": "Profil",
+    "queues": "Chegara / Navbat",
+    "repair": "Servis / Usta",
+    "reports": "Hisobotlar",
+    "roles": "Tariflar",
+    "search": "Qidiruv",
+    "service": "Xizmatlar",
+    "tools": "Vositalar",
+    "trip": "Reys va nazorat",
+    "trips": "Reyslar",
+    "trucks": "Transportlar",
+    "trust": "Reyting",
+    "video": "Video",
+    "warehouse": "Ombor"
   },
   "tripStatus": {
     "ASSIGNED": "Mashina biriktirildi",

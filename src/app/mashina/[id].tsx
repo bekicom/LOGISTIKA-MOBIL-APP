@@ -35,7 +35,7 @@ import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { guestBlocked } from "@/lib/guest-gate";
 
 type Doc = { kind: string; state: string };
@@ -416,10 +416,9 @@ const s = StyleSheet.create({
 
   sec: {
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
     borderRadius: radius.card,
     padding: space.lg,
+    ...shadow.card,
   },
   secTitle: { fontSize: font.caption, fontWeight: "700", color: color.foreground },
 
@@ -435,13 +434,13 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: color.border,
   },
-  price: { fontSize: 22, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
+  price: { fontSize: 22, fontWeight: "800", color: color.brand, letterSpacing: -0.4 },
   noPrice: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
   meta: { fontSize: 12, color: color.mutedForeground },
 
-  banner: { flexDirection: "row", gap: 11, borderWidth: 1, borderRadius: radius.card, padding: 14 },
-  bannerOk: { borderColor: color.success + "66", backgroundColor: color.success + "0d" },
-  bannerWarn: { borderColor: color.warning + "66", backgroundColor: color.warning + "0d" },
+  banner: { flexDirection: "row", gap: 11, borderRadius: radius.card, padding: 14 },
+  bannerOk: { backgroundColor: color.successSoft },
+  bannerWarn: { backgroundColor: color.warningSoft },
   bannerTitleOk: { fontSize: font.caption, fontWeight: "700", color: "#15803d" },
   bannerTextOk: { fontSize: 12, color: "#15803d", marginTop: 3, lineHeight: 18 },
   bannerTitleWarn: { fontSize: font.caption, fontWeight: "700", color: color.warning },
@@ -494,10 +493,9 @@ const s = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     backgroundColor: color.card,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
     paddingHorizontal: space.lg,
     paddingTop: 12,
+    ...shadow.bar,
   },
   iconBtn: {
     width: 52,

@@ -36,7 +36,7 @@ import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -448,11 +448,10 @@ const s = StyleSheet.create({
 
   card: {
     backgroundColor: color.card,
-    borderWidth: 1,
-    borderColor: color.border,
     borderRadius: radius.card,
     padding: space.lg,
     gap: 14,
+    ...shadow.card,
   },
   label: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
   groupLabel: {
@@ -484,9 +483,8 @@ const s = StyleSheet.create({
 
   foot: {
     backgroundColor: color.card,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
     paddingHorizontal: space.lg,
     paddingTop: 12,
+    ...shadow.bar,
   },
 });

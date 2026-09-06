@@ -8,6 +8,10 @@
  *
  * Yuklar bilan almashish tepadagi ikkilik tugma orqali — mashina
  * bo'limini alohida ilova ichida ko'mib qo'ymaslik uchun.
+ *
+ * Dizayn-2: yuklar ekrani bilan bir xil qobiq — chegarasiz sarlavha,
+ * oq qidiruv kartasi, o'ngda chat/qo'ng'iroq. «Mashina joylash»
+ * suzuvchi tugmasi olib tashlandi — tab bardagi «+» shu ishni qiladi.
  */
 import { useCallback, useMemo, useState } from "react";
 import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
@@ -15,14 +19,14 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
+import { HeaderIcons } from "@/components/TabHeader";
 import { TruckCard, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
 import { Segment } from "@/components/Segment";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
-import { guestBlocked } from "@/lib/guest-gate";
 
 type Feed = { items: TruckItem[]; page: number; total: number; hasMore: boolean };
 
@@ -49,42 +53,54 @@ export default function Mashinalar() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <Segment
-          value="trucks"
-          onChange={(v) => v === "loads" && router.replace("/yuklar")}
-          options={[
-            { key: "loads", label: t("mob.loads.title") },
-            { key: "trucks", label: t("mob.trucks.title") },
-          ]}
-        />
+        <View style={s.headRow}>
+          <View style={{ flex: 1 }}>
+            <Segment
+              value="trucks"
+              onChange={(v) => v === "loads" && router.replace("/yuklar")}
+              options={[
+                { key: "loads", label: t("mob.loads.title") },
+                { key: "trucks", label: t("mob.trucks.title") },
+              ]}
+            />
+          </View>
+          <HeaderIcons />
+        </View>
 
-        <Pressable style={s.search} onPress={() => setSheet(true)}>
-          <Icon name="search" size={19} stroke="#64748b" />
-          <Text style={s.searchText} numberOfLines={1}>
+        <Pressable style={({ pressed }) => [s.search, pressed && { opacity: 0.85 }]} onPress={() => setSheet(true)}>
+          <View style={s.searchIcon}>
+            <Icon name="search" size={19} stroke={color.blue} />
+          </View>
+          <Text style={[s.searchText, !(filtr.fromName || filtr.toName) && s.searchPlaceholder]} numberOfLines={1}>
             {filtr.fromName || filtr.toName
               ? `${filtr.fromName || "—"} → ${filtr.toName || "—"}`
               : t("mob.loads.cityPh")}
           </Text>
         </Pressable>
-      </View>
 
-      {/* Filtr chiplari */}
-      <View style={s.chipBar}>
-        <Pressable style={s.filtrBtn} onPress={() => setSheet(true)}>
-          <Icon name="filter" size={15} stroke="#fff" />
-          <Text style={s.filtrText}>{t("mob.loads.filters")}</Text>
-          {chips.length ? (
-            <View style={s.badge}>
-              <Text style={s.badgeText}>{chips.length}</Text>
-            </View>
-          ) : null}
-        </Pressable>
-        {chips.map((c) => (
-          <Pressable key={c.key} style={s.chip} onPress={() => clearOne(c.key as keyof Filtr)}>
-            <Text style={s.chipText}>{c.label}</Text>
-            <Icon name="close" size={13} stroke="#c2490f" />
+        {/* Filtr chiplari va sanoq */}
+        <View style={s.chipRow}>
+          <Pressable style={s.filtrBtn} onPress={() => setSheet(true)}>
+            <Icon name="filter" size={15} stroke="#fff" />
+            <Text style={s.filtrText}>{t("mob.loads.filters")}</Text>
+            {chips.length ? (
+              <View style={s.badge}>
+                <Text style={s.badgeText}>{chips.length}</Text>
+              </View>
+            ) : null}
           </Pressable>
-        ))}
+          {chips.map((c) => (
+            <Pressable key={c.key} style={s.chip} onPress={() => clearOne(c.key as keyof Filtr)}>
+              <Text style={s.chipText}>{c.label}</Text>
+              <Icon name="close" size={13} stroke="#c2490f" />
+            </Pressable>
+          ))}
+          {data && chips.length === 0 ? (
+            <Text style={s.count}>
+              <Text style={s.countNum}>{data.total}</Text> {t("mob.trucks.count")}
+            </Text>
+          ) : null}
+        </View>
       </View>
 
       {loading && !items.length ? (
@@ -99,18 +115,11 @@ export default function Mashinalar() {
         <FlatList
           data={items}
           keyExtractor={(it) => it.id}
-          contentContainerStyle={s.list}
+          contentContainerStyle={[s.list, { paddingBottom: insets.bottom + space.xxl * 2 }]}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
           }
-          ListHeaderComponent={
-            <View style={s.countRow}>
-              <Text style={s.count}>
-                <Text style={s.countNum}>{data?.total ?? 0}</Text>{" "}
-                {t("mob.trucks.count")}
-              </Text>
-            </View>
-          }
+          showsVerticalScrollIndicator={false}
           ListEmptyComponent={
             <Empty
               icon="truck"
@@ -123,19 +132,6 @@ export default function Mashinalar() {
           )}
         />
       )}
-
-      {/* E'lon berish */}
-      <Pressable
-        style={[s.fab, { bottom: insets.bottom + space.lg }]}
-        onPress={() => {
-          if (guestBlocked()) return;
-          router.push("/mashina-joylash");
-        }}
-        accessibilityRole="button"
-        accessibilityLabel={t("mob.trucks.post")}
-      >
-        <Icon name="plus" size={24} stroke="#fff" />
-      </Pressable>
 
       <FiltrSheet
         open={sheet}
@@ -152,39 +148,29 @@ export default function Mashinalar() {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.background },
-  head: {
-    backgroundColor: color.card,
-    paddingHorizontal: space.lg,
-    paddingTop: 4,
-    paddingBottom: space.md,
-    gap: space.md,
-  },
+  head: { paddingHorizontal: space.lg, paddingTop: 6, paddingBottom: space.sm, gap: space.md },
+  headRow: { flexDirection: "row", alignItems: "center", gap: space.md },
+
   search: {
-    height: 52,
-    borderWidth: 1,
-    borderColor: color.border,
-    borderRadius: radius.control,
+    height: 56,
+    backgroundColor: color.card,
+    borderRadius: radius.card,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 14,
-    gap: 11,
+    paddingLeft: 8,
+    paddingRight: 14,
+    gap: 10,
+    ...shadow.card,
   },
-  searchText: { flex: 1, fontSize: font.body, fontWeight: "600", color: color.foreground },
+  searchIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: color.blueSoft, alignItems: "center", justifyContent: "center" },
+  searchText: { flex: 1, fontSize: font.body, fontWeight: "700", color: color.foreground },
+  searchPlaceholder: { fontWeight: "500", color: "#94a3b8" },
 
-  chipBar: {
-    backgroundColor: color.card,
-    paddingHorizontal: space.lg,
-    paddingBottom: space.md,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
-    flexDirection: "row",
-    gap: 7,
-    flexWrap: "wrap",
-  },
+  chipRow: { flexDirection: "row", gap: 7, alignItems: "center", flexWrap: "wrap" },
   filtrBtn: {
     height: 34,
     paddingHorizontal: 12,
-    borderRadius: 8,
+    borderRadius: radius.pill,
     backgroundColor: color.foreground,
     flexDirection: "row",
     alignItems: "center",
@@ -205,29 +191,15 @@ const s = StyleSheet.create({
     height: 34,
     paddingLeft: 12,
     paddingRight: 10,
-    borderRadius: 8,
-    backgroundColor: color.brand + "1a",
-    borderWidth: 1,
-    borderColor: color.brand + "4d",
+    borderRadius: radius.pill,
+    backgroundColor: color.brandSoft,
     flexDirection: "row",
     alignItems: "center",
     gap: 7,
   },
-  chipText: { fontSize: font.caption, fontWeight: "500", color: "#c2490f" },
+  chipText: { fontSize: font.caption, fontWeight: "600", color: "#c2490f" },
+  count: { fontSize: font.caption, color: color.mutedForeground, marginLeft: 4 },
+  countNum: { fontWeight: "700", color: color.foreground },
 
-  list: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 4 },
-  countRow: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
-  count: { fontSize: font.caption, color: color.mutedForeground },
-  countNum: { fontWeight: "600", color: color.foreground },
-
-  fab: {
-    position: "absolute",
-    right: space.lg,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: color.brand,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  list: { padding: space.lg, paddingTop: space.sm, gap: space.md },
 });

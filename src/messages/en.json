@@ -11,6 +11,7 @@
     "ALREADY_MANAGED": "Another dispatcher already has this load.",
     "ALREADY_REPLACED": "This document already has a newer version.",
     "BAD_AMOUNT": "Check the amount.",
+    "BAD_BODY": "The request arrived incomplete. Please try again.",
     "BAD_CATEGORY": "That category isn't valid.",
     "BAD_CONTENT": "The file's contents couldn't be read.",
     "BAD_COORDS": "The location could not be determined.",
@@ -40,6 +41,7 @@
     "BLOCKED": "Your account is blocked. Contact support.",
     "CLOSED": "This is closed — it can't be changed.",
     "CO_DRIVER": "The second driver can't do this.",
+    "CSRF": "The security check failed. Please reopen the app.",
     "CURRENT_SESSION": "You can't remove the device you're using.",
     "DECIDED": "A decision on this was already made.",
     "DUPLICATE": "That already exists.",
@@ -553,10 +555,50 @@
       "insurance": "Insurance",
       "visa": "Visa support"
     },
+    "budget": {
+      "add": "Set a budget",
+      "amount": "Limit",
+      "delHint": "Press and hold a row to delete it",
+      "delQ": "Delete this budget?",
+      "empty": "No budget set",
+      "emptyHint": "Without a limit, overspending only shows up at the end of the month",
+      "lead": "Set a monthly limit: you get a warning as spending approaches it. The limit can cover the whole fleet, one expense type, or a single vehicle.",
+      "left": "%{n} %{cur} left",
+      "over": "Over by %{n} %{cur}",
+      "period": "For which month",
+      "title": "Budget"
+    },
     "calc": {
       "noAnswer": "No answer",
       "subtitle": "Plain four functions",
       "title": "Calculator"
+    },
+    "calc2": {
+      "fuel": "Fuel cost",
+      "fx": "Currency",
+      "km": "Distance, km",
+      "lead": "Exchange rate, price per kilometre and fuel cost. Everything but the rate works offline.",
+      "litrePrice": "Price per litre",
+      "litres": "%{n} litres in total",
+      "per100": "Litres per 100 km",
+      "perKm": "Price per kilometre",
+      "perKmHint": "Divides the trip price by the distance — the simplest way to compare two offers.",
+      "rateOne": "1 %{cur} = %{n} UZS",
+      "swap": "The other way",
+      "title": "Logistics calculators",
+      "tripPrice": "Trip price"
+    },
+    "cand": {
+      "askPh": "A category E driver with 3+ years of experience for international trips",
+      "found": "%{n} candidates",
+      "lead": "Write it in plain words — the AI turns it into a filter and the database does the search.",
+      "none": "No matching candidates",
+      "noneHint": "Loosen the criteria: ask for fewer years or widen the profession.",
+      "notUnderstood": "The request could not be understood. Name the direction or profession more clearly.",
+      "payFrom": "from %{n} %{cur}",
+      "search": "Search",
+      "title": "Find candidates",
+      "yearsN": "%{n} years of experience"
     },
     "cdoc": {
       "add": "Add a document",
@@ -692,6 +734,17 @@
       "title": "Closing the trip",
       "waiting": "Waiting on %{n} participants",
       "yes": "Yes, I did"
+    },
+    "cmp": {
+      "add": "Add to compare",
+      "addMore": "Add another",
+      "added": "In the comparison",
+      "clear": "Clear",
+      "empty": "The list is empty",
+      "emptyHint": "Open a listing and tap “add to compare” — up to three",
+      "full": "You cannot compare more than three — remove one",
+      "open": "Open (%{n})",
+      "title": "Compare"
     },
     "common": {
       "add": "Add",
@@ -908,6 +961,15 @@
       "whyText2": "A long-inactive device's date is shown in amber — take a look, it may not be yours.",
       "whyTitle": "Why this screen exists"
     },
+    "diag": {
+      "lead": "The AI reads your description and names likely causes and the right specialist.",
+      "needText": "Describe the problem — at least three characters",
+      "note": "This is a guess — the specialist decides on the spot. Tap one to add that speciality to the form.",
+      "nothing": "No clear cause found",
+      "run": "Check it",
+      "thinking": "Thinking…",
+      "title": "What might be wrong"
+    },
     "dinv": {
       "copied": "Copied",
       "copy": "Copy",
@@ -992,6 +1054,7 @@
       "other": "Other",
       "parts": "Spare parts",
       "place": "Place",
+      "receipt": "Receipt",
       "receiptHint": "optional, but useful in the report",
       "refuel": "Refuelling",
       "repair": "Repair",
@@ -1084,6 +1147,7 @@
       "overBy": "%{sum} over",
       "overdueN": "%{n} debts are overdue",
       "paid": "Paid",
+      "pdf": "Download the PDF report",
       "pendingGroup": "WAITING FOR YOU",
       "pendingN": "%{n} waiting for you",
       "pendingNote": "Until you decide, the trip's account can't be closed.",
@@ -1225,6 +1289,71 @@
       "remaining": "%{n} more today",
       "sent": "The invitation was sent"
     },
+    "jagree": {
+      "agree": "I agree",
+      "counter": "Change the terms",
+      "empty": "No agreements",
+      "emptyHint": "It appears here once an application is accepted",
+      "f_endDate": "end date",
+      "f_pay": "pay",
+      "f_payTerm": "payment term",
+      "f_schedule": "schedule",
+      "f_startDate": "start date",
+      "f_terms": "special terms",
+      "lead": "The terms after an application is accepted: pay, start date, schedule. The employer writes them; the worker agrees or counters.",
+      "offer": "Write the terms",
+      "pay": "Pay",
+      "payTermPh": "Once a month",
+      "schedule": "Schedule",
+      "schedulePh": "15/15, six days",
+      "st_AGREED": "Agreed",
+      "st_CANCELLED": "Cancelled",
+      "st_CHANGE_WAIT_ME": "Answer the new proposal",
+      "st_CHANGE_WAIT_OTHER": "Your proposal is awaiting an answer",
+      "st_REJECTED": "Rejected",
+      "st_WAIT_ME": "Waiting on you",
+      "st_WAIT_OTHER": "Waiting on the other side",
+      "start": "Start date",
+      "terms": "Special terms",
+      "title": "Job agreements"
+    },
+    "jcomp": {
+      "btn": "Report this listing",
+      "k_FAKE_VACANCY": "The vacancy does not exist",
+      "k_FRAUD": "Fraud",
+      "k_MONEY_ASK": "They ask money to hire",
+      "k_OTHER": "Other",
+      "k_PAY_LIE": "The pay is not what was stated",
+      "lead": "If the employer asks for money or the listing is false, tell us — an admin will look into it.",
+      "send": "Send",
+      "sent": "The report was sent",
+      "textPh": "Describe what happened",
+      "title": "Report"
+    },
+    "jhist": {
+      "add": "Add a job",
+      "addLead": "Until the other side confirms, the record stays “pending”.",
+      "asEmployer": "As an employer",
+      "asWorker": "As a worker",
+      "awaiting": "Waiting for your confirmation",
+      "company": "Company",
+      "confirm": "Confirm",
+      "empty": "No records",
+      "emptyHint": "You can add jobs from before FURAM by hand",
+      "from": "From",
+      "iEmployed": "I employed",
+      "iWorked": "I worked",
+      "lead": "“I drove for three years” carries weight once an employer confirms it. That is why a manually added record waits for confirmation.",
+      "monthsN": "%{n} months",
+      "monthsOnly": "%{m} months",
+      "now": "to date",
+      "object": "I object",
+      "position": "Position",
+      "title": "My work history",
+      "to": "To",
+      "verifiedTotal": "Verified experience",
+      "yearsMonths": "%{y} y %{m} m"
+    },
     "job": {
       "acceptOffer": "I accept",
       "addDocs": "Add to my documents",
@@ -1240,6 +1369,7 @@
       "closed": "The vacancy is closed",
       "countries": "Countries",
       "declineOffer": "I decline",
+      "direction": "Direction",
       "docs": "Documents",
       "employerSub": "My vacancies and candidates",
       "employerTitle": "I'm hiring",
@@ -1944,6 +2074,18 @@
       "3": "Choose the vehicle type",
       "4": "Enter a price or mark it negotiable"
     },
+    "price": {
+      "fair": "In line with the market",
+      "high": "Above the market",
+      "lead": "Based on similar listings — look before you set a price.",
+      "low": "Below the market",
+      "needCategory": "Pick a category first",
+      "range": "Most are %{a} — %{b} %{cur}",
+      "run": "Check the market",
+      "sample": "%{n} listings over %{d} days",
+      "title": "Market price",
+      "tooFew": "Too few similar listings (%{n}, at least %{min} needed) — no conclusion is drawn."
+    },
     "probs": {
       "hint": "Unresolved issues"
     },
@@ -2088,6 +2230,30 @@
       "reminder": "Reminder sent",
       "route_changed": "Route changed",
       "updated": "Updated"
+    },
+    "rdoc": {
+      "add": "Add a document",
+      "delHint": "Press and hold to delete",
+      "empty": "No documents",
+      "emptyHint": "Licence, passport, medical certificate, diploma",
+      "expires": "Valid until",
+      "lead": "A tick saying “I have a licence” is not the licence itself — the employer needs the expiry date. Only an employer who sees your application can open it.",
+      "number": "Number",
+      "title": "Resume documents"
+    },
+    "receipt": {
+      "checkThese": "Enter these by hand: %{f}",
+      "consent": "The image is sent to an external service for reading.",
+      "f_amount": "amount",
+      "f_category": "type",
+      "f_currency": "currency",
+      "f_date": "date",
+      "f_merchant": "merchant",
+      "filled": "%{n} fields filled in",
+      "fixHint": "Check the numbers — the model can misread them.",
+      "nothing": "Nothing could be read from the receipt",
+      "reading": "Reading…",
+      "scan": "Let the AI read the receipt"
     },
     "ref": {
       "balance": "Balance",
@@ -2306,6 +2472,12 @@
       "gearbox": "Gearbox",
       "odometer": "Mileage",
       "year": "Year"
+    },
+    "saleVideo": {
+      "add": "Add a video",
+      "hint": "Engine sound and body condition say more than a photo.",
+      "replace": "Replace the video",
+      "watch": "Watch the video"
     },
     "saved": {
       "empty": "Nothing saved yet",
@@ -2585,6 +2757,13 @@
       "workHours": "Working hours",
       "workHoursPh": "09:00–19:00, Mon–Sat"
     },
+    "svcOrder": {
+      "chat": "Chat",
+      "rate": "Leave a rating",
+      "rateLater": "Not now",
+      "rateLead": "Your rating goes into the specialist's score and is visible to others.",
+      "warranty": "Warranty"
+    },
     "svcRec": {
       "cost": "Cost",
       "odometer": "Odometer",
@@ -2626,6 +2805,33 @@
       "title": "Technical fault",
       "what": "What happened?",
       "whatPh": "Describe it briefly"
+    },
+    "terms": {
+      "agree": "I agree to the terms",
+      "change": "Change the terms",
+      "changed": "Changed: %{f}",
+      "consent": "Who agreed",
+      "current": "Current terms",
+      "f_payTerm": "payment term",
+      "f_price": "price",
+      "f_warranty": "warranty",
+      "f_work": "work description",
+      "f_workHours": "work hours",
+      "hours": "Hours",
+      "lead": "The price in an offer is an estimate. The terms are the agreement: what exactly is done, what it costs, when it is paid and what the warranty is.",
+      "months": "%{n} months",
+      "none": "No terms yet",
+      "noneClient": "The terms appear here once the specialist writes them.",
+      "noneMaster": "Write the terms — once the client agrees, you both look at the same text.",
+      "offer": "Write the terms",
+      "payTerm": "Payment term",
+      "payTermPh": "On completion",
+      "pending": "New proposal",
+      "title": "Work terms",
+      "wKm": "Warranty, km",
+      "wMonths": "Warranty, months",
+      "work": "What exactly is done",
+      "workPh": "For example: replace the front brake pads"
     },
     "tour": {
       "done": "Got it",
@@ -2767,6 +2973,13 @@
       "howNote": "The rating is recalculated weekly. Old mistakes lose weight over time.",
       "notYet": "Not scored yet — a few trips are needed",
       "partsGroup": "WHERE THE POINTS COME FROM",
+      "received": "Ratings I received",
+      "reportHint": "Press and hold an unfair rating to report it",
+      "reportLead": "Why is this rating unfair? An admin will review it — the rating itself is not removed straight away.",
+      "reportPh": "At least 5 characters",
+      "reportSend": "Send the report",
+      "reportSent": "The report was sent",
+      "reportTitle": "Report a rating",
       "subtitle": "Where the score comes from",
       "title": "My rating",
       "toNext": "%{n} points to reach “%{band}”",

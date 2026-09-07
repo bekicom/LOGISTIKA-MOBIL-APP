@@ -91,3 +91,27 @@ export async function pickDocument(): Promise<Photo | null> {
   const a = r.assets[0];
   return { uri: a.uri, name: a.name, type: a.mimeType ?? "application/octet-stream" };
 }
+
+/**
+ * Video tanlash — bozor e'loni uchun (TZ 14).
+ *
+ * Faqat GALEREYADAN: kamerada yozish uzoq va telefon xotirasini
+ * ikki marta yeydi (yozib olingan fayl + yuborilayotgani).
+ * Odam videoni oldindan olib qo'yadi.
+ */
+export async function pickVideo(): Promise<Photo | null> {
+  const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  if (!perm.granted) return null;
+  const r = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ["videos"],
+    allowsMultipleSelection: false,
+    quality: 1,
+  });
+  if (r.canceled || !r.assets[0]) return null;
+  const a = r.assets[0];
+  return {
+    uri: a.uri,
+    name: a.fileName ?? `video-${Date.now()}.mp4`,
+    type: a.mimeType ?? "video/mp4",
+  };
+}

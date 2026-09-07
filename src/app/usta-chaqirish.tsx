@@ -35,6 +35,7 @@ import * as Location from "expo-location";
 import { Button, Field, Header, Steps, Switch } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { LocationPicker, type Loc } from "@/components/FiltrSheet";
+import { AiDiagnose } from "@/components/AiDiagnose";
 import { ErrorBox } from "@/components/state";
 import { api, apiUpload, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
@@ -199,6 +200,16 @@ export default function UstaChaqirish() {
               style={s.area}
             />
             <Text style={s.hint}>{t("mob.svc.problemHint")}</Text>
+
+            {/* AI tashxis: qaysi usta kerakligini oldindan aytadi.
+                Bosilsa mutaxassislik formaga qo'yiladi — odam
+                ro'yxatdan izlab o'tirmaydi. */}
+            <View style={{ marginTop: space.md }}>
+              <AiDiagnose
+                problem={problem}
+                onPickSpec={(k) => setSpecs((v) => (v.includes(k) ? v : [...v, k]))}
+              />
+            </View>
 
             <View>
               <Text style={s.label}>{t("mob.svc.photos")}</Text>

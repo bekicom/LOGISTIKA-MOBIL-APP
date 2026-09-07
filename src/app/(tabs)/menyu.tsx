@@ -67,6 +67,9 @@ function groups(): Group[] {
            «Reys va yuk nazorati» tarifi ostida */
         { icon: "package", title: t("mob.extLoad.title"), href: "/tashqi-yuk", feature: "trips" },
         { icon: "calc", title: t("mob.calc.title"), href: "/kalkulyator", open: true },
+        /* Logistika hisoblagichlari — kalkulyatordan alohida:
+           u qorong'i va katta tugmali, bu esa forma */
+        { icon: "chart", title: t("mob.calc2.title"), href: "/hisoblagichlar", open: true },
       ],
     },
     {
@@ -80,6 +83,11 @@ function groups(): Group[] {
         { icon: "check", title: t("mob.sale.mine"), href: "/sotuvlarim", feature: "auto_sale" },
         { icon: "package", title: t("mob.part.title"), href: "/zapchast", open: true },
         { icon: "briefcase", title: t("mob.job.title"), href: "/ish", open: true },
+        { icon: "handshake", title: t("mob.jagree.title"), href: "/ish/kelishuv" },
+        { icon: "check", title: t("mob.jhist.title"), href: "/ish/tarix" },
+        { icon: "users", title: t("mob.cand.title"), href: "/ish/nomzodlar", feature: "ai_matching" },
+        { icon: "file", title: t("mob.rdoc.title"), href: "/rezyume-hujjat" },
+        { icon: "chart", title: t("mob.cmp.title"), href: "/bozor/taqqoslash", open: true },
         { icon: "heart", title: t("mob.profile.saved"), href: "/saqlanganlar" },
       ],
     },

@@ -11,6 +11,7 @@
     "ALREADY_MANAGED": "该货源已由其他调度员负责。",
     "ALREADY_REPLACED": "该单证已有更新版本。",
     "BAD_AMOUNT": "请检查金额。",
+    "BAD_BODY": "请求内容不完整，请重试。",
     "BAD_CATEGORY": "分类无效。",
     "BAD_CONTENT": "无法读取文件内容。",
     "BAD_COORDS": "无法确定位置。",
@@ -40,6 +41,7 @@
     "BLOCKED": "您的账号已被封禁，请联系客服。",
     "CLOSED": "已关闭，无法修改。",
     "CO_DRIVER": "副司机无法执行此操作。",
+    "CSRF": "安全校验未通过，请重新打开应用。",
     "CURRENT_SESSION": "无法移除当前正在使用的设备。",
     "DECIDED": "该提议已作出决定。",
     "DUPLICATE": "该记录已存在。",
@@ -553,10 +555,50 @@
       "insurance": "保险",
       "visa": "签证协助"
     },
+    "budget": {
+      "add": "设定预算",
+      "amount": "上限",
+      "delHint": "长按条目即可删除",
+      "delQ": "要删除该预算吗？",
+      "empty": "尚未设定预算",
+      "emptyHint": "没有上限，超支要到月末才会发现",
+      "lead": "为当月设定上限：支出接近时会有提醒。上限可针对整个车队、某类费用或单台车辆。",
+      "left": "剩余 %{n} %{cur}",
+      "over": "超出 %{n} %{cur}",
+      "period": "对应月份",
+      "title": "预算"
+    },
     "calc": {
       "noAnswer": "无结果",
       "subtitle": "简单四则运算",
       "title": "计算器"
+    },
+    "calc2": {
+      "fuel": "燃油费用",
+      "fx": "汇率换算",
+      "km": "里程（公里）",
+      "lead": "汇率、每公里成本和燃油费用。除汇率外，均可离线使用。",
+      "litrePrice": "每升价格",
+      "litres": "共 %{n} 升",
+      "per100": "百公里油耗（升）",
+      "perKm": "每公里价格",
+      "perKmHint": "用行程价格除以里程——比较两个报价最简单的办法。",
+      "rateOne": "1 %{cur} = %{n} UZS",
+      "swap": "反向换算",
+      "title": "物流计算器",
+      "tripPrice": "行程价格"
+    },
+    "cand": {
+      "askPh": "有 3 年以上经验的 E 类驾照司机，跑国际线",
+      "found": "%{n} 位候选人",
+      "lead": "用日常语言描述——AI 转成筛选条件，数据库负责检索。",
+      "none": "未找到合适的候选人",
+      "noneHint": "放宽条件：降低经验年限或扩大工种范围。",
+      "notUnderstood": "无法理解该请求，请更明确地说明方向或工种。",
+      "payFrom": "%{n} %{cur} 起",
+      "search": "搜索",
+      "title": "寻找候选人",
+      "yearsN": "%{n} 年经验"
     },
     "cdoc": {
       "add": "添加单证",
@@ -692,6 +734,17 @@
       "title": "关闭行程",
       "waiting": "还在等待 %{n} 位参与者",
       "yes": "是的，收到了"
+    },
+    "cmp": {
+      "add": "加入对比",
+      "addMore": "再加一条",
+      "added": "已加入对比",
+      "clear": "清空",
+      "empty": "对比列表为空",
+      "emptyHint": "打开信息并点击“加入对比”——最多三条",
+      "full": "最多只能对比三条——请先移除一条",
+      "open": "查看（%{n}）",
+      "title": "对比"
     },
     "common": {
       "add": "添加",
@@ -908,6 +961,15 @@
       "whyText2": "长期未使用的设备日期以琥珀色标出——请留意，可能并非本人设备。",
       "whyTitle": "本页面的作用"
     },
+    "diag": {
+      "lead": "AI 会阅读描述，给出可能原因和需要的师傅类型。",
+      "needText": "请描述问题——至少三个字符",
+      "note": "这只是推测——师傅到场后确定。点击可把该工种填入表单。",
+      "nothing": "未找到明确原因",
+      "run": "帮我判断",
+      "thinking": "正在分析…",
+      "title": "可能是哪里出了问题"
+    },
     "dinv": {
       "copied": "已复制",
       "copy": "复制",
@@ -992,6 +1054,7 @@
       "other": "其他",
       "parts": "配件",
       "place": "地点",
+      "receipt": "票据",
       "receiptHint": "选填，但对报表有帮助",
       "refuel": "加油",
       "repair": "维修",
@@ -1084,6 +1147,7 @@
       "overBy": "超支 %{sum}",
       "overdueN": "%{n} 笔欠款已逾期",
       "paid": "已付",
+      "pdf": "下载 PDF 报表",
       "pendingGroup": "等待您审批",
       "pendingN": "%{n} 笔待审",
       "pendingNote": "在您审批前，该运单的结算无法完成。",
@@ -1225,6 +1289,71 @@
       "remaining": "今天还剩 %{n} 次",
       "sent": "邀请已发送"
     },
+    "jagree": {
+      "agree": "我同意",
+      "counter": "修改条款",
+      "empty": "暂无协议",
+      "emptyHint": "申请被接受后会显示在这里",
+      "f_endDate": "结束日期",
+      "f_pay": "薪资",
+      "f_payTerm": "付款期限",
+      "f_schedule": "排班",
+      "f_startDate": "入职日期",
+      "f_terms": "特别条款",
+      "lead": "申请被接受后的条款：薪资、入职日期、排班。雇主拟定，员工同意或提出反提议。",
+      "offer": "拟定条款",
+      "pay": "薪资",
+      "payTermPh": "每月一次",
+      "schedule": "排班",
+      "schedulePh": "15/15、每周六天",
+      "st_AGREED": "已达成一致",
+      "st_CANCELLED": "已取消",
+      "st_CHANGE_WAIT_ME": "请回复新提议",
+      "st_CHANGE_WAIT_OTHER": "您的提议正在等待答复",
+      "st_REJECTED": "已拒绝",
+      "st_WAIT_ME": "等待您的答复",
+      "st_WAIT_OTHER": "等待对方答复",
+      "start": "入职日期",
+      "terms": "特别条款",
+      "title": "工作协议"
+    },
+    "jcomp": {
+      "btn": "举报该招聘",
+      "k_FAKE_VACANCY": "该职位不存在",
+      "k_FRAUD": "诈骗",
+      "k_MONEY_ASK": "以录用为名索要钱财",
+      "k_OTHER": "其他",
+      "k_PAY_LIE": "薪资与描述不符",
+      "lead": "如果雇主索要钱财或信息虚假，请告诉我们——管理员会核查。",
+      "send": "提交",
+      "sent": "举报已提交",
+      "textPh": "请说明经过",
+      "title": "举报"
+    },
+    "jhist": {
+      "add": "添加工作",
+      "addLead": "在对方确认前，记录保持“待确认”。",
+      "asEmployer": "作为雇主",
+      "asWorker": "作为员工",
+      "awaiting": "等待您确认",
+      "company": "单位",
+      "confirm": "确认",
+      "empty": "暂无记录",
+      "emptyHint": "可以手动添加加入 FURAM 之前的工作",
+      "from": "开始",
+      "iEmployed": "我曾雇用过",
+      "iWorked": "我曾在此工作",
+      "lead": "“开了三年车”只有在雇主确认后才有分量。因此手动添加的记录需要等待确认。",
+      "monthsN": "%{n} 个月",
+      "monthsOnly": "%{m} 个月",
+      "now": "至今",
+      "object": "我有异议",
+      "position": "职位",
+      "title": "我的工作经历",
+      "to": "结束",
+      "verifiedTotal": "已确认工龄",
+      "yearsMonths": "%{y} 年 %{m} 个月"
+    },
     "job": {
       "acceptOffer": "接受",
       "addDocs": "添加到我的证件",
@@ -1240,6 +1369,7 @@
       "closed": "该职位已关闭",
       "countries": "国家",
       "declineOffer": "拒绝",
+      "direction": "方向",
       "docs": "证件",
       "employerSub": "我的职位与候选人",
       "employerTitle": "我在招人",
@@ -1944,6 +2074,18 @@
       "3": "请选择车型",
       "4": "请填写价格或勾选「面议」"
     },
+    "price": {
+      "fair": "与市场持平",
+      "high": "高于市场",
+      "lead": "基于同类信息——定价前先看看。",
+      "low": "低于市场",
+      "needCategory": "请先选择类别",
+      "range": "多数在 %{a} — %{b} %{cur}",
+      "run": "查看市场",
+      "sample": "%{d} 天内 %{n} 条信息",
+      "title": "市场价",
+      "tooFew": "同类信息太少（%{n} 条，至少需要 %{min} 条）——不作结论。"
+    },
     "probs": {
       "hint": "未解决的问题"
     },
@@ -2088,6 +2230,30 @@
       "reminder": "已发送提醒",
       "route_changed": "路线已变更",
       "updated": "已更新"
+    },
+    "rdoc": {
+      "add": "添加文件",
+      "delHint": "长按即可删除",
+      "empty": "暂无文件",
+      "emptyHint": "驾照、护照、体检证明、文凭",
+      "expires": "有效期至",
+      "lead": "“有驾照”的勾选和驾照本身不同：雇主需要看到有效期。只有能看到您申请的雇主才能打开该文件。",
+      "number": "编号",
+      "title": "简历附件"
+    },
+    "receipt": {
+      "checkThese": "请手动填写：%{f}",
+      "consent": "图片将发送至外部服务进行识别。",
+      "f_amount": "金额",
+      "f_category": "类型",
+      "f_currency": "币种",
+      "f_date": "日期",
+      "f_merchant": "商户",
+      "filled": "已填入 %{n} 个字段",
+      "fixHint": "请核对数字——模型可能识别有误。",
+      "nothing": "未能从收据中识别出内容",
+      "reading": "正在识别…",
+      "scan": "让 AI 读取收据"
     },
     "ref": {
       "balance": "余额",
@@ -2306,6 +2472,12 @@
       "gearbox": "变速箱",
       "odometer": "里程",
       "year": "年份"
+    },
+    "saleVideo": {
+      "add": "添加视频",
+      "hint": "发动机声音和车身状况比照片更能说明问题。",
+      "replace": "替换视频",
+      "watch": "观看视频"
     },
     "saved": {
       "empty": "尚无收藏",
@@ -2585,6 +2757,13 @@
       "workHours": "营业时间",
       "workHoursPh": "09:00–19:00，周一至周六"
     },
+    "svcOrder": {
+      "chat": "聊天",
+      "rate": "评分",
+      "rateLater": "暂不评分",
+      "rateLead": "您的评分会计入师傅的评价，并对他人可见。",
+      "warranty": "质保"
+    },
     "svcRec": {
       "cost": "费用",
       "odometer": "里程",
@@ -2626,6 +2805,33 @@
       "title": "技术故障",
       "what": "出了什么问题？",
       "whatPh": "简要描述"
+    },
+    "terms": {
+      "agree": "我同意这些条款",
+      "change": "修改条款",
+      "changed": "变更内容：%{f}",
+      "consent": "谁已同意",
+      "current": "当前条款",
+      "f_payTerm": "付款期限",
+      "f_price": "价格",
+      "f_warranty": "质保",
+      "f_work": "工作说明",
+      "f_workHours": "工时",
+      "hours": "工时",
+      "lead": "报价只是估算。条款才是约定：具体做什么、多少钱、何时付款、质保如何。",
+      "months": "%{n} 个月",
+      "none": "尚未拟定条款",
+      "noneClient": "师傅拟好条款后会显示在这里。",
+      "noneMaster": "请拟定条款——客户同意后，双方看到的是同一份文本。",
+      "offer": "拟定条款",
+      "payTerm": "付款期限",
+      "payTermPh": "完工后",
+      "pending": "新提议",
+      "title": "工作条款",
+      "wKm": "质保（公里）",
+      "wMonths": "质保（月）",
+      "work": "具体做什么",
+      "workPh": "例如：更换前刹车片"
     },
     "tour": {
       "done": "明白了",
@@ -2767,6 +2973,13 @@
       "howNote": "评分每周重算。旧的失误会随时间逐渐淡出。",
       "notYet": "尚未评分——还需要几趟运单",
       "partsGroup": "分数构成",
+      "received": "我收到的评分",
+      "reportHint": "长按不公正的评分即可投诉",
+      "reportLead": "这条评分为何不公？管理员会审核——评分不会立即删除。",
+      "reportPh": "至少 5 个字符",
+      "reportSend": "提交举报",
+      "reportSent": "举报已提交",
+      "reportTitle": "举报评分",
       "subtitle": "分数从何而来",
       "title": "我的评分",
       "toNext": "距离「%{band}」还差 %{n} 分",

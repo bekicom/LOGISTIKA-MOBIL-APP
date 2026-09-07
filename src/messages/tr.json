@@ -11,6 +11,7 @@
     "ALREADY_MANAGED": "Bu yük zaten başka bir dispeçerde.",
     "ALREADY_REPLACED": "Bu belgenin zaten yeni bir sürümü var.",
     "BAD_AMOUNT": "Tutarı kontrol edin.",
+    "BAD_BODY": "İstek eksik geldi. Tekrar deneyin.",
     "BAD_CATEGORY": "Kategori geçersiz.",
     "BAD_CONTENT": "Dosya içeriği okunamadı.",
     "BAD_COORDS": "Konum belirlenemedi.",
@@ -40,6 +41,7 @@
     "BLOCKED": "Hesabınız engellendi. Destekle iletişime geçin.",
     "CLOSED": "Bu kapandı — değiştirilemez.",
     "CO_DRIVER": "Bunu ikinci sürücü yapamaz.",
+    "CSRF": "Güvenlik doğrulaması başarısız. Uygulamayı yeniden açın.",
     "CURRENT_SESSION": "Kullandığınız cihaz kaldırılamaz.",
     "DECIDED": "Bu teklif hakkında karar verilmiş.",
     "DUPLICATE": "Böyle bir kayıt zaten var.",
@@ -553,10 +555,50 @@
       "insurance": "Sigorta",
       "visa": "Vize desteği"
     },
+    "budget": {
+      "add": "Bütçe koy",
+      "amount": "Limit",
+      "delHint": "Silmek için satıra basılı tutun",
+      "delQ": "Bütçe silinsin mi?",
+      "empty": "Bütçe belirlenmedi",
+      "emptyHint": "Limit yoksa aşım ancak ay sonunda fark edilir",
+      "lead": "Ay için limit koyun: masraf ona yaklaşınca uyarı çıkar. Limit tüm filoya, bir masraf türüne ya da tek araca konabilir.",
+      "left": "%{n} %{cur} kaldı",
+      "over": "%{n} %{cur} aşıldı",
+      "period": "Hangi ay",
+      "title": "Bütçe"
+    },
     "calc": {
       "noAnswer": "Sonuç yok",
       "subtitle": "Basit dört işlem",
       "title": "Hesap makinesi"
+    },
+    "calc2": {
+      "fuel": "Yakıt masrafı",
+      "fx": "Döviz",
+      "km": "Mesafe, km",
+      "lead": "Kur, kilometre başı fiyat ve yakıt masrafı. Kur dışındakiler internetsiz de çalışır.",
+      "litrePrice": "Litre fiyatı",
+      "litres": "Toplam %{n} litre",
+      "per100": "100 km'de litre",
+      "perKm": "Kilometre başı fiyat",
+      "perKmHint": "Sefer fiyatını mesafeye böler — iki teklifi karşılaştırmanın en basit yolu.",
+      "rateOne": "1 %{cur} = %{n} UZS",
+      "swap": "Tersine",
+      "title": "Lojistik hesaplar",
+      "tripPrice": "Sefer fiyatı"
+    },
+    "cand": {
+      "askPh": "Uluslararası seferler için 3+ yıl tecrübeli E sınıfı şoför",
+      "found": "%{n} aday",
+      "lead": "Günlük dille yazın — AI bunu filtreye çevirir, aramayı veritabanı yapar.",
+      "none": "Uygun aday bulunamadı",
+      "noneHint": "Şartları gevşetin: tecrübe yılını azaltın ya da mesleği genişletin.",
+      "notUnderstood": "İstek anlaşılmadı. Yön ya da mesleği daha net yazın.",
+      "payFrom": "%{n} %{cur} üzeri",
+      "search": "Ara",
+      "title": "Aday ara",
+      "yearsN": "%{n} yıl tecrübe"
     },
     "cdoc": {
       "add": "Belge ekle",
@@ -692,6 +734,17 @@
       "title": "Seferi kapatma",
       "waiting": "%{n} katılımcı bekleniyor",
       "yes": "Evet, aldım"
+    },
+    "cmp": {
+      "add": "Karşılaştırmaya ekle",
+      "addMore": "Bir tane daha ekle",
+      "added": "Karşılaştırmada",
+      "clear": "Temizle",
+      "empty": "Liste boş",
+      "emptyHint": "Bir ilanı açıp “karşılaştırmaya ekle”ye basın — en fazla üç",
+      "full": "Üçten fazla karşılaştırılamaz — birini çıkarın",
+      "open": "Aç (%{n})",
+      "title": "Karşılaştırma"
     },
     "common": {
       "add": "Ekle",
@@ -908,6 +961,15 @@
       "whyText2": "Uzun süredir girilmeyen cihazın tarihi kahverengi yazılır — dikkat edin, yabancı olabilir.",
       "whyTitle": "Bu ekran neden var"
     },
+    "diag": {
+      "lead": "AI açıklamayı okur, olası nedenleri ve gereken ustayı söyler.",
+      "needText": "Sorunu yazın — en az üç karakter",
+      "note": "Bu bir tahmin — usta yerinde belirler. Dokununca uzmanlık forma eklenir.",
+      "nothing": "Belirgin bir neden bulunamadı",
+      "run": "Kontrol et",
+      "thinking": "Düşünüyor…",
+      "title": "Ne bozulmuş olabilir"
+    },
     "dinv": {
       "copied": "Kopyalandı",
       "copy": "Kopyala",
@@ -992,6 +1054,7 @@
       "other": "Diğer",
       "parts": "Yedek parça",
       "place": "Yer",
+      "receipt": "Fiş",
       "receiptHint": "isteğe bağlı ama raporda faydalı",
       "refuel": "Yakıt alımı",
       "repair": "Onarım",
@@ -1084,6 +1147,7 @@
       "overBy": "%{sum} aşıldı",
       "overdueN": "%{n} borç gecikti",
       "paid": "Ödenen",
+      "pdf": "PDF raporu indir",
       "pendingGroup": "ONAYINIZI BEKLİYOR",
       "pendingN": "%{n} onay bekliyor",
       "pendingNote": "Onaylamadıkça sefer hesabı kapanmaz.",
@@ -1225,6 +1289,71 @@
       "remaining": "Bugün %{n} tane daha",
       "sent": "Davet gönderildi"
     },
+    "jagree": {
+      "agree": "Kabul ediyorum",
+      "counter": "Şartları değiştir",
+      "empty": "Anlaşma yok",
+      "emptyHint": "Başvuru kabul edilince burada görünür",
+      "f_endDate": "bitiş tarihi",
+      "f_pay": "maaş",
+      "f_payTerm": "ödeme vadesi",
+      "f_schedule": "çalışma düzeni",
+      "f_startDate": "başlangıç tarihi",
+      "f_terms": "özel şartlar",
+      "lead": "Başvuru kabul edildikten sonraki şartlar: maaş, başlangıç tarihi, çalışma düzeni. İşveren yazar, çalışan onaylar ya da karşı teklif verir.",
+      "offer": "Şartları yaz",
+      "pay": "Maaş",
+      "payTermPh": "Ayda bir",
+      "schedule": "Çalışma düzeni",
+      "schedulePh": "15/15, 6 gün",
+      "st_AGREED": "Anlaşıldı",
+      "st_CANCELLED": "İptal edildi",
+      "st_CHANGE_WAIT_ME": "Yeni teklife yanıt verin",
+      "st_CHANGE_WAIT_OTHER": "Teklifiniz yanıt bekliyor",
+      "st_REJECTED": "Reddedildi",
+      "st_WAIT_ME": "Sizden yanıt bekleniyor",
+      "st_WAIT_OTHER": "Karşı tarafın yanıtı bekleniyor",
+      "start": "Başlangıç tarihi",
+      "terms": "Özel şartlar",
+      "title": "İş anlaşmaları"
+    },
+    "jcomp": {
+      "btn": "İlanı şikâyet et",
+      "k_FAKE_VACANCY": "Böyle bir iş yok",
+      "k_FRAUD": "Dolandırıcılık",
+      "k_MONEY_ASK": "İşe alım için para istiyor",
+      "k_OTHER": "Diğer",
+      "k_PAY_LIE": "Maaş yazıldığı gibi değil",
+      "lead": "İşveren para istiyorsa ya da ilan yalansa bildirin — yönetici inceleyecek.",
+      "send": "Gönder",
+      "sent": "Şikâyet gönderildi",
+      "textPh": "Ne olduğunu yazın",
+      "title": "Şikâyet"
+    },
+    "jhist": {
+      "add": "İş ekle",
+      "addLead": "Karşı taraf onaylayana kadar kayıt “beklemede” kalır.",
+      "asEmployer": "İşveren olarak",
+      "asWorker": "Çalışan olarak",
+      "awaiting": "Onayınız bekleniyor",
+      "company": "Şirket",
+      "confirm": "Onayla",
+      "empty": "Kayıt yok",
+      "emptyHint": "FURAM öncesi işleri elle ekleyebilirsiniz",
+      "from": "Başlangıç",
+      "iEmployed": "Ben işe aldım",
+      "iWorked": "Ben çalıştım",
+      "lead": "«Üç yıl şoförlük yaptım» sözü, işveren onayladığında değer kazanır. Bu yüzden elle eklenen kayıt onay bekler.",
+      "monthsN": "%{n} ay",
+      "monthsOnly": "%{m} ay",
+      "now": "hâlâ",
+      "object": "Katılmıyorum",
+      "position": "Pozisyon",
+      "title": "İş geçmişim",
+      "to": "Bitiş",
+      "verifiedTotal": "Onaylı deneyim",
+      "yearsMonths": "%{y} yıl %{m} ay"
+    },
     "job": {
       "acceptOffer": "Kabul ediyorum",
       "addDocs": "Belgelerime ekle",
@@ -1240,6 +1369,7 @@
       "closed": "İlan kapandı",
       "countries": "Ülkeler",
       "declineOffer": "Reddediyorum",
+      "direction": "Alan",
       "docs": "Belgeler",
       "employerSub": "İlanlarım ve adaylar",
       "employerTitle": "Eleman arıyorum",
@@ -1944,6 +2074,18 @@
       "3": "Araç tipini seçin",
       "4": "Fiyat girin ya da «pazarlıklı» işaretleyin"
     },
+    "price": {
+      "fair": "Piyasa seviyesinde",
+      "high": "Piyasanın üstünde",
+      "lead": "Benzer ilanlara göre — fiyatı koymadan önce bakın.",
+      "low": "Piyasanın altında",
+      "needCategory": "Önce kategori seçin",
+      "range": "Çoğu %{a} — %{b} %{cur}",
+      "run": "Piyasaya bak",
+      "sample": "%{d} günde %{n} ilan",
+      "title": "Piyasa fiyatı",
+      "tooFew": "Benzer ilan az (%{n}, en az %{min} gerek) — sonuç çıkarılmaz."
+    },
     "probs": {
       "hint": "Çözülmemiş durumlar"
     },
@@ -2088,6 +2230,30 @@
       "reminder": "Hatırlatma gönderildi",
       "route_changed": "Güzergâh değişti",
       "updated": "Güncellendi"
+    },
+    "rdoc": {
+      "add": "Belge ekle",
+      "delHint": "Silmek için basılı tutun",
+      "empty": "Belge yok",
+      "emptyHint": "Ehliyet, pasaport, sağlık raporu, diploma",
+      "expires": "Geçerlilik tarihi",
+      "lead": "«Ehliyetim var» işareti ile ehliyetin kendisi farklıdır: işverene süre gerekir. Belgeyi yalnızca başvurunuzu gören işveren açabilir.",
+      "number": "Numarası",
+      "title": "Özgeçmiş belgeleri"
+    },
+    "receipt": {
+      "checkThese": "Bunları elle yazın: %{f}",
+      "consent": "Görüntü, okunmak üzere harici bir servise gönderilir.",
+      "f_amount": "tutar",
+      "f_category": "tür",
+      "f_currency": "para birimi",
+      "f_date": "tarih",
+      "f_merchant": "işletme",
+      "filled": "%{n} alan dolduruldu",
+      "fixHint": "Rakamları kontrol edin — model yanlış okuyabilir.",
+      "nothing": "Fişten hiçbir şey okunamadı",
+      "reading": "Okunuyor…",
+      "scan": "Fişi AI okusun"
     },
     "ref": {
       "balance": "Bakiye",
@@ -2306,6 +2472,12 @@
       "gearbox": "Şanzıman",
       "odometer": "Kilometre",
       "year": "Yıl"
+    },
+    "saleVideo": {
+      "add": "Video ekle",
+      "hint": "Motor sesi ve kasa durumu fotoğraftan çok şey anlatır.",
+      "replace": "Videoyu değiştir",
+      "watch": "Videoyu izle"
     },
     "saved": {
       "empty": "Kaydedilmiş ilan yok",
@@ -2585,6 +2757,13 @@
       "workHours": "Çalışma saatleri",
       "workHoursPh": "09:00–19:00, Pzt–Cmt"
     },
+    "svcOrder": {
+      "chat": "Yazışma",
+      "rate": "Puan ver",
+      "rateLater": "Şimdi değil",
+      "rateLead": "Puanınız ustanın puanına eklenir ve başkalarına görünür.",
+      "warranty": "Garanti"
+    },
     "svcRec": {
       "cost": "Maliyet",
       "odometer": "Kilometre",
@@ -2626,6 +2805,33 @@
       "title": "Teknik arıza",
       "what": "Ne oldu?",
       "whatPh": "Kısaca yazın"
+    },
+    "terms": {
+      "agree": "Şartları kabul ediyorum",
+      "change": "Şartları değiştir",
+      "changed": "Değişen: %{f}",
+      "consent": "Kim onayladı",
+      "current": "Geçerli şartlar",
+      "f_payTerm": "ödeme vadesi",
+      "f_price": "fiyat",
+      "f_warranty": "garanti",
+      "f_work": "iş tanımı",
+      "f_workHours": "iş saati",
+      "hours": "Saat",
+      "lead": "Teklifteki fiyat bir tahmindir. Şartlar ise anlaşmadır: tam olarak ne yapılır, ne kadar tutar, ödeme ne zaman ve garanti nedir.",
+      "months": "%{n} ay",
+      "none": "Şartlar yazılmadı",
+      "noneClient": "Usta şartları yazınca burada görünür.",
+      "noneMaster": "Şartları yazın — müşteri onaylayınca ikiniz de aynı metne bakarsınız.",
+      "offer": "Şartları yaz",
+      "payTerm": "Ödeme vadesi",
+      "payTermPh": "İş bitince",
+      "pending": "Yeni teklif",
+      "title": "İş şartları",
+      "wKm": "Garanti, km",
+      "wMonths": "Garanti, ay",
+      "work": "Tam olarak ne yapılır",
+      "workPh": "Örneğin: ön balata değişimi"
     },
     "tour": {
       "done": "Anladım",
@@ -2767,6 +2973,13 @@
       "howNote": "Puan her hafta yeniden hesaplanır. Eski hatalar zamanla ağırlığını kaybeder.",
       "notYet": "Puan henüz hesaplanmadı — birkaç sefer gerekiyor",
       "partsGroup": "PUAN NEREDEN GELDİ",
+      "received": "Bana verilen puanlar",
+      "reportHint": "Haksız bir puanı şikâyet etmek için basılı tutun",
+      "reportLead": "Bu puan neden haksız? Yönetici inceleyecek — puan hemen kaldırılmaz.",
+      "reportPh": "En az 5 karakter",
+      "reportSend": "Şikâyeti gönder",
+      "reportSent": "Şikâyet gönderildi",
+      "reportTitle": "Puana şikâyet",
       "subtitle": "Puan neyden oluşuyor",
       "title": "Puanım",
       "toNext": "«%{band}» seviyesine %{n} puan kaldı",

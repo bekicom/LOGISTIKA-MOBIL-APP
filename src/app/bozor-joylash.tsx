@@ -40,6 +40,7 @@ import { useRouter } from "expo-router";
 import { Button, Field, Header, Steps, Switch } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { LocationPicker, type Loc } from "@/components/FiltrSheet";
+import { PriceAnalysis } from "@/components/PriceAnalysis";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { api, apiUpload, FuramError } from "@/lib/api";
@@ -397,6 +398,19 @@ export default function BozorJoylash() {
                   ))}
                 </View>
               </View>
+            </View>
+
+            {/* Bozor narxi — narx QO'YILAYOTGAN paytda. Keyin
+                aytish kechikkan gap: e'lon lentada turadi va hech
+                kim qo'ng'iroq qilmaydi. */}
+            <View style={{ marginTop: space.md, marginBottom: space.md }}>
+              <PriceAnalysis
+                category={pick ? (cat ?? "TRUCK") : cat}
+                year={Number(year) || null}
+                odometer={Number(odometer) || null}
+                price={Number(price.replace(/\s/g, "")) || null}
+                currency={currency}
+              />
             </View>
 
             <Text style={s.label}>{t("mob.sale.priceKind")}</Text>

@@ -23,6 +23,7 @@ import { Button, Field, Notice } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
+import { ReceiptScan } from "@/components/ReceiptScan";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { P_SOON, P_WIFI, sendOrQueue } from "@/lib/outbox";
@@ -297,7 +298,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 
                 {/* Chek */}
                 <Text style={[s.label, { marginTop: space.xl }]}>
-                  Chek <Text style={s.optional}>{t("mob.exp.receiptHint")}</Text>
+                  {t("mob.exp.receipt")} <Text style={s.optional}>{t("mob.exp.receiptHint")}</Text>
                 </Text>
                 <View style={{ flexDirection: "row", gap: 9, marginTop: 9 }}>
                   {photo ? (
@@ -319,6 +320,22 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                       </Pressable>
                     </>
                   )}
+                </View>
+
+                {/* Chekni AI o'qiydi: summa, valyuta va turini
+                    to'ldiradi. QO'LDA TUZATSA BO'LADI — model
+                    xato o'qishi mumkin va odam uni tuzata olmasa,
+                    skaner foydadan ko'ra zarar bo'lardi. */}
+                <View style={{ marginTop: 9 }}>
+                  <ReceiptScan
+                    photo={photo}
+                    onRead={(f) => {
+                      if (f.amount != null) setAmount(String(f.amount));
+                      if (f.currency) setCur(f.currency);
+                      if (f.category) setCat(f.category);
+                      if (f.merchant) setStation(f.merchant);
+                    }}
+                  />
                 </View>
 
                 {err ? <View style={{ marginTop: space.lg }}><Notice tone="danger">{err}</Notice></View> : null}

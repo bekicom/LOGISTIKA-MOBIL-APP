@@ -11,6 +11,7 @@
     "ALREADY_MANAGED": "Bu yuk allaqachon boshqa dispetcherda.",
     "ALREADY_REPLACED": "Bu hujjatning yangi versiyasi allaqachon bor.",
     "BAD_AMOUNT": "Summani tekshiring.",
+    "BAD_BODY": "So'rov to'liq kelmadi. Qaytadan urinib ko'ring.",
     "BAD_CATEGORY": "Kategoriya noto'g'ri.",
     "BAD_CONTENT": "Fayl mazmuni o'qilmadi.",
     "BAD_COORDS": "Joylashuv aniqlanmadi.",
@@ -40,6 +41,7 @@
     "BLOCKED": "Hisobingiz bloklangan. Qo'llab-quvvatlashga murojaat qiling.",
     "CLOSED": "Bu yopilgan — o'zgartirib bo'lmaydi.",
     "CO_DRIVER": "Bu amalni ikkinchi haydovchi bajara olmaydi.",
+    "CSRF": "Xavfsizlik tekshiruvidan o'tmadi. Ilovani qayta oching.",
     "CURRENT_SESSION": "Hozirgi qurilmani o'chirib bo'lmaydi.",
     "DECIDED": "Bu taklif bo'yicha qaror allaqachon qabul qilingan.",
     "DUPLICATE": "Bunday yozuv allaqachon bor.",
@@ -553,10 +555,50 @@
       "insurance": "Sug'urta",
       "visa": "Viza yordami"
     },
+    "budget": {
+      "add": "Budjet qo'yish",
+      "amount": "Chegara",
+      "delHint": "O'chirish uchun qatorni bosib turing",
+      "delQ": "Budjet o'chirilsinmi?",
+      "empty": "Budjet qo'yilmagan",
+      "emptyHint": "Chegara bo'lmasa xarajat oshgani faqat oy oxirida bilinadi",
+      "lead": "Oy uchun chegara qo'ying: xarajat unga yaqinlashsa ogohlantiradi. Chegarani butun parkga, bitta xarajat turiga yoki bitta mashinaga qo'yish mumkin.",
+      "left": "%{n} %{cur} qoldi",
+      "over": "%{n} %{cur} oshib ketdi",
+      "period": "Qaysi oy",
+      "title": "Budjet"
+    },
     "calc": {
       "noAnswer": "Javob yo'q",
       "subtitle": "Oddiy to'rt amal",
       "title": "Kalkulyator"
+    },
+    "calc2": {
+      "fuel": "Yoqilg'i xarajati",
+      "fx": "Valyuta",
+      "km": "Masofa, km",
+      "lead": "Kurs, 1 km narxi va yoqilg'i xarajati. Kursdan boshqasi internetsiz ham ishlaydi.",
+      "litrePrice": "1 litr narxi",
+      "litres": "Jami %{n} litr",
+      "per100": "100 km ga, litr",
+      "perKm": "1 km narxi",
+      "perKmHint": "Reys narxini masofaga bo'ladi — ikki taklifni taqqoslashning eng oddiy yo'li.",
+      "rateOne": "1 %{cur} = %{n} UZS",
+      "swap": "Teskarisiga",
+      "title": "Logistika hisoblari",
+      "tripPrice": "Reys narxi"
+    },
+    "cand": {
+      "askPh": "Xalqaro reysga E toifali, uch yildan ortiq tajribali haydovchi",
+      "found": "%{n} ta nomzod",
+      "lead": "Odam tilida yozing — AI uni filtrga o'giradi, izlashni esa baza qiladi.",
+      "none": "Mos nomzod topilmadi",
+      "noneHint": "Shartlarni yumshating: tajriba yilini kamaytiring yoki kasbni kengaytiring.",
+      "notUnderstood": "So'rov tushunarsiz bo'ldi. Yo'nalish yoki kasbni aniqroq yozing.",
+      "payFrom": "%{n} %{cur} dan",
+      "search": "Qidirish",
+      "title": "Nomzod qidirish",
+      "yearsN": "%{n} yil tajriba"
     },
     "cdoc": {
       "add": "Hujjat qo'shish",
@@ -692,6 +734,17 @@
       "title": "Reysni yopish",
       "waiting": "%{n} ta ishtirokchi javobi kutilmoqda",
       "yes": "Ha, oldim"
+    },
+    "cmp": {
+      "add": "Taqqoslashga qo'shish",
+      "addMore": "Yana qo'shish",
+      "added": "Taqqoslashda",
+      "clear": "Tozalash",
+      "empty": "Ro'yxat bo'sh",
+      "emptyHint": "E'lonni ochib «taqqoslashga qo'shish» ni bosing — uchtagacha",
+      "full": "Uchtadan ko'p taqqoslab bo'lmaydi — bittasini olib tashlang",
+      "open": "Ochish (%{n})",
+      "title": "Taqqoslash"
     },
     "common": {
       "add": "Qo'shish",
@@ -908,6 +961,15 @@
       "whyText2": "Uzoq vaqt kirilmagan qurilma sanasi jigarrang yoziladi — e'tibor bering, balki begonadir.",
       "whyTitle": "Nima uchun bu ekran bor"
     },
+    "diag": {
+      "lead": "AI muammoni o'qib, ehtimoliy sabablarni va qaysi usta kerakligini aytadi.",
+      "needText": "Muammoni yozing — kamida uch belgi",
+      "note": "Bu taxmin — usta mashinani ko'rib aniqlaydi. Bosilsa mutaxassislik formaga qo'yiladi.",
+      "nothing": "Aniq sabab topilmadi",
+      "run": "Tekshirib ko'rish",
+      "thinking": "O'ylanmoqda…",
+      "title": "Nima buzilgan bo'lishi mumkin"
+    },
     "dinv": {
       "copied": "Nusxa olindi",
       "copy": "Nusxa olish",
@@ -992,6 +1054,7 @@
       "other": "Boshqa",
       "parts": "Zapchast",
       "place": "Joy",
+      "receipt": "Chek",
       "receiptHint": "ixtiyoriy, lekin hisobotda foydali",
       "refuel": "Zapravka",
       "repair": "Ta'mir",
@@ -1084,6 +1147,7 @@
       "overBy": "%{sum} oshdi",
       "overdueN": "%{n} ta qarz muddati o'tgan",
       "paid": "To'langan",
+      "pdf": "Hisobotni PDF qilib olish",
       "pendingGroup": "TASDIQ KUTMOQDA",
       "pendingN": "%{n} ta tasdiq kutmoqda",
       "pendingNote": "Tasdiqlamaguningizcha reys hisobi yakunlanmaydi.",
@@ -1225,6 +1289,71 @@
       "remaining": "Bugun yana %{n} ta",
       "sent": "Taklif yuborildi"
     },
+    "jagree": {
+      "agree": "Roziman",
+      "counter": "Shartni o'zgartirish",
+      "empty": "Kelishuv yo'q",
+      "emptyHint": "Ariza qabul qilingach shu yerda paydo bo'ladi",
+      "f_endDate": "tugash sanasi",
+      "f_pay": "maosh",
+      "f_payTerm": "to'lov muddati",
+      "f_schedule": "grafik",
+      "f_startDate": "boshlanish sanasi",
+      "f_terms": "alohida shartlar",
+      "lead": "Ariza qabul qilingandan keyingi shart: maosh, boshlanish sanasi, grafik. Ish beruvchi yozadi, xodim rozilik beradi yoki qarshi taklif yuboradi.",
+      "offer": "Shart yozish",
+      "pay": "Maosh",
+      "payTermPh": "Oyiga bir marta",
+      "schedule": "Ish grafigi",
+      "schedulePh": "15/15, 6 kunlik",
+      "st_AGREED": "Kelishildi",
+      "st_CANCELLED": "Bekor qilindi",
+      "st_CHANGE_WAIT_ME": "Yangi taklifga javob bering",
+      "st_CHANGE_WAIT_OTHER": "Taklifingiz javob kutmoqda",
+      "st_REJECTED": "Rad etildi",
+      "st_WAIT_ME": "Sizdan javob kutilmoqda",
+      "st_WAIT_OTHER": "Ikkinchi tomon javobini kutmoqda",
+      "start": "Boshlanish sanasi",
+      "terms": "Alohida shartlar",
+      "title": "Ish kelishuvlari"
+    },
+    "jcomp": {
+      "btn": "E'lon ustidan shikoyat",
+      "k_FAKE_VACANCY": "Bunday ish o'rni yo'q",
+      "k_FRAUD": "Firibgarlik",
+      "k_MONEY_ASK": "Ishga olish uchun pul so'radi",
+      "k_OTHER": "Boshqa",
+      "k_PAY_LIE": "Maosh yozilganidan boshqa",
+      "lead": "Ish beruvchi pul so'rasa yoki e'lon yolg'on bo'lsa xabar bering — admin ko'rib chiqadi.",
+      "send": "Yuborish",
+      "sent": "Shikoyat yuborildi",
+      "textPh": "Nima bo'lganini yozing",
+      "title": "Shikoyat"
+    },
+    "jhist": {
+      "add": "Ish qo'shish",
+      "addLead": "Ikkinchi tomon tasdiqlaguncha yozuv «kutilmoqda» bo'lib turadi.",
+      "asEmployer": "Ish beruvchi sifatida",
+      "asWorker": "Xodim sifatida",
+      "awaiting": "Sizdan tasdiq kutilmoqda",
+      "company": "Tashkilot",
+      "confirm": "Tasdiqlash",
+      "empty": "Yozuv yo'q",
+      "emptyHint": "FURAM'dan oldingi ishni qo'lda qo'shsangiz bo'ladi",
+      "from": "Boshlangan",
+      "iEmployed": "Men ish berganman",
+      "iWorked": "Men ishlaganman",
+      "lead": "«Uch yil haydovchi bo'lganman» degan gapning qiymati uni ish beruvchi tasdiqlaganida paydo bo'ladi. Shuning uchun qo'lda yozilgan yozuv tasdiq kutadi.",
+      "monthsN": "%{n} oy",
+      "monthsOnly": "%{m} oy",
+      "now": "hozirgacha",
+      "object": "Rozi emasman",
+      "position": "Lavozim",
+      "title": "Ish tarixim",
+      "to": "Tugagan",
+      "verifiedTotal": "Tasdiqlangan staj",
+      "yearsMonths": "%{y} yil %{m} oy"
+    },
     "job": {
       "acceptOffer": "Qabul qilaman",
       "addDocs": "Hujjatlarimga qo'shish",
@@ -1240,6 +1369,7 @@
       "closed": "Vakansiya yopilgan",
       "countries": "Davlatlar",
       "declineOffer": "Rad etaman",
+      "direction": "Yo'nalish",
       "docs": "Hujjatlar",
       "employerSub": "Vakansiyalarim va nomzodlar",
       "employerTitle": "Ishchi qidiryapman",
@@ -1944,6 +2074,18 @@
       "3": "Transport turini tanlang",
       "4": "Narx kiriting yoki «kelishiladi» belgilang"
     },
+    "price": {
+      "fair": "Bozor darajasida",
+      "high": "Bozordan qimmat",
+      "lead": "Shunga o'xshash e'lonlarga qarab: narxni qo'yishdan oldin ko'ring.",
+      "low": "Bozordan arzon",
+      "needCategory": "Avval kategoriyani tanlang",
+      "range": "Ko'pchiligi %{a} — %{b} %{cur}",
+      "run": "Bozorni ko'rish",
+      "sample": "%{n} ta e'lon, %{d} kun ichida",
+      "title": "Bozor narxi",
+      "tooFew": "O'xshash e'lon kam (%{n} ta, kamida %{min} kerak) — xulosa chiqarilmaydi."
+    },
     "probs": {
       "hint": "Hal qilinmagan holatlar"
     },
@@ -2088,6 +2230,30 @@
       "reminder": "Eslatma yuborildi",
       "route_changed": "Yo'nalish o'zgardi",
       "updated": "O'zgartirildi"
+    },
+    "rdoc": {
+      "add": "Hujjat qo'shish",
+      "delHint": "O'chirish uchun bosib turing",
+      "empty": "Hujjat yo'q",
+      "emptyHint": "Prava, pasport, tibbiy ma'lumotnoma, diplom",
+      "expires": "Amal qilish muddati",
+      "lead": "«Prava bor» degan belgi bilan pravaning o'zi boshqa gap: ish beruvchi muddatni ko'rishi kerak. Hujjatni faqat arizangizni ko'rgan ish beruvchi ochadi.",
+      "number": "Raqami",
+      "title": "Rezyume hujjatlari"
+    },
+    "receipt": {
+      "checkThese": "Buni qo'lda yozing: %{f}",
+      "consent": "Rasm o'qish uchun tashqi xizmatga yuboriladi.",
+      "f_amount": "summa",
+      "f_category": "turi",
+      "f_currency": "valyuta",
+      "f_date": "sana",
+      "f_merchant": "shoxobcha",
+      "filled": "%{n} ta maydon to'ldirildi",
+      "fixHint": "Raqamni tekshiring — model xato o'qishi mumkin.",
+      "nothing": "Chekdan hech nima o'qilmadi",
+      "reading": "O'qilmoqda…",
+      "scan": "Chekni AI o'qisin"
     },
     "ref": {
       "balance": "Balans",
@@ -2306,6 +2472,12 @@
       "gearbox": "Korobka",
       "odometer": "Probeg",
       "year": "Yil"
+    },
+    "saleVideo": {
+      "add": "Video qo'shish",
+      "hint": "Motor ovozi va kuzov holati suratdan ko'ra ko'proq narsani aytadi.",
+      "replace": "Videoni almashtirish",
+      "watch": "Videoni ko'rish"
     },
     "saved": {
       "empty": "Saqlangan e'lon yo'q",
@@ -2585,6 +2757,13 @@
       "workHours": "Ish vaqti",
       "workHoursPh": "09:00–19:00, dush–shan"
     },
+    "svcOrder": {
+      "chat": "Yozishma",
+      "rate": "Baho berish",
+      "rateLater": "Hozir emas",
+      "rateLead": "Bahoyingiz ustaning reytingiga qo'shiladi va boshqalarga ko'rinadi.",
+      "warranty": "Kafolat"
+    },
     "svcRec": {
       "cost": "Narxi",
       "odometer": "Spidometr",
@@ -2626,6 +2805,33 @@
       "title": "Texnik nosozlik",
       "what": "Nima bo'ldi?",
       "whatPh": "Qisqacha yozing"
+    },
+    "terms": {
+      "agree": "Shartlarga roziman",
+      "change": "Shartlarni o'zgartirish",
+      "changed": "O'zgargani: %{f}",
+      "consent": "Kim rozi",
+      "current": "Amaldagi shartlar",
+      "f_payTerm": "to'lov muddati",
+      "f_price": "narx",
+      "f_warranty": "kafolat",
+      "f_work": "ish tavsifi",
+      "f_workHours": "ish soati",
+      "hours": "Soat",
+      "lead": "Taklifdagi narx — taxmin. Shartlar esa kelishuv: nima ish qilinadi, qancha turadi, qachon to'lanadi va kafolat qancha.",
+      "months": "%{n} oy",
+      "none": "Shartlar yozilmagan",
+      "noneClient": "Usta shartlarni yozgach shu yerda ko'rinadi.",
+      "noneMaster": "Shartlarni yozing — mijoz rozilik bergach ikkalangiz bir xil matnga qaraysiz.",
+      "offer": "Shartlarni yozish",
+      "payTerm": "To'lov muddati",
+      "payTermPh": "Ish tugagach",
+      "pending": "Yangi taklif",
+      "title": "Ish shartlari",
+      "wKm": "Kafolat, km",
+      "wMonths": "Kafolat, oy",
+      "work": "Nima ish qilinadi",
+      "workPh": "Masalan: old tormoz kolodkasi almashtiriladi"
     },
     "tour": {
       "done": "Tushunarli",
@@ -2767,6 +2973,13 @@
       "howNote": "Reyting har hafta qayta hisoblanadi. Eski xatolar vaqt o'tishi bilan ta'sirini yo'qotadi.",
       "notYet": "Ball hali hisoblanmadi — bir necha reys kerak",
       "partsGroup": "BALL QAYERDAN KELDI",
+      "received": "Menga berilgan baholar",
+      "reportHint": "Nohaq baho ustidan shikoyat qilish uchun uni bosib turing",
+      "reportLead": "Nima uchun bu baho nohaq? Xabar admin ko'rib chiqadi — baho o'zi darhol o'chmaydi.",
+      "reportPh": "Kamida 5 belgi",
+      "reportSend": "Shikoyat yuborish",
+      "reportSent": "Shikoyat yuborildi",
+      "reportTitle": "Bahoga shikoyat",
       "subtitle": "Ball qayerdan kelgani",
       "title": "Reytingim",
       "toNext": "«%{band}» darajasiga %{n} ball qoldi",

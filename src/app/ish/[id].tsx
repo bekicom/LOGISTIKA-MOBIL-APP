@@ -28,6 +28,7 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Field, Header } from "@/components/ui";
+import { Sheet } from "@/components/Sheet";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
@@ -80,6 +81,31 @@ export default function Vakansiya() {
   }>(id ? `/api/jobs/${id}` : null, [id]);
 
   const [sheet, setSheet] = useState(false);
+
+  /* Shikoyat */
+  const [complain, setComplain] = useState(false);
+  const [cKind, setCKind] = useState("MONEY_ASK");
+  const [cText, setCText] = useState("");
+  const [cBusy, setCBusy] = useState(false);
+  const [cSent, setCSent] = useState(false);
+  const [cErr, setCErr] = useState<string | null>(null);
+
+  async function sendComplaint() {
+    setCBusy(true);
+    setCErr(null);
+    try {
+      await api("/api/jobs", {
+        method: "POST",
+        body: { action: "complain", vacancyId: String(id), kind: cKind, text: cText.trim() },
+      });
+      setCSent(true);
+      setCText("");
+    } catch (e) {
+      setCErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setCBusy(false);
+    }
+  }
   const [locked, setLocked] = useState(false);
 
   if (loading && !data) {
@@ -292,7 +318,52 @@ export default function Vakansiya() {
             <Text style={s.note2}>{t("mob.job.applyNote")}</Text>
           </>
         )}
+
+        {/* Shikoyat — ish beruvchidan pul so'ralsa yoki e'lon
+            yolg'on bo'lsa. Sabab MAJBURIY: sababsiz shikoyatdan
+            admin hech nima qila olmaydi. */}
+        {!viewer.isOwner ? (
+          <Pressable onPress={() => setComplain(true)} hitSlop={8} style={{ marginTop: space.lg }}>
+            <Text style={s.complainLink}>{t("mob.jcomp.btn")}</Text>
+          </Pressable>
+        ) : null}
       </ScrollView>
+
+      <Sheet open={complain} onClose={() => setComplain(false)} title={t("mob.jcomp.title")}>
+        <Text style={s.sheetSub}>{t("mob.jcomp.lead")}</Text>
+        <View style={{ gap: 7, marginTop: space.md }}>
+          {COMPLAINT_KINDS.map((k) => (
+            <Pressable
+              key={k}
+              onPress={() => setCKind(k)}
+              style={[s.cKind, cKind === k && s.cKindOn]}
+            >
+              <Text style={[s.cKindText, cKind === k && { color: color.danger, fontWeight: "700" }]}>
+                {t(`mob.jcomp.k_${k}`)}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+        <View style={{ marginTop: space.md }}>
+          <Field
+            placeholder={t("mob.jcomp.textPh")}
+            value={cText}
+            onChangeText={setCText}
+            maxLength={1000}
+            multiline
+          />
+        </View>
+        {cErr ? <Text style={s.complainErr}>{cErr}</Text> : null}
+        {cSent ? <Text style={s.complainOk}>{t("mob.jcomp.sent")}</Text> : null}
+        <View style={{ marginTop: space.md }}>
+          <Button
+            title={t("mob.jcomp.send")}
+            loading={cBusy}
+            disabled={cText.trim().length < 5}
+            onPress={sendComplaint}
+          />
+        </View>
+      </Sheet>
 
       <ApplySheet
         open={sheet}
@@ -381,7 +452,21 @@ function ApplySheet({
   );
 }
 
+/** `furam/src/lib/complaint.ts:VACANCY_COMPLAINT_KINDS` */
+const COMPLAINT_KINDS = ["MONEY_ASK", "FAKE_VACANCY", "PAY_LIE", "FRAUD", "OTHER"];
+
 const s = StyleSheet.create({
+  complainLink: { fontSize: 12.5, fontWeight: "700", color: color.danger, textAlign: "center" },
+  complainErr: { fontSize: 12.5, color: color.danger, marginTop: 8 },
+  complainOk: { fontSize: 12.5, color: color.success, marginTop: 8 },
+  cKind: {
+    paddingHorizontal: 14, paddingVertical: 12,
+    borderRadius: radius.control, borderWidth: 1,
+    borderColor: color.border, backgroundColor: color.card,
+  },
+  cKindOn: { borderColor: color.danger, backgroundColor: color.dangerSoft },
+  cKindText: { fontSize: 14, color: color.foreground },
+
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 

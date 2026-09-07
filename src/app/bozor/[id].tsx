@@ -29,10 +29,14 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
+import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { salePhoto } from "@/lib/img";
+import { openRemoteFile, uploadBinary } from "@/lib/files";
+import { pickVideo } from "@/lib/photo";
+import { toggleCompare, useCompare } from "@/lib/compare";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import {
@@ -41,6 +45,7 @@ import {
   salePriceKindLabel,
   saleSpecLabel,
   saleStatusLabel,
+  tOr,
   t,
 } from "@/lib/i18n";
 
@@ -79,6 +84,10 @@ type Sale = {
   hasDocs: boolean;
   docsNote: string | null;
   photos: string[];
+  /* Video faylning O'ZI emas, bor-yo'qligi — u alohida marshrutda
+     oqim bo'lib keladi */
+  hasVideo: boolean;
+  isMine: boolean;
   location: string | null;
   address: string | null;
   views: number;
@@ -121,10 +130,15 @@ export default function EelonTafsilot() {
   const [shot, setShot] = useState(0);
   const [phone, setPhone] = useState<string | null>(null);
   const [saved, setSaved] = useState<boolean | null>(null);
+  const chosen = useCompare();
+  /* Shu e'lon ro'yxatdami — har chizilganda hisoblanadi, uchtadan
+     oshmagan massivda bu tekin */
+
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState("");
 
   const sale = data?.sale;
+  const picked = !!sale && chosen.includes(sale.id);
   const viewer = data?.viewer;
   const isSaved = saved ?? viewer?.saved ?? false;
 
@@ -238,6 +252,41 @@ export default function EelonTafsilot() {
         </View>
 
         <View style={s.body}>
+          {/* Video — suratdan keyingi eng kuchli dalil: tent
+              butunmi, motor qanday ishlaydi. Fayl XOM OQIM bilan
+              ketadi (`uploadBinary`), chunki server uni
+              `multipart` emas, oqim qilib kutadi: 400 MB ni
+              xotiraga yig'ish mumkin emas. */}
+          <SaleVideo id={sale.id} has={sale.hasVideo} mine={sale.isMine} onDone={reload} />
+
+          {/* Taqqoslash ro'yxati — uchtagacha. Chegara
+              `lib/compare.ts` da: ikki joyda bo'lsa biri
+              ikkinchisini chetlab o'tish yo'liga aylanardi. */}
+          {!sale.isMine ? (
+            <Pressable
+              onPress={() => {
+                if (!toggleCompare(sale.id)) setFailed(t("mob.cmp.full"));
+                else setFailed("");
+              }}
+              onLongPress={() => router.push("/bozor/taqqoslash")}
+              style={({ pressed }) => [s.cmpBtn, pressed && { opacity: 0.85 }]}
+            >
+              <Icon
+                name={picked ? "check" : "plus"}
+                size={16}
+                stroke={picked ? color.success : color.foreground}
+              />
+              <Text style={[s.cmpText, picked && { color: color.success }]}>
+                {picked ? t("mob.cmp.added") : t("mob.cmp.add")}
+              </Text>
+              {chosen.length > 0 ? (
+                <Pressable onPress={() => router.push("/bozor/taqqoslash")} hitSlop={8}>
+                  <Text style={s.cmpOpen}>{t("mob.cmp.open", { n: chosen.length })}</Text>
+                </Pressable>
+              ) : null}
+            </Pressable>
+          ) : null}
+
           {failed ? (
             <View style={s.failed}>
               <Text style={s.failedText}>{failed}</Text>
@@ -521,7 +570,103 @@ function Box({ label, value }: { label: string; value: string }) {
   );
 }
 
+/**
+ * E'lon videosi.
+ *
+ * ── KO'RISH — TIZIM PLEYERIDA ───────────────────────────────────
+ *
+ * Video `Authorization` talab qiladi, ya'ni oddiy havola bilan
+ * ochilmaydi. Fayl keshga yuklab olinadi va tizimning o'z pleyeriga
+ * uzatiladi — ilova ichiga pleyer qo'yish 400 MB ni xotirada
+ * ushlab turishni anglatardi.
+ *
+ * ── YUKLASH — XOM OQIM ──────────────────────────────────────────
+ *
+ * Sabab `lib/files.ts:uploadBinary` da yozilgan.
+ */
+function SaleVideo({
+  id,
+  has,
+  mine,
+  onDone,
+}: {
+  id: string;
+  has: boolean;
+  mine: boolean;
+  onDone: () => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function upload() {
+    const v = await pickVideo();
+    if (!v) return;
+    setBusy(true);
+    setErr(null);
+    try {
+      const r = await uploadBinary(`/api/market/${id}/video`, v.uri, v.type);
+      if (r.status < 200 || r.status >= 300) {
+        /* Xato KODI serverdan, matni lug'atdan (qoida 3) */
+        const code = (() => {
+          try {
+            return (JSON.parse(r.body) as { error?: string }).error ?? "FAILED";
+          } catch {
+            return "FAILED";
+          }
+        })();
+        setErr(tOr(`apiErr.${code}`, t("mob.common.failed")));
+        return;
+      }
+      onDone();
+    } catch {
+      setErr(t("mob.err.network"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (!has && !mine) return null;
+
+  return (
+    <View style={{ gap: 9, marginBottom: space.md }}>
+      {has ? (
+        <Button
+          title={t("mob.saleVideo.watch")}
+          variant="secondary"
+          onPress={() => void openRemoteFile(`/api/market/${id}/video`, `video-${id.slice(-6)}.mp4`)}
+          icon={<Icon name="play" size={17} stroke={color.foreground} />}
+        />
+      ) : null}
+      {mine ? (
+        <>
+          <Button
+            title={busy ? t("mob.trip.downloading") : has ? t("mob.saleVideo.replace") : t("mob.saleVideo.add")}
+            variant="secondary"
+            loading={busy}
+            onPress={upload}
+            icon={<Icon name="image" size={17} stroke={color.foreground} />}
+          />
+          <Text style={s.videoHint}>{t("mob.saleVideo.hint")}</Text>
+        </>
+      ) : null}
+      {err ? <Text style={s.videoErr}>{err}</Text> : null}
+    </View>
+  );
+}
+
 const s = StyleSheet.create({
+  cmpBtn: {
+    flexDirection: "row", alignItems: "center", gap: 8,
+    height: 46, paddingHorizontal: 14, marginBottom: space.md,
+    borderRadius: radius.control, borderWidth: 1, borderColor: color.border,
+    backgroundColor: color.card,
+  },
+  cmpText: { flex: 1, fontSize: 13.5, fontWeight: "700", color: color.foreground },
+  cmpOpen: { fontSize: 12.5, fontWeight: "700", color: color.brand },
+
+  videoHint: { fontSize: 11.5, color: color.mutedForeground, textAlign: "center", lineHeight: 17 },
+  videoErr: { fontSize: 12.5, color: color.danger, textAlign: "center" },
+
   root: { flex: 1, backgroundColor: color.background },
 
   gallery: { backgroundColor: "#cbd5e1" },

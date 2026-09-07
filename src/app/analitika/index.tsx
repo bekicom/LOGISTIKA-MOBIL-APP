@@ -26,8 +26,11 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
+import { Button, Notice } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
+import { FuramError } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { expenseCategoryLabel, t } from "@/lib/i18n";
@@ -300,9 +303,64 @@ export default function Analitika() {
                 <Icon name="chevron" size={17} stroke={color.mutedForeground} />
               </View>
             </Pressable>
+            {/* Eksport — buxgalteriya o'z jadvaliga ko'chirib oladi */}
+            <Export />
           </>
         )}
       </ScrollView>
+    </View>
+  );
+}
+
+/**
+ * Analitikani fayl qilib olish.
+ *
+ * Fayl SERVERDA yasaladi va ekrandagi yorliqlar bilan BIR XIL
+ * lug'atdan o'qiydi: ekranda «Sof foyda» yozilib, faylda «Foyda»
+ * chiqmasin.
+ */
+function Export() {
+  const [busy, setBusy] = useState<"csv" | "xlsx" | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function get(format: "csv" | "xlsx") {
+    setBusy(format);
+    setErr(null);
+    try {
+      await openRemoteFile(
+        `/api/analytics/export?tab=market&format=${format}`,
+        `analitika.${format}`,
+      );
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  return (
+    <View style={{ gap: 9 }}>
+      <View style={{ flexDirection: "row", gap: 9 }}>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={busy === "csv" ? t("mob.trip.downloading") : "CSV"}
+            variant="secondary"
+            loading={busy === "csv"}
+            onPress={() => get("csv")}
+            icon={<Icon name="doc" size={17} stroke={color.foreground} />}
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button
+            title={busy === "xlsx" ? t("mob.trip.downloading") : t("mob.trip.excel")}
+            variant="secondary"
+            loading={busy === "xlsx"}
+            onPress={() => get("xlsx")}
+            icon={<Icon name="chart" size={17} stroke={color.foreground} />}
+          />
+        </View>
+      </View>
+      {err ? <Notice tone="danger">{err}</Notice> : null}
     </View>
   );
 }

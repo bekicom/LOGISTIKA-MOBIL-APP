@@ -26,3 +26,36 @@ export async function openRemoteFile(path: string, name: string): Promise<void> 
     await Sharing.shareAsync(r.uri);
   }
 }
+
+/**
+ * KATTA faylni XOM TANA bilan yuborish (video).
+ *
+ * ── NEGA `apiUpload` YARAMAYDI ──────────────────────────────────
+ *
+ * Server videoni `multipart` emas, XOM oqim bilan kutadi
+ * (`market/[id]/video`): 400 MB li faylni `req.formData()` xotiraga
+ * yig'ib olardi. Mos ravishda ilova tomonda ham fayl xotiraga
+ * o'qilmasligi kerak.
+ *
+ * `FileSystem.uploadAsync` + `BINARY_CONTENT` faylni diskdan oqim
+ * bilan uzatadi — 400 MB video telefon xotirasini to'ldirmaydi.
+ * `XMLHttpRequest` bunga yaramaydi: u `FormData` dan boshqa fayl
+ * shaklini bilmaydi.
+ */
+export async function uploadBinary(
+  path: string,
+  fileUri: string,
+  mime: string,
+): Promise<{ status: number; body: string }> {
+  const token = tokenNow();
+  const r = await FileSystem.uploadAsync(`${API_BASE}${path}`, fileUri, {
+    httpMethod: "POST",
+    uploadType: FileSystem.FileSystemUploadType.BINARY_CONTENT,
+    headers: {
+      "Content-Type": mime,
+      "X-Client": "mobile",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  });
+  return { status: r.status, body: r.body ?? "" };
+}

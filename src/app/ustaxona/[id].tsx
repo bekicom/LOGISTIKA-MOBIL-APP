@@ -32,8 +32,9 @@ import {
 } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Field, Header } from "@/components/ui";
+import { Sheet } from "@/components/Sheet";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
@@ -84,6 +85,8 @@ type Order = {
   total: { total: number | null; pending: number; mixed: boolean };
   warranty: { text: string; expired: boolean; soon: boolean } | null;
   resultNote: string | null;
+  /* Mijoz ishni qabul qilgan vaqti — baho shundan keyin so'raladi */
+  acceptedAt: string | null;
   master: { id: string; name: string; phone: string | null; verified: boolean; done: number } | null;
   client: { name: string; phone: string | null } | null;
 };
@@ -113,11 +116,30 @@ export default function Buyurtma() {
     viewer: Viewer;
   }>(id ? `/api/service/${id}` : null, [id]);
 
+  const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState("");
   /* Qo'shimcha ish so'rovi ALOHIDA EKRAN EMAS: usta buyurtmaga
      qarab turib yozadi, ekran almashsa kontekst yo'qoladi. */
   const [extraForm, setExtraForm] = useState(false);
+  /* Baho — ish qabul qilingandan keyin */
+  const [rating, setRating] = useState(false);
+  const [stars, setStars] = useState(5);
+  const [rateNote, setRateNote] = useState("");
+
+  /* Chatni SERVER ochadi yoki borig'ini qaytaradi */
+  async function openChat() {
+    setBusy(true);
+    setFailed("");
+    try {
+      const r = await api<{ chatId: string }>(`/api/service/${id}/chat`, { method: "POST" });
+      router.push({ pathname: "/suhbat/[id]", params: { id: r.chatId } });
+    } catch (e) {
+      setFailed((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function act(body: Record<string, unknown>) {
     /* Faqat `extra` (usta qo'shimcha ish yozishi) darvoza ortida.
@@ -492,7 +514,93 @@ export default function Buyurtma() {
             </View>
           </View>
         )}
+        {/* ══ YOZISHMA ══
+            Buyurtma chati alohida ekranda (fayl, ovoz, tarjima
+            o'sha yerda). Bu yerda faqat ochish: chatni SERVER
+            yaratadi yoki borig'ini qaytaradi — ilova chat ochish
+            qoidasini bilmasligi kerak. */}
+        {o.master && (viewer.isClient || viewer.isMaster) && (
+          <Pressable
+            style={[s.btn, s.btnGhost]}
+            disabled={busy}
+            onPress={openChat}
+          >
+            <Icon name="chat" size={17} stroke={color.foreground} />
+            <Text style={s.btnGhostText}>{t("mob.svcOrder.chat")}</Text>
+          </Pressable>
+        )}
+
+        {/* ══ SHARTLAR (OFERTA) ══
+            Taklifdagi narx «shuncha bo'lsa kerak», oferta esa
+            kelishuv: nima ish, qancha, qachon to'lanadi, kafolat
+            qancha. Alohida ekranda — u yerda versiya va rozilik
+            tarixi bor. */}
+        {o.master && (viewer.isClient || viewer.isMaster) && (
+          <Pressable
+            style={[s.btn, s.btnGhost]}
+            onPress={() =>
+              router.push({ pathname: "/xizmat-shart/[id]", params: { id: String(id) } })
+            }
+          >
+            <Icon name="doc" size={17} stroke={color.foreground} />
+            <Text style={s.btnGhostText}>{t("mob.terms.title")}</Text>
+          </Pressable>
+        )}
+
+        {/* ══ BAHO ══
+            Ish qabul qilingach ikki tomon bir-birini baholaydi
+            (TZ 15 + 07). Tarif darvozasi YO'Q va bu ataylab: usta
+            tarifi tugagan bo'lsa ham mijoz uni baholay olishi
+            kerak, aks holda reyting to'lovga bog'liq bo'lardi. */}
+        {o.acceptedAt && (
+          <Pressable style={[s.btn, s.btnGhost]} onPress={() => setRating(true)}>
+            <Icon name="star" size={17} stroke={color.foreground} />
+            <Text style={s.btnGhostText}>{t("mob.svcOrder.rate")}</Text>
+          </Pressable>
+        )}
       </ScrollView>
+
+      <Sheet open={rating} onClose={() => setRating(false)} title={t("mob.svcOrder.rate")}>
+        <Text style={s.text}>{t("mob.svcOrder.rateLead")}</Text>
+        <View style={s.starRow}>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <Pressable key={n} onPress={() => setStars(n)} hitSlop={6}>
+              <Icon
+                name="star"
+                size={30}
+                stroke={n <= stars ? color.warning : "#cbd5e1"}
+                fill={n <= stars ? color.warning : "none"}
+              />
+            </Pressable>
+          ))}
+          <Text style={s.starCount}>{stars}/5</Text>
+        </View>
+        <Field
+          placeholder={stars < 3 ? t("mob.close.ratePhLow") : t("mob.close.ratePh")}
+          value={rateNote}
+          onChangeText={setRateNote}
+          maxLength={500}
+          multiline
+        />
+        <View style={{ marginTop: space.md, gap: 9 }}>
+          <Button
+            title={t("mob.close.approve")}
+            loading={busy}
+            onPress={async () => {
+              const ok = await act({ action: "rate", stars, comment: rateNote.trim() || null });
+              if (ok !== false) setRating(false);
+            }}
+          />
+          <Button
+            title={t("mob.svcOrder.rateLater")}
+            variant="ghost"
+            onPress={async () => {
+              await act({ action: "rate-skip" });
+              setRating(false);
+            }}
+          />
+        </View>
+      </Sheet>
 
       <ExtraSheet
         open={extraForm}
@@ -595,6 +703,9 @@ function mins(n: number): string {
 }
 
 const s = StyleSheet.create({
+  starRow: { flexDirection: "row", alignItems: "center", gap: 6, marginVertical: 14 },
+  starCount: { marginLeft: 6, fontSize: 14, fontWeight: "800", color: color.foreground },
+
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   group: {

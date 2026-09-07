@@ -16,12 +16,16 @@
  * «3 100 000 so'm» ko'p.
  */
 import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { useState } from "react";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
+import { Button, Notice } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
+import { FuramError } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space } from "@/lib/theme";
 import { budgetCategoryLabel, t } from "@/lib/i18n";
@@ -236,10 +240,63 @@ export default function Moliya() {
                 )}
               </View>
             )}
+
+            {/* ══ BUDJET VA HISOBOT ══ */}
+            <View style={{ gap: 9 }}>
+              <Button
+                title={t("mob.budget.title")}
+                variant="secondary"
+                onPress={() => router.push("/moliya/budjet")}
+                icon={<Icon name="wallet" size={18} stroke={color.foreground} />}
+              />
+              <FinancePdf period={data?.period ?? null} />
+            </View>
           </>
         )}
       </ScrollView>
     </View>
+  );
+}
+
+/**
+ * Moliya hisobotini PDF qilib olish.
+ *
+ * Fayl SERVERDA yasaladi: ilova raqamni qayta hisoblasa, bankka
+ * beriladigan varaq ekrandagidan farq qilib qolardi.
+ *
+ * `openRemoteFile` — oddiy havola `Authorization` sarlavhasisiz
+ * boradi va 401 oladi.
+ */
+function FinancePdf({ period }: { period: string | null }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function get() {
+    setBusy(true);
+    setErr(null);
+    try {
+      await openRemoteFile(
+        `/api/finance/pdf${period ? `?period=${encodeURIComponent(period)}` : ""}`,
+        `moliya-${period ?? "hisobot"}.pdf`,
+      );
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.common.failed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <>
+      <Button
+        title={busy ? t("mob.trip.downloading") : t("mob.fin.pdf")}
+        variant="secondary"
+        loading={busy}
+        onPress={get}
+        icon={<Icon name="doc" size={18} stroke={color.foreground} />}
+      />
+      {err ? <Notice tone="danger">{err}</Notice> : null}
+    </>
   );
 }
 

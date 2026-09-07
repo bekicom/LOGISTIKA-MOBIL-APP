@@ -104,7 +104,7 @@ function groups(): Group[] {
       items: [
         { icon: "wrench", title: t("mob.svc.title"), href: "/ustaxona", open: true },
         { icon: "headset", title: t("mob.disp.title"), href: "/dispetcherlar", open: true },
-        { icon: "sparkle", title: t("mob.ai.title"), href: "/ai", feature: "ai" },
+        { icon: "robot", title: t("mob.ai.title"), href: "/ai", feature: "ai" },
         { icon: "chat", title: t("mob.nav.chat"), href: "/chat", feature: "messenger" },
       ],
     },

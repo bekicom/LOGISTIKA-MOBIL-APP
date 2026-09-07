@@ -71,7 +71,7 @@ function tabs(guest: boolean): Tab[] {
        o'chirib-yoqib turishni yoqtirmaydi. */
     ...(guest
       ? [{ name: "profil", title: t("mob.intro.signIn"), icon: "user", guest: true } as Tab]
-      : [{ name: "ai", title: t("mob.ai.title"), icon: "sparkle", guest: false } as Tab]),
+      : [{ name: "ai", title: t("mob.ai.title"), icon: "robot", guest: false } as Tab]),
   ];
 }
 

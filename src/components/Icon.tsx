@@ -6,7 +6,7 @@
  * qatorlik `path`. Butun paketni bundle'ga qo'shishning ma'nosi yo'q.
  */
 import type { ColorValue } from "react-native";
-import Svg, { Circle, Path } from "react-native-svg";
+import Svg, { Circle, Path, Rect } from "react-native-svg";
 import { color } from "@/lib/theme";
 
 export type IconName =
@@ -15,6 +15,7 @@ export type IconName =
   | "route"
   | "chat"
   | "sparkle"
+  | "robot"
   | "user"
   | "bell"
   | "search"
@@ -90,6 +91,28 @@ export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "
         <>
           <Path {...p} d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
           <Circle {...p} cx={12} cy={12} r={3} />
+        </>
+      )}
+      {/* AI yordamchi — robot boshi. Uchqun (`sparkle`) ham AI ni
+          bildirardi, lekin u «sehr» degan umumiy belgi: bozor
+          tavsiyasi ham, narx tahlili ham o'sha ikonka bilan
+          chiziladi. Robot esa AYNAN suhbatdoshni ko'rsatadi. */}
+      {name === "robot" && (
+        <>
+          {/* ⚠️ O'LCHAMLAR QO'SHNILARIGA QARAB TANLANGAN. Birinchi
+              variantda bosh 17 birlik keng va quloqlari deyarli
+              chekkagacha yetardi — tab barda «Bosh», «Yuklar»,
+              «Menyu» yonida yo'g'on bo'lib ko'rinardi. Bosh 15 ga
+              toraytirildi, quloqlar ichkariga tortildi. */}
+          {/* Antenna */}
+          <Path {...p} d="M12 4.2v2.8" />
+          <Circle {...p} cx={12} cy={3.1} r={1} />
+          {/* Bosh */}
+          <Rect {...p} x={4.5} y={7} width={15} height={11} rx={3.2} />
+          {/* Ko'zlar */}
+          <Path {...p} d="M9.3 11.6v1.8M14.7 11.6v1.8" />
+          {/* Quloqlar */}
+          <Path {...p} d="M2.6 11.6v1.8M21.4 11.6v1.8" />
         </>
       )}
       {name === "user" && (

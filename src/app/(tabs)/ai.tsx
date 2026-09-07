@@ -87,7 +87,7 @@ export default function Screen() {
         ) : !data?.enabled ? (
           /* Sabab aytiladi, bo'lmasa odam kimga murojaat qilishni bilmaydi */
           <Empty
-            icon="sparkle"
+            icon="robot"
             title={t(`mob.aiOff.${data?.reason ?? "AI_OFF"}`)}
             text={t(`mob.aiOffText.${data?.reason ?? "AI_OFF"}`)}
           />

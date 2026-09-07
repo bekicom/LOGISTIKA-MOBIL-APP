@@ -6,6 +6,11 @@
  * namuna ilovada ham ular tepada ikonka. Tab bar beshtadan oshmasin
  * uchun shu yo'l.
  *
+ * 2026-09-07 da PROFIL ham shu yerga qo'shildi: pastdagi o'rnini AI
+ * egalladi. Avatar ilgari faqat bosh sahifada edi — agar shu yerga
+ * ko'chirilmasa, «Yuklar» yoki «Menyu» dan profilga yo'l umuman
+ * qolmasdi.
+ *
  * Mehmonda ikonkalar yo'q — ularning serveri 401 beradi.
  */
 import { useEffect } from "react";
@@ -82,6 +87,20 @@ export function HeaderIcons({ search }: { search?: boolean }) {
             label={t("mob.profile.notifications")}
             onPress={() => router.push("/bildirishnomalar")}
           />
+          {/* Profil — eng o'ngda, ikonka emas BOSH HARFLAR bilan:
+              odam o'z hisobini shundan taniydi va u boshqa
+              ikonkalar orasida yo'qolib ketmaydi. */}
+          <Pressable
+            onPress={() => router.push("/profil")}
+            hitSlop={6}
+            accessibilityRole="button"
+            accessibilityLabel={t("mob.nav.profile")}
+            style={({ pressed }) => [s.avatar, pressed && { opacity: 0.6 }]}
+          >
+            <Text style={s.avatarText}>
+              {(user?.firstName ?? "?").slice(0, 2).toUpperCase()}
+            </Text>
+          </Pressable>
         </>
       ) : null}
     </View>
@@ -122,7 +141,16 @@ const s = StyleSheet.create({
   title: { fontSize: 24, fontWeight: "800", color: color.foreground, letterSpacing: -0.5 },
   sub: { fontSize: 13, color: color.mutedForeground, marginTop: 1 },
 
-  icons: { flexDirection: "row", gap: 8 },
+  icons: { flexDirection: "row", alignItems: "center", gap: 8 },
+  avatar: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: color.brand,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  avatarText: { fontSize: 14, fontWeight: "800", color: "#ffffff" },
   btn: {
     width: 42,
     height: 42,

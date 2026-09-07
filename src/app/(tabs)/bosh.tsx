@@ -67,12 +67,9 @@ export default function Bosh() {
         <View style={{ flex: 1 }} />
         {/* Dizayn-2: qidiruv, chat va qo'ng'iroq — hamma tabda bir xil
             (`TabHeader`). Sanoqlar `lib/counts` do'konidan. */}
+        {/* Avatar `HeaderIcons` ichida — 2026-09-07 dan u HAR
+            tabda bor. Bu yerda alohida chizilsa ikkita bo'lardi. */}
         <HeaderIcons search />
-        <Pressable style={s.avatar} onPress={() => router.push("/profil")} accessibilityRole="button">
-          <Text style={s.avatarText}>
-            {(data?.user.firstName ?? "?").slice(0, 2).toUpperCase()}
-          </Text>
-        </Pressable>
       </View>
 
       {/* GPS chizig'i — faol reys kuzatilayotgan bo'lsa */}
@@ -328,8 +325,6 @@ const s = StyleSheet.create({
     alignItems: "center",
     gap: space.md,
   },
-  avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: color.logoBlue, alignItems: "center", justifyContent: "center" },
-  avatarText: { fontSize: 13, fontWeight: "600", color: "#fff" },
 
   gps: { backgroundColor: color.navy, paddingHorizontal: space.lg, paddingVertical: 9, flexDirection: "row", alignItems: "center", gap: 9 },
   gpsDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.brand },

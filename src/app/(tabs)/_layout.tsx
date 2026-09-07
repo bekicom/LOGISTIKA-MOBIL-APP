@@ -8,11 +8,23 @@
  * mobil bo'lsin». Namuna ilovalarning hammasida beshta va o'rtada
  * katta «yaratish» tugmasi. Endi:
  *
- *   Bosh | Yuklar | (+) | Menyu | Profil
+ *   Bosh | Yuklar | (+) | Menyu | AI
  *
- * Reyslar, chat, AI tabdan chiqdi: chat va bildirishnoma — har
- * sarlavhaning o'ng burchagida (`TabHeader`), reyslar va AI —
- * menyuda va bosh sahifada.
+ * Reyslar va chat tabdan chiqdi: chat va bildirishnoma — har
+ * sarlavhaning o'ng burchagida (`TabHeader`), reyslar — menyuda va
+ * bosh sahifada.
+ *
+ * ── PROFIL O'RNIGA AI (2026-09-07) ──────────────────────────────
+ *
+ * Bekzod: «pastdagi profilni ol, unga tepadan ham kirsa bo'ladi —
+ * o'rniga AI yordamchini qo'y». Profil avatari endi `TabHeader`
+ * ichida, ya'ni HAR tabda. Ilgari u faqat bosh sahifada edi va
+ * shunchaki olib tashlansa «Yuklar» dan profilga yo'l qolmasdi.
+ *
+ * ⚠️ MEHMONDA 5-YORLIQ BARIBIR «KIRISH». Uning uchun bu yorliq
+ * profil emas, hisobga kirish yo'li edi — menyuda alohida «Kirish»
+ * tugmasi YO'Q (faqat qulfli bo'limni bosganda taklif chiqadi).
+ * AI esa mehmonga baribir ishlamaydi: hisob ham, tarif ham kerak.
  *
  * ── «+» EKRAN EMAS ──────────────────────────────────────────────
  *
@@ -53,13 +65,13 @@ function tabs(guest: boolean): Tab[] {
     { name: "yuklar", title: t("mob.nav.loads"), icon: "package", guest: true },
     { name: "joylash", title: t("mob.nav.post"), icon: "plus", guest: true, center: true },
     { name: "menyu", title: t("mob.nav.menu"), icon: "grid", guest: true },
-    {
-      name: "profil",
-      /* Mehmonda bu yorliq profil emas — kirish taklifi. */
-      title: guest ? t("mob.intro.signIn") : t("mob.nav.profile"),
-      icon: "user",
-      guest: true,
-    },
+    /* Beshinchi o'rin ROLGA QARAB: kirgan odamga AI, mehmonga
+       kirish taklifi. Ikkalasi ham e'lon qilinadi va keraksizi
+       `href: null` bilan yashiriladi — expo-router ekranni
+       o'chirib-yoqib turishni yoqtirmaydi. */
+    ...(guest
+      ? [{ name: "profil", title: t("mob.intro.signIn"), icon: "user", guest: true } as Tab]
+      : [{ name: "ai", title: t("mob.ai.title"), icon: "sparkle", guest: false } as Tab]),
   ];
 }
 
@@ -136,6 +148,12 @@ export default function TabsLayout() {
           tabBarLabelStyle: { fontSize: 11, fontFamily: "Manrope_600SemiBold" },
         }}
       >
+        {/* Ko'rinmaydigan ekran ham E'LON QILINADI: expo-router
+            fayl bor-u `Tabs.Screen` yo'q bo'lsa uni baribir
+            yorliq qilib qo'shadi va oltinchi yorliq paydo
+            bo'lardi. */}
+        <Tabs.Screen name={guest ? "ai" : "profil"} options={{ href: null }} />
+
         {tabs(guest).map((tab) => (
           <Tabs.Screen
             key={tab.name}

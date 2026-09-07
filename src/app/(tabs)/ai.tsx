@@ -1,5 +1,5 @@
 /**
- * K1 — AI yordamchi bosh ekrani.
+ * K1 — AI yordamchi. TAB (2026-09-07 da qaytarildi).
  *
  * BO'SH CHAT EMAS. Yonayotgan kursor oldida odam nima yozishni bilmaydi
  * va chiqib ketadi. Ekran tayyor savollardan boshlanadi — ular serverdagi
@@ -7,6 +7,13 @@
  *
  * CHEKLOV YASHIRILMAYDI. Odam «nega javob bermayapti» deb o'ylagandan
  * ko'ra, qancha qolganini oldindan ko'rgani yaxshi.
+ *
+ * ── NEGA YANA TAB ───────────────────────────────────────────────
+ *
+ * Bekzod: «pastdagi profilni ol, o'rniga AI yordamchini qo'y —
+ * profilga tepadan ham kirsa bo'ladi». Profil avatari endi HAR
+ * tabning sarlavhasida (`TabHeader`), ilgari faqat bosh sahifada
+ * edi — busiz «Yuklar» dan profilga yo'l qolmasdi.
  */
 import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
@@ -19,6 +26,7 @@ import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
+import { TabHeader } from "@/components/TabHeader";
 
 type Left = {
   hourLimit: number;
@@ -56,29 +64,16 @@ export default function Screen() {
     : null;
 
   return (
-    <View style={[s.root, { paddingTop: insets.top }]}>
-      <View style={s.head}>
-        <View style={{ flexDirection: "row", alignItems: "center", marginLeft: -10 }}>
-          {/* Dizayn-2: bu ekran endi tab emas, menyudan ochiladi —
-              orqaga tugmasi kerak. Tarix bo'lmasa (push/deep link)
-              bosh sahifaga. */}
-          <Pressable
-            onPress={() => (router.canGoBack() ? router.back() : router.replace("/bosh"))}
-            hitSlop={8}
-            accessibilityRole="button"
-            style={{ width: 40, height: 40, alignItems: "center", justifyContent: "center" }}
-          >
-            <Icon name="back" size={22} stroke={color.foreground} />
-          </Pressable>
-          <Text style={s.title}>{t("mob.ai.title")}</Text>
-        </View>
-        <Text style={[s.sub, over ? { color: color.danger } : null]}>
-          {over ? t("mob.ai.limitOver") : t("mob.ai.subtitle")}
-        </Text>
-      </View>
+    <View style={s.root}>
+      {/* Tab — orqaga tugmasi YO'Q, boshqa tablardagidek sarlavha */}
+      <TabHeader
+        title={t("mob.ai.title")}
+        subtitle={over ? t("mob.ai.limitOver") : t("mob.ai.subtitle")}
+      />
 
       <ScrollView
-        contentContainerStyle={s.scroll}
+        /* Tab bar ostida qolib ketmasin — menyu tabidagidek */
+        contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl * 2 }]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
         }
@@ -252,7 +247,7 @@ const s = StyleSheet.create({
   },
   title: { fontSize: font.titleLg, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
-  scroll: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 2 },
+  scroll: { padding: space.lg, gap: space.md },
 
   intro: { backgroundColor: color.navy, borderRadius: radius.card, padding: 18 },
   introHead: { flexDirection: "row", alignItems: "center", gap: 10 },

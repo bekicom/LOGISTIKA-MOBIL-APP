@@ -36,6 +36,7 @@ import { Button, Field, Header, Steps, Switch } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { LocationPicker, type Loc } from "@/components/FiltrSheet";
 import { AiDiagnose } from "@/components/AiDiagnose";
+import { VoiceNote } from "@/components/VoiceNote";
 import { ErrorBox } from "@/components/state";
 import { api, apiUpload, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
@@ -200,6 +201,10 @@ export default function UstaChaqirish() {
               style={s.area}
             />
             <Text style={s.hint}>{t("mob.svc.problemHint")}</Text>
+
+            {/* Ovoz bilan aytish — matn maydoniga tushadi.
+                Dizaynda bor edi, faqat chatda qilingan. */}
+            <VoiceNote value={problem} onText={setProblem} />
 
             {/* AI tashxis: qaysi usta kerakligini oldindan aytadi.
                 Bosilsa mutaxassislik formaga qo'yiladi — odam

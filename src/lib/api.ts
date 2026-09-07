@@ -265,6 +265,11 @@ export async function apiUpload<T>(
   path: string,
   fields: Record<string, string | number | undefined>,
   files: Upload[] = [],
+  /* Ba'zi marshrutlar faqat `PUT` qabul qiladi (profil anketalari:
+     yozuv YARATILMAYDI, ustiga yoziladi). Ilgari bu yerda `POST`
+     qattiq yozilgan edi va bunday marshrutga fayl umuman
+     yuborib bo'lmasdi. */
+  method: "POST" | "PUT" = "POST",
 ): Promise<T> {
   const form = new FormData();
   for (const [k, v] of Object.entries(fields)) {
@@ -280,7 +285,7 @@ export async function apiUpload<T>(
 
   let res: { status: number; text: string };
   try {
-    res = await postForm(path, headers, form);
+    res = await postForm(path, headers, form, 60000, method);
   } catch (e) {
     const aborted = e instanceof Error && e.message === "TIMEOUT";
     /* Sabab JURNALGA yoziladi (2026-09-06): ekranda faqat umumiy

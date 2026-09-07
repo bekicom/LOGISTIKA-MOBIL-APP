@@ -31,6 +31,7 @@ import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
 import { InviteOwner } from "@/components/InviteOwner";
+import { TakeLoad } from "@/components/TakeLoad";
 
 type Load = {
   id: string; slug: string | null; title: string | null; description: string | null;
@@ -281,6 +282,12 @@ export default function YukTafsiloti() {
                 )}
               </View>
             ) : null}
+
+            {/* «Bu yukni olaman» — reys ochish.
+                O'z e'loniga va band yukka chiqmaydi; qolgan
+                shartlarni (Telegram e'loni, holat) server hal
+                qiladi va ro'yxat bo'sh kelsa oyna shuni aytadi. */}
+            {!data.isMine && !data.isTaken ? <TakeLoad loadId={data.id} /> : null}
 
             {/* Telegram e'loni: egasini FURAM'ga chaqirish.
                 Shart SERVERDA hisoblangan — bu yerda takrorlansa,

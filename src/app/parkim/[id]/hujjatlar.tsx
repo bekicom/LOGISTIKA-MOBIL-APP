@@ -11,7 +11,7 @@
 import { useMemo } from "react";
 import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, GroupLabel, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
@@ -45,6 +45,16 @@ function docName(d: { kind: string; title?: string | null }) {
 
 export default function TransportHujjatlar() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
+
+  /* Hujjat qo'shish ekraniga o'tish. Turi OLDINDAN tanlab
+     beriladi: ro'yxatda «Texko'rik yo'q» deb turgan qatorni
+     bosgan odam yana ro'yxatdan uni qidirib o'tirmasin. */
+  const add = (kind?: string) =>
+    router.push({
+      pathname: "/parkim/[id]/hujjat-qoshish",
+      params: kind ? { id: String(id), kind } : { id: String(id) },
+    });
   const { data, loading, error, refreshing, refresh, reload } = useApi<Detail>(
     id ? `/api/fleet/vehicles/${id}` : null,
     [id],
@@ -65,7 +75,11 @@ export default function TransportHujjatlar() {
       <Header
         title={t("mob.docs.title")}
         subtitle={data ? `${data.vehicle.plate} · ${data.vehicle.brand}` : undefined}
-        right={<Text style={s.add}>{t("mob.common.add")}</Text>}
+        right={
+          <Pressable onPress={() => add()} hitSlop={8} accessibilityRole="button">
+            <Text style={s.add}>{t("mob.common.add")}</Text>
+          </Pressable>
+        }
       />
 
       <ScrollView
@@ -116,7 +130,7 @@ export default function TransportHujjatlar() {
                 <GroupLabel>{t("mob.docs.attention")}</GroupLabel>
                 <Card>
                   {need.map((d, i) => (
-                    <DocRow key={d.kind + (d.id ?? "")} doc={d} last={i === need.length - 1} />
+                    <DocRow key={d.kind + (d.id ?? "")} doc={d} last={i === need.length - 1} onPress={() => add(d.kind)} />
                   ))}
                 </Card>
               </View>
@@ -127,7 +141,7 @@ export default function TransportHujjatlar() {
                 <GroupLabel>{t("mob.docs.fine")}</GroupLabel>
                 <Card>
                   {fine.map((d, i) => (
-                    <DocRow key={d.kind + (d.id ?? "")} doc={d} last={i === fine.length - 1} />
+                    <DocRow key={d.kind + (d.id ?? "")} doc={d} last={i === fine.length - 1} onPress={() => add(d.kind)} />
                   ))}
                 </Card>
               </View>
@@ -144,13 +158,14 @@ export default function TransportHujjatlar() {
   );
 }
 
-function DocRow({ doc, last }: { doc: Doc; last: boolean }) {
+function DocRow({ doc, last, onPress }: { doc: Doc; last: boolean; onPress: () => void }) {
   const bad = doc.missing || doc.state === "expired";
   const soon = doc.state === "soon";
   const tint = bad ? color.danger : soon ? color.warning : color.mutedForeground;
 
   return (
     <Pressable
+      onPress={onPress}
       style={({ pressed }) => [
         s.row,
         !last && s.rowLine,

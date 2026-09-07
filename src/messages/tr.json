@@ -12,6 +12,7 @@
     "ALREADY_REPLACED": "Bu belgenin zaten yeni bir sürümü var.",
     "BAD_AMOUNT": "Tutarı kontrol edin.",
     "BAD_BODY": "İstek eksik geldi. Tekrar deneyin.",
+    "BAD_BORDER": "Sınır bulunamadı veya aktif değil.",
     "BAD_CATEGORY": "Kategori geçersiz.",
     "BAD_CONTENT": "Dosya içeriği okunamadı.",
     "BAD_COORDS": "Konum belirlenemedi.",
@@ -44,6 +45,7 @@
     "CSRF": "Güvenlik doğrulaması başarısız. Uygulamayı yeniden açın.",
     "CURRENT_SESSION": "Kullandığınız cihaz kaldırılamaz.",
     "DECIDED": "Bu teklif hakkında karar verilmiş.",
+    "DRIVER_BUSY": "Sürücü şu anda başka bir seferde.",
     "DUPLICATE": "Böyle bir kayıt zaten var.",
     "EMPTY": "Boş gönderilemez.",
     "FAILED": "Gerçekleşmedi. Tekrar deneyin.",
@@ -58,16 +60,19 @@
     "JOB_CONTRACT": "Bu sözleşme yükle ilgili değil — ondan sefer açılmaz.",
     "LIMIT": "Sınıra ulaştınız.",
     "LIVE": "Sefer yolda — şu an mümkün değil.",
+    "LOAD_NOT_FOUND": "Yük bulunamadı — silinmiş veya kapatılmış olabilir.",
     "LOCKED": "Sefer kapandı — değiştirilemez.",
     "NAME_REQUIRED": "Bir ad yazın.",
     "NEED_CARRIER": "Taşıyıcıyı belirtin.",
     "NEED_TITLE": "Gider adını yazın.",
+    "NEED_TRUCK": "Yükü almak için önce kendi aracınızı seçin.",
     "NOT_ACCEPTED": "Anlaşma henüz kabul edilmedi.",
     "NOT_APPROVED": "Sözleşme onaylandıktan sonra hazır olur.",
     "NOT_CARGO_CONTRACT": "Bu sözleşmenin şablonu farklı.",
     "NOT_CLOSING": "Önce “Kapanıyor” aşamasına geçin.",
     "NOT_CONFIRMABLE": "Bu ödeme onaylanamaz.",
     "NOT_DISPATCHER": "Bu işlem yalnızca dispeçer içindir.",
+    "NOT_DRIVER": "Bu işlem yalnızca sürücü rolü içindir.",
     "NOT_FOUND": "Bulunamadı. Silinmiş olabilir ya da bağlantı yanlış.",
     "NOT_LINKED": "Bu kişiyle henüz bağınız yok. Önce şoför olarak ekleyin ya da anlaşma yapın.",
     "NOT_LIVE": "Sefer henüz başlamadı.",
@@ -78,6 +83,7 @@
     "NO_CONSENT": "Önce belgenin AI tarafından okunmasına izin verin.",
     "NO_CONTACT": "İletişim bilgileri henüz açılmadı.",
     "NO_DISPATCHER": "Dispeçer seçilmedi.",
+    "NO_DRIVER": "Araca asıl sürücü atanmamış.",
     "NO_FILE": "Dosya seçilmedi.",
     "NO_ID": "Hangi kayıt olduğu belirtilmemiş.",
     "NO_LOAD": "Yük bulunamadı.",
@@ -112,11 +118,13 @@
     "TARIFF_LIMIT": "Tarife sınırına ulaştınız. Tarifeyi genişletin.",
     "TARIFF_REQUIRED": "Bu tarifenize dahil değil. Rol seçin ya da tarifeyi yenileyin.",
     "TELEGRAM_SOURCE": "Bu ilan Telegram'dan alındı — uygulama içinden yazılamaz.",
+    "TG_LOAD": "Telegram ilanı için sefer açılamaz — sahibiyle telefonla iletişime geçin.",
     "TOO_BIG": "Dosya çok büyük — en fazla 10 MB.",
     "TOO_LARGE": "Dosya çok büyük — 10 MB'ı aşmasın.",
     "TOO_MANY": "Görsel sayısı sınırı aştı.",
     "TOO_MANY_ATTEMPTS": "Çok fazla deneme. Birkaç dakika sonra tekrar deneyin.",
     "TOO_OLD": "Bu kayıt çok eski — değiştirilemez.",
+    "TRIP_EXISTS": "Bu yük için sefer zaten açılmış.",
     "TRUCK_BUSY": "Bu araç başka bir seferde.",
     "TRUCK_NOT_FOUND": "Araç bulunamadı.",
     "UNAUTHORIZED": "Oturum sona erdi. Yeniden giriş yapın.",
@@ -125,6 +133,8 @@
     "USER_NOT_FOUND": "Böyle bir FURAM ID yok.",
     "VALIDATION": "Girdiğiniz bilgileri kontrol edin.",
     "VEHICLE_BUSY": "Araç bu arada meşgul oldu.",
+    "VEHICLE_NOT_FOUND": "Araç bulunamadı veya size ait değil.",
+    "VEHICLE_UNAVAILABLE": "Araç boşta değil — seferde veya tamirde.",
     "WRONG_PASSWORD": "Şifre yanlış."
   },
   "cancelReason": {
@@ -774,6 +784,7 @@
       "or": "veya",
       "renew": "Yenile",
       "save": "Kaydet",
+      "saved": "Kaydedildi",
       "saving": "Kaydediliyor...",
       "show": "Göster",
       "signOut": "Çıkış",
@@ -971,6 +982,29 @@
       "whyText2": "Uzun süredir girilmeyen cihazın tarihi kahverengi yazılır — dikkat edin, yabancı olabilir.",
       "whyTitle": "Bu ekran neden var"
     },
+    "dform": {
+      "about": "Hakkımda",
+      "birth": "Doğum tarihi",
+      "certificates": "Sertifikalar",
+      "certificatesHint": "ADR, sağlık ve diğerleri",
+      "classes": "Sınıflar",
+      "countries": "Hangi ülkelere",
+      "experience": "Deneyim, yıl",
+      "fileHas": "yüklendi",
+      "fileNone": "yüklenmedi",
+      "languages": "Diller",
+      "licenseFile": "Ehliyet fotoğrafı",
+      "licenseNo": "Ehliyet numarası",
+      "licenseUntil": "Ehliyet geçerlilik tarihi",
+      "needRole": "Sürücü rolü gerekli",
+      "needRoleBody": "Form yalnızca sürücü rolüyle kaydedilir. Rolü “Rollerim” bölümünden seçin.",
+      "passportFile": "Pasaport fotoğrafı",
+      "passportNo": "Pasaport numarası",
+      "region": "Yaşadığı bölge",
+      "sub": "Belgeler ve deneyim",
+      "title": "Sürücü formu",
+      "vehicleTypes": "Hangi araçlar"
+    },
     "diag": {
       "lead": "AI açıklamayı okur, olası nedenleri ve gereken ustayı söyler.",
       "needText": "Sorunu yazın — en az üç karakter",
@@ -1027,6 +1061,42 @@
       "reminderText": "30, 7 ve 1 gün kala bildirim gelir. Bildirim ayarlarında «Belge süresi» açık olmalı.",
       "title": "Belgeler"
     },
+    "dpanel": {
+      "allFine": "her şey yolunda",
+      "allFineText": "Ne dikkat gerektiren sefer var ne de bekleyen ücret.",
+      "attention": "Dikkat gerekiyor (%{n})",
+      "confirmedToday": "bugün onaylandı",
+      "listBelow": "listesi aşağıda",
+      "managed": "%{l} yük · %{m} araç yönetimde",
+      "matchFree": "%{n} boş aracınıza uygun",
+      "nLoads": "%{n} yük",
+      "noDebt": "borç yok",
+      "noFreeTruck": "boş araç yok",
+      "noMatch": "%{n} boş araç · uygun yük yok",
+      "noPayToday": "bugün ödeme olmadı",
+      "notTakenYet": "henüz alınmadı",
+      "pendingOffers": "%{n} teklif yanıt bekliyor",
+      "period": {
+        "30": "Ay",
+        "90": "3 ay",
+        "365": "Yıl",
+        "all": "Tüm zamanlar"
+      },
+      "qAttention": "Hangisine dikkat gerekiyor?",
+      "qEarned": "Bugün ne kadar kazandım?",
+      "qLive": "Kaç sefer yolda?",
+      "qMore": "Daha ne kadar iş alabilirim?",
+      "qOwed": "Bana ne kadar borçlu?",
+      "report": "Rapor",
+      "saidTaken": "%{date} tarihinde “aldım” dediniz — onay bekleniyor",
+      "title": "Dispeçer paneli",
+      "waitingFee": "Bekleyen hizmet ücreti",
+      "why": {
+        "noLocation": "24 saattir konum yok",
+        "salary": "Maaş ödenmedi",
+        "sos": "Açık SOS"
+      }
+    },
     "drv": {
       "addPay": "Ödeme ekle",
       "held": "Kesilen",
@@ -1046,6 +1116,7 @@
       "generic": "Bir hata oluştu",
       "network": "İnternete bağlanılamadı. Bağlantıyı kontrol edin.",
       "timeout": "Sunucu yanıt vermedi. Tekrar deneyin.",
+      "unknown": "Bir hata oluştu",
       "uploadTimeout": "Gönderim uzun sürdü. Sinyalin iyi olduğu bir yerde tekrar deneyin."
     },
     "exp": {
@@ -1123,6 +1194,11 @@
       "repairs": "Onarım",
       "title": "Filo analizi",
       "trips": "Seferler"
+    },
+    "feeMode": {
+      "FIXED": "Sabit tutar",
+      "NEGOTIABLE": "Her seferinde anlaşılır",
+      "PERCENT": "Navlundan yüzde"
     },
     "fin": {
       "allCats": "Tüm kategoriler",
@@ -2034,6 +2110,29 @@
       "PASSPORT": "Pasaport",
       "VISA": "Vize"
     },
+    "pform": {
+      "about": "Hakkımda",
+      "approved": "Onaylandı",
+      "approvedBody": "Profiliniz yük sahiplerinin “Dispeçer seç” listesinde görünür.",
+      "city": "Şehir",
+      "countries": "Çalıştığınız ülkeler",
+      "experience": "Deneyim, yıl",
+      "feeMode": "Ücret türü",
+      "languages": "Diller",
+      "needRole": "Dispeçer rolü gerekli",
+      "needRoleBody": "Form yalnızca dispeçer rolüyle kaydedilir. Rolü “Rollerim” bölümünden seçin.",
+      "pending": "Onay bekliyor",
+      "pendingBody": "Yönetici incelemeden profiliniz listeye çıkmaz.",
+      "rejected": "Onaylanmadı",
+      "resetWarn": "Kaydederseniz onay kalkar ve yönetici yeniden inceler.",
+      "routes": "Güzergâhlar",
+      "routesHint": "virgülle ayırın",
+      "serviceKind": "Hangi hizmeti veriyorsunuz",
+      "serviceKindHint": "yük bulma, belge, sınır",
+      "sub": "Güzergâh, deneyim ve ücret",
+      "title": "Dispeçer formu",
+      "vehicleTypes": "Araç türleri"
+    },
     "photo": {
       "camera": "Kamera",
       "gallery": "Galeri"
@@ -2245,6 +2344,18 @@
       "reminder": "Hatırlatma gönderildi",
       "route_changed": "Güzergâh değişti",
       "updated": "Güncellendi"
+    },
+    "queueNew": {
+      "border": "Hangi sınır",
+      "conditional": "Bu sınırda sıra bazen gerekir. Genelde %{n} gün önceden alınır.",
+      "create": "Sıra aç",
+      "direction": "Yön",
+      "directionHint": "isteğe bağlı",
+      "noVehicles": "Filoda araç yok. Önce araç ekleyin.",
+      "notRequired": "Bu sınırda sıra gerekmez.",
+      "required": "Bu sınırda sıra zorunlu. En az %{n} gün önceden alın.",
+      "title": "Yeni sıra",
+      "vehicle": "Hangi araç"
     },
     "rdoc": {
       "add": "Belge ekle",
@@ -2603,6 +2714,20 @@
       "silentSent": "Sinyal gönderildi",
       "title": "SOS gönder"
     },
+    "start": {
+      "all": "Tümü",
+      "g1": "Yük bul",
+      "g1b": "Güzergâha göre açık ilanları görün — hesapsız da olur.",
+      "g1c": "Yükleri aç",
+      "g2": "Araç ekle",
+      "g2b": "Boş aracınızı ilan edin — yük sahipleri kendisi bulur.",
+      "g2c": "İlan ver",
+      "g3": "Kayıt ol",
+      "g3b": "Anlaşma, sefer ve sözleşme hesap açılınca çalışır.",
+      "g3c": "Hesap aç",
+      "progress": "%{b} bölümden %{a} tanesi görüldü",
+      "title": "Buradan başlayın"
+    },
     "state": {
       "noData": "Veri gelmedi"
     },
@@ -2794,6 +2919,18 @@
       "NEW": "Yeni",
       "OFFERED": "Teklif geldi",
       "SEARCHING": "Usta aranıyor"
+    },
+    "take": {
+      "fromAd": "İlan",
+      "needDriver": "Bu araçta asıl sürücü yok — sefer açılmaz",
+      "needDriverBody": "Sürücüye bağlantı gönderin: kaydolur ve bu araca atanır. Ücret sizin tarifenizden.",
+      "noDriver": "sürücüsüz",
+      "noVehicles": "Boş aracınız yok. Filoya araç ekleyin veya seferdekilerin boşalmasını bekleyin.",
+      "open": "Seferi aç",
+      "sheetTitle": "Sefer aç",
+      "sub": "Sefer açılır — anlaşma, takip ve geçmiş tek yerde olur.",
+      "title": "Bu yükü alıyorum",
+      "which": "Hangi aracınızla?"
     },
     "tariff": {
       "askText": "“%{f}” için bir rol seçin. Her rolde deneme süresi var.",
@@ -3028,15 +3165,44 @@
       "unread": "Okunmamış",
       "writeMessage": "Mesaj yazın"
     },
+    "unit": {
+      "t": "t"
+    },
     "vacStatus": {
       "CLOSED": "Kapalı",
       "OPEN": "Açık"
     },
     "vdoc": {
+      "addTitle": "Belge ekle",
+      "badDate": "Tarih YYYY-AA-GG biçiminde olmalı",
+      "camera": "Fotoğraf çek",
+      "check": "Yapay zeka ile kontrol et",
+      "consent": "Fotoğraf okunmak üzere dış bir servise gönderilir. Sonuç kaydedilmez — alanları siz onaylarsınız.",
+      "countries": "Ülkeler",
+      "countriesHint": "virgülle ayırın",
       "country": "%{c} güzergâhı için belge yok",
       "expired": "%{doc} süresi doldu",
+      "expires": "Geçerlilik tarihi",
+      "expiresHint": "süresizse boş bırakın",
+      "gallery": "Galeriden",
+      "issued": "Veriliş tarihi",
+      "matched": "%{n} bilgi eşleşti",
+      "mismatch": "%{f}: belgede «%{a}», profilde «%{b}»",
       "missing": "%{doc} yüklenmedi",
-      "soon": "%{doc} %{n} gün sonra bitiyor"
+      "name": "Belge adı",
+      "nothingCompared": "Belgeden araç bilgileri okunamadı — karşılaştıracak bir şey olmadı.",
+      "number": "Belge numarası",
+      "photo": "Belge fotoğrafı",
+      "soon": "%{doc} %{n} gün sonra bitiyor",
+      "unverified": "Doğrulanmadı — bilgileri belgeyle karşılaştırın.",
+      "which": "Hangi belge"
+    },
+    "vdocField": {
+      "brand": "Marka",
+      "model": "Model",
+      "plate": "Plaka",
+      "vin": "VIN",
+      "year": "Yıl"
     },
     "vehicle": {
       "allDocuments": "Tüm belgeler (%{n})",
@@ -3078,6 +3244,12 @@
       "SHIPPER": "Yük sahibi",
       "USER": "Kullanıcı",
       "VEHICLE_OWNER": "Araç sahibi"
+    },
+    "voiceNote": {
+      "empty": "Kayıttan metin çıkmadı — daha yakın ve yavaş konuşun",
+      "failed": "Ses metne çevrilemedi",
+      "hint": "Mikrofonu basılı tutup söyleyin — metne dönüşür",
+      "working": "Metne dönüştürülüyor…"
     }
   },
   "moneyKind": {

@@ -12,6 +12,7 @@
     "ALREADY_REPLACED": "Bu hujjatning yangi versiyasi allaqachon bor.",
     "BAD_AMOUNT": "Summani tekshiring.",
     "BAD_BODY": "So'rov to'liq kelmadi. Qaytadan urinib ko'ring.",
+    "BAD_BORDER": "Chegara topilmadi yoki faol emas.",
     "BAD_CATEGORY": "Kategoriya noto'g'ri.",
     "BAD_CONTENT": "Fayl mazmuni o'qilmadi.",
     "BAD_COORDS": "Joylashuv aniqlanmadi.",
@@ -44,6 +45,7 @@
     "CSRF": "Xavfsizlik tekshiruvidan o'tmadi. Ilovani qayta oching.",
     "CURRENT_SESSION": "Hozirgi qurilmani o'chirib bo'lmaydi.",
     "DECIDED": "Bu taklif bo'yicha qaror allaqachon qabul qilingan.",
+    "DRIVER_BUSY": "Haydovchi hozir boshqa reysda.",
     "DUPLICATE": "Bunday yozuv allaqachon bor.",
     "EMPTY": "Bo'sh yuborib bo'lmaydi.",
     "FAILED": "Bajarilmadi. Qayta urinib ko'ring.",
@@ -58,16 +60,19 @@
     "JOB_CONTRACT": "Bu shartnoma yukka oid emas — undan reys ochilmaydi.",
     "LIMIT": "Chegaraga yetdingiz.",
     "LIVE": "Reys yo'lda — bu amal hozir mumkin emas.",
+    "LOAD_NOT_FOUND": "Yuk topilmadi — o'chirilgan yoki yopilgan bo'lishi mumkin.",
     "LOCKED": "Reys yopilgan — o'zgartirib bo'lmaydi.",
     "NAME_REQUIRED": "Nomini yozing.",
     "NEED_CARRIER": "Tashuvchini ko'rsating.",
     "NEED_TITLE": "Xarajat nomini yozing.",
+    "NEED_TRUCK": "Yukni olish uchun avval o'z transportingizni tanlang.",
     "NOT_ACCEPTED": "Kelishuv hali qabul qilinmagan.",
     "NOT_APPROVED": "Shartnoma tasdiqlangach tayyor bo'ladi.",
     "NOT_CARGO_CONTRACT": "Bu shartnomaning shabloni boshqa.",
     "NOT_CLOSING": "Avval «Yopilmoqda» bosqichiga o'ting.",
     "NOT_CONFIRMABLE": "Bu to'lovni tasdiqlab bo'lmaydi.",
     "NOT_DISPATCHER": "Bu amal faqat dispetcher uchun.",
+    "NOT_DRIVER": "Bu amal faqat haydovchi roli uchun.",
     "NOT_FOUND": "Topilmadi. O'chirilgan yoki manzil noto'g'ri bo'lishi mumkin.",
     "NOT_LINKED": "Bu odam bilan hali kelishuvingiz yo'q. Avval haydovchi sifatida biriktiring yoki kelishuv tuzing.",
     "NOT_LIVE": "Reys hali boshlanmagan.",
@@ -78,6 +83,7 @@
     "NO_CONSENT": "Avval hujjatni AI ga berishga rozilik bering.",
     "NO_CONTACT": "Aloqa ma'lumoti hali ochilmagan.",
     "NO_DISPATCHER": "Dispetcher tanlanmagan.",
+    "NO_DRIVER": "Mashinaga asosiy haydovchi biriktirilmagan.",
     "NO_FILE": "Fayl tanlanmagan.",
     "NO_ID": "Qaysi yozuv ekani ko'rsatilmagan.",
     "NO_LOAD": "Yuk topilmadi.",
@@ -112,11 +118,13 @@
     "TARIFF_LIMIT": "Tarifingizdagi chegara to'ldi. Tarifni kengaytiring.",
     "TARIFF_REQUIRED": "Bu tarifingizga kirmaydi. Rolingizni tanlang yoki tarifni yangilang.",
     "TELEGRAM_SOURCE": "Bu e'lon Telegram'dan olingan — ilova ichida yozib bo'lmaydi.",
+    "TG_LOAD": "Telegram e'loniga reys ochib bo'lmaydi — egasi bilan telefonda bog'laning.",
     "TOO_BIG": "Fayl juda katta — 10 MB gacha bo'lsin.",
     "TOO_LARGE": "Fayl juda katta — 10 MB dan oshmasin.",
     "TOO_MANY": "Rasm soni chegaradan oshdi.",
     "TOO_MANY_ATTEMPTS": "Juda ko'p urinish. Bir necha daqiqadan keyin qayta urinib ko'ring.",
     "TOO_OLD": "Bu yozuv juda eski — o'zgartirib bo'lmaydi.",
+    "TRIP_EXISTS": "Bu yuk uchun reys allaqachon ochilgan.",
     "TRUCK_BUSY": "Bu transport boshqa reysda.",
     "TRUCK_NOT_FOUND": "Transport topilmadi.",
     "UNAUTHORIZED": "Sessiya tugadi. Qaytadan kiring.",
@@ -125,6 +133,8 @@
     "USER_NOT_FOUND": "Bunday FURAM ID topilmadi.",
     "VALIDATION": "Kiritilgan ma'lumotni tekshiring.",
     "VEHICLE_BUSY": "Mashina shu orada band bo'ldi.",
+    "VEHICLE_NOT_FOUND": "Mashina topilmadi yoki sizniki emas.",
+    "VEHICLE_UNAVAILABLE": "Mashina bo'sh emas — hozir reysda yoki ta'mirda.",
     "WRONG_PASSWORD": "Parol noto'g'ri."
   },
   "cancelReason": {
@@ -774,6 +784,7 @@
       "or": "yoki",
       "renew": "Yangilash",
       "save": "Saqlash",
+      "saved": "Saqlandi",
       "saving": "Saqlanmoqda...",
       "show": "Ko'rsatish",
       "signOut": "Chiqish",
@@ -971,6 +982,29 @@
       "whyText2": "Uzoq vaqt kirilmagan qurilma sanasi jigarrang yoziladi — e'tibor bering, balki begonadir.",
       "whyTitle": "Nima uchun bu ekran bor"
     },
+    "dform": {
+      "about": "O'zim haqimda",
+      "birth": "Tug'ilgan sana",
+      "certificates": "Sertifikatlar",
+      "certificatesHint": "ADR, tibbiy va boshqalar",
+      "classes": "Toifalar",
+      "countries": "Qaysi davlatlarga",
+      "experience": "Tajriba, yil",
+      "fileHas": "yuklangan",
+      "fileNone": "yuklanmagan",
+      "languages": "Tillar",
+      "licenseFile": "Prava surati",
+      "licenseNo": "Prava raqami",
+      "licenseUntil": "Prava muddati",
+      "needRole": "Haydovchi roli kerak",
+      "needRoleBody": "Anketa faqat haydovchi rolida saqlanadi. Rolni «Rollarim» bo'limidan tanlang.",
+      "passportFile": "Pasport surati",
+      "passportNo": "Pasport raqami",
+      "region": "Yashash hududi",
+      "sub": "Hujjatlar va tajriba",
+      "title": "Haydovchi anketasi",
+      "vehicleTypes": "Qanday transport"
+    },
     "diag": {
       "lead": "AI muammoni o'qib, ehtimoliy sabablarni va qaysi usta kerakligini aytadi.",
       "needText": "Muammoni yozing — kamida uch belgi",
@@ -1027,6 +1061,42 @@
       "reminderText": "30, 7 va 1 kun qolganda xabar keladi. Bildirishnoma sozlamalarida «Hujjat muddati» bo'limi yoqiq bo'lishi kerak.",
       "title": "Hujjatlar"
     },
+    "dpanel": {
+      "allFine": "hammasi joyida",
+      "allFineText": "E'tibor talab qiladigan reys ham, kutilayotgan haq ham yo'q.",
+      "attention": "E'tibor kerak (%{n})",
+      "confirmedToday": "bugun tasdiqlangan",
+      "listBelow": "pastda ro'yxati",
+      "managed": "%{l} yuk · %{m} mashina boshqaruvda",
+      "matchFree": "%{n} bo'sh mashinangizga mos",
+      "nLoads": "%{n} yuk",
+      "noDebt": "qarzdorlik yo'q",
+      "noFreeTruck": "bo'sh mashina yo'q",
+      "noMatch": "%{n} bo'sh mashina · mos yuk topilmadi",
+      "noPayToday": "bugun to'lov bo'lmadi",
+      "notTakenYet": "hali olinmagan",
+      "pendingOffers": "%{n} taklif javob kutmoqda",
+      "period": {
+        "30": "Oy",
+        "90": "3 oy",
+        "365": "Yil",
+        "all": "Barcha davr"
+      },
+      "qAttention": "Qaysi biriga e'tibor kerak?",
+      "qEarned": "Bugun qancha ishladim?",
+      "qLive": "Hozir nechta reysim yo'lda?",
+      "qMore": "Yana qancha ishlashim mumkin?",
+      "qOwed": "Menga qancha berilishi kerak?",
+      "report": "Hisobot",
+      "saidTaken": "«oldim» dedingiz %{date} — tasdiq kutilmoqda",
+      "title": "Dispetcher paneli",
+      "waitingFee": "Kutilayotgan xizmat haqi",
+      "why": {
+        "noLocation": "24 soat lokatsiya yo'q",
+        "salary": "Oylik to'lanmagan",
+        "sos": "Ochiq SOS"
+      }
+    },
     "drv": {
       "addPay": "To'lov qo'shish",
       "held": "Ushlab qolingan",
@@ -1046,6 +1116,7 @@
       "generic": "Xatolik yuz berdi",
       "network": "Internetga ulanmadi. Aloqani tekshiring.",
       "timeout": "Server javob bermadi. Qaytadan urinib ko'ring.",
+      "unknown": "Xatolik yuz berdi",
       "uploadTimeout": "Yuborish uzoq cho'zildi. Aloqa yaxshi joyda qayta urinib ko'ring."
     },
     "exp": {
@@ -1123,6 +1194,11 @@
       "repairs": "Ta'mir",
       "title": "Park tahlili",
       "trips": "Reyslar"
+    },
+    "feeMode": {
+      "FIXED": "Belgilangan summa",
+      "NEGOTIABLE": "Har safar kelishiladi",
+      "PERCENT": "Fraxtdan foiz"
     },
     "fin": {
       "allCats": "Barcha kategoriya",
@@ -2034,6 +2110,29 @@
       "PASSPORT": "Pasport",
       "VISA": "Viza"
     },
+    "pform": {
+      "about": "O'zim haqimda",
+      "approved": "Tasdiqlangan",
+      "approvedBody": "Profilingiz yuk egalarining «Dispetcher tanlash» ro'yxatida ko'rinadi.",
+      "city": "Shahar",
+      "countries": "Ishlaydigan davlatlar",
+      "experience": "Tajriba, yil",
+      "feeMode": "Haq turi",
+      "languages": "Tillar",
+      "needRole": "Dispetcher roli kerak",
+      "needRoleBody": "Anketa faqat dispetcher rolida saqlanadi. Rolni «Rollarim» bo'limidan tanlang.",
+      "pending": "Tasdiq kutilmoqda",
+      "pendingBody": "Admin ko'rib chiqmaguncha profilingiz ro'yxatga chiqmaydi.",
+      "rejected": "Tasdiqlanmadi",
+      "resetWarn": "Saqlasangiz tasdiq bekor bo'ladi va admin qaytadan ko'rib chiqadi.",
+      "routes": "Yo'nalishlar",
+      "routesHint": "vergul bilan",
+      "serviceKind": "Qanday xizmat ko'rsatasiz",
+      "serviceKindHint": "yuk topish, hujjat, chegara",
+      "sub": "Yo'nalish, tajriba va haq",
+      "title": "Dispetcher anketasi",
+      "vehicleTypes": "Transport turlari"
+    },
     "photo": {
       "camera": "Kamera",
       "gallery": "Galereya"
@@ -2245,6 +2344,18 @@
       "reminder": "Eslatma yuborildi",
       "route_changed": "Yo'nalish o'zgardi",
       "updated": "O'zgartirildi"
+    },
+    "queueNew": {
+      "border": "Qaysi chegara",
+      "conditional": "Bu chegarada navbat ba'zan talab qilinadi. Odatda %{n} kun oldin olinadi.",
+      "create": "Navbat ochish",
+      "direction": "Yo'nalish",
+      "directionHint": "ixtiyoriy",
+      "noVehicles": "Parkda mashina yo'q. Avval mashina qo'shing.",
+      "notRequired": "Bu chegarada navbat talab qilinmaydi.",
+      "required": "Bu chegarada navbat majburiy. Kamida %{n} kun oldin oling.",
+      "title": "Yangi navbat",
+      "vehicle": "Qaysi mashina"
     },
     "rdoc": {
       "add": "Hujjat qo'shish",
@@ -2603,6 +2714,20 @@
       "silentSent": "Signal yuborildi",
       "title": "SOS yuborish"
     },
+    "start": {
+      "all": "Hammasi",
+      "g1": "Yuk qidirish",
+      "g1b": "Yo'nalish bo'yicha ochiq e'lonlarni ko'ring — hisobsiz ham.",
+      "g1c": "Yuklarni ochish",
+      "g2": "Mashina qo'yish",
+      "g2b": "Bo'sh mashinangizni e'lon qiling — yuk egalari o'zi topadi.",
+      "g2c": "E'lon berish",
+      "g3": "Ro'yxatdan o'tish",
+      "g3b": "Kelishuv, reys va shartnoma — hammasi hisob ochilgach ishlaydi.",
+      "g3c": "Hisob ochish",
+      "progress": "%{b} tadan %{a} tasi ko'rib chiqilgan",
+      "title": "Boshlash"
+    },
     "state": {
       "noData": "Ma'lumot kelmadi"
     },
@@ -2794,6 +2919,18 @@
       "NEW": "Yangi",
       "OFFERED": "Taklif keldi",
       "SEARCHING": "Usta qidirilmoqda"
+    },
+    "take": {
+      "fromAd": "E'lon",
+      "needDriver": "Bu mashinada asosiy haydovchi yo'q — reys ochilmaydi",
+      "needDriverBody": "Haydovchiga havola yuboring: u ro'yxatdan o'tadi va shu mashinaga biriktiriladi. To'lov sizning tarifingizdan.",
+      "noDriver": "haydovchisiz",
+      "noVehicles": "Bo'sh mashinangiz yo'q. Parkka mashina qo'shing yoki reysdagilari bo'shashini kuting.",
+      "open": "Reysni ochish",
+      "sheetTitle": "Reys ochish",
+      "sub": "Reys ochiladi — kelishuv, nazorat va tarix bitta joyda bo'ladi.",
+      "title": "Bu yukni olaman",
+      "which": "Qaysi mashinangiz bilan?"
     },
     "tariff": {
       "askText": "«%{f}» uchun mos rolni tanlang. Har rolda sinov muddati bor.",
@@ -3028,15 +3165,44 @@
       "unread": "O'qilmagan",
       "writeMessage": "Xabar yozing"
     },
+    "unit": {
+      "t": "t"
+    },
     "vacStatus": {
       "CLOSED": "Yopilgan",
       "OPEN": "Ochiq"
     },
     "vdoc": {
+      "addTitle": "Hujjat qo'shish",
+      "badDate": "Sana YYYY-MM-DD ko'rinishida bo'lsin",
+      "camera": "Suratga olish",
+      "check": "AI bilan tekshirish",
+      "consent": "Surat o'qish uchun tashqi xizmatga yuboriladi. Natija saqlanmaydi — maydonlarni siz tasdiqlaysiz.",
+      "countries": "Davlatlar",
+      "countriesHint": "vergul bilan",
       "country": "%{c} yo'nalishi uchun hujjat ko'rsatilmagan",
       "expired": "%{doc} muddati o'tgan",
+      "expires": "Amal qilish muddati",
+      "expiresHint": "muddatsiz bo'lsa bo'sh qoldiring",
+      "gallery": "Galereyadan",
+      "issued": "Berilgan sana",
+      "matched": "%{n} ta belgi mos keldi",
+      "mismatch": "%{f}: hujjatda «%{a}», profilda «%{b}»",
       "missing": "%{doc} yuklanmagan",
-      "soon": "%{doc} %{n} kundan keyin tugaydi"
+      "name": "Hujjat nomi",
+      "nothingCompared": "Hujjatdan mashina belgilari o'qilmadi — solishtiradigan narsa bo'lmadi.",
+      "number": "Hujjat raqami",
+      "photo": "Hujjat surati",
+      "soon": "%{doc} %{n} kundan keyin tugaydi",
+      "unverified": "Tasdiqlanmagan — ma'lumotni hujjat bilan solishtiring.",
+      "which": "Qaysi hujjat"
+    },
+    "vdocField": {
+      "brand": "Marka",
+      "model": "Model",
+      "plate": "Davlat raqami",
+      "vin": "VIN",
+      "year": "Yili"
     },
     "vehicle": {
       "allDocuments": "Barcha hujjatlar (%{n})",
@@ -3078,6 +3244,12 @@
       "SHIPPER": "Yuk egasi",
       "USER": "Foydalanuvchi",
       "VEHICLE_OWNER": "Transport egasi"
+    },
+    "voiceNote": {
+      "empty": "Ovozdan matn chiqmadi — yaqinroq va sekinroq gapiring",
+      "failed": "Ovozni matnga o'girib bo'lmadi",
+      "hint": "Mikrofonni bosib turib ayting — matnga o'giriladi",
+      "working": "Matnga o'girilmoqda…"
     }
   },
   "moneyKind": {

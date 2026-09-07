@@ -116,6 +116,22 @@ export default function Navbatlar() {
               : t("mob.queue.parkLine", { n: new Set(items.map((q) => q.plate)).size })
             : undefined
         }
+        right={
+          /* Qo'lda navbat ochish — FAQAT EGASIGA. Haydovchi o'ziga
+             navbat ocholmaydi: mashina uniki emas va server ham
+             egalikni tekshiradi. */
+          !isDriver ? (
+            <Pressable
+              onPress={() => router.push("/navbat/yangi")}
+              hitSlop={8}
+              accessibilityRole="button"
+              accessibilityLabel={t("mob.queueNew.title")}
+              style={({ pressed }) => [s.add, pressed && { opacity: 0.6 }]}
+            >
+              <Icon name="plus" size={20} stroke={color.brand} />
+            </Pressable>
+          ) : undefined
+        }
       />
 
       {loading ? (
@@ -260,6 +276,14 @@ function QueueCard({ q, onPress }: { q: Queue; onPress: () => void }) {
 }
 
 const s = StyleSheet.create({
+  add: {
+    width: 34,
+    height: 34,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: color.brandSoft,
+  },
   root: { flex: 1, backgroundColor: color.background },
   list: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 2 },
 

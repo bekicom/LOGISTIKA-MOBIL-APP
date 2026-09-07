@@ -24,6 +24,7 @@ import { HeaderIcons } from "@/components/TabHeader";
 import { setCounts } from "@/lib/counts";
 import { ListingCard, TripCard, type Listing, type TripItem } from "@/components/cards";
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
+import { FxStrip, StartHere } from "@/components/HomeStart";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -109,6 +110,10 @@ export default function Bosh() {
           />
         ) : null}
 
+        {/* Kurs — ikkala rolda ham. Narx o'girish kunlik ish va u
+            bo'limlar ichida ko'milib qolmasin. */}
+        <FxStrip />
+
         {data?.kind === "dispatcher" ? (
           <Dispatcher data={data} onTrip={(tid) => router.push(`/reys/${tid}`)} />
         ) : null}
@@ -125,6 +130,11 @@ export default function Bosh() {
             onDocs={() => router.push("/hujjatlarim")}
           />
         ) : null}
+
+        {/* «Boshlash» — eng OXIRIDA. Yangi odamga kerak, tanish
+            odamga esa lenta muhimroq; tepaga qo'ysak, har ochilishda
+            u ishini ikkinchi ekrandan boshlardi. */}
+        <StartHere />
       </ScrollView>
     </View>
   );

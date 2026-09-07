@@ -12,6 +12,7 @@
     "ALREADY_REPLACED": "该单证已有更新版本。",
     "BAD_AMOUNT": "请检查金额。",
     "BAD_BODY": "请求内容不完整，请重试。",
+    "BAD_BORDER": "未找到口岸，或该口岸未启用。",
     "BAD_CATEGORY": "分类无效。",
     "BAD_CONTENT": "无法读取文件内容。",
     "BAD_COORDS": "无法确定位置。",
@@ -44,6 +45,7 @@
     "CSRF": "安全校验未通过，请重新打开应用。",
     "CURRENT_SESSION": "无法移除当前正在使用的设备。",
     "DECIDED": "该提议已作出决定。",
+    "DRIVER_BUSY": "该司机目前在其他行程中。",
     "DUPLICATE": "该记录已存在。",
     "EMPTY": "内容不能为空。",
     "FAILED": "未能完成，请重试。",
@@ -58,16 +60,19 @@
     "JOB_CONTRACT": "该合同与货运无关——无法据此开单。",
     "LIMIT": "已达上限。",
     "LIVE": "运单正在途中，暂时无法执行。",
+    "LOAD_NOT_FOUND": "未找到货源——可能已删除或已关闭。",
     "LOCKED": "运单已结束，无法修改。",
     "NAME_REQUIRED": "请填写名称。",
     "NEED_CARRIER": "请指定承运人。",
     "NEED_TITLE": "请填写支出名称。",
+    "NEED_TRUCK": "接货前请先选择您的车辆。",
     "NOT_ACCEPTED": "该交易尚未被接受。",
     "NOT_APPROVED": "合同批准后即可使用。",
     "NOT_CARGO_CONTRACT": "该合同使用的是另一种模板。",
     "NOT_CLOSING": "请先进入“关闭中”阶段。",
     "NOT_CONFIRMABLE": "该笔付款无法确认。",
     "NOT_DISPATCHER": "该操作仅限调度员。",
+    "NOT_DRIVER": "此操作仅限司机角色。",
     "NOT_FOUND": "未找到。可能已被删除，或链接有误。",
     "NOT_LINKED": "您与此人尚无关联。请先将其设为司机或达成协议。",
     "NOT_LIVE": "运单尚未开始。",
@@ -78,6 +83,7 @@
     "NO_CONSENT": "请先同意让 AI 读取该文件。",
     "NO_CONTACT": "联系方式尚未开放。",
     "NO_DISPATCHER": "未选择调度员。",
+    "NO_DRIVER": "该车未指定主驾驶员。",
     "NO_FILE": "未选择文件。",
     "NO_ID": "未指明是哪条记录。",
     "NO_LOAD": "未找到货源。",
@@ -112,11 +118,13 @@
     "TARIFF_LIMIT": "已达套餐上限，请升级套餐。",
     "TARIFF_REQUIRED": "这不在您的套餐内。请选择角色或续费。",
     "TELEGRAM_SOURCE": "该信息来自 Telegram——无法在应用内私信。",
+    "TG_LOAD": "Telegram 广告无法创建行程——请电话联系货主。",
     "TOO_BIG": "文件过大——最大 10 MB。",
     "TOO_LARGE": "文件过大——请控制在 10 MB 以内。",
     "TOO_MANY": "图片数量超出限制。",
     "TOO_MANY_ATTEMPTS": "尝试次数过多，请几分钟后再试。",
     "TOO_OLD": "这条记录太久，无法修改。",
+    "TRIP_EXISTS": "该货源已创建行程。",
     "TRUCK_BUSY": "该车辆正在执行其他运单。",
     "TRUCK_NOT_FOUND": "未找到车辆。",
     "UNAUTHORIZED": "会话已过期，请重新登录。",
@@ -125,6 +133,8 @@
     "USER_NOT_FOUND": "找不到该 FURAM ID。",
     "VALIDATION": "请检查输入的内容。",
     "VEHICLE_BUSY": "车辆在此期间已被占用。",
+    "VEHICLE_NOT_FOUND": "未找到车辆，或该车不属于您。",
+    "VEHICLE_UNAVAILABLE": "车辆不空闲——正在运输或维修中。",
     "WRONG_PASSWORD": "密码不正确。"
   },
   "cancelReason": {
@@ -774,6 +784,7 @@
       "or": "或",
       "renew": "更新",
       "save": "保存",
+      "saved": "已保存",
       "saving": "保存中…",
       "show": "显示",
       "signOut": "退出",
@@ -971,6 +982,29 @@
       "whyText2": "长期未使用的设备日期以琥珀色标出——请留意，可能并非本人设备。",
       "whyTitle": "本页面的作用"
     },
+    "dform": {
+      "about": "个人简介",
+      "birth": "出生日期",
+      "certificates": "证书",
+      "certificatesHint": "ADR、体检等",
+      "classes": "准驾类别",
+      "countries": "可跑哪些国家",
+      "experience": "经验（年）",
+      "fileHas": "已上传",
+      "fileNone": "未上传",
+      "languages": "语言",
+      "licenseFile": "驾照照片",
+      "licenseNo": "驾照号码",
+      "licenseUntil": "驾照有效期至",
+      "needRole": "需要司机角色",
+      "needRoleBody": "仅司机角色可保存该资料。请在「我的角色」中选择。",
+      "passportFile": "护照照片",
+      "passportNo": "护照号码",
+      "region": "居住地区",
+      "sub": "证件与经验",
+      "title": "司机资料",
+      "vehicleTypes": "可驾车型"
+    },
     "diag": {
       "lead": "AI 会阅读描述，给出可能原因和需要的师傅类型。",
       "needText": "请描述问题——至少三个字符",
@@ -1027,6 +1061,42 @@
       "reminderText": "将在到期前 30、7 和 1 天提醒。需在通知设置中开启「证件有效期」。",
       "title": "证件"
     },
+    "dpanel": {
+      "allFine": "一切正常",
+      "allFineText": "没有需要关注的行程，也没有待收佣金。",
+      "attention": "需要关注（%{n}）",
+      "confirmedToday": "今日已确认",
+      "listBelow": "列表见下方",
+      "managed": "管理中：%{l} 单货 · %{m} 辆车",
+      "matchFree": "匹配您的 %{n} 辆空闲车",
+      "nLoads": "%{n} 单货",
+      "noDebt": "无欠款",
+      "noFreeTruck": "无空闲车辆",
+      "noMatch": "%{n} 辆空闲车 · 未找到匹配货源",
+      "noPayToday": "今日无收款",
+      "notTakenYet": "尚未收到",
+      "pendingOffers": "%{n} 条报价等待回复",
+      "period": {
+        "30": "近一月",
+        "90": "近三月",
+        "365": "近一年",
+        "all": "全部时间"
+      },
+      "qAttention": "哪些需要关注？",
+      "qEarned": "今天赚了多少？",
+      "qLive": "有多少行程在途？",
+      "qMore": "还能接多少活？",
+      "qOwed": "还有多少应收？",
+      "report": "报表",
+      "saidTaken": "您于 %{date} 标记「已收」——等待确认",
+      "title": "调度台",
+      "waitingFee": "待收服务费",
+      "why": {
+        "noLocation": "24 小时无定位",
+        "salary": "工资未付",
+        "sos": "未处理 SOS"
+      }
+    },
     "drv": {
       "addPay": "添加一笔支付",
       "held": "已扣款",
@@ -1046,6 +1116,7 @@
       "generic": "发生错误",
       "network": "无法连接网络。请检查网络。",
       "timeout": "服务器无响应。请重试。",
+      "unknown": "发生错误",
       "uploadTimeout": "上传耗时过长。请在信号较好的地方重试。"
     },
     "exp": {
@@ -1123,6 +1194,11 @@
       "repairs": "维修",
       "title": "车队分析",
       "trips": "行程"
+    },
+    "feeMode": {
+      "FIXED": "固定金额",
+      "NEGOTIABLE": "每次面议",
+      "PERCENT": "运费百分比"
     },
     "fin": {
       "allCats": "全部类别",
@@ -2034,6 +2110,29 @@
       "PASSPORT": "护照",
       "VISA": "签证"
     },
+    "pform": {
+      "about": "个人简介",
+      "approved": "已通过审核",
+      "approvedBody": "您的资料会出现在货主的「选择调度员」列表中。",
+      "city": "城市",
+      "countries": "工作国家",
+      "experience": "经验（年）",
+      "feeMode": "佣金方式",
+      "languages": "语言",
+      "needRole": "需要调度员角色",
+      "needRoleBody": "仅调度员角色可保存该资料。请在「我的角色」中选择。",
+      "pending": "等待审核",
+      "pendingBody": "管理员审核前，资料不会出现在列表中。",
+      "rejected": "未通过审核",
+      "resetWarn": "保存后审核状态将被清除，需管理员重新审核。",
+      "routes": "线路",
+      "routesHint": "用逗号分隔",
+      "serviceKind": "您提供什么服务",
+      "serviceKindHint": "找货、单证、口岸",
+      "sub": "线路、经验与佣金",
+      "title": "调度员资料",
+      "vehicleTypes": "车辆类型"
+    },
     "photo": {
       "camera": "相机",
       "gallery": "相册"
@@ -2245,6 +2344,18 @@
       "reminder": "已发送提醒",
       "route_changed": "路线已变更",
       "updated": "已更新"
+    },
+    "queueNew": {
+      "border": "哪个口岸",
+      "conditional": "该口岸有时需要排队，通常提前 %{n} 天预约。",
+      "create": "创建排队",
+      "direction": "方向",
+      "directionHint": "可选",
+      "noVehicles": "车队中没有车辆。请先添加车辆。",
+      "notRequired": "该口岸无需排队。",
+      "required": "该口岸必须排队。请至少提前 %{n} 天预约。",
+      "title": "新排队",
+      "vehicle": "哪辆车"
     },
     "rdoc": {
       "add": "添加文件",
@@ -2603,6 +2714,20 @@
       "silentSent": "信号已发送",
       "title": "发送 SOS"
     },
+    "start": {
+      "all": "全部",
+      "g1": "找货",
+      "g1b": "按线路浏览公开货源——无需账号。",
+      "g1c": "查看货源",
+      "g2": "发布车辆",
+      "g2b": "发布空闲车辆——货主会主动找到您。",
+      "g2c": "去发布",
+      "g3": "注册",
+      "g3b": "注册后即可使用协议、行程与合同。",
+      "g3c": "创建账号",
+      "progress": "已了解 %{b} 项中的 %{a} 项",
+      "title": "从这里开始"
+    },
     "state": {
       "noData": "未获取到数据"
     },
@@ -2794,6 +2919,18 @@
       "NEW": "新建",
       "OFFERED": "已有报价",
       "SEARCHING": "正在寻找师傅"
+    },
+    "take": {
+      "fromAd": "车辆广告",
+      "needDriver": "该车没有主驾驶员——无法创建行程",
+      "needDriverBody": "给司机发送链接：他注册后即被分配到这辆车。费用从您的套餐扣除。",
+      "noDriver": "无司机",
+      "noVehicles": "您没有空闲车辆。请添加车辆，或等待在途车辆空出。",
+      "open": "创建行程",
+      "sheetTitle": "创建行程",
+      "sub": "将创建行程——协议、跟踪与记录集中在一处。",
+      "title": "我要接这单货",
+      "which": "用您的哪辆车？"
     },
     "tariff": {
       "askText": "请为「%{f}」选择角色。每个角色都有试用期。",
@@ -3028,15 +3165,44 @@
       "unread": "未读",
       "writeMessage": "输入消息"
     },
+    "unit": {
+      "t": "吨"
+    },
     "vacStatus": {
       "CLOSED": "已关闭",
       "OPEN": "招聘中"
     },
     "vdoc": {
+      "addTitle": "添加证件",
+      "badDate": "日期须为 YYYY-MM-DD 格式",
+      "camera": "拍照",
+      "check": "用 AI 核验",
+      "consent": "照片将发送至外部服务进行识别。结果不会保存——字段由您确认。",
+      "countries": "国家",
+      "countriesHint": "用逗号分隔",
       "country": "未提供 %{c} 方向的单证",
       "expired": "%{doc} 已过期",
+      "expires": "有效期至",
+      "expiresHint": "长期有效则留空",
+      "gallery": "从相册选择",
+      "issued": "签发日期",
+      "matched": "%{n} 项信息一致",
+      "mismatch": "%{f}：证件为「%{a}」，档案为「%{b}」",
       "missing": "%{doc} 未上传",
-      "soon": "%{doc} 将在 %{n} 天后到期"
+      "name": "证件名称",
+      "nothingCompared": "未能从证件中读取车辆信息——无可比对内容。",
+      "number": "证件号码",
+      "photo": "证件照片",
+      "soon": "%{doc} 将在 %{n} 天后到期",
+      "unverified": "未经核实——请与证件核对数据。",
+      "which": "哪种证件"
+    },
+    "vdocField": {
+      "brand": "品牌",
+      "model": "型号",
+      "plate": "车牌号",
+      "vin": "车架号",
+      "year": "年份"
     },
     "vehicle": {
       "allDocuments": "全部证件（%{n}）",
@@ -3078,6 +3244,12 @@
       "SHIPPER": "货主",
       "USER": "用户",
       "VEHICLE_OWNER": "车主"
+    },
+    "voiceNote": {
+      "empty": "未识别出文字——请靠近些、说慢点",
+      "failed": "无法将语音转为文字",
+      "hint": "按住麦克风说话——将转为文字",
+      "working": "正在转文字…"
     }
   },
   "moneyKind": {

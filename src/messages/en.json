@@ -12,6 +12,7 @@
     "ALREADY_REPLACED": "This document already has a newer version.",
     "BAD_AMOUNT": "Check the amount.",
     "BAD_BODY": "The request arrived incomplete. Please try again.",
+    "BAD_BORDER": "Border not found, or it is not active.",
     "BAD_CATEGORY": "That category isn't valid.",
     "BAD_CONTENT": "The file's contents couldn't be read.",
     "BAD_COORDS": "The location could not be determined.",
@@ -44,6 +45,7 @@
     "CSRF": "The security check failed. Please reopen the app.",
     "CURRENT_SESSION": "You can't remove the device you're using.",
     "DECIDED": "A decision on this was already made.",
+    "DRIVER_BUSY": "The driver is on another trip right now.",
     "DUPLICATE": "That already exists.",
     "EMPTY": "You can't send this empty.",
     "FAILED": "That didn't go through. Try again.",
@@ -58,16 +60,19 @@
     "JOB_CONTRACT": "This contract isn't about a load — a trip can't be opened from it.",
     "LIMIT": "You've hit the limit.",
     "LIVE": "The trip is under way — you can't do this now.",
+    "LOAD_NOT_FOUND": "Load not found — it may have been removed or closed.",
     "LOCKED": "The trip is closed — it can't be changed.",
     "NAME_REQUIRED": "Give it a name.",
     "NEED_CARRIER": "Choose a carrier.",
     "NEED_TITLE": "Name the expense.",
+    "NEED_TRUCK": "To take the load, first pick one of your vehicles.",
     "NOT_ACCEPTED": "The deal hasn't been accepted yet.",
     "NOT_APPROVED": "This becomes available once the contract is approved.",
     "NOT_CARGO_CONTRACT": "This contract uses a different template.",
     "NOT_CLOSING": "Move to the “Closing” stage first.",
     "NOT_CONFIRMABLE": "This payment cannot be confirmed.",
     "NOT_DISPATCHER": "Only a dispatcher can do this.",
+    "NOT_DRIVER": "This action is for the driver role only.",
     "NOT_FOUND": "Not found. It may have been deleted, or the link is wrong.",
     "NOT_LINKED": "You have no working link with this person yet. Attach them as a driver or make a deal first.",
     "NOT_LIVE": "The trip hasn't started yet.",
@@ -78,6 +83,7 @@
     "NO_CONSENT": "First agree to let the AI read the document.",
     "NO_CONTACT": "Contact details aren't open yet.",
     "NO_DISPATCHER": "No dispatcher was chosen.",
+    "NO_DRIVER": "The vehicle has no main driver assigned.",
     "NO_FILE": "No file was picked.",
     "NO_ID": "It's not clear which record this is.",
     "NO_LOAD": "Load not found.",
@@ -112,11 +118,13 @@
     "TARIFF_LIMIT": "You've hit your plan's limit. Upgrade the plan.",
     "TARIFF_REQUIRED": "That's not in your plan. Pick a role or renew the plan.",
     "TELEGRAM_SOURCE": "This listing came from Telegram — you can't message inside the app.",
+    "TG_LOAD": "A trip cannot be opened for a Telegram listing — call the owner instead.",
     "TOO_BIG": "The file is too large — 10 MB maximum.",
     "TOO_LARGE": "The file is too big — keep it under 10 MB.",
     "TOO_MANY": "That's more photos than allowed.",
     "TOO_MANY_ATTEMPTS": "Too many attempts. Try again in a few minutes.",
     "TOO_OLD": "This record is too old to change.",
+    "TRIP_EXISTS": "A trip is already open for this load.",
     "TRUCK_BUSY": "That truck is on another trip.",
     "TRUCK_NOT_FOUND": "Truck not found.",
     "UNAUTHORIZED": "Your session expired. Sign in again.",
@@ -125,6 +133,8 @@
     "USER_NOT_FOUND": "No such FURAM ID.",
     "VALIDATION": "Check what you entered.",
     "VEHICLE_BUSY": "The vehicle became busy in the meantime.",
+    "VEHICLE_NOT_FOUND": "Vehicle not found, or it is not yours.",
+    "VEHICLE_UNAVAILABLE": "The vehicle is not free — it is on a trip or in repair.",
     "WRONG_PASSWORD": "Wrong password."
   },
   "cancelReason": {
@@ -774,6 +784,7 @@
       "or": "or",
       "renew": "Renew",
       "save": "Save",
+      "saved": "Saved",
       "saving": "Saving...",
       "show": "Show",
       "signOut": "Sign out",
@@ -971,6 +982,29 @@
       "whyText2": "A long-inactive device's date is shown in amber — take a look, it may not be yours.",
       "whyTitle": "Why this screen exists"
     },
+    "dform": {
+      "about": "About me",
+      "birth": "Date of birth",
+      "certificates": "Certificates",
+      "certificatesHint": "ADR, medical and others",
+      "classes": "Licence classes",
+      "countries": "Which countries",
+      "experience": "Experience, years",
+      "fileHas": "uploaded",
+      "fileNone": "not uploaded",
+      "languages": "Languages",
+      "licenseFile": "Licence photo",
+      "licenseNo": "Licence number",
+      "licenseUntil": "Licence valid until",
+      "needRole": "Driver role required",
+      "needRoleBody": "The profile is saved only with the driver role. Pick it in “My roles”.",
+      "passportFile": "Passport photo",
+      "passportNo": "Passport number",
+      "region": "Region of residence",
+      "sub": "Documents and experience",
+      "title": "Driver profile",
+      "vehicleTypes": "Which vehicle types"
+    },
     "diag": {
       "lead": "The AI reads your description and names likely causes and the right specialist.",
       "needText": "Describe the problem — at least three characters",
@@ -1027,6 +1061,42 @@
       "reminderText": "You are notified 30, 7 and 1 day before. The «Document expiry» category must be enabled in notification settings.",
       "title": "Documents"
     },
+    "dpanel": {
+      "allFine": "all is fine",
+      "allFineText": "No trips need attention and no fees are pending.",
+      "attention": "Need attention (%{n})",
+      "confirmedToday": "confirmed today",
+      "listBelow": "list below",
+      "managed": "%{l} loads · %{m} vehicles managed",
+      "matchFree": "matching your %{n} free vehicles",
+      "nLoads": "%{n} loads",
+      "noDebt": "nothing outstanding",
+      "noFreeTruck": "no free vehicles",
+      "noMatch": "%{n} free vehicles · no matching load",
+      "noPayToday": "no payments today",
+      "notTakenYet": "not received yet",
+      "pendingOffers": "%{n} offers awaiting your reply",
+      "period": {
+        "30": "Month",
+        "90": "3 months",
+        "365": "Year",
+        "all": "All time"
+      },
+      "qAttention": "Which one needs attention?",
+      "qEarned": "How much did I earn today?",
+      "qLive": "How many trips are on the road?",
+      "qMore": "How much more can I take on?",
+      "qOwed": "How much am I owed?",
+      "report": "Report",
+      "saidTaken": "you marked it received on %{date} — awaiting confirmation",
+      "title": "Dispatcher panel",
+      "waitingFee": "Pending service fees",
+      "why": {
+        "noLocation": "No location for 24 hours",
+        "salary": "Salary unpaid",
+        "sos": "Open SOS"
+      }
+    },
     "drv": {
       "addPay": "Add a payment",
       "held": "Withheld",
@@ -1046,6 +1116,7 @@
       "generic": "Something went wrong",
       "network": "No internet connection. Check your network.",
       "timeout": "The server did not respond. Try again.",
+      "unknown": "Something went wrong",
       "uploadTimeout": "The upload took too long. Try again where the signal is better."
     },
     "exp": {
@@ -1123,6 +1194,11 @@
       "repairs": "Repairs",
       "title": "Fleet analytics",
       "trips": "Trips"
+    },
+    "feeMode": {
+      "FIXED": "Fixed amount",
+      "NEGOTIABLE": "Agreed each time",
+      "PERCENT": "Percent of the freight"
     },
     "fin": {
       "allCats": "All categories",
@@ -2034,6 +2110,29 @@
       "PASSPORT": "Passport",
       "VISA": "Visa"
     },
+    "pform": {
+      "about": "About me",
+      "approved": "Approved",
+      "approvedBody": "Your profile appears in the cargo owners’ “Choose a dispatcher” list.",
+      "city": "City",
+      "countries": "Countries you work in",
+      "experience": "Experience, years",
+      "feeMode": "Fee type",
+      "languages": "Languages",
+      "needRole": "Dispatcher role required",
+      "needRoleBody": "The profile is saved only with the dispatcher role. Pick it in “My roles”.",
+      "pending": "Awaiting approval",
+      "pendingBody": "Until an admin reviews it, your profile stays off the list.",
+      "rejected": "Not approved",
+      "resetWarn": "Saving clears the approval — an admin will review it again.",
+      "routes": "Routes",
+      "routesHint": "comma separated",
+      "serviceKind": "What service you provide",
+      "serviceKindHint": "finding loads, documents, border",
+      "sub": "Routes, experience and fee",
+      "title": "Dispatcher profile",
+      "vehicleTypes": "Vehicle types"
+    },
     "photo": {
       "camera": "Camera",
       "gallery": "Gallery"
@@ -2245,6 +2344,18 @@
       "reminder": "Reminder sent",
       "route_changed": "Route changed",
       "updated": "Updated"
+    },
+    "queueNew": {
+      "border": "Which border",
+      "conditional": "A queue is sometimes required at this border. Usually booked %{n} days ahead.",
+      "create": "Create the queue",
+      "direction": "Direction",
+      "directionHint": "optional",
+      "noVehicles": "No vehicles in your fleet. Add one first.",
+      "notRequired": "No queue is required at this border.",
+      "required": "A queue is required at this border. Book at least %{n} days ahead.",
+      "title": "New queue",
+      "vehicle": "Which vehicle"
     },
     "rdoc": {
       "add": "Add a document",
@@ -2603,6 +2714,20 @@
       "silentSent": "Signal sent",
       "title": "Send SOS"
     },
+    "start": {
+      "all": "All",
+      "g1": "Find a load",
+      "g1b": "Browse open listings by route — even without an account.",
+      "g1c": "Open loads",
+      "g2": "Post a vehicle",
+      "g2b": "List your free vehicle — cargo owners will find it.",
+      "g2c": "Post it",
+      "g3": "Sign up",
+      "g3b": "Deals, trips and contracts all work once you have an account.",
+      "g3c": "Create an account",
+      "progress": "%{a} of %{b} explored",
+      "title": "Start here"
+    },
     "state": {
       "noData": "No data received"
     },
@@ -2794,6 +2919,18 @@
       "NEW": "New",
       "OFFERED": "Offers came in",
       "SEARCHING": "Looking for a mechanic"
+    },
+    "take": {
+      "fromAd": "Listing",
+      "needDriver": "This vehicle has no main driver — the trip will not open",
+      "needDriverBody": "Send the driver a link: they sign up and get assigned to this vehicle. Billed to your plan.",
+      "noDriver": "no driver",
+      "noVehicles": "You have no free vehicles. Add one to your fleet, or wait for those on a trip to free up.",
+      "open": "Open the trip",
+      "sheetTitle": "Open a trip",
+      "sub": "A trip opens — the deal, tracking and history in one place.",
+      "title": "I will take this load",
+      "which": "With which of your vehicles?"
     },
     "tariff": {
       "askText": "Choose a role for “%{f}”. Every role has a trial period.",
@@ -3028,15 +3165,44 @@
       "unread": "Unread",
       "writeMessage": "Write a message"
     },
+    "unit": {
+      "t": "t"
+    },
     "vacStatus": {
       "CLOSED": "Closed",
       "OPEN": "Open"
     },
     "vdoc": {
+      "addTitle": "Add a document",
+      "badDate": "The date must look like YYYY-MM-DD",
+      "camera": "Take a photo",
+      "check": "Check with AI",
+      "consent": "The photo is sent to an external service to be read. Nothing is saved — you confirm the fields.",
+      "countries": "Countries",
+      "countriesHint": "comma separated",
       "country": "No document listed for the %{c} route",
       "expired": "%{doc} has expired",
+      "expires": "Valid until",
+      "expiresHint": "leave empty if it never expires",
+      "gallery": "From gallery",
+      "issued": "Issue date",
+      "matched": "%{n} details matched",
+      "mismatch": "%{f}: «%{a}» in the document, «%{b}» in the profile",
       "missing": "%{doc} is not uploaded",
-      "soon": "%{doc} expires in %{n} days"
+      "name": "Document name",
+      "nothingCompared": "No vehicle details were read from the document — there was nothing to compare.",
+      "number": "Document number",
+      "photo": "Document photo",
+      "soon": "%{doc} expires in %{n} days",
+      "unverified": "Unverified — check the data against the document.",
+      "which": "Which document"
+    },
+    "vdocField": {
+      "brand": "Make",
+      "model": "Model",
+      "plate": "Plate",
+      "vin": "VIN",
+      "year": "Year"
     },
     "vehicle": {
       "allDocuments": "All documents (%{n})",
@@ -3078,6 +3244,12 @@
       "SHIPPER": "Cargo owner",
       "USER": "User",
       "VEHICLE_OWNER": "Vehicle owner"
+    },
+    "voiceNote": {
+      "empty": "No text came out — speak closer and slower",
+      "failed": "Could not turn the voice into text",
+      "hint": "Hold the mic and speak — it becomes text",
+      "working": "Turning into text…"
     }
   },
   "moneyKind": {

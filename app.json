@@ -23,7 +23,10 @@
         "NSPhotoLibraryUsageDescription": "Hujjat va chek suratlarini yuborish uchun galereyaga kirish so'raladi. Boshqa rasmlar ochilmaydi.",
         "NSPhotoLibraryAddUsageDescription": "Ilova galereyangizga hech narsa yozmaydi.",
         "NSMicrophoneUsageDescription": "Ovozli xabar yozish uchun mikrofon so'raladi. Yozuv faqat siz tanlagan suhbatga yuboriladi."
-      }
+      },
+      "associatedDomains": [
+        "applinks:furam.uz"
+      ]
     },
     "android": {
       "package": "uz.furam.app",
@@ -43,6 +46,23 @@
         "POST_NOTIFICATIONS",
         "CAMERA",
         "READ_MEDIA_IMAGES"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "furam.uz",
+              "pathPrefix": "/c"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
       ]
     },
     "web": {

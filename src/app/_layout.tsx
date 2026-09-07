@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { installErrorLog } from "@/lib/error-log";
 import { Stack, useRouter } from "expo-router";
 import * as Notifications from "expo-notifications";
 import { StatusBar } from "expo-status-bar";
@@ -20,6 +21,11 @@ import { color } from "@/lib/theme";
 import { deviceLocale, readLocale, setLocale } from "@/lib/i18n";
 import { markSeen, markSplashDone, seen } from "@/lib/first-run";
 import { routeOf } from "@/lib/push";
+
+/* Ushlanmagan xato serverga boradi (poydevor, 2026-09-07).
+   MODUL DARAJASIDA: `useEffect` ichida qo'ysak, ilova
+   ochilishidagi — ya'ni eng qimmat — xatolar tutilmay qolardi. */
+installErrorLog();
 
 export default function RootLayout() {
   /* Shrift — Manrope, beshta og'irlik (~480 KB). Yuklanmaguncha

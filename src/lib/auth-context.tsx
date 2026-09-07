@@ -27,6 +27,15 @@ type State = {
    * chiziladi. Ikkalasi bir xil ro'yxatdan o'qiydi.
    */
   can: (f: FeatureKey) => boolean;
+  /**
+   * Ofertaga rozilik berilganmi. `null` — hali ma'lum emas
+   * (so'rov ketmagan yoki eski server maydonni yubormagan).
+   *
+   * `false` bilan chalkashmasin: `null` da eslatma CHIQMAYDI,
+   * aks holda eski serverga ulangan ilova hamma odamga oferta
+   * oynasini ko'rsatib turardi.
+   */
+  offerAccepted: boolean | null;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -36,6 +45,7 @@ const Ctx = createContext<State | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [offerAccepted, setOfferAccepted] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
   /* Ro'yxat holatda ham turadi: `features.ts` dagi to'plam sof
      modul o'zgaruvchisi, o'zgarganda ekran qayta chizilmaydi.
@@ -57,8 +67,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     try {
-      const res = await api<{ user: User; features?: string[] }>("/api/auth/me");
+      const res = await api<{ user: User; features?: string[]; offerAccepted?: boolean }>(
+        "/api/auth/me",
+      );
       setUser(res.user);
+      setOfferAccepted(typeof res.offerAccepted === "boolean" ? res.offerAccepted : null);
       /* Tarif ro'yxati foydalanuvchi bilan BIR SO'ROVDA keladi:
          alohida marshrut qo'shilsa ilova ochilishida yana bitta
          so'rov bo'lardi va ikkisi bir-biridan orqada qolib
@@ -128,8 +141,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const canFeature = useCallback((f: FeatureKey) => feats === null || feats.has(f), [feats]);
 
   const value = useMemo(
-    () => ({ user, loading, can: canFeature, signIn, signOut, refresh: load }),
-    [user, loading, canFeature, signIn, signOut, load],
+    () => ({ user, loading, can: canFeature, offerAccepted, signIn, signOut, refresh: load }),
+    [user, loading, canFeature, offerAccepted, signIn, signOut, load],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

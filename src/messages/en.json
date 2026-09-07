@@ -703,6 +703,16 @@
       "open": "Open",
       "pinned": "Important"
     },
+    "check": {
+      "approved": "Approved",
+      "created": "Created",
+      "found": "The contract exists",
+      "none": "No such contract",
+      "noneHint": "Check the number — it looks like FURAM-2026-000158.",
+      "note": "This page only shows whether the contract exists and its status — no price, no parties.",
+      "status": "Status",
+      "title": "Contract check"
+    },
     "close": {
       "answered": "%{done} of %{total} answered",
       "approve": "I approve, close it",
@@ -1732,6 +1742,11 @@
     },
     "notifyChHint": {
       "sms": "Only the most important — SMS costs money"
+    },
+    "offer": {
+      "accept": "I accept",
+      "body": "FURAM works under a public offer: the platform connects cargo owners and carriers, and the deal is made between them. Accept the terms to continue.",
+      "title": "Terms of use"
     },
     "outbox": {
       "drop": "Delete",
@@ -3076,6 +3091,12 @@
     "paySoon": "%{days} days until payment is due",
     "payToday": "Payment is due today"
   },
+  "onboard": {
+    "again": "We mentioned this before — you have not tried it yet.",
+    "cta": "Show me",
+    "later": "Later",
+    "openHint": "The section opens here"
+  },
   "onboardBody": {
     "ai": "It answers questions about prices, routes and documents in your own language, and finds matching loads for you.",
     "analytics": "Which route pays better and which month is busier — the numbers show it, and you pick the next trip accordingly.",
@@ -3174,6 +3195,67 @@
     "FIXED": "Fixed price",
     "NEGOTIABLE": "Negotiable",
     "URGENT": "Urgent sale"
+  },
+  "profileGap": {
+    "blockNote": "Work cannot start without these",
+    "body": "You signed up with only a name and a phone number. Without the rest, you will not show up in search and will not be offered work.",
+    "cta": "Fill in",
+    "later": "I'll do it later",
+    "missingTitle": "Missing",
+    "more": "%{n} more",
+    "pctLine": "%{pct}% complete",
+    "titleFinish": "Your profile is not finished",
+    "titleStart": "Add your details"
+  },
+  "profileGapField": {
+    "about": "About",
+    "address": "Address",
+    "axles": "Number of axles",
+    "bankAccount": "Bank account",
+    "bankMfo": "Bank code (MFO)",
+    "bankName": "Bank name",
+    "birthDate": "Date of birth",
+    "bodyLengthM": "Body length",
+    "bodyType": "Body type",
+    "capacityT": "Payload capacity",
+    "city": "City",
+    "companyAddr": "Company address",
+    "companyDir": "Director's full name",
+    "companyName": "Company name",
+    "companyTin": "Tax ID",
+    "countries": "Countries",
+    "experienceY": "Experience (years)",
+    "feeMode": "Fee model",
+    "fuelNorm": "Fuel consumption rate",
+    "languages": "Languages",
+    "licenseClasses": "Licence categories",
+    "licenseNo": "Licence number",
+    "licenseUntil": "Licence valid until",
+    "licenseUrl": "Licence scan",
+    "locationId": "Location",
+    "model": "Model",
+    "name": "Name",
+    "odometer": "Odometer",
+    "passportNo": "Passport number",
+    "passportUrl": "Passport scan",
+    "payFrom": "Expected pay",
+    "phone": "Phone",
+    "photoUrl": "Photo",
+    "photos": "Photos",
+    "priceNote": "Prices",
+    "professions": "Professions",
+    "region": "Region",
+    "routes": "Routes",
+    "schedule": "Work schedule",
+    "serviceKind": "Service type",
+    "specialities": "Specialities",
+    "title": "Job title",
+    "vehicleKinds": "Vehicles serviced",
+    "vehicleTypes": "Vehicle types",
+    "vin": "VIN",
+    "volumeM3": "Volume",
+    "workHours": "Working hours",
+    "year": "Year of manufacture"
   },
   "rejectReason": {
     "DATE": "The date doesn't work",

@@ -703,6 +703,16 @@
       "open": "Aç",
       "pinned": "Önemli"
     },
+    "check": {
+      "approved": "Onaylandı",
+      "created": "Oluşturuldu",
+      "found": "Sözleşme mevcut",
+      "none": "Böyle bir sözleşme yok",
+      "noneHint": "Numarayı kontrol edin: FURAM-2026-000158 biçimindedir.",
+      "note": "Burada yalnızca sözleşmenin varlığı ve durumu gösterilir — fiyat ve taraflar gösterilmez.",
+      "status": "Durum",
+      "title": "Sözleşme kontrolü"
+    },
     "close": {
       "answered": "%{done} / %{total} yanıtladı",
       "approve": "Onaylıyorum, kapansın",
@@ -1732,6 +1742,11 @@
     },
     "notifyChHint": {
       "sms": "Sadece en önemliler — SMS ücretli"
+    },
+    "offer": {
+      "accept": "Kabul ediyorum",
+      "body": "FURAM açık teklif esasına göre çalışır: platform yük sahibi ile taşıyıcıyı buluşturur, anlaşma aralarında yapılır. Devam etmek için şartları kabul edin.",
+      "title": "Kullanım şartları"
     },
     "outbox": {
       "drop": "Sil",
@@ -3076,6 +3091,12 @@
     "paySoon": "Ödemeye %{days} gün kaldı",
     "payToday": "Ödeme vadesi bugün"
   },
+  "onboard": {
+    "again": "Bunu daha önce hatırlatmıştık — henüz denemediniz.",
+    "cta": "Bakayım",
+    "later": "Sonra",
+    "openHint": "Bölüm burada açılır"
+  },
   "onboardBody": {
     "ai": "Fiyat, güzergâh ve belge sorularını kendi dilinizde yanıtlar, uygun yükü de kendisi bulur.",
     "analytics": "Hangi güzergâh kârlı, hangi ay iş yoğun — rakamlar gösterir, bir sonraki seferi buna göre seçersiniz.",
@@ -3174,6 +3195,67 @@
     "FIXED": "Sabit fiyat",
     "NEGOTIABLE": "Pazarlıklı",
     "URGENT": "Acil satılık"
+  },
+  "profileGap": {
+    "blockNote": "Bunlar olmadan işe başlanamaz",
+    "body": "Yalnızca ad ve telefon ile kaydoldunuz. Diğer bilgiler olmadan aramada görünmezsiniz ve size iş teklif edilmez.",
+    "cta": "Doldur",
+    "later": "Sonra dolduracağım",
+    "missingTitle": "Eksik",
+    "more": "%{n} tane daha",
+    "pctLine": "%%{pct} dolduruldu",
+    "titleFinish": "Profiliniz tamamlanmamış",
+    "titleStart": "Bilgilerinizi girin"
+  },
+  "profileGapField": {
+    "about": "Ek bilgi",
+    "address": "Adres",
+    "axles": "Aks sayısı",
+    "bankAccount": "Hesap numarası",
+    "bankMfo": "Banka kodu",
+    "bankName": "Banka adı",
+    "birthDate": "Doğum tarihi",
+    "bodyLengthM": "Kasa uzunluğu",
+    "bodyType": "Kasa tipi",
+    "capacityT": "Yük kapasitesi",
+    "city": "Şehir",
+    "companyAddr": "Şirket adresi",
+    "companyDir": "Yöneticinin adı soyadı",
+    "companyName": "Şirket adı",
+    "companyTin": "Vergi numarası",
+    "countries": "Ülkeler",
+    "experienceY": "Deneyim (yıl)",
+    "feeMode": "Ücretlendirme şekli",
+    "fuelNorm": "Yakıt tüketim normu",
+    "languages": "Diller",
+    "licenseClasses": "Ehliyet sınıfları",
+    "licenseNo": "Ehliyet numarası",
+    "licenseUntil": "Ehliyet geçerlilik tarihi",
+    "licenseUrl": "Ehliyet kopyası",
+    "locationId": "Konum",
+    "model": "Model",
+    "name": "Ad",
+    "odometer": "Kilometre",
+    "passportNo": "Pasaport numarası",
+    "passportUrl": "Pasaport kopyası",
+    "payFrom": "Beklenen maaş",
+    "phone": "Telefon",
+    "photoUrl": "Fotoğraf",
+    "photos": "Fotoğraflar",
+    "priceNote": "Fiyatlar",
+    "professions": "Meslekler",
+    "region": "Bölge",
+    "routes": "Güzergâhlar",
+    "schedule": "Çalışma programı",
+    "serviceKind": "Hizmet türü",
+    "specialities": "Uzmanlıklar",
+    "title": "Pozisyon",
+    "vehicleKinds": "Hizmet verilen araçlar",
+    "vehicleTypes": "Araç türleri",
+    "vin": "VIN numarası",
+    "volumeM3": "Hacim",
+    "workHours": "Çalışma saatleri",
+    "year": "Üretim yılı"
   },
   "rejectReason": {
     "DATE": "Tarih uygun değil",

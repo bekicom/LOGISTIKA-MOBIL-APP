@@ -35,6 +35,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon, type IconName } from "@/components/Icon";
 import { PostSheet } from "@/components/PostSheet";
 import { Tour } from "@/components/Tour";
+import { NudgeGate } from "@/components/Nudge";
 import { clearTourRequest, markSeen, seen, useSplashDone, useTourRequest } from "@/lib/first-run";
 import { color, shadow } from "@/lib/theme";
 import { useAuth } from "@/lib/auth-context";
@@ -159,6 +160,11 @@ export default function TabsLayout() {
           void markSeen("tourSeen");
         }}
       />
+
+      {/* Eslatma oynasi — yo'l-yo'riqdan KEYIN. Ikkalasi bir vaqtda
+          chiqsa, odam birinchisini yopgan barmog'i bilan
+          ikkinchisini ham yopadi. */}
+      {!tour ? <NudgeGate /> : null}
     </>
   );
 }

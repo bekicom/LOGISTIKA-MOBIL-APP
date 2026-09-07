@@ -703,6 +703,16 @@
       "open": "打开",
       "pinned": "重要"
     },
+    "check": {
+      "approved": "批准时间",
+      "created": "创建时间",
+      "found": "该合同存在",
+      "none": "未找到该合同",
+      "noneHint": "请核对编号，格式形如 FURAM-2026-000158。",
+      "note": "此处仅显示合同是否存在及其状态——不显示价格与当事方。",
+      "status": "状态",
+      "title": "合同核验"
+    },
     "close": {
       "answered": "已回复 %{done} / %{total}",
       "approve": "同意关闭",
@@ -1732,6 +1742,11 @@
     },
     "notifyChHint": {
       "sms": "仅最重要的——短信需付费"
+    },
+    "offer": {
+      "accept": "我接受",
+      "body": "FURAM 基于公开要约运营：平台连接货主与承运人，合同由双方签订。继续前请接受条款。",
+      "title": "使用条款"
     },
     "outbox": {
       "drop": "删除",
@@ -3076,6 +3091,12 @@
     "paySoon": "距付款还有 %{days} 天",
     "payToday": "今天是付款日"
   },
+  "onboard": {
+    "again": "我们之前提过，您还没试过。",
+    "cta": "去看看",
+    "later": "稍后",
+    "openHint": "该板块将在这里打开"
+  },
   "onboardBody": {
     "ai": "它用您的语言回答价格、路线和单证方面的问题，还会帮您找到合适的货源。",
     "analytics": "哪条线路更赚钱、哪个月活儿更多，数据会告诉您，下一趟就据此选择。",
@@ -3174,6 +3195,67 @@
     "FIXED": "一口价",
     "NEGOTIABLE": "面议",
     "URGENT": "急售"
+  },
+  "profileGap": {
+    "blockNote": "没有这些无法开始工作",
+    "body": "您注册时只填写了姓名和电话。缺少其余资料，您不会出现在搜索结果中，也不会收到工作邀请。",
+    "cta": "去填写",
+    "later": "稍后填写",
+    "missingTitle": "缺少",
+    "more": "还有 %{n} 项",
+    "pctLine": "已填写 %{pct}%",
+    "titleFinish": "您的资料尚未填完",
+    "titleStart": "请填写您的资料"
+  },
+  "profileGapField": {
+    "about": "补充说明",
+    "address": "地址",
+    "axles": "轴数",
+    "bankAccount": "银行账号",
+    "bankMfo": "银行代码",
+    "bankName": "开户银行",
+    "birthDate": "出生日期",
+    "bodyLengthM": "车厢长度",
+    "bodyType": "车厢类型",
+    "capacityT": "载重量",
+    "city": "城市",
+    "companyAddr": "公司地址",
+    "companyDir": "负责人姓名",
+    "companyName": "公司名称",
+    "companyTin": "纳税人识别号",
+    "countries": "国家",
+    "experienceY": "经验（年）",
+    "feeMode": "收费方式",
+    "fuelNorm": "油耗标准",
+    "languages": "语言",
+    "licenseClasses": "驾照类别",
+    "licenseNo": "驾照号码",
+    "licenseUntil": "驾照有效期",
+    "licenseUrl": "驾照扫描件",
+    "locationId": "所在位置",
+    "model": "型号",
+    "name": "名称",
+    "odometer": "行驶里程",
+    "passportNo": "护照号码",
+    "passportUrl": "护照扫描件",
+    "payFrom": "期望薪资",
+    "phone": "电话",
+    "photoUrl": "照片",
+    "photos": "照片",
+    "priceNote": "价格",
+    "professions": "职业",
+    "region": "地区",
+    "routes": "路线",
+    "schedule": "工作班次",
+    "serviceKind": "服务类型",
+    "specialities": "专长",
+    "title": "职位",
+    "vehicleKinds": "可维修车型",
+    "vehicleTypes": "车辆类型",
+    "vin": "VIN 车架号",
+    "volumeM3": "容积",
+    "workHours": "营业时间",
+    "year": "出厂年份"
   },
   "rejectReason": {
     "DATE": "日期不合适",

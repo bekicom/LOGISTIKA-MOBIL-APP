@@ -703,6 +703,16 @@
       "open": "Ochish",
       "pinned": "Muhim"
     },
+    "check": {
+      "approved": "Tasdiqlangan",
+      "created": "Tuzilgan",
+      "found": "Shartnoma mavjud",
+      "none": "Bunday shartnoma topilmadi",
+      "noneHint": "Raqamni tekshiring: u FURAM-2026-000158 ko'rinishida bo'ladi.",
+      "note": "Bu yerda faqat shartnoma bor-yo'qligi va holati ko'rsatiladi — narx va tomonlar ko'rsatilmaydi.",
+      "status": "Holati",
+      "title": "Shartnomani tekshirish"
+    },
     "close": {
       "answered": "%{done} / %{total} javob berdi",
       "approve": "Roziman, yopilsin",
@@ -1732,6 +1742,11 @@
     },
     "notifyChHint": {
       "sms": "Faqat eng muhimlari — SMS pullik"
+    },
+    "offer": {
+      "accept": "Qabul qilaman",
+      "body": "FURAM ochiq oferta asosida ishlaydi: platforma yuk egasi bilan tashuvchini bog'laydi, kelishuv esa ular o'rtasida tuziladi. Davom etish uchun shartlarni qabul qiling.",
+      "title": "Foydalanish shartlari"
     },
     "outbox": {
       "drop": "O'chirish",
@@ -3076,6 +3091,12 @@
     "paySoon": "To'lovga %{days} kun qoldi",
     "payToday": "To'lov muddati bugun"
   },
+  "onboard": {
+    "again": "Buni avval eslatgan edik — hali sinab ko'rmadingiz.",
+    "cta": "Ko'raman",
+    "later": "Keyinroq",
+    "openHint": "Bo'lim shu yerda ochiladi"
+  },
   "onboardBody": {
     "ai": "Narx, yo'nalish va hujjat haqidagi savolga o'z tilingizda javob beradi, mos yukni ham o'zi topib beradi.",
     "analytics": "Qaysi yo'nalish foydali, qaysi oyda ish ko'p — raqamlar ko'rsatib beradi va keyingi reysni shunga qarab tanlaysiz.",
@@ -3174,6 +3195,67 @@
     "FIXED": "Qat'iy narx",
     "NEGOTIABLE": "Kelishiladi",
     "URGENT": "Shoshilinch sotiladi"
+  },
+  "profileGap": {
+    "blockNote": "Ishni boshlash uchun shular shart",
+    "body": "Siz faqat ism va telefon bilan ro'yxatdan o'tgansiz. Qolgan ma'lumotlarsiz sizni qidiruvda topishmaydi va ish taklif qilishmaydi.",
+    "cta": "Kiritish",
+    "later": "Keyinroq kiritaman",
+    "missingTitle": "Yetishmayapti",
+    "more": "yana %{n} ta",
+    "pctLine": "%{pct}% to'ldirilgan",
+    "titleFinish": "Profilingiz oxirigacha to'ldirilmagan",
+    "titleStart": "Ma'lumotlaringizni kiritib qo'ying"
+  },
+  "profileGapField": {
+    "about": "Qo'shimcha ma'lumot",
+    "address": "Manzil",
+    "axles": "O'qlar soni",
+    "bankAccount": "Hisob raqami",
+    "bankMfo": "MFO",
+    "bankName": "Bank nomi",
+    "birthDate": "Tug'ilgan sana",
+    "bodyLengthM": "Kuzov uzunligi",
+    "bodyType": "Kuzov turi",
+    "capacityT": "Yuk ko'tarishi",
+    "city": "Shahar",
+    "companyAddr": "Kompaniya manzili",
+    "companyDir": "Rahbar F.I.Sh.",
+    "companyName": "Kompaniya nomi",
+    "companyTin": "STIR",
+    "countries": "Davlatlar",
+    "experienceY": "Tajriba (yil)",
+    "feeMode": "Haq olish usuli",
+    "fuelNorm": "Yoqilg'i normasi",
+    "languages": "Tillar",
+    "licenseClasses": "Prava toifasi",
+    "licenseNo": "Prava raqami",
+    "licenseUntil": "Prava muddati",
+    "licenseUrl": "Prava nusxasi",
+    "locationId": "Joylashuv",
+    "model": "Model",
+    "name": "Nomi",
+    "odometer": "Probeg",
+    "passportNo": "Pasport raqami",
+    "passportUrl": "Pasport nusxasi",
+    "payFrom": "Kutilayotgan maosh",
+    "phone": "Telefon",
+    "photoUrl": "Surat",
+    "photos": "Suratlar",
+    "priceNote": "Narxlar",
+    "professions": "Kasblar",
+    "region": "Viloyat",
+    "routes": "Yo'nalishlar",
+    "schedule": "Ish grafigi",
+    "serviceKind": "Xizmat turi",
+    "specialities": "Mutaxassisliklar",
+    "title": "Lavozim",
+    "vehicleKinds": "Xizmat ko'rsatiladigan transport",
+    "vehicleTypes": "Transport turlari",
+    "vin": "VIN raqam",
+    "volumeM3": "Hajmi",
+    "workHours": "Ish vaqti",
+    "year": "Ishlab chiqarilgan yili"
   },
   "rejectReason": {
     "DATE": "Sana mos emas",

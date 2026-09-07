@@ -28,7 +28,7 @@ import { GuestPanel } from "@/components/GuestPanel";
 import { isGuest } from "@/lib/guest";
 import { forget, requestTour } from "@/lib/first-run";
 import { color, font, radius, space } from "@/lib/theme";
-import { roleLabel, t } from "@/lib/i18n";
+import { currentLocale, LOCALE_INFO, roleLabel, t } from "@/lib/i18n";
 
 
 type Trust = {
@@ -262,8 +262,24 @@ function OwnProfil() {
               hint={t("mob.prog.next")}
               onPress={() => router.push("/profil/organish")}
             />
+            {/* ILOVA tili — suhbat tilidan BOSHQA narsa va shuning
+                uchun ustida turadi. Suhbat tili kelgan xabarni
+                nimaga o'girishni belgilaydi, bu esa butun
+                interfeysni. Ikkalasi qo'shni turgani ataylab:
+                odam qaysi biri kerakligini yonma-yon ko'rib
+                tanlaydi.
+
+                Joriy til O'Z YOZUVIDA ko'rsatiladi — noto'g'ri
+                tilga o'tib qolgan odam ro'yxatdan o'zinikini
+                shundan topadi. */}
             <ListRow
               icon={<Badge icon="globe" />}
+              title={t("mob.lang.appTitle")}
+              hint={`${LOCALE_INFO[currentLocale()].flag}  ${LOCALE_INFO[currentLocale()].native}`}
+              onPress={() => router.push("/til?live=1")}
+            />
+            <ListRow
+              icon={<Badge icon="chat" />}
               title={t("mob.chatLang.title")}
               hint={t("mob.chatLang.auto")}
               onPress={() => router.push("/profil/messenger")}

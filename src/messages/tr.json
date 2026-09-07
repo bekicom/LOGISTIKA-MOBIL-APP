@@ -1506,6 +1506,7 @@
       "yearsN": "%{n} yıl deneyim"
     },
     "lang": {
+      "appTitle": "Uygulama dili",
       "later": "Dili sonra da değiştirebilirsiniz",
       "pick": "DİLİ SEÇİN",
       "tagline": "Yük ve araç bulma platformu"

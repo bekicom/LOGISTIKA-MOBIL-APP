@@ -16,6 +16,7 @@
  * ularning ajralib ketishi demak. Bir joyda tuzatilgan xato
  * ikkinchisida qolib ketardi.
  */
+import { useSyncExternalStore } from "react";
 import { I18n } from "i18n-js";
 import { getLocales } from "expo-localization";
 import * as SecureStore from "expo-secure-store";
@@ -91,6 +92,47 @@ export async function setLocale(locale: Locale): Promise<void> {
   } catch {
     // Saqlanmasa ham joriy seans to'g'ri tilda ishlayveradi
   }
+}
+
+/* ─────────────────────────────── Tilni JONLI almashtirish */
+
+/**
+ * Ochiq ekranlarni yangi tilda qayta chizish.
+ *
+ * ── NEGA KERAK ──────────────────────────────────────────────────
+ *
+ * `setLocale` faqat `i18n.locale` ni o'zgartiradi — bu React holati
+ * emas, ya'ni ALLAQACHON chizilgan ekranlar eski tilda qolib
+ * ketadi. Birinchi ochilishda bu bilinmaydi: u yerdan keyingi
+ * ekranga o'tiladi va hammasi yangidan chiziladi. Ilova ichidan
+ * (profil → «Til») almashtirilganda esa odam o'sha zahoti eski
+ * tildagi ekranga qaytardi.
+ *
+ * ── NEGA HAR SAFAR EMAS ─────────────────────────────────────────
+ *
+ * Qayta chizish butun daraxtni yangilaydi va navigatsiya
+ * boshiga qaytadi. Birinchi ochilishda bu ZARARLI bo'lardi: til
+ * tanlangach tanishtiruvga o'tish kerak, daraxt yangilansa esa
+ * odam yana til ekranida qolardi. Shuning uchun buni `setLocale`
+ * emas, CHAQIRUVCHI hal qiladi — faqat ilova ichidagi tanlov
+ * `applyLocaleNow()` ni chaqiradi.
+ */
+let localeVersion = 0;
+const localeListeners = new Set<() => void>();
+
+export function applyLocaleNow(): void {
+  localeVersion++;
+  for (const l of localeListeners) l();
+}
+
+function subscribeLocale(l: () => void): () => void {
+  localeListeners.add(l);
+  return () => localeListeners.delete(l);
+}
+
+/** Ildiz tartibi shuni KALIT sifatida ishlatadi (`_layout.tsx`) */
+export function useLocaleVersion(): number {
+  return useSyncExternalStore(subscribeLocale, () => localeVersion, () => localeVersion);
 }
 
 /**

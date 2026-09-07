@@ -6,6 +6,12 @@
  * ko'rinishida». Tanlov saqlanadi va tanishtiruvga o'tiladi.
  * `?back=1` bilan ochilsa (kirish ekranidagi til tugmasi) —
  * tanlagach orqaga qaytadi.
+ *
+ * `?live=1` — ILOVA ICHIDAN (profil → «Til»). Bu holda daraxt
+ * yangidan chiziladi (`applyLocaleNow`): ochiq ekranlar eski
+ * tilda qolib ketmasin. Boshqa holatlarda bu QILINMAYDI —
+ * birinchi ochilishda daraxt yangilansa, til tanlangach
+ * tanishtiruvga o'tish o'rniga odam yana shu ekranda qolardi.
  */
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
@@ -15,7 +21,7 @@ import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import { Text } from "@/components/Text";
 import { color, space } from "@/lib/theme";
-import { LOCALES, LOCALE_INFO, currentLocale, deviceLocale, setLocale, t, type Locale } from "@/lib/i18n";
+import { applyLocaleNow, LOCALES, LOCALE_INFO, currentLocale, deviceLocale, setLocale, t, type Locale } from "@/lib/i18n";
 
 /* Ro'yxat `lib/i18n.ts` dan olinadi — til nomlari ikki joyda
    yozilsa, biri qo'shilib ikkinchisi unutilardi. */
@@ -25,8 +31,8 @@ const COLS = 3;
 const GAP = 10;
 
 export default function TilTanlash() {
-  const { back } = useLocalSearchParams<{ back?: string }>();
-  const [picked, setPicked] = useState<Locale>(back ? currentLocale() : deviceLocale());
+  const { back, live } = useLocalSearchParams<{ back?: string; live?: string }>();
+  const [picked, setPicked] = useState<Locale>(back || live ? currentLocale() : deviceLocale());
   const [busy, setBusy] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -41,6 +47,14 @@ export default function TilTanlash() {
        til tanlansa ham keyingi ekranga o'tib ketardi va
        tanlov yo'qolardi. */
     await setLocale(code);
+    if (live) {
+      /* Daraxt yangidan chiziladi — navigatsiya ham qayta
+         quriladi, shuning uchun bu yerda hech qayerga
+         o'tilmaydi. Odam bosh sahifada, yangi tilda paydo
+         bo'ladi. */
+      applyLocaleNow();
+      return;
+    }
     if (back) router.back();
     else router.push("/tanishtiruv");
     setBusy(false);

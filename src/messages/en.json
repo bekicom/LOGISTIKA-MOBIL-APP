@@ -1506,6 +1506,7 @@
       "yearsN": "%{n} years' experience"
     },
     "lang": {
+      "appTitle": "App language",
       "later": "You can change the language later",
       "pick": "CHOOSE YOUR LANGUAGE",
       "tagline": "Cargo and transport marketplace"

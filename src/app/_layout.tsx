@@ -18,7 +18,7 @@ import { PushAsk } from "@/components/PushAsk";
 import { Splash } from "@/components/Splash";
 import { useOutboxRunner } from "@/lib/use-outbox";
 import { color } from "@/lib/theme";
-import { deviceLocale, readLocale, setLocale } from "@/lib/i18n";
+import { deviceLocale, readLocale, setLocale, useLocaleVersion } from "@/lib/i18n";
 import { markSeen, markSplashDone, seen } from "@/lib/first-run";
 import { routeOf } from "@/lib/push";
 
@@ -57,13 +57,20 @@ export default function RootLayout() {
     })();
   }, []);
 
+  /* Til o'zgarganda BUTUN daraxt yangidan chiziladi (kalit
+     o'zgaradi). `i18n.locale` React holati emas — busiz ochiq
+     ekranlar eski tilda qolib ketardi. Navigatsiya boshiga
+     qaytadi va odam bosh sahifaga tushadi: bu yerda bu to'g'ri
+     xatti-harakat, «ilova yangi tilda ochildi» degani. */
+  const localeVersion = useLocaleVersion();
+
   if (!ready || (!fontsReady && !fontError)) return null;
 
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <StatusBar style="auto" />
-        <Shell />
+        <Shell key={localeVersion} />
         {splash !== "done" ? (
           <Splash
             full={splash === "full"}

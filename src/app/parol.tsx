@@ -8,6 +8,14 @@
  * Oqim serverdagidek: send-code (purpose=reset) → verify-code →
  * reset-password. Backendda hammasi bor edi.
  *
+ * ── KANAL TANLOVI (2026-09-07) ─────────────────────────────────
+ *
+ * Ilgari bu ekran `channel` ni UMUMAN yubormasdi va server `.env`
+ * tartibiga tushardi — kod SMS bilan ketardi. Ro'yxatdan o'tishda
+ * tanlov bor edi, bu yerda yo'q: odam ro'yxatdan Telegram bilan
+ * o'tib, parolni tiklashda nega SMS kelayotganini tushunmasdi.
+ * Endi ikkalasi bitta komponentdan (`ChannelPick`).
+ *
  * TIKLASHDAN KEYIN BARCHA SESSIYALAR YOPILADI (server shunday
  * qiladi). Parol unutilgan bo'lsa, uni kimdir o'g'irlagan bo'lishi
  * ham mumkin — o'sha odamning ochiq seansi qolib ketmasin. Shuning
@@ -19,6 +27,7 @@ import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { AuthShell } from "@/components/AuthShell";
 import { Button, Field, Steps } from "@/components/ui";
+import { ChannelPick, SentVia, useChannels, type Channel } from "@/components/ChannelPick";
 import { api, FuramError } from "@/lib/api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space } from "@/lib/theme";
@@ -37,6 +46,8 @@ export default function Parol() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const { channels, channel, setChannel } = useChannels();
+  const [sentVia, setSentVia] = useState<Channel | null>(null);
 
   const router = useRouter();
   const codeRef = useRef<TextInput>(null);
@@ -50,16 +61,20 @@ export default function Parol() {
     return () => clearTimeout(id);
   }, [left]);
 
-  async function send() {
+  async function send(via: Channel = channel) {
     setErr(null);
     setBusy(true);
     try {
-      const r = await api<{ devCode?: string }>("/api/auth/send-code", {
+      const r = await api<{ via?: Channel; devCode?: string }>("/api/auth/send-code", {
         method: "POST",
         auth: false,
-        body: { phone: fullPhone, purpose: "reset" },
+        body: { phone: fullPhone, purpose: "reset", channel: via },
       });
       setDevCode(r.devCode ?? null);
+      /* Server QAYERGA ketganini aytadi — tanlangan kanal emas.
+         Telegram so'ralgan-u raqamda Telegram bo'lmasa, kod SMS
+         bilan ketadi va odam buni bilishi kerak. */
+      setSentVia(r.via ?? via);
       setLeft(60);
       setStep("code");
       setTimeout(() => codeRef.current?.focus(), 250);
@@ -164,6 +179,8 @@ export default function Parol() {
                 </View>
               </View>
             </View>
+
+            <ChannelPick channels={channels} channel={channel} onPick={setChannel} />
           </>
         ) : step === "code" ? (
           <>
@@ -171,6 +188,8 @@ export default function Parol() {
             <Text style={s.sub}>
               {t("mob.reset.codeHint")} <Text style={s.strong}>{fullPhone}</Text>
             </Text>
+
+            <SentVia via={sentVia} picked={channel} />
 
             {/* Ro'yxatdagidek: bitta ko'rinmas maydon, 6 ta katak
                 uni aks ettiradi (`royxat.tsx`) */}
@@ -198,11 +217,25 @@ export default function Parol() {
 
             {devCode ? <Text style={s.dev}>{t("mob.signUp.devCode", { code: devCode })}</Text> : null}
 
-            <Pressable disabled={left > 0 || busy} onPress={send} hitSlop={8}>
+            <Pressable disabled={left > 0 || busy} onPress={() => void send()} hitSlop={8}>
               <Text style={[s.link, left > 0 && s.linkOff]}>
                 {left > 0 ? t("mob.signUp.resendIn", { n: left }) : t("mob.signUp.resend")}
               </Text>
             </Pressable>
+
+            {/* BOSHQA kanal bilan qayta yuborish — ro'yxatdagidek.
+                Telegram kelmasa odam kutib o'tirmasin: bir bosishda
+                SMS ga o'tadi (va aksincha). */}
+            {channels.length > 1 ? (
+              <View style={{ marginTop: space.lg }}>
+                <Button
+                  title={sentVia === "telegram" ? t("mob.signUp.sendSms") : t("mob.signUp.sendTelegram")}
+                  variant="secondary"
+                  disabled={busy}
+                  onPress={() => void send(sentVia === "telegram" ? "sms" : "telegram")}
+                />
+              </View>
+            ) : null}
           </>
         ) : (
           <>
@@ -242,7 +275,17 @@ export default function Parol() {
           title={t(step === "password" ? "mob.reset.save" : "mob.common.next")}
           loading={busy}
           disabled={!ready}
-          onPress={step === "phone" ? send : step === "code" ? () => verify(code) : save}
+          /* ⚠️ `send` TO'G'RIDAN-TO'G'RI berilmaydi: `onPress` unga
+             bosish hodisasini uzatadi va u `via` parametriga
+             tushib qolardi — serverga kanal o'rniga obyekt
+             ketardi. */
+          onPress={
+            step === "phone"
+              ? () => void send()
+              : step === "code"
+                ? () => void verify(code)
+                : () => void save()
+          }
         />
       </View>
     </AuthShell>

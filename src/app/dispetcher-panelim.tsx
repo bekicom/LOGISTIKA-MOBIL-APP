@@ -34,6 +34,7 @@ import { Icon } from "@/components/Icon";
 import { Card, GroupLabel, Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { TariffNotice } from "@/components/TariffNotice";
+import { FuramError } from "@/lib/api";
 import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
 import { tariffBlocked } from "@/lib/features";
@@ -80,6 +81,7 @@ export default function DispetcherPanel() {
   const router = useRouter();
   const [period, setPeriod] = useState<string>("");
   const [busy, setBusy] = useState<string | null>(null);
+  const [repErr, setRepErr] = useState<string | null>(null);
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<Panel>("/api/panel");
   const c = data?.counts;
@@ -87,11 +89,17 @@ export default function DispetcherPanel() {
   async function report(kind: "pdf" | "excel") {
     if (tariffBlocked("analytics")) return;
     setBusy(kind);
+    setRepErr(null);
     try {
       await openRemoteFile(
         `/api/panel/report/${kind}${period ? `?period=${period}` : ""}`,
         kind === "pdf" ? "furam-hisobot.pdf" : "furam-hisobot.xlsx",
       );
+    } catch (e) {
+      /* `openRemoteFile` XATO TASHLAYDI (403, tarmoq, bo'sh fayl).
+         Ushlanmasa ilova jim qolardi: tugma bosiladi, hech narsa
+         ochilmaydi va sabab ko'rinmaydi. */
+      setRepErr((e as FuramError).message ?? t("mob.common.failed"));
     } finally {
       setBusy(null);
     }
@@ -285,6 +293,7 @@ export default function DispetcherPanel() {
                   </Text>
                 </Pressable>
               </View>
+              {repErr ? <Text style={s.repErr}>{repErr}</Text> : null}
             </View>
           </>
         ) : null}
@@ -392,4 +401,5 @@ const s = StyleSheet.create({
     backgroundColor: color.card,
   },
   dlText: { fontSize: 13.5, fontWeight: "700", color: color.brand },
+  repErr: { fontSize: 12.5, color: color.danger, marginTop: space.sm },
 });

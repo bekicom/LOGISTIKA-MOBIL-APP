@@ -134,7 +134,16 @@ export function TakeLoad({ loadId }: { loadId: string }) {
       </Pressable>
 
       <Sheet open={open} onClose={() => setOpen(false)} title={t("mob.take.sheetTitle")}>
-        {data && data.options.length === 0 ? (
+        {/* Ikki xil bo'shlik, ikki xil sabab — ular ATAYLAB
+            ajratilgan. «Mashinangiz yo'q» deb yozib qo'yish yuk
+            umuman olinmaydigan holatda (Telegram e'loni, yopilgan
+            yuk) YOLG'ON bo'lardi: odam bo'sh mashina qidirib
+            ketardi, aslida muammo boshqa yoqda. */}
+        {data && !data.canTake ? (
+          <Text style={s.empty}>{t("mob.take.cannot")}</Text>
+        ) : null}
+
+        {data && data.canTake && data.options.length === 0 ? (
           <Text style={s.empty}>{t("mob.take.noVehicles")}</Text>
         ) : null}
 

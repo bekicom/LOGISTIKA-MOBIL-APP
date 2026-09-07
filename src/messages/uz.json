@@ -2695,7 +2695,11 @@
       "safeTitle": "Xavfsiz va ishonchli",
       "sendSms": "SMS orqali yuborish",
       "sendTelegram": "Telegram orqali yuborish",
+      "sentSmsFallback": "Telegram orqali yuborib bo'lmadi — kodni SMS orqali yubordik.",
+      "sentTelegram": "Kod Telegramingizga yuborildi — «Verification Codes» suhbatini oching.",
+      "smsNote": "Telegramsiz ham keladi",
       "subtitle": "Tez va bepul",
+      "telegramNote": "Tez va bepul",
       "title": "Hisob yaratish",
       "whereCode": "Kod qayerga kelsin",
       "whoAreYou": "Siz kimsiz?"
@@ -2921,6 +2925,7 @@
       "SEARCHING": "Usta qidirilmoqda"
     },
     "take": {
+      "cannot": "Bu yukka reys ochib bo'lmaydi — u yopilgan, band yoki Telegram e'loni. Telegram e'loni bo'lsa egasi bilan telefonda bog'laning.",
       "fromAd": "E'lon",
       "needDriver": "Bu mashinada asosiy haydovchi yo'q — reys ochilmaydi",
       "needDriverBody": "Haydovchiga havola yuboring: u ro'yxatdan o'tadi va shu mashinaga biriktiriladi. To'lov sizning tarifingizdan.",

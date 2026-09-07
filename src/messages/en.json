@@ -2695,7 +2695,11 @@
       "safeTitle": "Safe and secure",
       "sendSms": "Send by SMS",
       "sendTelegram": "Send via Telegram",
+      "sentSmsFallback": "Telegram delivery failed — we sent the code by SMS instead.",
+      "sentTelegram": "The code was sent to your Telegram — open the “Verification Codes” chat.",
+      "smsNote": "Arrives without Telegram",
       "subtitle": "Fast and free",
+      "telegramNote": "Fast and free",
       "title": "Create an account",
       "whereCode": "Where should the code go",
       "whoAreYou": "Who are you?"
@@ -2921,6 +2925,7 @@
       "SEARCHING": "Looking for a mechanic"
     },
     "take": {
+      "cannot": "A trip cannot be opened for this load — it is closed, already taken, or a Telegram listing. For a Telegram listing, call the owner instead.",
       "fromAd": "Listing",
       "needDriver": "This vehicle has no main driver — the trip will not open",
       "needDriverBody": "Send the driver a link: they sign up and get assigned to this vehicle. Billed to your plan.",

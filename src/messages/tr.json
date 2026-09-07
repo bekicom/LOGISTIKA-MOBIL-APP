@@ -2695,7 +2695,11 @@
       "safeTitle": "Güvenli ve emniyetli",
       "sendSms": "SMS ile gönder",
       "sendTelegram": "Telegram ile gönder",
+      "sentSmsFallback": "Telegram ile gönderilemedi — kodu SMS ile gönderdik.",
+      "sentTelegram": "Kod Telegram'ınıza gönderildi — “Verification Codes” sohbetini açın.",
+      "smsNote": "Telegram olmadan da gelir",
       "subtitle": "Hızlı ve ücretsiz",
+      "telegramNote": "Hızlı ve ücretsiz",
       "title": "Hesap oluştur",
       "whereCode": "Kod nereye gelsin",
       "whoAreYou": "Kimsiniz?"
@@ -2921,6 +2925,7 @@
       "SEARCHING": "Usta aranıyor"
     },
     "take": {
+      "cannot": "Bu yük için sefer açılamaz — kapalı, alınmış ya da Telegram ilanı. Telegram ilanıysa sahibiyle telefonla iletişime geçin.",
       "fromAd": "İlan",
       "needDriver": "Bu araçta asıl sürücü yok — sefer açılmaz",
       "needDriverBody": "Sürücüye bağlantı gönderin: kaydolur ve bu araca atanır. Ücret sizin tarifenizden.",

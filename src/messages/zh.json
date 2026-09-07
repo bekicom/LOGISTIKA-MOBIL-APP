@@ -2695,7 +2695,11 @@
       "safeTitle": "安全可靠",
       "sendSms": "通过短信发送",
       "sendTelegram": "通过 Telegram 发送",
+      "sentSmsFallback": "无法通过 Telegram 发送——验证码已改用短信发送。",
+      "sentTelegram": "验证码已发送至您的 Telegram——请打开「Verification Codes」会话。",
+      "smsNote": "无需 Telegram 也能收到",
       "subtitle": "快速且免费",
+      "telegramNote": "快速且免费",
       "title": "创建账号",
       "whereCode": "验证码发送方式",
       "whoAreYou": "您的身份是？"
@@ -2921,6 +2925,7 @@
       "SEARCHING": "正在寻找师傅"
     },
     "take": {
+      "cannot": "该货源无法创建行程——它已关闭、已被接单，或来自 Telegram 广告。若是 Telegram 广告，请电话联系货主。",
       "fromAd": "车辆广告",
       "needDriver": "该车没有主驾驶员——无法创建行程",
       "needDriverBody": "给司机发送链接：他注册后即被分配到这辆车。费用从您的套餐扣除。",

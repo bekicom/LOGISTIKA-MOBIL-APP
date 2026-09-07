@@ -11,13 +11,13 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
 import { AuthLine, AuthShell } from "@/components/AuthShell";
 import { Button, Field, Notice, Steps } from "@/components/ui";
+import { ChannelPick, useChannels, type Channel } from "@/components/ChannelPick";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
 
 type Step = "phone" | "code" | "details";
-type Channel = "telegram" | "sms";
 
 /* Rol nomi va tavsifi lug'atda: `mob.role.*` va `mob.signUp.role*`.
    Bu yerda faqat ENUM qiymati va tavsif kaliti turadi. */
@@ -31,8 +31,10 @@ const ROLES = [
 export default function Royxat() {
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
-  const [channel, setChannel] = useState<Channel>("telegram");
-  const [channels, setChannels] = useState<Channel[]>(["sms"]);
+  /* Kanal tanlovi parol tiklash bilan BITTA komponentdan
+     (`ChannelPick`) — ikki nusxa bo'lsa biri o'zgarib ikkinchisi
+     qolib ketardi */
+  const { channels, channel, setChannel } = useChannels();
   const [code, setCode] = useState("");
   const [devCode, setDevCode] = useState<string | null>(null);
   const [sentVia, setSentVia] = useState<Channel | null>(null);
@@ -57,16 +59,6 @@ export default function Royxat() {
   const codeRef = useRef<TextInput>(null);
 
   const fullPhone = "+998" + phone.replace(/\D/g, "");
-
-  // Telegram tayyor bo'lmasa faqat SMS ko'rsatiladi — serverdan so'raymiz
-  useEffect(() => {
-    api<{ channels: Channel[] }>("/api/auth/send-code", { auth: false })
-      .then((r) => {
-        setChannels(r.channels);
-        setChannel(r.channels.includes("telegram") ? "telegram" : "sms");
-      })
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (left <= 0) return;
@@ -188,49 +180,7 @@ export default function Royxat() {
               </View>
             </View>
 
-            {channels.length > 1 ? (
-              <View style={{ marginTop: space.xxl }}>
-                <Text style={s.label}>{t("mob.signUp.whereCode")}</Text>
-                <View style={s.cards}>
-                  {(["telegram", "sms"] as const).map((c) => {
-                    const on = channel === c;
-                    return (
-                      <Pressable key={c} onPress={() => setChannel(c)} style={[s.channel, on && s.channelOn]}>
-                        <View style={s.channelTop}>
-                          {c === "telegram" ? (
-                            <Svg width={24} height={24} viewBox="0 0 24 24">
-                              <Path
-                                d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.56 8.22-1.86 8.78c-.14.62-.51.77-1.03.48l-2.85-2.1-1.37 1.32c-.15.15-.28.28-.58.28l.2-2.9 5.29-4.78c.23-.2-.05-.32-.36-.12l-6.53 4.11-2.81-.88c-.61-.19-.62-.61.13-.9l10.99-4.24c.51-.18.96.12.78.95z"
-                                fill="#229ED9"
-                              />
-                            </Svg>
-                          ) : (
-                            <Svg width={24} height={24} viewBox="0 0 24 24">
-                              <Path
-                                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                                stroke={color.mutedForeground}
-                                strokeWidth={1.9}
-                                fill="none"
-                                strokeLinejoin="round"
-                              />
-                            </Svg>
-                          )}
-                          <View style={[s.radio, on && s.radioOn]}>
-                            {on ? (
-                              <Svg width={12} height={12} viewBox="0 0 24 24">
-                                <Path d="M20 6 9 17l-5-5" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                              </Svg>
-                            ) : null}
-                          </View>
-                        </View>
-                        <Text style={s.channelName}>{c === "telegram" ? "Telegram" : "SMS"}</Text>
-                        <Text style={s.channelNote}>{c === "telegram" ? t("mob.signUp.subtitle") : "Telegramsiz"}</Text>
-                      </Pressable>
-                    );
-                  })}
-                </View>
-              </View>
-            ) : null}
+            <ChannelPick channels={channels} channel={channel} onPick={setChannel} />
 
             {err ? <Text style={s.err}>{err}</Text> : null}
 
@@ -498,12 +448,6 @@ const s = StyleSheet.create({
   },
   ccText: { fontSize: font.body, fontWeight: "600", color: color.foreground },
 
-  cards: { flexDirection: "row", gap: 10 },
-  channel: { flex: 1, padding: 14, borderRadius: radius.control, borderWidth: 1, borderColor: color.border },
-  channelOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180a" },
-  channelTop: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  channelName: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginTop: 10 },
-  channelNote: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
 
   radio: {
     width: 22,

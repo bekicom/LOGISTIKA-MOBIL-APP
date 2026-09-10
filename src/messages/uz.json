@@ -3057,7 +3057,9 @@
     "theme": {
       "dark": "Qorong'i",
       "light": "Yorug'",
+      "manualHint": "Siz tanlagansiz",
       "system": "Tizim",
+      "systemHint": "Telefon sozlamasiga ergashadi",
       "title": "KO'RINISH"
     },
     "tour": {

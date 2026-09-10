@@ -3057,7 +3057,9 @@
     "theme": {
       "dark": "深色",
       "light": "浅色",
+      "manualHint": "由您选择",
       "system": "跟随系统",
+      "systemHint": "跟随手机设置",
       "title": "外观"
     },
     "tour": {

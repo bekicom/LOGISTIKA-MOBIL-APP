@@ -3057,7 +3057,9 @@
     "theme": {
       "dark": "Dark",
       "light": "Light",
+      "manualHint": "You chose this",
       "system": "System",
+      "systemHint": "Follows your phone setting",
       "title": "APPEARANCE"
     },
     "tour": {

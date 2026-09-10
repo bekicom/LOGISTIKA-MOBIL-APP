@@ -3057,7 +3057,9 @@
     "theme": {
       "dark": "Koyu",
       "light": "Açık",
+      "manualHint": "Sizin seçiminiz",
       "system": "Sistem",
+      "systemHint": "Telefon ayarını izler",
       "title": "GÖRÜNÜM"
     },
     "tour": {

@@ -166,75 +166,60 @@ const LIGHT: Palette = {
 };
 
 const DARK: Palette = {
-  /* Sof qora EMAS: unda karta fondan ajralmaydi va ekran
-     «o'chgan» ko'rinadi. Sovuq qora-ko'k brend navy'si bilan bir
-     oilada. */
-  background: "#0b1220",
-  foreground: "#e9eef7",
-  /* Karta fondan KO'TARILGAN — chegara bilan emas, rang bilan
-     ajraladi (yorug' rejimdagi mantiqning aynan aksi).
+  /* ⚠️ 2026-09-10 da OCHROQ QILINDI. Birinchi variant (#0b1220)
+     Bekzodga «juda qorayib ketgan» tuyuldi va u haq: sof qoraga
+     yaqin fonda ilova o'chgan ekran kabi ko'rinadi, karta esa
+     faqat soya bilan ajraladi — qorong'ida soya esa ko'rinmaydi. */
+  background: "#141c2e",
+  foreground: "#eaf0f9",
+  /* Karta fondan RANG bilan ajraladi (1.23), chegara bilan emas */
+  card: "#212d44",
+  muted: "#2a3651",
+  mutedForeground: "#9aa8bf",
+  border: "#33415e",
 
-     ⚠️ Qorong'ida SOYA deyarli ko'rinmaydi, ya'ni kartani fondan
-     ajratadigan yagona narsa — rang. Shuning uchun bu farq
-     yorug' rejimdagidan (1.08) kattaroq: 1.18. Undan ham
-     ko'tarsa (#1a253d, 1.23) ustidagi `*Soft` tintlar
-     ko'rinmay boshlaydi — shu nuqta muvozanat. */
-  card: "#182238",
-  muted: "#212d47",
-  mutedForeground: "#94a3b8",
-  border: "#243146",
-
-  /* Asl #f45a18 qorong'i fonda loyqalanadi — ochroq olindi.
-     ⚠️ QIYMAT HISOB BILAN TANLANGAN, ko'z bilan emas: #ff6a2b da
-     ustidagi OQ yozuv 2.86 ga tushardi (tugma yorlig'i uchun
-     kam). #f2601f — oq yozuv 3.25, karta ustida 5.19, fon
-     ustida 5.77. */
   brand: "#f2601f",
   brandHover: "#d8541a",
   brandForeground: "#ffffff",
-  /* Ikonka orqasi — OQ tint emas, TO'Q issiq tint. Yorug'
-     rejimdagi #fff0e8 qorong'ida yorug' dog' bo'lib ko'zni
-     qamashtirardi.
+  /* ⚠️ IKONKA ORQASI JIGARRANG EMAS, NEYTRAL KO'TARILISH.
+     Birinchi variant (#4d2513 — to'q sariqning to'q tinti)
+     ekranda LOYQA JIGARRANG kvadratlar bo'lib chiqdi: menyudagi
+     15 ta plitka iflos ko'rinardi (Bekzod suratda ko'rsatdi).
 
-     ⚠️ BIRINCHI URINISHDA #2e1710 edi va u KARTADAN UMUMAN
-     AJRALMASDI (nisbat 1.00) — ikonka doiralari ko'rinmay
-     ketardi. Hamma `*Soft` rangda shu xato bor edi: ular
-     kartaning yorqinligiga juda yaqin tanlangandi. */
-  brandSoft: "#4d2513",
+     Zamonaviy qorong'i interfeyslar bunday joyda aksent tintini
+     emas, KARTANING o'z rangidan ko'tarilishni ishlatadi — rang
+     esa ikonkaning o'zida qoladi. Shunda plitka toza ko'rinadi
+     va aksent bir joyda — ikonkada — to'planadi. */
+  brandSoft: "#2f3c5a",
 
-  /* Navy ekranlar (kirish, splash) kartadan ham TO'QROQ bo'lishi
-     kerak, aks holda ular qorong'ida «karta» bo'lib qoladi */
-  navy: "#060d19",
-  navyForeground: "#e9eef7",
-  /* Logodagi to'q ko'k (#0a376e) qorong'ida umuman ko'rinmaydi */
-  logoBlue: "#2b6fc4",
-  blue: "#4d8ede",
-  blueSoft: "#173352",
+  /* Navy ekranlar (kirish, splash) fondan ham TO'QROQ */
+  navy: "#0d1524",
+  navyForeground: "#eaf0f9",
+  logoBlue: "#4a8ede",
+  blue: "#5d99e6",
+  blueSoft: "#293c5b",
 
-  /* Holat ranglari — qorong'i fonda o'qilishi uchun ochroq.
-     `*Soft` lari esa to'q tint: ular KARTA USTIDA fon bo'lib
-     ishlatiladi va shuning uchun kartadan sezilarli ajralishi
-     shart (nisbat >= 1.15). */
-  success: "#31c06a",
-  successSoft: "#153c27",
-  warning: "#e0922c",
-  warningSoft: "#40301a",
-  danger: "#f2564f",
-  dangerSoft: "#4a2226",
-  info: "#5b8cf5",
-  purple: "#a37cf0",
-  purpleSoft: "#352950",
+  /* Holat ranglari ochroq — karta ham ochroq bo'lgani uchun
+     `*Soft` tintlar ham ko'tarildi */
+  success: "#3ecf7a",
+  successSoft: "#223d33",
+  warning: "#e8a53f",
+  warningSoft: "#453d29",
+  danger: "#f4665e",
+  dangerSoft: "#52353d",
+  info: "#6d9bf7",
+  purple: "#ac8bf3",
+  purpleSoft: "#3a3359",
 
-  /* Hisob bilan: hammasi qorong'i karta ustida >=4.5,
-     `iconFaint` esa ATAYLAB past (2.05) — u nofaol holat */
-  icon: "#9aa8bf",
-  iconFaint: "#46536b",
-  surface: "#24304c",
-  brandText: "#ff8a52",
-  successText: "#4fd189",
-  warningText: "#efad55",
-  dangerText: "#ff8078",
+  icon: "#a7b4c8",
+  iconFaint: "#4d5b74",
+  surface: "#2a3651",
+  brandText: "#ff8f5c",
+  successText: "#5ad894",
+  warningText: "#f0b45f",
+  dangerText: "#ff8f87",
 };
+
 
 const PALETTES: Record<ThemeName, Palette> = { light: LIGHT, dark: DARK };
 

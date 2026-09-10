@@ -54,6 +54,10 @@ function groups(): Group[] {
       tint: color.brand,
       bg: color.brandSoft,
       items: [
+        /* Xarita BIRINCHI va mehmonga ham ochiq (`open`): kirmagan
+           odam ham qayerda yuk va ustaxona borligini ko'radi —
+           webdagi qoidaning o'zi (`map/page.tsx`) */
+        { icon: "map-pin", title: t("mob.map.title"), href: "/xarita", open: true },
         { icon: "route", title: t("mob.nav.trips"), href: "/reyslar", feature: "trips" },
         { icon: "package", title: t("mob.profile.myListings"), href: "/elonlarim" },
         { icon: "truck", title: t("mob.park.title"), href: "/parkim", feature: "fleet" },

@@ -21,6 +21,7 @@ import { HeaderIcons } from "@/components/TabHeader";
 import { ListingCard, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
+import { SaveSearch } from "@/components/SaveSearch";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -111,6 +112,17 @@ export default function Yuklar() {
             </Text>
           ) : null}
         </View>
+
+        {/* «Qidiruvni saqlash» — FAQAT filtr qo'yilganda ko'rinadi.
+            Bo'sh qidiruv har e'longa mos keladi va odam kuniga
+            o'nlab xabar olardi; tugmani doim ko'rsatib, keyin
+            «avval filtr tanlang» deyishdan ko'ra ko'rsatmaslik
+            yaxshi. */}
+        {filtr.fromId || filtr.toId || filtr.vehicleTypeIds.length ? (
+          <View style={{ marginTop: 10 }}>
+            <SaveSearch kind="load" filtr={filtr} />
+          </View>
+        ) : null}
       </View>
 
       <FlatList

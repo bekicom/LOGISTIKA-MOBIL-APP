@@ -47,6 +47,13 @@ function look(type: string): { icon: IconName; tint: string } {
   if (type.startsWith("trip")) return { icon: "route", tint: color.brand };
   if (type.startsWith("chat") || type.startsWith("message")) return { icon: "chat", tint: color.info };
   if (type.startsWith("doc")) return { icon: "doc", tint: color.warning };
+  /* 2026-09-10 da ishga tushgan turlar. Ilgari ular hech qachon
+     yuborilmagan («o'lik tur») va shuning uchun bu yerda ham
+     yo'q edi. `tech_risk` — P1: mashina yo'lda qolishidan
+     ogohlantiradi, shuning uchun qizil. */
+  if (type.startsWith("tech")) return { icon: "wrench", tint: color.danger };
+  if (type.startsWith("expense")) return { icon: "wallet", tint: color.warning };
+  if (type.startsWith("saved")) return { icon: "heart", tint: color.brand };
   if (type.includes("pay") || type.includes("balance")) return { icon: "check", tint: color.success };
   if (type.startsWith("border") || type.startsWith("queue")) return { icon: "border", tint: color.warning };
   if (type.includes("load") || type.includes("match")) return { icon: "package", tint: color.mutedForeground };

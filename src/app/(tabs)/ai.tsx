@@ -129,6 +129,16 @@ export default function Screen() {
                   icon={<Badge icon="doc" tint={color.danger} />}
                   title={t("mob.ai.seeDocs")}
                   onPress={() => router.push("/hujjatlarim")}
+                />
+                {/* AI XOTIRASI — odam nima eslab qolinganini
+                    ko'rishi kerak. Aks holda AI birdan uning
+                    haqida nimalarni «bilib» turishi noqulay
+                    tuyuladi (yakuniy TZ 10-band). */}
+                <ListRow
+                  icon={<Badge icon="robot" tint={color.brand} />}
+                  title={t("mob.aimem.title")}
+                  hint={t("mob.aimem.rowHint")}
+                  onPress={() => router.push("/ai/xotira")}
                   last
                 />
               </Card>

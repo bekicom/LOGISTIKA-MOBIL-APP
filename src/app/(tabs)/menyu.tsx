@@ -94,6 +94,11 @@ function groups(): Group[] {
         { icon: "file", title: t("mob.rdoc.title"), href: "/rezyume-hujjat" },
         { icon: "chart", title: t("mob.cmp.title"), href: "/bozor/taqqoslash", open: true },
         { icon: "heart", title: t("mob.profile.saved"), href: "/saqlanganlar" },
+        /* Saqlangan QIDIRUV — saqlangan E'LON dan boshqa narsa va
+           shuning uchun yonida turadi: birinchisi «shu e'lonni
+           eslab qol», ikkinchisi «shunga o'xshash yangisi
+           chiqsa xabar ber». */
+        { icon: "search", title: t("mob.ssearch.title"), href: "/saqlangan-qidiruv" },
       ],
     },
     {

@@ -31,6 +31,7 @@ import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
 import { InviteOwner } from "@/components/InviteOwner";
+import { ContactLinks, type Links } from "@/components/ContactLinks";
 import { TakeLoad } from "@/components/TakeLoad";
 
 type Load = {
@@ -57,6 +58,11 @@ type Load = {
     rating: number | null; ratingCount: number;
   } | null;
   contact: string | null;
+  /* Bog'lanish yo'llari — QAROR SERVERDA (`lib/contact-links.ts`).
+     Mehmonga telefonli havola kelmaydi, u yerda kesiladi. */
+  links: Links | null;
+  /** Asl Telegram e'lonida raqam bormi */
+  hasPhone: boolean;
 };
 
 /* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
@@ -288,6 +294,12 @@ export default function YukTafsiloti() {
                 shartlarni (Telegram e'loni, holat) server hal
                 qiladi va ro'yxat bo'sh kelsa oyna shuni aytadi. */}
             {!data.isMine && !data.isTaken ? <TakeLoad loadId={data.id} /> : null}
+
+            {/* Bog'lanish yo'llari: Telegram / WhatsApp / SMS.
+                Raqamsiz Telegram e'lonida asl postga havola —
+                2026-09-10 dan bunday e'lonlar ham lentaga
+                chiqadi va ularga boshqa yo'l yo'q. */}
+            <ContactLinks links={data.links} hasPhone={data.hasPhone} />
 
             {/* Telegram e'loni: egasini FURAM'ga chaqirish.
                 Shart SERVERDA hisoblangan — bu yerda takrorlansa,

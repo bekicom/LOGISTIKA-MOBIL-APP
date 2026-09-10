@@ -40,6 +40,8 @@
     "BAD_VEHICLE": "Bu transport sizga tegishli emas yoki band.",
     "BAD_YEARS": "Yil noto'g'ri.",
     "BLOCKED": "Hisobingiz bloklangan. Qo'llab-quvvatlashga murojaat qiling.",
+    "BOSH_QIDIRUV": "Avval filtr tanlang — bo'sh qidiruv har e'longa mos keladi.",
+    "CHEGARA": "Chegaraga yetdingiz — avval bittasini o'chiring.",
     "CLOSED": "Bu yopilgan — o'zgartirib bo'lmaydi.",
     "CO_DRIVER": "Bu amalni ikkinchi haydovchi bajara olmaydi.",
     "CSRF": "Xavfsizlik tekshiruvidan o'tmadi. Ilovani qayta oching.",
@@ -106,6 +108,7 @@
     "RADIUS_REQUIRED": "Xizmat radiusini ko'rsating.",
     "RATE_LIMIT": "Juda tez-tez so'rayapsiz. Biroz kuting.",
     "READ_ONLY": "Bu yerda faqat o'qish mumkin.",
+    "REJECTED": "Qabul qilinmadi — matnni boshqacha yozib ko'ring.",
     "SAME_DRIVER": "Asosiy va ikkinchi haydovchi bir odam bo'lmaydi.",
     "SEAT_TAKEN": "Bu o'rin band. Avval bog'lanishni uzing yoki ikkinchi o'rinni taklif qiling.",
     "SECTION_LOCKED": "Bu bo'lim rolingizga ochilmagan.",
@@ -400,7 +403,10 @@
       "whatAskText": "Parkingiz, reyslaringiz, xarajat va hujjatlaringiz haqida. AI bazaga o'zi yozmaydi — faqat sizga tegishli ma'lumotni o'qiydi."
     },
     "aiAct": {
+      "create_deal": "Kelishuvni qayd qilish",
       "create_incident": "#%{n} reysida hodisa qayd etish",
+      "create_load": "Yuk e'lonini joylash",
+      "create_truck": "Transport e'lonini joylash",
       "open_page": "Sahifani ochish",
       "request_location": "#%{n} reysida lokatsiya so'rash",
       "send_message": "#%{n} chatiga xabar yuborish"
@@ -447,6 +453,23 @@
       "run": "Yakun tayyorlash",
       "running": "Tayyorlanmoqda…",
       "title": "AI reys yakuni"
+    },
+    "aimem": {
+      "add": "Eslab qol",
+      "clear": "Hammasini o'chirish",
+      "clearAsk": "Hamma xotirani o'chiramizmi?",
+      "clearAskBody": "Qaytarib bo'lmaydi. AI siz haqingizda hech narsani eslamay qoladi.",
+      "emptyText": "AI bilan suhbatlashsangiz, muhim gaplarni o'zi eslab qoladi. Yoki yuqorida qo'lda yozib qo'ying.",
+      "emptyTitle": "Xotira bo'sh",
+      "lead": "AI shu yozuvlarga qarab javob beradi. Keraksizini o'chirsangiz, u boshqa eslamaydi.",
+      "nItems": "%{n} ta yozuv",
+      "placeholder": "Masalan: Moskva yo'nalishida ishlayman",
+      "rowHint": "AI siz haqingizda nimani eslab qolgan",
+      "src": {
+        "ai": "AI eslab qolgan",
+        "user": "siz yozgansiz"
+      },
+      "title": "AI xotirasi"
     },
     "an": {
       "bestGroup": "ENG YAXSHI NATIJALAR",
@@ -723,6 +746,12 @@
       "status": "Holati",
       "title": "Shartnomani tekshirish"
     },
+    "clink": {
+      "call": "Qo'ng'iroq",
+      "noPhoneNote": "Asl e'londa telefon raqami yo'q — egasiga Telegram orqali yozing.",
+      "telegram": "Telegramda ochish",
+      "title": "BOG'LANISH"
+    },
     "close": {
       "answered": "%{done} / %{total} javob berdi",
       "approve": "Roziman, yopilsin",
@@ -774,6 +803,7 @@
       "confirm": "Tasdiqlash",
       "continueBtn": "Davom etish",
       "countN": "%{n} ta",
+      "delete": "O'chirish",
       "edit": "Tahrirlash",
       "failed": "Bajarilmadi. Qayta urinib ko'ring.",
       "hide": "Yashirish",
@@ -1533,6 +1563,7 @@
       "title": "Huquqiy hujjatlar"
     },
     "listing": {
+      "linkOnly": "havola",
       "mine": "SIZNIKI",
       "new": "YANGI"
     },
@@ -2719,6 +2750,21 @@
       "silentSent": "Signal yuborildi",
       "title": "SOS yuborish"
     },
+    "ssearch": {
+      "emptyText": "Lentada filtr qo'yib «Qidiruvni saqlash» ni bosing — mos yangi e'lon chiqqanda xabar keladi.",
+      "emptyTitle": "Saqlangan qidiruv yo'q",
+      "kind": {
+        "load": "Yuk qidiruvi",
+        "truck": "Transport qidiruvi"
+      },
+      "mine": "Mendagilar",
+      "nConditions": "%{n} ta shart",
+      "needFilter": "Avval yo'nalish yoki transport turini tanlang.",
+      "notifyOn": "xabar yoqilgan",
+      "save": "Qidiruvni saqlash",
+      "saved": "Saqlandi",
+      "title": "Saqlangan qidiruvlar"
+    },
     "start": {
       "all": "Hammasi",
       "g1": "Yuk qidirish",
@@ -2992,20 +3038,46 @@
       "workPh": "Masalan: old tormoz kolodkasi almashtiriladi"
     },
     "tour": {
+      "askBody": "Aylanma ochiladi, egangizga xabar boradi va suhbat yaraladi. Shu safardagi hamma reys va xarajat bir joyda yig'iladi.",
+      "askTitle": "Ishga chiqdingizmi?",
+      "close": "Aylanmani yopish",
+      "closeAsk": "Aylanmani yopamizmi?",
+      "closeAskBody": "Yopilgach unga yangi reys qo'shilmaydi va hisob qotib qoladi.",
+      "closed": "Yopildi",
+      "docsN": "%{n} hujjat",
       "done": "Tushunarli",
+      "driver": "Haydovchi",
+      "expN": "%{n} xarajat",
+      "expense": "Xarajat",
+      "income": "Daromad",
       "loads": "Bozor shu yerda: yuk yoki bo'sh mashina qidiring, filtrlang, saqlang",
       "loadsT": "Yuklar va mashinalar",
       "menu": "Ilovaning hamma bo'limi: reyslar, parkim, moliya, ustaxona…",
       "menuT": "Menyu",
+      "nTrips": "%{n} ta reys",
       "next": "Keyingi",
+      "noTrips": "Reys hali qo'shilmagan",
+      "noTripsText": "Yuk olib aylanmaga qo'shilganda shu yerda ko'rinadi.",
+      "open": "Aylanma ochiq",
+      "owner": "Mashina egasi",
       "post": "Yuk, mashina, ish o'rni — hammasi shu tugmadan",
       "postT": "E'lon berish",
       "profile": "Rollaringiz, tarif va sozlamalar",
       "profileT": "Profil",
       "replay": "Yo'l-yo'riqni qayta ko'rish",
       "replayHint": "Qayerda nima — bosh sahifada qayta ko'rsatiladi",
+      "routeUnknown": "Yo'nalish hali belgilanmagan",
+      "st": {
+        "CLOSED": "Yopilgan",
+        "OPEN": "Ochiq"
+      },
+      "start": "Ishga chiqdim",
+      "started": "Boshlandi",
+      "title": "Aylanma",
       "top": "Yozishmalar va bildirishnomalar — tepada, sanoq bilan",
-      "topT": "Chat va xabarlar"
+      "topT": "Chat va xabarlar",
+      "tripsOf": "%{b} ta reysdan %{a} tasi yopilgan",
+      "vehicle": "Mashina"
     },
     "tpart": {
       "add": "Odam qo'shish",
@@ -3578,6 +3650,15 @@
     "trust": "Reyting",
     "video": "Video",
     "warehouse": "Ombor"
+  },
+  "todayCard": {
+    "chats": "%{n} ta suhbatda o'qilmagan xabar bor",
+    "docsExpiring": "%{n} ta hujjat muddati tugayapti",
+    "driverRequests": "%{n} ta haydovchi javobingizni kutmoqda",
+    "rateTrips": "%{n} ta yopilgan reysni baholang",
+    "scoreHint": "Faollik ko'rsatkichi — nimadan yig'ilishini ko'rish",
+    "title": "Bugun siz uchun",
+    "tourEmpty": "Aylanmangizda hali reys yo'q — yo'nalishingizdagi yuklarni ko'ring"
   },
   "transferStatus": {
     "ACCEPTED": "Qabul qilindi",

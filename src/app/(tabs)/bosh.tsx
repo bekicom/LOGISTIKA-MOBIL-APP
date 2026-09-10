@@ -25,6 +25,8 @@ import { setCounts } from "@/lib/counts";
 import { ListingCard, TripCard, type Listing, type TripItem } from "@/components/cards";
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
 import { FxStrip, StartHere } from "@/components/HomeStart";
+import { TodayCard } from "@/components/TodayCard";
+import { TourPanel } from "@/components/TourPanel";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -106,6 +108,16 @@ export default function Bosh() {
             warn={data.kind === "dispatcher" ? data.counts.problems > 0 : data.expiringDocuments > 0}
           />
         ) : null}
+
+        {/* «Bugun siz uchun» — kurs USTIDA: bu vazifa, kurs esa
+            ma'lumot. Vazifa bo'lmasa kartochka umuman chizilmaydi. */}
+        <TodayCard />
+
+        {/* «Ishga chiqdim» — HAYDOVCHIGA, bosh sahifada.
+            Webda u `/driver` sahifasida turadi, ilovada esa
+            haydovchi aynan bosh sahifaga tushadi va kunlik ishi
+            shu tugmadan boshlanadi. */}
+        {data?.kind === "driver" ? <TourPanel /> : null}
 
         {/* Kurs — ikkala rolda ham. Narx o'girish kunlik ish va u
             bo'limlar ichida ko'milib qolmasin. */}

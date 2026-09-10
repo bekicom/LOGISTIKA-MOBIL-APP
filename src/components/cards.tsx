@@ -91,7 +91,33 @@ export type Listing = {
   owner?: { name: string } | null;
   /** Transport turi kaliti — kartada ikonka uchun (`/api/loads/list`) */
   vehicleTypeKey?: string | null;
+  /**
+   * E'lon manbasi va asl e'londa RAQAM bor-yo'qligi (2026-09-10).
+   *
+   * ⚠️ Bu ikkisi 09-10 dagi o'zgarishdan keyin kerak bo'ldi: ilgari
+   * lentada FAQAT raqamli Telegram e'lonlari bo'lardi va ajratishning
+   * ma'nosi yo'q edi. Endi raqamsizlari ham chiqadi — ular bilan asl
+   * post orqali bog'laniladi.
+   *
+   * Farqni ko'rsatmasak, odam kartani raqam kutib bosardi va har
+   * ikkinchisida kutgani chiqmasdi: yangi e'lonlar foyda o'rniga
+   * g'ashlik keltirardi.
+   */
+  source?: string | null;
+  hasPhone?: boolean;
 };
+
+/**
+ * «Havola» belgisi — raqamsiz Telegram e'lonida.
+ *
+ * ⚠️ MAVJUD QATORDA chiziladi, yangi o'ramsiz: o'rovchi `View`
+ * belgi chizilmaganda ham joy egallardi (shu loyihada ilgari
+ * topilgan xato). Shuning uchun bu funksiya `null` qaytaradi.
+ */
+function LinkOnly({ item }: { item: Listing }) {
+  if (item.source !== "TELEGRAM" || item.hasPhone !== false) return null;
+  return <Chip text={t("mob.listing.linkOnly")} />;
+}
 
 /**
  * Valyutasiz son: 620 000 km, 24 oy, 214 ko'rish.
@@ -128,6 +154,7 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
     <Pressable onPress={onPress} style={({ pressed }) => [s.card, item.isTop && s.cardTop, pressed && s.pressed]}>
       <View style={s.cardHead}>
         {item.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
+        <LinkOnly item={item} />
         <View style={{ flex: 1 }} />
         {item.vehicleTypeKey ? (
           <View style={s.typeIcon}>
@@ -210,6 +237,8 @@ export function TruckCard({ item, onPress }: { item: TruckItem; onPress?: () => 
         ) : (
           <Chip text={t("mob.listing.new")} tone="success" />
         )}
+        <LinkOnly item={item} />
+        <View style={{ flex: 1 }} />
         <Icon name="heart" size={20} stroke="#cbd5e1" />
       </View>
 
@@ -364,7 +393,9 @@ const s = StyleSheet.create({
   tSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   noPrice: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
   pressed: { backgroundColor: "#fafbfc" },
-  cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  /* `gap` — «havola» belgisi chip bilan yopishib qolmasin; belgi
+     chizilmasa gap ham joy egallamaydi */
+  cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 6 },
 
   route: { flexDirection: "row", alignItems: "flex-start", gap: 10 },
   arrow: { width: 26, height: 26, borderRadius: 13, backgroundColor: color.brandSoft, alignItems: "center", justifyContent: "center", marginTop: 1 },

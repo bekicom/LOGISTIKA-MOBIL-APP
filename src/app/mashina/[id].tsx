@@ -29,6 +29,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "@/components/ui";
 import { Icon } from "@/components/Icon";
+import { ContactLinks, type Links } from "@/components/ContactLinks";
 import { Chip, money } from "@/components/cards";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
@@ -82,6 +83,10 @@ type Detail = {
     trustScore: number | null;
   } | null;
   contact: string | null;
+  /* Bog'lanish yo'llari — yuk e'lonidagi bilan bir xil qoida
+     (`components/ContactLinks`), qaror serverda */
+  links: Links | null;
+  hasPhone: boolean;
 };
 
 export default function MashinaTafsilot() {
@@ -325,6 +330,10 @@ export default function MashinaTafsilot() {
                 <Button title={t("mob.post2.openContact")} onPress={reveal} loading={revealing} />
               </View>
             )}
+
+            {/* Telegram / WhatsApp / SMS — raqamsiz e'londa asl
+                postga havola yagona yo'l bo'lib qoladi */}
+            <ContactLinks links={data.links} hasPhone={data.hasPhone} />
           </View>
 
           <Text style={s.footMeta}>

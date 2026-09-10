@@ -40,6 +40,8 @@
     "BAD_VEHICLE": "Bu araç size ait değil ya da meşgul.",
     "BAD_YEARS": "Yıl geçersiz.",
     "BLOCKED": "Hesabınız engellendi. Destekle iletişime geçin.",
+    "BOSH_QIDIRUV": "Önce filtre seçin — boş arama her ilana uyar.",
+    "CHEGARA": "Sınıra ulaşıldı — önce birini silin.",
     "CLOSED": "Bu kapandı — değiştirilemez.",
     "CO_DRIVER": "Bunu ikinci sürücü yapamaz.",
     "CSRF": "Güvenlik doğrulaması başarısız. Uygulamayı yeniden açın.",
@@ -106,6 +108,7 @@
     "RADIUS_REQUIRED": "Hizmet yarıçapını belirtin.",
     "RATE_LIMIT": "Çok sık istek. Biraz bekleyin.",
     "READ_ONLY": "Burada yalnızca okuma yapılabilir.",
+    "REJECTED": "Kabul edilmedi — farklı yazmayı deneyin.",
     "SAME_DRIVER": "Ana ve ikinci sürücü aynı kişi olamaz.",
     "SEAT_TAKEN": "Bu koltuk dolu. Önce bağlantıyı bitirin ya da ikinci koltuğu önerin.",
     "SECTION_LOCKED": "Bu bölüm rolünüze açık değil.",
@@ -400,7 +403,10 @@
       "whatAskText": "Filonuz, seferleriniz, masraflarınız ve belgeleriniz hakkında. AI veritabanına yazmaz — yalnızca size ait olanı okur."
     },
     "aiAct": {
+      "create_deal": "Anlaşmayı kaydet",
       "create_incident": "#%{n} seferinde olay kaydet",
+      "create_load": "Yük ilanı ver",
+      "create_truck": "Araç ilanı ver",
       "open_page": "Sayfayı aç",
       "request_location": "#%{n} seferinde konum iste",
       "send_message": "#%{n} sohbetine mesaj gönder"
@@ -447,6 +453,23 @@
       "run": "Özeti hazırla",
       "running": "Hazırlanıyor…",
       "title": "AI sefer özeti"
+    },
+    "aimem": {
+      "add": "Hatırla",
+      "clear": "Tümünü sil",
+      "clearAsk": "Tüm hafıza silinsin mi?",
+      "clearAskBody": "Geri alınamaz. Yapay zeka sizinle ilgili hiçbir şeyi hatırlamaz.",
+      "emptyText": "Yapay zeka ile sohbet edin — önemli olanı kendisi hatırlar. Ya da yukarıdan elle ekleyin.",
+      "emptyTitle": "Hafıza boş",
+      "lead": "Yapay zeka yanıtlarken bu notlara bakar. Gereksizini silin, artık kullanmaz.",
+      "nItems": "%{n} kayıt",
+      "placeholder": "Örnek: Moskova hattında çalışıyorum",
+      "rowHint": "Yapay zekanın sizinle ilgili hatırladıkları",
+      "src": {
+        "ai": "yapay zeka hatırladı",
+        "user": "siz eklediniz"
+      },
+      "title": "Yapay zeka hafızası"
     },
     "an": {
       "bestGroup": "EN İYİ SONUÇLAR",
@@ -723,6 +746,12 @@
       "status": "Durum",
       "title": "Sözleşme kontrolü"
     },
+    "clink": {
+      "call": "Ara",
+      "noPhoneNote": "Orijinal ilanda telefon yok — sahibine Telegram'dan yazın.",
+      "telegram": "Telegram'da aç",
+      "title": "İLETİŞİM"
+    },
     "close": {
       "answered": "%{done} / %{total} yanıtladı",
       "approve": "Onaylıyorum, kapansın",
@@ -774,6 +803,7 @@
       "confirm": "Onayla",
       "continueBtn": "Devam et",
       "countN": "%{n} adet",
+      "delete": "Sil",
       "edit": "Düzenle",
       "failed": "Yapılamadı. Tekrar deneyin.",
       "hide": "Gizle",
@@ -1533,6 +1563,7 @@
       "title": "Yasal belgeler"
     },
     "listing": {
+      "linkOnly": "bağlantı",
       "mine": "SİZİN",
       "new": "YENİ"
     },
@@ -2719,6 +2750,21 @@
       "silentSent": "Sinyal gönderildi",
       "title": "SOS gönder"
     },
+    "ssearch": {
+      "emptyText": "Listede filtre koyup “Aramayı kaydet”e dokunun — uygun ilan çıktığında bildirim gelir.",
+      "emptyTitle": "Kayıtlı arama yok",
+      "kind": {
+        "load": "Yük arama",
+        "truck": "Araç arama"
+      },
+      "mine": "Benimkiler",
+      "nConditions": "%{n} koşul",
+      "needFilter": "Önce güzergâh veya araç türü seçin.",
+      "notifyOn": "bildirim açık",
+      "save": "Aramayı kaydet",
+      "saved": "Kaydedildi",
+      "title": "Kayıtlı aramalar"
+    },
     "start": {
       "all": "Tümü",
       "g1": "Yük bul",
@@ -2992,20 +3038,46 @@
       "workPh": "Örneğin: ön balata değişimi"
     },
     "tour": {
+      "askBody": "Tur açılır, sahibine bildirim gider ve sohbet oluşur. Bu seferdeki tüm seferler ve masraflar tek yerde toplanır.",
+      "askTitle": "Yola çıktınız mı?",
+      "close": "Turu kapat",
+      "closeAsk": "Tur kapatılsın mı?",
+      "closeAskBody": "Kapandıktan sonra yeni sefer eklenmez ve hesap sabitlenir.",
+      "closed": "Kapandı",
+      "docsN": "%{n} belge",
       "done": "Anladım",
+      "driver": "Sürücü",
+      "expN": "%{n} gider",
+      "expense": "Gider",
+      "income": "Gelir",
       "loads": "Pazar burada: yük veya boş araç arayın, filtreleyin, kaydedin",
       "loadsT": "Yükler ve araçlar",
       "menu": "Uygulamanın tüm bölümleri: seferler, filo, finans, servis…",
       "menuT": "Menü",
+      "nTrips": "%{n} sefer",
       "next": "İleri",
+      "noTrips": "Henüz sefer eklenmedi",
+      "noTripsText": "Bir yük aldığınızda sefer burada görünür.",
+      "open": "Tur açık",
+      "owner": "Araç sahibi",
       "post": "Yük, araç, iş ilanı — hepsi bu düğmeden",
       "postT": "İlan ver",
       "profile": "Rolleriniz, tarifeniz ve ayarlar",
       "profileT": "Profil",
       "replay": "Turu yeniden göster",
       "replayHint": "Neyin nerede olduğu — ana sayfada yeniden gösterilir",
+      "routeUnknown": "Yön henüz belirlenmedi",
+      "st": {
+        "CLOSED": "Kapalı",
+        "OPEN": "Açık"
+      },
+      "start": "Yola çıktım",
+      "started": "Başladı",
+      "title": "Tur",
       "top": "Mesajlar ve bildirimler — üstte, sayaçla",
-      "topT": "Sohbet ve bildirimler"
+      "topT": "Sohbet ve bildirimler",
+      "tripsOf": "%{b} seferden %{a} tanesi kapandı",
+      "vehicle": "Araç"
     },
     "tpart": {
       "add": "Kişi ekle",
@@ -3578,6 +3650,15 @@
     "trust": "Puan",
     "video": "Video",
     "warehouse": "Depo"
+  },
+  "todayCard": {
+    "chats": "%{n} sohbette okunmamış mesaj var",
+    "docsExpiring": "%{n} belgenin süresi doluyor",
+    "driverRequests": "%{n} sürücü yanıtınızı bekliyor",
+    "rateTrips": "%{n} tamamlanmış seferi puanlayın",
+    "scoreHint": "Etkinlik puanı — nelerden oluştuğunu görün",
+    "title": "Bugün sizin için",
+    "tourEmpty": "Turunuzda henüz sefer yok — güzergâhınızdaki yükleri görün"
   },
   "transferStatus": {
     "ACCEPTED": "Kabul edildi",

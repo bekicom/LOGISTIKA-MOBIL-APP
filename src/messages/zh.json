@@ -40,6 +40,8 @@
     "BAD_VEHICLE": "该车辆不属于您，或正在使用中。",
     "BAD_YEARS": "年份无效。",
     "BLOCKED": "您的账号已被封禁，请联系客服。",
+    "BOSH_QIDIRUV": "请先选择筛选条件——空搜索会匹配所有广告。",
+    "CHEGARA": "已达上限——请先删除一条。",
     "CLOSED": "已关闭，无法修改。",
     "CO_DRIVER": "副司机无法执行此操作。",
     "CSRF": "安全校验未通过，请重新打开应用。",
@@ -106,6 +108,7 @@
     "RADIUS_REQUIRED": "请设置服务半径。",
     "RATE_LIMIT": "请求过于频繁，请稍候。",
     "READ_ONLY": "此处为只读。",
+    "REJECTED": "未被接受——请换一种说法。",
     "SAME_DRIVER": "主司机和副司机不能是同一人。",
     "SEAT_TAKEN": "该座位已被占用。请先解除关联，或改为第二座位。",
     "SECTION_LOCKED": "该板块未对您的角色开放。",
@@ -400,7 +403,10 @@
       "whatAskText": "关于您的车队、运单、费用与证件。AI 不会写入数据库——只读取属于您的数据。"
     },
     "aiAct": {
+      "create_deal": "登记该协议",
       "create_incident": "在运单 #%{n} 记录事件",
+      "create_load": "发布这单货",
+      "create_truck": "发布这辆车",
       "open_page": "打开页面",
       "request_location": "在运单 #%{n} 中请求位置",
       "send_message": "向运单 #%{n} 聊天发送消息"
@@ -447,6 +453,23 @@
       "run": "生成总结",
       "running": "正在生成…",
       "title": "AI 行程总结"
+    },
+    "aimem": {
+      "add": "记住这条",
+      "clear": "全部删除",
+      "clearAsk": "要删除全部记忆吗？",
+      "clearAskBody": "此操作无法撤销。AI 将不再记得您的任何信息。",
+      "emptyText": "与 AI 聊天，它会自行记住要点。也可在上方手动添加。",
+      "emptyTitle": "记忆为空",
+      "lead": "AI 回答时会参考这些记录。删除不需要的，它就不再使用。",
+      "nItems": "%{n} 条记录",
+      "placeholder": "例如：我跑莫斯科线路",
+      "rowHint": "AI 记住了您的哪些信息",
+      "src": {
+        "ai": "AI 记下的",
+        "user": "您添加的"
+      },
+      "title": "AI 记忆"
     },
     "an": {
       "bestGroup": "最佳表现",
@@ -723,6 +746,12 @@
       "status": "状态",
       "title": "合同核验"
     },
+    "clink": {
+      "call": "打电话",
+      "noPhoneNote": "原广告没有电话号码——请在 Telegram 上联系货主。",
+      "telegram": "在 Telegram 中打开",
+      "title": "联系方式"
+    },
     "close": {
       "answered": "已回复 %{done} / %{total}",
       "approve": "同意关闭",
@@ -774,6 +803,7 @@
       "confirm": "确认",
       "continueBtn": "继续",
       "countN": "%{n} 个",
+      "delete": "删除",
       "edit": "编辑",
       "failed": "未能完成，请重试。",
       "hide": "隐藏",
@@ -1533,6 +1563,7 @@
       "title": "法律文件"
     },
     "listing": {
+      "linkOnly": "链接",
       "mine": "我的",
       "new": "最新"
     },
@@ -2719,6 +2750,21 @@
       "silentSent": "信号已发送",
       "title": "发送 SOS"
     },
+    "ssearch": {
+      "emptyText": "在列表中设置筛选并点击「保存搜索」——出现匹配广告时会通知您。",
+      "emptyTitle": "暂无已保存的搜索",
+      "kind": {
+        "load": "货源搜索",
+        "truck": "车辆搜索"
+      },
+      "mine": "我的",
+      "nConditions": "%{n} 项条件",
+      "needFilter": "请先选择路线或车辆类型。",
+      "notifyOn": "已开启通知",
+      "save": "保存搜索",
+      "saved": "已保存",
+      "title": "已保存的搜索"
+    },
     "start": {
       "all": "全部",
       "g1": "找货",
@@ -2992,20 +3038,46 @@
       "workPh": "例如：更换前刹车片"
     },
     "tour": {
+      "askBody": "将创建巡回、通知车主并建立会话。本次出车的所有行程与开支都汇总在一处。",
+      "askTitle": "出车了吗？",
+      "close": "结束巡回",
+      "closeAsk": "要结束巡回吗？",
+      "closeAskBody": "结束后将无法添加新行程，账目也将固定。",
+      "closed": "结束",
+      "docsN": "%{n} 份单证",
       "done": "明白了",
+      "driver": "司机",
+      "expN": "%{n} 笔开支",
+      "expense": "支出",
+      "income": "收入",
       "loads": "市场在这里：查找货物或空车，筛选并收藏",
       "loadsT": "货物与车辆",
       "menu": "应用的所有板块：行程、车队、财务、维修……",
       "menuT": "菜单",
+      "nTrips": "%{n} 个行程",
       "next": "下一步",
+      "noTrips": "尚未添加行程",
+      "noTripsText": "接单后行程会显示在这里。",
+      "open": "巡回进行中",
+      "owner": "车主",
       "post": "货物、车辆、招聘——都从这个按钮开始",
       "postT": "发布",
       "profile": "您的角色、套餐和设置",
       "profileT": "个人资料",
       "replay": "再次查看引导",
       "replayHint": "各功能位置——将在首页再次显示",
+      "routeUnknown": "尚未确定路线",
+      "st": {
+        "CLOSED": "已结束",
+        "OPEN": "进行中"
+      },
+      "start": "我已出车",
+      "started": "开始",
+      "title": "巡回",
       "top": "消息和通知——在顶部，带计数",
-      "topT": "聊天与通知"
+      "topT": "聊天与通知",
+      "tripsOf": "%{b} 个行程中已结束 %{a} 个",
+      "vehicle": "车辆"
     },
     "tpart": {
       "add": "添加人员",
@@ -3578,6 +3650,15 @@
     "trust": "评分",
     "video": "视频",
     "warehouse": "仓库"
+  },
+  "todayCard": {
+    "chats": "%{n} 个聊天有未读消息",
+    "docsExpiring": "%{n} 份文件即将到期",
+    "driverRequests": "%{n} 位司机在等您回复",
+    "rateTrips": "为 %{n} 个已结束行程评分",
+    "scoreHint": "活跃度指标——查看它由什么构成",
+    "title": "今天为您",
+    "tourEmpty": "循环中还没有行程——看看您路线上的货物"
   },
   "transferStatus": {
     "ACCEPTED": "已接受",

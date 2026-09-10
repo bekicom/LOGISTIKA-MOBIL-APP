@@ -509,6 +509,21 @@ function sources(tools?: Tool[]): string[] {
 function actionLabel(a: Action): string {
   const no = a.furamNo;
   if (a.kind === "open_page") return t("mob.aiAct.open_page");
+
+  /* ── YARATISH AMALLARI (2026-09-10) ───────────────────────────
+
+     Bu uchtasida reys raqami YO'Q — hali hech narsa yaratilmagan.
+     Shuning uchun ular pastdagi `!no` to'sig'idan OLDIN turadi,
+     aks holda `a.title` bilan chiqib ketardi.
+
+     Serverning `title` i — MA'LUMOT, jumla emas: «Toshkent →
+     Moskva · 20 t · Tent». Unda tugma nima qilishi ko'rinmaydi,
+     shuning uchun oldiga amal nomi qo'yiladi. Ma'lumotning o'zi
+     tarjima qilinmaydi. */
+  if (a.kind === "create_load") return `${t("mob.aiAct.create_load")}: ${a.title}`;
+  if (a.kind === "create_truck") return `${t("mob.aiAct.create_truck")}: ${a.title}`;
+  if (a.kind === "create_deal") return `${t("mob.aiAct.create_deal")}: ${a.title}`;
+
   if (!no) return a.title;
   if (a.kind === "request_location") return t("mob.aiAct.request_location", { n: no });
   if (a.kind === "send_message") return t("mob.aiAct.send_message", { n: no });

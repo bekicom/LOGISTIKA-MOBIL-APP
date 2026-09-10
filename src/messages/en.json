@@ -40,6 +40,8 @@
     "BAD_VEHICLE": "That truck isn't yours, or it's busy.",
     "BAD_YEARS": "That year isn't valid.",
     "BLOCKED": "Your account is blocked. Contact support.",
+    "BOSH_QIDIRUV": "Pick a filter first — an empty search matches every listing.",
+    "CHEGARA": "You've hit the limit — delete one first.",
     "CLOSED": "This is closed — it can't be changed.",
     "CO_DRIVER": "The second driver can't do this.",
     "CSRF": "The security check failed. Please reopen the app.",
@@ -106,6 +108,7 @@
     "RADIUS_REQUIRED": "Set your service radius.",
     "RATE_LIMIT": "Too many requests. Wait a moment.",
     "READ_ONLY": "This is read-only.",
+    "REJECTED": "Not accepted — try wording it differently.",
     "SAME_DRIVER": "The main and second driver can't be the same person.",
     "SEAT_TAKEN": "That seat is taken. End the existing link first, or offer the second seat.",
     "SECTION_LOCKED": "This section isn't open for your role.",
@@ -400,7 +403,10 @@
       "whatAskText": "About your fleet, trips, costs and documents. The AI does not write to the database — it only reads what belongs to you."
     },
     "aiAct": {
+      "create_deal": "Record the deal",
       "create_incident": "Log an incident on trip #%{n}",
+      "create_load": "Post this load",
+      "create_truck": "Post this vehicle",
       "open_page": "Open the page",
       "request_location": "Request location on trip #%{n}",
       "send_message": "Send a message to trip #%{n} chat"
@@ -447,6 +453,23 @@
       "run": "Prepare the summary",
       "running": "Preparing…",
       "title": "AI trip summary"
+    },
+    "aimem": {
+      "add": "Remember this",
+      "clear": "Delete all",
+      "clearAsk": "Delete the whole memory?",
+      "clearAskBody": "This cannot be undone. The AI will remember nothing about you.",
+      "emptyText": "Chat with the AI and it will remember the important things itself. Or add a note above.",
+      "emptyTitle": "Memory is empty",
+      "lead": "The AI uses these notes when answering. Delete what you don't want and it stops using it.",
+      "nItems": "%{n} notes",
+      "placeholder": "For example: I work the Moscow route",
+      "rowHint": "What the AI remembers about you",
+      "src": {
+        "ai": "the AI remembered",
+        "user": "you added it"
+      },
+      "title": "AI memory"
     },
     "an": {
       "bestGroup": "BEST RESULTS",
@@ -723,6 +746,12 @@
       "status": "Status",
       "title": "Contract check"
     },
+    "clink": {
+      "call": "Call",
+      "noPhoneNote": "The original listing has no phone number — message the owner on Telegram.",
+      "telegram": "Open in Telegram",
+      "title": "GET IN TOUCH"
+    },
     "close": {
       "answered": "%{done} of %{total} answered",
       "approve": "I approve, close it",
@@ -774,6 +803,7 @@
       "confirm": "Confirm",
       "continueBtn": "Continue",
       "countN": "%{n}",
+      "delete": "Delete",
       "edit": "Edit",
       "failed": "That didn't go through. Try again.",
       "hide": "Hide",
@@ -1533,6 +1563,7 @@
       "title": "Legal documents"
     },
     "listing": {
+      "linkOnly": "link",
       "mine": "YOURS",
       "new": "NEW"
     },
@@ -2719,6 +2750,21 @@
       "silentSent": "Signal sent",
       "title": "Send SOS"
     },
+    "ssearch": {
+      "emptyText": "Set a filter in the feed and tap “Save this search” — you'll be notified when a matching listing appears.",
+      "emptyTitle": "No saved searches",
+      "kind": {
+        "load": "Load search",
+        "truck": "Vehicle search"
+      },
+      "mine": "Mine",
+      "nConditions": "%{n} conditions",
+      "needFilter": "Pick a route or a vehicle type first.",
+      "notifyOn": "notifications on",
+      "save": "Save this search",
+      "saved": "Saved",
+      "title": "Saved searches"
+    },
     "start": {
       "all": "All",
       "g1": "Find a load",
@@ -2992,20 +3038,46 @@
       "workPh": "For example: replace the front brake pads"
     },
     "tour": {
+      "askBody": "A tour opens, your owner is notified and a chat is created. Every trip and expense of this run is gathered in one place.",
+      "askTitle": "Heading out?",
+      "close": "Close the tour",
+      "closeAsk": "Close the tour?",
+      "closeAskBody": "Once closed, no new trips can be added and the totals are fixed.",
+      "closed": "Closed",
+      "docsN": "%{n} docs",
       "done": "Got it",
+      "driver": "Driver",
+      "expN": "%{n} expenses",
+      "expense": "Expenses",
+      "income": "Income",
       "loads": "The marketplace lives here: find loads or empty trucks, filter, save",
       "loadsT": "Loads and trucks",
       "menu": "Every section of the app: trips, fleet, finance, service…",
       "menuT": "Menu",
+      "nTrips": "%{n} trips",
       "next": "Next",
+      "noTrips": "No trip added yet",
+      "noTripsText": "Once you take a load, the trip appears here.",
+      "open": "Tour is open",
+      "owner": "Vehicle owner",
       "post": "Load, truck, job opening — all from this button",
       "postT": "Post",
       "profile": "Your roles, plan and settings",
       "profileT": "Profile",
       "replay": "Show the tour again",
       "replayHint": "Where things are — shown again on the home screen",
+      "routeUnknown": "Route not set yet",
+      "st": {
+        "CLOSED": "Closed",
+        "OPEN": "Open"
+      },
+      "start": "I'm heading out",
+      "started": "Started",
+      "title": "Tour",
       "top": "Messages and notifications — at the top, with counters",
-      "topT": "Chat and alerts"
+      "topT": "Chat and alerts",
+      "tripsOf": "%{a} of %{b} trips closed",
+      "vehicle": "Vehicle"
     },
     "tpart": {
       "add": "Add a person",
@@ -3578,6 +3650,15 @@
     "trust": "Rating",
     "video": "Video",
     "warehouse": "Warehouse"
+  },
+  "todayCard": {
+    "chats": "Unread messages in %{n} chats",
+    "docsExpiring": "%{n} documents are about to expire",
+    "driverRequests": "%{n} drivers are waiting for your answer",
+    "rateTrips": "Rate %{n} closed trips",
+    "scoreHint": "Activity score — see what it is made of",
+    "title": "Today for you",
+    "tourEmpty": "No trips in your tour yet — check loads on your route"
   },
   "transferStatus": {
     "ACCEPTED": "Accepted",

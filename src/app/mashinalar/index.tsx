@@ -23,6 +23,7 @@ import { HeaderIcons } from "@/components/TabHeader";
 import { TruckCard, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
+import { SaveSearch } from "@/components/SaveSearch";
 import { Segment } from "@/components/Segment";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space } from "@/lib/theme";
@@ -101,6 +102,14 @@ export default function Mashinalar() {
             </Text>
           ) : null}
         </View>
+
+        {/* Yuklar ekranidagi bilan bir xil shart — sababi
+            `(tabs)/yuklar.tsx` da */}
+        {filtr.fromId || filtr.toId || filtr.vehicleTypeIds.length ? (
+          <View style={{ marginTop: 10 }}>
+            <SaveSearch kind="truck" filtr={filtr} />
+          </View>
+        ) : null}
       </View>
 
       {loading && !items.length ? (

@@ -31,7 +31,7 @@ import { useRouter } from "expo-router";
 import { Button, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { apiUpload, FuramError } from "@/lib/api";
-import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
+import { pickPhotos, pickScanFile, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { t, tOr } from "@/lib/i18n";
 import { color, font, radius, shadow, space } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
@@ -94,13 +94,17 @@ export default function Skaner() {
   const scanKind = KINDS.find((k) => k.doc === kind)?.scan ?? "passport";
 
   /** Rozilik olingandan keyin: surat → server → maydonlar */
-  async function run(from: "camera" | "gallery") {
+  async function run(from: "camera" | "gallery" | "file") {
     /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
        e'tibor bermay o'tib ketgan holat uchun. */
     if (tariffBlocked("ai")) return;
     setConsent(false);
-    const list = from === "camera" ? await takePhoto() : await pickPhotos(1);
-    const p = list[0];
+    /* PDF — «fayl» yo'li bilan. CMR, invoys va dozvol ko'pincha
+       PDF bo'lib keladi; server birinchi betni rasmga o'giradi. */
+    const p =
+      from === "file"
+        ? await pickScanFile()
+        : (from === "camera" ? await takePhoto() : await pickPhotos(1))[0];
     if (!p) return;
 
     setPhoto(p);
@@ -391,6 +395,12 @@ export default function Skaner() {
               title={t("mob.ai.consentGallery")}
               variant="secondary"
               onPress={() => void run("gallery")}
+            />
+            <View style={{ height: 10 }} />
+            <Button
+              title={t("mob.ai.consentFile")}
+              variant="secondary"
+              onPress={() => void run("file")}
             />
             <Pressable onPress={() => setConsent(false)}>
               <Text style={s.manual}>{t("mob.ai.consentNo")}</Text>

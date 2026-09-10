@@ -93,6 +93,31 @@ export async function pickDocument(): Promise<Photo | null> {
 }
 
 /**
+ * SKANER uchun fayl: rasm yoki PDF.
+ *
+ * `pickDocument()` dan farqi — tur ro'yxati TOR. U Word, Excel va
+ * video ham qabul qiladi; skaner esa ularni o'qiy olmaydi va
+ * server `BAD_TYPE` qaytarardi. Odamga o'qilmaydigan faylni
+ * tanlashga ruxsat berib, keyin xato ko'rsatish g'ashlantiradi.
+ *
+ * ⚠️ RO'YXAT SERVER BILAN BIR XIL: `api/ai/scan-document` JPG,
+ * PNG, WEBP va PDF ni oladi (`pdftoppm` bilan birinchi bet rasmga
+ * o'giriladi). CMR, invoys va dozvol ko'pincha aynan PDF bo'lib
+ * keladi — ilgari odam ularni ekrandan suratga olishga majbur
+ * edi va sifat past chiqib, o'qish yiqilardi.
+ */
+export async function pickScanFile(): Promise<Photo | null> {
+  const r = await DocumentPicker.getDocumentAsync({
+    copyToCacheDirectory: true,
+    multiple: false,
+    type: ["application/pdf", "image/jpeg", "image/png", "image/webp"],
+  });
+  if (r.canceled || !r.assets[0]) return null;
+  const a = r.assets[0];
+  return { uri: a.uri, name: a.name, type: a.mimeType ?? "application/pdf" };
+}
+
+/**
  * Video tanlash — bozor e'loni uchun (TZ 14).
  *
  * Faqat GALEREYADAN: kamerada yozish uzoq va telefon xotirasini

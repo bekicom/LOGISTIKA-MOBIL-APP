@@ -41,18 +41,43 @@ type Chat = {
 };
 type Group = { key: string; chatId: string | null; members: number; joined: boolean; lastAt: string | null };
 
-/* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
-   o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
+/* ── UCHTA BO'LIM (2026-09-10, web bilan bir xil) ──────────────
+ *
+ * Ilgari YETTITA filtr bor edi va ular telefonda ikki qatorga
+ * tushardi. «Yuk chatlari» bilan «Shartnomalar» farqi esa faqat
+ * ichkariga kirgandan keyin ma'lum bo'lardi.
+ *
+ * Endi uchta, va har biri odam O'YLAYDIGAN savolga javob beradi:
+ * «guruhlar qayerda», «shu reys bo'yicha kim yozgan», «tanishim
+ * nima dedi».
+ *
+ * «O'qilmagan» va «Qadalgan» filtr sifatida OLIB TASHLANDI, lekin
+ * yo'qolmadi: qadalgan suhbat har bo'lim ichida tepada turadi va
+ * o'qilmagani baribir ko'k nishon bilan ajralib turadi. Filtr
+ * bo'lib turgani esa har ochilishda tanlash talab qilardi.
+ *
+ * ⚠️ `bucket` maydoni SERVERDA o'zgarmadi — bo'lim shu yerda,
+ * klientda hisoblanadi (web'da ham shunday). Server shartnomasini
+ * o'zgartirmasdan ikki tomonni bir xil qilishning yagona yo'li. */
 function tabs() {
   return [
-    { key: "all", label: t("mob.common.all") },
-    { key: "unread", label: t("mob.ui.unread") },
-    { key: "trip", label: t("mob.ui.tripChats") },
-    { key: "contract", label: t("mob.chatList.contracts") },
-    { key: "route", label: t("mob.chatList.groups") },
-    { key: "private", label: t("mob.chat.private") },
-    { key: "pinned", label: t("mob.chatList.pinned") },
+    { key: "umumiy", label: t("mob.chatList.general") },
+    { key: "yuk", label: t("mob.chatList.loadTrip") },
+    { key: "shaxsiy", label: t("mob.chat.private") },
   ] as const;
+}
+
+type Section = "umumiy" | "yuk" | "shaxsiy";
+
+/** Suhbat qaysi bo'limga tushadi — web'dagi `sectionOf` bilan bir xil */
+function sectionOf(c: { type: string; bucket: string }): Section {
+  if (c.bucket === "trip" || c.bucket === "contract") return "yuk";
+  /* GURUH — yo'nalish guruhi ham, umumiy guruh ham, oddiy yopiq
+     guruh ham. Ilgari `routeKey` yo'q guruh `bucket` bo'yicha
+     «Shaxsiy» ga tushardi va odam uni tanishlari orasidan
+     qidirardi. */
+  if (c.type === "GROUP") return "umumiy";
+  return "shaxsiy";
 }
 
 function when(iso: string | null) {
@@ -68,7 +93,7 @@ function when(iso: string | null) {
 }
 
 export default function ChatRoyxati() {
-  const [tab, setTab] = useState<string>("all");
+  const [tab, setTab] = useState<Section>("umumiy");
   const [held, setHeld] = useState<Chat | null>(null);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
@@ -76,16 +101,21 @@ export default function ChatRoyxati() {
   const router = useRouter();
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<{ chats: Chat[]; unread: number }>("/api/chats");
-  const groups = useApi<{ groups: Group[] }>(tab === "route" ? "/api/chat/groups" : null, [tab]);
+  /* Yo'nalish guruhlari «Umumiy» bo'limida ko'rinadi — a'zo
+     bo'lmagan guruhlar ham shu yerda taklif qilinadi */
+  const groups = useApi<{ groups: Group[] }>(tab === "umumiy" ? "/api/chat/groups" : null, [tab]);
 
   const all = data?.chats ?? [];
+  /* Yordam chati bo'limlarga TUSHMAYDI: u har doim tepada, alohida
+     turadi — odam muammo bilan kelganda uni bo'lim tanlab
+     qidirmasin. Web'da ham shunday. */
   const support = all.find((c) => c.type === "SUPPORT") ?? null;
   const rest = all.filter((c) => c.type !== "SUPPORT");
-  const chats =
-    tab === "unread" ? rest.filter((c) => c.unread > 0)
-    : tab === "pinned" ? rest.filter((c) => c.pinned)
-    : tab === "all" || tab === "route" ? rest
-    : rest.filter((c) => c.bucket === tab);
+  /* Qadalgani bo'lim ICHIDA tepada — filtr yo'qolgani bilan u
+     ko'rinmay qolmasin */
+  const chats = rest
+    .filter((c) => sectionOf(c) === tab)
+    .sort((a, b) => Number(b.pinned) - Number(a.pinned));
 
   const openChat = useCallback(
     (c: Chat) =>
@@ -95,6 +125,52 @@ export default function ChatRoyxati() {
       }),
     [router],
   );
+
+  /* ── QO'SHILISH MUMKIN BO'LGAN GURUHLAR ──────────────────────
+     «Umumiy» bo'limi OSTIDA, ro'yxatni almashtirmasdan. Ilgari
+     alohida yorliq edi va u bosilganda suhbatlar ro'yxati
+     YO'QOLARDI — odam guruhga qo'shilib, keyin suhbatlarini
+     qayerdan topishni o'ylab qolardi. Web'da ham ro'yxat ostida
+     turadi. */
+  const GroupsFooter = () => {
+    if (tab !== "umumiy") return null;
+    const list = groups.data?.groups ?? [];
+    if (list.length === 0) return null;
+    return (
+      <View style={{ marginTop: space.lg }}>
+        <Text style={s.groupsHint}>{t("mob.chatList.groupsHint")}</Text>
+        {list.map((g) => (
+          <View key={g.key} style={s.row}>
+            <View style={[s.avatar, s.avatarGroup]}>
+              <Icon name="users" size={22} stroke={color.blue} />
+            </View>
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={s.name} numberOfLines={1}>{groupTitle(g.key)}</Text>
+              <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
+              <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
+            </View>
+            {g.joined && g.chatId ? (
+              <View style={{ alignItems: "flex-end", gap: 6 }}>
+                <Pressable
+                  onPress={() => router.push({ pathname: "/suhbat/[id]", params: { id: g.chatId!, title: groupTitle(g.key) } })}
+                  style={s.openBtn}
+                >
+                  <Text style={s.openText}>{t("mob.chatList.open")}</Text>
+                </Pressable>
+                <Pressable onPress={() => joinGroup(g, false)} disabled={busyKey === g.key} hitSlop={6}>
+                  <Text style={s.leave}>{t("mob.chatList.leave")}</Text>
+                </Pressable>
+              </View>
+            ) : (
+              <Pressable onPress={() => joinGroup(g, true)} disabled={busyKey === g.key} style={s.joinBtn}>
+                <Text style={s.joinText}>{t("mob.chatList.join")}</Text>
+              </Pressable>
+            )}
+          </View>
+        ))}
+      </View>
+    );
+  };
 
   async function setFlag(c: Chat, patch: { isPinned?: boolean; isMuted?: boolean }) {
     setHeld(null);
@@ -180,7 +256,14 @@ export default function ChatRoyxati() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.tabs}>
           {tabs().map((tb) => {
             const on = tab === tb.key;
-            const n = tb.key === "unread" ? (data?.unread ?? 0) : tb.key === "pinned" ? rest.filter((c) => c.pinned).length : 0;
+            /* Yorliqda SUHBAT soni emas, O'QILMAGAN xabar soni.
+               «Umumiy 12» degan yozuv hech narsa aytmaydi — odam
+               bo'limda 12 ta suhbat borligini biladi. «Umumiy 3»
+               esa uchta yangi xabar borligini aytadi (web'da ham
+               shu qaror). */
+            const n = rest
+              .filter((c) => sectionOf(c) === tb.key)
+              .reduce((sum, c) => sum + c.unread, 0);
             return (
               <Pressable key={tb.key} onPress={() => setTab(tb.key)} accessibilityRole="tab" accessibilityState={{ selected: on }} style={[s.tab, on && s.tabOn]}>
                 <Text style={[s.tabText, on && s.tabTextOn]}>{tb.label}</Text>
@@ -202,52 +285,17 @@ export default function ChatRoyxati() {
         </View>
       ) : null}
 
-      {tab === "route" ? (
-        <FlatList
-          data={groups.data?.groups ?? []}
-          keyExtractor={(g) => g.key}
-          contentContainerStyle={[s.list, { paddingBottom: insets.bottom + space.xl }]}
-          refreshControl={<RefreshControl refreshing={groups.refreshing} onRefresh={groups.refresh} tintColor={color.brand} />}
-          ListHeaderComponent={<Text style={s.groupsHint}>{t("mob.chatList.groupsHint")}</Text>}
-          renderItem={({ item: g }) => (
-            <View style={s.row}>
-              <View style={[s.avatar, s.avatarGroup]}>
-                <Icon name="users" size={22} stroke={color.blue} />
-              </View>
-              <View style={{ flex: 1, minWidth: 0 }}>
-                <Text style={s.name} numberOfLines={1}>{groupTitle(g.key)}</Text>
-                <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
-                <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
-              </View>
-              {g.joined && g.chatId ? (
-                <View style={{ alignItems: "flex-end", gap: 6 }}>
-                  <Pressable
-                    onPress={() => router.push({ pathname: "/suhbat/[id]", params: { id: g.chatId!, title: groupTitle(g.key) } })}
-                    style={s.openBtn}
-                  >
-                    <Text style={s.openText}>{t("mob.chatList.open")}</Text>
-                  </Pressable>
-                  <Pressable onPress={() => joinGroup(g, false)} disabled={busyKey === g.key} hitSlop={6}>
-                    <Text style={s.leave}>{t("mob.chatList.leave")}</Text>
-                  </Pressable>
-                </View>
-              ) : (
-                <Pressable onPress={() => joinGroup(g, true)} disabled={busyKey === g.key} style={s.joinBtn}>
-                  <Text style={s.joinText}>{t("mob.chatList.join")}</Text>
-                </Pressable>
-              )}
-            </View>
-          )}
-          ListEmptyComponent={groups.loading ? <Skeleton rows={2} /> : groups.error ? <ErrorBox message={groups.error} onRetry={groups.reload} /> : null}
-        />
-      ) : (
-        <FlatList
+      <FlatList
           data={chats}
           keyExtractor={(c) => c.id}
           contentContainerStyle={[s.list, { paddingBottom: insets.bottom + space.xl }]}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={tab === "all" ? Support : null}
+          /* Yordam chati HAR bo'limda tepada: odam muammo bilan
+             kelganda uni bo'lim tanlab qidirmasin (web'da ham
+             ro'yxatdan tashqarida, alohida qatorda turadi) */
+          ListHeaderComponent={Support}
+          ListFooterComponent={GroupsFooter}
           renderItem={({ item }) => (
             <Pressable
               onPress={() => openChat(item)}
@@ -289,14 +337,17 @@ export default function ChatRoyxati() {
             </Pressable>
           )}
           ListEmptyComponent={
-            loading ? <Skeleton rows={2} /> : error ? <ErrorBox message={error} onRetry={reload} /> : tab !== "all" ? (
+            /* Umuman suhbat bo'lmasa — to'liq tushuntirish; bitta
+               bo'lim bo'sh bo'lsa — qisqa satr. Ikkisi bir xil
+               bo'lsa, yangi odam «ilova ishlamayapti» deb
+               o'ylardi. */
+            loading ? <Skeleton rows={2} /> : error ? <ErrorBox message={error} onRetry={reload} /> : rest.length > 0 ? (
               <Empty icon="chat" title={t("mob.chat.emptyTab")} />
             ) : (
               <Empty icon="chat" title={t("mob.chat.empty")} text={t("mob.ui.chatEmptyText")} />
             )
           }
         />
-      )}
 
       {/* Uzoq bosish: muhim / ovozsiz */}
       <Sheet open={!!held} onClose={() => setHeld(null)} title={held?.title}>

@@ -5,7 +5,7 @@
  * «Kirish | Ro'yxatdan o'tish» almashtirgichi. Mantiq o'zgarmadi.
  */
 import { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Alert, Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Circle, Path } from "react-native-svg";
 import { AuthLine, AuthShell } from "@/components/AuthShell";
@@ -39,7 +39,7 @@ export default function Kirish() {
           ? { phone: "+998" + phone.replace(/\D/g, ""), password }
           : { furamId: Number(furamId), password };
 
-      const res = await api<{ token?: string }>("/api/auth/login", {
+      const res = await api<{ token?: string; signedOutDevices?: number }>("/api/auth/login", {
         method: "POST",
         auth: false,
         body,
@@ -51,6 +51,23 @@ export default function Kirish() {
         return;
       }
       await signIn(res.token);
+
+      /* BOSHQA QURILMA CHIQARILGANINI AYTAMIZ (2026-09-10).
+         Bitta hisobda ko'pi bilan ikkita qurilma bo'ladi;
+         uchinchisidan kirilsa eng eskisi chiqib ketadi. Ilgari bu
+         JIM bo'lardi — eski telefonda ilova birdan «kirish kerak»
+         deb turardi va odam sababini bilmasdi. Endi hozir kirgan
+         odam darrov ko'radi.
+
+         Xabar KIRISHNI TO'SMAYDI: `Alert` chiqadi-yu, ekran
+         baribir bosh sahifaga o'tadi. Aks holda odam OK bosmaguncha
+         kirish tugamagan bo'lib turardi. */
+      if (res.signedOutDevices && res.signedOutDevices > 0) {
+        Alert.alert(
+          t("mob.signIn.deviceLimitTitle"),
+          t("mob.signIn.deviceLimitBody", { n: res.signedOutDevices }),
+        );
+      }
       router.replace("/bosh");
     } catch (e) {
       const f = e as FuramError;

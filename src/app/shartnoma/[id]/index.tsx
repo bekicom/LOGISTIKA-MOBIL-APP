@@ -89,6 +89,9 @@ type Detail = {
     paymentTerm: string;
     dispatcherFee: number | null;
     dispatcherFeeCurrency: string | null;
+    /* Haqni KIM to'laydi — KALIT (`SHIPPER` / `VEHICLE_OWNER` /
+       `DRIVER` / `BOTH`), `null` bo'lsa ko'rsatilmagan */
+    dispatcherFeePayer: string | null;
     specialTerms: string | null;
     share: { amount: number; currency: string } | null;
   } | null;
@@ -202,6 +205,26 @@ export default function Shartnoma() {
                     <Row
                       k={t("mob.ctr.dispFee")}
                       v={`${fmtNum(c.current.dispatcherFee)} ${c.current.dispatcherFeeCurrency ?? c.current.currency}`}
+                    />
+                  )}
+                  {/* HAQNI KIM TO'LAYDI. Mijozning gapi: «kim
+                      berishi belgilab qo'yilsin — shu ham ko'p
+                      muammo bo'ladi». Ilgari summa bor edi-yu,
+                      to'lovchi yo'q edi va shartnoma imzolangandan
+                      keyin ham savol ochiq qolardi.
+
+                      Ko'rsatilmagan bo'lsa JIMGINA bo'sh
+                      qoldirilmaydi — ogohlantirish rangida
+                      «Ko'rsatilmagan» turadi. */}
+                  {c.current.dispatcherFee != null && (
+                    <Row
+                      k={t("mob.ctr.feePayer")}
+                      v={
+                        c.current.dispatcherFeePayer
+                          ? t(`mob.ctr.payer.${c.current.dispatcherFeePayer}`)
+                          : t("mob.ctr.payerUnset")
+                      }
+                      tone={c.current.dispatcherFeePayer ? undefined : color.warning}
                     />
                   )}
                   {c.load?.from && c.load?.to && (
@@ -445,12 +468,16 @@ export default function Shartnoma() {
         /* `counter` — muzokara davomidagi qarshi taklif.
            `change` esa TASDIQDAN KEYINGI o'zgartirish so'rovi va
            unga sabab majburiy; ikkisi aralashtirilmaydi. */
-        onSend={(price, paymentTerm) =>
+        onSend={(price, paymentTerm, feePayer) =>
           decide({
             action: "counter",
             price,
             currency: c?.current?.currency ?? "UZS",
             paymentTerm,
+            /* Haq bo'lmasa maydon UMUMAN yuborilmaydi: server
+               shunda oldingi versiyadan meros oladi. `null`
+               yuborilsa kelishilgan to'lovchi o'chib ketardi. */
+            ...(c?.current?.dispatcherFee != null ? { dispatcherFeePayer: feePayer } : {}),
           })
         }
       />
@@ -562,11 +589,14 @@ function Danger({
   );
 }
 
-function Row({ k, v }: { k: string; v: string }) {
+function Row({ k, v, tone }: { k: string; v: string; tone?: string }) {
   return (
     <View style={s.r}>
       <Text style={s.rk}>{k}</Text>
-      <Text style={s.rv}>{v}</Text>
+      {/* `tone` — «Ko'rsatilmagan» kabi e'tibor talab qiladigan
+          qiymat uchun. Rang bilan ajratilmasa, u oddiy ma'lumot
+          bo'lib ko'rinardi va odam uni to'ldirmay o'tib ketardi. */}
+      <Text style={[s.rv, !!tone && { color: tone }]}>{v}</Text>
     </View>
   );
 }
@@ -683,11 +713,14 @@ function CounterSheet({
   current: Detail["current"];
   busy: boolean;
   onClose: () => void;
-  onSend: (price: number, paymentTerm: string) => void;
+  onSend: (price: number, paymentTerm: string, feePayer: string | null) => void;
 }) {
   const insets = useSafeAreaInsets();
   const [price, setPrice] = useState("");
   const [term, setTerm] = useState("");
+  /* Joriy kelishuvdan boshlanadi: odam narxni o'zgartirib
+     to'lovchini tegmasa, avvalgi kelishuv saqlanib qolishi kerak. */
+  const [payer, setPayer] = useState<string | null>(current?.dispatcherFeePayer ?? null);
 
   const n = Number(price.replace(/\s/g, ""));
   const ok = Number.isFinite(n) && n > 0 && (term.trim() || current?.paymentTerm);
@@ -721,6 +754,29 @@ function CounterSheet({
               onChangeText={setTerm}
               placeholder={current?.paymentTerm ?? ""}
             />
+
+            {/* HAQNI KIM TO'LAYDI — faqat haq bo'lganda.
+                Haq yo'q bo'lsa to'lovchi haqida so'rash keraksiz
+                (web'da ham shu shart). */}
+            {current?.dispatcherFee != null ? (
+              <View>
+                <Text style={s.payerLabel}>{t("mob.ctr.feePayer")}</Text>
+                <View style={s.payerRow}>
+                  {(["SHIPPER", "VEHICLE_OWNER", "DRIVER", "BOTH"] as const).map((k) => (
+                    <Pressable
+                      key={k}
+                      onPress={() => setPayer(payer === k ? null : k)}
+                      style={[s.payer, payer === k && s.payerOn]}
+                    >
+                      <Text style={[s.payerText, payer === k && s.payerTextOn]}>
+                        {t(`mob.ctr.payer.${k}`)}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
+                {!payer ? <Text style={s.payerWarn}>{t("mob.ctr.payerWarn")}</Text> : null}
+              </View>
+            ) : null}
           </View>
 
           <Text style={s.sheetNote}>{t("mob.ctr.counterNote")}</Text>
@@ -730,7 +786,7 @@ function CounterSheet({
               title={t("mob.ctr.send")}
               loading={busy}
               disabled={!ok}
-              onPress={() => onSend(n, term.trim() || current?.paymentTerm || "")}
+              onPress={() => onSend(n, term.trim() || current?.paymentTerm || "", payer)}
             />
           </View>
         </View>
@@ -740,6 +796,21 @@ function CounterSheet({
 }
 
 const s = StyleSheet.create({
+  payerLabel: { fontSize: 13, fontWeight: "600", color: color.foreground, marginBottom: 8 },
+  payerRow: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
+  payer: {
+    borderWidth: 1,
+    borderColor: color.border,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    backgroundColor: color.card,
+  },
+  payerOn: { borderColor: color.brand, backgroundColor: color.brandSoft },
+  payerText: { fontSize: 12.5, fontWeight: "600", color: color.mutedForeground },
+  payerTextOn: { color: color.brand, fontWeight: "800" },
+  payerWarn: { fontSize: 11.5, color: color.warning, marginTop: 7, lineHeight: 17 },
+
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
   group: {

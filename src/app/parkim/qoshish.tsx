@@ -61,6 +61,16 @@ export default function TransportQoshish() {
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [typeId, setTypeId] = useState<number | null>(null);
+  /* ── UCHTA MAYDON YETADI (2026-09-10) ─────────────────────────
+     Server ALLAQACHON faqat uchtasini talab qiladi: raqam, marka,
+     turi. Muammo forma tomonida edi — maydonlar birdan chiqib,
+     odam telefonda uzun ro'yxatni ko'rib mashina qo'shishni
+     keyinga qoldirardi.
+
+     ⚠️ Yopilganda maydonlar DOM dan olib tashlanmaydi — `hidden`
+     bilan yashiriladi. Aks holda odam bir qismini to'ldirib
+     yopib qo'ysa, yozgani yo'qolardi. */
+  const [more, setMore] = useState(false);
   const [capacity, setCapacity] = useState("");
   const [volume, setVolume] = useState("");
   const [countries, setCountries] = useState<string[]>(["UZ"]);
@@ -185,7 +195,7 @@ export default function TransportQoshish() {
           error={errors.brand}
         />
 
-        <View style={{ flexDirection: "row", gap: space.md }}>
+        <View style={[{ flexDirection: "row", gap: space.md }, !more && s.gone]}>
           <View style={{ flex: 1.4 }}>
             <Field label={t("mob.add.model")} hint={t("mob.common.optional")} value={model} onChangeText={setModel} placeholder={t("mob.add.model")} />
           </View>
@@ -222,7 +232,7 @@ export default function TransportQoshish() {
           <Text style={s.hint}>{t("mob.add.vTypeHint")}</Text>
         </View>
 
-        <View style={{ flexDirection: "row", gap: space.md }}>
+        <View style={[{ flexDirection: "row", gap: space.md }, !more && s.gone]}>
           <View style={{ flex: 1 }}>
             <Field
               label={t("mob.vehicle.capacity")}
@@ -249,7 +259,7 @@ export default function TransportQoshish() {
         </View>
 
         {/* Davlatlar */}
-        <View>
+        <View style={!more ? s.gone : undefined}>
           <Text style={s.label}>{t("mob.add.countries")}</Text>
           <View style={s.flags}>
             {COUNTRIES.map((c) => {
@@ -268,6 +278,16 @@ export default function TransportQoshish() {
           </View>
           <Text style={s.hint}>{t("mob.add.countriesHint")}</Text>
         </View>
+
+        {/* Qo'shimcha maydonlarni ochish/yopish. Tugma HAR DOIM
+            ko'rinadi: ochilganda «yopish» bo'lib qoladi, ya'ni
+            odam ochganini yopa oladi. */}
+        <Pressable onPress={() => setMore((v) => !v)} style={s.moreBtn} accessibilityRole="button">
+          <Icon name={more ? "chevron" : "plus"} size={16} stroke={color.brand} />
+          <Text style={s.moreText}>
+            {more ? t("mob.add.lessFields") : t("mob.add.moreFields")}
+          </Text>
+        </Pressable>
 
         <View style={s.note}>
           <Text style={s.noteTitle}>{t("mob.add.nextSteps")}</Text>
@@ -310,6 +330,24 @@ export default function TransportQoshish() {
 }
 
 const s = StyleSheet.create({
+  /* `display: "none"` — komponent DARAXTDA qoladi, faqat
+     chizilmaydi. `hidden` React Native'da yo'q (u DOM xususiyati),
+     shartli render esa maydonlarni butunlay olib tashlab, odam
+     to'ldirganini yo'qotardi. */
+  gone: { display: "none" },
+  moreBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 42,
+    borderRadius: radius.control,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderColor: color.brand + "55",
+  },
+  moreText: { fontSize: 13, fontWeight: "700", color: color.brand },
+
   root: { flex: 1, backgroundColor: color.card },
   stepsWrap: { paddingHorizontal: space.xl, paddingTop: space.md },
   scroll: { padding: space.xl, gap: space.xl, paddingBottom: space.xxl * 2 },

@@ -10,7 +10,7 @@
  * odam nimasi yetishmayotganini bilmay qoladi.
  */
 import { useMemo } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
@@ -18,7 +18,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 
 type Doc = {
   id: string | null;
@@ -265,7 +265,7 @@ function DocRow({ d, last, onPress }: { d: Doc; last: boolean; onPress: () => vo
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
   add: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
@@ -316,4 +316,4 @@ const s = StyleSheet.create({
     borderRadius: radius.card, padding: space.lg, ...shadow.card,},
   privacyTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
   privacyText: { fontSize: 12, color: "#475569", lineHeight: 19, marginTop: 8 },
-});
+}));

@@ -23,14 +23,7 @@
  * haydovchi emassiz» degan xabarni ko'rmasin.
  */
 import { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -41,7 +34,7 @@ import { apiUpload, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { pickDocument, toUpload, type Photo } from "@/lib/photo";
 import { LOCALE_INFO, t, type Locale } from "@/lib/i18n";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 
 /** `driver-link.ts` dagi `LICENSE_CLASSES` */
 const CLASSES = ["B", "C", "CE", "D", "DE", "BE"] as const;
@@ -370,7 +363,7 @@ function FilePick({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
 
@@ -406,4 +399,4 @@ const s = StyleSheet.create({
   fileState: { fontSize: 11.5, color: color.mutedForeground, marginTop: 2 },
 
   err: { fontSize: 12.5, color: color.danger, marginTop: space.md },
-});
+}));

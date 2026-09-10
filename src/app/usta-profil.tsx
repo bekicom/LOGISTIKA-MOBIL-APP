@@ -19,14 +19,7 @@
  * esa uni oldindan aytadi.
  */
 import { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -36,7 +29,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { serviceSpecLabel, serviceVehicleKindLabel, t } from "@/lib/i18n";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -299,7 +292,7 @@ export default function UstaProfil() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 
@@ -338,4 +331,4 @@ const s = StyleSheet.create({
   },
   locText: { fontSize: 15, color: color.foreground },
   locPh: { color: "#94a3b8" },
-});
+}));

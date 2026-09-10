@@ -1,5 +1,5 @@
 /**
- * FURAM dizayn token'lari.
+ * FURAM dizayn token'lari va IKKI REJIM.
  *
  * ── DIZAYN-2 (2026-09-06) ────────────────────────────────────────
  *
@@ -9,15 +9,98 @@
  * Egasi). Ularning umumiy tomoni: oq/juda och fon, chegarasiz karta
  * + yumshoq soya, katta radius, aksent rang dadil.
  *
- * Bu fayl 94 ta ekran tomonidan o'qiladi — bir o'zgarish hammasiga
- * tarqaladi. Shuning uchun dizayn shu yerdan boshlanadi, ekrandan
- * emas.
- *
- * Web bilan endi ATAYLAB farq qiladi: telefon va brauzer bir xil
+ * Web bilan ATAYLAB farq qiladi: telefon va brauzer bir xil
  * ko'rinmasligi kerak, faqat bir xil ma'lumot ko'rsatishi kerak.
+ *
+ * ═══════════════════════════════════════════════════════════════
+ * QORONG'I REJIM — 2026-09-10
+ * ═══════════════════════════════════════════════════════════════
+ *
+ * ── MUAMMO ──────────────────────────────────────────────────────
+ *
+ * `StyleSheet.create` qiymatni MODUL YUKLANGANDA muzlatadi. Ya'ni
+ * 159 ta ekrandagi `const s = StyleSheet.create({ ... color.card
+ * ... })` bir marta hisoblanadi va keyin rang o'zgarsa ham o'sha
+ * qiymat bilan qolib ketadi. Komponentni qayta chizish ham
+ * yordam bermaydi: modul tanasi qayta ishlamaydi.
+ *
+ * ── YECHIM: TIRIK PROXY + REJIMGA BIR MARTA QURILADIGAN USLUB ───
+ *
+ * 1. `color` va `shadow` — oddiy obyekt EMAS, `Proxy`. Har
+ *    murojaatda FAOL rejimning qiymatini qaytaradi. Shu bilan
+ *    JSX dagi 987 ta murojaat (`stroke={color.brand}`) o'zi
+ *    ishlab ketadi — ular chizish paytida o'qiladi.
+ *
+ * 2. `themed(() => ({ ... }))` — uslublar HAR REJIM UCHUN
+ *    ALOHIDA quriladi va keshlanadi. Qurilish paytida proxy
+ *    aynan o'sha rejimga javob beradi (`buildingFor`), shuning
+ *    uchun qorong'i uslub yorug' ranglarni olib qolmaydi.
+ *
+ *    Natijada 159 ta faylda TANA O'ZGARMADI: faqat
+ *    `StyleSheet.create({` → `themed(() => ({`. `s.root` esa
+ *    qanday bo'lsa shundayligicha ishlaydi — komponent ichida
+ *    ham, yordamchi funksiyada ham.
+ *
+ * 3. Rejim o'zgarsa butun daraxt qayta chiziladi
+ *    (`useThemeVersion` → `_layout.tsx` dagi kalit). Modul tanasi
+ *    qayta ishlamaydi, lekin unga hojat ham yo'q: uslub proxy'si
+ *    yangi rejimning keshini qaytaradi.
+ *
+ * ── QORONG'I PALITRA TESKARI EMAS ───────────────────────────────
+ *
+ * Ranglar teskari qilinmadi, QAYTA TANLANDI:
+ *   · fon sovuq qora-ko'k (#0b1220) — brend navy'si bilan bir
+ *     oilada, sof qora emas: sof qorada karta ko'rinmaydi;
+ *   · brend to'q sarig'i biroz OCHROQ (#ff6a2b) — asl #f45a18
+ *     qorong'i fonda loyqalanadi;
+ *   · logodagi to'q ko'k qorong'ida umuman ko'rinmaydi, shuning
+ *     uchun u ham ochroq;
+ *   · `*Soft` ranglar (ikonka orqasi) OQ tint emas, TO'Q tint:
+ *     yorug' rejimdagi #fff0e8 qorong'ida ko'zni qamashtirardi.
  */
 
-export const color = {
+import { StyleSheet, type ImageStyle, type TextStyle, type ViewStyle } from "react-native";
+
+export type ThemeName = "light" | "dark";
+
+/**
+ * `StyleSheet.create` ning tur cheklovi AYNAN takrorlanadi.
+ *
+ * ⚠️ Busiz TS `alignItems: "center"` ni `string` deb xulosa
+ * qiladi va 2653 ta xato chiqadi: RN `FlatAlignType` kutadi.
+ * Cheklov har yozuvni `ViewStyle | TextStyle | ImageStyle` ga
+ * solishtiradi va shu tekshiruv satr adabiyotini toraytiradi.
+ */
+type Named<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };
+
+type Palette = {
+  background: string;
+  foreground: string;
+  card: string;
+  muted: string;
+  mutedForeground: string;
+  border: string;
+  brand: string;
+  brandHover: string;
+  brandForeground: string;
+  brandSoft: string;
+  navy: string;
+  navyForeground: string;
+  logoBlue: string;
+  blue: string;
+  blueSoft: string;
+  success: string;
+  successSoft: string;
+  warning: string;
+  warningSoft: string;
+  danger: string;
+  dangerSoft: string;
+  info: string;
+  purple: string;
+  purpleSoft: string;
+};
+
+const LIGHT: Palette = {
   /* Fon deyarli oq, lekin sovuq: oq karta ustida ko'rinsin */
   background: "#f4f6fa",
   foreground: "#0f172a",
@@ -54,7 +137,221 @@ export const color = {
   info: "#1d4ed8",
   purple: "#7c3aed",
   purpleSoft: "#f1ecfb",
-} as const;
+};
+
+const DARK: Palette = {
+  /* Sof qora EMAS: unda karta fondan ajralmaydi va ekran
+     «o'chgan» ko'rinadi. Sovuq qora-ko'k brend navy'si bilan bir
+     oilada. */
+  background: "#0b1220",
+  foreground: "#e9eef7",
+  /* Karta fondan KO'TARILGAN — chegara bilan emas, rang bilan
+     ajraladi (yorug' rejimdagi mantiqning aynan aksi) */
+  card: "#141d2f",
+  muted: "#1c273c",
+  mutedForeground: "#94a3b8",
+  border: "#243146",
+
+  /* Asl #f45a18 qorong'i fonda loyqalanadi — 8% ochroq olindi */
+  brand: "#ff6a2b",
+  brandHover: "#e0561d",
+  brandForeground: "#ffffff",
+  /* Ikonka orqasi — OQ tint emas, TO'Q issiq tint. Yorug'
+     rejimdagi #fff0e8 qorong'ida yorug' dog' bo'lib ko'zni
+     qamashtirardi. */
+  brandSoft: "#2e1710",
+
+  /* Navy ekranlar (kirish, splash) kartadan ham TO'QROQ bo'lishi
+     kerak, aks holda ular qorong'ida «karta» bo'lib qoladi */
+  navy: "#060d19",
+  navyForeground: "#e9eef7",
+  /* Logodagi to'q ko'k (#0a376e) qorong'ida umuman ko'rinmaydi */
+  logoBlue: "#2b6fc4",
+  blue: "#4d8ede",
+  blueSoft: "#12243c",
+
+  /* Holat ranglari — qorong'i fonda o'qilishi uchun ochroq.
+     `*Soft` lari esa to'q tint: ular fon bo'lib ishlatiladi. */
+  success: "#31c06a",
+  successSoft: "#0f2a1b",
+  warning: "#e0922c",
+  warningSoft: "#2d2110",
+  danger: "#f2564f",
+  dangerSoft: "#2e1618",
+  info: "#5b8cf5",
+  purple: "#a37cf0",
+  purpleSoft: "#221a35",
+};
+
+const PALETTES: Record<ThemeName, Palette> = { light: LIGHT, dark: DARK };
+
+/* ─────────────────────────────── Faol rejim */
+
+let active: ThemeName = "light";
+
+/**
+ * Uslub QURILAYOTGAN rejim.
+ *
+ * `themed()` qorong'i uslubni yorug' rejim faol turganda ham
+ * qurishi mumkin (odam almashtirgan zahoti). O'shanda proxy
+ * faol rejimni bersa, qorong'i uslub yorug' ranglarni olib
+ * qolardi — eng nozik joyi shu.
+ */
+let buildingFor: ThemeName | null = null;
+
+const nowName = (): ThemeName => buildingFor ?? active;
+
+export const themeName = (): ThemeName => active;
+
+/**
+ * Faol rejimni almashtirish.
+ *
+ * Uslub keshiga TEGMAYDI: har rejimning keshi alohida va u
+ * `themed()` ichida saqlanadi. Ya'ni ikkinchi marta qaytganda
+ * qayta qurilmaydi.
+ */
+export function applyTheme(name: ThemeName): void {
+  active = name;
+}
+
+/* ─────────────────────────────── Soyalar */
+
+type ShadowSet = {
+  card: object;
+  float: object;
+  bar: object;
+};
+
+/**
+ * Soya — endi haqiqiy. Ilgari 0.05/2px edi, ya'ni ko'rinmasdi va
+ * karta chegaraga muhtoj bo'lardi. Android'da `elevation`, iOS'da
+ * `shadow*` — ikkalasi ham beriladi.
+ *
+ * ⚠️ QORONG'IDA SOYA BOSHQACHA: qora fonda qora soya ko'rinmaydi.
+ * Shuning uchun u KUCHLIROQ va qorayroq — karta chekkasi baribir
+ * sezilishi kerak, aks holda ekran bir tekis dog' bo'lib qoladi.
+ */
+const SHADOWS: Record<ThemeName, ShadowSet> = {
+  light: {
+    card: {
+      shadowColor: "#0f172a",
+      shadowOpacity: 0.06,
+      shadowRadius: 14,
+      shadowOffset: { width: 0, height: 4 },
+      elevation: 2,
+    },
+    float: {
+      shadowColor: "#f45a18",
+      shadowOpacity: 0.35,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: 6 },
+      elevation: 8,
+    },
+    bar: {
+      shadowColor: "#0f172a",
+      shadowOpacity: 0.06,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: -4 },
+      elevation: 12,
+    },
+  },
+  dark: {
+    card: {
+      shadowColor: "#000000",
+      shadowOpacity: 0.5,
+      shadowRadius: 16,
+      shadowOffset: { width: 0, height: 6 },
+      elevation: 3,
+    },
+    float: {
+      /* Ko'tarilgan tugma qorong'ida ham ISSIQ nur beradi — u
+         ekrandagi yagona yorqin narsa va soyasi shuni
+         kuchaytiradi */
+      shadowColor: "#ff6a2b",
+      shadowOpacity: 0.45,
+      shadowRadius: 16,
+      shadowOffset: { width: 0, height: 6 },
+      elevation: 10,
+    },
+    bar: {
+      shadowColor: "#000000",
+      shadowOpacity: 0.55,
+      shadowRadius: 14,
+      shadowOffset: { width: 0, height: -4 },
+      elevation: 14,
+    },
+  },
+};
+
+/* ─────────────────────────────── Tirik proxy'lar */
+
+/**
+ * `color.brand` — FAOL rejimning qiymati.
+ *
+ * Oddiy obyekt bo'lsa, uni `import` qilgan joy bir marta o'qib
+ * qotib qolardi. Proxy esa har murojaatda javob beradi va JSX
+ * dagi 987 ta ishlatilish o'zi to'g'ri rangni oladi.
+ */
+export const color = new Proxy({} as Palette, {
+  get: (_t, k: string) => PALETTES[nowName()][k as keyof Palette],
+  has: (_t, k: string) => k in LIGHT,
+  ownKeys: () => Object.keys(LIGHT),
+  getOwnPropertyDescriptor: () => ({ enumerable: true, configurable: true }),
+});
+
+export const shadow = new Proxy({} as ShadowSet, {
+  get: (_t, k: string) => SHADOWS[nowName()][k as keyof ShadowSet],
+  has: (_t, k: string) => k in SHADOWS.light,
+  ownKeys: () => Object.keys(SHADOWS.light),
+  getOwnPropertyDescriptor: () => ({ enumerable: true, configurable: true }),
+});
+
+/* ─────────────────────────────── Rejimga bog'liq uslub */
+
+/**
+ * Rejimga qarab uslub.
+ *
+ *   const s = themed(() => ({ root: { backgroundColor: color.card } }));
+ *
+ * `s.root` — hamma joyda, hech qanday hook chaqirmasdan ishlaydi:
+ * komponent ichida ham, yordamchi funksiyada ham. Shu sababdan
+ * 159 ta faylning TANASI umuman o'zgarmadi.
+ *
+ * Har rejim uchun uslub BIR MARTA quriladi va keshlanadi — ya'ni
+ * `StyleSheet.create` ning tekshiruvi va tezligi saqlanadi.
+ */
+export function themed<T extends Named<T> | Named<never>>(build: () => T): T {
+  const cache = new Map<ThemeName, T>();
+
+  const get = (): T => {
+    const name = nowName();
+    const bor = cache.get(name);
+    if (bor) return bor;
+    /* Qurilish paytida proxy AYNAN shu rejimga javob berishi
+       kerak — `nowName()` shuni `buildingFor` dan o'qiydi */
+    const prev = buildingFor;
+    buildingFor = name;
+    try {
+      /* `StyleSheet.create` SAQLANADI: u qiymatlarni tekshiradi
+         (noto'g'ri xususiyat ishlash paytida jimgina tashlanardi)
+         va RN uni o'z ichida optimallashtiradi. */
+      const built = StyleSheet.create(build());
+      cache.set(name, built);
+      return built;
+    } finally {
+      buildingFor = prev;
+    }
+  };
+
+  return new Proxy({} as T, {
+    get: (_t, k: string) => get()[k as keyof T],
+    has: (_t, k: string) => k in get(),
+    ownKeys: () => Object.keys(get()),
+    getOwnPropertyDescriptor: () => ({ enumerable: true, configurable: true }),
+  });
+}
+
+/* ─────────────────────────────── O'lchamlar (rejimga bog'liq emas) */
 
 /** Radius: karta 20, boshqaruv 12 — namunalardagi kabi */
 export const radius = {
@@ -88,35 +385,4 @@ export const font = {
   title: 18,
   titleLg: 22,
   display: 26,
-} as const;
-
-/**
- * Soya — endi haqiqiy. Ilgari 0.05/2px edi, ya'ni ko'rinmasdi va
- * karta chegaraga muhtoj bo'lardi. Android'da `elevation`, iOS'da
- * `shadow*` — ikkalasi ham beriladi.
- */
-export const shadow = {
-  card: {
-    shadowColor: "#0f172a",
-    shadowOpacity: 0.06,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
-  },
-  /** Ko'tarilgan narsa — tab bardagi «+», suzuvchi tugma */
-  float: {
-    shadowColor: "#f45a18",
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 8,
-  },
-  /** Tab bar — yuqoriga tushadigan yengil soya */
-  bar: {
-    shadowColor: "#0f172a",
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: -4 },
-    elevation: 12,
-  },
 } as const;

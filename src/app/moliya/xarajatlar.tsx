@@ -18,17 +18,7 @@
  * «men boshqa summa yozgandim» degan gapga tarix javob beradi.
  */
 import { useState } from "react";
-import {
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  RefreshControl,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, Modal, Platform, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Field, Header } from "@/components/ui";
@@ -38,7 +28,7 @@ import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { authImage } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { expenseCategoryLabel, t } from "@/lib/i18n";
 
 type Expense = {
@@ -293,7 +283,7 @@ function EditSheet({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   tabs: {
     flexDirection: "row",
@@ -392,4 +382,4 @@ const s = StyleSheet.create({
   hint: { fontSize: 12, color: color.mutedForeground, lineHeight: 18 },
   later: { alignItems: "center", paddingVertical: space.md },
   laterText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-});
+}));

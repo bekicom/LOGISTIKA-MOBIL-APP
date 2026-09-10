@@ -29,7 +29,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { salePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { fmtNum } from "@/components/cards";
 import { saleCategoryLabel, salePriceKindLabel, saleStatusLabel, t } from "@/lib/i18n";
 
@@ -287,7 +287,7 @@ function SaleCard({ item, onPress }: { item: Sale; onPress: () => void }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   pad: { padding: space.lg },
 
@@ -452,4 +452,4 @@ const s = StyleSheet.create({
     gap: 8,
   },
   fleetText: { fontSize: 12, fontWeight: "600", color: color.foreground },
-});
+}));

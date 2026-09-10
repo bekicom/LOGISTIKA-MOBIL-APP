@@ -17,14 +17,7 @@
  * qator haydovchiga NIMA QILISH kerakligini aytadi.
  */
 import { useMemo, useState } from "react";
-import {
-  FlatList,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -32,7 +25,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { jobDirectionLabel, matchNote, payKindLabel, t } from "@/lib/i18n";
 
 /** `furam/src/lib/jobs.ts:DIRECTIONS` */
@@ -328,7 +321,7 @@ function VacancyCard({ v, onPress }: { v: Vacancy; onPress: () => void }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
 
   head: {
@@ -478,4 +471,4 @@ const s = StyleSheet.create({
 
   empty: { padding: space.lg, alignItems: "center" },
   emptyText: { fontSize: 13, color: color.mutedForeground, textAlign: "center", lineHeight: 19 },
-});
+}));

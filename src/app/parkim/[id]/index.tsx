@@ -8,7 +8,7 @@
  * Hujjat muddati SANA bilan emas, «necha kun qoldi» bilan yoziladi —
  * haydovchi kalendar hisoblab o'tirmaydi.
  */
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
@@ -16,7 +16,7 @@ import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { DriverInvite } from "@/components/DriverInvite";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
 
 type Doc = {
@@ -381,7 +381,7 @@ function Cell({ k, v, right }: { k: string; v: string; right?: boolean }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
 
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
@@ -429,4 +429,4 @@ const s = StyleSheet.create({
   cellK: { fontSize: font.caption, color: color.mutedForeground },
   cellV: { fontSize: 14, fontWeight: "600", color: color.foreground, marginTop: 3 },
   odo: { fontSize: font.body, fontWeight: "700", color: color.foreground },
-});
+}));

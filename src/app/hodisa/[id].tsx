@@ -5,7 +5,7 @@
  * orqaga qaytish ham mumkin (web bilan bir xil `NEXT_STATUS`).
  */
 import { useState } from "react";
-import { Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, Pressable, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import * as Location from "expo-location";
@@ -16,7 +16,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, apiUpload, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { pickPhotos, takePhoto, toUpload } from "@/lib/photo";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Item = { id: string; kind: string; text: string | null; lat: number | null; lng: number | null; hasFile: boolean; mine: boolean; createdAt: string };
@@ -177,7 +177,7 @@ function Chip({ icon, label, onPress, disabled }: { icon: IconName; label: strin
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   card: { backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, gap: 10, ...shadow.card },
@@ -198,4 +198,4 @@ const s = StyleSheet.create({
   actions: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   chip: { flexDirection: "row", alignItems: "center", gap: 6, height: 36, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: color.brandSoft },
   chipText: { fontSize: 13, fontWeight: "700", color: color.brand },
-});
+}));

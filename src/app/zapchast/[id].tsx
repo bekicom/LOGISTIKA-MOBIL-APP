@@ -15,16 +15,7 @@
  * bazada bor edi, lekin uni tanlaydigan joy yo'q edi.
  */
 import { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Linking,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Linking, Modal, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -34,7 +25,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { partConditionLabel, partStockLabel, t } from "@/lib/i18n";
 
 type Part = {
@@ -441,7 +432,7 @@ function initials(name: string) {
     .join("");
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 
@@ -623,4 +614,4 @@ const s = StyleSheet.create({
 
   later: { alignItems: "center", paddingVertical: space.md },
   laterText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-});
+}));

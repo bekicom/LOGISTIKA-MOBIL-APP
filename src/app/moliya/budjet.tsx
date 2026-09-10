@@ -16,7 +16,7 @@
  * Bu yerda faqat raqamlar chiziladi.
  */
 import { useState } from "react";
-import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
@@ -28,7 +28,7 @@ import { api, FuramError } from "@/lib/api";
 import { tariffBlocked } from "@/lib/features";
 import { useApi } from "@/lib/use-api";
 import { budgetCategoryLabel, t } from "@/lib/i18n";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
 /** `furam/src/lib/labels.ts:EXPENSE_CAT_LABELS` */
@@ -281,7 +281,7 @@ export default function Budjet() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -312,4 +312,4 @@ const s = StyleSheet.create({
   },
   chipOn: { backgroundColor: color.brand },
   chipText: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground },
-});
+}));

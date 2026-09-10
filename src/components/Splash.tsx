@@ -21,7 +21,7 @@ import { Animated, Easing, Pressable, StyleSheet, View, useWindowDimensions } fr
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon, type IconName } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
-import { color } from "@/lib/theme";
+import { color, themed } from "@/lib/theme";
 
 const ORBIT: { icon: IconName; bg: string; tint: string; angle: number }[] = [
   { icon: "package", bg: color.brandSoft, tint: color.brand, angle: -90 },
@@ -143,7 +143,7 @@ export function Splash({ full, onDone }: { full: boolean; onDone: () => void }) 
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: {
     position: "absolute",
     top: 0,
@@ -168,4 +168,4 @@ const s = StyleSheet.create({
   barWrap: { position: "absolute", left: 0, right: 0, alignItems: "center" },
   track: { width: 132, height: 4, borderRadius: 2, backgroundColor: "#e9edf3", overflow: "hidden" },
   fill: { height: "100%", borderRadius: 2, backgroundColor: color.brand },
-});
+}));

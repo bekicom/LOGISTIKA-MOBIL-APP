@@ -20,7 +20,7 @@
  * Ro'yxat qo'lda yozilgan, serverdan kelmaydi — shuning uchun
  * `ScrollView` da `.map()` bo'lishi to'g'ri (`test-lists`).
  */
-import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Pressable, ScrollView, View, useWindowDimensions } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -31,7 +31,7 @@ import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
 import { guestBlocked } from "@/lib/guest-gate";
 import { can, tariffBlocked, type FeatureKey } from "@/lib/features";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Item = {
@@ -213,7 +213,7 @@ export default function MenyuTab() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { paddingHorizontal: space.lg, paddingTop: 4, gap: space.xl },
 
@@ -266,4 +266,4 @@ const s = StyleSheet.create({
     textAlign: "center",
     lineHeight: 16,
   },
-});
+}));

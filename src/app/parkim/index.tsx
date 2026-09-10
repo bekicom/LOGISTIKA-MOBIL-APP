@@ -10,7 +10,7 @@
  * xato (chegarada to'xtatiladi), ro'yxat ichida ko'zdan qochmasin.
  */
 import { useMemo, useState } from "react";
-import { Alert, FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { Alert, FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Header } from "@/components/ui";
@@ -18,7 +18,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type DocAlert = { kind: string; title: string | null; state: "expired" | "soon"; days: number | null };
@@ -395,7 +395,7 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   iconBtn: {
     width: 34, height: 34, borderRadius: 11,
     alignItems: "center", justifyContent: "center", backgroundColor: color.card,
@@ -477,4 +477,4 @@ const s = StyleSheet.create({
   },
   footText: { flex: 1, fontSize: 12, color: color.foreground },
   footRight: { fontSize: 12, color: color.mutedForeground },
-});
+}));

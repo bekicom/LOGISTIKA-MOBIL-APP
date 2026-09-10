@@ -21,12 +21,12 @@
  * «xarajat kiritilmadi» deb tushunardi.
  */
 import { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { apiUpload, FuramError } from "@/lib/api";
 import { toUpload, type Photo } from "@/lib/photo";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export type ReceiptFields = {
@@ -108,7 +108,7 @@ export function ReceiptScan({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   btn: {
     flexDirection: "row",
     alignItems: "center",
@@ -125,4 +125,4 @@ const s = StyleSheet.create({
   box: { borderRadius: radius.control, borderWidth: 1, padding: space.md },
   title: { fontSize: 13.5, fontWeight: "800" },
   hint: { fontSize: 11.5, color: color.mutedForeground, marginTop: 6, lineHeight: 17 },
-});
+}));

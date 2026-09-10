@@ -10,7 +10,7 @@
  * taklif qilinadi. Holatni server hisoblaydi (`state`).
  */
 import { useState } from "react";
-import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Image, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -23,7 +23,7 @@ import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Item = {
   id: string;
@@ -165,7 +165,7 @@ export default function Saqlanganlar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   tabs: {
     backgroundColor: color.card,
@@ -210,4 +210,4 @@ const s = StyleSheet.create({
   },
   goneText: { flex: 1, fontSize: font.caption, color: color.mutedForeground },
   remove: { fontSize: font.caption, fontWeight: "600", color: color.brand },
-});
+}));

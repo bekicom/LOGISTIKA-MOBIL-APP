@@ -10,7 +10,7 @@
  * faqat HOLATNI ko'rsatadi.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, Share, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, Share, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Clipboard from "expo-clipboard";
 import { Text } from "@/components/Text";
@@ -19,7 +19,7 @@ import { Header } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 
 type Tx = { id: string; kind: string; amount: number; note: string | null; createdAt: string; fromFuramId: number | null };
@@ -131,7 +131,7 @@ function Stat({ label, value }: { label: string; value: number }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 
@@ -162,4 +162,4 @@ const s = StyleSheet.create({
   txKind: { fontSize: 14, fontWeight: "600", color: color.foreground },
   txAmount: { fontSize: 15, fontWeight: "800", fontVariant: ["tabular-nums"] },
   meta: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
-});
+}));

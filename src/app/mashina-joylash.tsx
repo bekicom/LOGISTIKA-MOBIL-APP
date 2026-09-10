@@ -15,15 +15,7 @@
  * bo'lishi mumkin — bazada esa hali yo'q. Qaror odamniki.
  */
 import { useState } from "react";
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -36,7 +28,7 @@ import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { t } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -391,7 +383,7 @@ function Row({ k, v }: { k: string; v: string }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   steps: { backgroundColor: color.card, paddingHorizontal: space.lg, paddingBottom: space.md },
   scroll: { padding: space.lg, gap: space.md },
@@ -487,4 +479,4 @@ const s = StyleSheet.create({
     paddingTop: 12,
     ...shadow.bar,
   },
-});
+}));

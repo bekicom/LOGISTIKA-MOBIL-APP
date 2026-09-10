@@ -16,13 +16,13 @@
  * foydalanuvchining tilini bilmaydi.
  */
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { Button, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { guestBlocked } from "@/lib/guest-gate";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export function InviteOwner({ loadId }: { loadId: string }) {
@@ -79,7 +79,7 @@ export function InviteOwner({ loadId }: { loadId: string }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   box: {
     borderRadius: radius.card,
     borderWidth: 1,
@@ -89,4 +89,4 @@ const s = StyleSheet.create({
   },
   title: { fontSize: 14.5, fontWeight: "800", color: color.foreground },
   hint: { fontSize: 12.5, color: color.mutedForeground, marginTop: 6, lineHeight: 18 },
-});
+}));

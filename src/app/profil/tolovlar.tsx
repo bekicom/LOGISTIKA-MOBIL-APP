@@ -5,7 +5,7 @@
  * o'tgan to'lovni ko'rsatish taqiqlanmagan; taqiqlangani ilova
  * ichida sotish (App Store 3.1.1), u esa bu ekranda yo'q.
  */
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
@@ -13,7 +13,7 @@ import { Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t, tOr } from "@/lib/i18n";
 
 type Pay = {
@@ -86,7 +86,7 @@ export default function Tolovlar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   list: { padding: space.lg, gap: space.sm },
   card: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: color.card, borderRadius: radius.card, padding: space.md, ...shadow.card },
@@ -97,4 +97,4 @@ const s = StyleSheet.create({
   amount: { fontSize: 14.5, fontWeight: "800", color: color.foreground, fontVariant: ["tabular-nums"] },
   status: { paddingHorizontal: 8, height: 20, borderRadius: 10, justifyContent: "center" },
   statusText: { fontSize: 10.5, fontWeight: "700" },
-});
+}));

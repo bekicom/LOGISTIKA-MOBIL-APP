@@ -18,14 +18,14 @@
  * orqali boshlanadi.
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Item = {
@@ -202,7 +202,7 @@ function initials(name: string) {
     .join("");
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
 
   tabsWrap: {
@@ -272,4 +272,4 @@ const s = StyleSheet.create({
     backgroundColor: color.mutedForeground + "12",
   },
   noteText: { flex: 1, fontSize: 12.5, color: color.mutedForeground, lineHeight: 19 },
-});
+}));

@@ -25,15 +25,7 @@
  * Ogohlantiramiz, to'smaymiz.
  */
 import { useMemo, useState } from "react";
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -49,7 +41,7 @@ import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { saleCategoryLabel, saleFeatureLabel, salePriceKindLabel, t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -586,7 +578,7 @@ export default function BozorJoylash() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   steps: { backgroundColor: color.card, paddingHorizontal: space.lg, paddingBottom: space.md },
   scroll: { padding: space.lg, gap: space.md },
@@ -734,4 +726,4 @@ const s = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingTop: space.md,
   },
-});
+}));

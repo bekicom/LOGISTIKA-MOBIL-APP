@@ -11,7 +11,7 @@
  * raqamni ko'radi-yu, qo'lidan hech narsa kelmaydi.
  */
 import { useState } from "react";
-import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Image, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -24,7 +24,7 @@ import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Item = {
   id: string;
@@ -216,7 +216,7 @@ const statusBg = (it: Item) => ({
   backgroundColor: it.tripNo || it.status === "ACTIVE" ? color.success + "1f" : color.muted,
 });
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   tabs: {
     backgroundColor: color.card,
@@ -280,4 +280,4 @@ const s = StyleSheet.create({
   },
   btnOff: { opacity: 0.5 },
   btnText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
-});
+}));

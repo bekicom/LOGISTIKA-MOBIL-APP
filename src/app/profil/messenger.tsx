@@ -3,14 +3,14 @@
  * `GET/PATCH /api/profile/chat-lang`.
  */
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { Header, Notice, Switch } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { LOCALES, LOCALE_INFO, t } from "@/lib/i18n";
 
 export default function MessengerSozlama() {
@@ -85,7 +85,7 @@ export default function MessengerSozlama() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   text: { fontSize: 13.5, color: color.mutedForeground, lineHeight: 20 },
@@ -99,4 +99,4 @@ const s = StyleSheet.create({
   autoHint: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3, lineHeight: 18 },
   saved: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "center" },
   savedText: { fontSize: 13, fontWeight: "700", color: color.success },
-});
+}));

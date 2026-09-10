@@ -27,7 +27,7 @@
  * qo'yadi.
  */
 import { useState } from "react";
-import { Alert, FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { Alert, FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
@@ -35,7 +35,7 @@ import { Button, Field, Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Item = { id: string; text: string; source: string; createdAt: string };
@@ -175,7 +175,7 @@ export default function AiXotira() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   list: { padding: space.lg, gap: 9 },
 
@@ -204,4 +204,4 @@ const s = StyleSheet.create({
   meta: { fontSize: 11, color: color.mutedForeground, marginTop: 4 },
   del: { width: 32, height: 32, alignItems: "center", justifyContent: "center" },
   err: { fontSize: 12, color: color.danger },
-});
+}));

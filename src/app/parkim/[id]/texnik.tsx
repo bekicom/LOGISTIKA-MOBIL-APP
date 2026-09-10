@@ -16,7 +16,7 @@
  * ⚠️ Valyutalar QO'SHILMAYDI (qoida 2).
  */
 import { useState } from "react";
-import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -28,7 +28,7 @@ import { api, apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { afterSheet } from "@/lib/native-ui";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
@@ -346,7 +346,7 @@ export default function Texnik() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -408,4 +408,4 @@ const s = StyleSheet.create({
   },
   chipOn: { backgroundColor: color.brand },
   chipText: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground },
-});
+}));

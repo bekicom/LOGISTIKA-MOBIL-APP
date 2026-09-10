@@ -23,7 +23,7 @@
  * xato deb o'ylardi.
  */
 import { useState } from "react";
-import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
@@ -37,7 +37,7 @@ import { openRemoteFile } from "@/lib/files";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { afterSheet } from "@/lib/native-ui";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /** `furam/src/app/api/contracts/[id]/payments/route.ts:KINDS` */
@@ -382,7 +382,7 @@ export default function Tolovlar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   label: { fontSize: 12, fontWeight: "700", color: color.mutedForeground, marginBottom: 8 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   chip: {
@@ -464,4 +464,4 @@ const s = StyleSheet.create({
     backgroundColor: color.mutedForeground + "12",
   },
   noteText: { flex: 1, fontSize: 12.5, color: color.mutedForeground, lineHeight: 19 },
-});
+}));

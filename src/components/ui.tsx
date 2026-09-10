@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 import {
   ActivityIndicator,
   Pressable,
-  StyleSheet,
   Switch as RNSwitch,
   TextInput,
   View,
@@ -16,7 +15,7 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "./Icon";
-import { color, font, radius, shadow, size, space } from "@/lib/theme";
+import { color, font, radius, shadow, size, space, themed } from "@/lib/theme";
 
 /* ─────────────────────────────────────────────── Tugma */
 
@@ -284,7 +283,12 @@ export function GroupLabel({ children }: { children: ReactNode }) {
   return <Text style={s.group}>{children}</Text>;
 }
 
-const s = StyleSheet.create({
+/* ⚠️ `themed` — `StyleSheet.create` EMAS (2026-09-10).
+   `create` qiymatni modul yuklanganda muzlatadi: bu fayldagi 30 ta
+   `color.*` yorug' rejimda qotib qolar va qorong'iga o'tilganda
+   tugmalar, kartalar, yozuvlar oq fonda qolaverardi. Bu fayl —
+   butun ilovaning tugma va karta poydevori, ya'ni bittasi yetadi. */
+const s = themed(() => ({
   btn: {
     height: size.controlLg,
     borderRadius: radius.control,
@@ -354,4 +358,4 @@ const s = StyleSheet.create({
     marginBottom: 6,
     marginLeft: space.xs,
   },
-});
+}));

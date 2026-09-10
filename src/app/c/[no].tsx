@@ -14,14 +14,14 @@
  * gap bo'ladi — na narx, na tomonlar.
  */
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Header } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Check =
@@ -100,7 +100,7 @@ function Row({ k, v }: { k: string; v: string }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
 
@@ -136,4 +136,4 @@ const s = StyleSheet.create({
     textAlign: "center",
     lineHeight: 18,
   },
-});
+}));

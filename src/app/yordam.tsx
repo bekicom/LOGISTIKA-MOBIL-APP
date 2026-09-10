@@ -7,13 +7,13 @@
  * xabargacha suhbat yo'q. Tarif to'sig'i yo'q — hammaga bepul.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from "react-native";
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Pressable, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
-import { color, font, shadow, space } from "@/lib/theme";
+import { color, font, shadow, space, themed } from "@/lib/theme";
 import { composerPad, useKeyboardOpen } from "@/lib/keyboard";
 import { t } from "@/lib/i18n";
 
@@ -142,7 +142,7 @@ export default function Yordam() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 6, gap: 8 },
   hBtn: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
@@ -166,4 +166,4 @@ const s = StyleSheet.create({
   field: { flex: 1, minHeight: 42, maxHeight: 140, borderRadius: 21, backgroundColor: color.background, paddingHorizontal: 14, justifyContent: "center" },
   input: { fontSize: font.body, color: color.foreground, paddingVertical: 10, fontFamily: "Manrope_500Medium" },
   sendBtn: { width: 42, height: 42, borderRadius: 21, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
-});
+}));

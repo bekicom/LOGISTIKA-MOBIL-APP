@@ -6,11 +6,11 @@
  * odam ikkinchisini bossa birinchisi to'xtatiladi (`activeRef`).
  */
 import { useEffect, useRef } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { useAudioPlayer, useAudioPlayerStatus, type AudioPlayer } from "expo-audio";
 import { Icon } from "@/components/Icon";
 import { Text } from "@/components/Text";
-import { color } from "@/lib/theme";
+import { color, themed } from "@/lib/theme";
 import type { ImgSource } from "@/lib/img";
 
 /* Bir vaqtda bitta ovoz — ikkita xabar ustma-ust eshitilmasin */
@@ -86,10 +86,10 @@ export function VoiceBubble({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   row: { flexDirection: "row", alignItems: "center", gap: 10, minWidth: 200 },
   btn: { width: 38, height: 38, borderRadius: 19, alignItems: "center", justifyContent: "center" },
   track: { height: 4, borderRadius: 2, overflow: "hidden" },
   fill: { height: "100%", borderRadius: 2 },
   time: { fontSize: 11, marginTop: 5, fontVariant: ["tabular-nums"] },
-});
+}));

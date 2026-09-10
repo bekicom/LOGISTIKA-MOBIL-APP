@@ -11,7 +11,7 @@
  * varag'i o'zi ochiladi.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -23,7 +23,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Feed = { items: Listing[]; page: number; total: number; hasMore: boolean };
@@ -164,7 +164,7 @@ export default function Yuklar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
 
   head: {
@@ -221,4 +221,4 @@ const s = StyleSheet.create({
   activeChipText: { fontSize: 13, fontWeight: "600", color: "#c2490f" },
 
   list: { padding: space.lg, paddingTop: space.sm, gap: space.md },
-});
+}));

@@ -23,12 +23,12 @@
  * Almashtirib yuborsak, odam yozganini bir bosishda yo'qotardi.
  */
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { Text } from "@/components/Text";
 import { MicButton, type VoiceFile } from "@/components/Recorder";
 import { apiUpload, FuramError } from "@/lib/api";
 import { tariffBlocked } from "@/lib/features";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 export function VoiceNote({
@@ -88,10 +88,10 @@ export function VoiceNote({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   wrap: { marginTop: space.sm },
   row: { flexDirection: "row", alignItems: "center", gap: 11 },
   hint: { flex: 1, fontSize: 12, color: color.mutedForeground, lineHeight: 17 },
   note: { fontSize: 12, color: color.mutedForeground, marginTop: 6 },
   err: { fontSize: 12, color: color.danger, marginTop: 6 },
-});
+}));

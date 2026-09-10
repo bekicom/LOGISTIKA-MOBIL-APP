@@ -16,7 +16,7 @@
  * shu kartochkani ajratib ko'rsatadi.
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -24,7 +24,7 @@ import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { serviceSpecLabel, serviceStatusLabel, t } from "@/lib/i18n";
 
 /** `furam/src/lib/service.ts:SPECIALITIES` bilan bir xil to'plam */
@@ -354,7 +354,7 @@ function mins(n: number): string {
   return n < 60 ? t("mob.svc.minN", { n }) : t("mob.svc.hourN", { n: Math.round(n / 60) });
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
 
   head: {
@@ -519,4 +519,4 @@ const s = StyleSheet.create({
 
   empty: { padding: space.lg, alignItems: "center" },
   emptyText: { fontSize: 13, color: color.mutedForeground, textAlign: "center" },
-});
+}));

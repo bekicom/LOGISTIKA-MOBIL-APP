@@ -18,14 +18,14 @@
  * «unmatched route» berardi.
  */
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Pressable, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Item = { id: string; title: string; subtitle: string | null; meta: string | null };
@@ -190,7 +190,7 @@ export default function Qidiruv() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
 
   head: {
@@ -249,4 +249,4 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   chipText: { fontSize: 13, fontWeight: "500", color: color.foreground },
-});
+}));

@@ -15,7 +15,7 @@
  * bilan birga SUMMASI ham ko'rsatiladi: «4 ta» ko'p emas,
  * «3 100 000 so'm» ko'p.
  */
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { useState } from "react";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -27,7 +27,7 @@ import { fmtNum } from "@/components/cards";
 import { FuramError } from "@/lib/api";
 import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { budgetCategoryLabel, t } from "@/lib/i18n";
 
 type Money = { amount: number; currency: string };
@@ -309,7 +309,7 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
 
   head: {
@@ -420,4 +420,4 @@ const s = StyleSheet.create({
   btn: { height: 42, borderRadius: 10, alignItems: "center", justifyContent: "center", marginTop: 11 },
   btnPri: { backgroundColor: color.brand },
   btnPriText: { fontSize: 14, fontWeight: "600", color: color.brandForeground },
-});
+}));

@@ -16,7 +16,7 @@
  * boshlangach — «doim». Birdan «doim» so'ralmaydi.
  */
 import { useEffect, useState } from "react";
-import { Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -24,7 +24,7 @@ import { Button, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { askBackground, askForeground, permState, start, type PermState } from "@/lib/gps";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 export default function Joylashuv() {
   const { trip } = useLocalSearchParams<{ trip?: string }>();
@@ -121,7 +121,7 @@ function Point({ text, last }: { text: string; last?: boolean }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
   icon: {
@@ -176,4 +176,4 @@ const s = StyleSheet.create({
     backgroundColor: "#f8fafc",
   },
   noteText: { fontSize: 12, color: "#475569", lineHeight: 19 },
-});
+}));

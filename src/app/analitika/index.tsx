@@ -21,7 +21,7 @@
  * qator savol tug'diradi.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -32,7 +32,7 @@ import { fmtNum } from "@/components/cards";
 import { FuramError } from "@/lib/api";
 import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { expenseCategoryLabel, t } from "@/lib/i18n";
 
 type Money = { amount: number; currency: string };
@@ -381,7 +381,7 @@ function sumOf(rows: Money[], currency: string | null) {
   return fmtNum((row ?? rows[0]).amount);
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
 
   head: {
@@ -473,4 +473,4 @@ const s = StyleSheet.create({
   vehMeta: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   vehSum: { fontSize: 15, fontWeight: "700" },
   vehCur: { fontSize: 11, color: "#94a3b8" },
-});
+}));

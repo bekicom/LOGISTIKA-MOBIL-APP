@@ -29,14 +29,14 @@
  * Unga webdagi kabi uchta yo'l ko'rsatiladi: yuk qidirish,
  * mashina qo'yish, ro'yxatdan o'tish.
  */
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { useApi } from "@/lib/use-api";
 import { isGuest } from "@/lib/guest";
 import { webToApp } from "@/lib/routes";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 /* Bosh sahifada uchta kurs — logistikada eng ko'p ishlatiladigani.
@@ -170,7 +170,7 @@ export function StartHere() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   /* ── Kurs ── */
   fx: {
     flexDirection: "row",
@@ -244,4 +244,4 @@ const s = StyleSheet.create({
   cardTitle: { fontSize: 14, fontWeight: "800", color: color.foreground, marginTop: 10 },
   cardBody: { fontSize: 11.5, color: color.mutedForeground, marginTop: 4, lineHeight: 16 },
   cardCta: { fontSize: 12.5, fontWeight: "700", color: color.brand, marginTop: 10 },
-});
+}));

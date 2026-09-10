@@ -38,7 +38,7 @@ import { FuramError } from "@/lib/api";
 import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
 import { tariffBlocked } from "@/lib/features";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
 
 type Money = { currency: string; amount: number };
@@ -332,7 +332,7 @@ function Tile({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
 
@@ -402,4 +402,4 @@ const s = StyleSheet.create({
   },
   dlText: { fontSize: 13.5, fontWeight: "700", color: color.brand },
   repErr: { fontSize: 12.5, color: color.danger, marginTop: space.sm },
-});
+}));

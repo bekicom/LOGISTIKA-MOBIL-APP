@@ -20,12 +20,12 @@
  * keladi.
  */
 import { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
-import { color, font, space } from "@/lib/theme";
+import { color, font, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Op = "+" | "−" | "×" | "÷" | null;
@@ -214,7 +214,7 @@ function Key({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.navy },
 
   head: { flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: space.md },
@@ -244,4 +244,4 @@ const s = StyleSheet.create({
   /* Yoritilgan amalda oq fon — matn ham rangini almashtiradi,
      aks holda oq ustida oq bo'lib ko'rinmay qolardi */
   keyOnText: { color: color.brand },
-});
+}));

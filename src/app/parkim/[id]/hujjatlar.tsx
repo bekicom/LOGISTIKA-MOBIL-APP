@@ -9,14 +9,14 @@
  * odam nimasi yetishmayotganini bilmaydi: yo'q narsa ko'rinmaydi.
  */
 import { useMemo } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, GroupLabel, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Doc = {
@@ -214,7 +214,7 @@ function DocRow({ doc, last, onPress }: { doc: Doc; last: boolean; onPress: () =
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
   add: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
@@ -252,4 +252,4 @@ const s = StyleSheet.create({
   },
   noteTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
   noteBody: { fontSize: 12, color: "#475569", lineHeight: 19, marginTop: 5 },
-});
+}));

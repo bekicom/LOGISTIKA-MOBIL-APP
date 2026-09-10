@@ -8,14 +8,14 @@
  * nizo chiqsa dalil shu bo'ladi.
  */
 import { useState } from "react";
-import { Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Image, Modal, Pressable, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "./Icon";
 import { Button, Notice } from "./ui";
 import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { P_NOW, P_WIFI, sendOrQueue } from "@/lib/outbox";
 import { notePushMoment } from "@/lib/push";
 import { t } from "@/lib/i18n";
@@ -192,7 +192,7 @@ export function HolatSheet({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)", justifyContent: "flex-end" },
   sheet: {
     backgroundColor: color.card,
@@ -234,4 +234,4 @@ const s = StyleSheet.create({
   hint: { fontSize: 12, color: color.mutedForeground, textAlign: "center", marginTop: 6 },
   cancel: { height: 48, alignItems: "center", justifyContent: "center" },
   cancelText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-});
+}));

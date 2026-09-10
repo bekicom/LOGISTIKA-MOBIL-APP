@@ -18,7 +18,7 @@
  * ichida yashirilmaydi.
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -28,7 +28,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { saleStatusLabel, t } from "@/lib/i18n";
 
 type Selling = {
@@ -397,7 +397,7 @@ function Stat({ label, value, good }: { label: string; value: string; good?: boo
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   tabs: {
     backgroundColor: color.card,
@@ -499,4 +499,4 @@ const s = StyleSheet.create({
     marginTop: 10,
   },
   primaryText: { fontSize: 14, fontWeight: "600", color: color.brandForeground },
-});
+}));

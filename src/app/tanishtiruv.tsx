@@ -10,16 +10,7 @@
  * tizim o'zi siliq siljitadi. Nuqtalar `onScroll` dan hisoblanadi.
  */
 import { useRef, useState } from "react";
-import {
-  Animated,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
-} from "react-native";
+import { Animated, Pressable, ScrollView, View, useWindowDimensions, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -27,7 +18,7 @@ import { Logo } from "@/components/Logo";
 import { Text } from "@/components/Text";
 import { IlloDocs, IlloMarket, IlloTracking } from "@/components/illustrations";
 import { setGuest } from "@/lib/guest";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /* Matnlar lug'atda (`mob.intro.*`) — bu yerda faqat tartib va
@@ -145,7 +136,7 @@ export default function Tanishtiruv() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.blue },
   top: {
     flexDirection: "row",
@@ -203,4 +194,4 @@ const s = StyleSheet.create({
     gap: 8,
   },
   nextText: { fontSize: 15.5, fontWeight: "700", color: "#ffffff" },
-});
+}));

@@ -12,7 +12,7 @@
  * Beshinchi karta — mehmon: kirmasdan ko'rib chiqish.
  */
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
@@ -21,7 +21,7 @@ import { Text } from "@/components/Text";
 import { Button } from "@/components/ui";
 import { AuthLine } from "@/components/AuthShell";
 import { setGuest } from "@/lib/guest";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
 
 type Card = { role: string; icon: IconName; desc: string; tint: string; bg: string };
@@ -131,7 +131,7 @@ export default function RolTanlash() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.blue },
   top: { flexDirection: "row", alignItems: "center", paddingHorizontal: space.lg, minHeight: 44 },
   back: { width: 44, height: 44, marginLeft: -10, alignItems: "center", justifyContent: "center" },
@@ -170,4 +170,4 @@ const s = StyleSheet.create({
   pickedText: { fontSize: 11, fontWeight: "700", color: "#ffffff" },
 
   later: { fontSize: 12.5, color: "#ffffffb3", textAlign: "center", marginTop: 16, lineHeight: 18 },
-});
+}));

@@ -12,14 +12,14 @@
  * turish yolg'on bo'lardi, shuning uchun yozilmadi.
  */
 import { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Button, Card, Field, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
 
 export default function ProfilTahrir() {
@@ -152,7 +152,7 @@ function Row({ label, value, last }: { label: string; value: string; last?: bool
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.card },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
   save: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
@@ -180,4 +180,4 @@ const s = StyleSheet.create({
   rowLine: { borderBottomWidth: 1, borderBottomColor: color.border },
   rowLabel: { fontSize: font.caption, color: color.mutedForeground },
   rowValue: { fontSize: font.body, fontWeight: "600", color: color.foreground },
-});
+}));

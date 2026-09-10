@@ -22,7 +22,7 @@
  * uchun ekran oxirida odam qaytadan kiradi.
  */
 import { useEffect, useRef, useState } from "react";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Pressable, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { AuthShell } from "@/components/AuthShell";
@@ -30,7 +30,7 @@ import { Button, Field, Steps } from "@/components/ui";
 import { ChannelPick, SentVia, useChannels, type Channel } from "@/components/ChannelPick";
 import { api, FuramError } from "@/lib/api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Step = "phone" | "code" | "password";
 
@@ -292,7 +292,7 @@ export default function Parol() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
 
   title: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.5 },
   sub: { fontSize: font.body, color: "#475569", marginTop: 8, lineHeight: 22 },
@@ -365,4 +365,4 @@ const s = StyleSheet.create({
     textAlign: "center",
     lineHeight: 22,
   },
-});
+}));

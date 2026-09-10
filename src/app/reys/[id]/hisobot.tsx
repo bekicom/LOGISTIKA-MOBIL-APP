@@ -6,7 +6,7 @@
  * endpoint yozilmadi, chunki hammasi allaqachon bor.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -17,7 +17,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Trip = {
@@ -340,7 +340,7 @@ function Line({ label, value, tone }: { label: string; value: string; tone?: str
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   header: { backgroundColor: color.navy, flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
@@ -390,4 +390,4 @@ const s = StyleSheet.create({
   err: { fontSize: 12, color: color.danger, marginTop: 8 },
   rated: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: space.lg, paddingTop: space.lg, borderTopWidth: 1, borderTopColor: color.border },
   ratedText: { fontSize: font.caption, fontWeight: "600", color: color.success },
-});
+}));

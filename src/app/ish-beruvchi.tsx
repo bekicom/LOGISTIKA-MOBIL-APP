@@ -19,7 +19,7 @@
  * shu qoidadan kelib chiqadi.
  */
 import { useState } from "react";
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
@@ -28,7 +28,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { matchNote, payKindLabel, t } from "@/lib/i18n";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
@@ -365,7 +365,7 @@ function initials(name: string) {
     .join("");
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 
@@ -459,4 +459,4 @@ const s = StyleSheet.create({
   noteGap: { color: "#92400e" },
 
   emptyText: { fontSize: 13, color: color.mutedForeground, textAlign: "center", lineHeight: 19, paddingVertical: space.md },
-});
+}));

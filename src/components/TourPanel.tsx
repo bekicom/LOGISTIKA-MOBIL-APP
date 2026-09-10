@@ -26,7 +26,7 @@
  * paydo bo'ladi.
  */
 import { useCallback, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -34,7 +34,7 @@ import { Button } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { isGuest } from "@/lib/guest";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Tour = {
@@ -121,7 +121,7 @@ export function TourPanel() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   card: {
     flexDirection: "row",
     alignItems: "center",
@@ -153,4 +153,4 @@ const s = StyleSheet.create({
   route: { fontSize: 14, fontWeight: "700", color: color.foreground },
 
   err: { fontSize: 12, color: color.danger, marginTop: 6 },
-});
+}));

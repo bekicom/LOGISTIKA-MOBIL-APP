@@ -20,14 +20,14 @@
  * ikkinchisida eskiligicha qolardi.
  */
 import { useState } from "react";
-import { Pressable, Share, StyleSheet, View } from "react-native";
+import { Pressable, Share, View } from "react-native";
 import { Text } from "@/components/Text";
 import * as Clipboard from "expo-clipboard";
 import { Icon } from "@/components/Icon";
 import { Button } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { tariffBlocked } from "@/lib/features";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export function DriverInvite({
@@ -108,7 +108,7 @@ export function DriverInvite({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   invite: {
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
     height: 46, borderRadius: radius.control,
@@ -125,4 +125,4 @@ const s = StyleSheet.create({
   inviteLead: { fontSize: 12, color: color.mutedForeground, marginTop: 5, lineHeight: 18 },
   inviteUrl: { fontSize: 12.5, color: color.blue, marginTop: 10 },
   inviteMeta: { fontSize: 11.5, color: color.mutedForeground, marginTop: 5 },
-});
+}));

@@ -20,11 +20,11 @@
  * UMUMAN chizilmaydi — bitta variantni tanlatib o'tirish ma'nosiz.
  */
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import Svg, { Path } from "react-native-svg";
 import { api } from "@/lib/api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export type Channel = "telegram" | "sms";
@@ -160,7 +160,7 @@ export function SentVia({ via, picked }: { via: Channel | null; picked: Channel 
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   label: { fontSize: 13, fontWeight: "600", color: color.foreground, marginBottom: 10 },
   cards: { flexDirection: "row", gap: 10 },
 
@@ -195,4 +195,4 @@ const s = StyleSheet.create({
     paddingVertical: 9,
   },
   noteText: { fontSize: 12, lineHeight: 17 },
-});
+}));

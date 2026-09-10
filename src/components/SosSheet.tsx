@@ -16,14 +16,14 @@
  * yomon vaqtda odamni to'xtatish degani.
  */
 import { useRef, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import * as Location from "expo-location";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 const REASONS = ["BREAKDOWN", "ACCIDENT", "HEALTH", "DOCUMENTS", "OTHER"] as const;
@@ -217,7 +217,7 @@ export function SosButton({ tripId, onSent }: { tripId: string; onSent: () => vo
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   btn: {
     flexDirection: "row",
     alignItems: "center",
@@ -282,4 +282,4 @@ const s = StyleSheet.create({
     backgroundColor: color.card,
   },
   resolveText: { fontSize: 13, fontWeight: "700", color: color.success },
-});
+}));

@@ -16,13 +16,13 @@
  * ko'rsatilmaydi, qolgan ikkitasi ishlayveradi.
  */
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
 import { Field, Header } from "@/components/ui";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Rates = { rates: Record<string, number> | null; diff?: Record<string, number>; date?: string };
@@ -184,7 +184,7 @@ function Fuel() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -220,4 +220,4 @@ const s = StyleSheet.create({
     marginTop: 12,
     fontVariant: ["tabular-nums"],
   },
-});
+}));

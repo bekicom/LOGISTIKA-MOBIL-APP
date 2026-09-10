@@ -11,23 +11,14 @@
  * ikkalasida boshqacha yuritiladi (TZ 03, 43-45-band).
  */
 import { useState } from "react";
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Button, Card, Field, Header, ListRow, Steps } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
@@ -329,7 +320,7 @@ export default function TransportQoshish() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   /* `display: "none"` — komponent DARAXTDA qoladi, faqat
      chizilmaydi. `hidden` React Native'da yo'q (u DOM xususiyati),
      shartli render esa maydonlarni butunlay olib tashlab, odam
@@ -400,4 +391,4 @@ const s = StyleSheet.create({
   },
   grab: { width: 40, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.md },
   sheetTitle: { fontSize: font.title, fontWeight: "700", color: color.foreground, marginBottom: space.md },
-});
+}));

@@ -17,7 +17,7 @@
  * ro'yxat o'chirish uchun ochiladi, o'qish uchun emas.
  */
 import { useCallback, useState } from "react";
-import { Alert, FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { Alert, FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -26,7 +26,7 @@ import { Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Params = {
@@ -144,7 +144,7 @@ export default function SaqlanganQidiruv() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   list: { padding: space.lg, gap: 9 },
 
@@ -168,4 +168,4 @@ const s = StyleSheet.create({
   name: { fontSize: 13.5, fontWeight: "700", color: color.foreground },
   sub: { fontSize: 11.5, color: color.mutedForeground, marginTop: 2 },
   del: { width: 34, height: 34, alignItems: "center", justifyContent: "center" },
-});
+}));

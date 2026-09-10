@@ -16,15 +16,7 @@
  * eng ko'zga tashlanadigan joyda.
  */
 import { useState } from "react";
-import {
-  Image,
-  Linking,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-} from "react-native";
+import { Image, Linking, Pressable, ScrollView, View, useWindowDimensions } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -38,7 +30,7 @@ import { openRemoteFile, uploadBinary } from "@/lib/files";
 import { pickVideo } from "@/lib/photo";
 import { toggleCompare, useCompare } from "@/lib/compare";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import {
   saleCategoryLabel,
   saleFeatureLabel,
@@ -654,7 +646,7 @@ function SaleVideo({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   cmpBtn: {
     flexDirection: "row", alignItems: "center", gap: 8,
     height: 46, paddingHorizontal: 14, marginBottom: space.md,
@@ -815,4 +807,4 @@ const s = StyleSheet.create({
   own: { fontSize: 13, color: color.mutedForeground, marginTop: 11 },
 
   deal: { borderColor: color.brand, borderWidth: 2 },
-});
+}));

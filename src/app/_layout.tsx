@@ -17,8 +17,9 @@ import { OfflineBar } from "@/components/OfflineBar";
 import { PushAsk } from "@/components/PushAsk";
 import { Splash } from "@/components/Splash";
 import { useOutboxRunner } from "@/lib/use-outbox";
-import { color } from "@/lib/theme";
+import { color, themeName } from "@/lib/theme";
 import { deviceLocale, readLocale, setLocale, useLocaleVersion } from "@/lib/i18n";
+import { loadTheme, useThemeVersion } from "@/lib/theme-store";
 import { markSeen, markSplashDone, seen } from "@/lib/first-run";
 import { routeOf } from "@/lib/push";
 
@@ -48,8 +49,12 @@ export default function RootLayout() {
 
   useEffect(() => {
     void (async () => {
-      const [, before] = await Promise.all([
+      /* REJIM ham til bilan birga, CHIZISHDAN OLDIN tiklanadi:
+         aks holda ekran bir zum yorug' chiqib, keyin qorong'iga
+         sakrardi — bu ilova «buzuq» bo'lib ko'rinadi. */
+      const [, , before] = await Promise.all([
         setLocale((await readLocale()) ?? deviceLocale()),
+        loadTheme(),
         seen("splashSeen"),
       ]);
       setSplash(before ? "short" : "full");
@@ -63,14 +68,21 @@ export default function RootLayout() {
      qaytadi va odam bosh sahifaga tushadi: bu yerda bu to'g'ri
      xatti-harakat, «ilova yangi tilda ochildi» degani. */
   const localeVersion = useLocaleVersion();
+  /* Rejim o'zgarsa daraxt qayta chiziladi — uslub proxy'lari
+     yangi rejimning keshini qaytaradi (`lib/theme.ts`) */
+  const themeVersion = useThemeVersion();
 
   if (!ready || (!fontsReady && !fontError)) return null;
 
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <StatusBar style="auto" />
-        <Shell key={localeVersion} />
+        {/* ⚠️ `auto` EMAS: `auto` tizim rejimiga qaraydi, ilova esa
+            o'z rejimini yuritadi. Odam telefoni yorug' turganda
+            ilovada qorong'ini tanlasa, `auto` qora yozuvni qora
+            fonga chizib qo'yardi. */}
+        <StatusBar style={themeName() === "dark" ? "light" : "dark"} />
+        <Shell key={`${localeVersion}-${themeVersion}`} />
         {splash !== "done" ? (
           <Splash
             full={splash === "full"}

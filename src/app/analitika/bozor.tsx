@@ -18,7 +18,7 @@
  *
  * Faqat rangda bo'lsa rang ko'rmaydigan odam o'qiy olmasdi.
  */
-import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
@@ -26,7 +26,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Rate = {
@@ -217,7 +217,7 @@ function pinAt(min: number, median: number, max: number) {
   return Math.min(98, Math.max(2, p));
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
   group: {
@@ -284,4 +284,4 @@ const s = StyleSheet.create({
   barBox: { height: 26, justifyContent: "flex-end" },
   barFill: { borderRadius: 3, minHeight: 3 },
   barKey: { fontSize: 11, color: color.mutedForeground, marginTop: 4 },
-});
+}));

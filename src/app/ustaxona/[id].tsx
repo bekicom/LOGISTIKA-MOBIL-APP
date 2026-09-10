@@ -18,18 +18,7 @@
  * emas, «qachon yetib keladi» — har soat pul.
  */
 import { useState } from "react";
-import {
-  Image,
-  KeyboardAvoidingView,
-  Linking,
-  Modal,
-  Platform,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -41,7 +30,7 @@ import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { servicePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { serviceSpecLabel, serviceStatusLabel, t } from "@/lib/i18n";
 import { tariffBlocked } from "@/lib/features";
 
@@ -702,7 +691,7 @@ function mins(n: number): string {
   return n < 60 ? t("mob.svc.minN", { n }) : t("mob.svc.hourN", { n: Math.round(n / 60) });
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   starRow: { flexDirection: "row", alignItems: "center", gap: 6, marginVertical: 14 },
   starCount: { marginLeft: 6, fontSize: 14, fontWeight: "800", color: color.foreground },
 
@@ -856,4 +845,4 @@ const s = StyleSheet.create({
   sheetSub: { fontSize: 13, color: color.mutedForeground, lineHeight: 19, marginBottom: space.xs },
   later: { alignItems: "center", paddingVertical: space.md },
   laterText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-});
+}));

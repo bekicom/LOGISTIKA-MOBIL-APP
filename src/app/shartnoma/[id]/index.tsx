@@ -19,16 +19,7 @@
  * sababni tanlab, ro'yxatni ma'nosiz qilardi.
  */
 import { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -39,7 +30,7 @@ import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Party = {
@@ -795,7 +786,7 @@ function CounterSheet({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   payerLabel: { fontSize: 13, fontWeight: "600", color: color.foreground, marginBottom: 8 },
   payerRow: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   payer: {
@@ -945,4 +936,4 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   dangerText: { fontSize: 14, fontWeight: "600", color: color.danger },
-});
+}));

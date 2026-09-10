@@ -19,7 +19,7 @@
  * Buni aytmasak odam «hammasi yo'qoladi» deb qo'rqadi va shu
  * qo'rquv bilan qaror qiladi.
  */
-import { RefreshControl, ScrollView, StyleSheet, View, Pressable } from "react-native";
+import { RefreshControl, ScrollView, View, Pressable } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header, Button } from "@/components/ui";
@@ -27,7 +27,7 @@ import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /* `accessOf()` shakli — `furam/src/app/api/roles/route.ts`.
@@ -201,7 +201,7 @@ export default function Rollarim() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
   group: {
@@ -248,4 +248,4 @@ const s = StyleSheet.create({
     backgroundColor: color.mutedForeground + "12",
   },
   noteText: { flex: 1, fontSize: 12.5, color: color.mutedForeground, lineHeight: 19 },
-});
+}));

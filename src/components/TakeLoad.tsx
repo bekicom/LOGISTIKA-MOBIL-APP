@@ -23,7 +23,7 @@
  * tilida yasaladi (1-qoida).
  */
 import { useCallback, useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -32,7 +32,7 @@ import { Button } from "@/components/ui";
 import { DriverInvite } from "@/components/DriverInvite";
 import { api, FuramError } from "@/lib/api";
 import { guestBlocked } from "@/lib/guest-gate";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Option = {
@@ -196,7 +196,7 @@ export function TakeLoad({ loadId }: { loadId: string }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   card: {
     flexDirection: "row",
     alignItems: "center",
@@ -257,4 +257,4 @@ const s = StyleSheet.create({
 
   empty: { fontSize: 13, color: color.mutedForeground, lineHeight: 20 },
   err: { fontSize: 12.5, color: color.danger, marginTop: space.md },
-});
+}));

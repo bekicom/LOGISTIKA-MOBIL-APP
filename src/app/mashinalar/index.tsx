@@ -14,7 +14,7 @@
  * suzuvchi tugmasi olib tashlandi — tab bardagi «+» shu ishni qiladi.
  */
 import { useCallback, useMemo, useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -26,7 +26,7 @@ import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@
 import { SaveSearch } from "@/components/SaveSearch";
 import { Segment } from "@/components/Segment";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Feed = { items: TruckItem[]; page: number; total: number; hasMore: boolean };
@@ -155,7 +155,7 @@ export default function Mashinalar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   head: { paddingHorizontal: space.lg, paddingTop: 6, paddingBottom: space.sm, gap: space.md },
   headRow: { flexDirection: "row", alignItems: "center", gap: space.md },
@@ -211,4 +211,4 @@ const s = StyleSheet.create({
   countNum: { fontWeight: "700", color: color.foreground },
 
   list: { padding: space.lg, paddingTop: space.sm, gap: space.md },
-});
+}));

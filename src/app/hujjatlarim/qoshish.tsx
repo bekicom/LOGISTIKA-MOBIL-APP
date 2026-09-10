@@ -11,15 +11,7 @@
  * tizimi buni «kiritilmagan» deb hisoblardi.
  */
 import { useState } from "react";
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Field, Header } from "@/components/ui";
@@ -27,7 +19,7 @@ import { Icon } from "@/components/Icon";
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -242,7 +234,7 @@ export default function HujjatQoshish() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.card },
   scroll: { padding: space.xl, gap: space.xl, paddingBottom: space.xxl * 2 },
   save: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
@@ -306,4 +298,4 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: "#cbd5e1", backgroundColor: "#f8fafc", borderRadius: radius.card,
   },
   privacyText: { flex: 1, fontSize: 12, color: "#475569", lineHeight: 19 },
-});
+}));

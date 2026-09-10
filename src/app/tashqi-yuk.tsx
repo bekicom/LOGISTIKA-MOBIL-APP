@@ -20,7 +20,7 @@
  * haydovchi begona mashinaga yuk ochib yuborishi mumkin bo'lardi.
  */
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -30,7 +30,7 @@ import { TariffNotice } from "@/components/TariffNotice";
 import { LocationPicker, type Loc } from "@/components/FiltrSheet";
 import { api, FuramError } from "@/lib/api";
 import { tariffBlocked } from "@/lib/features";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
@@ -198,7 +198,7 @@ export default function TashqiYuk() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -232,4 +232,4 @@ const s = StyleSheet.create({
   },
   chipOn: { backgroundColor: color.brand },
   chipText: { fontSize: 13, fontWeight: "700", color: color.mutedForeground },
-});
+}));

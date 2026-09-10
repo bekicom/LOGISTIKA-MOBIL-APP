@@ -10,7 +10,7 @@
  * `driverQueues()`, aks holda `ownerQueues()`.
  */
 import { useMemo } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Header } from "@/components/ui";
@@ -19,7 +19,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
 import { t } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 
 type Queue = {
   id: string;
@@ -275,7 +275,7 @@ function QueueCard({ q, onPress }: { q: Queue; onPress: () => void }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   add: {
     width: 34,
     height: 34,
@@ -330,4 +330,4 @@ const s = StyleSheet.create({
   warnB: { fontSize: 12, color: "#b91c1c", marginTop: 3, lineHeight: 18 },
 
   cond: { fontSize: 12, color: color.mutedForeground, lineHeight: 18, marginTop: 10 },
-});
+}));

@@ -15,14 +15,14 @@
  * tiqilib qolgan odam hisobini umuman o'chira olmasdi.
  */
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Button, Card, Field, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type ActiveTrip = { no: number; status: string; from: string; to: string };
@@ -192,7 +192,7 @@ function Step({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 2 },
 
@@ -224,4 +224,4 @@ const s = StyleSheet.create({
   showBtn: { fontSize: font.caption, fontWeight: "600", color: color.brand },
 
   foot: { fontSize: 12, color: color.mutedForeground, lineHeight: 18, paddingHorizontal: space.xs },
-});
+}));

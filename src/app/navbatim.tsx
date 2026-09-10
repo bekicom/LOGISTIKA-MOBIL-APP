@@ -14,7 +14,7 @@
  * chekni kiritgan bo'lsa, u yo'qolgani haqida BILISHI shart.
  */
 import { useCallback, useEffect, useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
@@ -23,7 +23,7 @@ import { Empty } from "@/components/state";
 import { flush, list, remove, retry, type Job } from "@/lib/outbox";
 import { isOnline } from "@/lib/net";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 export default function Navbatim() {
   const insets = useSafeAreaInsets();
@@ -151,7 +151,7 @@ function when(ms: number): string {
   return h < 24 ? t("mob.ago.hour", { n: h }) : t("mob.ago.day", { n: Math.round(h / 24) });
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 
@@ -203,4 +203,4 @@ const s = StyleSheet.create({
     backgroundColor: "#f8fafc",
   },
   noteText: { fontSize: 12, color: "#475569", lineHeight: 19 },
-});
+}));

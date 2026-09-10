@@ -12,13 +12,7 @@
  * status'lardan o'zi chiqarib olmaydi.
  */
 import { useState } from "react";
-import {
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -29,7 +23,7 @@ import { ago, money } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Deal = {
   id: string;
@@ -327,7 +321,7 @@ const badgeStyle = (d: Deal) => ({
           : color.muted,
 });
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   filters: {
     backgroundColor: color.card,
@@ -448,4 +442,4 @@ const s = StyleSheet.create({
     borderTopColor: color.border,
   },
   openText: { flex: 1, fontSize: font.caption, fontWeight: "600", color: color.brand },
-});
+}));

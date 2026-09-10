@@ -10,7 +10,7 @@
  * ko'rsatiladi, bo'lmasa jim o'tiladi. Ikkalasini bitta ro'yxatga
  * qo'shsak, «2/3 tayyor» degan hisob ma'nosini yo'qotardi.
  */
-import { Linking, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, RefreshControl, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { Card, Header, ListRow } from "@/components/ui";
@@ -19,7 +19,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { API_BASE } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 
 type Doc = {
   id: string;
@@ -121,7 +121,7 @@ const tone = (state: string) => ({
 const toneInk = (state: string) =>
   state === "expired" ? color.danger : state === "soon" ? color.warning : color.success;
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   badge: {
@@ -132,4 +132,4 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-});
+}));

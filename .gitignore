@@ -35,3 +35,6 @@ yarn-error.*
 .DS_Store
 Thumbs.db
 *.orig.*
+
+# Dizayn uchun namuna rasmlar — ilovaga kirmaydi (2026-09-10)
+assets/reference/

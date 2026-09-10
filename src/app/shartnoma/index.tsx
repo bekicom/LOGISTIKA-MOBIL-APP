@@ -16,7 +16,7 @@
  * «Pulim qayerda» degan savolga shartnomani ochmasdan javob
  * beriladi. Faqat IKKALA tomon tasdiqlagan to'lov hisoblanadi.
  */
-import { RefreshControl, ScrollView, StyleSheet, View, Pressable } from "react-native";
+import { RefreshControl, ScrollView, View, Pressable } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -24,7 +24,7 @@ import { Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Item = {
@@ -216,7 +216,7 @@ function initials(name: string) {
     .join("");
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
   group: {
@@ -274,4 +274,4 @@ const s = StyleSheet.create({
   payVal: { fontSize: 12.5, fontWeight: "600", color: color.foreground },
   bar: { height: 6, borderRadius: 3, backgroundColor: color.muted, marginTop: 5, overflow: "hidden" },
   barFill: { height: "100%", borderRadius: 3 },
-});
+}));

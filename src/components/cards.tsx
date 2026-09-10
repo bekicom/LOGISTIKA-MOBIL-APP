@@ -1,10 +1,10 @@
 /** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Icon } from "./Icon";
 import { TruckIcon } from "./TruckIcon";
 import { vehiclePhoto } from "@/lib/img";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 /* ─────────────────────────────────────────────── umumiy bo'laklar */
@@ -365,7 +365,7 @@ export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => vo
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   card: {
     backgroundColor: color.card,
     borderRadius: radius.card,
@@ -428,4 +428,4 @@ const s = StyleSheet.create({
   },
   ownerIcon: { width: 28, height: 28, borderRadius: radius.control, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   ownerName: { fontSize: 13, fontWeight: "600", color: color.foreground },
-});
+}));

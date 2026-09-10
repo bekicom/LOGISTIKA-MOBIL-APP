@@ -10,13 +10,13 @@
  * kirib xato ko'rgandan ko'ra oldindan aytilgani yaxshi (qoida 5).
  * Usta chaqirish — hammaga ochiq, to'siq yo'q.
  */
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { can, tariffBlocked, type FeatureKey } from "@/lib/features";
-import { color, radius } from "@/lib/theme";
+import { color, radius, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Action = {
@@ -130,7 +130,7 @@ export function PostSheet({ open, onClose }: { open: boolean; onClose: () => voi
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   list: { gap: 4 },
   row: {
     flexDirection: "row",
@@ -151,4 +151,4 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-});
+}));

@@ -18,7 +18,7 @@
  * o'tirmasligi kerak.
  */
 import { useState } from "react";
-import { FlatList, Linking, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Linking, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -27,7 +27,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { payKindLabel, t } from "@/lib/i18n";
 
 type App = {
@@ -223,7 +223,7 @@ function when(iso: string): string {
   return t("mob.ago.day", { n: days });
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 
@@ -286,4 +286,4 @@ const s = StyleSheet.create({
   smallGhostText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
 
   closed: { fontSize: 12, color: "#94a3b8", marginTop: 10 },
-});
+}));

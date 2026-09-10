@@ -18,14 +18,14 @@
  * hisoblanmaydi.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { debtStatusLabel, t } from "@/lib/i18n";
 
 type Debt = {
@@ -198,7 +198,7 @@ function initials(name: string) {
     .join("");
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   tabs: {
     flexDirection: "row",
@@ -267,4 +267,4 @@ const s = StyleSheet.create({
 
   noDue: { fontSize: 12, color: color.mutedForeground, marginTop: 8 },
 
-});
+}));

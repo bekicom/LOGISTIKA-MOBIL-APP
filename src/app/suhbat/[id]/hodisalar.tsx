@@ -2,7 +2,7 @@
  * Suhbatdagi hodisalar ro'yxati (TZ 02, 29-30-band).
  * `GET /api/incidents?chatId=` — ilova uchun qo'shildi (2026-09-06).
  */
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Text } from "@/components/Text";
@@ -10,7 +10,7 @@ import { Icon } from "@/components/Icon";
 import { Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Inc = { id: string; kind: string; title: string; status: string; placeName: string | null; createdBy: string | null; createdAt: string; items: number };
@@ -80,7 +80,7 @@ export default function Hodisalar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   add: { width: 36, height: 36, borderRadius: 18, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
   list: { padding: space.lg, gap: space.sm },
@@ -91,4 +91,4 @@ const s = StyleSheet.create({
   meta: { fontSize: 11, color: "#94a3b8", marginTop: 3 },
   status: { paddingHorizontal: 9, height: 24, borderRadius: 12, justifyContent: "center" },
   statusText: { fontSize: 11, fontWeight: "700" },
-});
+}));

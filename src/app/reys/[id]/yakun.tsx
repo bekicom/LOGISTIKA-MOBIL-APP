@@ -15,14 +15,14 @@
  * tugab qolardi.
  */
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Button, Header, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export default function ReysYakuni() {
@@ -93,7 +93,7 @@ export default function ReysYakuni() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   card: {
@@ -123,4 +123,4 @@ const s = StyleSheet.create({
     borderTopColor: color.border,
     paddingTop: 10,
   },
-});
+}));

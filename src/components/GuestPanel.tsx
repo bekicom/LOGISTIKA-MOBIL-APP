@@ -14,14 +14,14 @@
  * qulf bilan: odam ro'yxatdan o'tsa NIMA olishini bilishi kerak.
  * Ularni umuman yashirsak, kirishning sababi ko'rinmay qolardi.
  */
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Button } from "@/components/ui";
 import { Logo } from "@/components/Logo";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Row = { icon: IconName; title: string; hint: string; href: string };
@@ -124,7 +124,7 @@ export function GuestPanel() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
   group: {
@@ -167,4 +167,4 @@ const s = StyleSheet.create({
 
   lang: { alignSelf: "center", paddingVertical: 10, paddingHorizontal: 16 },
   langText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
-});
+}));

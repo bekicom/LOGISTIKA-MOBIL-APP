@@ -27,19 +27,7 @@
  * Telegrami yoki SMS'i orqali yuboradi.
  */
 import { useState } from "react";
-import {
-  Alert,
-  FlatList,
-  Linking,
-  Modal,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  Share,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { Alert, FlatList, Linking, Modal, Pressable, RefreshControl, ScrollView, Share, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -50,7 +38,7 @@ import { TariffNotice } from "@/components/TariffNotice";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { tariffBlocked } from "@/lib/features";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 type Staff = {
@@ -516,7 +504,7 @@ function AddSheet({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   btnAccept: { backgroundColor: color.success },
   btnAcceptText: { fontSize: 13, fontWeight: "700", color: "#fff" },
 
@@ -672,4 +660,4 @@ const s = StyleSheet.create({
   mainBtnText: { fontSize: font.bodyLg, fontWeight: "700", color: "#fff" },
   cancel: { alignSelf: "center", paddingVertical: 11 },
   cancelText: { fontSize: 14, fontWeight: "500", color: color.mutedForeground },
-});
+}));

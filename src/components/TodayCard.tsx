@@ -22,14 +22,14 @@
  * (1-qoida). `text` — zaxira: kalit lug'atga tushmagan bo'lsa
  * bo'sh qator ko'rinmasin.
  */
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { useApi } from "@/lib/use-api";
 import { isGuest } from "@/lib/guest";
 import { webToApp } from "@/lib/routes";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 type Task = { key: string; text: string; href: string; n: number; weight: number };
@@ -87,7 +87,7 @@ export function TodayCard() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   card: {
     backgroundColor: color.card,
     borderRadius: radius.card,
@@ -106,4 +106,4 @@ const s = StyleSheet.create({
   },
   dot: { width: 7, height: 7, borderRadius: 4, backgroundColor: color.brand },
   text: { flex: 1, fontSize: 13, color: color.foreground, lineHeight: 18 },
-});
+}));

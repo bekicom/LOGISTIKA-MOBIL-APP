@@ -14,17 +14,7 @@
  *     chizsak, odam hech nimani tekshirmasdan «Saqlash» bosadi.
  */
 import { useState } from "react";
-import {
-  Image,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -33,7 +23,7 @@ import { Icon } from "@/components/Icon";
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, pickScanFile, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { t, tOr } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -462,7 +452,7 @@ function Point({ text, last }: { text: string; last?: boolean }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   grow: { flex: 1 },
   scroll: { padding: space.lg, gap: space.md },
@@ -615,4 +605,4 @@ const s = StyleSheet.create({
   point: { flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 14, paddingVertical: 12 },
   pointLine: { borderBottomWidth: 1, borderBottomColor: color.border },
   pointText: { flex: 1, fontSize: font.caption, color: color.foreground },
-});
+}));

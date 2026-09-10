@@ -29,7 +29,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
 import { Text } from "@/components/Text";
 import { Button } from "@/components/ui";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Hole = { x: number; y: number; w: number; h: number; r: number };
@@ -150,7 +150,7 @@ export function Tour({ open, onDone }: { open: boolean; onDone: () => void }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   ring: { position: "absolute", borderWidth: 2.5, borderColor: "#ffffff" },
   card: {
     position: "absolute",
@@ -168,4 +168,4 @@ const s = StyleSheet.create({
   dots: { flexDirection: "row", gap: 6, marginTop: 16, marginBottom: 14 },
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: color.border },
   dotOn: { width: 18, backgroundColor: color.brand },
-});
+}));

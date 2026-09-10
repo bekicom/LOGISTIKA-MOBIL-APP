@@ -6,7 +6,7 @@
  * `null` bo'lib yoziladi (maydonni tozalash).
  */
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
@@ -14,7 +14,7 @@ import { Button, Field, Header, Notice } from "@/components/ui";
 import { Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Company = {
@@ -118,11 +118,11 @@ export default function Kompaniya() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   hint: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
   card: { backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, gap: space.md, ...shadow.card },
   saved: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "center" },
   savedText: { fontSize: 13, fontWeight: "700", color: color.success },
-});
+}));

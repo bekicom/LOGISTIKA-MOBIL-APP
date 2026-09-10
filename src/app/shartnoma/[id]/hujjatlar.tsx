@@ -16,7 +16,7 @@
  * boshqa ilovaga yuborish ham bor).
  */
 import { useState } from "react";
-import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
@@ -30,7 +30,7 @@ import { openRemoteFile } from "@/lib/files";
 import { pickDocument, pickPhotos, toUpload, type Photo } from "@/lib/photo";
 import { afterSheet } from "@/lib/native-ui";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /** `furam/src/app/api/contracts/[id]/documents/route.ts:kindSchema` */
@@ -210,7 +210,7 @@ export default function ShartnomaHujjatlari() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -245,4 +245,4 @@ const s = StyleSheet.create({
   },
   chipOn: { backgroundColor: color.brand },
   chipText: { fontSize: 13, fontWeight: "700", color: color.mutedForeground },
-});
+}));

@@ -9,7 +9,7 @@
  * chiqadi.
  */
 import { useState } from "react";
-import { Alert, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Card, Header } from "@/components/ui";
@@ -20,7 +20,7 @@ import { openRemoteFile } from "@/lib/files";
 import { pickDocument, takePhoto, toUpload } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Detail = {
   queue: {
@@ -312,7 +312,7 @@ function Row({ k, v, mono, onPress }: { k: string; v: string; mono?: boolean; on
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 2 },
 
@@ -367,4 +367,4 @@ const s = StyleSheet.create({
   line: { flex: 1, width: 2, backgroundColor: color.border, marginVertical: 2 },
   stepT: { fontSize: 14, fontWeight: "600", color: color.foreground },
   stepW: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
-});
+}));

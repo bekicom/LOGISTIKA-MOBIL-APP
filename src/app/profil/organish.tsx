@@ -13,7 +13,7 @@
  * bitta mantiq), bo'lim nomi va izohi kalit bilan (`svc.*`,
  * `onboardBody.*` — sakkiz tilda tayyor).
  */
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Text } from "@/components/Text";
@@ -22,7 +22,7 @@ import { Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { webToApp } from "@/lib/routes";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 type Item = { section: string; href: string; state: string; next: boolean };
@@ -129,7 +129,7 @@ function Group({ title, items, onOpen, done }: { title: string; items: Item[]; o
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13.5, color: color.mutedForeground, lineHeight: 20 },
@@ -150,4 +150,4 @@ const s = StyleSheet.create({
   name: { fontSize: 14.5, fontWeight: "700", color: color.foreground, flexShrink: 1 },
   nextTag: { paddingHorizontal: 8, height: 19, borderRadius: 10, backgroundColor: color.brand, justifyContent: "center" },
   nextTagText: { fontSize: 10, fontWeight: "800", color: "#fff" },
-});
+}));

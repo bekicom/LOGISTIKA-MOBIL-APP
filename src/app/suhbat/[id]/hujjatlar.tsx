@@ -4,7 +4,7 @@
  * Reysga bog'langan suhbatda reys hujjatlari ham shu ro'yxatda.
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { Text } from "@/components/Text";
@@ -17,7 +17,7 @@ import { useApi } from "@/lib/use-api";
 import { pickDocument, pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { openRemoteFile } from "@/lib/files";
 import { afterSheet } from "@/lib/native-ui";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Doc = {
@@ -188,7 +188,7 @@ function Pick({ label, onPress }: { label: string; onPress: () => void }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   add: { width: 36, height: 36, borderRadius: 18, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
   list: { padding: space.lg, gap: space.sm },
@@ -214,4 +214,4 @@ const s = StyleSheet.create({
   fileName: { flex: 1, fontSize: 13, fontWeight: "600", color: color.foreground },
   seenRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8 },
   seenName: { flex: 1, fontSize: 14, fontWeight: "600", color: color.foreground },
-});
+}));

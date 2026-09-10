@@ -14,7 +14,7 @@
  * («Salom, … Bugun hammasi joyida») — lug'atga ko'chdi.
  */
 import { useEffect } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -28,7 +28,7 @@ import { FxStrip, StartHere } from "@/components/HomeStart";
 import { TodayCard } from "@/components/TodayCard";
 import { TourPanel } from "@/components/TourPanel";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Home =
@@ -327,7 +327,7 @@ function QuickAction({ icon, label, tint, bg, onPress }: {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   header: {
     paddingHorizontal: space.lg,
@@ -400,4 +400,4 @@ const s = StyleSheet.create({
   chatMsg: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   /* eskirgan (font import saqlanadi) */
   unused: { fontSize: font.caption },
-});
+}));

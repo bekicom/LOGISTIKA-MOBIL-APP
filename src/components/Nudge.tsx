@@ -25,7 +25,7 @@
  * Uning profili yo'q — to'ldiradigan narsasi ham yo'q.
  */
 import { useCallback, useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -35,7 +35,7 @@ import { api } from "@/lib/api";
 import { isGuest } from "@/lib/guest";
 import { useAuth } from "@/lib/auth-context";
 import { webToApp } from "@/lib/routes";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
 
 type Gap = {
@@ -170,7 +170,7 @@ export function NudgeGate() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   body: { fontSize: 14, color: color.foreground, lineHeight: 21 },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8, lineHeight: 18 },
   again: { fontSize: 12.5, fontWeight: "700", color: color.warning, marginBottom: 8 },
@@ -186,4 +186,4 @@ const s = StyleSheet.create({
   rowText: { flex: 1, fontSize: 13, color: color.foreground },
 
   later: { fontSize: 13, fontWeight: "700", color: color.mutedForeground, textAlign: "center" },
-});
+}));

@@ -16,7 +16,7 @@
  * qolmaydi. Xato yozilsa yangi qator bilan to'g'rilanadi.
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
@@ -26,7 +26,7 @@ import { Button, Field, Header, Notice } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 const KINDS = ["ADVANCE", "SALARY", "FREIGHT", "OTHER"] as const;
@@ -218,7 +218,7 @@ export default function ReysPuli() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   list: { padding: space.lg, gap: 8 },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -292,4 +292,4 @@ const s = StyleSheet.create({
   },
   chipOn: { backgroundColor: color.brand },
   chipText: { fontSize: 13, fontWeight: "700", color: color.mutedForeground },
-});
+}));

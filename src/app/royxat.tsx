@@ -5,7 +5,7 @@
  * telefon → kod → ma'lumot. Rollar va matnlar ham o'sha yerdan.
  */
 import { useEffect, useRef, useState } from "react";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Pressable, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
@@ -14,7 +14,7 @@ import { Button, Field, Notice, Steps } from "@/components/ui";
 import { ChannelPick, useChannels, type Channel } from "@/components/ChannelPick";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
 
 type Step = "phone" | "code" | "details";
@@ -425,7 +425,7 @@ function RoleIcon({ value, on }: { value: string; on: boolean }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
 
 
   title: { fontSize: font.display, fontWeight: "700", color: color.foreground, marginTop: 6, letterSpacing: -0.4 },
@@ -512,4 +512,4 @@ const s = StyleSheet.create({
 
   err: { fontSize: 13, color: color.danger, marginTop: space.md },
   link: { fontSize: 14, fontWeight: "600", color: color.blue },
-});
+}));

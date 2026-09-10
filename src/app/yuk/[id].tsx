@@ -6,15 +6,7 @@
  * «ochilganmi» degan javob keladi.
  */
 import { useState } from "react";
-import {
-  Linking,
-  Modal,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Linking, Modal, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -26,7 +18,7 @@ import { Button, Field, Notice } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
@@ -473,7 +465,7 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   matchLink: {
     flexDirection: "row",
     alignItems: "center",
@@ -569,4 +561,4 @@ const s = StyleSheet.create({
 
   okCircle: { width: 64, height: 64, borderRadius: 32, backgroundColor: "#16a34a1f", alignItems: "center", justifyContent: "center" },
   okText: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground, marginTop: space.md },
-});
+}));

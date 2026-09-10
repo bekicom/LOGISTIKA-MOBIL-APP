@@ -12,7 +12,7 @@
  * Uchalasida bir xil qiymat turgan qator ko'zni chalg'itadi. Farqi
  * bor qator qalinroq: e'tibor aynan shu yerga kerak.
  */
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -21,7 +21,7 @@ import { Button, Header } from "@/components/ui";
 import { Empty, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { clearCompare, toggleCompare, useCompare } from "@/lib/compare";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { saleCategoryLabel, saleSpecLabel, t } from "@/lib/i18n";
 
 type Sale = {
@@ -153,7 +153,7 @@ function Rows({ ids, bottom }: { ids: string[]; bottom: number }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
   clear: { fontSize: 13, fontWeight: "700", color: color.danger },
@@ -178,4 +178,4 @@ const s = StyleSheet.create({
   rowVals: { flexDirection: "row", gap: 8 },
   val: { flex: 1, fontSize: 13, color: color.mutedForeground },
   valDiff: { color: color.foreground, fontWeight: "700" },
-});
+}));

@@ -19,7 +19,7 @@
  * ekani yoniga yoziladi — sabablar serverdan KALIT bo'lib keladi
  * (`mob.match.*`), matn qurilmada yasaladi.
  */
-import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -28,7 +28,7 @@ import { Header } from "@/components/ui";
 import { ListingCard, TruckCard, type Listing, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Match = { score: number; reasonKeys: string[] };
@@ -131,7 +131,7 @@ export default function Moslar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   list: { padding: space.lg },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -151,4 +151,4 @@ const s = StyleSheet.create({
   badge: { paddingHorizontal: 9, paddingVertical: 4, borderRadius: radius.pill, ...shadow.card },
   badgeText: { fontSize: 11.5, fontWeight: "800" },
   reasons: { flex: 1, fontSize: 11.5, color: color.mutedForeground },
-});
+}));

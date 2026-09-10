@@ -15,15 +15,7 @@
  * keladi va tugma sababini darhol aytadi.
  */
 import { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -34,7 +26,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { matchNote, payKindLabel, t } from "@/lib/i18n";
 
 type Note = { tk: string; v?: Record<string, string | number> };
@@ -455,7 +447,7 @@ function ApplySheet({
 /** `furam/src/lib/complaint.ts:VACANCY_COMPLAINT_KINDS` */
 const COMPLAINT_KINDS = ["MONEY_ASK", "FAKE_VACANCY", "PAY_LIE", "FRAUD", "OTHER"];
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   complainLink: { fontSize: 12.5, fontWeight: "700", color: color.danger, textAlign: "center" },
   complainErr: { fontSize: 12.5, color: color.danger, marginTop: 8 },
   complainOk: { fontSize: 12.5, color: color.success, marginTop: 8 },
@@ -568,4 +560,4 @@ const s = StyleSheet.create({
   area: { minHeight: 90, textAlignVertical: "top" },
   later: { alignItems: "center", paddingVertical: space.md },
   laterText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-});
+}));

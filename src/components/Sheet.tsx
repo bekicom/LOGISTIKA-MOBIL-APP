@@ -15,10 +15,10 @@
  * Modal olib tashlanadi; aks holda panel «g'oyib bo'lardi».
  */
 import { useEffect, useState, type ReactNode } from "react";
-import { Animated, Modal, Pressable, StyleSheet, View } from "react-native";
+import { Animated, Modal, Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 
 const DROP = 420;
 
@@ -74,7 +74,7 @@ export function Sheet({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   backdrop: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "#0b152699" },
   panel: {
     position: "absolute",
@@ -96,4 +96,4 @@ const s = StyleSheet.create({
     marginBottom: 14,
   },
   title: { fontSize: 18, fontWeight: "700", color: color.foreground, marginBottom: 12, letterSpacing: -0.3 },
-});
+}));

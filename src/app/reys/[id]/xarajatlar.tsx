@@ -6,15 +6,7 @@
  * boshqacha chiqib, odamni chalg'itardi.
  */
 import { useState } from "react";
-import {
-  FlatList,
-  Image,
-  Modal,
-  Pressable,
-  RefreshControl,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatList, Image, Modal, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -25,7 +17,7 @@ import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { ReceiptScan } from "@/components/ReceiptScan";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { P_SOON, P_WIFI, sendOrQueue } from "@/lib/outbox";
 import { t } from "@/lib/i18n";
 
@@ -355,7 +347,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
@@ -428,4 +420,4 @@ const s = StyleSheet.create({
   foot: { paddingHorizontal: space.xl, paddingTop: 14, borderTopWidth: 1, borderTopColor: color.border },
   cancel: { height: 48, alignItems: "center", justifyContent: "center" },
   cancelText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-});
+}));

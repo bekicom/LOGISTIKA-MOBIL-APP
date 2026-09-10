@@ -18,13 +18,13 @@
  * yuqoriga suradi.
  */
 import type { ReactNode } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import { Text } from "@/components/Text";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { LOCALE_INFO, currentLocale, t } from "@/lib/i18n";
 
 export type AuthTab = "signIn" | "signUp";
@@ -130,7 +130,7 @@ export function AuthLine({ text, link, onPress }: { text: string; link: string; 
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.blue },
   scroll: { flexGrow: 1, paddingHorizontal: space.lg },
 
@@ -176,4 +176,4 @@ const s = StyleSheet.create({
   line: { flexDirection: "row", justifyContent: "center", gap: 6 },
   lineText: { fontSize: 14, color: "#ffffffcc" },
   lineLink: { fontSize: 14, fontWeight: "700", color: "#ffffff", textDecorationLine: "underline" },
-});
+}));

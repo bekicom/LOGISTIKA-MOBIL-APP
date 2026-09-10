@@ -17,7 +17,7 @@
  * Hisob SERVERDA — web sahifasi va AI savoli bilan bitta formula.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -27,7 +27,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { TariffNotice } from "@/components/TariffNotice";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 const RANGES = [30, 90, 180, 365];
@@ -309,7 +309,7 @@ function AiAsk() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -395,4 +395,4 @@ const s = StyleSheet.create({
     padding: space.md,
   },
   answerLine: { fontSize: 13.5, color: color.foreground, lineHeight: 20, marginBottom: 6 },
-});
+}));

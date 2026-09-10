@@ -17,14 +17,14 @@
  * batafsil sozlama ishlayveradi.
  */
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Linking, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Card, GroupLabel, Header, ListRow, Switch } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { registerPush, pushState, type PushState } from "@/lib/push";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { notifyCategoryHint, notifyCategoryLabel, notifyChannelLabel, t } from "@/lib/i18n";
 
 type Prefs = Record<string, Partial<Record<Channel, boolean>>>;
@@ -198,7 +198,7 @@ export default function BildirishnomaSozlama() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
 
@@ -221,4 +221,4 @@ const s = StyleSheet.create({
   note: { borderWidth: 1, borderColor: "#cbd5e1", borderRadius: radius.card, backgroundColor: "#f8fafc", padding: space.lg, gap: 8 },
   noteTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
   noteBody: { fontSize: 12, color: "#475569", lineHeight: 19 },
-});
+}));

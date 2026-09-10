@@ -5,7 +5,7 @@
  * «Kirish | Ro'yxatdan o'tish» almashtirgichi. Mantiq o'zgarmadi.
  */
 import { useState } from "react";
-import { Alert, Pressable, StyleSheet, View } from "react-native";
+import { Alert, Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Circle, Path } from "react-native-svg";
 import { AuthLine, AuthShell } from "@/components/AuthShell";
@@ -13,7 +13,7 @@ import { Text } from "@/components/Text";
 import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Mode = "phone" | "furamId";
@@ -187,7 +187,7 @@ export default function Kirish() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   mode: { flexDirection: "row", gap: 8, marginBottom: space.lg },
   modeItem: {
     flex: 1,
@@ -218,4 +218,4 @@ const s = StyleSheet.create({
 
   err: { fontSize: 13, color: color.danger },
   link: { fontSize: 14, fontWeight: "600", color: color.blue },
-});
+}));

@@ -5,7 +5,7 @@
  * kategoriya, ustuvorlik va o'qilgan holatini qaytaradi.
  */
 import { useEffect, useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -14,7 +14,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { setBadge } from "@/lib/push";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 
 type Note = {
@@ -183,7 +183,7 @@ export default function Bildirishnomalar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   head: { flexDirection: "row", alignItems: "center",
     paddingHorizontal: 8, paddingVertical: 4, gap: 4,
@@ -214,4 +214,4 @@ const s = StyleSheet.create({
   noteBody: { fontSize: font.caption, color: "#475569", marginTop: 2, lineHeight: 19 },
   time: { fontSize: 11, color: color.mutedForeground },
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.brand },
-});
+}));

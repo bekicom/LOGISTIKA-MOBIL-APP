@@ -11,7 +11,7 @@
  * tyagachga ULANADI. Ajratilsa — yo'qolmaydi, ro'yxatda qoladi.
  */
 import { useEffect, useState } from "react";
-import { Alert, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
@@ -21,7 +21,7 @@ import { Button, Field, Header, Notice } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type VType = { id: number; name: string };
@@ -266,7 +266,7 @@ export default function Tirkama() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -315,4 +315,4 @@ const s = StyleSheet.create({
   },
   typeRowOn: { borderColor: color.brand, backgroundColor: color.brandSoft },
   typeText: { fontSize: 14, color: color.foreground },
-});
+}));

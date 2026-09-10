@@ -15,7 +15,7 @@
  * tabning sarlavhasida (`TabHeader`), ilgari faqat bosh sahifada
  * edi — busiz «Yuklar» dan profilga yo'l qolmasdi.
  */
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -24,7 +24,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { TabHeader } from "@/components/TabHeader";
 
@@ -247,7 +247,7 @@ function Badge({ icon, tint }: { icon: IconName; tint: string }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   grow: { flex: 1 },
   head: {
@@ -339,4 +339,4 @@ const s = StyleSheet.create({
   limitTitle: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground },
   limitSub: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
   limitText: { fontSize: 12, color: "#475569", marginTop: 10, lineHeight: 19 },
-});
+}));

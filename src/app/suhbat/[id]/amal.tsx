@@ -6,7 +6,7 @@
  * maxsus xabar bo'lib chiqadi (`kind`), hodisa esa alohida yozuv.
  */
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Location from "expo-location";
@@ -14,7 +14,7 @@ import { Text } from "@/components/Text";
 import { Icon, type IconName } from "@/components/Icon";
 import { Button, Field, Header, Notice, Switch } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Kind = "agreement" | "pay" | "confirm" | "incident";
@@ -180,7 +180,7 @@ export default function SuhbatAmal() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   hero: { alignItems: "center", gap: 10, paddingVertical: 6 },
@@ -200,4 +200,4 @@ const s = StyleSheet.create({
   kindTextOn: { color: color.danger },
   switchRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   switchText: { flex: 1, fontSize: 14, color: color.foreground },
-});
+}));

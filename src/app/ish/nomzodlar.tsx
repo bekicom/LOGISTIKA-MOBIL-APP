@@ -15,7 +15,7 @@
  * yolg'on bo'lardi: odam so'raganini topdim deb o'ylardi.
  */
 import { useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
@@ -23,7 +23,7 @@ import { Button, Field, Header, Notice } from "@/components/ui";
 import { Empty } from "@/components/state";
 import { TariffNotice } from "@/components/TariffNotice";
 import { api, FuramError } from "@/lib/api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { jobDirectionLabel, jobProfessionLabel, t } from "@/lib/i18n";
 
 type Candidate = {
@@ -164,7 +164,7 @@ export default function Nomzodlar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   list: { padding: space.lg },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -195,4 +195,4 @@ const s = StyleSheet.create({
     backgroundColor: color.muted,
   },
   chipText: { fontSize: 11.5, fontWeight: "700", color: color.mutedForeground },
-});
+}));

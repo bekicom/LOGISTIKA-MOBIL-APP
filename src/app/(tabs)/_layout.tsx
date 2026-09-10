@@ -40,7 +40,7 @@
  * paydo bo'ladi. «+» mehmonda kirish taklifini chiqaradi.
  */
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -49,7 +49,7 @@ import { PostSheet } from "@/components/PostSheet";
 import { Tour } from "@/components/Tour";
 import { NudgeGate } from "@/components/Nudge";
 import { clearTourRequest, markSeen, seen, useSplashDone, useTourRequest } from "@/lib/first-run";
-import { color, shadow } from "@/lib/theme";
+import { color, shadow, themed } from "@/lib/theme";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
 import { guestBlocked } from "@/lib/guest-gate";
@@ -187,7 +187,7 @@ export default function TabsLayout() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   centerWrap: { flex: 1, alignItems: "center", justifyContent: "flex-start", top: -18 },
   center: {
     width: 58,
@@ -201,4 +201,4 @@ const s = StyleSheet.create({
     ...shadow.float,
   },
   centerLabel: { fontSize: 11, fontWeight: "600", color: "#8a94a6", marginTop: 2 },
-});
+}));

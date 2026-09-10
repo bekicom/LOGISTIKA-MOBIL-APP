@@ -6,9 +6,9 @@
  * bozori — lentaning YARMI, uni menyu ichiga yashirsak bo'limni hech
  * kim topmasdi.
  */
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
-import { color, radius } from "@/lib/theme";
+import { color, radius, themed } from "@/lib/theme";
 
 export function Segment({
   value,
@@ -41,7 +41,11 @@ export function Segment({
   );
 }
 
-const s = StyleSheet.create({
+/* ⚠️ `themed` — `StyleSheet.create` EMAS (2026-09-10).
+   `create` qiymatni modul yuklanganda muzlatadi, ya'ni qorong'i
+   rejimga o'tilganda bu komponent yorug' ranglarda qolib
+   ketardi. Loyihadagi qolgan 155 fayl allaqachon `themed` da. */
+const s = themed(() => ({
   /* Dizayn-2: pill, faol yarmi ko'k (brend aksenti) */
   wrap: {
     flexDirection: "row",
@@ -61,4 +65,4 @@ const s = StyleSheet.create({
   pressed: { backgroundColor: color.muted },
   text: { fontSize: 14, fontWeight: "700", color: color.mutedForeground },
   textOn: { color: "#ffffff" },
-});
+}));

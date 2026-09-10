@@ -14,13 +14,13 @@
  * tanishtiruvga o'tish o'rniga odam yana shu ekranda qolardi.
  */
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Pressable, ScrollView, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import { Text } from "@/components/Text";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 import { applyLocaleNow, LOCALES, LOCALE_INFO, currentLocale, deviceLocale, setLocale, t, type Locale } from "@/lib/i18n";
 
 /* Ro'yxat `lib/i18n.ts` dan olinadi — til nomlari ikki joyda
@@ -104,7 +104,7 @@ export default function TilTanlash() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.blue },
   scroll: { flexGrow: 1, paddingHorizontal: space.xl, justifyContent: "center" },
 
@@ -147,4 +147,4 @@ const s = StyleSheet.create({
   },
 
   note: { fontSize: 12.5, color: "#ffffff99", textAlign: "center", marginTop: space.xl },
-});
+}));

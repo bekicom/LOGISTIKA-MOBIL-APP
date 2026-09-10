@@ -21,7 +21,7 @@
  * tilida quriladi.
  */
 import { useState } from "react";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Field, Header, Notice } from "@/components/ui";
@@ -30,7 +30,7 @@ import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 type Part = {
@@ -286,7 +286,7 @@ export default function Reyting() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   rateRow: {
     flexDirection: "row", alignItems: "flex-start", gap: 11,
     backgroundColor: color.card, borderRadius: radius.card, padding: space.md,
@@ -357,4 +357,4 @@ const s = StyleSheet.create({
     backgroundColor: color.mutedForeground + "12",
   },
   noteText: { flex: 1, fontSize: 12.5, color: color.mutedForeground, lineHeight: 19 },
-});
+}));

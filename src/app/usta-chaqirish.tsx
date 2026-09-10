@@ -19,15 +19,7 @@
  * shuni talab qiladi: `PLACE_REQUIRED`).
  */
 import { useEffect, useState } from "react";
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -44,7 +36,7 @@ import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { serviceSpecLabel, t } from "@/lib/i18n";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 
 const SPECS = [
   "engine", "gearbox", "chassis", "electric", "diagnostic", "ac",
@@ -405,7 +397,7 @@ export default function UstaChaqirish() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   steps: { backgroundColor: color.card, paddingHorizontal: space.lg, paddingBottom: space.md },
   scroll: { padding: space.lg, gap: space.md },
@@ -533,4 +525,4 @@ const s = StyleSheet.create({
     paddingTop: space.md,
   },
   footNote: { fontSize: 11, color: "#94a3b8", textAlign: "center", marginTop: 8, lineHeight: 16 },
-});
+}));

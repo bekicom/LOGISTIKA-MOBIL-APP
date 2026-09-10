@@ -23,7 +23,7 @@
  * 1 soniyadan qisqa yozuv yuborilmaydi — tasodifiy tegib ketish.
  */
 import { useRef, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import {
   AudioModule,
   RecordingPresets,
@@ -33,7 +33,7 @@ import {
 } from "expo-audio";
 import { Icon } from "@/components/Icon";
 import { Text } from "@/components/Text";
-import { color } from "@/lib/theme";
+import { color, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export type VoiceFile = { uri: string; name: string; type: string; sec: number };
@@ -142,7 +142,7 @@ export function MicButton({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   wrap: { alignItems: "flex-end" },
   btn: {
     width: 42,
@@ -169,4 +169,4 @@ const s = StyleSheet.create({
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.danger },
   barText: { fontSize: 13, fontWeight: "700", color: color.danger, fontVariant: ["tabular-nums"] },
   barHint: { fontSize: 11, color: color.mutedForeground, flex: 1 },
-});
+}));

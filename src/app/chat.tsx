@@ -12,7 +12,7 @@
  * «Muhim» — qadalgan suhbatlar; uzoq bosilsa — muhim / ovozsiz.
  */
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -23,7 +23,7 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { groupAbout, groupTitle } from "@/lib/chat";
 import { tariffBlocked } from "@/lib/features";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 
 type Chat = {
@@ -371,7 +371,7 @@ function Row({ icon, label, onPress, last }: { icon: IconName; label: string; on
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   head: { paddingTop: 4, paddingBottom: space.sm, gap: space.md },
   headRow: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: space.lg },
@@ -425,4 +425,4 @@ const s = StyleSheet.create({
   menuRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14, paddingHorizontal: 4 },
   menuDivider: { borderBottomWidth: 1, borderBottomColor: color.border },
   menuLabel: { fontSize: 15, fontWeight: "600", color: color.foreground },
-});
+}));

@@ -11,16 +11,7 @@
  * ochganini bilish kerak.
  */
 import { useState } from "react";
-import {
-  Alert,
-  Image,
-  Linking,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Alert, Image, Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, Header } from "@/components/ui";
@@ -29,7 +20,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, API_BASE, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Detail = {
   document: {
@@ -242,7 +233,7 @@ function Row({ k, v, mono }: { k: string; v: string; mono?: boolean }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 2 },
 
@@ -315,4 +306,4 @@ const s = StyleSheet.create({
     alignItems: "center", justifyContent: "center", marginTop: space.xs,
   },
   delText: { fontSize: 14, fontWeight: "600", color: color.danger },
-});
+}));

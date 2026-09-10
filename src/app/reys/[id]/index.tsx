@@ -4,7 +4,7 @@
  * Ma'lumot bitta so'rovdan (`/api/trips/[id]`): bosqichlar, marshrut, yuk,
  * mashina, hujjat va xarajat soni, pul, ishtirokchilar.
  */
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCallback, useEffect, useState } from "react";
@@ -18,7 +18,7 @@ import { SosButton, SosCard, type ActiveSos } from "@/components/SosSheet";
 import { Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import {
   activeTrip,
   isRunning as gpsRunning,
@@ -616,7 +616,7 @@ function RouteMap({ trip }: { trip: Trip }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
@@ -709,4 +709,4 @@ const s = StyleSheet.create({
   },
   primaryText: { fontSize: font.body, fontWeight: "600", color: "#fff" },
   startHint: { fontSize: 11.5, color: color.mutedForeground, textAlign: "center", marginTop: 7, lineHeight: 16 },
-});
+}));

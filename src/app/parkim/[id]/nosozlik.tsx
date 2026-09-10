@@ -14,7 +14,7 @@
  * Keyin «qaysi reysda buzildi» degan savolga javob bor.
  */
 import { useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Image, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -22,7 +22,7 @@ import { Icon } from "@/components/Icon";
 import { Button, Field, Header, Notice } from "@/components/ui";
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 const PRESETS = ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"];
@@ -173,7 +173,7 @@ export default function Nosozlik() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   lead: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
@@ -242,4 +242,4 @@ const s = StyleSheet.create({
     textAlign: "center",
     lineHeight: 20,
   },
-});
+}));

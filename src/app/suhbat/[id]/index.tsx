@@ -14,20 +14,7 @@
  * web ham shunday.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  Linking,
-  Modal,
-  Platform,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, FlatList, Image, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, TextInput, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
 import * as Location from "expo-location";
 import { setAudioModeAsync } from "expo-audio";
@@ -47,7 +34,7 @@ import { afterSheet } from "@/lib/native-ui";
 import { extOf, messageFile, messageFilePath, type ChatMsg } from "@/lib/chat";
 import { useAuth } from "@/lib/auth-context";
 import { tariffBlocked } from "@/lib/features";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { P_SOON, sendOrQueue } from "@/lib/outbox";
 import { composerPad, useKeyboardOpen } from "@/lib/keyboard";
 import { LOCALES, LOCALE_INFO, t } from "@/lib/i18n";
@@ -809,7 +796,7 @@ function MenuRow({ icon, label, danger, last, onPress }: { icon: IconName; label
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 6, gap: 6 },
   hBtn: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
@@ -911,4 +898,4 @@ const s = StyleSheet.create({
   viewer: { flex: 1, backgroundColor: "#000000ee", alignItems: "center", justifyContent: "center" },
   viewerImg: { width: "100%", height: "80%" },
   viewerClose: { position: "absolute", right: 16, width: 40, height: 40, borderRadius: 20, backgroundColor: "#ffffff22", alignItems: "center", justifyContent: "center" },
-});
+}));

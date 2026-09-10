@@ -29,11 +29,11 @@
  * undab, keyin hech narsa qilmaslik — eng g'ashlantiradigan
  * xatti-harakat.
  */
-import { Linking, Pressable, StyleSheet, View } from "react-native";
+import { Linking, Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import Svg, { Path } from "react-native-svg";
 import { Icon, type IconName } from "@/components/Icon";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export type Links = {
@@ -137,7 +137,7 @@ export function ContactLinks({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   wrap: { marginTop: space.md, gap: 8 },
   head: { fontSize: 12, fontWeight: "800", color: color.mutedForeground },
   row: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
@@ -160,4 +160,4 @@ const s = StyleSheet.create({
   btnText: { fontSize: 13.5, fontWeight: "700", color: color.foreground },
 
   note: { fontSize: 11.5, color: color.mutedForeground, lineHeight: 17 },
-});
+}));

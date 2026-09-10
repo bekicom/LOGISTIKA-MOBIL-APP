@@ -15,7 +15,7 @@
  * Atamalar ham ataylab tanlangan: «obuna» so'zi Apple tekshiruvida
  * IAP talabini chaqiradi, shuning uchun «xizmat rejasi» deyiladi.
  */
-import { Alert, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -27,7 +27,8 @@ import { useAuth } from "@/lib/auth-context";
 import { GuestPanel } from "@/components/GuestPanel";
 import { isGuest } from "@/lib/guest";
 import { forget, requestTour } from "@/lib/first-run";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
+import { ThemePick } from "@/components/ThemePick";
 import { currentLocale, LOCALE_INFO, roleLabel, t } from "@/lib/i18n";
 
 
@@ -272,6 +273,11 @@ function OwnProfil() {
                 Joriy til O'Z YOZUVIDA ko'rsatiladi — noto'g'ri
                 tilga o'tib qolgan odam ro'yxatdan o'zinikini
                 shundan topadi. */}
+            {/* REJIM — til USTIDA. Ikkalasi «ilova qanday
+                ko'rinadi» degan bir savolning bo'lagi va yonma-yon
+                turgani ma'noli. Rejim qatorda, tilga esa alohida
+                ekran kerak: sakkiz til bitta qatorga sig'maydi. */}
+            <ThemePick />
             <ListRow
               icon={<Badge icon="globe" />}
               title={t("mob.lang.appTitle")}
@@ -340,7 +346,7 @@ function Badge({ icon }: { icon: IconName }) {
 }
 
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   head: {
     backgroundColor: color.card, flexDirection: "row", alignItems: "center",
@@ -402,4 +408,4 @@ const s = StyleSheet.create({
     textAlign: "center", fontSize: font.caption, fontWeight: "600",
     color: color.danger, paddingVertical: space.md,
   },
-});
+}));

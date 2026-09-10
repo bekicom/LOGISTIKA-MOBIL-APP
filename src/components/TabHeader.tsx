@@ -14,7 +14,7 @@
  * Mehmonda ikonkalar yo'q — ularning serveri 401 beradi.
  */
 import { useEffect } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -22,7 +22,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
 import { refreshChatCount, useCounts } from "@/lib/counts";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 function IconButton({
@@ -130,7 +130,7 @@ export function TabHeader({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   head: {
     flexDirection: "row",
     alignItems: "center",
@@ -174,4 +174,4 @@ const s = StyleSheet.create({
     borderColor: color.background,
   },
   badgeText: { fontSize: 9.5, fontWeight: "700", color: "#fff" },
-});
+}));

@@ -6,12 +6,12 @@
  * uchun fayl so'raydi va manzil to'g'ridan-to'g'ri ochilib
  * qolsa (deep link, «orqaga» tarixi) bo'sh ekran chiqmasin.
  */
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TabHeader } from "@/components/TabHeader";
 import { PostActions } from "@/components/PostSheet";
 import { Card } from "@/components/ui";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export default function JoylashTab() {
@@ -28,7 +28,7 @@ export default function JoylashTab() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
-});
+}));

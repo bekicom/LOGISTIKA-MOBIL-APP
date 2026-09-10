@@ -13,13 +13,13 @@
  * Ildizda bitta joyda turadi, ekranlar `notePushMoment()` chaqiradi.
  */
 import { useCallback, useEffect, useState } from "react";
-import { Modal, Pressable, StyleSheet, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "./Icon";
 import { Button } from "./ui";
 import { markPushAsked, onPushMoment, registerPush, shouldAskPush } from "@/lib/push";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /** Nima keladi — misollar. Quruq «ruxsat bering» dan ko'ra aniqroq. */
@@ -87,7 +87,7 @@ export function PushAsk() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   back: { flex: 1, backgroundColor: "#0f172acc", justifyContent: "flex-end" },
   sheet: {
     backgroundColor: color.background,
@@ -116,4 +116,4 @@ const s = StyleSheet.create({
   actions: { gap: space.xs, marginTop: space.xs },
   later: { alignItems: "center", paddingVertical: space.md },
   laterText: { fontSize: font.body, color: color.mutedForeground, fontWeight: "600" },
-});
+}));

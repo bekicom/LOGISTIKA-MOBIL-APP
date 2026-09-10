@@ -14,14 +14,14 @@
  * qarab ochiladi (`Accept-Language`). Ikkalasi deyarli har doim bir
  * xil; farq qilsa ham hujjatning O'ZI to'g'ri, faqat tili boshqa.
  */
-import { Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Linking, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Card, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { API_BASE } from "@/lib/api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 /** Web'dagi manzillar — `furam/src/app/(info)/` */
 const DOCS = [
@@ -74,7 +74,7 @@ export default function Huquqiy() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
   badge: {
@@ -111,4 +111,4 @@ const s = StyleSheet.create({
   },
   companyName: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground, marginTop: 6 },
   companyLink: { fontSize: font.caption, fontWeight: "600", color: color.brand, marginTop: 10 },
-});
+}));

@@ -6,7 +6,7 @@
  * sanoq bilan).
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -15,7 +15,7 @@ import { HeaderIcons } from "@/components/TabHeader";
 import { TripCard, type TripItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
@@ -110,7 +110,7 @@ export default function Reyslar() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   head: { paddingHorizontal: space.lg, paddingTop: 4, paddingBottom: space.sm, gap: space.md },
   headRow: { flexDirection: "row", alignItems: "center", gap: 4 },
@@ -150,4 +150,4 @@ const s = StyleSheet.create({
   segBadgeText: { fontSize: 11, fontWeight: "800", color: "#ffffff" },
 
   list: { padding: space.lg, paddingTop: space.sm, gap: space.md },
-});
+}));

@@ -15,15 +15,7 @@
  *     telefon raqami allaqachon shunday himoyalangan.
  */
 import { useState } from "react";
-import {
-  Image,
-  Linking,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Image, Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -36,7 +28,7 @@ import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
 
@@ -407,7 +399,7 @@ function Stat({ label, value, good }: { label: string; value: string | number; g
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   shareWrap: { position: "absolute", right: 12 },
 
   root: { flex: 1, backgroundColor: color.background },
@@ -546,4 +538,4 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-});
+}));

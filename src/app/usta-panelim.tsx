@@ -18,19 +18,7 @@
  * aytiladi — Bozordagi bilan bir xil qoida.
  */
 import { useState } from "react";
-import {
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  Linking,
-  Modal,
-  Platform,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -41,7 +29,7 @@ import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { servicePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { serviceSpecLabel, serviceStatusLabel, t } from "@/lib/i18n";
 
 type Fresh = {
@@ -437,7 +425,7 @@ function OfferSheet({
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
   /* Sarlavha oralig'ini o'zi beradi: konteynerdagi `gap` buyurtma
@@ -598,4 +586,4 @@ const s = StyleSheet.create({
 
   later: { alignItems: "center", paddingVertical: space.md },
   laterText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-});
+}));

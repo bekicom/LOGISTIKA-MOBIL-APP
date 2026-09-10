@@ -17,15 +17,7 @@
  * haydovchining O'ZIGA tegishlisi.
  */
 import { useState } from "react";
-import {
-  Image,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Switch as RNSwitch,
-  View,
-} from "react-native";
+import { Image, Pressable, RefreshControl, ScrollView, Switch as RNSwitch, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -36,7 +28,7 @@ import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
 import { t, tripStatusLabel } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 
 type DocItem = { kind: string; state: string; days: number | null };
 
@@ -403,7 +395,7 @@ function Fig({ value, label, good }: { value: string; label: string; good?: bool
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   head: {
     paddingHorizontal: space.lg,
@@ -608,4 +600,4 @@ const s = StyleSheet.create({
   empName: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginTop: 12 },
   empSince: { fontSize: 12, color: color.success, marginTop: 1 },
   empText: { fontSize: 12, color: color.mutedForeground, marginTop: 4, lineHeight: 19 },
-});
+}));

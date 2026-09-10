@@ -11,15 +11,7 @@
  * UTC ga o'girilib sakramasligi.
  */
 import { useState } from "react";
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Field, Header } from "@/components/ui";
@@ -27,7 +19,7 @@ import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Detail = {
   queue: {
@@ -204,7 +196,7 @@ export default function NavbatYozish() {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.card },
   scroll: { padding: space.xl, gap: space.xl, paddingBottom: space.xxl * 2 },
 
@@ -224,4 +216,4 @@ const s = StyleSheet.create({
     borderColor: color.danger + "59", alignItems: "center", justifyContent: "center",
   },
   denyText: { fontSize: font.body, fontWeight: "600", color: color.danger },
-});
+}));

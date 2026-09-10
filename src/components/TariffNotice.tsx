@@ -19,14 +19,14 @@
  * Ochiq bo'lsa HECH NARSA chizilmaydi: to'lagan odam har ekranda
  * tarif haqida o'qib yurmasligi kerak.
  */
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
 import { featureName, type FeatureKey } from "@/lib/features";
-import { color, font, radius, space } from "@/lib/theme";
+import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 /**
@@ -65,7 +65,7 @@ export function TariffNotice({ feature, top = 0 }: { feature: FeatureKey; top?: 
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   box: {
     borderWidth: 1,
     borderColor: color.warning + "47",
@@ -79,4 +79,4 @@ const s = StyleSheet.create({
   body: { fontSize: 12.5, color: color.warning, lineHeight: 18, opacity: 0.9 },
   btn: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 3 },
   btnText: { fontSize: 13.5, fontWeight: "700", color: color.warning },
-});
+}));

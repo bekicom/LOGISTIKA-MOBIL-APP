@@ -23,13 +23,13 @@
  * (`apiErr.CHEGARA`, `apiErr.BOSH_QIDIRUV`) — 3-qoida.
  */
 import { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { guestBlocked } from "@/lib/guest-gate";
-import { color, radius, space } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 import type { Filtr } from "@/components/FiltrSheet";
 
@@ -101,7 +101,7 @@ export function SaveSearch({ kind, filtr }: { kind: "load" | "truck"; filtr: Fil
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   row: { flexDirection: "row", alignItems: "center", gap: space.md },
   btn: {
     flexDirection: "row",
@@ -119,4 +119,4 @@ const s = StyleSheet.create({
   link: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground },
   hint: { fontSize: 11.5, color: color.mutedForeground },
   err: { fontSize: 11.5, color: color.danger },
-});
+}));

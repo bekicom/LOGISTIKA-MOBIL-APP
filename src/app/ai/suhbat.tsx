@@ -14,17 +14,7 @@
  *     bajarilmagan. Tugma bosilganda server bajaradi.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -33,7 +23,7 @@ import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t, tOr } from "@/lib/i18n";
-import { color, font, radius, shadow, space } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { tariffBlocked } from "@/lib/features";
 
 type Action = { id: string; kind: string; title: string; furamNo?: number; url?: string };
@@ -531,7 +521,7 @@ function actionLabel(a: Action): string {
   return a.title;
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   grow: { flex: 1 },
 
@@ -713,4 +703,4 @@ const s = StyleSheet.create({
     marginTop: 10,
   },
   ghostText: { fontSize: font.body, fontWeight: "600", color: "#475569" },
-});
+}));

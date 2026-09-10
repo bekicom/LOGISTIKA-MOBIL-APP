@@ -15,13 +15,13 @@
  *   sariq  — aloqa bor, navbatda yozuv turibdi
  *   qizil  — yuborilmagan (server rad etgan) yozuv bor
  */
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "./Icon";
 import { useOutboxCounts } from "@/lib/use-outbox";
 import { t } from "@/lib/i18n";
-import { color, font } from "@/lib/theme";
+import { color, font, themed } from "@/lib/theme";
 
 export function OfflineBar({ online }: { online: boolean }) {
   const { pending, failed } = useOutboxCounts();
@@ -55,7 +55,7 @@ export function OfflineBar({ online }: { online: boolean }) {
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   bar: {
     flexDirection: "row",
     alignItems: "center",
@@ -64,4 +64,4 @@ const s = StyleSheet.create({
     paddingVertical: 8,
   },
   text: { flex: 1, fontSize: font.caption, fontWeight: "600", color: "#fff" },
-});
+}));

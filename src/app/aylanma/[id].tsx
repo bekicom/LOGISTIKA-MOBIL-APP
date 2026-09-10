@@ -29,7 +29,7 @@ import { Button, Card, GroupLabel, Header } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, shadow, space } from "@/lib/theme";
+import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
 
 type Money = { amount: number; currency: string };
@@ -262,7 +262,7 @@ function MoneyBox({ label, rows, tone }: { label: string; rows: Money[]; tone: s
   );
 }
 
-const s = StyleSheet.create({
+const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg },
 
@@ -323,4 +323,4 @@ const s = StyleSheet.create({
     borderTopColor: color.border,
   },
   chatText: { flex: 1, fontSize: 13.5, fontWeight: "700", color: color.brand },
-});
+}));

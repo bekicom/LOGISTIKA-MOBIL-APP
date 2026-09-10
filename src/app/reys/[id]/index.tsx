@@ -632,7 +632,7 @@ const s = themed(() => ({
     height: 36, paddingHorizontal: 13, borderRadius: radius.control,
     borderWidth: 1, borderColor: color.border, alignItems: "center", justifyContent: "center",
   },
-  gpsBtnText: { fontSize: 13, fontWeight: "600", color: "#475569" },
+  gpsBtnText: { fontSize: 13, fontWeight: "600", color: color.icon },
   gpsWaiting: {
     flexDirection: "row", alignItems: "center", gap: 8, marginTop: 12,
     paddingTop: 12, borderTopWidth: 1, borderTopColor: color.border,
@@ -648,7 +648,7 @@ const s = themed(() => ({
     position: "absolute", right: space.lg, bottom: 14, height: 28, paddingHorizontal: 11,
     borderRadius: radius.control, backgroundColor: "rgba(255,255,255,0.94)", justifyContent: "center",
   },
-  mapPlaceText: { fontSize: 12, fontWeight: "500", color: "#475569" },
+  mapPlaceText: { fontSize: 12, fontWeight: "500", color: color.icon },
 
   figures: {
     backgroundColor: color.card, flexDirection: "row", paddingVertical: space.lg,

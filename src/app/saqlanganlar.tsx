@@ -124,7 +124,7 @@ export default function Saqlanganlar() {
                           .join(" · ")}
                       </Text>
                     </View>
-                    <Icon name="heart" size={20} stroke={gone ? "#cbd5e1" : color.brand} fill={gone ? "#cbd5e1" : color.brand} />
+                    <Icon name="heart" size={20} stroke={gone ? color.iconFaint : color.brand} fill={gone ? color.iconFaint : color.brand} />
                   </View>
 
                   {gone ? (
@@ -183,12 +183,12 @@ const s = themed(() => ({
     borderRadius: radius.card,
     padding: 15,
   },
-  cardGone: { backgroundColor: "#f8fafc" },
+  cardGone: { backgroundColor: color.surface },
   head: { flexDirection: "row", gap: 12, alignItems: "flex-start" },
-  shot: { width: 56, height: 56, borderRadius: 10, backgroundColor: "#cbd5e1" },
+  shot: { width: 56, height: 56, borderRadius: 10, backgroundColor: color.iconFaint },
   route: { fontSize: font.title, fontWeight: "700", color: color.foreground },
   dimText: { color: color.mutedForeground },
-  sub: { fontSize: font.caption, color: "#475569", marginTop: 2 },
+  sub: { fontSize: font.caption, color: color.icon, marginTop: 2 },
 
   foot: {
     flexDirection: "row",

@@ -197,7 +197,7 @@ export default function Tirkama() {
             <Text style={[s.pickValue, !typeName && { color: color.mutedForeground }]}>
               {typeName ?? t("mob.common.notSet")}
             </Text>
-            <Icon name="chevron" size={17} stroke="#cbd5e1" />
+            <Icon name="chevron" size={17} stroke={color.iconFaint} />
           </Pressable>
 
           <View style={{ flexDirection: "row", gap: 9 }}>

@@ -259,7 +259,7 @@ export default function ReysYopish() {
                         <Icon
                           name="star"
                           size={30}
-                          stroke={n <= stars ? color.warning : "#cbd5e1"}
+                          stroke={n <= stars ? color.warning : color.iconFaint}
                           fill={n <= stars ? color.warning : "none"}
                         />
                       </Pressable>

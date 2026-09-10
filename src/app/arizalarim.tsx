@@ -263,7 +263,7 @@ const s = themed(() => ({
     borderRadius: 10,
     backgroundColor: color.brand + "12",
   },
-  offerText: { fontSize: 13, color: "#9a3412", lineHeight: 19 },
+  offerText: { fontSize: 13, color: color.brandText, lineHeight: 19 },
 
   row2: { flexDirection: "row", gap: 8, marginTop: 12 },
   btn: { flex: 1, height: 44, borderRadius: 10, alignItems: "center", justifyContent: "center" },

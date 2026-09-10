@@ -227,7 +227,7 @@ export default function Rezyume() {
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
-  lead: { fontSize: font.body, color: "#475569", lineHeight: 22 },
+  lead: { fontSize: font.body, color: color.icon, lineHeight: 22 },
 
   card: {
     backgroundColor: color.card,
@@ -259,14 +259,14 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   chipOn: { backgroundColor: color.navy, borderColor: color.navy },
-  chipText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  chipText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
 
   note: {
     padding: 14,
     borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint,
+    backgroundColor: color.surface,
   },
-  noteText: { fontSize: 12, color: "#475569", lineHeight: 19 },
+  noteText: { fontSize: 12, color: color.icon, lineHeight: 19 },
 }));

@@ -190,7 +190,7 @@ export default function Bozor() {
                               <View
                                 style={[
                                   s.barFill,
-                                  { height: `${(r.trucks / top) * 100}%`, backgroundColor: "#cbd5e1" },
+                                  { height: `${(r.trucks / top) * 100}%`, backgroundColor: color.iconFaint },
                                 ]}
                               />
                             </View>
@@ -246,7 +246,7 @@ const s = themed(() => ({
     borderWidth: 1,
     borderColor: color.warning + "3d",
   },
-  warnText: { flex: 1, fontSize: 12.5, color: "#78350f", lineHeight: 19 },
+  warnText: { flex: 1, fontSize: 12.5, color: color.warningText, lineHeight: 19 },
 
   rateTop: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
   rateCur: { fontSize: 15, fontWeight: "700", color: color.foreground },

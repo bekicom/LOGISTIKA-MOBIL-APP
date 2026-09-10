@@ -49,7 +49,7 @@ export default function Huquqiy() {
               }
               title={t(`mob.legal.${d.key}`)}
               hint={t(`mob.legal.${d.key}Hint`)}
-              right={<Icon name="arrow-right" size={17} stroke="#cbd5e1" />}
+              right={<Icon name="arrow-right" size={17} stroke={color.iconFaint} />}
               last={i === DOCS.length - 1}
               onPress={() => void Linking.openURL(`${API_BASE}${d.path}`)}
             />
@@ -89,12 +89,12 @@ const s = themed(() => ({
     flexDirection: "row",
     gap: 9,
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint,
+    backgroundColor: color.surface,
     borderRadius: radius.card,
     padding: 13,
   },
-  noteText: { flex: 1, fontSize: 12, color: "#475569", lineHeight: 19 },
+  noteText: { flex: 1, fontSize: 12, color: color.icon, lineHeight: 19 },
 
   company: {
     backgroundColor: color.card,

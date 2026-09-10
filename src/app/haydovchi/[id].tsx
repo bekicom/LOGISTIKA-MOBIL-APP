@@ -259,7 +259,7 @@ export default function Haydovchi() {
                           {v.main ? t("mob.vehicle.mainDriver") : t("mob.vehicle.coDriver")}
                         </Text>
                       </View>
-                      <Icon name="chevron" size={17} stroke="#cbd5e1" />
+                      <Icon name="chevron" size={17} stroke={color.iconFaint} />
                     </Pressable>
                   ))}
                 </View>
@@ -288,7 +288,7 @@ export default function Haydovchi() {
                           FURAM #{tr.no} · {tripStatusLabel(tr.status)}
                         </Text>
                       </View>
-                      <Icon name="chevron" size={17} stroke="#cbd5e1" />
+                      <Icon name="chevron" size={17} stroke={color.iconFaint} />
                     </Pressable>
                   ))}
                 </View>

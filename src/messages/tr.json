@@ -3054,6 +3054,12 @@
       "work": "Tam olarak ne yapılır",
       "workPh": "Örneğin: ön balata değişimi"
     },
+    "theme": {
+      "dark": "Koyu",
+      "light": "Açık",
+      "system": "Sistem",
+      "title": "GÖRÜNÜM"
+    },
     "tour": {
       "askBody": "Tur açılır, sahibine bildirim gider ve sohbet oluşur. Bu seferdeki tüm seferler ve masraflar tek yerde toplanır.",
       "askTitle": "Yola çıktınız mı?",

@@ -334,7 +334,7 @@ const s = themed(() => ({
     backgroundColor: color.brand + "1f",
     justifyContent: "center",
   },
-  catText: { fontSize: 12, fontWeight: "600", color: "#c2490f" },
+  catText: { fontSize: 12, fontWeight: "600", color: color.brandText },
   meta: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
 
   amount: { fontSize: 24, fontWeight: "700", color: color.foreground, marginTop: 11 },
@@ -357,7 +357,7 @@ const s = themed(() => ({
     borderRadius: 10,
     backgroundColor: color.warning + "14",
   },
-  noReceiptText: { flex: 1, fontSize: 12, color: "#92400e" },
+  noReceiptText: { flex: 1, fontSize: 12, color: color.warningText },
 
   edited: { fontSize: 12, color: color.mutedForeground, marginTop: 10 },
 
@@ -376,7 +376,7 @@ const s = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
-  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.xs },
+  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: 13, color: color.mutedForeground, marginBottom: space.xs },
   hint: { fontSize: 12, color: color.mutedForeground, lineHeight: 18 },

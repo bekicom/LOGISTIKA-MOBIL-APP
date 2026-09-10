@@ -184,7 +184,7 @@ const s = themed(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  btnText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  btnText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
 
   primary: {
     height: 48,
@@ -199,8 +199,8 @@ const s = themed(() => ({
     padding: 14,
     borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint,
+    backgroundColor: color.surface,
   },
-  noteText: { fontSize: 12, color: "#475569", lineHeight: 19 },
+  noteText: { fontSize: 12, color: color.icon, lineHeight: 19 },
 }));

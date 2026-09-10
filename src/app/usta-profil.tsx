@@ -313,7 +313,7 @@ const s = themed(() => ({
   },
   pickOn: { backgroundColor: color.brand + "17", borderColor: color.brand },
   pickText: { fontSize: 13, fontWeight: "500", color: color.mutedForeground },
-  pickTextOn: { color: "#c2490f", fontWeight: "600" },
+  pickTextOn: { color: color.brandText, fontWeight: "600" },
 
   line: { height: 1, backgroundColor: color.border },
   switchRow: { flexDirection: "row", alignItems: "center", gap: 11 },

@@ -134,7 +134,7 @@ const s = themed(() => ({
     marginBottom: space.lg,
   },
   h1: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.5 },
-  lead: { fontSize: font.body, color: "#475569", marginTop: 10, lineHeight: 23 },
+  lead: { fontSize: font.body, color: color.icon, marginTop: 10, lineHeight: 23 },
 
   points: {
     marginTop: space.xl,
@@ -158,12 +158,12 @@ const s = themed(() => ({
     borderColor: color.warning + "66",
     backgroundColor: color.warning + "0d",
   },
-  warnText: { flex: 1, fontSize: font.caption, color: "#92400e", lineHeight: 20 },
+  warnText: { flex: 1, fontSize: font.caption, color: color.warningText, lineHeight: 20 },
 
   later: {
     fontSize: font.body,
     fontWeight: "600",
-    color: "#475569",
+    color: color.icon,
     textAlign: "center",
     paddingVertical: 12,
   },
@@ -172,8 +172,8 @@ const s = themed(() => ({
     padding: 14,
     borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint,
+    backgroundColor: color.surface,
   },
-  noteText: { fontSize: 12, color: "#475569", lineHeight: 19 },
+  noteText: { fontSize: 12, color: color.icon, lineHeight: 19 },
 }));

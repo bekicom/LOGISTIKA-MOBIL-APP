@@ -187,7 +187,7 @@ export default function Reyting() {
                             ]}
                           />
                         </View>
-                        <Text style={[s.partNote, low && { color: "#78350f" }]}>
+                        <Text style={[s.partNote, low && { color: color.warningText }]}>
                           {t(`trustNote.${p.noteKey}`, p.noteVars)}
                         </Text>
                       </View>

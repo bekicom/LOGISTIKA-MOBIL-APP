@@ -188,7 +188,7 @@ export default function Panelim() {
                       <RNSwitch
                         value={on}
                         onValueChange={toggle}
-                        trackColor={{ true: color.success, false: "#cbd5e1" }}
+                        trackColor={{ true: color.success, false: color.iconFaint }}
                         thumbColor="#fff"
                       />
                     </View>
@@ -292,7 +292,7 @@ export default function Panelim() {
                     </Text>
                   ) : null}
                 </View>
-                <Icon name="chevron" size={18} stroke="#cbd5e1" />
+                <Icon name="chevron" size={18} stroke={color.iconFaint} />
               </Pressable>
             ) : null}
 
@@ -381,10 +381,10 @@ const docColor = (state: string) =>
 
 const docText = (state: string) =>
   state === "expired" || state === "missing"
-    ? "#b91c1c"
+    ? color.dangerText
     : state === "soon"
-      ? "#92400e"
-      : "#15803d";
+      ? color.warningText
+      : color.successText;
 
 function Fig({ value, label, good }: { value: string; label: string; good?: boolean }) {
   return (
@@ -427,8 +427,8 @@ const s = themed(() => ({
     borderRadius: radius.card,
     padding: 16,
   },
-  alarmTitle: { fontSize: font.body, fontWeight: "700", color: "#b91c1c" },
-  alarmText: { fontSize: font.caption, color: "#b91c1c", marginTop: 5, lineHeight: 20 },
+  alarmTitle: { fontSize: font.body, fontWeight: "700", color: color.dangerText },
+  alarmText: { fontSize: font.caption, color: color.dangerText, marginTop: 5, lineHeight: 20 },
   alarmBtn: {
     height: 44,
     borderRadius: radius.control,
@@ -473,7 +473,7 @@ const s = themed(() => ({
   seekOn: { borderColor: color.success, borderWidth: 2 },
   seekRow: { flexDirection: "row", alignItems: "center", gap: 14 },
   seekTitle: { fontSize: font.title, fontWeight: "700", color: color.foreground },
-  seekText: { fontSize: font.caption, color: "#475569", marginTop: 4, lineHeight: 20 },
+  seekText: { fontSize: font.caption, color: color.icon, marginTop: 4, lineHeight: 20 },
   seekFoot: {
     flexDirection: "row",
     alignItems: "center",
@@ -483,14 +483,14 @@ const s = themed(() => ({
     borderTopWidth: 1,
     borderTopColor: color.border,
   },
-  seekFootText: { flex: 1, fontSize: 12, color: "#475569" },
+  seekFootText: { flex: 1, fontSize: 12, color: color.icon },
   err: { fontSize: font.caption, color: color.danger, marginTop: 10 },
 
   empty: {
     backgroundColor: color.card,
     borderWidth: 1,
     borderStyle: "dashed",
-    borderColor: "#cbd5e1",
+    borderColor: color.iconFaint,
     borderRadius: radius.card,
     padding: 22,
     alignItems: "center",
@@ -539,7 +539,7 @@ const s = themed(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  ghostText: { fontSize: 14, fontWeight: "600", color: "#475569" },
+  ghostText: { fontSize: 14, fontWeight: "600", color: color.icon },
 
   sec: {
     backgroundColor: color.card,
@@ -575,7 +575,7 @@ const s = themed(() => ({
     backgroundColor: color.card,
     borderRadius: radius.card,
     padding: 12, ...shadow.card,},
-  vehShot: { width: 64, height: 64, borderRadius: 10, backgroundColor: "#cbd5e1" },
+  vehShot: { width: 64, height: 64, borderRadius: 10, backgroundColor: color.iconFaint },
   vehShotEmpty: { backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   vehPlate: { fontSize: font.body, fontWeight: "700", color: color.foreground },
   vehSub: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },

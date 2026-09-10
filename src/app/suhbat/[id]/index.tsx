@@ -521,7 +521,7 @@ export default function Suhbat() {
 
           <View style={s.inputRow}>
             <Pressable style={s.roundBtn} onPress={() => setAttach(true)} accessibilityLabel={t("mob.chat.whatSend")}>
-              <Icon name="paperclip" size={20} stroke="#475569" />
+              <Icon name="paperclip" size={20} stroke={color.icon} />
             </Pressable>
             <View style={s.field}>
               <TextInput
@@ -790,7 +790,7 @@ function Att({ icon, tint, bg, label, onPress }: { icon: IconName; tint: string;
 function MenuRow({ icon, label, danger, last, onPress }: { icon: IconName; label: string; danger?: boolean; last?: boolean; onPress?: () => void }) {
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.menuRow, !last && s.menuDivider, pressed && { opacity: 0.6 }]}>
-      <Icon name={icon} size={19} stroke={danger ? color.danger : "#475569"} />
+      <Icon name={icon} size={19} stroke={danger ? color.danger : color.icon} />
       <Text style={[s.menuLabel, danger && { color: color.danger }]}>{label}</Text>
     </Pressable>
   );
@@ -853,7 +853,7 @@ const s = themed(() => ({
   time: { fontSize: 10.5, fontVariant: ["tabular-nums"] },
 
   system: { alignSelf: "center", backgroundColor: color.muted, borderRadius: 12, paddingVertical: 7, paddingHorizontal: 13, maxWidth: "90%" },
-  systemText: { fontSize: 12, color: "#475569", textAlign: "center" },
+  systemText: { fontSize: 12, color: color.icon, textAlign: "center" },
   systemTime: { fontSize: 10, color: "#94a3b8", textAlign: "center", marginTop: 2 },
 
   errBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: space.lg, paddingVertical: 8, backgroundColor: color.dangerSoft },

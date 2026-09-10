@@ -164,7 +164,7 @@ export default function ShartnomaHujjatlari() {
                   {d.byName ? ` · ${d.byName}` : ""}
                 </Text>
               </View>
-              <Icon name="chevron" size={17} stroke="#cbd5e1" />
+              <Icon name="chevron" size={17} stroke={color.iconFaint} />
             </Pressable>
           ))}
         </View>

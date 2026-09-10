@@ -295,7 +295,7 @@ export default function Parol() {
 const s = themed(() => ({
 
   title: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.5 },
-  sub: { fontSize: font.body, color: "#475569", marginTop: 8, lineHeight: 22 },
+  sub: { fontSize: font.body, color: color.icon, marginTop: 8, lineHeight: 22 },
   strong: { fontWeight: "700", color: color.foreground },
   label: { fontSize: 12, color: color.mutedForeground, marginBottom: 6 },
 
@@ -340,10 +340,10 @@ const s = themed(() => ({
     padding: 14,
     borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint,
+    backgroundColor: color.surface,
   },
-  noticeText: { fontSize: 12, color: "#475569", lineHeight: 19 },
+  noticeText: { fontSize: 12, color: color.icon, lineHeight: 19 },
 
   err: { fontSize: font.caption, color: color.danger, marginTop: 16 },
 
@@ -360,7 +360,7 @@ const s = themed(() => ({
   doneTick: { fontSize: 34, color: color.success, fontWeight: "700" },
   doneText: {
     fontSize: font.body,
-    color: "#475569",
+    color: color.icon,
     marginTop: 10,
     textAlign: "center",
     lineHeight: 22,

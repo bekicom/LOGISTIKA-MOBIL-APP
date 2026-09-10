@@ -124,7 +124,7 @@ export default function UstaPanelim() {
             <View style={s.rowHead}>
               {o.needMobile ? (
                 <View style={[s.tag, s.tagMobile]}>
-                  <Text style={[s.tagText, { color: "#c2490f" }]}>
+                  <Text style={[s.tagText, { color: color.brandText }]}>
                     {t("mob.svc.mobileNeeded")}
                   </Text>
                 </View>
@@ -295,7 +295,7 @@ export default function UstaPanelim() {
                     {profile.specialities.map((k) => serviceSpecLabel(k)).join(", ")}
                   </Text>
                 </View>
-                <Icon name="chevron" size={18} stroke="#cbd5e1" />
+                <Icon name="chevron" size={18} stroke={color.iconFaint} />
               </Pressable>
             </View>
           ) : null
@@ -456,8 +456,8 @@ const s = themed(() => ({
     borderRadius: radius.control,
     padding: space.md,
   },
-  warnTitle: { fontSize: font.caption, fontWeight: "600", color: "#92400e" },
-  warnText: { fontSize: 12, color: "#92400e", marginTop: 4, lineHeight: 18 },
+  warnTitle: { fontSize: font.caption, fontWeight: "600", color: color.warningText },
+  warnText: { fontSize: 12, color: color.warningText, marginTop: 4, lineHeight: 18 },
 
   stats: { flexDirection: "row", gap: 10 },
   stat: {
@@ -522,8 +522,8 @@ const s = themed(() => ({
     borderColor: color.warning + "59",
     backgroundColor: color.warning + "0d",
   },
-  lockedTitle: { fontSize: font.caption, fontWeight: "600", color: "#92400e" },
-  lockedText: { fontSize: 12, color: "#92400e", marginTop: 4, lineHeight: 18 },
+  lockedTitle: { fontSize: font.caption, fontWeight: "600", color: color.warningText },
+  lockedText: { fontSize: 12, color: color.warningText, marginTop: 4, lineHeight: 18 },
 
   profileRow: {
     flexDirection: "row",
@@ -563,7 +563,7 @@ const s = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
-  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.xs },
+  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: 13, color: color.mutedForeground, lineHeight: 19, marginBottom: space.xs },
   sheetNote: { fontSize: 11, color: "#94a3b8", textAlign: "center", lineHeight: 16 },
@@ -581,7 +581,7 @@ const s = themed(() => ({
   },
   pickOn: { backgroundColor: color.brand + "17", borderColor: color.brand },
   pickText: { fontSize: 13, fontWeight: "500", color: color.mutedForeground },
-  pickTextOn: { color: "#c2490f", fontWeight: "600" },
+  pickTextOn: { color: color.brandText, fontWeight: "600" },
   area: { minHeight: 70, textAlignVertical: "top" },
 
   later: { alignItems: "center", paddingVertical: space.md },

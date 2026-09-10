@@ -209,7 +209,7 @@ const s = themed(() => ({
     borderWidth: 1, borderColor: color.warning + "59", backgroundColor: color.warning + "0f",
     borderRadius: radius.card,
   },
-  warnText: { flex: 1, fontSize: 12, color: "#92400e", lineHeight: 18 },
+  warnText: { flex: 1, fontSize: 12, color: color.warningText, lineHeight: 18 },
 
   deny: {
     height: 52, borderRadius: radius.control, borderWidth: 1,

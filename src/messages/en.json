@@ -3054,6 +3054,12 @@
       "work": "What exactly is done",
       "workPh": "For example: replace the front brake pads"
     },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System",
+      "title": "APPEARANCE"
+    },
     "tour": {
       "askBody": "A tour opens, your owner is notified and a chat is created. Every trip and expense of this run is gathered in one place.",
       "askTitle": "Heading out?",

@@ -253,7 +253,7 @@ export default function Shartnoma() {
                     <View key={v.no} style={s.stepRow}>
                       <View style={s.stepRail}>
                         <View
-                          style={[s.dot, { backgroundColor: i === 0 ? color.brand : "#cbd5e1" }]}
+                          style={[s.dot, { backgroundColor: i === 0 ? color.brand : color.iconFaint }]}
                         />
                         {i < c.versions.length - 1 && <View style={s.line} />}
                       </View>
@@ -913,7 +913,7 @@ const s = themed(() => ({
     paddingHorizontal: 14,
   },
   optOn: { borderWidth: 2, borderColor: color.foreground },
-  radio: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: "#cbd5e1" },
+  radio: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: color.iconFaint },
   radioOn: { borderWidth: 6, borderColor: color.foreground },
   optText: { flexGrow: 1, fontSize: 14, color: color.foreground },
   optTag: { fontSize: 11, fontWeight: "600" },
@@ -924,7 +924,7 @@ const s = themed(() => ({
     borderRadius: 11,
     backgroundColor: color.warning + "14",
   },
-  limitText: { fontSize: 12.5, color: "#78350f", lineHeight: 19 },
+  limitText: { fontSize: 12.5, color: color.warningText, lineHeight: 19 },
 
   danger: {
     height: 46,

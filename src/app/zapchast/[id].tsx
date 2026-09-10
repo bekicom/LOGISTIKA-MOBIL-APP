@@ -167,7 +167,7 @@ export default function Detal() {
           {/* MOS KELADIMI — javob darhol */}
           {fitting ? (
             <View style={[s.fits, s.fitsOk]}>
-              <Icon name="check" size={16} stroke="#15803d" />
+              <Icon name="check" size={16} stroke={color.successText} />
               <Text style={s.fitsOkText}>
                 {t("mob.part.fitsYes", {
                   car: [fitting.title, fitting.year].filter(Boolean).join(" "),
@@ -202,7 +202,7 @@ export default function Detal() {
           <View style={s.chips}>
             {p.shop.delivery && (
               <View style={[s.chip, { backgroundColor: color.success + "1a" }]}>
-                <Text style={[s.chipText, { color: "#15803d" }]}>{t("mob.part.delivers")}</Text>
+                <Text style={[s.chipText, { color: color.successText }]}>{t("mob.part.delivers")}</Text>
               </View>
             )}
             {p.shop.workHours ? (
@@ -458,7 +458,7 @@ const s = themed(() => ({
     paddingVertical: 11,
     paddingHorizontal: 12,
     borderRadius: 10,
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.surface,
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
@@ -504,9 +504,9 @@ const s = themed(() => ({
     borderRadius: 10,
   },
   fitsOk: { backgroundColor: color.success + "14" },
-  fitsOkText: { flex: 1, fontSize: 13, fontWeight: "600", color: "#15803d" },
+  fitsOkText: { flex: 1, fontSize: 13, fontWeight: "600", color: color.successText },
   fitsWarn: { backgroundColor: color.warning + "14" },
-  fitsWarnText: { flex: 1, fontSize: 13, color: "#92400e", lineHeight: 19 },
+  fitsWarnText: { flex: 1, fontSize: 13, color: color.warningText, lineHeight: 19 },
 
   shopRow: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 11 },
   avatar: {
@@ -546,7 +546,7 @@ const s = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
-  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.xs },
+  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: 13, color: color.mutedForeground, lineHeight: 19, marginBottom: space.xs },
   sheetNote: { fontSize: 11, color: "#94a3b8", textAlign: "center", lineHeight: 16 },
@@ -583,7 +583,7 @@ const s = themed(() => ({
   wayOn: { borderColor: color.brand, backgroundColor: color.brand + "14" },
   wayOff: { opacity: 0.5 },
   wayText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
-  wayTextOn: { color: "#c2490f" },
+  wayTextOn: { color: color.brandText },
   waySub: { fontSize: 11, color: "#94a3b8" },
 
   linkBox: {
@@ -607,7 +607,7 @@ const s = themed(() => ({
     paddingVertical: 12,
     paddingHorizontal: 13,
     borderRadius: 11,
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.surface,
   },
   totalKey: { fontSize: 13, color: color.mutedForeground },
   totalValue: { fontSize: 19, fontWeight: "700", color: color.foreground },

@@ -211,7 +211,7 @@ function Fig({ n, label, dim, hot }: { n: number; label: string; dim?: boolean; 
 const statusLabel = (it: Item) =>
   it.tripNo ? t("mob.mine.done") : it.status === "ACTIVE" ? t("mob.mine.active") : t("mob.mine.closed");
 const statusFg = (it: Item) =>
-  it.tripNo || it.status === "ACTIVE" ? "#15803d" : "#64748b";
+  it.tripNo || it.status === "ACTIVE" ? color.successText : "#64748b";
 const statusBg = (it: Item) => ({
   backgroundColor: it.tripNo || it.status === "ACTIVE" ? color.success + "1f" : color.muted,
 });
@@ -242,9 +242,9 @@ const s = themed(() => ({
   meta: { fontSize: 12, color: color.mutedForeground },
 
   head: { flexDirection: "row", gap: 12, marginTop: 10 },
-  shot: { width: 56, height: 56, borderRadius: 10, backgroundColor: "#cbd5e1" },
+  shot: { width: 56, height: 56, borderRadius: 10, backgroundColor: color.iconFaint },
   route: { fontSize: font.title, fontWeight: "700", color: color.foreground },
-  sub: { fontSize: font.caption, color: "#475569", marginTop: 2 },
+  sub: { fontSize: font.caption, color: color.icon, marginTop: 2 },
   trip: { fontSize: font.caption, fontWeight: "600", color: color.success, marginTop: 10 },
 
   figs: {
@@ -266,7 +266,7 @@ const s = themed(() => ({
     padding: 11,
     marginTop: 12,
   },
-  tipText: { flex: 1, fontSize: 12, color: "#92400e", lineHeight: 19 },
+  tipText: { flex: 1, fontSize: 12, color: color.warningText, lineHeight: 19 },
 
   btns: { flexDirection: "row", gap: 9, marginTop: 13 },
   btn: {
@@ -279,5 +279,5 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   btnOff: { opacity: 0.5 },
-  btnText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  btnText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
 }));

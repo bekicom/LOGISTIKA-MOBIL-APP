@@ -211,7 +211,7 @@ export default function MashinaJoylash() {
               style={[s.manual, manual && s.manualOn]}
             >
               <View style={s.manualIcon}>
-                <Icon name="plus" size={18} stroke="#475569" />
+                <Icon name="plus" size={18} stroke={color.icon} />
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={s.manualTitle}>{t("mob.trucks.notInFleet")}</Text>
@@ -368,7 +368,7 @@ function Pick({ label, value, onPress }: { label: string; value: string | null; 
           {value ?? t("mob.loads.cityPh")}
         </Text>
       </View>
-      <Icon name="chevron" size={18} stroke="#cbd5e1" />
+      <Icon name="chevron" size={18} stroke={color.iconFaint} />
     </Pressable>
   );
 }
@@ -387,7 +387,7 @@ const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   steps: { backgroundColor: color.card, paddingHorizontal: space.lg, paddingBottom: space.md },
   scroll: { padding: space.lg, gap: space.md },
-  lead: { fontSize: font.body, color: "#475569", lineHeight: 22 },
+  lead: { fontSize: font.body, color: color.icon, lineHeight: 22 },
 
   veh: {
     flexDirection: "row",
@@ -402,7 +402,7 @@ const s = themed(() => ({
   vehOn: { borderColor: color.brand, borderWidth: 2 },
   vehWarn: { borderColor: color.warning + "66" },
   vehOff: { opacity: 0.55 },
-  vehShot: { width: 64, height: 64, borderRadius: 10, backgroundColor: "#cbd5e1" },
+  vehShot: { width: 64, height: 64, borderRadius: 10, backgroundColor: color.iconFaint },
   vehShotEmpty: { backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   vehPlate: { fontSize: font.body, fontWeight: "700", color: color.foreground },
   vehSub: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
@@ -423,7 +423,7 @@ const s = themed(() => ({
     gap: 11,
     borderWidth: 1,
     borderStyle: "dashed",
-    borderColor: "#cbd5e1",
+    borderColor: color.iconFaint,
     borderRadius: radius.card,
     padding: 15,
   },
@@ -463,7 +463,7 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   typeOn: { borderColor: color.brand, borderWidth: 2, backgroundColor: color.brand + "0d" },
-  typeText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  typeText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
 
   pick: { flexDirection: "row", alignItems: "center", gap: 10 },
   pickLabel: { fontSize: 12, color: color.mutedForeground },

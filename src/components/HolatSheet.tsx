@@ -200,7 +200,7 @@ const s = themed(() => ({
     borderTopRightRadius: radius.sheet,
     maxHeight: "88%",
   },
-  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginTop: 10 },
+  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginTop: 10 },
 
   body: { padding: space.xl, paddingTop: space.lg },
   title: { fontSize: 20, fontWeight: "700", color: color.foreground, letterSpacing: -0.2 },
@@ -221,7 +221,7 @@ const s = themed(() => ({
   },
   add: {
     width: 78, height: 78, borderRadius: radius.control, borderWidth: 1.5,
-    borderColor: "#cbd5e1", borderStyle: "dashed", alignItems: "center", justifyContent: "center", gap: 4,
+    borderColor: color.iconFaint, borderStyle: "dashed", alignItems: "center", justifyContent: "center", gap: 4,
   },
   addText: { fontSize: 10, fontWeight: "500", color: color.mutedForeground, textAlign: "center" },
 

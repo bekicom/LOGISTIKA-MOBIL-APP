@@ -251,7 +251,7 @@ function SaleCard({ item, onPress }: { item: Sale; onPress: () => void }) {
 
         {item.monthly && !closed && (
           <View style={s.inst}>
-            <Icon name="doc" size={14} stroke="#c2490f" />
+            <Icon name="doc" size={14} stroke={color.brandText} />
             <Text style={s.instText}>
               {t("mob.market.monthly", {
                 sum: `${fmtNum(item.monthly.amount)} ${item.currency}`,
@@ -278,7 +278,7 @@ function SaleCard({ item, onPress }: { item: Sale; onPress: () => void }) {
 
         {item.fromFleet && !closed && (
           <View style={s.fleet}>
-            <Icon name="check" size={14} stroke="#c2490f" />
+            <Icon name="check" size={14} stroke={color.brandText} />
             <Text style={s.fleetText}>{t("mob.market.fromFleet")}</Text>
           </View>
         )}
@@ -347,7 +347,7 @@ const s = themed(() => ({
   },
   flagOn: { backgroundColor: color.brand + "1a", borderColor: color.brand + "4d" },
   flagText: { fontSize: 12, fontWeight: "500", color: color.mutedForeground },
-  flagTextOn: { color: "#c2490f", fontWeight: "600" },
+  flagTextOn: { color: color.brandText, fontWeight: "600" },
 
   lock: {
     margin: space.lg,
@@ -358,8 +358,8 @@ const s = themed(() => ({
     borderColor: color.warning + "59",
     backgroundColor: color.warning + "0d",
   },
-  lockTitle: { fontSize: font.caption, fontWeight: "600", color: "#92400e" },
-  lockText: { fontSize: 12, color: "#92400e", marginTop: 4, lineHeight: 18 },
+  lockTitle: { fontSize: font.caption, fontWeight: "600", color: color.warningText },
+  lockText: { fontSize: 12, color: color.warningText, marginTop: 4, lineHeight: 18 },
 
   list: { padding: space.lg, gap: space.md },
   count: { fontSize: 13, color: color.mutedForeground, marginBottom: 4 },
@@ -434,13 +434,13 @@ const s = themed(() => ({
     alignItems: "center",
     gap: 7,
   },
-  instText: { fontSize: 13, fontWeight: "600", color: "#c2490f" },
+  instText: { fontSize: 13, fontWeight: "600", color: color.brandText },
 
   chips: { flexDirection: "row", gap: 6, marginTop: 11 },
   chip: { height: 26, paddingHorizontal: 10, borderRadius: 8, backgroundColor: "#f1f5f9", justifyContent: "center" },
   chipText: { fontSize: 12, fontWeight: "500", color: color.mutedForeground },
   chipOk: { backgroundColor: color.success + "1a" },
-  chipOkText: { color: "#15803d", fontWeight: "600" },
+  chipOkText: { color: color.successText, fontWeight: "600" },
 
   fleet: {
     marginTop: 10,

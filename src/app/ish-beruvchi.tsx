@@ -152,7 +152,7 @@ export default function IshBeruvchi() {
                       <Text
                         style={[
                           s.tagText,
-                          v.status === "OPEN" && { color: "#15803d" },
+                          v.status === "OPEN" && { color: color.successText },
                         ]}
                       >
                         {t(`mob.vacStatus.${v.status}`)}
@@ -395,12 +395,12 @@ const s = themed(() => ({
   meta: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
 
   two: { flexDirection: "row", gap: 10, marginTop: 12 },
-  box: { flex: 1, paddingVertical: 10, paddingHorizontal: 11, borderRadius: 10, backgroundColor: "#f8fafc" },
+  box: { flex: 1, paddingVertical: 10, paddingHorizontal: 11, borderRadius: 10, backgroundColor: color.surface },
   boxHot: { backgroundColor: color.brand + "14" },
   boxKey: { fontSize: 11, color: color.mutedForeground },
-  boxKeyHot: { color: "#9a3412" },
+  boxKeyHot: { color: color.brandText },
   boxValue: { fontSize: 19, fontWeight: "700", color: color.foreground, marginTop: 1 },
-  boxValueHot: { color: "#c2490f" },
+  boxValueHot: { color: color.brandText },
 
   apps: { marginTop: 12, gap: 10 },
   app: { paddingTop: 11, borderTopWidth: 1, borderTopColor: color.muted },
@@ -430,7 +430,7 @@ const s = themed(() => ({
   cand: {
     padding: space.md,
     borderRadius: 12,
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.surface,
     borderWidth: 1,
     borderColor: color.border,
   },
@@ -451,12 +451,12 @@ const s = themed(() => ({
   score: { height: 24, paddingHorizontal: 9, borderRadius: 7, backgroundColor: color.muted, justifyContent: "center" },
   scoreGood: { backgroundColor: color.success + "1f" },
   scoreText: { fontSize: 12, fontWeight: "700", color: color.mutedForeground },
-  scoreTextGood: { color: "#15803d" },
+  scoreTextGood: { color: color.successText },
 
   notes: { marginTop: 11, paddingTop: 11, borderTopWidth: 1, borderTopColor: color.border, gap: 6 },
   note: { flexDirection: "row", alignItems: "flex-start", gap: 8 },
   noteText: { flex: 1, fontSize: 12, color: color.mutedForeground, lineHeight: 18 },
-  noteGap: { color: "#92400e" },
+  noteGap: { color: color.warningText },
 
   emptyText: { fontSize: 13, color: color.mutedForeground, textAlign: "center", lineHeight: 19, paddingVertical: space.md },
 }));

@@ -400,9 +400,9 @@ function Typing() {
   return (
     <View style={[s.ai, s.typing]}>
       <View style={s.dots}>
-        <View style={[s.tdot, { backgroundColor: "#cbd5e1" }]} />
+        <View style={[s.tdot, { backgroundColor: color.iconFaint }]} />
         <View style={[s.tdot, { backgroundColor: "#94a3b8" }]} />
-        <View style={[s.tdot, { backgroundColor: "#cbd5e1" }]} />
+        <View style={[s.tdot, { backgroundColor: color.iconFaint }]} />
       </View>
       <Text style={s.typingText}>{t("mob.ai.thinking")}</Text>
     </View>
@@ -617,7 +617,7 @@ const s = themed(() => ({
     justifyContent: "center",
     maxWidth: "100%",
   },
-  actText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  actText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
 
   typing: { flexDirection: "row", alignItems: "center", gap: 8, paddingVertical: 12 },
   dots: { flexDirection: "row", gap: 4 },
@@ -635,7 +635,7 @@ const s = themed(() => ({
     borderRadius: 10,
     backgroundColor: color.successSoft,
   },
-  toastText: { flex: 1, fontSize: font.caption, color: "#15803d" },
+  toastText: { flex: 1, fontSize: font.caption, color: color.successText },
 
   bar: {
     flexDirection: "row",
@@ -663,7 +663,7 @@ const s = themed(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  sendOff: { backgroundColor: "#cbd5e1" },
+  sendOff: { backgroundColor: color.iconFaint },
 
   backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)", justifyContent: "flex-end" },
   sheet: {
@@ -677,7 +677,7 @@ const s = themed(() => ({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: "#cbd5e1",
+    backgroundColor: color.iconFaint,
     alignSelf: "center",
     marginBottom: 18,
   },
@@ -702,5 +702,5 @@ const s = themed(() => ({
     justifyContent: "center",
     marginTop: 10,
   },
-  ghostText: { fontSize: font.body, fontWeight: "600", color: "#475569" },
+  ghostText: { fontSize: font.body, fontWeight: "600", color: color.icon },
 }));

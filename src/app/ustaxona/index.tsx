@@ -178,7 +178,7 @@ export default function Ustaxona() {
                       : t("mob.svc.masterOff")}
                   </Text>
                 </View>
-                <Icon name="chevron" size={18} stroke="#cbd5e1" />
+                <Icon name="chevron" size={18} stroke={color.iconFaint} />
               </Pressable>
               {/* ══ USTALAR KATALOGI ══ */}
               <View>
@@ -261,7 +261,7 @@ function OrderCard({ o, onPress }: { o: Order; onPress: () => void }) {
       {/* Eng tez keladigani — yo'lda qolganda birinchi savol shu */}
       {o.todo === "choose" && o.soonest ? (
         <View style={s.soon}>
-          <Icon name="clock" size={16} stroke="#15803d" />
+          <Icon name="clock" size={16} stroke={color.successText} />
           <Text style={s.soonText}>
             {o.soonest.arrivalMin != null
               ? t("mob.svc.fastest", { time: mins(o.soonest.arrivalMin) })
@@ -439,7 +439,7 @@ const s = themed(() => ({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 10,
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.surface,
   },
   soonText: { flex: 1, fontSize: 13, color: color.foreground },
   soonPrice: { fontSize: 13, fontWeight: "700", color: color.foreground },
@@ -455,7 +455,7 @@ const s = themed(() => ({
     borderRadius: 9,
     backgroundColor: color.brand + "12",
   },
-  todoText: { fontSize: 12, fontWeight: "600", color: "#9a3412" },
+  todoText: { fontSize: 12, fontWeight: "600", color: color.brandText },
 
   panel: {
     flexDirection: "row",
@@ -510,7 +510,7 @@ const s = themed(() => ({
   mChip: { height: 26, paddingHorizontal: 10, borderRadius: 8, backgroundColor: color.muted, justifyContent: "center" },
   mChipText: { fontSize: 12, fontWeight: "500", color: color.mutedForeground },
   mChipMobile: { backgroundColor: color.brand + "1a" },
-  mChipMobileText: { color: "#c2490f", fontWeight: "600" },
+  mChipMobileText: { color: color.brandText, fontWeight: "600" },
 
   priceNote: { fontSize: 12, color: color.mutedForeground, marginTop: 10, lineHeight: 18 },
 

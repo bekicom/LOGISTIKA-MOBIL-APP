@@ -204,7 +204,7 @@ function QueueCard({ q, onPress }: { q: Queue; onPress: () => void }) {
     >
       <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}>
         <View style={{ flex: 1 }}>
-          <Text style={[s.border, detecting && { color: "#475569" }]}>{q.border}</Text>
+          <Text style={[s.border, detecting && { color: color.icon }]}>{q.border}</Text>
           <Text style={s.meta}>
             {[q.plate, q.tripNo ? `FURAM #${q.tripNo}` : t("mob.queue.noVehicle")].join(" · ")}
           </Text>
@@ -326,8 +326,8 @@ const s = themed(() => ({
     flexDirection: "row", gap: 10, marginTop: 12, padding: 12,
     borderRadius: radius.control, backgroundColor: color.danger + "0d",
   },
-  warnT: { fontSize: font.caption, fontWeight: "600", color: "#b91c1c" },
-  warnB: { fontSize: 12, color: "#b91c1c", marginTop: 3, lineHeight: 18 },
+  warnT: { fontSize: font.caption, fontWeight: "600", color: color.dangerText },
+  warnB: { fontSize: 12, color: color.dangerText, marginTop: 3, lineHeight: 18 },
 
   cond: { fontSize: 12, color: color.mutedForeground, lineHeight: 18, marginTop: 10 },
 }));

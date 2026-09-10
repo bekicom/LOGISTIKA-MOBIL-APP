@@ -185,7 +185,7 @@ function DocRow({ doc, last, onPress }: { doc: Doc; last: boolean; onPress: () =
           },
         ]}
       >
-        <Icon name={doc.missing ? "plus" : "doc"} size={19} stroke={doc.missing ? color.danger : "#475569"} />
+        <Icon name={doc.missing ? "plus" : "doc"} size={19} stroke={doc.missing ? color.danger : color.icon} />
       </View>
 
       <View style={{ flex: 1 }}>
@@ -244,12 +244,12 @@ const s = themed(() => ({
     height: 34, paddingHorizontal: 13, borderRadius: radius.control,
     borderWidth: 1, borderColor: color.border, alignItems: "center", justifyContent: "center",
   },
-  btnText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  btnText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
 
   note: {
-    borderWidth: 1, borderColor: "#cbd5e1", borderRadius: radius.card,
-    backgroundColor: "#f8fafc", padding: space.lg,
+    borderWidth: 1, borderColor: color.iconFaint, borderRadius: radius.card,
+    backgroundColor: color.surface, padding: space.lg,
   },
   noteTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
-  noteBody: { fontSize: 12, color: "#475569", lineHeight: 19, marginTop: 5 },
+  noteBody: { fontSize: 12, color: color.icon, lineHeight: 19, marginTop: 5 },
 }));

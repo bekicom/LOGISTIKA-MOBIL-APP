@@ -138,7 +138,7 @@ const s = themed(() => ({
   hero: { backgroundColor: color.navy, borderRadius: radius.card, padding: space.xl },
   heroLabel: { fontSize: 12, color: "#94a3b8", letterSpacing: 0.3 },
   heroValue: { fontSize: 30, fontWeight: "800", color: "#ffffff", marginTop: 4, letterSpacing: -0.6 },
-  heroHint: { fontSize: 12.5, color: "#cbd5e1", marginTop: 8, lineHeight: 18 },
+  heroHint: { fontSize: 12.5, color: color.iconFaint, marginTop: 8, lineHeight: 18 },
   stats: { flexDirection: "row", alignItems: "center", gap: 14, marginTop: 16, paddingTop: 14, borderTopWidth: 1, borderTopColor: "#ffffff1f" },
   vline: { width: 1, height: 28, backgroundColor: "#ffffff1f" },
   statValue: { fontSize: 20, fontWeight: "800", color: "#ffffff" },

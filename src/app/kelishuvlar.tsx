@@ -287,7 +287,7 @@ function Card({
           accessibilityRole="button"
         >
           <Text style={s.openText}>{t("mob.deals.openListing")}</Text>
-          <Icon name="chevron" size={16} stroke="#cbd5e1" />
+          <Icon name="chevron" size={16} stroke={color.iconFaint} />
         </Pressable>
       ) : null}
     </View>
@@ -304,11 +304,11 @@ function badgeLabel(d: Deal): string {
 }
 const badgeColor = (d: Deal) =>
   d.todo === "answer"
-    ? "#c2490f"
+    ? color.brandText
     : d.todo === "confirmPay" || d.status === "ACCEPTED"
-      ? "#15803d"
+      ? color.successText
       : d.status === "REJECTED"
-        ? "#b91c1c"
+        ? color.dangerText
         : "#64748b";
 const badgeStyle = (d: Deal) => ({
   backgroundColor:
@@ -341,14 +341,14 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   filterOn: { backgroundColor: color.foreground, borderColor: color.foreground },
-  filterText: { fontSize: font.caption, fontWeight: "500", color: "#475569" },
+  filterText: { fontSize: font.caption, fontWeight: "500", color: color.icon },
   filterTextOn: { color: "#fff", fontWeight: "600" },
 
   scroll: { padding: space.lg, gap: space.md },
   groupHot: {
     fontSize: 12,
     fontWeight: "700",
-    color: "#c2490f",
+    color: color.brandText,
     letterSpacing: 0.4,
     marginTop: 2,
   },
@@ -376,7 +376,7 @@ const s = themed(() => ({
   ago: { fontSize: 12, color: color.mutedForeground },
 
   route: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground, marginTop: 10 },
-  subject: { fontSize: font.caption, color: "#475569", marginTop: 2 },
+  subject: { fontSize: font.caption, color: color.icon, marginTop: 2 },
 
   payBox: {
     backgroundColor: color.success + "10",
@@ -384,7 +384,7 @@ const s = themed(() => ({
     padding: 12,
     marginTop: 12,
   },
-  payText: { fontSize: font.caption, color: "#15803d", lineHeight: 20 },
+  payText: { fontSize: font.caption, color: color.successText, lineHeight: 20 },
 
   who: {
     flexDirection: "row",
@@ -408,7 +408,7 @@ const s = themed(() => ({
   whoSub: { fontSize: 12, color: color.mutedForeground },
   fee: { fontSize: font.title, fontWeight: "700", color: color.foreground, letterSpacing: -0.2 },
 
-  note: { fontSize: font.caption, color: "#475569", marginTop: 11, lineHeight: 20 },
+  note: { fontSize: font.caption, color: color.icon, marginTop: 11, lineHeight: 20 },
   reject: { fontSize: font.caption, color: color.danger, marginTop: 8, lineHeight: 20 },
 
   btns: { flexDirection: "row", gap: 9, marginTop: 14 },
@@ -418,7 +418,7 @@ const s = themed(() => ({
   btnGhost: { borderWidth: 1, borderColor: color.border },
   btnOff: { opacity: 0.5 },
   btnPrimaryText: { fontSize: 14, fontWeight: "600", color: "#fff" },
-  btnGhostText: { fontSize: 14, fontWeight: "600", color: "#475569" },
+  btnGhostText: { fontSize: 14, fontWeight: "600", color: color.icon },
 
   cancelRow: {
     flexDirection: "row",
@@ -429,7 +429,7 @@ const s = themed(() => ({
     borderTopWidth: 1,
     borderTopColor: color.border,
   },
-  cancelHint: { flex: 1, fontSize: font.caption, color: "#475569" },
+  cancelHint: { flex: 1, fontSize: font.caption, color: color.icon },
   cancelText: { fontSize: font.caption, fontWeight: "600", color: color.danger },
 
   openRow: {

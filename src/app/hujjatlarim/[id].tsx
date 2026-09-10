@@ -286,7 +286,7 @@ const s = themed(() => ({
   avatarText: { fontSize: 12, fontWeight: "700", color: "#fff" },
   viewName: { fontSize: 14, fontWeight: "600", color: color.foreground },
   viewSub: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
-  openText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  openText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
   vBox: {
     width: 34, height: 42, borderRadius: 6, backgroundColor: color.muted,
     alignItems: "center", justifyContent: "center",

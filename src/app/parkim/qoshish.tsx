@@ -158,7 +158,7 @@ export default function TransportQoshish() {
                   onPress={() => setPart(p)}
                   style={({ pressed }) => [s.opt, on && s.optOn, pressed && !on && { backgroundColor: color.muted }]}
                 >
-                  <Icon name="truck" size={22} stroke={on ? color.brand : "#475569"} />
+                  <Icon name="truck" size={22} stroke={on ? color.brand : color.icon} />
                   <Text style={[s.optText, on && { color: color.brand }]}>{partLabel(p)}</Text>
                 </Pressable>
               );
@@ -354,7 +354,7 @@ const s = themed(() => ({
     backgroundColor: color.card, alignItems: "center", justifyContent: "center", gap: 5,
   },
   optOn: { borderColor: color.brand, borderWidth: 2, backgroundColor: color.brand + "0d" },
-  optText: { fontSize: 12, fontWeight: "600", color: "#475569" },
+  optText: { fontSize: 12, fontWeight: "600", color: color.icon },
 
   picker: {
     height: 52, borderRadius: radius.control, borderWidth: 1, borderColor: color.border,
@@ -377,11 +377,11 @@ const s = themed(() => ({
   flagText: { fontSize: font.caption, color: color.mutedForeground },
 
   note: {
-    borderWidth: 1, borderColor: "#cbd5e1", borderRadius: radius.card,
-    backgroundColor: "#f8fafc", padding: space.lg,
+    borderWidth: 1, borderColor: color.iconFaint, borderRadius: radius.card,
+    backgroundColor: color.surface, padding: space.lg,
   },
   noteTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
-  noteBody: { fontSize: 12, color: "#475569", lineHeight: 19, marginTop: 5 },
+  noteBody: { fontSize: 12, color: color.icon, lineHeight: 19, marginTop: 5 },
   foot: { textAlign: "center", fontSize: font.caption, color: color.mutedForeground },
 
   backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)" },
@@ -389,6 +389,6 @@ const s = themed(() => ({
     backgroundColor: color.background, borderTopLeftRadius: radius.sheet,
     borderTopRightRadius: radius.sheet, padding: space.lg, paddingBottom: space.xxl * 1.5,
   },
-  grab: { width: 40, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.md },
+  grab: { width: 40, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.md },
   sheetTitle: { fontSize: font.title, fontWeight: "700", color: color.foreground, marginBottom: space.md },
 }));

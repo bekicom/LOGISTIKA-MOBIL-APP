@@ -157,7 +157,7 @@ export default function Bildirishnomalar() {
                 <Icon name={l.icon} size={19} stroke={l.tint} />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={[s.noteTitle, item.isRead && { fontWeight: "500", color: "#475569" }]}>
+                <Text style={[s.noteTitle, item.isRead && { fontWeight: "500", color: color.icon }]}>
                   {item.title}
                 </Text>
                 {item.body ? <Text style={s.noteBody}>{item.body}</Text> : null}
@@ -211,7 +211,7 @@ const s = themed(() => ({
   noteUnread: { backgroundColor: color.brandSoft },
   noteIcon: { width: 38, height: 38, borderRadius: 19, alignItems: "center", justifyContent: "center" },
   noteTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
-  noteBody: { fontSize: font.caption, color: "#475569", marginTop: 2, lineHeight: 19 },
+  noteBody: { fontSize: font.caption, color: color.icon, marginTop: 2, lineHeight: 19 },
   time: { fontSize: 11, color: color.mutedForeground },
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.brand },
 }));

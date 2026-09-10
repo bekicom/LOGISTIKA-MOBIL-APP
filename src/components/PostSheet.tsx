@@ -113,7 +113,7 @@ export function PostActions({ onDone }: { onDone?: () => void }) {
                 <Icon name="lock" size={13} stroke={color.mutedForeground} />
               </View>
             ) : (
-              <Icon name="chevron" size={18} stroke="#cbd5e1" />
+              <Icon name="chevron" size={18} stroke={color.iconFaint} />
             )}
           </Pressable>
         );

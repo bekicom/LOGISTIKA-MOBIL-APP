@@ -226,7 +226,7 @@ export default function Skaner() {
             </Pressable>
 
             <View style={s.info}>
-              <Icon name="alert" size={17} stroke="#475569" />
+              <Icon name="alert" size={17} stroke={color.icon} />
               <Text style={s.infoText}>{t("mob.ai.scanIntro")}</Text>
             </View>
           </>
@@ -332,7 +332,7 @@ export default function Skaner() {
                     <Icon
                       name="alert"
                       size={15}
-                      stroke={it.level === "warn" ? color.warning : "#475569"}
+                      stroke={it.level === "warn" ? color.warning : color.icon}
                     />
                     <Text style={s.issueText}>
                       {t(`mob.scanIssue.${it.code}`, it.params ?? {})}
@@ -343,7 +343,7 @@ export default function Skaner() {
             ) : null}
 
             <View style={s.info}>
-              <Icon name="alert" size={17} stroke="#475569" />
+              <Icon name="alert" size={17} stroke={color.icon} />
               <Text style={s.infoText}>{t("mob.ai.notSaved")}</Text>
             </View>
 
@@ -470,7 +470,7 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   kindOn: { borderColor: color.brand, borderWidth: 2, backgroundColor: color.brand + "0d" },
-  kindText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  kindText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
 
   shot: { height: 170, borderRadius: radius.card, backgroundColor: color.navy },
   again: {
@@ -494,8 +494,8 @@ const s = themed(() => ({
   },
   bannerOk: { borderColor: color.success + "66", backgroundColor: color.success + "0d" },
   bannerWarn: { borderColor: color.warning + "66", backgroundColor: color.warning + "0d" },
-  bannerTitleOk: { fontSize: font.caption, fontWeight: "700", color: "#15803d" },
-  bannerTextOk: { fontSize: 12, color: "#15803d", marginTop: 3, lineHeight: 18 },
+  bannerTitleOk: { fontSize: font.caption, fontWeight: "700", color: color.successText },
+  bannerTextOk: { fontSize: 12, color: color.successText, marginTop: 3, lineHeight: 18 },
   bannerTitleWarn: { fontSize: font.caption, fontWeight: "700", color: color.warning },
   bannerTextWarn: { fontSize: 12, color: color.warning, marginTop: 3, lineHeight: 18 },
 
@@ -536,18 +536,18 @@ const s = themed(() => ({
   chipText: { fontSize: font.caption, fontWeight: "700", color: "#64748b" },
 
   issue: { flexDirection: "row", gap: 9, alignItems: "flex-start" },
-  issueText: { flex: 1, fontSize: 12, color: "#475569", lineHeight: 18 },
+  issueText: { flex: 1, fontSize: 12, color: color.icon, lineHeight: 18 },
 
   info: {
     flexDirection: "row",
     gap: 11,
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint,
+    backgroundColor: color.surface,
     borderRadius: radius.card,
     padding: 14,
   },
-  infoText: { flex: 1, fontSize: 12, color: "#475569", lineHeight: 19 },
+  infoText: { flex: 1, fontSize: 12, color: color.icon, lineHeight: 19 },
 
   err: {
     flexDirection: "row",
@@ -562,7 +562,7 @@ const s = themed(() => ({
   manual: {
     fontSize: font.body,
     fontWeight: "600",
-    color: "#475569",
+    color: color.icon,
     textAlign: "center",
     paddingVertical: 14,
   },
@@ -579,7 +579,7 @@ const s = themed(() => ({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: "#cbd5e1",
+    backgroundColor: color.iconFaint,
     alignSelf: "center",
     marginBottom: 18,
   },
@@ -593,7 +593,7 @@ const s = themed(() => ({
     marginBottom: 14,
   },
   sheetTitle: { fontSize: 20, fontWeight: "700", color: color.foreground, letterSpacing: -0.3 },
-  sheetText: { fontSize: 14, color: "#475569", marginTop: 10, lineHeight: 22 },
+  sheetText: { fontSize: 14, color: color.icon, marginTop: 10, lineHeight: 22 },
   points: {
     marginTop: 16,
     marginBottom: 20,

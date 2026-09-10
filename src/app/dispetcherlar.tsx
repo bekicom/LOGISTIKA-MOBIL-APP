@@ -261,7 +261,7 @@ const s = themed(() => ({
 
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 5, marginTop: 11 },
   chip: { height: 22, paddingHorizontal: 8, borderRadius: 6, backgroundColor: color.muted, justifyContent: "center" },
-  chipText: { fontSize: 11.5, color: "#475569" },
+  chipText: { fontSize: 11.5, color: color.icon },
 
   note: {
     flexDirection: "row",

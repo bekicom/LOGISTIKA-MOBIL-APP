@@ -52,7 +52,7 @@ type Detail = {
 };
 
 const TONE: Record<string, { fg: string; bg: string }> = {
-  FREE: { fg: "#15803d", bg: "rgba(22,163,74,0.12)" },
+  FREE: { fg: color.successText, bg: "rgba(22,163,74,0.12)" },
   ON_TRIP: { fg: color.info, bg: "rgba(29,78,216,0.12)" },
   REPAIR: { fg: color.warning, bg: "rgba(180,83,9,0.12)" },
   INACTIVE: { fg: color.mutedForeground, bg: color.muted },
@@ -134,7 +134,7 @@ export default function TransportTafsilot() {
         <Card style={{ padding: space.lg }}>
           <View style={{ flexDirection: "row", alignItems: "flex-start", gap: space.md }}>
             <View style={s.thumb}>
-              <Icon name="truck" size={34} stroke="#475569" />
+              <Icon name="truck" size={34} stroke={color.icon} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={s.plate}>{v.plate}</Text>

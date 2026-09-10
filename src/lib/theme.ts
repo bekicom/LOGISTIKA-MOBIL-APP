@@ -51,7 +51,7 @@
  * Ranglar teskari qilinmadi, QAYTA TANLANDI:
  *   · fon sovuq qora-ko'k (#0b1220) — brend navy'si bilan bir
  *     oilada, sof qora emas: sof qorada karta ko'rinmaydi;
- *   · brend to'q sarig'i biroz OCHROQ (#ff6a2b) — asl #f45a18
+ *   · brend to'q sarig'i biroz OCHROQ (#f2601f) — asl #f45a18
  *     qorong'i fonda loyqalanadi;
  *   · logodagi to'q ko'k qorong'ida umuman ko'rinmaydi, shuning
  *     uchun u ham ochroq;
@@ -98,6 +98,22 @@ type Palette = {
   info: string;
   purple: string;
   purpleSoft: string;
+  /* ── ROL RANGLARI (2026-09-10) ──────────────────────────────
+     Bular ilgari 300 dan ortiq joyda QATTIQ yozilgan edi
+     (`stroke="#475569"`, `color: "#15803d"`). Yorug' rejimda
+     ular to'g'ri ishlardi, qorong'ida esa yo'qolib ketardi:
+     `#475569` qorong'i karta ustida 2.09 — ko'rinmaydi. */
+  /** Ikonka chizig'i va ikkilamchi matn */
+  icon: string;
+  /** NOFAOL ikonka, nuqtali chegara — ataylab past kontrast */
+  iconFaint: string;
+  /** Karta ustidagi ichki yuza (fayl tanlash, bo'sh joy) */
+  surface: string;
+  /* Chip yozuvlari: fon `*Soft`, yozuv `*Text` */
+  brandText: string;
+  successText: string;
+  warningText: string;
+  dangerText: string;
 };
 
 const LIGHT: Palette = {
@@ -137,6 +153,16 @@ const LIGHT: Palette = {
   info: "#1d4ed8",
   purple: "#7c3aed",
   purpleSoft: "#f1ecfb",
+
+  /* Qiymatlar O'ZGARMADI — kodda qattiq yozilgani shu edi,
+     ya'ni yorug' rejim ko'rinishi bir pikselga ham tegilmagan */
+  icon: "#475569",
+  iconFaint: "#cbd5e1",
+  surface: "#f8fafc",
+  brandText: "#c2490f",
+  successText: "#15803d",
+  warningText: "#92400e",
+  dangerText: "#b91c1c",
 };
 
 const DARK: Palette = {
@@ -146,20 +172,35 @@ const DARK: Palette = {
   background: "#0b1220",
   foreground: "#e9eef7",
   /* Karta fondan KO'TARILGAN — chegara bilan emas, rang bilan
-     ajraladi (yorug' rejimdagi mantiqning aynan aksi) */
-  card: "#141d2f",
-  muted: "#1c273c",
+     ajraladi (yorug' rejimdagi mantiqning aynan aksi).
+
+     ⚠️ Qorong'ida SOYA deyarli ko'rinmaydi, ya'ni kartani fondan
+     ajratadigan yagona narsa — rang. Shuning uchun bu farq
+     yorug' rejimdagidan (1.08) kattaroq: 1.18. Undan ham
+     ko'tarsa (#1a253d, 1.23) ustidagi `*Soft` tintlar
+     ko'rinmay boshlaydi — shu nuqta muvozanat. */
+  card: "#182238",
+  muted: "#212d47",
   mutedForeground: "#94a3b8",
   border: "#243146",
 
-  /* Asl #f45a18 qorong'i fonda loyqalanadi — 8% ochroq olindi */
-  brand: "#ff6a2b",
-  brandHover: "#e0561d",
+  /* Asl #f45a18 qorong'i fonda loyqalanadi — ochroq olindi.
+     ⚠️ QIYMAT HISOB BILAN TANLANGAN, ko'z bilan emas: #ff6a2b da
+     ustidagi OQ yozuv 2.86 ga tushardi (tugma yorlig'i uchun
+     kam). #f2601f — oq yozuv 3.25, karta ustida 5.19, fon
+     ustida 5.77. */
+  brand: "#f2601f",
+  brandHover: "#d8541a",
   brandForeground: "#ffffff",
   /* Ikonka orqasi — OQ tint emas, TO'Q issiq tint. Yorug'
      rejimdagi #fff0e8 qorong'ida yorug' dog' bo'lib ko'zni
-     qamashtirardi. */
-  brandSoft: "#2e1710",
+     qamashtirardi.
+
+     ⚠️ BIRINCHI URINISHDA #2e1710 edi va u KARTADAN UMUMAN
+     AJRALMASDI (nisbat 1.00) — ikonka doiralari ko'rinmay
+     ketardi. Hamma `*Soft` rangda shu xato bor edi: ular
+     kartaning yorqinligiga juda yaqin tanlangandi. */
+  brandSoft: "#4d2513",
 
   /* Navy ekranlar (kirish, splash) kartadan ham TO'QROQ bo'lishi
      kerak, aks holda ular qorong'ida «karta» bo'lib qoladi */
@@ -168,19 +209,31 @@ const DARK: Palette = {
   /* Logodagi to'q ko'k (#0a376e) qorong'ida umuman ko'rinmaydi */
   logoBlue: "#2b6fc4",
   blue: "#4d8ede",
-  blueSoft: "#12243c",
+  blueSoft: "#173352",
 
   /* Holat ranglari — qorong'i fonda o'qilishi uchun ochroq.
-     `*Soft` lari esa to'q tint: ular fon bo'lib ishlatiladi. */
+     `*Soft` lari esa to'q tint: ular KARTA USTIDA fon bo'lib
+     ishlatiladi va shuning uchun kartadan sezilarli ajralishi
+     shart (nisbat >= 1.15). */
   success: "#31c06a",
-  successSoft: "#0f2a1b",
+  successSoft: "#153c27",
   warning: "#e0922c",
-  warningSoft: "#2d2110",
+  warningSoft: "#40301a",
   danger: "#f2564f",
-  dangerSoft: "#2e1618",
+  dangerSoft: "#4a2226",
   info: "#5b8cf5",
   purple: "#a37cf0",
-  purpleSoft: "#221a35",
+  purpleSoft: "#352950",
+
+  /* Hisob bilan: hammasi qorong'i karta ustida >=4.5,
+     `iconFaint` esa ATAYLAB past (2.05) — u nofaol holat */
+  icon: "#9aa8bf",
+  iconFaint: "#46536b",
+  surface: "#24304c",
+  brandText: "#ff8a52",
+  successText: "#4fd189",
+  warningText: "#efad55",
+  dangerText: "#ff8078",
 };
 
 const PALETTES: Record<ThemeName, Palette> = { light: LIGHT, dark: DARK };
@@ -267,7 +320,7 @@ const SHADOWS: Record<ThemeName, ShadowSet> = {
       /* Ko'tarilgan tugma qorong'ida ham ISSIQ nur beradi — u
          ekrandagi yagona yorqin narsa va soyasi shuni
          kuchaytiradi */
-      shadowColor: "#ff6a2b",
+      shadowColor: "#f2601f",
       shadowOpacity: 0.45,
       shadowRadius: 16,
       shadowOffset: { width: 0, height: 6 },

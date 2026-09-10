@@ -198,7 +198,7 @@ export default function Tolovlar() {
             {waiting.map((p) => (
               <View key={p.id} style={[s.card, s.cardHot]}>
                 <View style={[s.tag, { backgroundColor: color.brand + "1f" }]}>
-                  <Text style={[s.tagText, { color: "#c2490f" }]}>
+                  <Text style={[s.tagText, { color: color.brandText }]}>
                     {t("mob.ctr.waitYourOk")}
                   </Text>
                 </View>

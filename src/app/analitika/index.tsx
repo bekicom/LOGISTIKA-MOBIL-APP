@@ -60,7 +60,7 @@ const PERIODS = ["week", "month", "quarter", "year", "all"] as const;
 
 /* Kategoriya ustunlarining rangi. Birinchisi brend rangida:
    eng katta xarajat darhol ko'zga tashlansin. */
-const BARS = [color.brand, color.warning, color.mutedForeground, "#cbd5e1", "#e2e8f0"];
+const BARS = [color.brand, color.warning, color.mutedForeground, color.iconFaint, "#e2e8f0"];
 
 export default function Analitika() {
   const [period, setPeriod] = useState<string>("month");

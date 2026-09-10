@@ -172,7 +172,7 @@ export function ShareSheet({
                 <Text style={s.chatTitle} numberOfLines={1}>
                   {c.title}
                 </Text>
-                <Icon name="chevron" size={16} stroke="#cbd5e1" />
+                <Icon name="chevron" size={16} stroke={color.iconFaint} />
               </Pressable>
             ))
           )}
@@ -190,7 +190,7 @@ export function ShareSheet({
               <Text style={s.wayTitle}>{t("mob.share.toChat")}</Text>
               <Text style={s.wayHint}>{t("mob.share.toChatHint")}</Text>
             </View>
-            <Icon name="chevron" size={17} stroke="#cbd5e1" />
+            <Icon name="chevron" size={17} stroke={color.iconFaint} />
           </Pressable>
 
           <Pressable
@@ -204,7 +204,7 @@ export function ShareSheet({
               <Text style={s.wayTitle}>{t("mob.share.outside")}</Text>
               <Text style={s.wayHint}>{t("mob.share.outsideHint")}</Text>
             </View>
-            <Icon name="chevron" size={17} stroke="#cbd5e1" />
+            <Icon name="chevron" size={17} stroke={color.iconFaint} />
           </Pressable>
         </View>
       )}

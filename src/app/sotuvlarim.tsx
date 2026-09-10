@@ -228,7 +228,7 @@ function SellCard({
           </View>
           {x.badge && (
             <View style={[s.tag, s.tagBoost]}>
-              <Text style={[s.tagText, { color: "#c2490f" }]}>{x.badge}</Text>
+              <Text style={[s.tagText, { color: color.brandText }]}>{x.badge}</Text>
             </View>
           )}
           <Text style={s.no}>#{x.saleNo}</Text>
@@ -338,7 +338,7 @@ function BuyCard({
             <Text
               style={[
                 s.tagText,
-                { color: x.todo === "confirm" ? "#c2490f" : "#15803d" },
+                { color: x.todo === "confirm" ? color.brandText : color.successText },
               ]}
             >
               {x.todo === "confirm"
@@ -392,7 +392,7 @@ function Stat({ label, value, good }: { label: string; value: string; good?: boo
   return (
     <View style={{ flex: 1 }}>
       <Text style={s.statKey}>{label}</Text>
-      <Text style={[s.statValue, good && { color: "#15803d" }]}>{value}</Text>
+      <Text style={[s.statValue, good && { color: color.successText }]}>{value}</Text>
     </View>
   );
 }
@@ -476,7 +476,7 @@ const s = themed(() => ({
     borderRadius: 9,
     backgroundColor: color.brand + "12",
   },
-  waitText: { fontSize: 12, color: "#9a3412", lineHeight: 18 },
+  waitText: { fontSize: 12, color: color.brandText, lineHeight: 18 },
 
   text: { fontSize: 13, color: color.mutedForeground, marginTop: 8, lineHeight: 19 },
 

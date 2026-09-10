@@ -116,7 +116,7 @@ export default function TashqiYuk() {
             <Text style={[s.pickValue, !from && { color: color.mutedForeground }]} numberOfLines={1}>
               {from?.name ?? t("mob.common.notSet")}
             </Text>
-            <Icon name="chevron" size={17} stroke="#cbd5e1" />
+            <Icon name="chevron" size={17} stroke={color.iconFaint} />
           </Pressable>
 
           <Pressable onPress={() => setPicking("to")} style={s.pick}>
@@ -125,7 +125,7 @@ export default function TashqiYuk() {
             <Text style={[s.pickValue, !to && { color: color.mutedForeground }]} numberOfLines={1}>
               {to?.name ?? t("mob.common.notSet")}
             </Text>
-            <Icon name="chevron" size={17} stroke="#cbd5e1" />
+            <Icon name="chevron" size={17} stroke={color.iconFaint} />
           </Pressable>
 
           <Field

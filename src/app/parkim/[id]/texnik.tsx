@@ -218,7 +218,7 @@ export default function Texnik() {
                         </Text>
                       ) : null}
                     </View>
-                    {i.hasPhoto ? <Icon name="image" size={16} stroke="#cbd5e1" /> : null}
+                    {i.hasPhoto ? <Icon name="image" size={16} stroke={color.iconFaint} /> : null}
                   </Pressable>
                 );
               })}

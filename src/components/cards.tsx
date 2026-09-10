@@ -36,13 +36,19 @@ export function Route({ from, fromC, to, toC, size = 18 }: {
 const country = (code: string) => t(`jobCatalog.countries.${code}`);
 
 export function Chip({ text, tone = "muted" }: { text: string; tone?: "muted" | "success" | "brand" | "warning" | "danger" | "info" }) {
+  /* ⚠️ FON ham TOKEN (2026-09-10). Ilgari u aksent rangning
+     alfali variantidan yasalardi (`#16a34a1f` — 12% yashil).
+     Yorug' fonda bu och yashil beradi, QORONG'IDA esa deyarli
+     ko'rinmas dog': shaffof rang ostidagi to'q karta yutib
+     yuboradi. `*Soft` token'lari har rejim uchun alohida
+     tanlangan va kartadan ajralishi hisob bilan tekshirilgan. */
   const bg = {
-    muted: color.muted, success: "#16a34a1f", brand: "#f45a181f",
-    warning: "#b453091f", danger: "#dc26261a", info: "#1d4ed81a",
+    muted: color.muted, success: color.successSoft, brand: color.brandSoft,
+    warning: color.warningSoft, danger: color.dangerSoft, info: color.blueSoft,
   }[tone];
   const fg = {
-    muted: "#475569", success: "#15803d", brand: "#c2490f",
-    warning: "#92400e", danger: "#b91c1c", info: "#1e40af",
+    muted: color.icon, success: color.successText, brand: color.brandText,
+    warning: color.warningText, danger: color.dangerText, info: color.blue,
   }[tone];
   return (
     <View style={[s.chip, { backgroundColor: bg }]}>
@@ -54,7 +60,7 @@ export function Chip({ text, tone = "muted" }: { text: string; tone?: "muted" | 
 export function StatusChip({ label, tone }: { label: string; tone: "brand" | "warning" | "success" | "info" | "muted" | "danger" }) {
   const dot = { brand: color.brand, warning: color.warning, success: color.success, info: color.info, muted: "#94a3b8", danger: color.danger }[tone];
   const bg = { brand: "#f45a181f", warning: "#b453091f", success: "#16a34a1f", info: "#1d4ed81a", muted: color.muted, danger: "#dc26261a" }[tone];
-  const fg = { brand: "#c2490f", warning: "#92400e", success: "#15803d", info: "#1e40af", muted: "#475569", danger: "#b91c1c" }[tone];
+  const fg = { brand: color.brandText, warning: color.warningText, success: color.successText, info: "#1e40af", muted: color.icon, danger: color.dangerText }[tone];
   return (
     <View style={[s.chip, { backgroundColor: bg, flexDirection: "row", alignItems: "center", gap: 6 }]}>
       <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: dot }} />
@@ -161,7 +167,7 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
             <TruckIcon type={item.vehicleTypeKey} size={26} color={color.mutedForeground} />
           </View>
         ) : null}
-        <Icon name="heart" size={20} stroke="#cbd5e1" />
+        <Icon name="heart" size={20} stroke={color.iconFaint} />
       </View>
 
       <View style={{ marginTop: 11 }}>
@@ -239,7 +245,7 @@ export function TruckCard({ item, onPress }: { item: TruckItem; onPress?: () => 
         )}
         <LinkOnly item={item} />
         <View style={{ flex: 1 }} />
-        <Icon name="heart" size={20} stroke="#cbd5e1" />
+        <Icon name="heart" size={20} stroke={color.iconFaint} />
       </View>
 
       <View style={s.tRow}>
@@ -376,11 +382,11 @@ const s = themed(() => ({
   cardMine: { borderColor: color.info + "59", backgroundColor: color.info + "08" },
 
   tRow: { flexDirection: "row", gap: 12, marginTop: 11 },
-  tShot: { width: 72, height: 72, borderRadius: 12, backgroundColor: "#cbd5e1" },
+  tShot: { width: 72, height: 72, borderRadius: 12, backgroundColor: color.iconFaint },
   tShotEmpty: {
     backgroundColor: color.muted,
     borderWidth: 1,
-    borderColor: "#cbd5e1",
+    borderColor: color.iconFaint,
     borderStyle: "dashed",
     alignItems: "center",
     justifyContent: "center",
@@ -403,7 +409,7 @@ const s = themed(() => ({
   city: { fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
   country: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
-  cargo: { fontSize: 14, color: "#475569", marginTop: 10 },
+  cargo: { fontSize: 14, color: color.icon, marginTop: 10 },
 
   chips: { flexDirection: "row", gap: 6, marginTop: 11, flexWrap: "wrap" },
   chip: { height: 26, paddingHorizontal: 10, borderRadius: radius.control, alignItems: "center", justifyContent: "center" },

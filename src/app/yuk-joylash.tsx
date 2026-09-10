@@ -350,7 +350,7 @@ export default function YukJoylash() {
             <View style={[s.preview, { marginTop: space.xl }]}>
               <View style={s.rowBetween}>
                 <Chip text={t("mob.loads.readyNow")} tone="success" />
-                <Icon name="heart" size={20} stroke="#cbd5e1" />
+                <Icon name="heart" size={20} stroke={color.iconFaint} />
               </View>
               <View style={{ marginTop: 11 }}>
                 <Route from={from?.name ?? ""} to={to?.name ?? ""} />
@@ -525,14 +525,14 @@ const s = themed(() => ({
     paddingVertical: 10, paddingHorizontal: 2, minHeight: 78, alignItems: "center", justifyContent: "center", gap: 6,
   },
   typeOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180f" },
-  typeText: { fontSize: 10, fontWeight: "500", color: "#475569", textAlign: "center", lineHeight: 13 },
-  typeTextOn: { fontWeight: "700", color: "#c2490f" },
+  typeText: { fontSize: 10, fontWeight: "500", color: color.icon, textAlign: "center", lineHeight: 13 },
+  typeTextOn: { fontWeight: "700", color: color.brandText },
 
   chipWrap: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   altChip: { height: 34, paddingHorizontal: 12, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, justifyContent: "center" },
   altChipOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a181a" },
-  altText: { fontSize: 13, fontWeight: "500", color: "#475569" },
-  altTextOn: { fontWeight: "700", color: "#c2490f" },
+  altText: { fontSize: 13, fontWeight: "500", color: color.icon },
+  altTextOn: { fontWeight: "700", color: color.brandText },
 
   segment: { flexDirection: "row", gap: 8 },
   seg: {
@@ -540,16 +540,16 @@ const s = themed(() => ({
     borderColor: color.border, alignItems: "center", justifyContent: "center",
   },
   segOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180f" },
-  segText: { fontSize: 13, fontWeight: "500", color: "#475569" },
-  segTextOn: { fontWeight: "700", color: "#c2490f" },
+  segText: { fontSize: 13, fontWeight: "500", color: color.icon },
+  segTextOn: { fontWeight: "700", color: color.brandText },
 
   curChip: { paddingHorizontal: 9, height: 24, borderRadius: 6, backgroundColor: color.muted, justifyContent: "center" },
   curChipOn: { backgroundColor: color.brand },
-  curText: { fontSize: 11, fontWeight: "600", color: "#475569" },
+  curText: { fontSize: 11, fontWeight: "600", color: color.icon },
   curTextOn: { color: "#fff" },
 
   check: { flexDirection: "row", alignItems: "center", gap: 11, marginTop: space.md },
-  box: { width: 22, height: 22, borderRadius: 6, borderWidth: 2, borderColor: "#cbd5e1", alignItems: "center", justifyContent: "center" },
+  box: { width: 22, height: 22, borderRadius: 6, borderWidth: 2, borderColor: color.iconFaint, alignItems: "center", justifyContent: "center" },
   boxOn: { backgroundColor: color.brand, borderColor: color.brand },
   checkText: { fontSize: 14, color: color.foreground },
 
@@ -562,7 +562,7 @@ const s = themed(() => ({
     backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1,
     borderColor: color.border, padding: space.lg, ...shadow.card,
   },
-  previewCargo: { fontSize: 14, color: "#475569", marginTop: 10 },
+  previewCargo: { fontSize: 14, color: color.icon, marginTop: 10 },
   previewPrice: { fontSize: 21, fontWeight: "700", color: color.foreground, marginTop: 13, letterSpacing: -0.3 },
 
   summary: { backgroundColor: color.card, borderRadius: radius.card, borderWidth: 1, borderColor: color.border },

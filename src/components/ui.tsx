@@ -254,7 +254,7 @@ export function ListRow({
         <Text style={[s.rowTitle, tone === "danger" && { color: color.danger }]}>{title}</Text>
         {hint ? <Text style={s.rowHint}>{hint}</Text> : null}
       </View>
-      {right ?? (onPress ? <Icon name="chevron" size={18} stroke="#cbd5e1" /> : null)}
+      {right ?? (onPress ? <Icon name="chevron" size={18} stroke={color.iconFaint} /> : null)}
     </>
   );
 

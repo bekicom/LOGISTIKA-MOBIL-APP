@@ -315,12 +315,12 @@ export default function ChatRoyxati() {
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
                   {item.pinned ? <Icon name="pin" size={13} stroke={color.brand} /> : null}
                   <Text style={[s.name, item.unread === 0 && s.nameRead]} numberOfLines={1}>{item.title}</Text>
-                  {item.muted ? <Icon name="bell" size={13} stroke="#cbd5e1" /> : null}
+                  {item.muted ? <Icon name="bell" size={13} stroke={color.iconFaint} /> : null}
                 </View>
                 {item.lastText ? <Text style={s.last} numberOfLines={1}>{item.lastText}</Text> : null}
                 {item.bucket === "trip" && item.subtitle ? (
                   <View style={s.tripTag}>
-                    <Icon name="route" size={12} stroke="#c2490f" />
+                    <Icon name="route" size={12} stroke={color.brandText} />
                     <Text style={s.tripText} numberOfLines={1}>{item.subtitle}</Text>
                   </View>
                 ) : null}
@@ -365,7 +365,7 @@ export default function ChatRoyxati() {
 function Row({ icon, label, onPress, last }: { icon: IconName; label: string; onPress: () => void; last?: boolean }) {
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.menuRow, !last && s.menuDivider, pressed && { opacity: 0.6 }]}>
-      <Icon name={icon} size={19} stroke="#475569" />
+      <Icon name={icon} size={19} stroke={color.icon} />
       <Text style={s.menuLabel}>{label}</Text>
     </Pressable>
   );
@@ -406,11 +406,11 @@ const s = themed(() => ({
   avatarGroup: { backgroundColor: color.blueSoft },
   avatarText: { fontSize: 15, fontWeight: "700", color: color.mutedForeground },
   name: { fontSize: font.body, fontWeight: "700", color: color.foreground, flexShrink: 1 },
-  nameRead: { fontWeight: "600", color: "#475569" },
+  nameRead: { fontWeight: "600", color: color.icon },
   last: { fontSize: font.caption, color: color.mutedForeground, marginTop: 2 },
   members: { fontSize: 11.5, color: "#94a3b8", marginTop: 3 },
   tripTag: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 5 },
-  tripText: { fontSize: 11, fontWeight: "600", color: "#c2490f", flexShrink: 1 },
+  tripText: { fontSize: 11, fontWeight: "600", color: color.brandText, flexShrink: 1 },
   time: { fontSize: 11, color: color.mutedForeground },
   badge: { minWidth: 20, height: 20, paddingHorizontal: 6, borderRadius: 10, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
   badgeText: { fontSize: 11, fontWeight: "700", color: "#fff" },

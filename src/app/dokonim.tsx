@@ -233,7 +233,7 @@ export default function Dokonim() {
                           ]}
                         >
                           <Text
-                            style={[s.tagText, o.status === "NEW" && { color: "#c2490f" }]}
+                            style={[s.tagText, o.status === "NEW" && { color: color.brandText }]}
                           >
                             {partOrderStatusLabel(o.status)}
                           </Text>
@@ -319,7 +319,7 @@ export default function Dokonim() {
                         t("mob.part.shopInfoSub")}
                     </Text>
                   </View>
-                  <Icon name="chevron" size={18} stroke="#cbd5e1" />
+                  <Icon name="chevron" size={18} stroke={color.iconFaint} />
                 </Pressable>
             </View>
           ) : null
@@ -701,8 +701,8 @@ const s = themed(() => ({
     borderRadius: radius.control,
     padding: space.md,
   },
-  warnTitle: { fontSize: font.caption, fontWeight: "600", color: "#92400e" },
-  warnText: { fontSize: 12, color: "#92400e", marginTop: 4, lineHeight: 18 },
+  warnTitle: { fontSize: font.caption, fontWeight: "600", color: color.warningText },
+  warnText: { fontSize: 12, color: color.warningText, marginTop: 4, lineHeight: 18 },
 
   stats: { flexDirection: "row", gap: 10 },
   stat: {
@@ -770,7 +770,7 @@ const s = themed(() => ({
     borderRadius: 10,
     borderWidth: 1.5,
     borderStyle: "dashed",
-    borderColor: "#cbd5e1",
+    borderColor: color.iconFaint,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -811,8 +811,8 @@ const s = themed(() => ({
     borderColor: color.warning + "59",
     backgroundColor: color.warning + "0d",
   },
-  lockedTitle: { fontSize: font.caption, fontWeight: "600", color: "#92400e" },
-  lockedText: { fontSize: 12, color: "#92400e", marginTop: 4, lineHeight: 18 },
+  lockedTitle: { fontSize: font.caption, fontWeight: "600", color: color.warningText },
+  lockedText: { fontSize: 12, color: color.warningText, marginTop: 4, lineHeight: 18 },
 
   empty: { padding: space.lg, alignItems: "center" },
   emptyText: { fontSize: 13, color: color.mutedForeground, textAlign: "center", lineHeight: 19 },
@@ -830,7 +830,7 @@ const s = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
-  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.xs },
+  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground, marginBottom: space.xs },
 
   label: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, marginBottom: 5 },
@@ -851,7 +851,7 @@ const s = themed(() => ({
   },
   pickOn: { backgroundColor: color.brand + "17", borderColor: color.brand },
   pickText: { fontSize: 13, fontWeight: "500", color: color.mutedForeground },
-  pickTextOn: { color: "#c2490f", fontWeight: "600" },
+  pickTextOn: { color: color.brandText, fontWeight: "600" },
 
   switchRow: { flexDirection: "row", alignItems: "center", gap: 11 },
   switchTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },

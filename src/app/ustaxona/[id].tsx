@@ -254,7 +254,7 @@ export default function Buyurtma() {
             </View>
             {o.needMobile && (
               <View style={[s.tag, s.tagMobile]}>
-                <Text style={[s.tagText, { color: "#c2490f" }]}>{t("mob.svc.mobileNeeded")}</Text>
+                <Text style={[s.tagText, { color: color.brandText }]}>{t("mob.svc.mobileNeeded")}</Text>
               </View>
             )}
           </View>
@@ -430,7 +430,7 @@ export default function Buyurtma() {
         {viewer.isClient && o.status === "DONE" && (
           <View style={[s.card, s.doneCard]}>
             <View style={s.extraHead}>
-              <Icon name="check" size={17} stroke="#15803d" />
+              <Icon name="check" size={17} stroke={color.successText} />
               <Text style={s.doneTitle}>{t("mob.svc.masterDone")}</Text>
             </View>
             <Text style={s.text}>{t("mob.svc.acceptHint")}</Text>
@@ -557,7 +557,7 @@ export default function Buyurtma() {
               <Icon
                 name="star"
                 size={30}
-                stroke={n <= stars ? color.warning : "#cbd5e1"}
+                stroke={n <= stars ? color.warning : color.iconFaint}
                 fill={n <= stars ? color.warning : "none"}
               />
             </Pressable>
@@ -767,7 +767,7 @@ const s = themed(() => ({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 10,
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.surface,
   },
   extraTotalKey: { fontSize: 12, color: color.mutedForeground },
   extraTotalValue: { fontSize: 15, fontWeight: "700", color: color.foreground },
@@ -787,12 +787,12 @@ const s = themed(() => ({
   mMeta: { fontSize: 12, color: color.mutedForeground },
 
   two: { flexDirection: "row", gap: 10, marginTop: 12 },
-  box: { flex: 1, paddingVertical: 10, paddingHorizontal: 11, borderRadius: 10, backgroundColor: "#f8fafc" },
+  box: { flex: 1, paddingVertical: 10, paddingHorizontal: 11, borderRadius: 10, backgroundColor: color.surface },
   boxGood: { backgroundColor: color.success + "14" },
   boxKey: { fontSize: 11, color: color.mutedForeground },
-  boxKeyGood: { color: "#15803d" },
+  boxKeyGood: { color: color.successText },
   boxValue: { fontSize: 19, fontWeight: "700", color: color.foreground, marginTop: 1 },
-  boxValueGood: { color: "#15803d" },
+  boxValueGood: { color: color.successText },
 
   note: { fontSize: 12, color: color.mutedForeground, marginTop: 10, lineHeight: 18 },
   hint: { fontSize: 12, color: color.mutedForeground, textAlign: "center", marginTop: space.sm, lineHeight: 18 },
@@ -803,13 +803,13 @@ const s = themed(() => ({
   sumRow: { flexDirection: "row", justifyContent: "space-between", gap: 12, paddingVertical: 7 },
   sumKey: { flex: 1, fontSize: 13, color: color.mutedForeground },
   sumValue: { fontSize: 13, fontWeight: "600", color: color.foreground },
-  mixed: { fontSize: 12, color: "#92400e", marginTop: 6, lineHeight: 18 },
+  mixed: { fontSize: 12, color: color.warningText, marginTop: 6, lineHeight: 18 },
   sumTotal: { borderTopWidth: 1, borderTopColor: color.border, marginTop: 4, paddingTop: 10 },
   sumTotalKey: { fontSize: 14, fontWeight: "700", color: color.foreground },
   sumTotalValue: { fontSize: 16, fontWeight: "700", color: color.foreground },
 
   doneCard: { borderColor: color.success + "66", backgroundColor: color.success + "08" },
-  doneTitle: { fontSize: 14, fontWeight: "700", color: "#15803d" },
+  doneTitle: { fontSize: 14, fontWeight: "700", color: color.successText },
   warranty: {
     flexDirection: "row",
     alignItems: "center",
@@ -840,7 +840,7 @@ const s = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
-  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.xs },
+  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: 13, color: color.mutedForeground, lineHeight: 19, marginBottom: space.xs },
   later: { alignItems: "center", paddingVertical: space.md },

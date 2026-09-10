@@ -105,12 +105,12 @@ export function GuestPanel() {
             {lockedRows().map((r, i) => (
               <View key={r.title} style={[s.row, i < lockedRows().length - 1 && s.rowLine]}>
                 <View style={s.icon}>
-                  <Icon name={r.icon} size={18} stroke="#cbd5e1" />
+                  <Icon name={r.icon} size={18} stroke={color.iconFaint} />
                 </View>
                 <Text style={[s.rowTitle, { flexGrow: 1, color: color.mutedForeground }]}>
                   {r.title}
                 </Text>
-                <Icon name="close" size={15} stroke="#cbd5e1" />
+                <Icon name="close" size={15} stroke={color.iconFaint} />
               </View>
             ))}
           </View>

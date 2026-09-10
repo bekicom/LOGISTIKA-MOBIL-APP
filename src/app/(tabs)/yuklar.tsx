@@ -101,7 +101,7 @@ export default function Yuklar() {
           {chips.map((c) => (
             <Pressable key={c.key} style={s.activeChip} onPress={() => clearOne(c.key)}>
               <Text style={s.activeChipText}>{c.label}</Text>
-              <Icon name="close" size={13} stroke="#c2490f" />
+              <Icon name="close" size={13} stroke={color.brandText} />
             </Pressable>
           ))}
 
@@ -218,7 +218,7 @@ const s = themed(() => ({
     alignItems: "center",
     gap: 7,
   },
-  activeChipText: { fontSize: 13, fontWeight: "600", color: "#c2490f" },
+  activeChipText: { fontSize: 13, fontWeight: "600", color: color.brandText },
 
   list: { padding: space.lg, paddingTop: space.sm, gap: space.md },
 }));

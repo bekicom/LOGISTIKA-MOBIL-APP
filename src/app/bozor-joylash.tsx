@@ -262,7 +262,7 @@ export default function BozorJoylash() {
                 })}
 
                 <View style={s.why}>
-                  <Icon name="check" size={15} stroke="#c2490f" />
+                  <Icon name="check" size={15} stroke={color.brandText} />
                   <Text style={s.whyText}>{t("mob.sale.fleetWhy")}</Text>
                 </View>
 
@@ -296,7 +296,7 @@ export default function BozorJoylash() {
           <>
             {pick && (
               <View style={s.ok}>
-                <Icon name="check" size={15} stroke="#15803d" />
+                <Icon name="check" size={15} stroke={color.successText} />
                 <Text style={s.okText}>{t("mob.sale.autoFilled")}</Text>
               </View>
             )}
@@ -618,7 +618,7 @@ const s = themed(() => ({
     borderRadius: 10,
     backgroundColor: color.brand + "12",
   },
-  whyText: { flex: 1, fontSize: 12, color: "#9a3412", lineHeight: 18 },
+  whyText: { flex: 1, fontSize: 12, color: color.brandText, lineHeight: 18 },
 
   orRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   orLine: { flex: 1, height: 1, backgroundColor: color.border },
@@ -632,7 +632,7 @@ const s = themed(() => ({
     borderRadius: 10,
     backgroundColor: color.success + "14",
   },
-  okText: { fontSize: 12, fontWeight: "500", color: "#15803d" },
+  okText: { fontSize: 12, fontWeight: "500", color: color.successText },
 
   two: { flexDirection: "row", gap: 10 },
   area: { minHeight: 74, textAlignVertical: "top" },
@@ -649,7 +649,7 @@ const s = themed(() => ({
   },
   pickOn: { backgroundColor: color.brand + "17", borderColor: color.brand },
   pickText: { fontSize: 13, fontWeight: "500", color: color.mutedForeground },
-  pickTextOn: { color: "#c2490f", fontWeight: "600" },
+  pickTextOn: { color: color.brandText, fontWeight: "600" },
 
   line: { height: 1, backgroundColor: color.border },
   switchRow: { flexDirection: "row", alignItems: "center", gap: 11 },
@@ -689,7 +689,7 @@ const s = themed(() => ({
     borderRadius: 10,
     borderWidth: 1.5,
     borderStyle: "dashed",
-    borderColor: "#cbd5e1",
+    borderColor: color.iconFaint,
     alignItems: "center",
     justifyContent: "center",
     gap: 4,
@@ -717,7 +717,7 @@ const s = themed(() => ({
     borderColor: color.warning + "59",
     backgroundColor: color.warning + "0d",
   },
-  warnText: { fontSize: font.caption, color: "#92400e", lineHeight: 19 },
+  warnText: { fontSize: font.caption, color: color.warningText, lineHeight: 19 },
 
   foot: {
     backgroundColor: color.card,

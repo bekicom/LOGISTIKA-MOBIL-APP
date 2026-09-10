@@ -165,7 +165,7 @@ export default function RezyumeHujjat() {
                   </Text>
                 </View>
                 {l ? <Text style={[s.days, { color: l.tone }]}>●</Text> : null}
-                <Icon name="chevron" size={17} stroke="#cbd5e1" />
+                <Icon name="chevron" size={17} stroke={color.iconFaint} />
               </Pressable>
             );
           })}

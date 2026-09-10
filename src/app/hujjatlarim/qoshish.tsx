@@ -133,7 +133,7 @@ export default function HujjatQoshish() {
               <Text style={s.camText}>{t("mob.chat.camera")}</Text>
             </Pressable>
             <Pressable onPress={gallery} style={({ pressed }) => [s.galBtn, pressed && { backgroundColor: color.muted }]}>
-              <Icon name="package" size={17} stroke="#475569" />
+              <Icon name="package" size={17} stroke={color.icon} />
               <Text style={s.galText}>{t("mob.chat.gallery")}</Text>
             </Pressable>
           </View>
@@ -151,7 +151,7 @@ export default function HujjatQoshish() {
                   onPress={() => setKind(k)}
                   style={({ pressed }) => [s.kind, on && s.kindOn, pressed && !on && { backgroundColor: color.muted }]}
                 >
-                  <Icon name="doc" size={20} stroke={on ? color.brand : "#475569"} />
+                  <Icon name="doc" size={20} stroke={on ? color.brand : color.icon} />
                   <Text style={[s.kindText, on && { color: color.brand }]} numberOfLines={1}>
                     {t(`mob.pdocShort.${k}`)}
                   </Text>
@@ -219,7 +219,7 @@ export default function HujjatQoshish() {
 
         {/* Maxfiylik — yashirilmaydi */}
         <View style={s.privacy}>
-          <Icon name="check" size={18} stroke="#475569" />
+          <Icon name="check" size={18} stroke={color.icon} />
           <Text style={s.privacyText}>{t("mob.pdoc.privacyNote")}</Text>
         </View>
 
@@ -245,7 +245,7 @@ const s = themed(() => ({
 
   drop: {
     height: 200, borderRadius: 12, borderWidth: 1, borderStyle: "dashed",
-    borderColor: "#cbd5e1", backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint, backgroundColor: color.surface,
     alignItems: "center", justifyContent: "center", gap: 12, paddingHorizontal: 24,
   },
   dropIcon: {
@@ -267,7 +267,7 @@ const s = themed(() => ({
     flex: 1, height: 44, borderRadius: radius.control, borderWidth: 1, borderColor: color.border,
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 7,
   },
-  galText: { fontSize: 14, fontWeight: "600", color: "#475569" },
+  galText: { fontSize: 14, fontWeight: "600", color: color.icon },
 
   kinds: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   kind: {
@@ -275,12 +275,12 @@ const s = themed(() => ({
     backgroundColor: color.card, alignItems: "center", justifyContent: "center", gap: 6, paddingHorizontal: 4,
   },
   kindOn: { borderColor: color.brand, borderWidth: 2, backgroundColor: color.brand + "0d" },
-  kindText: { fontSize: 11, fontWeight: "600", color: "#475569", textAlign: "center" },
+  kindText: { fontSize: 11, fontWeight: "600", color: color.icon, textAlign: "center" },
 
   foreverRow: {
     flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12,
     padding: 13, borderRadius: radius.control, borderWidth: 1, borderColor: color.border,
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.surface,
   },
   foreverText: { flex: 1, fontSize: font.caption, color: color.foreground },
   sw: { width: 42, height: 25, borderRadius: 13, backgroundColor: color.border, padding: 3 },
@@ -295,7 +295,7 @@ const s = themed(() => ({
 
   privacy: {
     flexDirection: "row", gap: 11, padding: 14,
-    borderWidth: 1, borderColor: "#cbd5e1", backgroundColor: "#f8fafc", borderRadius: radius.card,
+    borderWidth: 1, borderColor: color.iconFaint, backgroundColor: color.surface, borderRadius: radius.card,
   },
-  privacyText: { flex: 1, fontSize: 12, color: "#475569", lineHeight: 19 },
+  privacyText: { flex: 1, fontSize: 12, color: color.icon, lineHeight: 19 },
 }));

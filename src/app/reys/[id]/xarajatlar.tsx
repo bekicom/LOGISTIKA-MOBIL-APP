@@ -384,7 +384,7 @@ const s = themed(() => ({
 
   backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)", justifyContent: "flex-end" },
   sheet: { backgroundColor: color.card, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet, maxHeight: "92%" },
-  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginTop: 10 },
+  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginTop: 10 },
   sheetTitle: { fontSize: 20, fontWeight: "700", color: color.foreground },
 
   label: { fontSize: font.caption, fontWeight: "600", color: color.foreground, marginBottom: 6 },
@@ -396,13 +396,13 @@ const s = themed(() => ({
     borderRadius: radius.control, borderWidth: 1, borderColor: color.border,
   },
   catOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180f" },
-  catText: { fontSize: 13, fontWeight: "500", color: "#475569" },
-  catTextOn: { fontWeight: "700", color: "#c2490f" },
+  catText: { fontSize: 13, fontWeight: "500", color: color.icon },
+  catTextOn: { fontWeight: "700", color: color.brandText },
 
   curRow: { flexDirection: "row", flexWrap: "wrap", gap: 4 },
   curChip: { paddingHorizontal: 9, height: 24, borderRadius: 6, backgroundColor: color.muted, justifyContent: "center" },
   curChipOn: { backgroundColor: color.brand },
-  curText: { fontSize: 11, fontWeight: "600", color: "#475569" },
+  curText: { fontSize: 11, fontWeight: "600", color: color.icon },
   curTextOn: { color: "#fff" },
 
   thumb: { width: 78, height: 78, borderRadius: radius.control, overflow: "hidden", backgroundColor: color.muted },
@@ -412,7 +412,7 @@ const s = themed(() => ({
     backgroundColor: "rgba(15,23,42,0.6)", alignItems: "center", justifyContent: "center",
   },
   add: {
-    width: 78, height: 78, borderRadius: radius.control, borderWidth: 1.5, borderColor: "#cbd5e1",
+    width: 78, height: 78, borderRadius: radius.control, borderWidth: 1.5, borderColor: color.iconFaint,
     borderStyle: "dashed", alignItems: "center", justifyContent: "center", gap: 4,
   },
   addText: { fontSize: 10, fontWeight: "500", color: color.mutedForeground, textAlign: "center" },

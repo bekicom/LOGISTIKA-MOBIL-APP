@@ -275,7 +275,7 @@ const s = themed(() => ({
 
   backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)", justifyContent: "flex-end" },
   sheet: { backgroundColor: color.card, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet },
-  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginTop: 10 },
+  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginTop: 10 },
   sheetTitle: { fontSize: 20, fontWeight: "700", color: color.foreground },
 
   label: { fontSize: font.caption, fontWeight: "600", color: color.foreground, marginBottom: 9 },
@@ -284,8 +284,8 @@ const s = themed(() => ({
   kinds: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   kind: { height: 34, paddingHorizontal: 12, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, justifyContent: "center" },
   kindOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180f" },
-  kindText: { fontSize: 13, fontWeight: "500", color: "#475569" },
-  kindTextOn: { fontWeight: "700", color: "#c2490f" },
+  kindText: { fontSize: 13, fontWeight: "500", color: color.icon },
+  kindTextOn: { fontWeight: "700", color: color.brandText },
 
   pages: { flexDirection: "row", flexWrap: "wrap", gap: 9 },
   thumb: { width: 78, height: 78, borderRadius: radius.control, overflow: "hidden", backgroundColor: color.muted },
@@ -300,7 +300,7 @@ const s = themed(() => ({
     backgroundColor: "rgba(15,23,42,0.6)", alignItems: "center", justifyContent: "center",
   },
   add: {
-    width: 78, height: 78, borderRadius: radius.control, borderWidth: 1.5, borderColor: "#cbd5e1",
+    width: 78, height: 78, borderRadius: radius.control, borderWidth: 1.5, borderColor: color.iconFaint,
     borderStyle: "dashed", alignItems: "center", justifyContent: "center", gap: 4,
   },
   addText: { fontSize: 10, fontWeight: "500", color: color.mutedForeground, textAlign: "center" },

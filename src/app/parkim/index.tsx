@@ -65,7 +65,7 @@ type Transfer = {
 /* Yorliqlar FUNKSIYA ichida: modul yuklanganda til hali
    o'qilmagan bo'lishi mumkin, ular esa bir marta hisoblanardi. */
 const TONE: Record<string, { fg: string; bg: string }> = {
-  FREE: { fg: "#15803d", bg: "rgba(22,163,74,0.12)" },
+  FREE: { fg: color.successText, bg: "rgba(22,163,74,0.12)" },
   ON_TRIP: { fg: color.info, bg: "rgba(29,78,216,0.12)" },
   REPAIR: { fg: color.warning, bg: "rgba(180,83,9,0.12)" },
   INACTIVE: { fg: color.mutedForeground, bg: color.muted },
@@ -329,7 +329,7 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
     >
       <View style={{ flexDirection: "row", gap: 13 }}>
         <View style={[s.thumb, item.status === "REPAIR" && { opacity: 0.55 }]}>
-          <Icon name="truck" size={30} stroke="#475569" />
+          <Icon name="truck" size={30} stroke={color.icon} />
         </View>
 
         <View style={{ flex: 1 }}>
@@ -441,7 +441,7 @@ const s = themed(() => ({
     alignItems: "center", justifyContent: "center",
   },
   tabOn: { backgroundColor: color.navy, borderColor: color.navy },
-  tabText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  tabText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
   tabTextOn: { color: "#fff" },
 
   list: { padding: space.lg, gap: space.md, paddingBottom: space.xxl * 2 },
@@ -450,8 +450,8 @@ const s = themed(() => ({
     flexDirection: "row", gap: 11, padding: 13, backgroundColor: color.dangerSoft,
     borderRadius: radius.card, marginBottom: space.md,
   },
-  warnTitle: { fontSize: font.caption, fontWeight: "700", color: "#b91c1c" },
-  warnBody: { fontSize: 12, color: "#b91c1c", marginTop: 3, lineHeight: 18 },
+  warnTitle: { fontSize: font.caption, fontWeight: "700", color: color.dangerText },
+  warnBody: { fontSize: 12, color: color.dangerText, marginTop: 3, lineHeight: 18 },
 
   card: {
     backgroundColor: color.card, borderRadius: radius.card, padding: 14, ...shadow.card,
@@ -468,7 +468,7 @@ const s = themed(() => ({
   },
   meta: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 9 },
   metaText: { fontSize: 12, color: color.mutedForeground, flexShrink: 1 },
-  dot: { fontSize: 12, color: "#cbd5e1" },
+  dot: { fontSize: 12, color: color.iconFaint },
   trailer: { fontSize: 12, color: color.mutedForeground, marginTop: 5 },
 
   foot: {

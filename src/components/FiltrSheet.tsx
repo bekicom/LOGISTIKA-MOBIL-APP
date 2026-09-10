@@ -260,7 +260,7 @@ export function LocationPicker({
 const s = themed(() => ({
   backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)", justifyContent: "flex-end" },
   sheet: { backgroundColor: color.card, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet, maxHeight: "92%" },
-  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center" },
+  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center" },
 
   head: {
     flexDirection: "row", alignItems: "center", paddingHorizontal: space.xl,
@@ -291,8 +291,8 @@ const s = themed(() => ({
     minHeight: 78, alignItems: "center", justifyContent: "center", gap: 6,
   },
   typeOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180f" },
-  typeText: { fontSize: 10, fontWeight: "500", color: "#475569", textAlign: "center", lineHeight: 13 },
-  typeTextOn: { fontWeight: "700", color: "#c2490f" },
+  typeText: { fontSize: 10, fontWeight: "500", color: color.icon, textAlign: "center", lineHeight: 13 },
+  typeTextOn: { fontWeight: "700", color: color.brandText },
 
   switchRow: { flexDirection: "row", alignItems: "center", gap: space.md },
   switchLabel: { flex: 1, fontSize: 14, color: color.foreground },

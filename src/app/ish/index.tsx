@@ -210,7 +210,7 @@ export default function IshTopish() {
                 <Text style={s.panelTitle}>{t("mob.job.employerTitle")}</Text>
                 <Text style={s.panelSub}>{t("mob.job.employerSub")}</Text>
               </View>
-              <Icon name="chevron" size={18} stroke="#cbd5e1" />
+              <Icon name="chevron" size={18} stroke={color.iconFaint} />
             </Pressable>
           )
         }
@@ -398,7 +398,7 @@ const s = themed(() => ({
   score: { height: 24, paddingHorizontal: 9, borderRadius: 7, backgroundColor: color.muted, justifyContent: "center" },
   scoreGood: { backgroundColor: color.success + "1f" },
   scoreText: { fontSize: 12, fontWeight: "700", color: color.mutedForeground },
-  scoreTextGood: { color: "#15803d" },
+  scoreTextGood: { color: color.successText },
 
   appTag: { height: 21, paddingHorizontal: 8, borderRadius: 6, backgroundColor: color.warning + "1f", justifyContent: "center" },
   appTagText: { fontSize: 10, fontWeight: "700", color: "#b45309" },
@@ -417,7 +417,7 @@ const s = themed(() => ({
   },
   note: { flexDirection: "row", alignItems: "flex-start", gap: 8 },
   noteText: { flex: 1, fontSize: 12, color: color.mutedForeground, lineHeight: 18 },
-  noteGap: { color: "#92400e" },
+  noteGap: { color: color.warningText },
 
   chips: { gap: 7, paddingBottom: space.sm },
   chip: {

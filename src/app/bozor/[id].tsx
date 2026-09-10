@@ -437,7 +437,7 @@ export default function EelonTafsilot() {
           {sale.hasDocs && (
             <View style={[s.card, s.docs]}>
               <View style={s.docsHead}>
-                <Icon name="check" size={17} stroke="#15803d" />
+                <Icon name="check" size={17} stroke={color.successText} />
                 <Text style={s.docsTitle}>{t("mob.market.docsReady")}</Text>
               </View>
               {sale.docsNote ? <Text style={s.text}>{sale.docsNote}</Text> : null}
@@ -548,7 +548,7 @@ function Cell({ label, value, strong }: { label: string; value: string; strong?:
   return (
     <View style={{ flex: 1 }}>
       <Text style={s.cellKey}>{label}</Text>
-      <Text style={[s.cellValue, strong && { color: "#c2490f" }]}>{value}</Text>
+      <Text style={[s.cellValue, strong && { color: color.brandText }]}>{value}</Text>
     </View>
   );
 }
@@ -661,7 +661,7 @@ const s = themed(() => ({
 
   root: { flex: 1, backgroundColor: color.background },
 
-  gallery: { backgroundColor: "#cbd5e1" },
+  gallery: { backgroundColor: color.iconFaint },
   noPhoto: { flex: 1, alignItems: "center", justifyContent: "center", gap: 8 },
   noPhotoText: { fontSize: 13, color: color.mutedForeground },
   round: {
@@ -756,7 +756,7 @@ const s = themed(() => ({
     borderRadius: radius.control,
     backgroundColor: color.warning + "14",
   },
-  warnText: { fontSize: 12, color: "#92400e" },
+  warnText: { fontSize: 12, color: color.warningText },
 
   row: {
     flexDirection: "row",
@@ -776,7 +776,7 @@ const s = themed(() => ({
 
   docs: { borderColor: color.success + "59", backgroundColor: color.success + "0a" },
   docsHead: { flexDirection: "row", alignItems: "center", gap: 9 },
-  docsTitle: { fontSize: 14, fontWeight: "700", color: "#15803d" },
+  docsTitle: { fontSize: 14, fontWeight: "700", color: color.successText },
 
   sellerRow: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 11 },
   avatar: {

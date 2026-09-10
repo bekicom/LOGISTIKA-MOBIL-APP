@@ -157,7 +157,7 @@ export default function NavbatTafsilot() {
           <Text style={s.sec}>{t("mob.queue.proof")}</Text>
           <View style={s.proof}>
             <View style={[s.thumb, !q.hasProof && { borderStyle: "dashed", borderWidth: 1, borderColor: color.border }]}>
-              <Icon name="doc" size={20} stroke={q.hasProof ? "#475569" : "#cbd5e1"} />
+              <Icon name="doc" size={20} stroke={q.hasProof ? color.icon : color.iconFaint} />
             </View>
             <Text style={[s.proofName, !q.hasProof && { color: color.mutedForeground }]}>
               {q.hasProof ? `talon-${q.queueNo ?? q.id.slice(0, 6)}.pdf` : t("mob.queue.noProof")}
@@ -350,7 +350,7 @@ const s = themed(() => ({
     height: 34, paddingHorizontal: 12, borderRadius: radius.control,
     borderWidth: 1, borderColor: color.border, alignItems: "center", justifyContent: "center",
   },
-  btnSmText: { fontSize: font.caption, fontWeight: "600", color: "#475569" },
+  btnSmText: { fontSize: font.caption, fontWeight: "600", color: color.icon },
   proofHint: {
     fontSize: 12, color: color.mutedForeground, lineHeight: 18,
     paddingHorizontal: space.lg, paddingVertical: 12,

@@ -361,7 +361,7 @@ export default function MashinaTafsilot() {
             accessibilityRole="button"
             accessibilityLabel={t("mob.trucks.message")}
           >
-            <Icon name="chat" size={21} stroke="#475569" />
+            <Icon name="chat" size={21} stroke={color.icon} />
           </Pressable>
           <View style={{ flex: 1 }}>
             <Button
@@ -443,7 +443,7 @@ const s = themed(() => ({
   capRow: { flexDirection: "row", alignItems: "baseline" },
   cap: { fontSize: 34, fontWeight: "700", color: color.foreground, letterSpacing: -1 },
   capSub: { fontSize: font.bodyLg, color: color.mutedForeground },
-  sub: { fontSize: font.body, color: "#475569", marginTop: 3 },
+  sub: { fontSize: font.body, color: color.icon, marginTop: 3 },
   chips: { flexDirection: "row", gap: 6, marginTop: 11, flexWrap: "wrap" },
 
   sec: {
@@ -473,8 +473,8 @@ const s = themed(() => ({
   banner: { flexDirection: "row", gap: 11, borderRadius: radius.card, padding: 14 },
   bannerOk: { backgroundColor: color.successSoft },
   bannerWarn: { backgroundColor: color.warningSoft },
-  bannerTitleOk: { fontSize: font.caption, fontWeight: "700", color: "#15803d" },
-  bannerTextOk: { fontSize: 12, color: "#15803d", marginTop: 3, lineHeight: 18 },
+  bannerTitleOk: { fontSize: font.caption, fontWeight: "700", color: color.successText },
+  bannerTextOk: { fontSize: 12, color: color.successText, marginTop: 3, lineHeight: 18 },
   bannerTitleWarn: { fontSize: font.caption, fontWeight: "700", color: color.warning },
   bannerTextWarn: { fontSize: 12, color: color.warning, marginTop: 3, lineHeight: 18 },
 
@@ -514,7 +514,7 @@ const s = themed(() => ({
   statLabel: { fontSize: 11, color: color.mutedForeground },
   statValue: { fontSize: 17, fontWeight: "700", color: color.foreground, marginTop: 1 },
 
-  note: { fontSize: 14, color: "#475569", marginTop: 7, lineHeight: 22 },
+  note: { fontSize: 14, color: color.icon, marginTop: 7, lineHeight: 22 },
 
   contactOpen: { flexDirection: "row", alignItems: "center", gap: 12 },
   contactPhone: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground },

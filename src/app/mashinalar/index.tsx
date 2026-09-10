@@ -93,7 +93,7 @@ export default function Mashinalar() {
           {chips.map((c) => (
             <Pressable key={c.key} style={s.chip} onPress={() => clearOne(c.key as keyof Filtr)}>
               <Text style={s.chipText}>{c.label}</Text>
-              <Icon name="close" size={13} stroke="#c2490f" />
+              <Icon name="close" size={13} stroke={color.brandText} />
             </Pressable>
           ))}
           {data && chips.length === 0 ? (
@@ -206,7 +206,7 @@ const s = themed(() => ({
     alignItems: "center",
     gap: 7,
   },
-  chipText: { fontSize: font.caption, fontWeight: "600", color: "#c2490f" },
+  chipText: { fontSize: font.caption, fontWeight: "600", color: color.brandText },
   count: { fontSize: font.caption, color: color.mutedForeground, marginLeft: 4 },
   countNum: { fontWeight: "700", color: color.foreground },
 

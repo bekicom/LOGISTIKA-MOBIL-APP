@@ -155,13 +155,13 @@ export default function Zapchast() {
             style={[s.chip, vehicle && s.chipOn]}
             onPress={() => (vehicle ? setVehicle(null) : setPicking(true))}
           >
-            <Icon name="truck" size={14} stroke={vehicle ? "#c2490f" : color.mutedForeground} />
+            <Icon name="truck" size={14} stroke={vehicle ? color.brandText : color.mutedForeground} />
             <Text style={[s.chipText, vehicle && s.chipTextOn]}>
               {vehicle
                 ? [vehicle.brand, vehicle.model, vehicle.year].filter(Boolean).join(" · ")
                 : t("mob.part.myVehicle")}
             </Text>
-            {vehicle && <Icon name="close" size={12} stroke="#c2490f" />}
+            {vehicle && <Icon name="close" size={12} stroke={color.brandText} />}
           </Pressable>
 
           <Pressable style={[s.chip, inStock && s.chipOn]} onPress={() => setInStock((v) => !v)}>
@@ -323,7 +323,7 @@ function PartCard({ p, onPress }: { p: Part; onPress: () => void }) {
     >
       {p.oemHit && !out && (
         <View style={[s.tag, s.tagHit]}>
-          <Text style={[s.tagText, { color: "#c2490f" }]}>{t("mob.part.oemMatch")}</Text>
+          <Text style={[s.tagText, { color: color.brandText }]}>{t("mob.part.oemMatch")}</Text>
         </View>
       )}
 
@@ -425,7 +425,7 @@ const s = themed(() => ({
   },
   chipOn: { backgroundColor: color.brand + "1a", borderColor: color.brand + "4d" },
   chipText: { fontSize: 13, color: color.mutedForeground },
-  chipTextOn: { color: "#c2490f", fontWeight: "600" },
+  chipTextOn: { color: color.brandText, fontWeight: "600" },
 
   scroll: { padding: space.lg },
   countRow: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginBottom: space.sm },
@@ -507,7 +507,7 @@ const s = themed(() => ({
     paddingVertical: 9,
     paddingHorizontal: 11,
     borderRadius: 9,
-    backgroundColor: "#f8fafc",
+    backgroundColor: color.surface,
   },
   linkedText: { flex: 1, fontSize: 12, color: color.mutedForeground },
 
@@ -519,7 +519,7 @@ const s = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
-  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginBottom: space.xs },
+  grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: 13, color: color.mutedForeground, lineHeight: 19, marginBottom: space.xs },
 

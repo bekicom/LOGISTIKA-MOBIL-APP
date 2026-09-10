@@ -139,7 +139,7 @@ export default function Moliya() {
                 <View style={[s.card, s.cardHot]}>
                   <View style={s.pendRow}>
                     <View style={s.pendIcon}>
-                      <Icon name="doc" size={21} stroke="#c2490f" />
+                      <Icon name="doc" size={21} stroke={color.brandText} />
                     </View>
                     <View style={{ flexGrow: 1 }}>
                       <Text style={s.pendCount}>
@@ -415,7 +415,7 @@ const s = themed(() => ({
     borderRadius: 10,
     backgroundColor: color.warning + "14",
   },
-  warnText: { flex: 1, fontSize: 12, color: "#92400e", lineHeight: 18 },
+  warnText: { flex: 1, fontSize: 12, color: color.warningText, lineHeight: 18 },
 
   btn: { height: 42, borderRadius: 10, alignItems: "center", justifyContent: "center", marginTop: 11 },
   btnPri: { backgroundColor: color.brand },

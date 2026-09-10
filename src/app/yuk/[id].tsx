@@ -104,7 +104,7 @@ export default function YukTafsiloti() {
         <View style={{ flex: 1 }} />
         {data ? <ShareButton kind="load" id={data.id} href={data.slug ? `/loads/${data.slug}` : null} /> : null}
         <Pressable hitSlop={10} style={s.back}>
-          <Icon name="heart" size={22} stroke="#cbd5e1" />
+          <Icon name="heart" size={22} stroke={color.iconFaint} />
         </Pressable>
       </View>
 
@@ -313,7 +313,7 @@ export default function YukTafsiloti() {
                   <Text style={s.matchTitle}>{t("mob.match.trucksTitle")}</Text>
                   <Text style={s.matchHint}>{t("mob.match.lead")}</Text>
                 </View>
-                <Icon name="chevron" size={17} stroke="#cbd5e1" />
+                <Icon name="chevron" size={17} stroke={color.iconFaint} />
               </Pressable>
             ) : null}
 
@@ -515,12 +515,12 @@ const s = themed(() => ({
   },
   typeMainText: { fontSize: 13, fontWeight: "600", color: "#fff" },
   typeAlt: { height: 34, paddingHorizontal: 12, borderRadius: radius.control, backgroundColor: color.muted, justifyContent: "center" },
-  typeAltText: { fontSize: 13, fontWeight: "500", color: "#475569" },
+  typeAltText: { fontSize: 13, fontWeight: "500", color: color.icon },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8 },
 
   price: { fontSize: 30, fontWeight: "800", color: color.brand, letterSpacing: -0.6, marginTop: 2 },
   priceChips: { flexDirection: "row", gap: 7, marginTop: 12, flexWrap: "wrap" },
-  desc: { fontSize: 14, color: "#475569", lineHeight: 22 },
+  desc: { fontSize: 14, color: color.icon, lineHeight: 22 },
 
   ownerRow: { flexDirection: "row", alignItems: "center", gap: 12 },
   avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
@@ -534,9 +534,9 @@ const s = themed(() => ({
     padding: 13, borderRadius: radius.control, backgroundColor: "#16a34a12",
   },
   contactPhone: { fontSize: 16, fontWeight: "700", color: color.foreground },
-  contactNote: { fontSize: 12, color: "#15803d", marginTop: 1 },
+  contactNote: { fontSize: 12, color: color.successText, marginTop: 1 },
 
-  contactLocked: { marginTop: 14, padding: 16, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, backgroundColor: "#f8fafc" },
+  contactLocked: { marginTop: 14, padding: 16, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, backgroundColor: color.surface },
   lockIcon: { width: 38, height: 38, borderRadius: 19, backgroundColor: color.border, alignItems: "center", justifyContent: "center" },
   hiddenPhone: { fontSize: 17, fontWeight: "700", color: "#94a3b8", letterSpacing: 1 },
   freeAlt: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 7, marginTop: 12 },
@@ -552,7 +552,7 @@ const s = themed(() => ({
 
   backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)", justifyContent: "flex-end" },
   sheet: { backgroundColor: color.card, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet },
-  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: "#cbd5e1", alignSelf: "center", marginTop: 10 },
+  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginTop: 10 },
   sheetTitle: { fontSize: 20, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: font.caption, color: color.mutedForeground, marginTop: 5, lineHeight: 20 },
   foot: { paddingHorizontal: space.xl, paddingTop: 14, borderTopWidth: 1, borderTopColor: color.border },

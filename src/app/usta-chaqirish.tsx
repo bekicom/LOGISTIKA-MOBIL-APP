@@ -310,7 +310,7 @@ export default function UstaChaqirish() {
 
               {point ? (
                 <View style={s.geoOk}>
-                  <Icon name="border" size={16} stroke="#15803d" />
+                  <Icon name="border" size={16} stroke={color.successText} />
                   <View style={{ flexGrow: 1 }}>
                     <Text style={s.geoOkTitle}>{t("mob.svc.pointTaken")}</Text>
                     <Text style={s.geoOkSub}>{t("mob.svc.pointFrom")}</Text>
@@ -426,7 +426,7 @@ const s = themed(() => ({
     borderRadius: 10,
     borderWidth: 1.5,
     borderStyle: "dashed",
-    borderColor: "#cbd5e1",
+    borderColor: color.iconFaint,
     alignItems: "center",
     justifyContent: "center",
     gap: 4,
@@ -445,7 +445,7 @@ const s = themed(() => ({
   },
   pickOn: { backgroundColor: color.brand + "17", borderColor: color.brand },
   pickText: { fontSize: 13, fontWeight: "500", color: color.mutedForeground },
-  pickTextOn: { color: "#c2490f", fontWeight: "600" },
+  pickTextOn: { color: color.brandText, fontWeight: "600" },
 
   veh: {
     flexDirection: "row",

@@ -358,7 +358,7 @@ export default function Xodimlarim() {
                   <Icon name="truck" size={19} stroke={color.mutedForeground} />
                 </View>
                 <Text style={s.fleetText}>{t("pgStaff.driverHint")}</Text>
-                <Icon name="chevron" size={18} stroke="#cbd5e1" />
+                <Icon name="chevron" size={18} stroke={color.iconFaint} />
               </Pressable>
             </View>
           )
@@ -575,13 +575,13 @@ const s = themed(() => ({
 
   note: {
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
+    borderColor: color.iconFaint,
+    backgroundColor: color.surface,
     borderRadius: radius.card,
     padding: space.md,
   },
   noteTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
-  noteText: { fontSize: 12, color: "#475569", lineHeight: 19, marginTop: 5 },
+  noteText: { fontSize: 12, color: color.icon, lineHeight: 19, marginTop: 5 },
 
   fleetRow: {
     flexDirection: "row",
@@ -612,7 +612,7 @@ const s = themed(() => ({
     width: 38,
     height: 4,
     borderRadius: 2,
-    backgroundColor: "#cbd5e1",
+    backgroundColor: color.iconFaint,
     alignSelf: "center",
     marginBottom: 14,
   },

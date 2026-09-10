@@ -3054,6 +3054,12 @@
       "work": "Nima ish qilinadi",
       "workPh": "Masalan: old tormoz kolodkasi almashtiriladi"
     },
+    "theme": {
+      "dark": "Qorong'i",
+      "light": "Yorug'",
+      "system": "Tizim",
+      "title": "KO'RINISH"
+    },
     "tour": {
       "askBody": "Aylanma ochiladi, egangizga xabar boradi va suhbat yaraladi. Shu safardagi hamma reys va xarajat bir joyda yig'iladi.",
       "askTitle": "Ishga chiqdingizmi?",

@@ -197,7 +197,7 @@ export default function Screen() {
             {ask ? (
               <View style={s.usage}>
                 <View style={s.usageHead}>
-                  <Icon name="clock" size={17} stroke="#475569" />
+                  <Icon name="clock" size={17} stroke={color.icon} />
                   <Text style={s.usageTitle}>{t("mob.ai.usedToday", { n: ask.dayUsed })}</Text>
                 </View>
                 <View style={s.bar}>
@@ -290,7 +290,7 @@ const s = themed(() => ({
   },
   usageHead: { flexDirection: "row", alignItems: "center", gap: 10 },
   usageTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
-  usageText: { fontSize: 12, color: "#475569", marginTop: 8, lineHeight: 19 },
+  usageText: { fontSize: 12, color: color.icon, marginTop: 8, lineHeight: 19 },
   bar: {
     height: 5,
     borderRadius: 3,
@@ -338,5 +338,5 @@ const s = themed(() => ({
   },
   limitTitle: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground },
   limitSub: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
-  limitText: { fontSize: 12, color: "#475569", marginTop: 10, lineHeight: 19 },
+  limitText: { fontSize: 12, color: color.icon, marginTop: 10, lineHeight: 19 },
 }));

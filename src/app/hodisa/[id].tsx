@@ -190,7 +190,7 @@ const s = themed(() => ({
   link: { flexDirection: "row", alignItems: "center", gap: 6 },
   linkText: { fontSize: 13, fontWeight: "700", color: color.brand, textDecorationLine: "underline" },
   resolved: { flexDirection: "row", alignItems: "flex-start", gap: 6, padding: 10, borderRadius: radius.control, backgroundColor: color.successSoft },
-  resolvedText: { flex: 1, fontSize: 13, color: "#15803d" },
+  resolvedText: { flex: 1, fontSize: 13, color: color.successText },
   item: { flexDirection: "row", gap: 10, alignItems: "flex-start" },
   itemIcon: { width: 32, height: 32, borderRadius: 10, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   itemKind: { fontSize: 11.5, color: color.mutedForeground },

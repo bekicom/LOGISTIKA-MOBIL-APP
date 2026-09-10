@@ -121,7 +121,7 @@ function Group({ title, items, onOpen, done }: { title: string; items: Item[]; o
               </View>
               <Text style={s.meta} numberOfLines={2}>{tOr(`onboardBody.${it.section}`, "")}</Text>
             </View>
-            <Icon name="chevron" size={17} stroke="#cbd5e1" />
+            <Icon name="chevron" size={17} stroke={color.iconFaint} />
           </Pressable>
         ))}
       </View>

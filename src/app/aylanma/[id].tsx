@@ -31,6 +31,7 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
+import { aylanmaNo, bosqichNo } from "@/lib/tour-no";
 
 type Money = { amount: number; currency: string };
 type Trip = {
@@ -102,7 +103,7 @@ export default function Aylanma() {
   return (
     <View style={s.root}>
       <Header
-        title={data ? `A-${data.no}` : t("mob.tour.title")}
+        title={data ? aylanmaNo(data.no) : t("mob.tour.title")}
         subtitle={data ? t(`mob.tour.st.${data.status}`) : undefined}
       />
 
@@ -172,7 +173,7 @@ export default function Aylanma() {
                       ]}
                     >
                       <View style={s.order}>
-                        <Text style={s.orderText}>{x.order ?? i + 1}</Text>
+                        <Text style={s.orderText}>{bosqichNo(data.no, x.order ?? i + 1)}</Text>
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={s.tripTitle}>
@@ -292,9 +293,11 @@ const s = themed(() => ({
 
   trip: { flexDirection: "row", alignItems: "center", gap: 11, padding: space.md },
   tripLine: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.border },
+  /* «10001/2» doiraga sig'maydi — tabletka (2026-09-11, TZ 8) */
   order: {
-    width: 26,
+    minWidth: 26,
     height: 26,
+    paddingHorizontal: 8,
     borderRadius: 13,
     alignItems: "center",
     justifyContent: "center",

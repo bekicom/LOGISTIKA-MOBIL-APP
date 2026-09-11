@@ -32,6 +32,8 @@ type Load = {
   /* Serverning qarori: «Egasini chaqirish» ma'noli bo'ladigan
      yagona holat — Telegram e'loni va matnida raqam bor */
   canInviteOwner: boolean;
+  /** Ochiq manbadan (Telegram) — yukni olishda narx so'raladi */
+  ochiqManba?: boolean;
   views: number; createdAt: string;
   route: { from: string; fromCountry: string; to: string; toCountry: string };
   cargo: {
@@ -285,7 +287,7 @@ export default function YukTafsiloti() {
                 O'z e'loniga va band yukka chiqmaydi; qolgan
                 shartlarni (Telegram e'loni, holat) server hal
                 qiladi va ro'yxat bo'sh kelsa oyna shuni aytadi. */}
-            {!data.isMine && !data.isTaken ? <TakeLoad loadId={data.id} /> : null}
+            {!data.isMine && !data.isTaken ? <TakeLoad loadId={data.id} ochiqManba={!!data.ochiqManba} /> : null}
 
             {/* Bog'lanish yo'llari: Telegram / WhatsApp / SMS.
                 Raqamsiz Telegram e'lonida asl postga havola —

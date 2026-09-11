@@ -106,6 +106,7 @@
     "PDF_UNSUPPORTED": "Bu sunucuda PDF okunamıyor — belgeyi fotoğraflayın.",
     "PHONE_NOT_VERIFIED": "Önce telefon numaranızı doğrulayın.",
     "PHONE_TAKEN": "Bu numara zaten kayıtlı.",
+    "PRICE_REQUIRED": "Sahibiyle anlaşılan fiyatı girin.",
     "RADIUS_REQUIRED": "Hizmet yarıçapını belirtin.",
     "RATE_LIMIT": "Çok sık istek. Biraz bekleyin.",
     "READ_ONLY": "Burada yalnızca okuma yapılabilir.",
@@ -1417,7 +1418,6 @@
       "btn": "Sahibini FURAM'a davet et",
       "hint": "Bu ilan bir Telegram grubundan alındı. Sahibi FURAM'da yok — kendisine SMS ile davet gider.",
       "noPhone": "Numara gösterilmez — davet doğrudan ona gider.",
-      "remaining": "Bugün %{n} tane daha",
       "sent": "Davet gönderildi"
     },
     "jagree": {

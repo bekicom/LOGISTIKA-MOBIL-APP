@@ -106,6 +106,7 @@
     "PDF_UNSUPPORTED": "此服务器无法读取 PDF——请改为拍照。",
     "PHONE_NOT_VERIFIED": "请先验证手机号。",
     "PHONE_TAKEN": "该号码已注册。",
+    "PRICE_REQUIRED": "请输入与货主商定的价格。",
     "RADIUS_REQUIRED": "请设置服务半径。",
     "RATE_LIMIT": "请求过于频繁，请稍候。",
     "READ_ONLY": "此处为只读。",
@@ -1417,7 +1418,6 @@
       "btn": "邀请货主加入 FURAM",
       "hint": "该信息来自 Telegram 群组。货主不在 FURAM——将通过短信发送邀请。",
       "noPhone": "不会显示号码——邀请直接发给对方。",
-      "remaining": "今天还剩 %{n} 次",
       "sent": "邀请已发送"
     },
     "jagree": {

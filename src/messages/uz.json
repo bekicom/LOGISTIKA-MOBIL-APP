@@ -106,6 +106,7 @@
     "PDF_UNSUPPORTED": "Bu serverda PDF o'qilmaydi — hujjatni suratga oling.",
     "PHONE_NOT_VERIFIED": "Avval telefon raqamini tasdiqlang.",
     "PHONE_TAKEN": "Bu raqam allaqachon ro'yxatdan o'tgan.",
+    "PRICE_REQUIRED": "Egasi bilan kelishilgan narxni kiriting.",
     "RADIUS_REQUIRED": "Xizmat radiusini ko'rsating.",
     "RATE_LIMIT": "Juda tez-tez so'rayapsiz. Biroz kuting.",
     "READ_ONLY": "Bu yerda faqat o'qish mumkin.",
@@ -1417,7 +1418,6 @@
       "btn": "Egasini FURAM'ga chaqirish",
       "hint": "Bu e'lon Telegram guruhidan olingan. Egasi FURAM'da yo'q — unga SMS bilan taklif yuboriladi.",
       "noPhone": "Raqami ko'rsatilmaydi — taklif to'g'ridan-to'g'ri unga boradi.",
-      "remaining": "Bugun yana %{n} ta",
       "sent": "Taklif yuborildi"
     },
     "jagree": {

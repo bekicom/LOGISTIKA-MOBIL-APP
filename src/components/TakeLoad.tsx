@@ -23,7 +23,7 @@
  * tilida yasaladi (1-qoida).
  */
 import { useCallback, useEffect, useState } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { Pressable, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -46,15 +46,29 @@ type Option = {
   capacityT: number | null;
 };
 
-type Take = { canTake: boolean; tripId: string | null; options: Option[] };
+type Take = {
+  canTake: boolean;
+  tripId: string | null;
+  options: Option[];
+  /** Ochiq manbadagi yuk — narx telefonda kelishiladi (2026-09-11) */
+  narxKerak?: boolean;
+  narxBoshi?: { amount: number | null; currency: string } | null;
+};
 
-export function TakeLoad({ loadId }: { loadId: string }) {
+/* Ilovada eng ko'p ishlatiladigan valyutalar. Server ro'yxati
+   kengroq (`CURRENCIES`), lekin telefon ekranida yigirmata tugma
+   sig'maydi; qolganlari webda. */
+const VALYUTALAR = ["USD", "UZS", "RUB", "KZT", "EUR"] as const;
+
+export function TakeLoad({ loadId, ochiqManba = false }: { loadId: string; ochiqManba?: boolean }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<Take | null>(null);
   const [picked, setPicked] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [narx, setNarx] = useState("");
+  const [valyuta, setValyuta] = useState<string>("USD");
 
   /* Ro'yxat EKRAN OCHILISHIDA emas, tugma bosilganda olinadi: u
      ikkita ortiqcha so'rov va yuk sahifasi undan tez ochiladi */
@@ -63,6 +77,8 @@ export function TakeLoad({ loadId }: { loadId: string }) {
       const r = await api<Take>(`/api/loads/${loadId}/take`);
       setData(r);
       setPicked(r.options[0]?.id ?? null);
+      if (r.narxBoshi?.amount) setNarx(String(r.narxBoshi.amount));
+      if (r.narxBoshi?.currency) setValyuta(r.narxBoshi.currency);
     } catch (e) {
       setErr((e as FuramError).message ?? t("mob.err.unknown"));
     }
@@ -73,6 +89,8 @@ export function TakeLoad({ loadId }: { loadId: string }) {
   }, [open, data, load]);
 
   const chosen = data?.options.find((o) => o.id === picked) ?? null;
+  const narxSon = Number(narx.replace(/[\s,]/g, ""));
+  const narxTayyor = !data?.narxKerak || (Number.isFinite(narxSon) && narxSon > 0);
 
   async function submit() {
     if (!chosen) return;
@@ -81,10 +99,12 @@ export function TakeLoad({ loadId }: { loadId: string }) {
     try {
       const r = await api<{ trip: { id: string } }>("/api/trips", {
         method: "POST",
-        body:
-          chosen.kind === "vehicle"
-            ? { loadId, vehicleId: chosen.id }
-            : { loadId, truckId: chosen.id },
+        body: {
+          loadId,
+          ...(chosen.kind === "vehicle" ? { vehicleId: chosen.id } : { truckId: chosen.id }),
+          /* Ochiq manbadagi yuk: server narxsiz reys ochmaydi */
+          ...(data?.narxKerak ? { price: { amount: narxSon, currency: valyuta } } : {}),
+        },
       });
       setOpen(false);
       router.push(`/reys/${r.trip.id}`);
@@ -128,7 +148,7 @@ export function TakeLoad({ loadId }: { loadId: string }) {
         </View>
         <View style={{ flex: 1 }}>
           <Text style={s.title}>{t("mob.take.title")}</Text>
-          <Text style={s.sub}>{t("mob.take.sub")}</Text>
+          <Text style={s.sub}>{t(ochiqManba ? "mob.take.subTg" : "mob.take.sub")}</Text>
         </View>
         <Icon name="chevron" size={17} stroke={color.mutedForeground} />
       </Pressable>
@@ -177,6 +197,32 @@ export function TakeLoad({ loadId }: { loadId: string }) {
                 <DriverInvite vehicleId={chosen.id} />
               </View>
             ) : null}
+
+            {data.narxKerak ? (
+              <View style={{ marginTop: space.md }}>
+                <Text style={s.ask}>{t("mob.take.price")}</Text>
+                <TextInput
+                  value={narx}
+                  onChangeText={setNarx}
+                  keyboardType="decimal-pad"
+                  placeholder="2500"
+                  placeholderTextColor={color.mutedForeground}
+                  style={s.input}
+                />
+                <View style={s.chips}>
+                  {VALYUTALAR.map((v) => (
+                    <Pressable
+                      key={v}
+                      onPress={() => setValyuta(v)}
+                      style={[s.chip, valyuta === v && s.chipOn]}
+                    >
+                      <Text style={[s.chipText, valyuta === v && s.chipTextOn]}>{v}</Text>
+                    </Pressable>
+                  ))}
+                </View>
+                <Text style={s.hint}>{t("mob.take.priceHint")}</Text>
+              </View>
+            ) : null}
           </>
         ) : null}
 
@@ -186,7 +232,7 @@ export function TakeLoad({ loadId }: { loadId: string }) {
           <Button
             title={t("mob.take.open")}
             loading={busy}
-            disabled={!chosen || chosen.needsDriver}
+            disabled={!chosen || chosen.needsDriver || !narxTayyor}
             onPress={submit}
           />
           <Button title={t("mob.common.cancel")} variant="ghost" onPress={() => setOpen(false)} />
@@ -257,4 +303,26 @@ const s = themed(() => ({
 
   empty: { fontSize: 13, color: color.mutedForeground, lineHeight: 20 },
   err: { fontSize: 12.5, color: color.danger, marginTop: space.md },
+  input: {
+    borderWidth: 1,
+    borderColor: color.border,
+    borderRadius: radius.control,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: color.foreground,
+    backgroundColor: color.card,
+  },
+  chips: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 8 },
+  chip: {
+    borderWidth: 1,
+    borderColor: color.border,
+    borderRadius: radius.control,
+    paddingHorizontal: 11,
+    paddingVertical: 6,
+  },
+  chipOn: { borderColor: color.brand, backgroundColor: color.brand + "14" },
+  chipText: { fontSize: 13, fontWeight: "600", color: color.foreground },
+  chipTextOn: { color: color.brand },
+  hint: { fontSize: 11.5, color: color.mutedForeground, marginTop: 6 },
 }));

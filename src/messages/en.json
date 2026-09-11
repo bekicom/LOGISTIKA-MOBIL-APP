@@ -106,6 +106,7 @@
     "PDF_UNSUPPORTED": "PDF isn't readable on this server — take a photo of the document instead.",
     "PHONE_NOT_VERIFIED": "Confirm your phone number first.",
     "PHONE_TAKEN": "That number is already registered.",
+    "PRICE_REQUIRED": "Enter the price agreed with the owner.",
     "RADIUS_REQUIRED": "Set your service radius.",
     "RATE_LIMIT": "Too many requests. Wait a moment.",
     "READ_ONLY": "This is read-only.",
@@ -1417,7 +1418,6 @@
       "btn": "Invite the owner to FURAM",
       "hint": "This listing came from a Telegram group. The owner is not on FURAM — an SMS invitation is sent to them.",
       "noPhone": "The number is not shown — the invitation goes straight to them.",
-      "remaining": "%{n} more today",
       "sent": "The invitation was sent"
     },
     "jagree": {

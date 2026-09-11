@@ -27,7 +27,13 @@ import { t } from "@/lib/i18n";
 
 export function InviteOwner({ loadId }: { loadId: string }) {
   const [busy, setBusy] = useState(false);
-  const [left, setLeft] = useState<number | null>(null);
+  /* ⚠️ «Yuborildi» ALOHIDA belgi bilan (2026-09-11).
+     Avval server javobidagi `remaining` («bugun yana N ta») shu
+     belgi vazifasini ham bajarardi. Kunlik chegara olib tashlangach
+     server u maydonni qaytarmay qo'ydi — o'shanda `remaining`
+     `undefined` bo'lib, tugma bosilgandan keyin ekranda HECH NIMA
+     o'zgarmas edi va odam «ishlamadi» deb qayta-qayta bosardi. */
+  const [sent, setSent] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   async function send() {
@@ -35,10 +41,10 @@ export function InviteOwner({ loadId }: { loadId: string }) {
     setBusy(true);
     setErr(null);
     try {
-      const r = await api<{ remaining: number }>(`/api/loads/${loadId}/invite-owner`, {
+      await api<{ ok: true }>(`/api/loads/${loadId}/invite-owner`, {
         method: "POST",
       });
-      setLeft(r.remaining);
+      setSent(true);
     } catch (e) {
       setErr((e as FuramError).message ?? t("mob.common.failed"));
     } finally {
@@ -46,14 +52,13 @@ export function InviteOwner({ loadId }: { loadId: string }) {
     }
   }
 
-  if (left != null) {
+  if (sent) {
     return (
       <View style={[s.box, { borderColor: color.success + "55", backgroundColor: color.successSoft }]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 9 }}>
           <Icon name="check" size={18} stroke={color.success} />
           <Text style={[s.title, { color: color.success }]}>{t("mob.invOwner.sent")}</Text>
         </View>
-        <Text style={s.hint}>{t("mob.invOwner.remaining", { n: left })}</Text>
       </View>
     );
   }

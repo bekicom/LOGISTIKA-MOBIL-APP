@@ -40,7 +40,8 @@
  * paydo bo'ladi. «+» mehmonda kirish taklifini chiqaradi.
  */
 import { useEffect, useState } from "react";
-import { Pressable, View } from "react-native";
+import { Animated, Pressable, View, type ColorValue } from "react-native";
+import * as Haptics from "expo-haptics";
 import { Text } from "@/components/Text";
 import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -50,6 +51,7 @@ import { Tour } from "@/components/Tour";
 import { NudgeGate } from "@/components/Nudge";
 import { clearTourRequest, markSeen, seen, useSplashDone, useTourRequest } from "@/lib/first-run";
 import { color, shadow, themed } from "@/lib/theme";
+import { SPRING, useReduceMotion } from "@/lib/motion";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
 import { guestBlocked } from "@/lib/guest-gate";
@@ -89,6 +91,50 @@ function CenterButton({ label, onPress }: { label: string; onPress: () => void }
       </Pressable>
       <Text style={s.centerLabel}>{label}</Text>
     </View>
+  );
+}
+
+/**
+ * Yorliq ikonkasi — faol holatda kattalashadi.
+ *
+ * Rang o'zgarishi YETARLI EMAS: yorliq pastda kichik va rang
+ * farqini tez almashishda ko'z ilg'amaydi. O'lcham esa harakat
+ * bo'lib ko'rinadi — u sezilarli.
+ *
+ * Harakat kamaytirilgan telefonda o'lcham DARROV o'zgaradi
+ * (`useReduceMotion`).
+ */
+function TabIcon({
+  name,
+  color: c,
+  focused,
+}: {
+  name: IconName;
+  /* `ColorValue` — navigatsiya shu turni beradi (u `string` dan
+     kengroq: `OpaqueColorValue` ham bo'lishi mumkin) */
+  color: ColorValue;
+  focused: boolean;
+}) {
+  const [v] = useState(() => new Animated.Value(focused ? 1 : 0));
+  const reduce = useReduceMotion();
+
+  useEffect(() => {
+    const to = focused ? 1 : 0;
+    if (reduce) {
+      v.setValue(to);
+      return;
+    }
+    Animated.spring(v, { toValue: to, useNativeDriver: true, ...SPRING }).start();
+  }, [focused, v, reduce]);
+
+  return (
+    <Animated.View
+      style={{
+        transform: [{ scale: v.interpolate({ inputRange: [0, 1], outputRange: [1, 1.14] }) }],
+      }}
+    >
+      <Icon name={name} stroke={c} size={23} />
+    </Animated.View>
   );
 }
 
@@ -158,10 +204,21 @@ export default function TabsLayout() {
           <Tabs.Screen
             key={tab.name}
             name={tab.name}
+            listeners={{
+              /* Yorliq almashishida eng yengil tebranish — barmoq
+                 ham o'tganini sezadi (`Tap` dagi «select» bilan
+                 bir xil kuch) */
+              tabPress: () => void Haptics.selectionAsync(),
+            }}
             options={{
               title: tab.title,
               href: guest && !tab.guest ? null : undefined,
-              tabBarIcon: ({ color: c }) => <Icon name={tab.icon} stroke={c} size={23} />,
+              /* Faol ikonka bir oz KATTALASHADI (`TabIcon`): yorliq
+                 almashganda ko'z harakatni ilg'aydi va qaysi
+                 bo'limga o'tganini rang bilan birga tasdiqlaydi */
+              tabBarIcon: ({ color: c, focused }) => (
+                <TabIcon name={tab.icon} color={c} focused={focused} />
+              ),
               ...(tab.center
                 ? { tabBarButton: () => <CenterButton label={tab.title} onPress={openPost} /> }
                 : null),

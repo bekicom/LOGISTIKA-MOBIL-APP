@@ -128,7 +128,7 @@ export default function Yuklar() {
       <FlatList
         data={data?.items ?? []}
         keyExtractor={(it) => it.id}
-        renderItem={({ item }) => <ListingCard item={item} onPress={() => router.push(`/yuk/${item.id}`)} />}
+        renderItem={({ item, index }) => <ListingCard item={item} index={index} onPress={() => router.push(`/yuk/${item.id}`)} />}
         contentContainerStyle={[s.list, { paddingBottom: space.xxl * 2 }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}

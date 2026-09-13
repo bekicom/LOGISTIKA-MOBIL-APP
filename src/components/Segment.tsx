@@ -6,9 +6,12 @@
  * bozori — lentaning YARMI, uni menyu ichiga yashirsak bo'limni hech
  * kim topmasdi.
  */
-import { Pressable, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Animated, LayoutChangeEvent, Pressable, View } from "react-native";
+import * as Haptics from "expo-haptics";
 import { Text } from "@/components/Text";
 import { color, radius, themed } from "@/lib/theme";
+import { SPRING, useReduceMotion } from "@/lib/motion";
 
 export function Segment({
   value,
@@ -19,17 +22,59 @@ export function Segment({
   options: { key: string; label: string }[];
   onChange: (key: string) => void;
 }) {
+  /* ── SIRG'ALUVCHI BELGI (2026-09-13) ──────────────────────────
+     Ilgari faol yarmi DARROV o'rin almashardi — ko'zga sakrash
+     bo'lib ko'rinadi va odam qaysi tomonga o'tganini ilg'amaydi.
+     Endi belgi surilib boradi: harakatning O'ZI qaysi tomonga
+     o'tilganini aytadi.
+
+     Kenglik o'lchanadi (`onLayout`), chunki yorliq matni tilga
+     qarab har xil uzunlikda bo'ladi — qat'iy son yozib bo'lmaydi. */
+  const [w, setW] = useState(0);
+  const idx = Math.max(0, options.findIndex((o) => o.key === value));
+  /* `useRef` EMAS: chizish paytida `ref.current` ni o'qish
+     lint'da taqiqlangan (`react-hooks/refs`). Loyihada shu
+     naqsh `Sheet.tsx` da ham ishlatilgan. */
+  const [x] = useState(() => new Animated.Value(0));
+  const reduce = useReduceMotion();
+
+  const step = options.length > 0 ? w / options.length : 0;
+
+  useEffect(() => {
+    const to = step * idx;
+    if (reduce || step === 0) {
+      x.setValue(to);
+      return;
+    }
+    Animated.spring(x, { toValue: to, useNativeDriver: true, ...SPRING }).start();
+  }, [idx, step, x, reduce]);
+
+  const onLayout = (e: LayoutChangeEvent) => setW(e.nativeEvent.layout.width - 8);
+
   return (
-    <View style={s.wrap}>
+    <View style={s.wrap} onLayout={onLayout}>
+      {step > 0 ? (
+        <Animated.View
+          style={[s.marker, { width: step - 3, transform: [{ translateX: x }] }]}
+          pointerEvents="none"
+        />
+      ) : null}
+
       {options.map((o) => {
         const on = o.key === value;
         return (
           <Pressable
             key={o.key}
-            onPress={() => !on && onChange(o.key)}
+            onPress={() => {
+              if (on) return;
+              /* Tanlov tebranishi — eng yengil turi: bu ma'noli
+                 amal, lekin «saqlash» darajasida emas */
+              void Haptics.selectionAsync();
+              onChange(o.key);
+            }}
             accessibilityRole="tab"
             accessibilityState={{ selected: on }}
-            style={({ pressed }) => [s.item, on && s.itemOn, pressed && !on && s.pressed]}
+            style={({ pressed }) => [s.item, pressed && !on && s.pressed]}
           >
             <Text style={[s.text, on && s.textOn]} numberOfLines={1}>
               {o.label}
@@ -53,6 +98,16 @@ const s = themed(() => ({
     borderRadius: radius.pill,
     padding: 4,
     gap: 3,
+  },
+  /* Faol yarmini BELGI chizadi, `itemOn` emas — shuning uchun u
+     endi ishlatilmaydi, lekin rangi bu yerdan olinadi */
+  marker: {
+    position: "absolute",
+    left: 4,
+    top: 4,
+    bottom: 4,
+    borderRadius: radius.pill,
+    backgroundColor: color.navy,
   },
   item: {
     flex: 1,

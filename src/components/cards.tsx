@@ -1,5 +1,7 @@
 /** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
-import { Image, Pressable, View } from "react-native";
+import { Animated, Image, View } from "react-native";
+import { Tap } from "@/components/Tap";
+import { stagger, useFadeUp, useReduceMotion } from "@/lib/motion";
 import { Text } from "@/components/Text";
 import { Icon } from "./Icon";
 import { TruckIcon } from "./TruckIcon";
@@ -153,11 +155,37 @@ export function ago(iso?: string) {
   return t("mob.ago.day", { n: Math.round(h / 24) });
 }
 
-export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => void }) {
+export function ListingCard({
+  item,
+  onPress,
+  index,
+}: {
+  item: Listing;
+  onPress?: () => void;
+  /* Lentadagi o'rin — kartochka ketma-ket paydo bo'lishi uchun.
+     Berilmasa animatsiya yo'q: kartochka boshqa joylarda ham
+     ishlatiladi (qidiruv natijasi, saqlanganlar) va u yerda
+     harakat ortiqcha. */
+  index?: number;
+}) {
+  const reduce = useReduceMotion();
+  const enter = useFadeUp(index != null ? stagger(index) : 0, reduce || index == null);
   const price = money(item.price, item.currency, item.isNegotiable);
 
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [s.card, item.isTop && s.cardTop, pressed && s.pressed]}>
+    /* Bosishda KICHRAYADI (`motion.ts`): kartochka katta, shuning
+       uchun chuqurlik kichik — 0.985. Kuchli kichrayish katta
+       yuzada «sakrash» bo'lib ko'rinadi. */
+    <Animated.View style={enter}>
+      <Tap
+        onPress={onPress}
+        scale={0.985}
+        style={({ pressed }: { pressed: boolean }) => [
+          s.card,
+          item.isTop && s.cardTop,
+          pressed && s.pressed,
+        ]}
+      >
       <View style={s.cardHead}>
         {item.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
         <LinkOnly item={item} />
@@ -188,7 +216,8 @@ export function ListingCard({ item, onPress }: { item: Listing; onPress?: () => 
         </Text>
         {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
       </View>
-    </Pressable>
+      </Tap>
+    </Animated.View>
   );
 }
 
@@ -219,14 +248,27 @@ export type TruckItem = Listing & {
  * bo'lsa (Telegram'dan yig'ilgan e'lonlar — ro'yxatning yarmi) bo'sh
  * joy qoldirilmaydi, transport turi belgisi qo'yiladi.
  */
-export function TruckCard({ item, onPress }: { item: TruckItem; onPress?: () => void }) {
+export function TruckCard({
+  item,
+  onPress,
+  index,
+}: {
+  item: TruckItem;
+  onPress?: () => void;
+  /** Lentadagi o'rin — izohi `ListingCard` da */
+  index?: number;
+}) {
+  const reduce = useReduceMotion();
+  const enter = useFadeUp(index != null ? stagger(index) : 0, reduce || index == null);
   const price = money(item.price, item.currency, item.isNegotiable);
   const tg = item.source === "TELEGRAM";
 
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
+    <Animated.View style={enter}>
+      <Tap
+        scale={0.985}
+        onPress={onPress}
+        style={({ pressed }: { pressed: boolean }) => [
         s.card,
         item.isTop && s.cardTop,
         item.isMine && s.cardMine,
@@ -288,7 +330,8 @@ export function TruckCard({ item, onPress }: { item: TruckItem; onPress?: () => 
         <Text style={price ? s.price : s.noPrice}>{price ?? t("mob.trucks.noPrice")}</Text>
         {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
       </View>
-    </Pressable>
+          </Tap>
+    </Animated.View>
   );
 }
 
@@ -309,12 +352,28 @@ export type TripItem = {
   remainingKm?: number | null; etaAt?: string | null; placeName?: string | null;
 };
 
-export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => void }) {
+export function TripCard({
+  item,
+  onPress,
+  index,
+}: {
+  item: TripItem;
+  onPress?: () => void;
+  /** Lentadagi o'rin — izohi `ListingCard` da */
+  index?: number;
+}) {
+  const reduce = useReduceMotion();
+  const enter = useFadeUp(index != null ? stagger(index) : 0, reduce || index == null);
   const tone = toneFor(item.status);
   const eta = item.etaAt ? new Date(item.etaAt) : null;
 
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [s.card, pressed && s.pressed]}>
+    <Animated.View style={enter}>
+      <Tap
+        onPress={onPress}
+        scale={0.985}
+        style={({ pressed }: { pressed: boolean }) => [s.card, pressed && s.pressed]}
+      >
       <View style={s.cardHead}>
         <StatusChip label={tOr(`tripStatus.${item.status}`, item.status)} tone={tone} />
         <Text style={s.no}>#TR-{item.no}</Text>
@@ -367,7 +426,8 @@ export function TripCard({ item, onPress }: { item: TripItem; onPress?: () => vo
           </View>
         </View>
       ) : null}
-    </Pressable>
+      </Tap>
+    </Animated.View>
   );
 }
 

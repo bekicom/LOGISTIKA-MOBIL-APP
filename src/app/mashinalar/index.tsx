@@ -136,8 +136,8 @@ export default function Mashinalar() {
               text={t("mob.loads.emptyFiltered")}
             />
           }
-          renderItem={({ item }) => (
-            <TruckCard item={item} onPress={() => router.push(`/mashina/${item.id}`)} />
+          renderItem={({ item, index }) => (
+            <TruckCard item={item} index={index} onPress={() => router.push(`/mashina/${item.id}`)} />
           )}
         />
       )}

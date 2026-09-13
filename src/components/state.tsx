@@ -4,18 +4,25 @@
  * TZ §9: har ekranda shu uchtasi bo'lishi shart. Bitta joyda yozilgan —
  * har ekranda qayta o'ylab o'tirilmaydi va ko'rinishi bir xil bo'ladi.
  */
-import { View } from "react-native";
+import { Animated, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Icon, type IconName } from "./Icon";
 import { Button } from "./ui";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
+import { usePulse, useReduceMotion } from "@/lib/motion";
 import { t } from "@/lib/i18n";
 
 /** Kartochka shaklidagi kutish — aylanuvchi spinner emas.
  *  Spinner nima kelayotganini aytmaydi, skelet aytadi. */
 export function Skeleton({ rows = 3 }: { rows?: number }) {
+  /* Jimirlash: yuklanish TURIBDI degan xabar beradi.
+     Qotib qolgan kulrang qutilar «ilova muzlab qoldi» deb
+     tushuniladi va odam qayta bosa boshlaydi. */
+  const reduce = useReduceMotion();
+  const pulse = usePulse(reduce);
+
   return (
-    <View style={{ gap: space.md }}>
+    <Animated.View style={[{ gap: space.md }, pulse]}>
       {Array.from({ length: rows }, (_, i) => (
         <View key={i} style={s.sk}>
           <View style={[s.bar, { width: 90, height: 24 }]} />
@@ -31,7 +38,7 @@ export function Skeleton({ rows = 3 }: { rows?: number }) {
           <View style={[s.bar, { width: 160, height: 22, marginTop: 14 }]} />
         </View>
       ))}
-    </View>
+    </Animated.View>
   );
 }
 

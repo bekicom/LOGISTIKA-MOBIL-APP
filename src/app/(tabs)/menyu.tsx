@@ -20,11 +20,12 @@
  * Ro'yxat qo'lda yozilgan, serverdan kelmaydi — shuning uchun
  * `ScrollView` da `.map()` bo'lishi to'g'ri (`test-lists`).
  */
-import { Pressable, ScrollView, View, useWindowDimensions } from "react-native";
+import { ScrollView, View, useWindowDimensions } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
+import { Tap } from "@/components/Tap";
 import { TabHeader } from "@/components/TabHeader";
 import { GroupLabel } from "@/components/ui";
 import { useAuth } from "@/lib/auth-context";
@@ -189,11 +190,15 @@ export default function MenyuTab() {
                 const gated = !guest && it.feature !== undefined && !can(it.feature);
                 const dim = locked || gated;
                 return (
-                  <Pressable
+                  /* Plitka bosilganda kichrayadi (`motion.ts`) —
+                     ilgari 0.7 ga o'chardi va bu «nosoz tugma»
+                     bo'lib ko'rinardi */
+                  <Tap
                     key={it.href}
-                    accessibilityRole="button"
                     onPress={() => open(it)}
-                    style={({ pressed }) => [s.tile, { width: tileW }, pressed && { opacity: 0.7 }]}
+                    scale={0.96}
+                    feel="select"
+                    style={[s.tile, { width: tileW }]}
                   >
                     <View style={[s.iconBox, { backgroundColor: dim ? color.muted : g.bg }]}>
                       <Icon name={it.icon} size={23} stroke={dim ? "#a3adbd" : g.tint} />
@@ -206,7 +211,7 @@ export default function MenyuTab() {
                     <Text style={[s.tileText, dim && { color: color.mutedForeground }]} numberOfLines={2}>
                       {it.title}
                     </Text>
-                  </Pressable>
+                  </Tap>
                 );
               })}
             </View>

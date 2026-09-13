@@ -5,6 +5,7 @@
 import type { ReactNode } from "react";
 import {
   ActivityIndicator,
+  Animated,
   Pressable,
   Switch as RNSwitch,
   TextInput,
@@ -14,8 +15,11 @@ import {
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import * as Haptics from "expo-haptics";
 import { Icon } from "./Icon";
+import { Tap } from "./Tap";
 import { color, font, radius, shadow, size, space, themed } from "@/lib/theme";
+import { usePressScale } from "@/lib/motion";
 
 /* ─────────────────────────────────────────────── Tugma */
 
@@ -37,43 +41,63 @@ export function Button({
   icon,
 }: ButtonProps) {
   const off = disabled || loading;
+  /* Bosishda kichrayadi (`motion.ts`): barmoq ostida narsa
+     cho'kkanday bo'ladi. Rang o'zgarishi ham qoladi — ikkisi
+     birga eng aniq javobni beradi. */
+  const press = usePressScale(0.975);
 
   return (
-    <Pressable
-      onPress={off ? undefined : onPress}
-      accessibilityRole="button"
-      accessibilityState={{ disabled: off, busy: loading }}
-      style={({ pressed }) => [
-        s.btn,
-        variant === "primary" && { backgroundColor: color.brand },
-        variant === "secondary" && {
-          backgroundColor: color.card,
-          borderWidth: 1,
-          borderColor: color.border,
-        },
-        variant === "primary" && pressed && { backgroundColor: color.brandHover },
-        variant !== "primary" && pressed && { backgroundColor: color.muted },
-        off && { backgroundColor: color.muted, borderWidth: 0 },
-      ]}
-    >
-      {loading ? (
-        // Kenglik o'zgarmasin — matn o'rniga aylana qo'yiladi
-        <ActivityIndicator color={variant === "primary" ? "#fff" : color.mutedForeground} />
-      ) : (
-        <>
-          {icon}
-          <Text
-            style={[
-              s.btnText,
-              variant === "primary" && { color: color.brandForeground },
-              off && { color: color.mutedForeground },
-            ]}
-          >
-            {title}
-          </Text>
-        </>
-      )}
-    </Pressable>
+    <Animated.View style={press.style}>
+      <Pressable
+        onPress={
+          off
+            ? undefined
+            : () => {
+                /* Asosiy amalda yengil tebranish — saqlash yoki
+                   yuborish bosilganini barmoq ham sezadi. Ikkilamchi
+                   tugmada yo'q: u ko'pincha «bekor qilish». */
+                if (variant === "primary") {
+                  void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }
+                onPress?.();
+              }
+        }
+        onPressIn={off ? undefined : press.onPressIn}
+        onPressOut={off ? undefined : press.onPressOut}
+        accessibilityRole="button"
+        accessibilityState={{ disabled: off, busy: loading }}
+        style={({ pressed }) => [
+          s.btn,
+          variant === "primary" && { backgroundColor: color.brand },
+          variant === "secondary" && {
+            backgroundColor: color.card,
+            borderWidth: 1,
+            borderColor: color.border,
+          },
+          variant === "primary" && pressed && { backgroundColor: color.brandHover },
+          variant !== "primary" && pressed && { backgroundColor: color.muted },
+          off && { backgroundColor: color.muted, borderWidth: 0 },
+        ]}
+      >
+        {loading ? (
+          // Kenglik o'zgarmasin — matn o'rniga aylana qo'yiladi
+          <ActivityIndicator color={variant === "primary" ? "#fff" : color.mutedForeground} />
+        ) : (
+          <>
+            {icon}
+            <Text
+              style={[
+                s.btnText,
+                variant === "primary" && { color: color.brandForeground },
+                off && { color: color.mutedForeground },
+              ]}
+            >
+              {title}
+            </Text>
+          </>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 }
 
@@ -278,13 +302,21 @@ export function ListRow({
     return <View style={[s.row, !last && s.rowLine]}>{body}</View>;
   }
   return (
-    <Pressable
+    /* Qator — kichik yuza, shuning uchun kichrayish sezilarli
+       (0.98). Fon o'zgarishi ham qoladi: ikkisi birga «bosildi»
+       degan eng aniq javobni beradi. */
+    <Tap
       onPress={onPress}
-      accessibilityRole="button"
-      style={({ pressed }) => [s.row, !last && s.rowLine, pressed && { backgroundColor: color.muted }]}
+      scale={0.98}
+      feel="select"
+      style={({ pressed }: { pressed: boolean }) => [
+        s.row,
+        !last && s.rowLine,
+        pressed && { backgroundColor: color.muted },
+      ]}
     >
       {body}
-    </Pressable>
+    </Tap>
   );
 }
 

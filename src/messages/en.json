@@ -1219,6 +1219,7 @@
     "exp": {
       "add": "Add an expense",
       "amount": "Amount",
+      "countLine": "%{n} records",
       "currency": "Currency",
       "fine": "Fine",
       "food": "Food",
@@ -1673,6 +1674,7 @@
       "readyOnly": "Only cargo ready now",
       "route": "Route",
       "searching": "Searching...",
+      "showResults": "Show %{n} results",
       "title": "Cargo",
       "to": "To",
       "vehicleType": "Vehicle type"

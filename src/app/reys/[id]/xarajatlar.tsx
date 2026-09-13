@@ -74,7 +74,7 @@ export default function Xarajatlar() {
         </Pressable>
         <View style={{ flex: 1 }}>
           <Text style={s.title}>{t("mob.exp.title")}</Text>
-          <Text style={s.sub}>{data ? `${data.count} ta yozuv` : "…"}</Text>
+          <Text style={s.sub}>{data ? t("mob.exp.countLine", { n: data.count }) : "…"}</Text>
         </View>
       </View>
 
@@ -218,10 +218,8 @@ function AddSheet({ open, tripId, onClose, onDone }: {
     <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
       <View style={s.backdrop}>
         <SheetBackdrop onPress={onClose} />
-        <Animated.View style={[s.sheet, drag.style]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grabber} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style]} {...drag.panHandlers}>
+          <View style={s.grabber} />
           <SheetClose onPress={onClose} />
           <FlatList
             data={[0]}

@@ -6,8 +6,9 @@
  * yozib qo'yib bo'lmaydi va u eskiradi.
  */
 import { useState } from "react";
-import { FlatList, Modal, Pressable, ScrollView, TextInput, View } from "react-native";
+import { Animated, FlatList, Modal, Pressable, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "./Icon";
 import { TruckIcon } from "./TruckIcon";
@@ -75,6 +76,8 @@ export function FiltrSheet({
   kind: "load" | "truck";
 }) {
   const [draft, setDraft] = useState<Filtr>(value);
+  /* Yopishning uchta yo'li: surish, ✕ (sarlavhada), parda */
+  const drag = useSheetDrag(onClose);
   const [picking, setPicking] = useState<null | "from" | "to">(null);
   const insets = useSafeAreaInsets();
 
@@ -101,7 +104,8 @@ export function FiltrSheet({
   return (
     <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
       <View style={s.backdrop}>
-        <View style={s.sheet}>
+        <SheetBackdrop onPress={onClose} />
+        <Animated.View style={[s.sheet, drag.style]} {...drag.panHandlers}>
           <View style={s.grabber} />
 
           <View style={s.head}>
@@ -114,7 +118,14 @@ export function FiltrSheet({
             </Pressable>
           </View>
 
-          <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            contentContainerStyle={s.body}
+            showsVerticalScrollIndicator={false}
+            /* Ro'yxat tepasida turganda surish varaqni yopadi,
+               aks holda aylantiradi (`useSheetDrag`) */
+            onScroll={drag.onScroll}
+            scrollEventThrottle={16}
+          >
             {/* Yo'nalish */}
             <Text style={s.label}>{t("mob.loads.route")}</Text>
             <View style={{ gap: 8 }}>
@@ -170,11 +181,13 @@ export function FiltrSheet({
 
           <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
             <Button
-              title={total != null ? `${total} ta natijani ko'rsatish` : t("mob.loads.apply")}
+              title={
+                total != null ? t("mob.loads.showResults", { n: total }) : t("mob.loads.apply")
+              }
               onPress={() => onApply(draft)}
             />
           </View>
-        </View>
+        </Animated.View>
       </View>
 
       <LocationPicker

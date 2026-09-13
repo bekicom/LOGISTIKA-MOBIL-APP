@@ -271,10 +271,8 @@ export default function Zapchast() {
       <Modal visible={picking} transparent animationType="slide" onRequestClose={() => setPicking(false)}>
         <View style={s.sheetBack}>
           <SheetBackdrop onPress={() => setPicking(false)} />
-        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
-            <View {...drag.panHandlers}>
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]} {...drag.panHandlers}>
             <View style={s.grab} />
-          </View>
           <SheetClose onPress={() => setPicking(false)} />
             <Text style={s.sheetTitle}>{t("mob.part.pickVehicle")}</Text>
             <Text style={s.sheetSub}>{t("mob.part.pickVehicleHint")}</Text>

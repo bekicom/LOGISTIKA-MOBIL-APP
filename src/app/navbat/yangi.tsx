@@ -92,6 +92,10 @@ export default function YangiNavbat() {
       <TariffNotice feature="queues" />
 
       <ScrollView
+          /* Klaviatura maydonni bosib qolmasin: iOS ro'yxatni
+             o'zi surib beradi (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets
+          keyboardShouldPersistTaps="handled"
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
         showsVerticalScrollIndicator={false}
       >

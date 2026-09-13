@@ -1219,6 +1219,7 @@
     "exp": {
       "add": "Xarajat qo'shish",
       "amount": "Summa",
+      "countLine": "%{n} ta yozuv",
       "currency": "Valyuta",
       "fine": "Jarima",
       "food": "Ovqat",
@@ -1673,6 +1674,7 @@
       "readyOnly": "Faqat hozir tayyor yuklar",
       "route": "Yo'nalish",
       "searching": "Qidirilmoqda...",
+      "showResults": "%{n} ta natijani ko'rsatish",
       "title": "Yuklar",
       "to": "Qayerga",
       "vehicleType": "Transport turi"

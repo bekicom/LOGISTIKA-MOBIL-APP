@@ -635,10 +635,8 @@ function ReasonSheet({
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <SheetBackdrop onPress={onClose} />
-        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grab} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]} {...drag.panHandlers}>
+          <View style={s.grab} />
           <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>
             {t(kind === "cancel" ? "mob.ctr.cancelTitle" : "mob.ctr.rejectTitle")}
@@ -732,10 +730,8 @@ function CounterSheet({
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <SheetBackdrop onPress={onClose} />
-        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grab} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]} {...drag.panHandlers}>
+          <View style={s.grab} />
           <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>{t("mob.ctr.counter")}</Text>
           <Text style={s.sheetSub}>

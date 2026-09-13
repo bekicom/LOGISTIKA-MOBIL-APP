@@ -179,10 +179,8 @@ function AddSheet({ open, tripId, onClose, onDone }: {
     <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
       <View style={s.backdrop}>
         <SheetBackdrop onPress={onClose} />
-        <Animated.View style={[s.sheet, drag.style]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grabber} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style]} {...drag.panHandlers}>
+          <View style={s.grabber} />
           <SheetClose onPress={onClose} />
           <View style={{ padding: space.xl, paddingTop: space.lg }}>
             <Text style={s.sheetTitle}>{t("mob.tripDocs.add")}</Text>

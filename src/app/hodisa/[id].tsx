@@ -86,7 +86,10 @@ export default function Hodisa() {
   return (
     <View style={s.root}>
       <Header title={d?.title ?? t("mob.inc.title")} subtitle={d ? t(`mob.inc.kind.${d.kind}`) : undefined} />
-      <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]} keyboardShouldPersistTaps="handled">
+      <ScrollView
+          /* Klaviatura maydonni bosib qolmasin: iOS ro'yxatni
+             o'zi surib beradi (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]} keyboardShouldPersistTaps="handled">
         {loading && !d ? <Skeleton rows={2} /> : null}
         {error && !d ? <ErrorBox message={error} onRetry={reload} /> : null}
 

@@ -352,10 +352,8 @@ function OfferSheet({
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <SheetBackdrop onPress={onClose} />
-        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grab} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]} {...drag.panHandlers}>
+          <View style={s.grab} />
           <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>{t("mob.svc.makeOffer")}</Text>
           <Text style={s.sheetSub} numberOfLines={2}>

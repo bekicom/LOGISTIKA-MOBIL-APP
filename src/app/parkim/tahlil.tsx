@@ -66,6 +66,9 @@ export default function ParkTahlili() {
       <Header title={t("mob.fan.title")} />
 
       <ScrollView
+          /* Klaviatura maydonni bosib qolmasin: iOS ro'yxatni
+             o'zi surib beradi (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />

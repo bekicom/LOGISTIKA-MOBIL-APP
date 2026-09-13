@@ -88,6 +88,16 @@ type FieldProps = TextInputProps & {
 };
 
 export function Field({ label, hint, error, right, left, style, ...rest }: FieldProps) {
+  /* ⚠️ KO'P QATORLI MAYDON BITTA QATORGA SIQILARDI (2026-09-13).
+
+     `s.field` balandligi QAT'IY (52 px) edi, ya'ni `multiline`
+     berilgan har bir maydon — «o'zim haqimda», nosozlik izohi,
+     e'lon matni — bir qatorlik quti bo'lib chiqardi. Odam yozgan
+     matn ko'rinmay, ichida aylanib ketardi.
+
+     Ilovada bunday maydon 38 joyda ishlatiladi. */
+  const many = !!rest.multiline;
+
   return (
     <View>
       {label ? (
@@ -97,11 +107,17 @@ export function Field({ label, hint, error, right, left, style, ...rest }: Field
         </Text>
       ) : null}
 
-      <View style={[s.field, !!error && { borderColor: color.danger, borderWidth: 1.5 }]}>
+      <View
+        style={[
+          s.field,
+          many && s.fieldMany,
+          !!error && { borderColor: color.danger, borderWidth: 1.5 },
+        ]}
+      >
         {left}
         <TextInput
           placeholderTextColor="#94a3b8"
-          style={[s.input, style]}
+          style={[s.input, many && s.inputMany, style]}
           {...rest}
         />
         {right}
@@ -314,6 +330,11 @@ const s = themed(() => ({
     gap: 10,
   },
   input: { flex: 1, fontSize: font.bodyLg, color: color.foreground, padding: 0, fontFamily: "Manrope_500Medium" },
+  /* Ko'p qatorli maydon: balandlik QAT'IY emas, eng kamida uch
+     qator. Matn yuqoridan boshlanadi — Android'da sukut bo'yicha
+     o'rtada turadi va bitta so'z quti markazida suzib qolardi. */
+  fieldMany: { height: undefined, minHeight: 96, alignItems: "flex-start", paddingVertical: 12 },
+  inputMany: { minHeight: 72, textAlignVertical: "top" },
   error: { fontSize: 12, color: color.danger, marginTop: 6 },
 
   notice: { borderWidth: 1, borderRadius: radius.card, padding: 14 },

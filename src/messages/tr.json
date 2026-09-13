@@ -1219,6 +1219,7 @@
     "exp": {
       "add": "Masraf ekle",
       "amount": "Tutar",
+      "countLine": "%{n} kayıt",
       "currency": "Para birimi",
       "fine": "Ceza",
       "food": "Yemek",
@@ -1673,6 +1674,7 @@
       "readyOnly": "Sadece şimdi hazır yükler",
       "route": "Güzergâh",
       "searching": "Aranıyor...",
+      "showResults": "%{n} sonucu göster",
       "title": "Yükler",
       "to": "Nereye",
       "vehicleType": "Araç tipi"

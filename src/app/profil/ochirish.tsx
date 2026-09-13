@@ -74,7 +74,10 @@ export default function HisobniOchirish() {
     <View style={s.root}>
       <Header title={t("mob.delete.title")} />
 
-      <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
+      <ScrollView
+          /* Klaviatura maydonni bosib qolmasin: iOS ro'yxatni
+             o'zi surib beradi (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
         {/* Nima bo'ladi — uch bosqich */}
         <Card style={{ padding: space.lg }}>
           <Text style={s.cardTitle}>{t("mob.delete.whatHappens")}</Text>

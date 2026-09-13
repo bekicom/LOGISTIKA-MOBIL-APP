@@ -109,6 +109,9 @@ export default function AiXotira() {
       />
 
       <FlatList
+          /* Ichidagi forma pastda qolsa klaviatura uni bosib
+             qolmasin (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets
         data={items}
         keyExtractor={(x) => x.id}
         contentContainerStyle={[s.list, { paddingBottom: insets.bottom + space.xxl }]}

@@ -296,10 +296,8 @@ export default function TransportQoshish() {
       {/* Tur tanlash */}
       <Modal visible={pickType} animationType="slide" transparent onRequestClose={() => setPickType(false)}>
         <Pressable style={s.backdrop} onPress={() => setPickType(false)} />
-        <Animated.View style={[s.sheet, drag.style]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grab} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style]} {...drag.panHandlers}>
+          <View style={s.grab} />
           <SheetClose onPress={() => setPickType(false)} />
           <Text style={s.sheetTitle}>{t("mob.add.vType")}</Text>
           <ScrollView style={{ maxHeight: 420 }}>

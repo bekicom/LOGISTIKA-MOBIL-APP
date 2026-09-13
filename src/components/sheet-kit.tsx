@@ -27,7 +27,15 @@
  *   3. pardaga bosish.
  */
 import { useMemo, useState } from "react";
-import { Animated, PanResponder, Pressable, StyleSheet, View } from "react-native";
+import {
+  Animated,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  View,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+} from "react-native";
 import { Icon } from "@/components/Icon";
 import { color, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -38,9 +46,11 @@ const CLOSE_AT = 110;
 /**
  * Panelni barmoq bilan pastga surib yopish.
  *
- * Qaytgan `panHandlers` TUTQICH atrofidagi `View` ga qo'yiladi,
- * butun panelga emas: ichidagi ro'yxat va maydonlar o'z
- * harakatini yo'qotmasligi kerak.
+ * Qaytgan `panHandlers` BUTUN PANELGA qo'yiladi: Bekzod varaqni
+ * o'rtasidan bosib surganda ham yopilishini so'radi. Ichidagi
+ * maydon va ro'yxat o'z harakatini yo'qotmaydi — `Capture`
+ * ishlatilmaydi va shart aniq pastga qaragan harakatni talab
+ * qiladi.
  *
  * `useNativeDriver: false` — bitta qiymatni ham barmoq
  * (`setValue`), ham prujina yuritganda drayver bir xil bo'lishi
@@ -49,10 +59,31 @@ const CLOSE_AT = 110;
 export function useSheetDrag(onClose: () => void) {
   const [y] = useState(() => new Animated.Value(0));
 
+  /* Ichidagi ro'yxat TEPASIDAMI.
+     Aylanadigan varaqda pastga surish ikki ma'noli: odam ro'yxatni
+     aylantirmoqchimi yoki varaqni yopmoqchimi. Qoida shu: ro'yxat
+     tepasida turganda surish YOPADI, aks holda aylantiradi —
+     telefonlarda hamma shunday ishlaydi.
+
+     `useRef` EMAS, `useState`: lint chizish paytida `ref.current`
+     ni o'qishni taqiqlaydi (`react-hooks/refs`), `PanResponder`
+     esa `useMemo` ichida yasaladi. Holat o'zgarganda javobchi
+     qayta yasaladi — u arzon va faqat chegarada bir marta
+     bo'ladi. */
+  const [atTop, setAtTop] = useState(true);
+
   const pan = useMemo(
     () =>
       PanResponder.create({
-        onMoveShouldSetPanResponder: (_e, g) => g.dy > 6 && Math.abs(g.dy) > Math.abs(g.dx),
+        /* ⚠️ BUTUN PANELDAN surish (2026-09-13).
+           Ilgari faqat tutqichdan bo'lardi va Bekzod: «modalni
+           o'rtasidan bosib pastga sursam tushsin».
+
+           `Capture` ISHLATILMAYDI: shunda ichidagi maydon va
+           ro'yxat o'z harakatini yo'qotardi. Shart qat'iy — aniq
+           PASTGA qaragan harakat (yon tomonga emas). */
+        onMoveShouldSetPanResponder: (_e, g) =>
+          atTop && g.dy > 12 && Math.abs(g.dy) > Math.abs(g.dx) * 1.5,
         onPanResponderMove: (_e, g) => {
           if (g.dy > 0) y.setValue(g.dy);
         },
@@ -80,10 +111,15 @@ export function useSheetDrag(onClose: () => void) {
           }).start();
         },
       }),
-    [y, onClose],
+    [y, onClose, atTop],
   );
 
-  return { panHandlers: pan.panHandlers, style: { transform: [{ translateY: y }] } };
+  /** Varaq ichida `ScrollView`/`FlatList` bo'lsa shuni ulash kerak */
+  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setAtTop(e.nativeEvent.contentOffset.y <= 1);
+  };
+
+  return { panHandlers: pan.panHandlers, style: { transform: [{ translateY: y }] }, onScroll };
 }
 
 /**
@@ -119,7 +155,7 @@ export function SheetClose({ onPress }: { onPress: () => void }) {
   );
 }
 
-/** Tutqich — surish maydoni bilan birga */
+/** Tutqich — ko'rinish uchun (surish butun paneldan ishlaydi) */
 export function SheetGrip() {
   return (
     <View style={s.gripBox}>

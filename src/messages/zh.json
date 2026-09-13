@@ -1219,6 +1219,7 @@
     "exp": {
       "add": "添加费用",
       "amount": "金额",
+      "countLine": "%{n} 条记录",
       "currency": "币种",
       "fine": "罚款",
       "food": "餐费",
@@ -1673,6 +1674,7 @@
       "readyOnly": "仅显示现可装货",
       "route": "路线",
       "searching": "搜索中…",
+      "showResults": "显示 %{n} 条结果",
       "title": "货源",
       "to": "目的地",
       "vehicleType": "车辆类型"

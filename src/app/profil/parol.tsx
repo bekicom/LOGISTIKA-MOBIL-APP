@@ -74,6 +74,9 @@ export default function ParolOzgartirish() {
     <View style={s.root}>
       <Header title={t("mob.pwd.title")} />
       <ScrollView
+          /* Klaviatura maydonni bosib qolmasin: iOS ro'yxatni
+             o'zi surib beradi (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
         keyboardShouldPersistTaps="handled"
       >

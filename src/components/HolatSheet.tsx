@@ -110,10 +110,8 @@ export function HolatSheet({
     <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
       <View style={s.backdrop}>
         <SheetBackdrop onPress={onClose} />
-        <Animated.View style={[s.sheet, drag.style]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grabber} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style]} {...drag.panHandlers}>
+          <View style={s.grabber} />
           <SheetClose onPress={onClose} />
 
           <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>

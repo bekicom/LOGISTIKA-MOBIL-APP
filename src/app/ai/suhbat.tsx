@@ -208,7 +208,16 @@ export default function Suhbat() {
     <KeyboardAvoidingView
       style={[s.root, { paddingTop: insets.top }]}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={insets.top}
+      /* ⚠️ `keyboardVerticalOffset` OLIB TASHLANDI (2026-09-13).
+         Bu View ekranning eng tepasidan boshlanadi (`paddingTop`
+         uni ICHIDAN suradi, ramkasini emas). Offset berilsa
+         klaviatura balandligiga o'sha son QO'SHILIB, yozuv qatori
+         klaviaturadan ~50 px yuqorida suzib turardi — Bekzod
+         suratda aynan shu bo'shliqni ko'rsatdi.
+
+         Muloqot chatida bu 2026-09-06 da shunday tuzatilgan
+         (`suhbat/[id]/index.tsx`), AI chati esa eski holida
+         qolgan edi. */
     >
       <View style={s.header}>
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>

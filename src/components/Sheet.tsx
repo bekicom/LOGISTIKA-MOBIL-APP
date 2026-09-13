@@ -38,25 +38,16 @@
  * Panel siljishi shu sababdan JS drayverda; parda esa alohida
  * tugun, u nativ qoladi.
  */
-import { useEffect, useMemo, useState, type ReactNode } from "react";
-import {
-  Animated,
-  KeyboardAvoidingView,
-  Modal,
-  PanResponder,
-  Platform,
-  Pressable,
-  View,
-} from "react-native";
+import { useEffect, useState, type ReactNode } from "react";
+import { Animated, KeyboardAvoidingView, Modal, Platform, Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
+import { useSheetDrag } from "@/components/sheet-kit";
 import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 const DROP = 420;
-/** Shundan uzoq surilsa varaq yopiladi */
-const CLOSE_AT = 110;
 
 export function Sheet({
   open,
@@ -75,6 +66,7 @@ export function Sheet({
      taqiqlangan (`react-hooks/refs`). */
   const [y] = useState(() => new Animated.Value(DROP));
   const [fade] = useState(() => new Animated.Value(0));
+  const drag = useSheetDrag(onClose);
 
   useEffect(() => {
     if (open) {
@@ -90,29 +82,6 @@ export function Sheet({
       ]).start(() => setVisible(false));
     }
   }, [open, y, fade]);
-
-  /* Surish tutqich va sarlavha qatorida ishlaydi, BUTUN varaqda
-     emas: ichidagi ro'yxat va maydonlar o'z harakatini yo'qotmasin. */
-  const pan = useMemo(
-    () =>
-      PanResponder.create({
-        onMoveShouldSetPanResponder: (_e, g) => g.dy > 6 && Math.abs(g.dy) > Math.abs(g.dx),
-        onPanResponderMove: (_e, g) => {
-          // Yuqoriga tortishga yo'l yo'q: varaq balandligi o'zgarmaydi
-          if (g.dy > 0) y.setValue(g.dy);
-        },
-        onPanResponderRelease: (_e, g) => {
-          /* Tez siljish ham yopadi: odam varaqni «otib» yuborsa,
-             110 px gacha yetmasa ham yopilishini kutadi. */
-          if (g.dy > CLOSE_AT || g.vy > 1.1) onClose();
-          else Animated.spring(y, { toValue: 0, useNativeDriver: false, damping: 22, stiffness: 240 }).start();
-        },
-        onPanResponderTerminate: () => {
-          Animated.spring(y, { toValue: 0, useNativeDriver: false, damping: 22, stiffness: 240 }).start();
-        },
-      }),
-    [y, onClose],
-  );
 
   if (!visible) return null;
 
@@ -130,20 +99,23 @@ export function Sheet({
         pointerEvents="box-none"
       >
         <Animated.View
-          style={[s.panel, { paddingBottom: insets.bottom + space.lg, transform: [{ translateY: y }] }]}
+          /* Surish BUTUN PANELDAN (`sheet-kit`): Bekzod varaqni
+             o'rtasidan bosib surganda ham yopilishini so'radi */
+          {...drag.panHandlers}
+          style={[
+            s.panel,
+            { paddingBottom: insets.bottom + space.lg, transform: [{ translateY: y }] },
+            drag.style,
+          ]}
         >
-          <View {...pan.panHandlers}>
-            {/* Tutqich kattaroq bosish maydoni bilan: barmoq 5 px
-                chiziqni aniq tutolmaydi */}
-            <View style={s.handleBox}>
-              <View style={s.handle} />
-            </View>
-            {title ? (
-              <View style={s.head}>
-                <Text style={s.title}>{title}</Text>
-              </View>
-            ) : null}
+          <View style={s.handleBox}>
+            <View style={s.handle} />
           </View>
+          {title ? (
+            <View style={s.head}>
+              <Text style={s.title}>{title}</Text>
+            </View>
+          ) : null}
 
           {/* ✕ har doim TEPADA: klaviatura chiqqanda ham ko'rinadi */}
           <Pressable

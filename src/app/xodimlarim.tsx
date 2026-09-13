@@ -440,10 +440,8 @@ function AddSheet({
     <Modal visible={open} transparent animationType="slide" onRequestClose={close}>
       <View style={s.sheetBack}>
         <SheetBackdrop onPress={close} />
-        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
-          <View {...drag.panHandlers}>
-            <View style={s.grab} />
-          </View>
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]} {...drag.panHandlers}>
+          <View style={s.grab} />
           <SheetClose onPress={close} />
           <Text style={s.sheetTitle}>{t("pgStaff.addTitle")}</Text>
           <Text style={s.sheetSub}>{t("pgStaff.addNote")}</Text>

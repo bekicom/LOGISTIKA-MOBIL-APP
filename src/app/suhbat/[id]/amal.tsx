@@ -101,7 +101,10 @@ export default function SuhbatAmal() {
   return (
     <View style={s.root}>
       <Header title={t(h.title)} />
-      <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]} keyboardShouldPersistTaps="handled">
+      <ScrollView
+          /* Klaviatura maydonni bosib qolmasin: iOS ro'yxatni
+             o'zi surib beradi (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]} keyboardShouldPersistTaps="handled">
         <View style={s.hero}>
           <View style={[s.heroIcon, { backgroundColor: h.tint + "1a" }]}>
             <Icon name={h.icon} size={26} stroke={h.tint} />

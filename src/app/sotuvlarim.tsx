@@ -135,6 +135,9 @@ export default function Sotuvlarim() {
         </View>
       ) : tab === "selling" ? (
         <FlatList
+          /* Ichidagi forma pastda qolsa klaviatura uni bosib
+             qolmasin (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets
           data={selling}
           keyExtractor={(x) => x.id}
           renderItem={({ item: x }) => (
@@ -161,6 +164,9 @@ export default function Sotuvlarim() {
         />
       ) : (
         <FlatList
+          /* Ichidagi forma pastda qolsa klaviatura uni bosib
+             qolmasin (2026-09-13 audit) */
+          automaticallyAdjustKeyboardInsets
           data={bought}
           keyExtractor={(x) => x.id}
           renderItem={({ item: x }) => (

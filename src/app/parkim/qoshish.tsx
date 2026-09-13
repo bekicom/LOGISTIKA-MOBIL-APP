@@ -11,8 +11,10 @@
  * ikkalasida boshqacha yuritiladi (TZ 03, 43-45-band).
  */
 import { useState } from "react";
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from "react-native";
+import { Alert, Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
+/* Pardasi allaqachon bosiladigan (`s.backdrop`) — faqat ✕ va surish qo'shildi */
+import { SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useRouter } from "expo-router";
 import { Button, Card, Field, Header, ListRow, Steps } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -43,6 +45,8 @@ const COUNTRIES = [
 ];
 
 export default function TransportQoshish() {
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(() => setPickType(false));
   const router = useRouter();
   const types = useApi<{ items: VType[] }>("/api/vehicle-types");
 
@@ -292,8 +296,11 @@ export default function TransportQoshish() {
       {/* Tur tanlash */}
       <Modal visible={pickType} animationType="slide" transparent onRequestClose={() => setPickType(false)}>
         <Pressable style={s.backdrop} onPress={() => setPickType(false)} />
-        <View style={s.sheet}>
-          <View style={s.grab} />
+        <Animated.View style={[s.sheet, drag.style]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grab} />
+          </View>
+          <SheetClose onPress={() => setPickType(false)} />
           <Text style={s.sheetTitle}>{t("mob.add.vType")}</Text>
           <ScrollView style={{ maxHeight: 420 }}>
             <Card>
@@ -314,7 +321,7 @@ export default function TransportQoshish() {
               ))}
             </Card>
           </ScrollView>
-        </View>
+        </Animated.View>
       </Modal>
     </KeyboardAvoidingView>
   );

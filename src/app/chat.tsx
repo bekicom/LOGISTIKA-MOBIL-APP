@@ -381,7 +381,7 @@ const s = themed(() => ({
   unreadPill: { minWidth: 24, height: 24, paddingHorizontal: 8, borderRadius: 12, backgroundColor: color.brand, alignItems: "center", justifyContent: "center", marginLeft: 4 },
   unreadPillText: { fontSize: 12, fontWeight: "800", color: "#ffffff" },
 
-  tabs: { flexDirection: "row", gap: 7, paddingHorizontal: space.lg },
+  tabs: { alignItems: "center", flexDirection: "row", gap: 7, paddingHorizontal: space.lg },
   tab: { height: 34, paddingHorizontal: 14, borderRadius: radius.pill, backgroundColor: color.card, flexDirection: "row", alignItems: "center", gap: 6, ...shadow.card },
   tabOn: { backgroundColor: color.blue },
   tabText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },

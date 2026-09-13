@@ -5,8 +5,9 @@
  * ro'yxatda ko'rinmaydi — faqat oxirgi versiya, ustida «v2» belgisi bilan.
  */
 import { useState } from "react";
-import { FlatList, Image, Modal, Pressable, RefreshControl, View } from "react-native";
+import { Animated, FlatList, Image, Modal, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -131,6 +132,8 @@ function AddSheet({ open, tripId, onClose, onDone }: {
 }) {
   const [kind, setKind] = useState("CMR");
   const [pages, setPages] = useState<Photo[]>([]);
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(onClose);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(0);
   const [err, setErr] = useState<string | null>(null);
@@ -175,8 +178,12 @@ function AddSheet({ open, tripId, onClose, onDone }: {
   return (
     <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
       <View style={s.backdrop}>
-        <View style={s.sheet}>
-          <View style={s.grabber} />
+        <SheetBackdrop onPress={onClose} />
+        <Animated.View style={[s.sheet, drag.style]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grabber} />
+          </View>
+          <SheetClose onPress={onClose} />
           <View style={{ padding: space.xl, paddingTop: space.lg }}>
             <Text style={s.sheetTitle}>{t("mob.tripDocs.add")}</Text>
 
@@ -239,7 +246,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
               <Text style={s.cancelText}>{t("mob.common.cancel")}</Text>
             </Pressable>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );

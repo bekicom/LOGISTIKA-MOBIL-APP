@@ -144,7 +144,7 @@ const s = themed(() => ({
     borderBottomWidth: 1,
     borderBottomColor: color.border,
   },
-  tabs: { gap: 6, paddingHorizontal: space.lg, paddingBottom: 12 },
+  tabs: { alignItems: "center", gap: 6, paddingHorizontal: space.lg, paddingBottom: 12 },
   tab: {
     height: 30,
     paddingHorizontal: 13,

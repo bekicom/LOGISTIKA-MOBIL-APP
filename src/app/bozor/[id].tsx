@@ -184,6 +184,7 @@ export default function EelonTafsilot() {
         <View style={[s.gallery, { height: width * 0.72 }]}>
           {sale.photos.length > 0 ? (
             <ScrollView
+          contentContainerStyle={{ alignItems: "center" }}
               horizontal
               pagingEnabled
               showsHorizontalScrollIndicator={false}

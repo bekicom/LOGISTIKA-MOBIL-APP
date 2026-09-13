@@ -225,7 +225,7 @@ const s = themed(() => ({
   stepTitle: { fontSize: 13.5, fontWeight: "700", color: color.foreground },
   stepBody: { fontSize: 11.5, color: color.mutedForeground, marginTop: 2, lineHeight: 16 },
 
-  cards: { gap: 9, paddingTop: space.md, paddingRight: space.lg },
+  cards: { alignItems: "center", gap: 9, paddingTop: space.md, paddingRight: space.lg },
   card: {
     width: 190,
     backgroundColor: color.card,

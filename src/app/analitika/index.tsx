@@ -393,7 +393,7 @@ const s = themed(() => ({
   back: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
   title: { fontSize: font.titleLg, fontWeight: "700", color: color.foreground },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
-  tabs: { gap: 6, paddingHorizontal: space.lg, paddingTop: 11, paddingBottom: space.md },
+  tabs: { alignItems: "center", gap: 6, paddingHorizontal: space.lg, paddingTop: 11, paddingBottom: space.md },
   tab: {
     height: 30,
     paddingHorizontal: 13,

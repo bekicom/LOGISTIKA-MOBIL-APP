@@ -27,19 +27,20 @@
  * kelmaydi, ekranda yashirilmaydi.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FlatList, Linking, Pressable, ScrollView, View } from "react-native";
+import { FlatList, Linking, Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { Text } from "@/components/Text";
-import { Header } from "@/components/ui";
+import { Switch } from "@/components/ui";
+import { Sheet } from "@/components/Sheet";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum, money } from "@/components/cards";
 import { MapCanvas, type CanvasCircle, type CanvasPoint, type MapCanvasRef } from "@/components/MapCanvas";
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, radius, space, themed, themeName } from "@/lib/theme";
+import { color, radius, shadow, space, themed, themeName } from "@/lib/theme";
 import { serviceSpecLabel, t } from "@/lib/i18n";
 
 type Kind = "load" | "truck" | "master" | "shop";
@@ -233,6 +234,7 @@ export default function MapScreen() {
   const [borderOn, setBorderOn] = useState(true);
   const [mineOn, setMineOn] = useState(true);
   const [picked, setPicked] = useState<string | null>(null);
+  const [filtr, setFiltr] = useState(false);
   const [me, setMe] = useState<{ lat: number; lng: number } | null>(null);
   const [geoErr, setGeoErr] = useState<string | null>(null);
   const canvas = useRef<MapCanvasRef | null>(null);
@@ -357,6 +359,11 @@ export default function MapScreen() {
   const dark = themeName() === "dark";
   const tile = data ? (dark ? data.tile.dark : data.tile.url) : null;
 
+  /* Filtr tugmasidagi son — yoqilgan qatlamlar. Odam filtrni
+     ochmasdan ham nimalar ko'rinayotganini biladi. */
+  const onCount =
+    KINDS.filter((k) => layers[k]).length + (borderOn ? 1 : 0) + (mineOn && data?.signedIn ? 1 : 0);
+
   const pickedGroup = data?.pins.find((g) => g.key === picked) ?? null;
   const pickedBorder =
     picked?.startsWith("border:") && data
@@ -368,58 +375,27 @@ export default function MapScreen() {
       : null;
 
   return (
+    /* ⚠️ BUTUN EKRAN XARITA (2026-09-13).
+
+       Ilgari tepada sarlavha va qatlam tugmalari qatori turardi.
+       Telefonda u FALOKAT bo'lib chiqdi: gorizontal `ScrollView`
+       balandligi cheklanmagani uchun tugmalar ekranning yarmini
+       egallab, ustun bo'lib cho'zilib ketdi va xaritaga pastdan
+       chorak joy qoldi.
+
+       Bekzod: «tepadagilarni umuman olib tashla, faqat kartani
+       o'zini qoldir, filtrni modal qilib och».
+
+       Endi shunday: xarita to'liq ekran, ustida faqat uchta
+       DUMALOQ tugma (ortga, filtr, mening joyim) — ular nishonni
+       deyarli yopmaydi. Qatlamlar filtr varag'ida. */
     <View style={s.root}>
-      <Header
-        title={t("mob.map.title")}
-        subtitle={data ? t("mob.map.found", { n: pinTotal(data) }) : undefined}
-        right={
-          <Pressable onPress={reload} hitSlop={8} accessibilityLabel={t("mob.ui.retry")}>
-            <Icon name="search" size={20} stroke={color.icon} />
-          </Pressable>
-        }
-      />
-
-      {/* Qatlam tugmalari — xarita USTIDA emas, tepasida: nishonlarni
-          yopib qo'ymasligi kerak */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={s.chips}
-      >
-        {KINDS.map((k) => (
-          <Chip
-            key={k}
-            label={t(`mob.map.layer.${k}`)}
-            n={data?.counts[k] ?? 0}
-            on={layers[k]}
-            tint={KIND_COLOR[k]}
-            onPress={() => setLayers((v) => ({ ...v, [k]: !v[k] }))}
-          />
-        ))}
-        <Chip
-          label={t("mob.map.layer.border")}
-          n={data?.borders.pins.length ?? 0}
-          on={borderOn}
-          tint={BORDER_COLOR}
-          onPress={() => setBorderOn((v) => !v)}
-        />
-        {data?.signedIn ? (
-          <Chip
-            label={t("mob.map.layer.mine")}
-            n={vehicles.length}
-            on={mineOn}
-            tint="#16a34a"
-            onPress={() => setMineOn((v) => !v)}
-          />
-        ) : null}
-      </ScrollView>
-
       {loading && !data ? (
-        <View style={s.pad}>
-          <Skeleton rows={4} />
+        <View style={[s.pad, { paddingTop: insets.top + space.xl }]}>
+          <Skeleton rows={6} />
         </View>
       ) : error && !data ? (
-        <View style={s.pad}>
+        <View style={[s.pad, { paddingTop: insets.top + space.xl }]}>
           <ErrorBox message={error} onRetry={reload} />
         </View>
       ) : (
@@ -433,31 +409,105 @@ export default function MapScreen() {
           onPick={setPicked}
           onReady={onReady}
           controls={
-            <Pressable
-              onPress={() => void locate()}
-              style={s.meBtn}
-              accessibilityLabel={t("mob.map.me")}
-            >
-              <Icon name="map-pin" size={19} stroke="#fff" />
-            </Pressable>
+            <>
+              {/* ORTGA — eng chap yuqorida, doim ko'rinadi.
+                  Bekzod aynan «orqaga qaytish yo'q» deb aytgan. */}
+              <Pressable
+                onPress={() => router.back()}
+                style={[s.fab, { top: insets.top + 8, left: 12 }]}
+                hitSlop={8}
+                accessibilityRole="button"
+                accessibilityLabel={t("mapUi.close")}
+              >
+                <Icon name="back" size={20} stroke={color.foreground} />
+              </Pressable>
+
+              {/* FILTR — o'ng yuqorida. Yonida yoqilgan qatlam soni:
+                  odam filtr ochmasdan ham nimalar ko'rinayotganini
+                  biladi. */}
+              <Pressable
+                onPress={() => setFiltr(true)}
+                style={[s.fab, { top: insets.top + 8, right: 12 }]}
+                hitSlop={8}
+                accessibilityRole="button"
+                accessibilityLabel={t("mob.loads.filters")}
+              >
+                <Icon name="filter" size={19} stroke={color.foreground} />
+                {onCount > 0 ? (
+                  <View style={s.fabBadge}>
+                    <Text style={s.fabBadgeText}>{onCount}</Text>
+                  </View>
+                ) : null}
+              </Pressable>
+
+              {/* Nuqta soni — kichik yorliq, sarlavha o'rniga */}
+              {data ? (
+                <View style={[s.countPill, { top: insets.top + 14 }]} pointerEvents="none">
+                  <Text style={s.countText}>{t("mob.map.found", { n: pinTotal(data) })}</Text>
+                </View>
+              ) : null}
+
+              <Pressable
+                onPress={() => void locate()}
+                style={s.meBtn}
+                accessibilityLabel={t("mob.map.me")}
+              >
+                <Icon name="map-pin" size={19} stroke="#fff" />
+              </Pressable>
+            </>
           }
         />
       )}
 
-      {/* Kalitsiz plitkada CARTO watermark'i chiqadi — yashirmaymiz */}
-      {data && !data.tile.premium ? (
-        <Text style={[s.foot, { paddingBottom: insets.bottom + 6 }]}>
-          {t("mob.map.watermark")}
-        </Text>
-      ) : null}
-
       {geoErr ? <Text style={s.geoErr}>{geoErr}</Text> : null}
 
-      {!data?.signedIn && data ? (
-        <Text style={[s.foot, { paddingBottom: insets.bottom + 6 }]}>
-          {t("mob.map.guestHint")}
-        </Text>
-      ) : null}
+      {/* ── FILTR VARAG'I ──────────────────────────────────────── */}
+      <Sheet open={filtr} onClose={() => setFiltr(false)} title={t("mob.loads.filters")}>
+        <View style={{ gap: 8 }}>
+          {KINDS.map((k) => (
+            <LayerRow
+              key={k}
+              label={t(`mob.map.layer.${k}`)}
+              n={data?.counts[k] ?? 0}
+              on={layers[k]}
+              tint={KIND_COLOR[k]}
+              onPress={() => setLayers((v) => ({ ...v, [k]: !v[k] }))}
+            />
+          ))}
+          <LayerRow
+            label={t("mob.map.layer.border")}
+            n={data?.borders.pins.length ?? 0}
+            on={borderOn}
+            tint={BORDER_COLOR}
+            onPress={() => setBorderOn((v) => !v)}
+          />
+          {data?.signedIn ? (
+            <LayerRow
+              label={t("mob.map.layer.mine")}
+              n={vehicles.length}
+              on={mineOn}
+              tint="#16a34a"
+              onPress={() => setMineOn((v) => !v)}
+            />
+          ) : null}
+        </View>
+
+        {/* Koordinatasiz chegaralar haqidagi ogohlantirish SHU
+            YERDA. Ilgari u xarita tepasida suzib turardi va
+            telefonda soat bilan ustma-ust tushib qolgan edi. */}
+        {data && data.borders.missing > 0 ? (
+          <Text style={s.note}>{t("mob.map.borderMissing", { n: data.borders.missing })}</Text>
+        ) : null}
+
+        {/* Kalitsiz plitkada CARTO watermark'i chiqadi — yashirmaymiz */}
+        {data && !data.tile.premium ? (
+          <Text style={s.note}>{t("mob.map.watermark")}</Text>
+        ) : null}
+
+        {!data?.signedIn && data ? (
+          <Text style={s.note}>{t("mob.map.guestHint")}</Text>
+        ) : null}
+      </Sheet>
 
       {picked ? (
         <View style={[s.sheet, { paddingBottom: insets.bottom + space.md }]}>
@@ -515,7 +565,14 @@ function openPin(it: PinItem, router: ReturnType<typeof useRouter>) {
   else router.push("/zapchast");
 }
 
-function Chip({
+/**
+ * Filtr varag'idagi qatlam qatori.
+ *
+ * Ilgari bu xarita tepasidagi gorizontal CHIP edi va u telefonda
+ * cho'zilib ketgan (izoh ekranning boshida). Qator ko'rinishi
+ * barmoq uchun ham qulayroq: butun kenglik bosiladi.
+ */
+function LayerRow({
   label,
   n,
   on,
@@ -531,12 +588,14 @@ function Chip({
   return (
     <Pressable
       onPress={onPress}
-      style={[s.chip, on && { backgroundColor: tint, borderColor: tint }]}
+      style={s.layerRow}
       accessibilityRole="switch"
       accessibilityState={{ checked: on }}
     >
-      <Text style={[s.chipText, on && s.chipTextOn]}>{label}</Text>
-      <Text style={[s.chipN, on && s.chipTextOn]}>{n}</Text>
+      <View style={[s.dot, { backgroundColor: on ? tint : "transparent", borderColor: tint }]} />
+      <Text style={[s.layerLabel, !on && s.layerOff]}>{label}</Text>
+      <Text style={s.layerN}>{n}</Text>
+      <Switch value={on} onValueChange={onPress} />
     </Pressable>
   );
 }
@@ -696,21 +755,50 @@ function minutesSince(iso: string): number {
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   pad: { padding: space.md },
-  chips: { paddingHorizontal: space.md, paddingBottom: 8, gap: 7 },
-  chip: {
+  fab: {
+    position: "absolute",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: color.card,
+    ...shadow.card,
+  },
+  fabBadge: {
+    position: "absolute",
+    top: -3,
+    right: -3,
+    minWidth: 18,
+    height: 18,
+    paddingHorizontal: 4,
+    borderRadius: 9,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: color.brand,
+  },
+  fabBadgeText: { fontSize: 10.5, fontWeight: "800", color: color.brandForeground },
+  countPill: {
+    position: "absolute",
+    alignSelf: "center",
+    paddingHorizontal: 11,
+    paddingVertical: 5,
+    borderRadius: radius.pill,
+    backgroundColor: color.card,
+    ...shadow.card,
+  },
+  countText: { fontSize: 11.5, fontWeight: "700", color: color.mutedForeground },
+  layerRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: color.border,
-    backgroundColor: color.card,
+    gap: 10,
+    paddingVertical: 9,
   },
-  chipText: { fontSize: 12.5, fontWeight: "700", color: color.foreground },
-  chipTextOn: { color: "#fff" },
-  chipN: { fontSize: 11.5, fontWeight: "700", color: color.mutedForeground },
+  dot: { width: 12, height: 12, borderRadius: 6, borderWidth: 2 },
+  layerLabel: { flex: 1, fontSize: 14, fontWeight: "700", color: color.foreground },
+  layerOff: { color: color.mutedForeground },
+  layerN: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground },
+  note: { fontSize: 12, color: color.mutedForeground, marginTop: 12, lineHeight: 17 },
   meBtn: {
     position: "absolute",
     left: 14,
@@ -775,18 +863,6 @@ const s = themed(() => ({
   vehHead: { flexDirection: "row", alignItems: "center", gap: 8 },
   state: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: radius.pill },
   stateText: { fontSize: 10.5, fontWeight: "800", color: "#fff" },
-  foot: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    paddingHorizontal: space.md,
-    paddingTop: 6,
-    fontSize: 10.5,
-    color: color.mutedForeground,
-    textAlign: "center",
-    backgroundColor: color.background,
-  },
   geoErr: {
     position: "absolute",
     left: space.md,

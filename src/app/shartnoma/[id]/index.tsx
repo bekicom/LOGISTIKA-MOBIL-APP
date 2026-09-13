@@ -19,8 +19,9 @@
  * sababni tanlab, ro'yxatni ma'nosiz qilardi.
  */
 import { useState } from "react";
-import { KeyboardAvoidingView, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Animated, KeyboardAvoidingView, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Field, Header, Notice } from "@/components/ui";
@@ -621,6 +622,8 @@ function ReasonSheet({
   onSend: (reason: string, note?: string) => void;
 }) {
   const insets = useSafeAreaInsets();
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(onClose);
   const [reason, setReason] = useState<string | null>(null);
   const [note, setNote] = useState("");
   const list = kind === "cancel" ? CANCEL : REJECT;
@@ -631,8 +634,12 @@ function ReasonSheet({
         style={s.sheetBack}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
-          <View style={s.grab} />
+        <SheetBackdrop onPress={onClose} />
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grab} />
+          </View>
+          <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>
             {t(kind === "cancel" ? "mob.ctr.cancelTitle" : "mob.ctr.rejectTitle")}
           </Text>
@@ -686,7 +693,7 @@ function ReasonSheet({
               onPress={() => reason && onSend(reason, note.trim() || undefined)}
             />
           </View>
-        </View>
+        </Animated.View>
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -707,6 +714,8 @@ function CounterSheet({
   onSend: (price: number, paymentTerm: string, feePayer: string | null) => void;
 }) {
   const insets = useSafeAreaInsets();
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(onClose);
   const [price, setPrice] = useState("");
   const [term, setTerm] = useState("");
   /* Joriy kelishuvdan boshlanadi: odam narxni o'zgartirib
@@ -722,8 +731,12 @@ function CounterSheet({
         style={s.sheetBack}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
-          <View style={s.grab} />
+        <SheetBackdrop onPress={onClose} />
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grab} />
+          </View>
+          <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>{t("mob.ctr.counter")}</Text>
           <Text style={s.sheetSub}>
             {current
@@ -780,7 +793,7 @@ function CounterSheet({
               onPress={() => onSend(n, term.trim() || current?.paymentTerm || "", payer)}
             />
           </View>
-        </View>
+        </Animated.View>
       </KeyboardAvoidingView>
     </Modal>
   );

@@ -20,6 +20,10 @@
 import { useState } from "react";
 import { FlatList, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
+/* Bu ikki varaqning tanasi — `ScrollView`. Surib yopish
+   aylantirish harakati bilan urishadi, shuning uchun yopish
+   ✕ va parda bilan (2026-09-13). */
+import { SheetBackdrop, SheetClose } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Field, Header, Switch } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -406,6 +410,7 @@ function ShopSheet({
 
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={onClose}>
+      <SheetBackdrop onPress={onClose} />
       <KeyboardAvoidingView
         style={s.sheetBack}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -416,6 +421,7 @@ function ShopSheet({
           keyboardShouldPersistTaps="handled"
         >
           <View style={s.grab} />
+          <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>{t("mob.part.shopInfo")}</Text>
           {err ? <ErrorBox message={err} /> : null}
 
@@ -551,6 +557,7 @@ function PartSheet({
           keyboardShouldPersistTaps="handled"
         >
           <View style={s.grab} />
+          <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>
             {part ? t("mob.part.editPart") : t("mob.part.addPart")}
           </Text>

@@ -8,8 +8,9 @@
  * nizo chiqsa dalil shu bo'ladi.
  */
 import { useState } from "react";
-import { Image, Modal, Pressable, ScrollView, TextInput, View } from "react-native";
+import { Animated, Image, Modal, Pressable, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "./Icon";
 import { Button, Notice } from "./ui";
@@ -41,6 +42,8 @@ export function HolatSheet({
 }) {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [note, setNote] = useState("");
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(onClose);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
@@ -106,8 +109,12 @@ export function HolatSheet({
   return (
     <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
       <View style={s.backdrop}>
-        <View style={s.sheet}>
-          <View style={s.grabber} />
+        <SheetBackdrop onPress={onClose} />
+        <Animated.View style={[s.sheet, drag.style]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grabber} />
+          </View>
+          <SheetClose onPress={onClose} />
 
           <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>
             <Text style={s.title}>{meta?.title ?? "Holatni o'zgartirish"}</Text>
@@ -186,7 +193,7 @@ export function HolatSheet({
               <Text style={s.cancelText}>{t("mob.common.cancel")}</Text>
             </Pressable>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );

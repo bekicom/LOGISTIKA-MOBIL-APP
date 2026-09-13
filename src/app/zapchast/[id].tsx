@@ -17,6 +17,10 @@
 import { useState } from "react";
 import { KeyboardAvoidingView, Linking, Modal, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
+/* Bu ikki varaqning tanasi — `ScrollView`. Surib yopish
+   aylantirish harakati bilan urishadi, shuning uchun yopish
+   ✕ va parda bilan (2026-09-13). */
+import { SheetBackdrop, SheetClose } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Field, Header, Switch } from "@/components/ui";
@@ -304,6 +308,7 @@ function OrderSheet({
 
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={onClose}>
+      <SheetBackdrop onPress={onClose} />
       <KeyboardAvoidingView
         style={s.sheetBack}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -314,6 +319,7 @@ function OrderSheet({
           keyboardShouldPersistTaps="handled"
         >
           <View style={s.grab} />
+          <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>{t("mob.part.order")}</Text>
           <Text style={s.sheetSub} numberOfLines={2}>
             {part.name} · {part.shop.name}

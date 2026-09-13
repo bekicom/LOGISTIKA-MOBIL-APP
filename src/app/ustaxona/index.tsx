@@ -478,7 +478,7 @@ const s = themed(() => ({
   panelTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
   panelSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
-  chips: { gap: 7, paddingBottom: space.sm },
+  chips: { alignItems: "center", gap: 7, paddingBottom: space.sm },
   chip: {
     height: 32,
     paddingHorizontal: 12,

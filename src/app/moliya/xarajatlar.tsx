@@ -18,8 +18,9 @@
  * «men boshqa summa yozgandim» degan gapga tarix javob beradi.
  */
 import { useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, Modal, Platform, Pressable, RefreshControl, View } from "react-native";
+import { Animated, FlatList, Image, KeyboardAvoidingView, Modal, Platform, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Field, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -223,6 +224,8 @@ function EditSheet({
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const insets = useSafeAreaInsets();
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(onClose);
 
   const value = Number(amount.replace(/\s/g, ""));
 
@@ -249,8 +252,12 @@ function EditSheet({
         style={s.sheetBack}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
-          <View style={s.grab} />
+        <SheetBackdrop onPress={onClose} />
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grab} />
+          </View>
+          <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>{t("mob.fin.fixAmount")}</Text>
           <Text style={s.sheetSub}>
             {expense
@@ -277,7 +284,7 @@ function EditSheet({
           <Pressable onPress={onClose} style={s.later}>
             <Text style={s.laterText}>{t("mob.common.cancel")}</Text>
           </Pressable>
-        </View>
+        </Animated.View>
       </KeyboardAvoidingView>
     </Modal>
   );

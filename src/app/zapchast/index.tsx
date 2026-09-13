@@ -21,8 +21,9 @@
  * o'ylaydi.
  */
 import { useMemo, useState } from "react";
-import { FlatList, Modal, Pressable, RefreshControl, ScrollView, TextInput, View } from "react-native";
+import { Animated, FlatList, Modal, Pressable, RefreshControl, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
@@ -81,6 +82,8 @@ export default function Zapchast() {
   const [inStock, setInStock] = useState(false);
   const [cond, setCond] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(() => setPicking(false));
   const router = useRouter();
 
   const query = useMemo(() => {
@@ -267,8 +270,12 @@ export default function Zapchast() {
       {/* Mashina tanlash */}
       <Modal visible={picking} transparent animationType="slide" onRequestClose={() => setPicking(false)}>
         <View style={s.sheetBack}>
-          <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
+          <SheetBackdrop onPress={() => setPicking(false)} />
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
+            <View {...drag.panHandlers}>
             <View style={s.grab} />
+          </View>
+          <SheetClose onPress={() => setPicking(false)} />
             <Text style={s.sheetTitle}>{t("mob.part.pickVehicle")}</Text>
             <Text style={s.sheetSub}>{t("mob.part.pickVehicleHint")}</Text>
 
@@ -300,7 +307,7 @@ export default function Zapchast() {
             <Pressable onPress={() => setPicking(false)} style={s.later}>
               <Text style={s.laterText}>{t("mob.common.cancel")}</Text>
             </Pressable>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
     </View>
@@ -411,7 +418,7 @@ const s = themed(() => ({
   searchHint: { fontSize: 12, color: color.mutedForeground, marginTop: 7, lineHeight: 18 },
 
   bar: { backgroundColor: color.card, borderBottomWidth: 1, borderBottomColor: color.border },
-  barInner: { paddingHorizontal: space.lg, paddingBottom: space.md, gap: 7 },
+  barInner: { alignItems: "center", paddingHorizontal: space.lg, paddingBottom: space.md, gap: 7 },
   chip: {
     height: 34,
     paddingHorizontal: 12,

@@ -18,8 +18,9 @@
  * aytiladi — Bozordagi bilan bir xil qoida.
  */
 import { useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Animated, FlatList, Image, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Button, Field, Header } from "@/components/ui";
@@ -144,7 +145,8 @@ export default function UstaPanelim() {
             </Text>
 
             {o.photos.length > 0 && (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.shots}>
+              <ScrollView
+          contentContainerStyle={{ alignItems: "center" }} horizontal showsHorizontalScrollIndicator={false} style={s.shots}>
                 {o.photos.map((p) => (
                   <Image
                     key={p}
@@ -338,6 +340,8 @@ function OfferSheet({
   const [hours, setHours] = useState("");
   const [note, setNote] = useState("");
   const insets = useSafeAreaInsets();
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(onClose);
 
   const amount = Number(price.replace(/\s/g, ""));
 
@@ -347,8 +351,12 @@ function OfferSheet({
         style={s.sheetBack}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
-          <View style={s.grab} />
+        <SheetBackdrop onPress={onClose} />
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grab} />
+          </View>
+          <SheetClose onPress={onClose} />
           <Text style={s.sheetTitle}>{t("mob.svc.makeOffer")}</Text>
           <Text style={s.sheetSub} numberOfLines={2}>
             {order?.problem}
@@ -419,7 +427,7 @@ function OfferSheet({
           </View>
 
           <Text style={s.sheetNote}>{t("mob.svc.offerEditable")}</Text>
-        </View>
+        </Animated.View>
       </KeyboardAvoidingView>
     </Modal>
   );

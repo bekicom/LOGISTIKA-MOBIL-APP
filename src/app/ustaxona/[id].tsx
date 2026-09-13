@@ -272,7 +272,8 @@ export default function Buyurtma() {
           )}
 
           {o.photos.length > 0 && (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.shots}>
+            <ScrollView
+          contentContainerStyle={{ alignItems: "center" }} horizontal showsHorizontalScrollIndicator={false} style={s.shots}>
               {o.photos.map((p) => (
                 <Image key={p} source={servicePhoto(o.id, p)} style={s.shot} resizeMode="cover" />
               ))}

@@ -116,6 +116,17 @@ function Shell() {
           headerShown: false,
           contentStyle: { backgroundColor: color.card },
           animation: "slide_from_right",
+          /* ── BARMOQ BILAN ORTGA (2026-09-13) ──────────────────
+             Bekzod: «pagelarga kirib chiqqanimda ham slayderga
+             o'xshab ishlasin».
+
+             `gestureEnabled` — ekranni o'ngga surib ortga qaytish.
+             `fullScreenGestureEnabled` esa BUTUN ekrandan surishga
+             ruxsat beradi, faqat chap chetidan emas — katta
+             telefonda chetni barmoq bilan tutish qiyin va odam
+             harakatning borligini sezmay qolardi. */
+          gestureEnabled: true,
+          fullScreenGestureEnabled: true,
         }}
       />
     </>

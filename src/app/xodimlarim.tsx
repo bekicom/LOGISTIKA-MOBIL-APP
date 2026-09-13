@@ -27,8 +27,9 @@
  * Telegrami yoki SMS'i orqali yuboradi.
  */
 import { useState } from "react";
-import { Alert, FlatList, Linking, Modal, Pressable, RefreshControl, ScrollView, Share, TextInput, View } from "react-native";
+import { Alert, Animated, FlatList, Linking, Modal, Pressable, RefreshControl, ScrollView, Share, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
+import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Header } from "@/components/ui";
@@ -389,6 +390,8 @@ function AddSheet({
   onDone: () => void;
 }) {
   const insets = useSafeAreaInsets();
+  /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
+  const drag = useSheetDrag(close);
   const [dir, setDir] = useState<string | null>(null);
   const [prof, setProf] = useState<string | null>(null);
   const [title, setTitle] = useState("");
@@ -436,8 +439,12 @@ function AddSheet({
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={close}>
       <View style={s.sheetBack}>
-        <View style={[s.sheet, { paddingBottom: insets.bottom + space.lg }]}>
-          <View style={s.grab} />
+        <SheetBackdrop onPress={close} />
+        <Animated.View style={[s.sheet, drag.style, { paddingBottom: insets.bottom + space.lg }]}>
+          <View {...drag.panHandlers}>
+            <View style={s.grab} />
+          </View>
+          <SheetClose onPress={close} />
           <Text style={s.sheetTitle}>{t("pgStaff.addTitle")}</Text>
           <Text style={s.sheetSub}>{t("pgStaff.addNote")}</Text>
 
@@ -498,7 +505,7 @@ function AddSheet({
           <Pressable style={s.cancel} onPress={close}>
             <Text style={s.cancelText}>{t("pgStaff.close")}</Text>
           </Pressable>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );
@@ -625,7 +632,7 @@ const s = themed(() => ({
     marginTop: 16,
     marginBottom: 7,
   },
-  chips: { flexDirection: "row", gap: 7, flexWrap: "wrap" },
+  chips: { alignItems: "center", flexDirection: "row", gap: 7, flexWrap: "wrap" },
   chip: {
     paddingHorizontal: 12,
     paddingVertical: 8,

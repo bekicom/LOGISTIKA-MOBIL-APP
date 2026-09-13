@@ -6,7 +6,7 @@
  * «ochilganmi» degan javob keladi.
  */
 import { useState } from "react";
-import { Linking, Modal, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -22,6 +22,7 @@ import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
+import { Sheet } from "@/components/Sheet";
 import { InviteOwner } from "@/components/InviteOwner";
 import { ContactLinks, type Links } from "@/components/ContactLinks";
 import { TakeLoad } from "@/components/TakeLoad";
@@ -382,7 +383,6 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
-  const insets = useSafeAreaInsets();
 
   const num = Number(fee.replace(/\s/g, "").replace(",", "."));
 
@@ -404,66 +404,70 @@ function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
   }
 
   return (
-    <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
-      <View style={s.backdrop}>
-        <View style={s.sheet}>
-          <View style={s.grabber} />
-          <View style={{ padding: space.xl, paddingTop: space.lg }}>
-            {ok ? (
-              <View style={{ alignItems: "center", paddingVertical: space.xl }}>
-                <View style={s.okCircle}>
-                  <Icon name="check" size={28} stroke={color.success} />
-                </View>
-                <Text style={s.okText}>{t("mob.load.offerSent")}</Text>
-              </View>
-            ) : (
-              <>
-                <Text style={s.sheetTitle}>{t("mob.load.offer")}</Text>
-                <Text style={s.sheetSub}>
-                  {t("mob.load.offerHint")}
-                </Text>
+    /* ⚠️ UMUMIY `Sheet` GA O'TKAZILDI (2026-09-13).
 
-                <View style={{ marginTop: space.xl }}>
-                  <Field
-                    label={t("mob.load.yourPrice", { cur: currency })}
-                    placeholder={suggested ? new Intl.NumberFormat("ru-RU").format(suggested) : "0"}
-                    keyboardType="numeric"
-                    value={fee}
-                    onChangeText={setFee}
-                  />
-                  {suggested ? (
-                    <Text style={s.hint}>
-                      {t("mob.loads.postedPrice", { sum: money(suggested, currency) })}
-                    </Text>
-                  ) : null}
-                </View>
+       Ilgari bu qo'lda yozilgan `Modal` edi: yopish faqat pastdagi
+       «Bekor qilish» tugmasi bilan bo'lardi. Narx maydoniga
+       bosilganda klaviatura chiqib o'sha tugmani BOSIB QOLARDI va
+       odam oynadan chiqolmasdi — Bekzod telefonda aynan shunga
+       urildi.
 
-                <View style={{ marginTop: space.lg }}>
-                  <Field
-                    label={t("mob.exp.note")}
-                    hint={t("mob.exp.optional")}
-                    placeholder={t("mob.post2.offerPh")}
-                    value={note}
-                    onChangeText={setNote}
-                  />
-                </View>
+       `Sheet` da yopishning uchta yo'li bor (surish, ✕, parda) va
+       klaviatura kontentni bosmaydi. */
+    <Sheet open={open} onClose={onClose} title={ok ? undefined : t("mob.load.offer")}>
+      {ok ? (
+        <View style={{ alignItems: "center", paddingVertical: space.xl }}>
+          <View style={s.okCircle}>
+            <Icon name="check" size={28} stroke={color.success} />
+          </View>
+          <Text style={s.okText}>{t("mob.load.offerSent")}</Text>
+        </View>
+      ) : (
+        <>
+          <Text style={s.sheetSub}>{t("mob.load.offerHint")}</Text>
 
-                {err ? <View style={{ marginTop: space.lg }}><Notice tone="danger">{err}</Notice></View> : null}
-              </>
-            )}
+          <View style={{ marginTop: space.lg }}>
+            <Field
+              label={t("mob.load.yourPrice", { cur: currency })}
+              placeholder={suggested ? new Intl.NumberFormat("ru-RU").format(suggested) : "0"}
+              keyboardType="numeric"
+              value={fee}
+              onChangeText={setFee}
+            />
+            {suggested ? (
+              <Text style={s.hint}>
+                {t("mob.loads.postedPrice", { sum: money(suggested, currency) })}
+              </Text>
+            ) : null}
           </View>
 
-          {!ok ? (
-            <View style={[s.foot, { paddingBottom: insets.bottom + space.lg }]}>
-              <Button title={t("mob.tripDocs.send")} onPress={submit} loading={busy} disabled={!(num > 0)} />
-              <Pressable onPress={onClose} style={s.cancel}>
-                <Text style={s.cancelText}>{t("mob.common.cancel")}</Text>
-              </Pressable>
+          <View style={{ marginTop: space.md }}>
+            <Field
+              label={t("mob.exp.note")}
+              hint={t("mob.exp.optional")}
+              placeholder={t("mob.post2.offerPh")}
+              value={note}
+              onChangeText={setNote}
+            />
+          </View>
+
+          {err ? (
+            <View style={{ marginTop: space.md }}>
+              <Notice tone="danger">{err}</Notice>
             </View>
           ) : null}
-        </View>
-      </View>
-    </Modal>
+
+          <View style={{ marginTop: space.lg }}>
+            <Button
+              title={t("mob.tripDocs.send")}
+              onPress={submit}
+              loading={busy}
+              disabled={!(num > 0)}
+            />
+          </View>
+        </>
+      )}
+    </Sheet>
   );
 }
 
@@ -552,14 +556,8 @@ const s = themed(() => ({
   primaryText: { fontSize: font.body, fontWeight: "600", color: "#fff" },
   iconBtn: { width: 52, height: 52, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, alignItems: "center", justifyContent: "center" },
 
-  backdrop: { flex: 1, backgroundColor: "rgba(15,23,42,0.45)", justifyContent: "flex-end" },
   sheet: { backgroundColor: color.card, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet },
-  grabber: { width: 38, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginTop: 10 },
-  sheetTitle: { fontSize: 20, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: font.caption, color: color.mutedForeground, marginTop: 5, lineHeight: 20 },
-  foot: { paddingHorizontal: space.xl, paddingTop: 14, borderTopWidth: 1, borderTopColor: color.border },
-  cancel: { height: 48, alignItems: "center", justifyContent: "center" },
-  cancelText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
 
   okCircle: { width: 64, height: 64, borderRadius: 32, backgroundColor: "#16a34a1f", alignItems: "center", justifyContent: "center" },
   okText: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground, marginTop: space.md },

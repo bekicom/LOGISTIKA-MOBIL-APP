@@ -419,7 +419,7 @@ const s = themed(() => ({
   noteText: { flex: 1, fontSize: 12, color: color.mutedForeground, lineHeight: 18 },
   noteGap: { color: color.warningText },
 
-  chips: { gap: 7, paddingBottom: space.sm },
+  chips: { alignItems: "center", gap: 7, paddingBottom: space.sm },
   chip: {
     height: 32,
     paddingHorizontal: 12,

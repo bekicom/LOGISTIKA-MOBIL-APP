@@ -178,7 +178,7 @@ export default function DispetcherAnketa() {
             <Field
               label={t("mob.pform.routes")}
               hint={t("mob.pform.routesHint")}
-              placeholder="Toshkent–Moskva, Namangan–Olmaota"
+              placeholder={t("mob.pform.routesPh")}
               value={routes}
               onChangeText={setRoutes}
               multiline

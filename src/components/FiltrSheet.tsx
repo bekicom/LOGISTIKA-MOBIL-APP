@@ -56,19 +56,23 @@ type VehicleType = { id: number; key: string; name: string; capacityT: number | 
 export type Loc = {
   id: number;
   name: string;
+  /** Shu hududdagi e'lon soni — faqat sanoq so'ralganda keladi */
+  count?: number;
   nameUz: string;
   nameRu: string | null;
   countryCode: string;
 };
 
 export function FiltrSheet({
-  open, value, onClose, onApply, total,
+  open, value, onClose, onApply, total, kind,
 }: {
   open: boolean;
   value: Filtr;
   onClose: () => void;
   onApply: (f: Filtr) => void;
   total?: number;
+  /** Qaysi lenta — hudud yonidagi E'LON SONI shunga qarab olinadi */
+  kind: "load" | "truck";
 }) {
   const [draft, setDraft] = useState<Filtr>(value);
   const [picking, setPicking] = useState<null | "from" | "to">(null);
@@ -135,7 +139,7 @@ export function FiltrSheet({
               <View style={s.sectionHead}>
                 <Text style={s.label}>{t("mob.loads.vehicleType")}</Text>
                 {draft.vehicleTypeIds.length > 0 ? (
-                  <Text style={s.hint}>{draft.vehicleTypeIds.length} tanlangan</Text>
+                  <Text style={s.hint}>{t("mob.loads.picked", { n: draft.vehicleTypeIds.length })}</Text>
                 ) : null}
               </View>
               <View style={s.grid}>
@@ -176,6 +180,12 @@ export function FiltrSheet({
       <LocationPicker
         open={picking !== null}
         title={picking === "from" ? t("mob.loads.from") : t("mob.loads.to")}
+        kind={kind}
+        side={picking ?? "from"}
+        /* Sanoq QOLGAN filtrlarni hisobga oladi: «Toshkentdan
+           Tentga» deb turib «qayerga» ro'yxatini ochganda sonlar
+           aynan shu shart bo'yicha chiqishi kerak */
+        filter={draft}
         onClose={() => setPicking(null)}
         onPick={(l) => {
           setDraft((d) =>
@@ -194,19 +204,42 @@ export function FiltrSheet({
 
 /** E'lon berish oynasida ham ishlatiladi — shuning uchun eksport */
 export function LocationPicker({
-  open, title, onClose, onPick,
+  open, title, onClose, onPick, kind, side, filter,
 }: {
   open: boolean;
   title: string;
   onClose: () => void;
   onPick: (l: Loc) => void;
+  /* ── E'LON SONI (2026-09-13) ────────────────────────────────
+     Uchalasi ham IXTIYORIY: bu tanlagich e'lon berish oynasida
+     ham ishlatiladi, u yerda esa son ma'nosiz — o'sha paytda
+     ro'yxat avvalgidek alifbo bo'yicha qoladi. */
+  kind?: "load" | "truck";
+  side?: "from" | "to";
+  filter?: Filtr;
 }) {
   const [q, setQ] = useState("");
   const insets = useSafeAreaInsets();
+
+  /* So'rov: qidiruv + sanoq + joriy filtrlar.
+     Sanoq serverda lentaning O'Z shartidan olinadi, ya'ni
+     «Toshkent 49» deb turib lentada 7 ta chiqib qolmaydi. */
+  const sp = new URLSearchParams();
+  if (q.trim().length >= 2) sp.set("q", q.trim());
+  if (kind) {
+    sp.set("counts", kind);
+    sp.set("side", side ?? "from");
+    if (filter) {
+      const f = filtrToQuery(filter);
+      if (f) for (const [k, v] of new URLSearchParams(f)) sp.set(k, v);
+    }
+  }
+  const qs = sp.toString();
+
   // Ikki harfdan boshlab qidiradi — serverdagi shart bilan bir xil
   const { data, loading } = useApi<{ items: Loc[] }>(
-    open ? `/api/locations${q.trim().length >= 2 ? `?q=${encodeURIComponent(q.trim())}` : ""}` : null,
-    [q, open],
+    open ? `/api/locations${qs ? `?${qs}` : ""}` : null,
+    [qs, open],
   );
 
   return (
@@ -243,12 +276,19 @@ export function LocationPicker({
                   <Text style={s.locSub}>{item.nameRu}</Text>
                 ) : null}
               </View>
+              {/* E'lon soni — nol bo'lsa yozilmaydi: «0» foydali
+                  ma'lumot emas, faqat ro'yxatni shovqinga to'ldiradi */}
+              {item.count ? <Text style={s.locCount}>{item.count}</Text> : null}
               <Text style={s.locCountry}>{item.countryCode}</Text>
             </Pressable>
           )}
           ListEmptyComponent={
             <Text style={s.locEmpty}>
-              {loading ? t("mob.loads.searching") : q.length >= 2 ? t("mob.loads.notFound") : "Kamida 2 harf yozing"}
+              {loading
+                ? t("mob.loads.searching")
+                : q.length >= 2
+                  ? t("mob.loads.notFound")
+                  : t("mob.loads.min2")}
             </Text>
           }
         />
@@ -319,6 +359,17 @@ const s = themed(() => ({
   },
   locName: { fontSize: font.body, fontWeight: "500", color: color.foreground },
   locSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
+  /* Son davlat kodidan KUCHLIROQ ko'rinadi: odam ro'yxatni aynan
+     shu raqamga qarab varaqlaydi, davlat kodi esa faqat ajratish
+     uchun turadi */
+  locCount: {
+    fontSize: 12.5,
+    fontWeight: "800",
+    color: color.brandText,
+    marginRight: 8,
+    minWidth: 22,
+    textAlign: "right",
+  },
   locCountry: { fontSize: 12, fontWeight: "600", color: color.mutedForeground },
   locEmpty: { textAlign: "center", color: color.mutedForeground, marginTop: space.xxl, fontSize: font.caption },
 }));

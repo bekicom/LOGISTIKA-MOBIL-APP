@@ -38,6 +38,17 @@ import { t } from "@/lib/i18n";
 
 export type Links = {
   telegram: string | null;
+  /**
+   * Guruhdagi ASL e'lon (2026-09-13).
+   *
+   * `telegram` endi raqam bo'lsa egasining SHAXSIY chatini ochadi
+   * (mijoz: «guruhga emas, egaga yozish kerak»). Guruhdagi post esa
+   * baribir kerak bo'ladi — u yerda e'lonning to'liq matni va
+   * suratlari turadi. Shuning uchun alohida, kichikroq havola.
+   *
+   * Ichida raqam yo'q, ya'ni mehmonga ham beriladi.
+   */
+  telegramPost?: string | null;
   whatsapp: string | null;
   tel: string | null;
   sms: string | null;
@@ -116,7 +127,19 @@ export function ContactLinks({
           yo'l shu, bor bo'lsa ham eng tez javob o'sha yerdan
           keladi (mijozning kuzatuvi) */}
       {links.telegram ? (
-        <LinkButton href={links.telegram} label={t("mob.clink.telegram")} logo="telegram" primary />
+        <LinkButton
+          href={links.telegram}
+          /* Havola shaxsiy chatga ketayotgan bo'lsa yorliq ham
+             shuni aytadi — «Telegramda ochish» degan matn odamni
+             guruhga boradi deb o'ylatardi */
+          label={
+            links.telegramPost && links.telegramPost !== links.telegram
+              ? t("contactCard.tgWriteOwner")
+              : t("mob.clink.telegram")
+          }
+          logo="telegram"
+          primary
+        />
       ) : null}
 
       <View style={s.row}>
@@ -129,6 +152,14 @@ export function ContactLinks({
         {links.sms ? <LinkButton href={links.sms} label="SMS" icon="chat" /> : null}
       </View>
 
+      {/* Guruhdagi asl e'lon — kichik havola: kerak bo'lsa ochiladi,
+          asosiy amalni (egaga yozish) bosib qolmaydi */}
+      {links.telegramPost && links.telegramPost !== links.telegram ? (
+        <Pressable onPress={() => void Linking.openURL(links.telegramPost as string)}>
+          <Text style={s.post}>{t("contactCard.tgGroupPost")} →</Text>
+        </Pressable>
+      ) : null}
+
       {/* Raqamsiz e'londa odam nima kutishini bilishi kerak */}
       {hasPhone === false && links.telegram ? (
         <Text style={s.note}>{t("mob.clink.noPhoneNote")}</Text>
@@ -138,6 +169,13 @@ export function ContactLinks({
 }
 
 const s = themed(() => ({
+  post: {
+    marginTop: 10,
+    textAlign: "center",
+    fontSize: 12,
+    fontWeight: "700",
+    color: color.mutedForeground,
+  },
   wrap: { marginTop: space.md, gap: 8 },
   head: { fontSize: 12, fontWeight: "800", color: color.mutedForeground },
   row: { flexDirection: "row", flexWrap: "wrap", gap: 8 },

@@ -151,6 +151,7 @@ export default function Yuklar() {
       />
 
       <FiltrSheet
+        kind="load"
         open={sheet}
         value={filtr}
         onClose={() => setSheet(false)}

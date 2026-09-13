@@ -143,6 +143,7 @@ export default function Mashinalar() {
       )}
 
       <FiltrSheet
+        kind="truck"
         open={sheet}
         value={filtr}
         onClose={() => setSheet(false)}

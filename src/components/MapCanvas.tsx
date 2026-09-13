@@ -84,6 +84,7 @@ export function MapCanvas({
   zoom,
   fit = false,
   onPick,
+  onMapPress,
   onReady,
   controls,
 }: {
@@ -98,6 +99,15 @@ export function MapCanvas({
   /** Nuqtalarni ekranga sig'dirish — faqat ma'lumot ALMASHGANDA */
   fit?: boolean;
   onPick?: (id: string) => void;
+  /**
+   * Xaritaning BO'SH joyiga bosilganda (nishonga emas).
+   *
+   * Usta ustaxonasining joyini shu bilan belgilaydi: manzilni
+   * matn bilan yozish yetarli emas — «Chilonzor, 12-uy» degan
+   * yozuvdan xaritada nuqta chiqmaydi va haydovchi uni topa
+   * olmaydi.
+   */
+  onMapPress?: (lat: number, lng: number) => void;
   onReady?: (ref: MapCanvasRef) => void;
   /** Xarita ustida turadigan tugmalar */
   controls?: React.ReactNode;
@@ -133,7 +143,7 @@ export function MapCanvas({
   }, [ready, onReady]);
 
   function onMessage(e: WebViewMessageEvent) {
-    let msg: { type?: string; id?: string } = {};
+    let msg: { type?: string; id?: string; lat?: number; lng?: number } = {};
     try {
       msg = JSON.parse(e.nativeEvent.data);
     } catch {
@@ -141,6 +151,9 @@ export function MapCanvas({
     }
     if (msg.type === "ready") setReady(true);
     else if (msg.type === "pick" && msg.id) onPick?.(msg.id);
+    else if (msg.type === "map" && msg.lat != null && msg.lng != null) {
+      onMapPress?.(msg.lat, msg.lng);
+    }
   }
 
   if (failed) {

@@ -27,6 +27,7 @@ import { Skeleton, ErrorBox, Empty } from "@/components/state";
 import { FxStrip, StartHere } from "@/components/HomeStart";
 import { TodayCard } from "@/components/TodayCard";
 import { TourPanel } from "@/components/TourPanel";
+import { HomeMap } from "@/components/HomeMap";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -122,6 +123,11 @@ export default function Bosh() {
         {/* Kurs — ikkala rolda ham. Narx o'girish kunlik ish va u
             bo'limlar ichida ko'milib qolmasin. */}
         <FxStrip />
+
+        {/* Xarita — kursdan KEYIN: kurs har kuni kerak bo'ladigan
+            raqam, xarita esa «bozor tirikmi» degan savolga javob.
+            Yo'nalish bo'lmasa kartochka o'zi chizilmaydi. */}
+        <HomeMap />
 
         {data?.kind === "dispatcher" ? (
           <Dispatcher data={data} onTrip={(tid) => router.push(`/reys/${tid}`)} />

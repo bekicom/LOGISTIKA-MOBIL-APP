@@ -25,6 +25,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Button, Field, Header, Switch } from "@/components/ui";
 import { LocationPicker, type Loc } from "@/components/FiltrSheet";
+import { MapPick } from "@/components/MapPick";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
@@ -59,6 +60,9 @@ type Profile = {
   phone: string | null;
   priceNote: string | null;
   isApproved: boolean;
+  /** Xaritadagi nuqta — bo'lmasa usta xaritada ko'rinmaydi */
+  lat: number | null;
+  lng: number | null;
 };
 
 export default function UstaProfil() {
@@ -77,6 +81,11 @@ export default function UstaProfil() {
   const [radiusKm, setRadiusKm] = useState<number | null>(null);
   const [loc, setLoc] = useState<Loc | null>(null);
   const [picking, setPicking] = useState(false);
+  /* Xaritadagi aniq nuqta. Hudud (`loc`) O'RNIGA emas, USTIGA:
+     hudud qidiruv uchun, nuqta esa «menga eng yaqini qaysi»
+     degan savol uchun. */
+  const [pt, setPt] = useState<{ lat: number; lng: number } | null>(null);
+  const [mapOpen, setMapOpen] = useState(false);
   const [address, setAddress] = useState("");
   const [workHours, setWorkHours] = useState("");
   const [phone, setPhone] = useState("");
@@ -100,6 +109,7 @@ export default function UstaProfil() {
     setWorkHours(p.workHours ?? "");
     setPhone(p.phone ?? "");
     setPriceNote(p.priceNote ?? "");
+    setPt(p.lat != null && p.lng != null ? { lat: p.lat, lng: p.lng } : null);
   }, [data]);
 
   const ready = specs.length > 0 && (!mobile || !!radiusKm);
@@ -125,6 +135,11 @@ export default function UstaProfil() {
           mobile,
           radiusKm: mobile ? radiusKm : null,
           locationId: loc?.id ?? null,
+          /* Server bu ikkisini 2026-09-05 dan qabul qiladi, ilova
+             esa yubormasdi — shuning uchun ilovadan ro'yxatdan
+             o'tgan usta xaritada ko'rinmasdi */
+          lat: pt?.lat ?? null,
+          lng: pt?.lng ?? null,
           address: address.trim() || null,
           workHours: workHours.trim() || null,
           phone: phone.trim() || null,
@@ -233,6 +248,21 @@ export default function UstaProfil() {
               </Pressable>
             </View>
 
+            <View>
+              <Text style={s.label}>{t("mapUi.placeOnMap")}</Text>
+              <Pressable style={s.locBtn} onPress={() => setMapOpen(true)}>
+                <Text style={[s.locText, !pt && s.locPh]}>
+                  {pt
+                    ? `${pt.lat.toFixed(5)}, ${pt.lng.toFixed(5)}`
+                    : t("mapUi.pickHint")}
+                </Text>
+              </Pressable>
+              {/* Nuqtasiz usta XARITADA CHIZILMAYDI — buni ochiq
+                  aytmasak, usta profilni to'ldirib, nega hech kim
+                  murojaat qilmayotganini bilmay qolardi */}
+              {!pt ? <Text style={s.hint}>{t("mob.svc.noPointNote")}</Text> : null}
+            </View>
+
             <Field
               label={t("mob.sale.address")}
               value={address}
@@ -278,6 +308,18 @@ export default function UstaProfil() {
           </>
         )}
       </ScrollView>
+
+      <MapPick
+        open={mapOpen}
+        lat={pt?.lat ?? null}
+        lng={pt?.lng ?? null}
+        title={t("mapUi.placeOnMap")}
+        onClose={() => setMapOpen(false)}
+        onDone={(next) => {
+          setPt(next);
+          setMapOpen(false);
+        }}
+      />
 
       <LocationPicker
         open={picking}

@@ -7,7 +7,7 @@
 import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, G, Path, Rect } from "react-native-svg";
 import { Icon, type IconName } from "@/components/Icon";
@@ -16,9 +16,15 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { HolatSheet } from "@/components/HolatSheet";
 import { SosButton, SosCard, type ActiveSos } from "@/components/SosSheet";
 import { Notice } from "@/components/ui";
+import {
+  MapCanvas,
+  type CanvasCircle,
+  type CanvasLine,
+  type CanvasPoint,
+} from "@/components/MapCanvas";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { color, font, radius, shadow, space, themed } from "@/lib/theme";
+import { color, font, radius, shadow, space, themed, themeName } from "@/lib/theme";
 import {
   activeTrip,
   isRunning as gpsRunning,
@@ -40,11 +46,17 @@ type Trip = {
   steps: Step[];
   route: {
     from: string; fromCountry: string; to: string; toCountry: string; distanceKm: number | null;
+    fromLat: number | null; fromLng: number | null; toLat: number | null; toLng: number | null;
   };
   position: {
     placeName: string | null; remainingKm: number | null; etaAt: string | null;
     speedKmh: number | null; at: string;
+    lat?: number | null; lng?: number | null;
   } | null;
+  /** Yurilgan iz — eskidan yangiga (2026-09-13) */
+  trail?: [number, number][];
+  /** Reys hududlari — xaritadagi doiralar */
+  zones?: { id: string; kind: string; name: string; lat: number; lng: number; radiusM: number }[];
   cargo: { title: string | null; weightT: number | null; volumeM3: number | null; vehicleType: string };
   truck: { id: string; plate: string; model: string | null } | null;
   driver: { name: string; phone: string | null } | null;
@@ -572,7 +584,111 @@ function ListRow({ icon, title, sub, value, last, onPress }: {
  * `react-native-maps` bilan almashtiriladi; qolgan hammasi joyida
  * qoladi.
  */
+/**
+ * Reys xaritasi — 2026-09-13.
+ *
+ * ── NEGA IKKI XIL ───────────────────────────────────────────────
+ *
+ * Koordinata bor bo'lsa HAQIQIY xarita chiziladi: yuklash va
+ * tushirish nuqtasi, yurilgan iz, mashinaning hozirgi joyi va
+ * reys hududlari. Webda bu 2026-08 dan bor (`trip-map.tsx`),
+ * ilovada esa BEZAK rasm turardi — chiroyli, lekin mashina
+ * qayerdaligini ko'rsatmaydi.
+ *
+ * Koordinata YO'Q bo'lsa (e'lon joyi koordinatasiz kiritilgan)
+ * o'sha bezak qoladi: u hech bo'lmasa masofa qanchaligini
+ * ko'rsatadi. Bo'sh kulrang to'rtburchakdan yaxshi.
+ */
 function RouteMap({ trip }: { trip: Trip }) {
+  const { fromLat, fromLng, toLat, toLng } = trip.route;
+  const bor = fromLat != null && fromLng != null && toLat != null && toLng != null;
+  return bor ? <RouteLive trip={trip} /> : <RouteArt trip={trip} />;
+}
+
+/** Haqiqiy xarita: nuqtalar, iz va hududlar */
+function RouteLive({ trip }: { trip: Trip }) {
+  const { data: tile } = useApi<{ url: string; dark: string; credit: string }>("/api/map/tile");
+  const dark = themeName() === "dark";
+  const r = trip.route;
+  const pos = trip.position;
+
+  /* Har uchtasi `map`/spread bilan yasaladi, siklda `push` bilan
+     emas: React kompilyatori imperativ yig'ishda keshni saqlab
+     qola olmaydi (`preserve-manual-memoization`). */
+  const points = useMemo<CanvasPoint[]>(
+    () => [
+      { id: "from", lat: r.fromLat as number, lng: r.fromLng as number, color: "#253569", icon: "\u{1F4E6}" },
+      { id: "to", lat: r.toLat as number, lng: r.toLng as number, color: "#2f6d4f", icon: "\u{1F4E4}" },
+      /* Mashina nuqtasi — oxirgi joylashuv. Yo'q bo'lsa umuman
+         chizilmaydi: taxminiy joyda turgan mashina yo'q
+         mashinadan yomonroq, odam unga ishonib qaror qabul qiladi. */
+      ...(pos?.lat != null && pos?.lng != null
+        ? [{ id: "veh", lat: pos.lat, lng: pos.lng, color: "#16a34a", icon: "\u{1F69A}" }]
+        : []),
+    ],
+    [r.fromLat, r.fromLng, r.toLat, r.toLng, pos],
+  );
+
+  const lines = useMemo<CanvasLine[]>(
+    () => [
+      /* To'g'ri chiziq — REJA, uzuq chiziq bilan: bizda haqiqiy yo'l
+         marshruti yo'q va uni to'liq chiziq qilib ko'rsatish yolg'on
+         bo'lardi. */
+      {
+        points: [
+          [r.fromLat as number, r.fromLng as number] as [number, number],
+          [r.toLat as number, r.toLng as number] as [number, number],
+        ],
+        color: "#94a3b8",
+        dashed: true,
+      },
+      // Yurilgan iz — to'q sariq, to'liq chiziq
+      ...(trip.trail && trip.trail.length > 1
+        ? [{ points: trip.trail, color: "#f45a18" }]
+        : []),
+    ],
+    [r.fromLat, r.fromLng, r.toLat, r.toLng, trip.trail],
+  );
+
+  const circles = useMemo<CanvasCircle[]>(
+    () =>
+      (trip.zones ?? []).map((z) => ({
+        lat: z.lat,
+        lng: z.lng,
+        radiusM: z.radiusM,
+        color: "#f45a18",
+      })),
+    [trip.zones],
+  );
+
+  return (
+    <View style={s.mapLive}>
+      <MapCanvas
+        tile={tile ? (dark ? tile.dark : tile.url) : null}
+        credit={tile?.credit}
+        points={points}
+        lines={lines}
+        circles={circles}
+        fit
+      />
+
+      <View style={s.mapBadge} pointerEvents="none">
+        <View style={[s.gpsDot, !trip.trackingOn && { backgroundColor: "#94a3b8" }]} />
+        <Text style={s.mapBadgeText}>
+          {trip.trackingOn ? t("mob.gps.live") : t("mob.gps.off")}
+        </Text>
+      </View>
+
+      {pos?.placeName ? (
+        <View style={s.mapPlace} pointerEvents="none">
+          <Text style={s.mapPlaceText}>{pos.placeName}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+function RouteArt({ trip }: { trip: Trip }) {
   const total = trip.route.distanceKm ?? null;
   const left = trip.position?.remainingKm ?? null;
   /* `t` DEB NOMLANMAYDI: u tarjima funksiyasini soyalab qo'yardi va
@@ -618,6 +734,9 @@ function RouteMap({ trip }: { trip: Trip }) {
 
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
+  /* Balandlik BEZAK xaritasi bilan bir xil (190) — ikki holatda
+     ekran sakramasin */
+  mapLive: { height: 190, borderRadius: radius.card, overflow: "hidden" },
   header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, gap: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   title: { fontSize: 17, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },

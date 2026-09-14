@@ -2294,6 +2294,9 @@
       "title": "Dispatcher profile",
       "vehicleTypes": "Vehicle types"
     },
+    "phoneCode": {
+      "pick": "Choose country code"
+    },
     "photo": {
       "camera": "Camera",
       "gallery": "Gallery"

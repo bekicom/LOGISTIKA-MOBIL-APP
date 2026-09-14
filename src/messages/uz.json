@@ -2294,6 +2294,9 @@
       "title": "Dispetcher anketasi",
       "vehicleTypes": "Transport turlari"
     },
+    "phoneCode": {
+      "pick": "Davlat kodini tanlang"
+    },
     "photo": {
       "camera": "Kamera",
       "gallery": "Galereya"

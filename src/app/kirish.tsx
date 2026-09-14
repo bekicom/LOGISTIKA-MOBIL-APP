@@ -13,12 +13,17 @@ import { Text } from "@/components/Text";
 import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
-import { color, font, radius, space, themed } from "@/lib/theme";
+import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { PhoneCodePick } from "@/components/PhoneCodePick";
+import { PHONE_CODES } from "@/lib/phone-codes";
 
 type Mode = "phone" | "furamId";
 
 export default function Kirish() {
+  /* Davlat kodi (2026-09-14): avval «+998» qotib turardi — MDH va
+     Yevropa raqamlari umuman kiritilmasdi. 0 — O'zbekiston. */
+  const [ccIdx, setCcIdx] = useState(0);
   const [mode, setMode] = useState<Mode>("phone");
   const [phone, setPhone] = useState("");
   const [furamId, setFuramId] = useState("");
@@ -36,7 +41,7 @@ export default function Kirish() {
     try {
       const body =
         mode === "phone"
-          ? { phone: "+998" + phone.replace(/\D/g, ""), password }
+          ? { phone: PHONE_CODES[ccIdx].code + phone.replace(/\D/g, ""), password }
           : { furamId: Number(furamId), password };
 
       const res = await api<{ token?: string; signedOutDevices?: number }>("/api/auth/login", {
@@ -115,9 +120,7 @@ export default function Kirish() {
       <View style={s.form}>
         {mode === "phone" ? (
           <View style={s.phoneRow}>
-            <View style={s.cc}>
-              <Text style={s.ccText}>+998</Text>
-            </View>
+            <PhoneCodePick index={ccIdx} onChange={setCcIdx} />
             <View style={{ flex: 1 }}>
               <Field
                 placeholder="90 123 45 67"
@@ -204,17 +207,6 @@ const s = themed(() => ({
 
   form: { gap: space.md },
   phoneRow: { flexDirection: "row", gap: 8, alignItems: "flex-start" },
-  cc: {
-    width: 88,
-    height: 52,
-    borderRadius: radius.control,
-    borderWidth: 1,
-    borderColor: color.border,
-    backgroundColor: color.muted,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  ccText: { fontSize: font.body, fontWeight: "700", color: color.foreground },
 
   err: { fontSize: 13, color: color.danger },
   link: { fontSize: 14, fontWeight: "600", color: color.blue },

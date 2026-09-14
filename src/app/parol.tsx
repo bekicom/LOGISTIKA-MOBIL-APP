@@ -30,11 +30,16 @@ import { Button, Field, Steps } from "@/components/ui";
 import { ChannelPick, SentVia, useChannels, type Channel } from "@/components/ChannelPick";
 import { api, FuramError } from "@/lib/api";
 import { t } from "@/lib/i18n";
+import { PhoneCodePick } from "@/components/PhoneCodePick";
+import { PHONE_CODES } from "@/lib/phone-codes";
 import { color, font, radius, space, themed } from "@/lib/theme";
 
 type Step = "phone" | "code" | "password";
 
 export default function Parol() {
+  /* Davlat kodi (2026-09-14): avval «+998» qotib turardi — MDH va
+     Yevropa raqamlari umuman kiritilmasdi. 0 — O'zbekiston. */
+  const [ccIdx, setCcIdx] = useState(0);
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
@@ -52,7 +57,7 @@ export default function Parol() {
   const router = useRouter();
   const codeRef = useRef<TextInput>(null);
 
-  const fullPhone = "+998" + phone.replace(/\D/g, "");
+  const fullPhone = PHONE_CODES[ccIdx].code + phone.replace(/\D/g, "");
 
   // Qayta yuborish taymeri
   useEffect(() => {
@@ -165,9 +170,7 @@ export default function Parol() {
             <View style={{ marginTop: 26 }}>
               <Text style={s.label}>{t("mob.signIn.byPhone")}</Text>
               <View style={s.phoneRow}>
-                <View style={s.cc}>
-                  <Text style={s.ccText}>+998</Text>
-                </View>
+                <PhoneCodePick index={ccIdx} onChange={setCcIdx} />
                 <View style={{ flex: 1 }}>
                   <Field
                     placeholder="90 123 45 67"
@@ -300,16 +303,6 @@ const s = themed(() => ({
   label: { fontSize: 12, color: color.mutedForeground, marginBottom: 6 },
 
   phoneRow: { flexDirection: "row", gap: 9, alignItems: "flex-start" },
-  cc: {
-    height: 52,
-    paddingHorizontal: 14,
-    borderRadius: radius.control,
-    borderWidth: 1,
-    borderColor: color.border,
-    backgroundColor: color.card,
-    justifyContent: "center",
-  },
-  ccText: { fontSize: font.bodyLg, fontWeight: "600", color: color.foreground },
 
   boxes: { flexDirection: "row", gap: 9, marginTop: 26, justifyContent: "center" },
   box: {

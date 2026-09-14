@@ -2294,6 +2294,9 @@
       "title": "Dispeçer formu",
       "vehicleTypes": "Araç türleri"
     },
+    "phoneCode": {
+      "pick": "Ülke kodunu seçin"
+    },
     "photo": {
       "camera": "Kamera",
       "gallery": "Galeri"

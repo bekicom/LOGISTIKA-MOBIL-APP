@@ -2294,6 +2294,9 @@
       "title": "调度员资料",
       "vehicleTypes": "车辆类型"
     },
+    "phoneCode": {
+      "pick": "选择国家代码"
+    },
     "photo": {
       "camera": "相机",
       "gallery": "相册"

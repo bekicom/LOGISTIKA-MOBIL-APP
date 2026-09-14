@@ -16,6 +16,8 @@ import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
+import { PhoneCodePick } from "@/components/PhoneCodePick";
+import { PHONE_CODES } from "@/lib/phone-codes";
 
 type Step = "phone" | "code" | "details";
 
@@ -29,6 +31,9 @@ const ROLES = [
 ] as const;
 
 export default function Royxat() {
+  /* Davlat kodi (2026-09-14): avval «+998» qotib turardi — MDH va
+     Yevropa raqamlari umuman kiritilmasdi. 0 — O'zbekiston. */
+  const [ccIdx, setCcIdx] = useState(0);
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
   /* Kanal tanlovi parol tiklash bilan BITTA komponentdan
@@ -58,7 +63,7 @@ export default function Royxat() {
   const router = useRouter();
   const codeRef = useRef<TextInput>(null);
 
-  const fullPhone = "+998" + phone.replace(/\D/g, "");
+  const fullPhone = PHONE_CODES[ccIdx].code + phone.replace(/\D/g, "");
 
   useEffect(() => {
     if (left <= 0) return;
@@ -165,9 +170,7 @@ export default function Royxat() {
             <View style={{ marginTop: 26 }}>
               <Text style={s.label}>{t("mob.signIn.byPhone")}</Text>
               <View style={s.phoneRow}>
-                <View style={s.cc}>
-                  <Text style={s.ccText}>+998</Text>
-                </View>
+                <PhoneCodePick index={ccIdx} onChange={setCcIdx} />
                 <View style={{ flex: 1 }}>
                   <Field
                     placeholder="90 123 45 67"
@@ -437,16 +440,6 @@ const s = themed(() => ({
   hintCenter: { fontSize: 12, color: color.mutedForeground, textAlign: "center", marginTop: 10 },
 
   phoneRow: { flexDirection: "row", gap: 8 },
-  cc: {
-    width: 92,
-    height: 52,
-    borderRadius: radius.control,
-    borderWidth: 1,
-    borderColor: color.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  ccText: { fontSize: font.body, fontWeight: "600", color: color.foreground },
 
 
   radio: {

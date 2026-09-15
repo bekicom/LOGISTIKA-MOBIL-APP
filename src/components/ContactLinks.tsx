@@ -42,11 +42,11 @@ export type Links = {
    * Guruhdagi ASL e'lon (2026-09-13).
    *
    * `telegram` endi raqam bo'lsa egasining SHAXSIY chatini ochadi
-   * (mijoz: «guruhga emas, egaga yozish kerak»). Guruhdagi post esa
-   * baribir kerak bo'ladi — u yerda e'lonning to'liq matni va
-   * suratlari turadi. Shuning uchun alohida, kichikroq havola.
+   * (mijoz: «guruhga emas, egaga yozish kerak»).
    *
-   * Ichida raqam yo'q, ya'ni mehmonga ham beriladi.
+   * Postga alohida havola 2026-09-15 da OLIB TASHLANDI (mijoz talabi).
+   * Maydon faqat tugma yorlig'ini tanlash uchun qoldi: `telegram` bilan
+   * teng bo'lsa tugma guruhdagi postni ochadi.
    */
   telegramPost?: string | null;
   whatsapp: string | null;
@@ -152,13 +152,8 @@ export function ContactLinks({
         {links.sms ? <LinkButton href={links.sms} label="SMS" icon="chat" /> : null}
       </View>
 
-      {/* Guruhdagi asl e'lon — kichik havola: kerak bo'lsa ochiladi,
-          asosiy amalni (egaga yozish) bosib qolmaydi */}
-      {links.telegramPost && links.telegramPost !== links.telegram ? (
-        <Pressable onPress={() => void Linking.openURL(links.telegramPost as string)}>
-          <Text style={s.post}>{t("contactCard.tgGroupPost")} →</Text>
-        </Pressable>
-      ) : null}
+      {/* «Guruhdagi e'lonni ko'rish» havolasi OLIB TASHLANDI
+          (2026-09-15, mijoz talabi, webda ham) */}
 
       {/* Raqamsiz e'londa odam nima kutishini bilishi kerak */}
       {hasPhone === false && links.telegram ? (
@@ -169,13 +164,6 @@ export function ContactLinks({
 }
 
 const s = themed(() => ({
-  post: {
-    marginTop: 10,
-    textAlign: "center",
-    fontSize: 12,
-    fontWeight: "700",
-    color: color.mutedForeground,
-  },
   wrap: { marginTop: space.md, gap: 8 },
   head: { fontSize: 12, fontWeight: "800", color: color.mutedForeground },
   row: { flexDirection: "row", flexWrap: "wrap", gap: 8 },

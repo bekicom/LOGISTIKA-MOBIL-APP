@@ -26,7 +26,8 @@
       },
       "associatedDomains": [
         "applinks:furam.uz"
-      ]
+      ],
+      "usesAppleSignIn": true
     },
     "android": {
       "package": "uz.furam.app",
@@ -117,7 +118,9 @@
         }
       ],
       "expo-sharing",
-      "expo-asset"
+      "expo-asset",
+      "expo-web-browser",
+      "expo-apple-authentication"
     ],
     "experiments": {
       "typedRoutes": true

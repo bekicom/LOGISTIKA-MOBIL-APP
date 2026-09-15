@@ -9,6 +9,7 @@ import { Alert, Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Circle, Path } from "react-native-svg";
 import { AuthLine, AuthShell } from "@/components/AuthShell";
+import { SocialButtons } from "@/components/SocialButtons";
 import { Text } from "@/components/Text";
 import { Button, Field, Notice } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
@@ -186,6 +187,11 @@ export default function Kirish() {
       <View style={{ marginTop: space.xl }}>
         <Button title={t("mob.signIn.submit")} onPress={submit} loading={busy} disabled={!ready || locked} />
       </View>
+
+      {/* Apple (faqat iPhone) va Google — 2026-09-15. Parol bilan
+          kirishdan KEYIN: asosiy mijozlar telefon bilan ro'yxatdan
+          o'tgan va ular uchun forma birinchi turishi kerak. */}
+      <SocialButtons />
     </AuthShell>
   );
 }

@@ -100,6 +100,10 @@ export default function Kirish() {
         />
       }
     >
+      {/* Google (va iPhone'da Apple) — TEPADA, webdagi `/login` kabi.
+          Ilgari formaning ostida edi va Bekzod telefonda uni ko'rmadi. */}
+      <SocialButtons />
+
       {/* Telefon | FURAM ID */}
       <View style={s.mode}>
         <Pressable style={[s.modeItem, mode === "phone" && s.modeOn]} onPress={() => setMode("phone")}>
@@ -188,10 +192,6 @@ export default function Kirish() {
         <Button title={t("mob.signIn.submit")} onPress={submit} loading={busy} disabled={!ready || locked} />
       </View>
 
-      {/* Apple (faqat iPhone) va Google — 2026-09-15. Parol bilan
-          kirishdan KEYIN: asosiy mijozlar telefon bilan ro'yxatdan
-          o'tgan va ular uchun forma birinchi turishi kerak. */}
-      <SocialButtons />
     </AuthShell>
   );
 }

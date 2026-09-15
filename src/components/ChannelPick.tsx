@@ -20,11 +20,12 @@
  * UMUMAN chizilmaydi — bitta variantni tanlatib o'tirish ma'nosiz.
  */
 import { useEffect, useState } from "react";
-import { Pressable, View } from "react-native";
+import { ActivityIndicator, Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import Svg, { Path } from "react-native-svg";
 import { api } from "@/lib/api";
-import { color, font, radius, space, themed } from "@/lib/theme";
+import { color, font, radius, space, themed, themeName } from "@/lib/theme";
+import { AppleLogo, GoogleG, type useSocialSignIn } from "@/components/SocialButtons";
 import { t } from "@/lib/i18n";
 
 export type Channel = "telegram" | "sms";
@@ -67,18 +68,33 @@ export function ChannelPick({
   channels,
   channel,
   onPick,
+  social,
 }: {
   channels: Channel[];
   channel: Channel;
   onPick: (c: Channel) => void;
+  /**
+   * Google/Apple bilan ro'yxat — SHU QATORDA, webdagi kabi
+   * («Telegram | SMS | Google», 2026-09-15). Faqat ro'yxat ekrani
+   * beradi: parolni tiklash telefon hisobi uchun va u yerda bu ma'nosiz.
+   */
+  social?: ReturnType<typeof useSocialSignIn>;
 }) {
-  if (channels.length < 2) return null;
+  const google = !!social?.google;
+  const apple = !!social?.apple;
+  /* Webdagi shart: Telegram yo'q, lekin Google bor bo'lsa ham qator
+     chiziladi — aks holda Google variantini ko'rsatadigan joy qolmasdi */
+  if (channels.length < 2 && !google && !apple) return null;
+  /* Uch-to'rt kartochkada izoh sig'maydi — ixcham ko'rinish */
+  const ixcham = google || apple;
 
   return (
     <View style={{ marginTop: space.xxl }}>
-      <Text style={s.label}>{t("mob.signUp.whereCode")}</Text>
+      <Text style={s.label}>{ixcham ? t("googleAuth.methodTitle") : t("mob.signUp.whereCode")}</Text>
       <View style={s.cards}>
-        {(["telegram", "sms"] as const).map((c) => {
+        {/* Tartib qat'iy — Telegram, keyin SMS (webdagi kabi); serverdan
+            kelgan ro'yxat tartibiga bog'lanmaydi */}
+        {(["telegram", "sms"] as const).filter((c) => channels.includes(c)).map((c) => {
           const on = channel === c;
           return (
             <Pressable
@@ -122,14 +138,58 @@ export function ChannelPick({
                   ) : null}
                 </View>
               </View>
-              <Text style={s.channelName}>{c === "telegram" ? "Telegram" : "SMS"}</Text>
-              <Text style={s.channelNote}>
-                {c === "telegram" ? t("mob.signUp.telegramNote") : t("mob.signUp.smsNote")}
+              <Text style={s.channelName} numberOfLines={1}>
+                {c === "telegram" ? "Telegram" : "SMS"}
               </Text>
+              {ixcham ? null : (
+                <Text style={s.channelNote}>
+                  {c === "telegram" ? t("mob.signUp.telegramNote") : t("mob.signUp.smsNote")}
+                </Text>
+              )}
             </Pressable>
           );
         })}
+
+        {google ? (
+          /* Google — tanlov EMAS, darrov oqimni boshlaydi (webda ham
+             bu bo'lak havola) */
+          <Pressable
+            onPress={() => void social!.run("google")}
+            disabled={!!social!.busy}
+            accessibilityRole="button"
+            accessibilityLabel={t("mob.social.google")}
+            style={({ pressed }) => [s.channel, pressed && s.pressed]}
+          >
+            <View style={s.channelTop}>
+              {social!.busy === "google" ? <ActivityIndicator size="small" /> : <GoogleG size={22} />}
+            </View>
+            <Text style={s.channelName} numberOfLines={1}>
+              {t("googleAuth.optGoogle")}
+            </Text>
+          </Pressable>
+        ) : null}
+
+        {apple ? (
+          /* Apple — FAQAT BELGILI tugma, qora fonda: tor joyda Apple
+             dizayn qoidasi shunga ruxsat beradi. 4.8-qoida uni Google'dan
+             kichik qilishni taqiqlaydi — kartochka o'lchami bir xil. */
+          <Pressable
+            onPress={() => void social!.run("apple")}
+            disabled={!!social!.busy}
+            accessibilityRole="button"
+            accessibilityLabel={t("mob.social.apple")}
+            style={({ pressed }) => [s.channel, s.appleCard, pressed && { opacity: 0.85 }]}
+          >
+            {social!.busy === "apple" ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
+              <AppleLogo size={28} fill={themeName() === "dark" ? "#000000" : "#ffffff"} />
+            )}
+          </Pressable>
+        ) : null}
       </View>
+
+      {social?.err ? <Text style={s.err}>{social.err}</Text> : null}
     </View>
   );
 }
@@ -175,6 +235,15 @@ const s = themed(() => ({
   channelTop: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   channelName: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginTop: 10 },
   channelNote: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
+  pressed: { backgroundColor: color.muted },
+  /* Apple qoidasi: qora fon (qorong'i rejimda oq), chegara yo'q */
+  appleCard: {
+    borderWidth: 0,
+    backgroundColor: "#000000",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  err: { marginTop: space.md, fontSize: 13, color: color.dangerText },
 
   radio: {
     width: 20,

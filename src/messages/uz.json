@@ -2927,12 +2927,12 @@
       "whoAreYou": "Siz kimsiz?"
     },
     "social": {
+      "apple": "Apple bilan davom etish",
       "appleFailed": "Apple bilan kirib bo'lmadi. Qayta urinib ko'ring.",
       "expired": "Vaqt o'tib ketdi. Qaytadan Google yoki Apple bilan kiring.",
       "finishApple": "%{email} — Apple tasdiqladi. Telefon raqam e'lon berganda so'raladi.",
       "finishAppleHidden": "Apple tasdiqladi. Telefon raqam e'lon berganda so'raladi.",
-      "google": "Google bilan davom etish",
-      "or": "yoki"
+      "google": "Google bilan davom etish"
     },
     "sos": {
       "active": "SOS — hal qilinmagan",

@@ -2927,12 +2927,12 @@
       "whoAreYou": "Who are you?"
     },
     "social": {
+      "apple": "Continue with Apple",
       "appleFailed": "Could not sign in with Apple. Please try again.",
       "expired": "Time expired. Please sign in again with Google or Apple.",
       "finishApple": "%{email} — confirmed by Apple. Your phone number will be requested when you post a listing.",
       "finishAppleHidden": "Confirmed by Apple. Your phone number will be requested when you post a listing.",
-      "google": "Continue with Google",
-      "or": "or"
+      "google": "Continue with Google"
     },
     "sos": {
       "active": "SOS — unresolved",

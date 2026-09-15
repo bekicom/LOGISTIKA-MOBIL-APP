@@ -2927,12 +2927,12 @@
       "whoAreYou": "您的身份是？"
     },
     "social": {
+      "apple": "通过 Apple 继续",
       "appleFailed": "无法通过 Apple 登录，请重试。",
       "expired": "已超时，请重新使用 Google 或 Apple 登录。",
       "finishApple": "%{email} — 已由 Apple 验证。发布信息时需要填写手机号。",
       "finishAppleHidden": "已由 Apple 验证。发布信息时需要填写手机号。",
-      "google": "使用 Google 继续",
-      "or": "或"
+      "google": "使用 Google 继续"
     },
     "sos": {
       "active": "SOS — 尚未解决",

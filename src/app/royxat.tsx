@@ -17,7 +17,7 @@ import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { roleLabel, t } from "@/lib/i18n";
 import { RoleIcon } from "@/components/RoleIcon";
-import { SocialButtons } from "@/components/SocialButtons";
+import { useSocialSignIn } from "@/components/SocialButtons";
 import { PhoneCodePick } from "@/components/PhoneCodePick";
 import { PHONE_CODES } from "@/lib/phone-codes";
 
@@ -55,6 +55,7 @@ export default function Royxat() {
   const { role: roleParam } = useLocalSearchParams<{ role?: string }>();
   const preset = ROLES.some((r) => r.value === roleParam) ? (roleParam as string) : null;
   const [role, setRole] = useState<string>(preset ?? "DRIVER");
+  const social = useSocialSignIn(preset);
   const [agreed, setAgreed] = useState(false);
   const [left, setLeft] = useState(0);
 
@@ -185,7 +186,11 @@ export default function Royxat() {
               </View>
             </View>
 
-            <ChannelPick channels={channels} channel={channel} onPick={setChannel} />
+            {/* «Telegram | SMS | Google» — webdagi qatorning o'zi (Bekzod,
+                2026-09-15). Google/Apple tanlansa telefon, kod va parol
+                qadamlari o'tkazib yuboriladi; tanlangan rol formaga
+                olib o'tiladi. */}
+            <ChannelPick channels={channels} channel={channel} onPick={setChannel} social={social} />
 
             {err ? <Text style={s.err}>{err}</Text> : null}
 
@@ -198,10 +203,6 @@ export default function Royxat() {
               />
             </View>
 
-            {/* Google/Apple bilan — telefon, kod va parol qadamlari
-                o'tkazib yuboriladi (2026-09-15). Tanlangan rol
-                formaga olib o'tiladi. */}
-            <SocialButtons role={preset} />
           </>
         ) : null}
 

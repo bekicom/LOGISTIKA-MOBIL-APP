@@ -178,7 +178,14 @@ export function ChannelPick({
             disabled={!!social!.busy}
             accessibilityRole="button"
             accessibilityLabel={t("mob.social.apple")}
-            style={({ pressed }) => [s.channel, s.appleCard, pressed && { opacity: 0.85 }]}
+            style={({ pressed }) => [
+              s.channel,
+              s.appleCard,
+              /* Qorong'i rejimda Apple qoidasining «oq» uslubi — aks holda
+                 qora belgi qora kartochka ustida ko'rinmay qolardi */
+              themeName() === "dark" && { backgroundColor: "#ffffff" },
+              pressed && { opacity: 0.85 },
+            ]}
           >
             {social!.busy === "apple" ? (
               <ActivityIndicator size="small" color="#ffffff" />

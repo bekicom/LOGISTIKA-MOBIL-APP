@@ -35,6 +35,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import * as Crypto from "expo-crypto";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
+import { requireOptionalNativeModule } from "expo-modules-core";
 import { API_BASE, api, FuramError } from "./api";
 import { t } from "./i18n";
 
@@ -158,8 +159,31 @@ export async function googleBilan(): Promise<Natija> {
 export async function appleBormi(): Promise<boolean> {
   if (Platform.OS !== "ios") return false;
   try {
-    return await AppleAuthentication.isAvailableAsync();
-  } catch {
+    const v = await AppleAuthentication.isAvailableAsync();
+    /* ⚠️ EXPO GO'DA DOIM `false` (2026-09-16, iPhone'da tekshirildi).
+
+       App Store'dagi Expo Go ichida `ExpoAppleAuthentication` native
+       moduli YO'Q — jurnal: «isAvailableAsync: false | native modul:
+       false». Expo hujjatida «Expo Go'da sinasa bo'ladi» deyilgan, lekin
+       amalda bunday emas. Kutubxona modul topilmasa xato bermaydi,
+       jimgina `false` qaytaradi — shuning uchun tugma yo'qligining
+       sababi ko'rinmay qoldi.
+
+       Ya'ni Apple tugmasi Expo Go'da CHIQMAYDI va bu to'g'ri. U faqat
+       haqiqiy build'da (EAS) ishlaydi: `app.json` da plagin va
+       `usesAppleSignIn` bor, modul build'ga o'zi ulanadi. */
+    if (__DEV__ && !v) {
+      console.warn(
+        "[apple] Apple bilan kirish mavjud emas — native modul:",
+        !!requireOptionalNativeModule("ExpoAppleAuthentication"),
+        "(Expo Go'da modul yo'q, faqat build'da ishlaydi)",
+      );
+    }
+    return v;
+  } catch (e) {
+    /* Xato JIMGINA yutilmaydi: tugma chiqmay qolsa sababi jurnalda
+       ko'rinsin (2026-09-16 da shu sababdan sabab topilmay turdi) */
+    if (__DEV__) console.warn("[apple] isAvailableAsync xato:", String(e));
     return false;
   }
 }

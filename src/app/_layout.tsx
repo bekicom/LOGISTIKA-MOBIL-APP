@@ -20,7 +20,7 @@ import { useOutboxRunner } from "@/lib/use-outbox";
 import { color, themeName } from "@/lib/theme";
 import { deviceLocale, readLocale, setLocale, useLocaleVersion } from "@/lib/i18n";
 import { loadTheme, useThemeVersion } from "@/lib/theme-store";
-import { markSeen, markSplashDone, seen } from "@/lib/first-run";
+import { markSplashDone } from "@/lib/first-run";
 import { routeOf } from "@/lib/push";
 
 /* Ushlanmagan xato serverga boradi (poydevor, 2026-09-07).
@@ -44,20 +44,15 @@ export default function RootLayout() {
   /* Til birinchi chizishdan OLDIN tiklanadi: aks holda ekran bir
      zum o'zbekcha chiqib, keyin tanlangan tilga sakrardi. */
   const [ready, setReady] = useState(false);
-  /* Ochilish videosi: birinchi marta to'liq (5.7 s), keyin qisqa (~2 s) */
-  const [splash, setSplash] = useState<"full" | "short" | "done">("short");
+  /* Ochilish videosi — har safar TO'LIQ (Bekzod, 2026-09-16; `IntroVideo.tsx`) */
+  const [splash, setSplash] = useState(true);
 
   useEffect(() => {
     void (async () => {
       /* REJIM ham til bilan birga, CHIZISHDAN OLDIN tiklanadi:
          aks holda ekran bir zum yorug' chiqib, keyin qorong'iga
          sakrardi — bu ilova «buzuq» bo'lib ko'rinadi. */
-      const [, , before] = await Promise.all([
-        setLocale((await readLocale()) ?? deviceLocale()),
-        loadTheme(),
-        seen("splashSeen"),
-      ]);
-      setSplash(before ? "short" : "full");
+      await Promise.all([setLocale((await readLocale()) ?? deviceLocale()), loadTheme()]);
       setReady(true);
     })();
   }, []);
@@ -83,15 +78,12 @@ export default function RootLayout() {
             fonga chizib qo'yardi. */}
         <StatusBar style={themeName() === "dark" ? "light" : "dark"} />
         <Shell key={`${localeVersion}-${themeVersion}`} />
-        {splash !== "done" ? (
-          /* Brend videosi — animatsiyali splash o'rniga (2026-09-16).
-             Birinchi marta to'liq, keyin qisqa (`IntroVideo.tsx`). */
+        {splash ? (
+          /* Brend videosi — animatsiyali splash o'rniga (2026-09-16) */
           <IntroVideo
-            full={splash === "full"}
             onDone={() => {
-              setSplash("done");
+              setSplash(false);
               markSplashDone();
-              void markSeen("splashSeen");
             }}
           />
         ) : null}

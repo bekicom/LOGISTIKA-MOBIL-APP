@@ -302,9 +302,6 @@ function OwnProfil() {
               hint={t("mob.tour.replayHint")}
               onPress={() => {
                 void forget("tourSeen");
-                /* Brend videosi ham keyingi ochilishda TO'LIQ chiqadi
-                   (`IntroVideo.tsx`) — tanishtiruvning bir qismi */
-                void forget("splashSeen");
                 requestTour();
                 router.replace("/bosh");
               }}

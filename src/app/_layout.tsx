@@ -15,7 +15,7 @@ import {
 import { AuthProvider } from "@/lib/auth-context";
 import { OfflineBar } from "@/components/OfflineBar";
 import { PushAsk } from "@/components/PushAsk";
-import { Splash } from "@/components/Splash";
+import { IntroVideo } from "@/components/IntroVideo";
 import { useOutboxRunner } from "@/lib/use-outbox";
 import { color, themeName } from "@/lib/theme";
 import { deviceLocale, readLocale, setLocale, useLocaleVersion } from "@/lib/i18n";
@@ -44,7 +44,7 @@ export default function RootLayout() {
   /* Til birinchi chizishdan OLDIN tiklanadi: aks holda ekran bir
      zum o'zbekcha chiqib, keyin tanlangan tilga sakrardi. */
   const [ready, setReady] = useState(false);
-  /* Splash: birinchi marta to'liq (~3 s), keyin qisqa (~1 s) */
+  /* Ochilish videosi: birinchi marta to'liq (5.7 s), keyin qisqa (~2 s) */
   const [splash, setSplash] = useState<"full" | "short" | "done">("short");
 
   useEffect(() => {
@@ -84,7 +84,9 @@ export default function RootLayout() {
         <StatusBar style={themeName() === "dark" ? "light" : "dark"} />
         <Shell key={`${localeVersion}-${themeVersion}`} />
         {splash !== "done" ? (
-          <Splash
+          /* Brend videosi — animatsiyali splash o'rniga (2026-09-16).
+             Birinchi marta to'liq, keyin qisqa (`IntroVideo.tsx`). */
+          <IntroVideo
             full={splash === "full"}
             onDone={() => {
               setSplash("done");

@@ -120,7 +120,8 @@
       "expo-sharing",
       "expo-asset",
       "expo-web-browser",
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true

@@ -66,7 +66,7 @@ export default function IjtimoiyRoyxat() {
           auth: false,
           body: {
             kutilayotgan: y.kutilayotgan,
-            firstName: firstName.trim(),
+            firstName: ism || undefined,
             lastName: lastName.trim() || undefined,
             role,
             ownerFuramId: role === "DRIVER" && Number(ownerId) > 0 ? Number(ownerId) : undefined,
@@ -89,6 +89,11 @@ export default function IjtimoiyRoyxat() {
       setBusy(false);
     }
   }
+
+  /* Google'da ism shart (Google uni doim beradi), Apple'da ixtiyoriy —
+     lekin yozilsa kamida 2 harf (server bilan bir xil qoida) */
+  const ism = firstName.trim();
+  const ismYaroqli = y?.provayder === "apple" ? ism.length === 0 || ism.length >= 2 : ism.length >= 2;
 
   const sub = !y
     ? undefined
@@ -115,6 +120,8 @@ export default function IjtimoiyRoyxat() {
           <View style={{ gap: space.lg }}>
             <Field
               label={t("googleAuth.firstName")}
+              /* Apple'da ixtiyoriy: ism faqat birinchi ruxsatda keladi */
+              hint={y?.provayder === "apple" ? t("mob.common.optional") : undefined}
               placeholder={t("mob.profile.firstName")}
               value={firstName}
               onChangeText={setFirstName}
@@ -196,7 +203,7 @@ export default function IjtimoiyRoyxat() {
               title={t("googleAuth.submit")}
               onPress={submit}
               loading={busy}
-              disabled={!agreed || firstName.trim().length < 2}
+              disabled={!agreed || !ismYaroqli}
             />
             {!agreed ? <Text style={s.hintCenter}>{t("mob.signUp.offerRequired")}</Text> : null}
           </View>

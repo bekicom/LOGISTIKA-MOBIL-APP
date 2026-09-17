@@ -1,0 +1,10 @@
+{
+  "ios": {
+    "NSLocationWhenInUseUsageDescription": "Xaritada yaqin yuk va ustalarni ko'rsatish, suhbatda yoki SOS'da joyingizni yuborish va reys davomida yo'lni yuk egasiga ko'rsatish uchun joylashuvingiz ishlatiladi.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Faol reys davomida ilova yopiq yoki ishlatilmayotgan bo'lsa ham yo'lingiz yozilib, yuk egasi va dispetcherga ko'rsatiladi. Reys yopilganda yoki kuzatuvni o'zingiz to'xtatganingizda to'xtaydi.",
+    "NSLocationAlwaysUsageDescription": "Faol reys davomida ilova yopiq yoki ishlatilmayotgan bo'lsa ham yo'lingiz yozilib, yuk egasi va dispetcherga ko'rsatiladi. Reys yopilganda yoki kuzatuvni o'zingiz to'xtatganingizda to'xtaydi.",
+    "NSCameraUsageDescription": "Hujjat, chek, yuk va mashina suratlarini olish hamda hujjatni skanerlash uchun. Skanerlangan hujjat matnini o'qish uchun AI xizmatiga yuboriladi.",
+    "NSPhotoLibraryUsageDescription": "Galereyadan hujjat, chek va e'lon suratlarini tanlab yuborish uchun. Faqat siz tanlagan rasmlar ochiladi.",
+    "NSMicrophoneUsageDescription": "Suhbatda ovozli xabar yozish va ustaga muammoni ovoz bilan aytib berish uchun. Ovoz matnga o'girilishi uchun AI xizmatiga yuborilishi mumkin."
+  }
+}

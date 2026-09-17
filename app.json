@@ -14,20 +14,22 @@
       "icon": "./assets/expo.icon",
       "infoPlist": {
         "UIBackgroundModes": [
-          "location",
-          "fetch"
+          "location"
         ],
-        "NSLocationWhenInUseUsageDescription": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi — ular yukning qayerdaligini biladi.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Telefon cho'ntagingizda bo'lganda ham reys yo'li yozilib borishi uchun. Faqat reys davomida, reys yopilishi bilan to'xtaydi.",
-        "NSCameraUsageDescription": "Hujjat, chek va nosozlik suratini shu yerda olasiz. Surat faqat siz biriktirgan reysga yuboriladi.",
-        "NSPhotoLibraryUsageDescription": "Hujjat va chek suratlarini yuborish uchun galereyaga kirish so'raladi. Boshqa rasmlar ochilmaydi.",
-        "NSPhotoLibraryAddUsageDescription": "Ilova galereyangizga hech narsa yozmaydi.",
-        "NSMicrophoneUsageDescription": "Ovozli xabar yozish uchun mikrofon so'raladi. Yozuv faqat siz tanlagan suhbatga yuboriladi."
+        "NSLocationWhenInUseUsageDescription": "Xaritada yaqin yuk va ustalarni ko'rsatish, suhbatda yoki SOS'da joyingizni yuborish va reys davomida yo'lni yuk egasiga ko'rsatish uchun joylashuvingiz ishlatiladi.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Faol reys davomida ilova yopiq yoki ishlatilmayotgan bo'lsa ham yo'lingiz yozilib, yuk egasi va dispetcherga ko'rsatiladi. Reys yopilganda yoki kuzatuvni o'zingiz to'xtatganingizda to'xtaydi.",
+        "NSCameraUsageDescription": "Hujjat, chek, yuk va mashina suratlarini olish hamda hujjatni skanerlash uchun. Skanerlangan hujjat matnini o'qish uchun AI xizmatiga yuboriladi.",
+        "NSPhotoLibraryUsageDescription": "Galereyadan hujjat, chek va e'lon suratlarini tanlab yuborish uchun. Faqat siz tanlagan rasmlar ochiladi.",
+        "NSMicrophoneUsageDescription": "Suhbatda ovozli xabar yozish va ustaga muammoni ovoz bilan aytib berish uchun. Ovoz matnga o'girilishi uchun AI xizmatiga yuborilishi mumkin.",
+        "NSLocationAlwaysUsageDescription": "Faol reys davomida ilova yopiq yoki ishlatilmayotgan bo'lsa ham yo'lingiz yozilib, yuk egasi va dispetcherga ko'rsatiladi. Reys yopilganda yoki kuzatuvni o'zingiz to'xtatganingizda to'xtaydi."
       },
       "associatedDomains": [
         "applinks:furam.uz"
       ],
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "uz.furam.app",
@@ -46,10 +48,8 @@
         "android.permission.FOREGROUND_SERVICE_LOCATION",
         "android.permission.POST_NOTIFICATIONS",
         "android.permission.CAMERA",
-        "android.permission.READ_MEDIA_IMAGES",
         "android.permission.RECORD_AUDIO",
-        "android.permission.MODIFY_AUDIO_SETTINGS",
-        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+        "android.permission.MODIFY_AUDIO_SETTINGS"
       ],
       "intentFilters": [
         {
@@ -59,7 +59,7 @@
             {
               "scheme": "https",
               "host": "furam.uz",
-              "pathPrefix": "/c"
+              "pathPrefix": "/c/"
             }
           ],
           "category": [
@@ -68,7 +68,13 @@
           ]
         }
       ],
-      "softwareKeyboardLayoutMode": "resize"
+      "softwareKeyboardLayoutMode": "resize",
+      "blockedPermissions": [
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+      ]
     },
     "web": {
       "output": "static",
@@ -76,7 +82,12 @@
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store",
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": false
+        }
+      ],
       [
         "expo-splash-screen",
         {
@@ -90,16 +101,20 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Hujjat va chek suratlarini yuborish uchun galereyaga kirish so'raladi. Boshqa rasmlar ochilmaydi.",
-          "cameraPermission": "Hujjat, chek va nosozlik suratini shu yerda olasiz. Surat faqat siz biriktirgan reysga yuboriladi."
+          "photosPermission": "Galereyadan hujjat, chek va e'lon suratlarini tanlab yuborish uchun. Faqat siz tanlagan rasmlar ochiladi.",
+          "cameraPermission": "Hujjat, chek, yuk va mashina suratlarini olish hamda hujjatni skanerlash uchun. Skanerlangan hujjat matnini o'qish uchun AI xizmatiga yuboriladi.",
+          "microphonePermission": "Suhbatda ovozli xabar yozish va ustaga muammoni ovoz bilan aytib berish uchun. Ovoz matnga o'girilishi uchun AI xizmatiga yuborilishi mumkin."
         }
       ],
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi. Faqat reys davomida, reys yopilishi bilan to'xtaydi.",
+          "locationAlwaysAndWhenInUsePermission": "Faol reys davomida ilova yopiq yoki ishlatilmayotgan bo'lsa ham yo'lingiz yozilib, yuk egasi va dispetcherga ko'rsatiladi. Reys yopilganda yoki kuzatuvni o'zingiz to'xtatganingizda to'xtaydi.",
           "isAndroidBackgroundLocationEnabled": true,
-          "isAndroidForegroundServiceEnabled": true
+          "isAndroidForegroundServiceEnabled": true,
+          "locationWhenInUsePermission": "Xaritada yaqin yuk va ustalarni ko'rsatish, suhbatda yoki SOS'da joyingizni yuborish va reys davomida yo'lni yuk egasiga ko'rsatish uchun joylashuvingiz ishlatiladi.",
+          "locationAlwaysPermission": "Faol reys davomida ilova yopiq yoki ishlatilmayotgan bo'lsa ham yo'lingiz yozilib, yuk egasi va dispetcherga ko'rsatiladi. Reys yopilganda yoki kuzatuvni o'zingiz to'xtatganingizda to'xtaydi.",
+          "motionUsagePermission": false
         }
       ],
       [
@@ -114,14 +129,16 @@
       [
         "expo-audio",
         {
-          "microphonePermission": "Ovozli xabar yozish uchun mikrofon so'raladi. Yozuv faqat siz tanlagan suhbatga yuboriladi."
+          "microphonePermission": "Suhbatda ovozli xabar yozish va ustaga muammoni ovoz bilan aytib berish uchun. Ovoz matnga o'girilishi uchun AI xizmatiga yuborilishi mumkin.",
+          "enableBackgroundPlayback": false
         }
       ],
       "expo-sharing",
       "expo-asset",
       "expo-web-browser",
       "expo-apple-authentication",
-      "expo-video"
+      "expo-video",
+      "./plugins/withoutBackgroundFetch"
     ],
     "experiments": {
       "typedRoutes": true
@@ -132,6 +149,23 @@
         "projectId": "72853c80-2eac-4b80-ac6a-15945a19f3b2"
       }
     },
-    "owner": "beki09696"
+    "owner": "beki09696",
+    "locales": {
+      "uz": "./locales/uz.json",
+      "ru": "./locales/ru.json",
+      "en": "./locales/en.json",
+      "tr": "./locales/tr.json",
+      "kk": "./locales/kk.json",
+      "ky": "./locales/ky.json",
+      "tg": "./locales/tg.json",
+      "zh-Hans": "./locales/zh-Hans.json"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/72853c80-2eac-4b80-ac6a-15945a19f3b2",
+      "fallbackToCacheTimeout": 0
+    }
   }
 }

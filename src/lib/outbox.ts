@@ -229,6 +229,7 @@ async function send(job: Job): Promise<boolean> {
 
   if (status >= 200 && status < 300) {
     await d.runAsync(`DELETE FROM outbox WHERE id = ?`, job.id);
+    if (job.kind === "gps") await gpsJavobi(job.path, text);
     return true;
   }
 
@@ -245,6 +246,35 @@ async function send(job: Job): Promise<boolean> {
 
   await backoff(job, message);
   return false;
+}
+
+/**
+ * GPS to'plamiga server javobi — reys yopilgan bo'lsa kuzatuvni TO'XTATISH
+ * (2026-09-17, do'kon auditi A14).
+ *
+ * Reys yopilgan bo'lsa server nuqtalarni 200 bilan JIMGINA qabul qiladi
+ * (`reason: "NOT_LIVE"`) — aks holda navbat ularni abadiy qayta yuborardi.
+ * Lekin telefon buni e'tiborsiz qoldirar va kuzatuv reys ekrani ochilguncha
+ * ishlayverardi. Bu ruxsat matnidagi «reys yopilishi bilan to'xtaydi»
+ * va'dasini buzardi (Apple 2.5.4) va batareyani bekorga yerdi.
+ *
+ * ⚠️ Faqat HOZIR kuzatilayotgan reys bo'lsa to'xtatiladi: navbatda eski
+ * reysdan qolgan to'plam turgan bo'lishi mumkin va uning javobi yangi
+ * reys kuzatuvini to'xtatib qo'ymasligi kerak.
+ *
+ * `gps.ts` dinamik import qilinadi — u o'zi shu faylni import qiladi,
+ * statik import aylana bog'liqlik yasardi.
+ */
+async function gpsJavobi(path: string, text: string): Promise<void> {
+  try {
+    if (JSON.parse(text)?.reason !== "NOT_LIVE") return;
+    const tripId = /^\/api\/trips\/([^/]+)\/location\/batch/.exec(path)?.[1];
+    if (!tripId) return;
+    const gps = await import("./gps");
+    if ((await gps.activeTrip()) === tripId) await gps.stop();
+  } catch {
+    /* Javob o'qilmadi — kuzatuvga tegmaymiz, reys ekrani o'zi to'xtatadi */
+  }
 }
 
 /** 5s, 10s, 20s… eng ko'pi 5 daqiqa */

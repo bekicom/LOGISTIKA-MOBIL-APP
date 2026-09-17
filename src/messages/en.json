@@ -1411,6 +1411,8 @@
     },
     "geo": {
       "allow": "Allow",
+      "allowAlways": "Allow “Always”",
+      "continueFg": "Record only while the app is open",
       "deniedText": "Access was denied. Only the phone settings can restore it — the app cannot ask again.",
       "fgOnlyText": "Allowed only while the app is open. Put the phone in your pocket and the route stops recording — grant the Always permission.",
       "later": "Not now",
@@ -1418,12 +1420,16 @@
       "p1": "Only during a trip",
       "p2": "Only to the people on this trip",
       "p3": "You can turn it off at any time",
+      "p4": "A notification stays visible while tracking",
+      "startTracking": "Start tracking",
       "stopAnytime": "Tracking stops by itself when the trip closes. You can also stop it earlier from the trip screen, without asking anyone.",
       "title": "Location",
       "why": "Why we need your location",
-      "whyText": "During a trip your location is shown to the cargo owner and the dispatcher, so they know where the load is."
+      "whyText": "During a trip your location is shown to the cargo owner and the dispatcher, so they know where the load is. To do this, FURAM collects your location in the background during an active trip, even when the app is closed or not in use."
     },
     "gps": {
+      "fgBody": "Your route is being recorded during the trip. Open the app to stop.",
+      "fgTitle": "FURAM — trip tracking",
       "live": "Live tracking",
       "off": "Tracking is off",
       "on": "The route is recording",

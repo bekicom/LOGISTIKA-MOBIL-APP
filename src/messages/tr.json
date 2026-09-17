@@ -1411,6 +1411,8 @@
     },
     "geo": {
       "allow": "İzin ver",
+      "allowAlways": "“Her zaman” izni ver",
+      "continueFg": "Yalnızca uygulama açıkken kaydet",
       "deniedText": "İzin reddedildi. Yalnızca telefon ayarlarından geri verilebilir — uygulama tekrar soramaz.",
       "fgOnlyText": "Yalnızca uygulama açıkken izin verildi. Telefonu cebinize koyarsanız yol kaydedilmez — «Her zaman» iznini verin.",
       "later": "Şimdi değil",
@@ -1418,12 +1420,16 @@
       "p1": "Yalnızca sefer boyunca",
       "p2": "Yalnızca bu seferin katılımcılarına",
       "p3": "İstediğiniz zaman kapatabilirsiniz",
+      "p4": "Takip sırasında bir bildirim görünür kalır",
+      "startTracking": "Takibi başlat",
       "stopAnytime": "Takip, sefer kapanınca kendiliğinden durur. Daha önce de sefer ekranındaki düğmeyle durdurabilirsiniz — kimseye sormadan.",
       "title": "Konum",
       "why": "Konumunuz neden gerekli",
-      "whyText": "Sefer boyunca konumunuz yük sahibi ve dispeçere gösterilir — yükün nerede olduğunu bilirler."
+      "whyText": "Sefer boyunca konumunuz yük sahibi ve dispeçere gösterilir — yükün nerede olduğunu bilirler. Bunun için FURAM, aktif sefer sırasında uygulama kapalıyken veya kullanılmıyorken bile konumunuzu arka planda toplar."
     },
     "gps": {
+      "fgBody": "Sefer boyunca rotanız kaydediliyor. Durdurmak için uygulamayı açın.",
+      "fgTitle": "FURAM — sefer takibi",
       "live": "Canlı takip",
       "off": "Takip kapalı",
       "on": "Yol kaydediliyor",

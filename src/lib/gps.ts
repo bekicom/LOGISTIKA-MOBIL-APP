@@ -18,11 +18,14 @@
  * REYS YOPILISHI BILAN DARHOL TO'XTAYDI. Doimiy kuzatuv yo'q —
  * bu ham Apple talabi, ham to'g'ri qaror.
  */
+import { Platform } from "react-native";
 import * as Location from "expo-location";
+import * as Notifications from "expo-notifications";
 import * as TaskManager from "expo-task-manager";
 import * as Battery from "expo-battery";
 import { openDb } from "./local-db";
 import { enqueue, P_NOW } from "./outbox";
+import { t } from "./i18n";
 
 export const GPS_TASK = "furam-gps";
 
@@ -120,7 +123,10 @@ TaskManager.defineTask(GPS_TASK, async ({ data, error }) => {
     );
   }
 
-  await maybeAdjust(locs[locs.length - 1]);
+  /* Rejim almashishidagi xato nuqtalarni yuborishni TO'XTATMASIN:
+     ilgari `maybeAdjust` yiqilsa `drain` ga yetib bormasdi va o'sha
+     to'plam yuborilmay qolardi (do'kon auditi A17) */
+  await maybeAdjust(locs[locs.length - 1]).catch(() => null);
   await drain(tripId);
 });
 
@@ -207,23 +213,50 @@ async function maybeAdjust(last: Location.LocationObject) {
   const have = (await stateGet("mode")) as GpsMode | null;
   if (want === have) return;
 
-  await stateSet("mode", want);
   /* Rejim o'zgarsa vazifa QAYTA YOQILADI — `expo-location` da
-     ishlab turgan vazifaning intervalini o'zgartirib bo'lmaydi. */
+     ishlab turgan vazifaning intervalini o'zgartirib bo'lmaydi.
+
+     ⚠️ Android fon vazifasidan qayta ishga tushirishga YO'L QO'YMAYDI
+     (do'kon auditi A17). Ilgari rejim OLDIN saqlanardi, keyin
+     qayta yoqish yiqilardi — va keyingi safar «rejim allaqachon shu»
+     deb urinib ham ko'rilmasdi. Endi rejim faqat MUVAFFAQIYATDAN
+     keyin saqlanadi: fonda o'xshamasa, ilova ochiq paytdagi keyingi
+     nuqtada qayta uriniladi. */
   if (await TaskManager.isTaskRegisteredAsync(GPS_TASK)) {
-    await Location.startLocationUpdatesAsync(GPS_TASK, options(want));
+    try {
+      await Location.startLocationUpdatesAsync(GPS_TASK, options(want, await fgTexts()));
+    } catch {
+      return;
+    }
   }
+  await stateSet("mode", want);
 }
 
-function options(mode: GpsMode): Location.LocationTaskOptions {
+type FgTexts = { title: string; body: string };
+
+/**
+ * Doimiy bildirishnoma matni — `start()` da lug'atdan olinib SAQLANADI.
+ *
+ * Fon vazifasida lug'at tili yuklanmagan bo'lishi mumkin (Android'da
+ * vazifa ilovasiz ishga tushadi), shuning uchun u yerda saqlangani
+ * ishlatiladi. Ilgari matn o'zbekcha qotib qolgan edi (A16).
+ */
+async function fgTexts(): Promise<FgTexts> {
+  return {
+    title: (await stateGet("fgTitle")) ?? "FURAM",
+    body: (await stateGet("fgBody")) ?? "FURAM",
+  };
+}
+
+function options(mode: GpsMode, texts: FgTexts): Location.LocationTaskOptions {
   return {
     accuracy: Location.Accuracy.Balanced,
     ...MODES[mode],
     pausesUpdatesAutomatically: false,
     showsBackgroundLocationIndicator: true,
     foregroundService: {
-      notificationTitle: "FURAM",
-      notificationBody: "Reys davomida yo'l yozilmoqda",
+      notificationTitle: texts.title,
+      notificationBody: texts.body,
       notificationColor: "#f45a18",
     },
   };
@@ -231,7 +264,15 @@ function options(mode: GpsMode): Location.LocationTaskOptions {
 
 /* ─────────────────────────────────────────── boshqaruv */
 
-export type PermState = "granted" | "foregroundOnly" | "denied";
+/**
+ * `undetermined` — ruxsat hali SO'RALMAGAN yoki qayta so'rash mumkin.
+ *
+ * ⚠️ Ilgari bu holat yo'q edi va so'ralmagan ruxsat «denied» bo'lib
+ * qaytardi (do'kon auditi A9). Izoh ekrani esa «denied» da faqat
+ * «Sozlamalarni ochish» ko'rsatadi — ya'ni YANGI haydovchi ruxsat
+ * berish tugmasiga umuman yetolmasdi va GPS kuzatuvni yoqa olmasdi.
+ */
+export type PermState = "granted" | "foregroundOnly" | "denied" | "undetermined";
 
 /**
  * Ruxsat IKKI BOSQICHDA so'raladi (TZ §6.3).
@@ -248,16 +289,41 @@ export async function askForeground(): Promise<boolean> {
 
 export async function askBackground(): Promise<PermState> {
   const fg = await Location.getForegroundPermissionsAsync();
-  if (!fg.granted) return "denied";
+  if (!fg.granted) return fg.canAskAgain ? "undetermined" : "denied";
   const bg = await Location.requestBackgroundPermissionsAsync();
   return bg.granted ? "granted" : "foregroundOnly";
 }
 
 export async function permState(): Promise<PermState> {
   const fg = await Location.getForegroundPermissionsAsync();
-  if (!fg.granted) return "denied";
+  /* `canAskAgain` — tizim oynasi yana chiqa oladimi. iOS'da bir marta
+     rad etilgach `false`; Android'da «boshqa so'ramang» tanlanguncha
+     `true`. Faqat qayta so'rab bo'lmasa — sozlamalarga yuboramiz. */
+  if (!fg.granted) return fg.canAskAgain ? "undetermined" : "denied";
   const bg = await Location.getBackgroundPermissionsAsync();
   return bg.granted ? "granted" : "foregroundOnly";
+}
+
+/**
+ * Android'da doimiy kuzatuv bildirishnomasi KO'RINISHI uchun ruxsat
+ * (2026-09-17, do'kon auditi A16).
+ *
+ * Android 13 dan boshlab bildirishnoma ruxsati bo'lmasa, foreground
+ * service ishlayveradi, lekin bildirishnoma YASHIRIN qoladi — odam
+ * kuzatuv yoqilganini bilmaydi. Google aynan shu ko'rinishni talab
+ * qiladi. iOS'da bunday bildirishnoma yo'q (u yerda ko'k joylashuv
+ * belgisi), shuning uchun faqat Android.
+ *
+ * Izoh ekranida bu haqda oldindan aytiladi (`mob.geo.p4`).
+ */
+export async function ensureTrackingNotice(): Promise<void> {
+  if (Platform.OS !== "android") return;
+  try {
+    const cur = await Notifications.getPermissionsAsync();
+    if (!cur.granted && cur.canAskAgain) await Notifications.requestPermissionsAsync();
+  } catch {
+    /* Ruxsat so'ralmadi — kuzatuv baribir ishlaydi */
+  }
 }
 
 export async function isRunning(): Promise<boolean> {
@@ -273,10 +339,15 @@ export async function start(tripId: string): Promise<boolean> {
   await stateSet("mode", "slow");
   await stateSet("stillSince", null);
 
+  /* Bildirishnoma matni SHU YERDA — ilova ochiq, lug'at tayyor */
+  const texts: FgTexts = { title: t("mob.gps.fgTitle"), body: t("mob.gps.fgBody") };
+  await stateSet("fgTitle", texts.title);
+  await stateSet("fgBody", texts.body);
+
   if (await TaskManager.isTaskRegisteredAsync(GPS_TASK)) {
     await Location.stopLocationUpdatesAsync(GPS_TASK).catch(() => null);
   }
-  await Location.startLocationUpdatesAsync(GPS_TASK, options("slow"));
+  await Location.startLocationUpdatesAsync(GPS_TASK, options("slow", texts));
   return true;
 }
 

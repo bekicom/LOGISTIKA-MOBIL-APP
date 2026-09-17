@@ -8,12 +8,21 @@
  *     rad javobdan keyin uni qayta so'rab bo'lmaydi, sozlamaga
  *     kirish kerak. Ya'ni bitta noto'g'ri so'rov kuzatuvni butunlay
  *     yo'qotadi.
- *  2. App Store tekshiruvidan o'tish osonlashadi (§11.2): Apple
- *     fon rejimidagi joylashuvni ALOHIDA tekshiradi va «nima uchun»
- *     savoliga javob ilovaning ichida bo'lishini talab qiladi.
+ *  2. Do'kon tekshiruvidan o'tish: Apple (2.5.4) ham, Google Play ham
+ *     fon joylashuvini ALOHIDA tekshiradi va «nima uchun» degan javob
+ *     tizim so'rovidan OLDIN, ilovaning ichida bo'lishini talab qiladi.
  *
- * IKKI BOSQICH. Avval «ilova ochiq bo'lganda», keyin — reys
- * boshlangach — «doim». Birdan «doim» so'ralmaydi.
+ * ── IKKI QADAM (2026-09-17, do'kon auditi A15) ──────────────────
+ *
+ * Ilgari bitta bosishda ikkala tizim oynasi ketma-ket chiqardi. Endi:
+ *
+ *   1. «Ruxsat berish» — faqat «ilova ochiq paytda» so'raladi;
+ *   2. «Doim» ruxsati — ALOHIDA tugma. Xohlamagan odam «Faqat ilova
+ *      ochiqda yozish» bilan davom etadi — kuzatuv baribir boshlanadi.
+ *
+ * ⚠️ So'ralmagan ruxsat endi «rad etilgan» deb ko'rinmaydi (A9): ilgari
+ * yangi haydovchiga darrov «Sozlamalarni oching» chiqib, ruxsat berish
+ * tugmasiga yetib bo'lmasdi.
  */
 import { useEffect, useState } from "react";
 import { Linking, Pressable, ScrollView, View } from "react-native";
@@ -22,7 +31,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
-import { askBackground, askForeground, permState, start, type PermState } from "@/lib/gps";
+import {
+  askBackground,
+  askForeground,
+  ensureTrackingNotice,
+  permState,
+  start,
+  type PermState,
+} from "@/lib/gps";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space, themed } from "@/lib/theme";
 
@@ -37,25 +53,50 @@ export default function Joylashuv() {
     void permState().then(setState);
   }, []);
 
+  /** Kuzatuvni boshlab ortga qaytish — reys ekranidan kelinganda */
+  async function boshlash() {
+    if (!trip) {
+      router.back();
+      return;
+    }
+    await ensureTrackingNotice();
+    await start(trip);
+    router.back();
+  }
+
+  /** 1-qadam: faqat «ilova ochiq paytda» */
   async function allow() {
     setBusy(true);
     try {
-      if (state === "denied" || state === null) {
-        const ok = await askForeground();
-        if (!ok) {
-          setState("denied");
-          return;
-        }
-      }
-      /* «Doim» ruxsati SHU YERDA so'raladi, chunki haydovchi
-         telefonni cho'ntagiga soladi va ilova fonga o'tadi —
-         o'shanda kuzatuv to'xtab qolmasligi kerak. */
+      await askForeground();
+      /* Javobni qayta O'QIYMIZ: rad etilgach `canAskAgain` ga qarab
+         «denied» (sozlamalar) yoki yana «undetermined» bo'ladi */
+      const next = await permState();
+      setState(next);
+      /* «Doim» allaqachon berilgan bo'lsa (sozlamalardan) — darrov
+         boshlaymiz; aks holda 2-qadam ekranda ko'rinadi */
+      if (next === "granted") await boshlash();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /** 2-qadam: «Doim» — alohida, o'z tugmasi bilan */
+  async function allowAlways() {
+    setBusy(true);
+    try {
       const next = await askBackground();
       setState(next);
-      if (trip && (next === "granted" || next === "foregroundOnly")) {
-        await start(trip);
-        router.back();
-      }
+      if (next === "granted" || next === "foregroundOnly") await boshlash();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function foregroundOnly() {
+    setBusy(true);
+    try {
+      await boshlash();
     } finally {
       setBusy(false);
     }
@@ -71,15 +112,17 @@ export default function Joylashuv() {
         </View>
 
         <Text style={s.h1}>{t("mob.geo.why")}</Text>
+        {/* «ilova yopiq yoki ishlatilmayotganda ham» — Google talabi (A5) */}
         <Text style={s.lead}>{t("mob.geo.whyText")}</Text>
 
         <View style={s.points}>
           <Point text={t("mob.geo.p1")} />
           <Point text={t("mob.geo.p2")} />
-          <Point text={t("mob.geo.p3")} last />
+          <Point text={t("mob.geo.p3")} />
+          <Point text={t("mob.geo.p4")} last />
         </View>
 
-        {/* Rad etilgan bo'lsa — tizim oynasi boshqa chiqmaydi */}
+        {/* Rad etilgan va qayta so'rab bo'lmaydi — faqat sozlamalar */}
         {state === "denied" ? (
           <View style={s.warn}>
             <Icon name="alert" size={17} stroke={color.warning} />
@@ -95,6 +138,20 @@ export default function Joylashuv() {
         <View style={{ gap: 10, marginTop: space.xl }}>
           {state === "denied" ? (
             <Button title={t("mob.geo.openSettings")} onPress={() => void Linking.openSettings()} />
+          ) : state === "foregroundOnly" ? (
+            <>
+              <Button title={t("mob.geo.allowAlways")} loading={busy} onPress={allowAlways} />
+              {trip ? (
+                <Button
+                  title={t("mob.geo.continueFg")}
+                  variant="secondary"
+                  disabled={busy}
+                  onPress={foregroundOnly}
+                />
+              ) : null}
+            </>
+          ) : state === "granted" ? (
+            <Button title={t("mob.geo.startTracking")} loading={busy} onPress={foregroundOnly} />
           ) : (
             <Button title={t("mob.geo.allow")} loading={busy} onPress={allow} />
           )}

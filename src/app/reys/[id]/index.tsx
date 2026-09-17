@@ -27,6 +27,7 @@ import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed, themeName } from "@/lib/theme";
 import {
   activeTrip,
+  ensureTrackingNotice,
   isRunning as gpsRunning,
   pendingPoints,
   permState,
@@ -366,12 +367,19 @@ function GpsCard({ tripId, on }: { tripId: string; on: boolean }) {
         await gpsStop();
       } else {
         const state = await permState();
-        /* Ruxsat yo'q bo'lsa TIZIM OYNASI EMAS, tushuntirish ekrani
-           ochiladi — rad javobdan keyin qayta so'rab bo'lmaydi. */
-        if (state === "denied") {
+        /* «Doim» ruxsati bo'lmasa HAR DOIM tushuntirish ekrani ochiladi
+           (2026-09-17, do'kon auditi A15). Ilgari faqat «rad etilgan»da
+           ochilardi: joylashuvga xarita yoki chatda ruxsat bergan odamda
+           kuzatuv IZOHSIZ boshlanar va fon ruxsati umuman so'ralmasdi —
+           Google Play izohni har fon kuzatuvidan oldin talab qiladi.
+
+           «Doim» allaqachon berilgan bo'lsa — izohni avval ko'rgan
+           (u faqat shu ekranda so'raladi), darrov boshlaymiz. */
+        if (state !== "granted") {
           router.push({ pathname: "/joylashuv", params: { trip: tripId } });
           return;
         }
+        await ensureTrackingNotice();
         await gpsStart(tripId);
       }
       await refresh();

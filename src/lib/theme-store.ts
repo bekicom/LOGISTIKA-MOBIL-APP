@@ -28,7 +28,7 @@
  */
 import { useSyncExternalStore } from "react";
 import { Appearance } from "react-native";
-import * as SecureStore from "expo-secure-store";
+import { kvGet, kvSet } from "./secure-kv";
 import { applyTheme, themeName, type ThemeName } from "./theme";
 
 const KEY = "furam.theme";
@@ -70,7 +70,7 @@ function apply(c: ThemeChoice) {
 /** Ilova ochilishida — chizishdan OLDIN chaqiriladi */
 export async function loadTheme(): Promise<void> {
   try {
-    const v = await SecureStore.getItemAsync(KEY);
+    const v = await kvGet(KEY);
     if (v === "light" || v === "dark" || v === "system") choice = v;
   } catch {
     /* O'qilmasa «tizim» qolaveradi */
@@ -81,7 +81,7 @@ export async function loadTheme(): Promise<void> {
 export function setThemeChoice(c: ThemeChoice): void {
   choice = c;
   apply(c);
-  void SecureStore.setItemAsync(KEY, c).catch(() => null);
+  void kvSet(KEY, c).catch(() => null);
 }
 
 export const themeChoice = (): ThemeChoice => choice;

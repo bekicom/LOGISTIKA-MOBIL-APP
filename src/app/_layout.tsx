@@ -3,6 +3,7 @@ import { flushCrashes, installErrorLog } from "@/lib/error-log";
 import { Stack, useRouter } from "expo-router";
 import * as Notifications from "expo-notifications";
 import { StatusBar } from "expo-status-bar";
+import { Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   Manrope_400Regular,
@@ -144,9 +145,15 @@ function Shell() {
  * Har javob BIR MARTA ishlaydi: hook o'sha javobni qayta chizishlarda
  * ham qaytaraveradi, tekshirilmasa ekran qayta-qayta ochilardi.
  */
+/* Web'da bildirishnoma moduli yo'q — hook chaqirilsa ilova yiqiladi
+   (brauzerda sinash, 2026-09-19). `Platform.OS` bundle uchun o'zgarmas,
+   ya'ni hook tartibi buzilmaydi. */
+const useLastResponse: typeof Notifications.useLastNotificationResponse =
+  Platform.OS === "web" ? () => undefined : Notifications.useLastNotificationResponse;
+
 function usePushTap() {
   const router = useRouter();
-  const response = Notifications.useLastNotificationResponse();
+  const response = useLastResponse();
   const done = useRef<string | null>(null);
 
   useEffect(() => {

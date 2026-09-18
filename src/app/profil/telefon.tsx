@@ -61,10 +61,16 @@ export default function TelefonQoshish() {
   }, [left]);
 
   /* Raqami BOR odam bu ekranga tushmasligi kerak: almashtirish alohida
-     xavf (hisobni o'g'irlash) va server ham 409 qaytaradi */
+     xavf (hisobni o'g'irlash) va server ham 409 qaytaradi.
+
+     ⚠️ Faqat EKRAN OCHILGANDAGI holat (2026-09-19). Ilgari shart har
+     `user.phone` o'zgarishida ishlardi: raqam saqlangach `verify` o'zi
+     orqaga qaytardi, keyin bu effekt YANA qaytardi — ikkinchi qaytish
+     keraksiz ekranni (masalan profilni) ham yopib yuborardi. */
+  const boshdaBor = useRef(!!user?.phone);
   useEffect(() => {
-    if (user?.phone) router.back();
-  }, [user?.phone, router]);
+    if (boshdaBor.current) router.back();
+  }, [router]);
 
   async function sendCode(via: Channel = channel) {
     setErr(null);
@@ -168,7 +174,7 @@ export default function TelefonQoshish() {
 
             {devCode ? (
               <Notice tone="info" title={t("mob.ui.devMode")}>
-                {t("mob.signUp.devCode", { c: devCode })}
+                {t("mob.signUp.devCode", { code: devCode })}
               </Notice>
             ) : null}
 
@@ -212,9 +218,7 @@ export default function TelefonQoshish() {
             <View style={{ alignItems: "center" }}>
               {left > 0 ? (
                 <Text style={s.why}>
-                  {t("mob.signUp.resendIn", {
-                    t: `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`,
-                  })}
+                  {t("mob.signUp.resendIn", { n: left })}
                 </Text>
               ) : (
                 <Pressable onPress={() => sendCode()} hitSlop={8}>

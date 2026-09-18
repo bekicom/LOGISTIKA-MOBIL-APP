@@ -11,11 +11,11 @@
  * yorlig'i — yo'nalish bo'yicha ochiq guruhlar, qo'shilish/chiqish;
  * «Muhim» — qadalgan suhbatlar; uzoq bosilsa — muhim / ovozsiz.
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
@@ -101,6 +101,29 @@ export default function ChatRoyxati() {
   const router = useRouter();
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<{ chats: Chat[]; unread: number }>("/api/chats");
+
+  /* SUHBATDAN QAYTGANDA RO'YXAT YANGILANADI (2026-09-19, brauzerda bosib
+     sinalganda topildi): suhbat ichida odam bloklangach ilova shu
+     ekranga qaytardi, ro'yxat esa eski holicha qolib, bloklangan
+     suhbat va uning oxirgi xabari ko'rinib turardi. O'qilgan xabarlar
+     soni ham shu sababdan kechikib yangilanardi.
+
+     `refresh` har chizishda yangi funksiya — ref orqali olinadi, aks
+     holda fokus effekti har chizishda qayta ishlab, halqa bo'lardi. */
+  const yangila = useRef(refresh);
+  useEffect(() => {
+    yangila.current = refresh;
+  });
+  const birinchiFokus = useRef(true);
+  useFocusEffect(
+    useCallback(() => {
+      if (birinchiFokus.current) {
+        birinchiFokus.current = false;
+        return;
+      }
+      yangila.current();
+    }, []),
+  );
   /* Yo'nalish guruhlari «Umumiy» bo'limida ko'rinadi — a'zo
      bo'lmagan guruhlar ham shu yerda taklif qilinadi */
   const groups = useApi<{ groups: Group[] }>(tab === "umumiy" ? "/api/chat/groups" : null, [tab]);

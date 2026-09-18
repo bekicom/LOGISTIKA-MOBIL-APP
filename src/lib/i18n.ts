@@ -19,7 +19,7 @@
 import { useSyncExternalStore } from "react";
 import { I18n } from "i18n-js";
 import { getLocales } from "expo-localization";
-import * as SecureStore from "expo-secure-store";
+import { kvGet, kvSet } from "./secure-kv";
 
 import uz from "@/messages/uz.json";
 import ru from "@/messages/ru.json";
@@ -72,7 +72,7 @@ export function deviceLocale(): Locale {
 /** Saqlangan tilni o'qish. Hech qachon tashlamaydi. */
 export async function readLocale(): Promise<Locale | null> {
   try {
-    const v = await SecureStore.getItemAsync(KEY);
+    const v = await kvGet(KEY);
     return isLocale(v) ? v : null;
   } catch {
     return null;
@@ -88,7 +88,7 @@ export async function readLocale(): Promise<Locale | null> {
 export async function setLocale(locale: Locale): Promise<void> {
   i18n.locale = locale;
   try {
-    await SecureStore.setItemAsync(KEY, locale);
+    await kvSet(KEY, locale);
   } catch {
     // Saqlanmasa ham joriy seans to'g'ri tilda ishlayveradi
   }

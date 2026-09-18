@@ -19,12 +19,14 @@ import { webToApp } from "./routes";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import Constants from "expo-constants";
-import * as SecureStore from "expo-secure-store";
+import { kvDel, kvGet, kvSet } from "./secure-kv";
 import { api } from "./api";
 
 /** Expo Go'da masofaviy push yo'q — SDK 53 dan */
 export const pushSupported =
-  Device.isDevice && Constants.appOwnership !== "expo";
+  /* Web'da (brauzerda sinash) push moduli yo'q — chaqiruvlar xato
+     tashlardi (2026-09-19) */
+  Platform.OS !== "web" && Device.isDevice && Constants.appOwnership !== "expo";
 
 /* Ilova ochiq turganda ham xabar ko'rinsin: haydovchi ekranga
    qarab turgan bo'lsa ham «yangi yuk» xabarini o'tkazib
@@ -128,7 +130,7 @@ const ASKED_KEY = "furam.push.asked";
  */
 export async function pushAsked(): Promise<boolean> {
   try {
-    return (await SecureStore.getItemAsync(ASKED_KEY)) === "1";
+    return (await kvGet(ASKED_KEY)) === "1";
   } catch {
     return false;
   }
@@ -136,7 +138,7 @@ export async function pushAsked(): Promise<boolean> {
 
 export async function markPushAsked(): Promise<void> {
   try {
-    await SecureStore.setItemAsync(ASKED_KEY, "1");
+    await kvSet(ASKED_KEY, "1");
   } catch {
     // Saqlanmasa eng yomoni oyna yana bir marta chiqadi
   }
@@ -145,7 +147,7 @@ export async function markPushAsked(): Promise<void> {
 /** Chiqishda: telefonni boshqa odam olsa, undan qaytadan so'raladi */
 export async function clearPushAsked(): Promise<void> {
   try {
-    await SecureStore.deleteItemAsync(ASKED_KEY);
+    await kvDel(ASKED_KEY);
   } catch {
     // yo'q bo'lsa ham mayli
   }

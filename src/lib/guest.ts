@@ -26,7 +26,7 @@
  * qo'shish sababi yo'q. Bu maxfiy ma'lumot emas, lekin bitta
  * joyda turgani tartibli.
  */
-import * as SecureStore from "expo-secure-store";
+import { kvDel, kvGet, kvSet } from "./secure-kv";
 
 const KEY = "furam_guest";
 
@@ -47,7 +47,7 @@ export function isGuest(): boolean {
 /** Ilova ochilishida bir marta — `auth-context` chaqiradi */
 export async function loadGuest(): Promise<boolean> {
   try {
-    cached = (await SecureStore.getItemAsync(KEY)) === "1";
+    cached = (await kvGet(KEY)) === "1";
   } catch {
     /* O'qib bo'lmasa mehmon EMAS deb hisoblaymiz: kirish ekrani
        ko'rsatish, ochiq ekranni noto'g'ri ko'rsatishdan xavfsiz. */
@@ -59,8 +59,8 @@ export async function loadGuest(): Promise<boolean> {
 export async function setGuest(on: boolean): Promise<void> {
   cached = on;
   try {
-    if (on) await SecureStore.setItemAsync(KEY, "1");
-    else await SecureStore.deleteItemAsync(KEY);
+    if (on) await kvSet(KEY, "1");
+    else await kvDel(KEY);
   } catch {
     /* Yozib bo'lmasa ham shu seansda ishlayveradi */
   }

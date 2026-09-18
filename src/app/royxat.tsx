@@ -222,7 +222,7 @@ export default function Royxat() {
             {devCode ? (
               <View style={{ marginTop: space.lg }}>
                 <Notice tone="info" title={t("mob.ui.devMode")}>
-                  {t("mob.signUp.devCode", { c: devCode })}
+                  {t("mob.signUp.devCode", { code: devCode })}
                 </Notice>
               </View>
             ) : null}
@@ -259,9 +259,7 @@ export default function Royxat() {
             <View style={{ alignItems: "center", marginTop: space.lg }}>
               {left > 0 ? (
                 <Text style={s.sub}>
-                  {t("mob.signUp.resendIn", {
-                    t: `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`,
-                  })}
+                  {t("mob.signUp.resendIn", { n: left })}
                 </Text>
               ) : (
                 <Pressable onPress={() => sendCode()} hitSlop={8}>

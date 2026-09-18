@@ -72,6 +72,10 @@ const FLAG: Record<string, string> = { cn: "🇨🇳", ru: "🇷🇺", uz: "🇺
 
 export function groupTitle(key: string): string {
   if (key === "help") return `🛠 ${t("mob.routeGroup.help")}`;
+  /* Umumiy guruh (2026-09-09) — webda ham «🌍 FURAM»
+     (`furam/src/lib/route-groups.ts`). Ilgari bu yerda xom kalit
+     «umumiy» chiqib turardi */
+  if (key === "umumiy") return "🌍 FURAM";
   const [a, b] = key.split("-");
   if (!a || !b) return key;
   const name = (c: string) => t(`jobCatalog.countries.${c.toUpperCase()}`);

@@ -9,7 +9,7 @@
  * kerak emas, shuning uchun `await` bilan olinadi.
  */
 import { useSyncExternalStore } from "react";
-import * as SecureStore from "expo-secure-store";
+import { kvDel, kvGet, kvSet } from "./secure-kv";
 
 export type Flag = "splashSeen" | "tourSeen";
 
@@ -17,7 +17,7 @@ const KEY = (f: Flag) => `furam.${f}`;
 
 export async function seen(flag: Flag): Promise<boolean> {
   try {
-    return (await SecureStore.getItemAsync(KEY(flag))) === "1";
+    return (await kvGet(KEY(flag))) === "1";
   } catch {
     return false;
   }
@@ -25,7 +25,7 @@ export async function seen(flag: Flag): Promise<boolean> {
 
 export async function markSeen(flag: Flag): Promise<void> {
   try {
-    await SecureStore.setItemAsync(KEY(flag), "1");
+    await kvSet(KEY(flag), "1");
   } catch {
     /* Bayroq — qulaylik, xato ko'rsatilmaydi */
   }
@@ -34,7 +34,7 @@ export async function markSeen(flag: Flag): Promise<void> {
 /** Yo'l-yo'riqni qayta ko'rish uchun (menyudagi «Qo'llanma») */
 export async function forget(flag: Flag): Promise<void> {
   try {
-    await SecureStore.deleteItemAsync(KEY(flag));
+    await kvDel(KEY(flag));
   } catch {
     /* yuqoridagidek */
   }

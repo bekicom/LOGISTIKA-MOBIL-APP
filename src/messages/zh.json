@@ -2745,8 +2745,7 @@
     "rol": {
       "guest": "以访客身份",
       "guestHint": "无需登录先看看",
-      "later": "其他角色可稍后添加——技师、商店、雇主……",
-      "selected": "已选择",
+      "later": "所选角色的功能会立即开放。之后可以在“我是谁？”中添加其他角色。",
       "subtitle": "您的身份是？",
       "title": "欢迎！"
     },
@@ -2794,6 +2793,7 @@
       "noneHint": "选择角色后会开放对应板块并开始试用。",
       "noneTitle": "未选择角色",
       "notFound": "未找到该角色",
+      "openRole": "开通所选角色",
       "payNote": "角色期限和套餐状态显示在本页面。",
       "perMonth": "%{p} 苏姆/月",
       "pickSub": "选择适合您的角色",
@@ -2987,7 +2987,7 @@
       "resendIn": "%{n} 秒后重新发送",
       "roleDispatcher": "我负责管理货源信息",
       "roleDriver": "我自己开车，寻找货源",
-      "roleHint": "这决定您在应用中看到的内容，之后可以更改。",
+      "roleHint": "注册后立即开放该角色的功能。之后也可以添加其他角色。",
       "roleOwner": "我有车辆，由司机运营",
       "roleShipper": "我发布货源，寻找运力",
       "safeText": "FURAM 始终相伴",
@@ -3799,6 +3799,10 @@
     "PRICE": "价格不合适",
     "ROUTE": "线路有变",
     "VEHICLE": "车辆不合适"
+  },
+  "rolTanlash": {
+    "DRIVER": "我开别人的车——行程、货源、收入",
+    "VEHICLE_OWNER": "我有车——自己开或由司机开"
   },
   "roleGroup": {
     "cargo": "货运与物流",

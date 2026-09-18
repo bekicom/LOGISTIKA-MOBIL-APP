@@ -21,33 +21,29 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Path } from "react-native-svg";
 import { Text } from "@/components/Text";
 import { AuthShell } from "@/components/AuthShell";
-import { RoleIcon } from "@/components/RoleIcon";
+import { RolePicker, RolTanlangan } from "@/components/RolePicker";
 import { Button, Field } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { kutilayotganOl, kutilayotganTozala } from "@/lib/social-auth";
-import { color, font, radius, space, themed } from "@/lib/theme";
-import { roleLabel, t } from "@/lib/i18n";
-
-/* Tartib va tavsif `royxat.tsx` bilan bir xil */
-const ROLES = [
-  { value: "DRIVER", desc: "mob.signUp.roleDriver" },
-  { value: "SHIPPER", desc: "mob.signUp.roleShipper" },
-  { value: "VEHICLE_OWNER", desc: "mob.signUp.roleOwner" },
-  { value: "DISPATCHER", desc: "mob.signUp.roleDispatcher" },
-];
+import { color, font, space, themed } from "@/lib/theme";
+import { boshlangichRol, eskiRol, type RoyxatRol } from "@/lib/rollar";
+import { t } from "@/lib/i18n";
 
 export default function IjtimoiyRoyxat() {
   const router = useRouter();
   const { signIn } = useAuth();
   const { role: roleParam } = useLocalSearchParams<{ role?: string }>();
-  const preset = ROLES.some((r) => r.value === roleParam) ? (roleParam as string) : null;
+  /* Rol — `royxat.tsx` bilan bir xil qoida (TZ-04): 11 tadan biri,
+     oldindan tanlanmagan bo'lsa standart qiymat QO'YILMAYDI */
+  const preset = boshlangichRol(roleParam);
 
   /* Ilova qayta ishga tushsa yo'qoladi — shunda «vaqt o'tdi» deyiladi */
   const [y] = useState(kutilayotganOl);
   const [firstName, setFirstName] = useState(y?.firstName ?? "");
   const [lastName, setLastName] = useState(y?.lastName ?? "");
-  const [role, setRole] = useState<string>(preset ?? "DRIVER");
+  const [rol, setRol] = useState<RoyxatRol | null>(preset);
+  const [tanlovOchiq, setTanlovOchiq] = useState(!preset);
   const [ownerId, setOwnerId] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -55,7 +51,7 @@ export default function IjtimoiyRoyxat() {
   const [expired, setExpired] = useState(!y);
 
   async function submit() {
-    if (!y) return;
+    if (!y || !rol) return;
     setErr(null);
     setBusy(true);
     try {
@@ -68,8 +64,11 @@ export default function IjtimoiyRoyxat() {
             kutilayotgan: y.kutilayotgan,
             firstName: ism || undefined,
             lastName: lastName.trim() || undefined,
-            role,
-            ownerFuramId: role === "DRIVER" && Number(ownerId) > 0 ? Number(ownerId) : undefined,
+            /* `roleKey` — sinov muddati shu zahoti ochiladi (TZ-04);
+               `role` — eski majburiy ustun */
+            role: eskiRol(rol),
+            roleKey: rol,
+            ownerFuramId: rol === "DRIVER" && Number(ownerId) > 0 ? Number(ownerId) : undefined,
             referralCode: y.referralCode || undefined,
             acceptOffer: true,
           },
@@ -137,33 +136,15 @@ export default function IjtimoiyRoyxat() {
           </View>
 
           <Text style={[s.label, { marginTop: space.xxl }]}>{t("googleAuth.roleLabel")}</Text>
-          <View style={{ gap: 9, marginTop: space.sm }}>
-            {ROLES.map((r) => {
-              const on = role === r.value;
-              return (
-                <Pressable
-                  key={r.value}
-                  onPress={() => setRole(r.value)}
-                  style={[s.role, on && s.roleOn]}
-                  accessibilityRole="radio"
-                  accessibilityState={{ selected: on }}
-                >
-                  <View style={[s.roleIcon, on && { backgroundColor: color.brand }]}>
-                    <RoleIcon value={r.value} on={on} />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={s.roleName}>{roleLabel(r.value)}</Text>
-                    <Text style={s.roleDesc}>{t(r.desc)}</Text>
-                  </View>
-                  <View style={[s.radio, on && s.radioOn]}>
-                    {on ? <Tick size={13} /> : null}
-                  </View>
-                </Pressable>
-              );
-            })}
+          <View style={{ marginTop: space.sm }}>
+            {rol && !tanlovOchiq ? (
+              <RolTanlangan rol={rol} onChange={() => setTanlovOchiq(true)} />
+            ) : (
+              <RolePicker value={rol} onChange={setRol} />
+            )}
           </View>
 
-          {role === "DRIVER" ? (
+          {rol === "DRIVER" ? (
             /* Haydovchi — egasiga TAKLIF ketadi, telefon bilan ro'yxatdagi kabi */
             <View style={{ marginTop: space.lg }}>
               <Field
@@ -203,7 +184,7 @@ export default function IjtimoiyRoyxat() {
               title={t("googleAuth.submit")}
               onPress={submit}
               loading={busy}
-              disabled={!agreed || !ismYaroqli}
+              disabled={!rol || !agreed || !ismYaroqli}
             />
             {!agreed ? <Text style={s.hintCenter}>{t("mob.signUp.offerRequired")}</Text> : null}
           </View>
@@ -234,36 +215,6 @@ const s = themed(() => ({
   sub: { fontSize: 14, color: color.mutedForeground, lineHeight: 21 },
   label: { fontSize: font.caption, fontWeight: "500", color: color.foreground, marginBottom: 6 },
   hintCenter: { fontSize: 12, color: color.mutedForeground, textAlign: "center", marginTop: 10 },
-  role: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 13,
-    padding: 14,
-    borderRadius: radius.control,
-    borderWidth: 1,
-    borderColor: color.border,
-  },
-  roleOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180a" },
-  roleIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: radius.control,
-    backgroundColor: color.muted,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  roleName: { fontSize: font.body, fontWeight: "600", color: color.foreground },
-  roleDesc: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
-  radio: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    borderWidth: 2,
-    borderColor: color.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  radioOn: { backgroundColor: color.brand, borderColor: color.brand },
   offer: { flexDirection: "row", gap: 11, marginTop: 22, alignItems: "flex-start" },
   check: {
     width: 22,

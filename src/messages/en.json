@@ -2745,8 +2745,7 @@
     "rol": {
       "guest": "As a guest",
       "guestHint": "Look around without signing in",
-      "later": "You can add other roles later — mechanic, shop, employer…",
-      "selected": "Selected",
+      "later": "Your role's sections open right away. Later you can add another role in “Who am I?”.",
       "subtitle": "How will you use FURAM?",
       "title": "Welcome!"
     },
@@ -2794,6 +2793,7 @@
       "noneHint": "Picking a role opens its sections and starts the trial.",
       "noneTitle": "No role chosen",
       "notFound": "No such role",
+      "openRole": "Open the selected role",
       "payNote": "The role period and plan status are shown on this page.",
       "perMonth": "%{p} UZS/mo",
       "pickSub": "Pick the role that fits you",
@@ -2987,7 +2987,7 @@
       "resendIn": "Resend in %{n} s",
       "roleDispatcher": "I manage listings",
       "roleDriver": "I drive myself and look for cargo",
-      "roleHint": "This decides what you see in the app. You can change it later.",
+      "roleHint": "This role's sections open as soon as you sign up. You can add another role later.",
       "roleOwner": "I own trucks and hire drivers",
       "roleShipper": "I post cargo and look for transport",
       "safeText": "FURAM is always with you",
@@ -3799,6 +3799,10 @@
     "PRICE": "The price doesn't work",
     "ROUTE": "The route changed",
     "VEHICLE": "The truck doesn't fit"
+  },
+  "rolTanlash": {
+    "DRIVER": "I drive someone else's truck — trips, loads, earnings",
+    "VEHICLE_OWNER": "I own a truck — I drive it myself or a driver does"
   },
   "roleGroup": {
     "cargo": "Cargo & logistics",

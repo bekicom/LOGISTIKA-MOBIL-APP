@@ -2745,8 +2745,7 @@
     "rol": {
       "guest": "Misafir olarak",
       "guestHint": "Giriş yapmadan göz atın",
-      "later": "Diğer rolleri sonra ekleyebilirsiniz — usta, mağaza, işveren…",
-      "selected": "Seçildi",
+      "later": "Seçtiğiniz rolün bölümleri hemen açılır. Daha sonra «Ben kimim?» bölümünden başka rol de ekleyebilirsiniz.",
       "subtitle": "Kim olarak giriyorsunuz?",
       "title": "Hoş geldiniz!"
     },
@@ -2794,6 +2793,7 @@
       "noneHint": "Bir rol seçince o bölümler açılır ve deneme başlar.",
       "noneTitle": "Rol seçilmedi",
       "notFound": "Böyle bir rol bulunamadı",
+      "openRole": "Seçilen rolü aç",
       "payNote": "Rol süresi ve plan durumu bu sayfada görünür.",
       "perMonth": "%{p} som/ay",
       "pickSub": "Size uygun rolü seçin",
@@ -2987,7 +2987,7 @@
       "resendIn": "%{n} sn sonra tekrar gönder",
       "roleDispatcher": "İlanları yönetiyorum",
       "roleDriver": "Kendim sürüyorum, yük arıyorum",
-      "roleHint": "Uygulamada ne göreceğinizi bu belirler. Sonra değiştirilebilir.",
+      "roleHint": "Bu rolün bölümleri kayıt olur olmaz açılır. Daha sonra başka rol de ekleyebilirsiniz.",
       "roleOwner": "Aracım var, sürücü çalışıyor",
       "roleShipper": "Yük veriyorum, araç arıyorum",
       "safeText": "FURAM her zaman yanınızda",
@@ -3799,6 +3799,10 @@
     "PRICE": "Fiyat uygun değil",
     "ROUTE": "Güzergâh değişti",
     "VEHICLE": "Araç uygun değil"
+  },
+  "rolTanlash": {
+    "DRIVER": "Başkasının aracında çalışıyorum — sefer, yük, kazanç",
+    "VEHICLE_OWNER": "Aracım var — kendim sürüyorum ya da sürücü çalışıyor"
   },
   "roleGroup": {
     "cargo": "Yük ve lojistik",

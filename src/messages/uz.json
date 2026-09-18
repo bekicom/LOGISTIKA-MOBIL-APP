@@ -2745,8 +2745,7 @@
     "rol": {
       "guest": "Mehmon sifatida",
       "guestHint": "Kirmasdan ko'rib chiqing",
-      "later": "Boshqa rollarni keyin qo'shasiz — usta, do'kon, ish beruvchi…",
-      "selected": "Tanlangan",
+      "later": "Tanlagan rolingiz bo'limlari darhol ochiladi. Keyin «Men kimman?» bo'limida boshqa rol ham qo'shish mumkin.",
       "subtitle": "Kim sifatida kirasiz?",
       "title": "Xush kelibsiz!"
     },
@@ -2794,6 +2793,7 @@
       "noneHint": "Rol tanlaganingizda o'sha bo'limlar ochiladi va sinov muddati boshlanadi.",
       "noneTitle": "Rol tanlanmagan",
       "notFound": "Bunday rol topilmadi",
+      "openRole": "Tanlangan rolni ochish",
       "payNote": "Rol muddati va tarif holati shu sahifada ko'rinadi.",
       "perMonth": "%{p} so'm/oy",
       "pickSub": "O'zingizga mos rolni tanlang",
@@ -2987,7 +2987,7 @@
       "resendIn": "%{n} soniyadan keyin qayta yuborish",
       "roleDispatcher": "E'lonlarni boshqaraman",
       "roleDriver": "O'zim haydayman, yuk qidiraman",
-      "roleHint": "Ilovada nima ko'rinishini shu belgilaydi. Keyin o'zgartirsa bo'ladi.",
+      "roleHint": "Shu rolning bo'limlari ro'yxatdan o'tganingiz zahoti ochiladi. Keyin boshqa rol ham qo'shish mumkin.",
       "roleOwner": "Mashinam bor, haydovchi ishlaydi",
       "roleShipper": "Yuk joylayman, transport qidiraman",
       "safeText": "FURAM doimo siz bilan",
@@ -3799,6 +3799,10 @@
     "PRICE": "Narx mos emas",
     "ROUTE": "Yo'nalish o'zgardi",
     "VEHICLE": "Mashina mos emas"
+  },
+  "rolTanlash": {
+    "DRIVER": "Boshqaning mashinasida ishlayman — reys, yuk, daromad",
+    "VEHICLE_OWNER": "Mashinam bor — o'zim haydayman yoki haydovchi ishlaydi"
   },
   "roleGroup": {
     "cargo": "Yuk va logistika",

@@ -45,6 +45,7 @@ export function Tap({
   scale = 0.97,
   accessibilityLabel,
   accessibilityRole = "button",
+  selected,
   hitSlop,
 }: {
   children: ReactNode;
@@ -57,7 +58,9 @@ export function Tap({
   feel?: TapFeel;
   scale?: number;
   accessibilityLabel?: string;
-  accessibilityRole?: "button" | "link" | "switch" | "tab";
+  accessibilityRole?: "button" | "link" | "switch" | "tab" | "radio";
+  /** Tanlov (radio, yorliq) — ekran o'quvchiga «tanlangan» deb aytiladi */
+  selected?: boolean;
   hitSlop?: number;
 }) {
   const press = usePressScale(scale);
@@ -80,7 +83,7 @@ export function Tap({
         hitSlop={hitSlop}
         accessibilityRole={accessibilityRole}
         accessibilityLabel={accessibilityLabel}
-        accessibilityState={{ disabled: !!disabled }}
+        accessibilityState={{ disabled: !!disabled, ...(selected !== undefined ? { selected } : {}) }}
       >
         {children}
       </Pressable>

@@ -19,14 +19,19 @@
  * Buni aytmasak odam «hammasi yo'qoladi» deb qo'rqadi va shu
  * qo'rquv bilan qaror qiladi.
  */
+import { useState } from "react";
 import { Platform, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Header } from "@/components/ui";
+import { Button, Header } from "@/components/ui";
+import { RolePicker } from "@/components/RolePicker";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
+import { api, FuramError } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
+import { isRoyxatRol, ROL_IKONKA, ROYXAT_ROLLARI, type RoyxatRol } from "@/lib/rollar";
 import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -53,15 +58,61 @@ export default function Rollarim() {
   /* Apple 3.1.1 — narx va to'lov yo'nalishi iOS'da ko'rsatilmaydi */
   const iosDa = Platform.OS === "ios";
 
+  const { refresh: authYangila } = useAuth();
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     live: Live[];
+    expired?: { roleKey: string }[];
     offers?: Offer[];
   }>("/api/roles");
 
   const live = data?.live ?? [];
-  const offers = (data?.offers ?? []).filter(
-    (o) => !live.some((l) => l.roleKey === o.roleKey),
-  );
+
+  /* ══ ROL QO'SHISH (TZ-04, 2026-09-19) ══
+     Ilgari bu ekranda rolni OCHIB BO'LMASDI: Android'da narxli ro'yxat
+     (bosilmaydigan), iOS'da esa umuman hech narsa. Rolsiz odam uchun bu
+     boshi berk ko'cha edi — «Tarifingizga kirmaydi → Rolni tanlang»
+     shu yerga olib kelardi (brauzerda bosib sinalganda ko'rindi).
+
+     Endi rol tanlanadi va SINOV muddati shu zahoti ochiladi
+     (`POST /api/roles` → `chooseRole`). Bu sotuv emas — narx va to'lov
+     yo'q, shuning uchun ikkala platformada bir xil. Ilgari olingan
+     (muddati tugagan) rol qayta taklif qilinmaydi: server takror
+     sinov bermaydi (`EXISTS`). */
+  const band = new Set([...live.map((l) => l.roleKey), ...(data?.expired ?? []).map((e) => e.roleKey)]);
+  const qoshsaBoladi = ROYXAT_ROLLARI.filter((r) => !band.has(r));
+  /* Android'da narx — MA'LUMOT sifatida (Play to'lovni tashqariga
+     yo'naltirishni taqiqlaydi, narxni ko'rsatishni emas). iOS'da yo'q:
+     Apple 3.1.1 */
+  const narxlar: Partial<Record<RoyxatRol, string>> = {};
+  if (!iosDa) {
+    for (const o of data?.offers ?? []) {
+      if (isRoyxatRol(o.roleKey)) {
+        narxlar[o.roleKey] = t("mob.roles.priceDays", { sum: fmtNum(o.price), n: o.days });
+      }
+    }
+  }
+
+  const [tanlov, setTanlov] = useState<RoyxatRol | null>(null);
+  const [ochilmoqda, setOchilmoqda] = useState(false);
+  const [xato, setXato] = useState<string | null>(null);
+
+  async function rolniOch() {
+    if (!tanlov || ochilmoqda) return;
+    setOchilmoqda(true);
+    setXato(null);
+    try {
+      await api("/api/roles", { method: "POST", body: { roleKey: tanlov } });
+      setTanlov(null);
+      /* Huquqlar ro'yxati (`can()`) ham yangilanadi — aks holda bo'limlar
+         ilova qayta ochilguncha qulf ko'rinib turardi */
+      await authYangila();
+      reload();
+    } catch (e) {
+      setXato((e as FuramError).message ?? t("mob.err.generic"));
+    } finally {
+      setOchilmoqda(false);
+    }
+  }
 
   return (
     <View style={s.root}>
@@ -84,11 +135,13 @@ export default function Rollarim() {
                   {live.map((r) => {
                     const trial = r.status === "TRIAL";
                     const left = r.daysLeft;
-                    /* Sinov muddati qisqa (odatda 3–7 kun),
-                       to'lovli tarif esa oylik. Chiziq shu
-                       farqni hisobga oladi, aks holda sinov
-                       doim «deyarli tugagan» ko'rinardi. */
-                    const span = trial ? 7 : 30;
+                    /* Chiziq muddatning O'Z uzunligiga nisbatan: sinov
+                       tarifning `trialDays` i (TZ-04 dan beri 10 kun),
+                       to'lovli davr — tarifning `days` i. Qattiq
+                       yozilgan 7 kun 10 kunlik sinovni birinchi uch
+                       kun «to'la» ko'rsatardi. */
+                    const tarif = data?.offers?.find((o) => o.roleKey === r.roleKey);
+                    const span = Math.max(1, trial ? (tarif?.trialDays ?? 10) : (tarif?.days ?? 30));
                     const pct = left == null ? 0 : Math.max(2, Math.min(100, (left / span) * 100));
                     const soon = left != null && left <= 5;
 
@@ -102,7 +155,7 @@ export default function Rollarim() {
                             ]}
                           >
                             <Icon
-                              name="user"
+                              name={isRoyxatRol(r.roleKey) ? ROL_IKONKA[r.roleKey] : "user"}
                               size={21}
                               stroke={soon ? color.warning : color.success}
                             />
@@ -155,40 +208,26 @@ export default function Rollarim() {
               </View>
             )}
 
-            {live.length === 0 && (
-              <View style={s.card}>
-                <Text style={s.emptyTitle}>{t("mob.roles.noneTitle")}</Text>
-                <Text style={s.emptyText}>{t("mob.roles.noneHint")}</Text>
-              </View>
-            )}
-
-            {/* ══ QO'SHISH MUMKIN ROLLAR ══
-                iOS'da KO'RSATILMAYDI (2026-09-17, A21): Apple 3.1.1 ilova
-                ichida ochiladigan imkoniyatning narxini ko'rsatib, to'lovni
-                tashqariga yo'naltirishni rad qiladi. Ilgari bu yerda
-                narx ham, bosilganda hech narsa qilmaydigan qator ham bor
-                edi. To'lov (IAP yoki bepul tarif) hal bo'lgach qaytariladi.
-                Android'da narx qoladi, lekin qator — oddiy ma'lumot. */}
-            {!iosDa && offers.length > 0 && (
+            {qoshsaBoladi.length > 0 && (
               <View>
-                <Text style={s.group}>{t("mob.roles.addGroup")}</Text>
-                <View style={[s.card, { padding: 0 }]}>
-                  {offers.map((o, i) => (
-                    <View key={o.roleKey} style={[s.offer, i < offers.length - 1 && s.offerLine]}>
-                      <View style={[s.iconSm, { backgroundColor: color.muted }]}>
-                        <Icon name="plus" size={18} stroke={color.mutedForeground} />
-                      </View>
-                      <View style={{ flexGrow: 1, minWidth: 0 }}>
-                        <Text style={s.offerName}>{t(`mob.role.${o.roleKey}`)}</Text>
-                        <Text style={s.offerPrice}>
-                          {t("mob.roles.priceDays", {
-                            sum: fmtNum(o.price),
-                            n: o.days,
-                          })}
-                        </Text>
-                      </View>
-                    </View>
-                  ))}
+                <Text style={s.group}>
+                  {live.length === 0 ? t("mob.roles.noneTitle") : t("mob.roles.addGroup")}
+                </Text>
+                <Text style={s.pickHint}>{t("mob.roles.noneHint")}</Text>
+                <RolePicker
+                  value={tanlov}
+                  onChange={setTanlov}
+                  faqat={qoshsaBoladi}
+                  qoshimcha={narxlar}
+                />
+                {xato ? <Text style={s.err}>{xato}</Text> : null}
+                <View style={{ marginTop: space.md }}>
+                  <Button
+                    title={t("mob.roles.openRole")}
+                    onPress={rolniOch}
+                    loading={ochilmoqda}
+                    disabled={!tanlov}
+                  />
                 </View>
               </View>
             )}
@@ -210,6 +249,8 @@ export default function Rollarim() {
 
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
+  pickHint: { fontSize: 12.5, lineHeight: 18, color: color.mutedForeground, marginBottom: space.md, marginLeft: 4 },
+  err: { fontSize: 12.5, color: color.danger, marginTop: space.sm },
   scroll: { padding: space.lg, gap: space.lg },
   group: {
     fontSize: 12,
@@ -231,7 +272,6 @@ const s = themed(() => ({
 
   row: { flexDirection: "row", alignItems: "center", gap: 11 },
   icon: { width: 42, height: 42, borderRadius: 12, alignItems: "center", justifyContent: "center" },
-  iconSm: { width: 36, height: 36, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   roleName: { fontSize: 15, fontWeight: "600", color: color.foreground },
   roleMeta: { fontSize: 12, marginTop: 1 },
 
@@ -239,13 +279,7 @@ const s = themed(() => ({
   barFill: { height: "100%", borderRadius: 3 },
   endNote: { fontSize: 12, color: color.mutedForeground, marginTop: 9, lineHeight: 18 },
 
-  emptyTitle: { fontSize: 15, fontWeight: "600", color: color.foreground },
-  emptyText: { fontSize: 13, color: color.mutedForeground, marginTop: 4, lineHeight: 19 },
 
-  offer: { flexDirection: "row", alignItems: "center", gap: 12, padding: 13 },
-  offerLine: { borderBottomWidth: 1, borderBottomColor: color.muted },
-  offerName: { fontSize: 14, fontWeight: "600", color: color.foreground },
-  offerPrice: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
   note: {
     flexDirection: "row",

@@ -15,22 +15,14 @@ import { ChannelPick, useChannels, type Channel } from "@/components/ChannelPick
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space, themed } from "@/lib/theme";
-import { roleLabel, t } from "@/lib/i18n";
-import { RoleIcon } from "@/components/RoleIcon";
+import { t } from "@/lib/i18n";
+import { RolePicker, RolTanlangan } from "@/components/RolePicker";
+import { boshlangichRol, eskiRol, type RoyxatRol } from "@/lib/rollar";
 import { useSocialSignIn } from "@/components/SocialButtons";
 import { PhoneCodePick } from "@/components/PhoneCodePick";
 import { PHONE_CODES } from "@/lib/phone-codes";
 
 type Step = "phone" | "code" | "details";
-
-/* Rol nomi va tavsifi lug'atda: `mob.role.*` va `mob.signUp.role*`.
-   Bu yerda faqat ENUM qiymati va tavsif kaliti turadi. */
-const ROLES = [
-  { value: "DRIVER", desc: "mob.signUp.roleDriver" },
-  { value: "SHIPPER", desc: "mob.signUp.roleShipper" },
-  { value: "VEHICLE_OWNER", desc: "mob.signUp.roleOwner" },
-  { value: "DISPATCHER", desc: "mob.signUp.roleDispatcher" },
-] as const;
 
 export default function Royxat() {
   /* Davlat kodi (2026-09-14): avval «+998» qotib turardi — MDH va
@@ -53,8 +45,14 @@ export default function Royxat() {
      bo'lmasa (kirishdan «Ro'yxatdan o'tish» bosilgan) — ro'yxat
      shu yerda ko'rsatiladi. */
   const { role: roleParam } = useLocalSearchParams<{ role?: string }>();
-  const preset = ROLES.some((r) => r.value === roleParam) ? (roleParam as string) : null;
-  const [role, setRole] = useState<string>(preset ?? "DRIVER");
+  /* Rol (TZ-04): sotuvdagi 11 tadan biri. Eski havolalardagi «SHIPPER»,
+     «DRIVER» ham tushuniladi (`boshlangichRol`). Oldindan tanlanmagan
+     bo'lsa STANDART QIYMAT QO'YILMAYDI: jonlida odamlar ro'yxatdagi
+     birinchi tanish so'zni tanlab o'tib ketgan (114 «dispecher»), shu
+     sababdan tanlov ongli bo'lishi kerak. */
+  const preset = boshlangichRol(roleParam);
+  const [rol, setRol] = useState<RoyxatRol | null>(preset);
+  const [tanlovOchiq, setTanlovOchiq] = useState(!preset);
   const social = useSocialSignIn(preset);
   const [agreed, setAgreed] = useState(false);
   const [left, setLeft] = useState(0);
@@ -115,6 +113,7 @@ export default function Royxat() {
   }
 
   async function register() {
+    if (!rol) return;
     setErr(null);
     setBusy(true);
     try {
@@ -126,7 +125,11 @@ export default function Royxat() {
           password,
           firstName: firstName.trim(),
           ...(lastName.trim() ? { lastName: lastName.trim() } : {}),
-          role,
+          /* `roleKey` — haqiqiy rol: server uning sinov muddatini shu
+             zahoti ochadi (`chooseRole`). `role` — eski majburiy ustun,
+             server uni baribir `roleKey` dan chiqaradi */
+          role: eskiRol(rol),
+          roleKey: rol,
           verificationToken: token,
           acceptOffer: true,
         },
@@ -296,47 +299,17 @@ export default function Royxat() {
               />
             </View>
 
-            {preset ? (
-              /* Rol `rol.tsx` da tanlangan — shu yerda faqat eslatma */
-              <View style={[s.role, s.roleOn, { marginTop: space.xxl }]}>
-                <View style={[s.roleIcon, { backgroundColor: color.brand }]}>
-                  <RoleIcon value={role} on />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.roleName}>{roleLabel(role)}</Text>
-                  <Text style={s.roleDesc}>{t(ROLES.find((r) => r.value === role)?.desc ?? "mob.signUp.roleHint")}</Text>
-                </View>
-                <Pressable onPress={() => router.replace("/rol")} hitSlop={8}>
-                  <Text style={s.link}>{t("mob.signUp.otherRole")}</Text>
-                </Pressable>
-              </View>
+            <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.signUp.whoAreYou")}</Text>
+            {rol && !tanlovOchiq ? (
+              /* Rol `rol.tsx` da tanlangan — shu yerda eslatma. «Boshqa rol»
+                 tanlovni SHU YERDA ochadi: ilgari `/rol` ga qaytarardi va
+                 tasdiqlangan telefon bilan kiritilgan ism yo'qolardi */
+              <RolTanlangan rol={rol} onChange={() => setTanlovOchiq(true)} />
             ) : (
               <>
-                <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.signUp.whoAreYou")}</Text>
                 <Text style={s.hint}>{t("mob.signUp.roleHint")}</Text>
-
-                <View style={{ gap: 9, marginTop: space.md }}>
-                  {ROLES.map((r) => {
-                    const on = role === r.value;
-                    return (
-                      <Pressable key={r.value} onPress={() => setRole(r.value)} style={[s.role, on && s.roleOn]}>
-                        <View style={[s.roleIcon, on && { backgroundColor: color.brand }]}>
-                          <RoleIcon value={r.value} on={on} />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                          <Text style={s.roleName}>{roleLabel(r.value)}</Text>
-                          <Text style={s.roleDesc}>{t(r.desc)}</Text>
-                        </View>
-                        <View style={[s.radio, on && s.radioOn]}>
-                          {on ? (
-                            <Svg width={13} height={13} viewBox="0 0 24 24">
-                              <Path d="M20 6 9 17l-5-5" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                            </Svg>
-                          ) : null}
-                        </View>
-                      </Pressable>
-                    );
-                  })}
+                <View style={{ marginTop: space.md }}>
+                  <RolePicker value={rol} onChange={setRol} />
                 </View>
               </>
             )}
@@ -373,7 +346,7 @@ export default function Royxat() {
                 title={t("mob.signUp.title")}
                 onPress={register}
                 loading={busy}
-                disabled={!agreed || firstName.trim().length < 2 || password.length < 6}
+                disabled={!rol || !agreed || firstName.trim().length < 2 || password.length < 6}
               />
               {!agreed ? <Text style={s.hintCenter}>{t("mob.signUp.offerRequired")}</Text> : null}
             </View>
@@ -397,16 +370,6 @@ const s = themed(() => ({
   phoneRow: { flexDirection: "row", gap: 8 },
 
 
-  radio: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    borderWidth: 2,
-    borderColor: color.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  radioOn: { backgroundColor: color.brand, borderColor: color.brand },
 
   boxes: { flexDirection: "row", gap: 9, marginTop: 30 },
   box: {
@@ -423,26 +386,6 @@ const s = themed(() => ({
   boxText: { fontSize: 26, fontWeight: "700", color: color.foreground },
   hidden: { position: "absolute", opacity: 0, height: 1, width: 1 },
 
-  role: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 13,
-    padding: 14,
-    borderRadius: radius.control,
-    borderWidth: 1,
-    borderColor: color.border,
-  },
-  roleOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180a" },
-  roleIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: radius.control,
-    backgroundColor: color.muted,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  roleName: { fontSize: font.body, fontWeight: "600", color: color.foreground },
-  roleDesc: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
 
   offer: { flexDirection: "row", gap: 11, marginTop: 22, alignItems: "flex-start" },
   check: {

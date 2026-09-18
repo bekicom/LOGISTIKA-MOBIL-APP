@@ -21,6 +21,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import { Icon } from "@/components/Icon";
 import { AiReportButton } from "@/components/AiReport";
+import { webToApp } from "@/lib/routes";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t, tOr } from "@/lib/i18n";
@@ -89,18 +90,11 @@ const SOURCE: Record<string, string> = {
   border_queues: "trips",
 };
 
-/** Serverdagi web manzili → ilovadagi ekran */
-const GOTO: Record<string, string> = {
-  "/trips": "/reyslar",
-  "/loads": "/yuklar",
-  "/trucks": "/yuklar",
-  "/chats": "/chat",
-  "/profile": "/profil",
-  "/panel": "/bosh",
-  "/deals": "/reyslar",
-  "/jobs": "/yuklar",
-  "/contracts": "/reyslar",
-};
+/* Serverdagi web manzili → ilovadagi ekran: `lib/routes.ts` dagi
+   UMUMIY jadval (2026-09-19). Ilgari bu yerda 9 ta yo'lli alohida
+   ro'yxat turardi va manzilni SO'ROV QISMI bilan birga qidirardi —
+   TZ-09 dan keyin server `/loads?fromId=12` kabi havola yuboradi va
+   tugma hech qayerga olib bormay qolardi. */
 
 /**
  * Server xatosini foydalanuvchi tilida ko'rsatish.
@@ -195,8 +189,10 @@ export default function Suhbat() {
         method: "PATCH",
         body: { confirm },
       });
-      setToast(confirm ? (r.message ?? t("mob.ai.actDone")) : t("mob.ai.actRejected"));
-      const to = r.goto ? GOTO[r.goto] : null;
+      /* Serverning `message` i o'zbekcha tayyor jumla («Sahifaga
+         o'tilmoqda») — ilova sakkiz tilda, shuning uchun o'z matni */
+      setToast(confirm ? t("mob.ai.actDone") : t("mob.ai.actRejected"));
+      const to = r.goto ? webToApp(r.goto) : null;
       if (to) router.push(to as never);
     } catch (e) {
       setToast(aiError(e as FuramError));

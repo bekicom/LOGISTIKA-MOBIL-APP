@@ -15,6 +15,7 @@
  * beriladi: birinchi reys boshlanganda.
  */
 import { Platform } from "react-native";
+import { webToApp } from "./routes";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import Constants from "expo-constants";
@@ -192,24 +193,11 @@ export function routeOf(data: Record<string, unknown> | undefined): string | nul
   const href = typeof data?.href === "string" ? data.href : null;
   if (!href) return null;
 
-  const map: [RegExp, (m: RegExpMatchArray) => string][] = [
-    [/^\/trips\/([\w-]+)/, (m) => `/reys/${m[1]}`],
-    [/^\/loads\/([\w-]+)/, (m) => `/yuk/${m[1]}`],
-    [/^\/trucks\/([\w-]+)/, (m) => `/mashina/${m[1]}`],
-    [/^\/chats\/([\w-]+)/, (m) => `/suhbat/${m[1]}`],
-    [/^\/trips$/, () => "/reyslar"],
-    [/^\/loads$/, () => "/yuklar"],
-    [/^\/chats$/, () => "/chat"],
-    [/^\/documents$/, () => "/hujjatlarim"],
-    [/^\/fleet/, () => "/parkim"],
-    [/^\/(fleet\/)?queues$/, () => "/navbat"],
-    [/^\/deals$/, () => "/kelishuvlar"],
-  ];
-
-  for (const [re, to] of map) {
-    const m = href.match(re);
-    if (m) return to(m);
-  }
+  /* Jadval BITTA — `lib/routes.ts` (2026-09-19). Ilgari bu yerda
+     alohida ro'yxat turardi va u `/loads$` ni ANIQ solishtirardi:
+     saqlangan qidiruv yig'masi va AI turtkilari `/loads?fromId=…`
+     yuboradi, shuning uchun ular hech qachon mos kelmay, ro'yxatga
+     tushib qolardi. Ikki jadval bo'lsa biri albatta eskirardi. */
   // Tanish bo'lmagan manzil — bildirishnomalar ro'yxatiga
-  return "/bildirishnomalar";
+  return webToApp(href) ?? "/bildirishnomalar";
 }

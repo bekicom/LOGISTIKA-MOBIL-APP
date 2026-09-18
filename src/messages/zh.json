@@ -168,6 +168,23 @@
     "OTHER": "其他",
     "VEHICLE_BROKEN": "车辆故障"
   },
+  "chatTil": {
+    "asl": "原文",
+    "aslimniKorish": "我的原文",
+    "ketdi": "已以%{til}发送",
+    "ketganiniKorish": "对方看到的内容",
+    "menga": "我读",
+    "mengaHint": "收到的消息以此语言显示",
+    "sabab": {
+      "AI_OFF": "翻译暂时关闭——消息未翻译即发送",
+      "FAILED": "翻译失败——消息按原文发送",
+      "RATE_LIMIT": "翻译额度已用完——消息未翻译即发送"
+    },
+    "saveFailed": "无法保存",
+    "standart": "默认：%{til}",
+    "unga": "我发",
+    "ungaHint": "我的消息以此语言发送给对方"
+  },
   "contactCard": {
     "revealFailed": "无法显示号码",
     "sendSms": "发送短信",

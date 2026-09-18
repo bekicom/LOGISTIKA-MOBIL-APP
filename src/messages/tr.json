@@ -168,6 +168,23 @@
     "OTHER": "Diğer",
     "VEHICLE_BROKEN": "Araç bozuldu"
   },
+  "chatTil": {
+    "asl": "Orijinal",
+    "aslimniKorish": "benim yazdığım",
+    "ketdi": "%{til} olarak gönderildi",
+    "ketganiniKorish": "karşı tarafın gördüğü",
+    "menga": "Okuyorum",
+    "mengaHint": "Gelen mesajlar bu dilde gösterilir",
+    "sabab": {
+      "AI_OFF": "Çeviri şu an kapalı — mesaj çevrilmeden gitti",
+      "FAILED": "Çevrilemedi — mesaj yazıldığı gibi gitti",
+      "RATE_LIMIT": "Çeviri sınırı doldu — mesaj çevrilmeden gitti"
+    },
+    "saveFailed": "Kaydedilemedi",
+    "standart": "Varsayılan: %{til}",
+    "unga": "Gönderiyorum",
+    "ungaHint": "Mesajlarım karşı tarafa bu dilde gider"
+  },
   "contactCard": {
     "revealFailed": "Numara açılamadı",
     "sendSms": "SMS gönder",

@@ -22,7 +22,7 @@ import { Icon } from "@/components/Icon";
 import { Empty } from "@/components/state";
 import { flush, list, remove, retry, type Job } from "@/lib/outbox";
 import { isOnline } from "@/lib/net";
-import { t } from "@/lib/i18n";
+import { t, tOr } from "@/lib/i18n";
 import { color, font, radius, space, themed } from "@/lib/theme";
 
 export default function Navbatim() {
@@ -74,7 +74,13 @@ export default function Navbatim() {
                       <Text style={s.kind}>{t(`mob.outboxKind.${j.kind}`)}</Text>
                       <Text style={s.when}>{when(j.createdAt)}</Text>
                     </View>
-                    <Text style={s.err}>{j.lastError ?? t("mob.err.generic")}</Text>
+                    {/* `lastError` — rad etish KODI (`outbox.ts:xatoKodi`), matni
+                        lug'atdan. Eski yozuvlarda server matni turgan
+                        bo'lishi mumkin — u kalit bo'lolmaydi va umumiy
+                        xatoga tushadi. */}
+                    <Text style={s.err}>
+                      {j.lastError ? tOr(`apiErr.${j.lastError}`, t("mob.err.generic")) : t("mob.err.generic")}
+                    </Text>
                     <View style={s.btns}>
                       <Pressable
                         style={s.btn}

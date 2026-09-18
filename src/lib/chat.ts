@@ -37,6 +37,10 @@ export type ChatMsg = {
   confirms: { userId: string; name: string }[];
   seenBy: number;
   seenTotal: number;
+  /** Yuboruvchi qaysi tilda jo'natgan («Unga», TZ-08) */
+  sentLang?: string | null;
+  /** O'Z xabarim: suhbatdoshga aynan shu matn ketdi */
+  sentText?: string | null;
   /** Faqat ilovada — hali yuborilmagan */
   pending?: boolean;
 };

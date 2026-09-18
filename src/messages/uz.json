@@ -168,6 +168,23 @@
     "OTHER": "Boshqa",
     "VEHICLE_BROKEN": "Mashina buzildi"
   },
+  "chatTil": {
+    "asl": "Asl matn",
+    "aslimniKorish": "o'zim yozganini ko'rish",
+    "ketdi": "Unga %{til} tilida ketdi",
+    "ketganiniKorish": "unga ketganini ko'rish",
+    "menga": "Menga",
+    "mengaHint": "Kelgan xabarni shu tilda o'qiyman",
+    "sabab": {
+      "AI_OFF": "Tarjima hozir o'chiq — xabar tarjimasiz ketdi",
+      "FAILED": "Tarjima bo'lmadi — xabar asl holida ketdi",
+      "RATE_LIMIT": "Tarjima chegarasi tugadi — xabar tarjimasiz ketdi"
+    },
+    "saveFailed": "Saqlab bo'lmadi",
+    "standart": "Standart: %{til}",
+    "unga": "Unga",
+    "ungaHint": "Men yozganim suhbatdoshga shu tilda ketadi"
+  },
   "contactCard": {
     "revealFailed": "Raqamni ochib bo'lmadi",
     "sendSms": "SMS yuborish",

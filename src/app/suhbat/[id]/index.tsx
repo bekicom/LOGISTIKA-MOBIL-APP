@@ -20,10 +20,11 @@ import * as Location from "expo-location";
 import { setAudioModeAsync } from "expo-audio";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { ReportSheet } from "@/components/ReportSheet";
+import { ChatLangChips } from "@/components/ChatLangChips";
 import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { VoiceBubble } from "@/components/VoiceBubble";
@@ -33,6 +34,7 @@ import { pickDocument, pickPhotos, takePhoto, toUpload } from "@/lib/photo";
 import { openRemoteFile } from "@/lib/files";
 import { afterSheet } from "@/lib/native-ui";
 import { extOf, messageFile, messageFilePath, type ChatMsg } from "@/lib/chat";
+import { isChatTil, tarjimaKerak, tarjimasizSabab, type ChatTillari } from "@/lib/chat-til";
 import { useAuth } from "@/lib/auth-context";
 import { tariffBlocked } from "@/lib/features";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
@@ -51,10 +53,14 @@ type Feed = {
   messages: ChatMsg[];
   pinned: ChatMsg[];
   readOnly: boolean;
-  title: string | null;
+  /* Faqat birinchi sahifada (2026-09-19 dan) */
+  title?: string | null;
   /* Suhbatdosh — shaxsiy chatda bloklash va shikoyat uchun
      (2026-09-18, do'kon auditi A12). Guruhda `null` keladi. */
   peerId?: string | null;
+  /* «Menga»/«Unga» (TZ-08) — faqat birinchi sahifada (`after` siz).
+     `null` — a'zo emas (masalan yordam suhbatidagi admin) */
+  tillar?: ChatTillari | null;
 };
 
 export default function Suhbat() {
@@ -96,8 +102,22 @@ export default function Suhbat() {
      shu xabar ustidan (2026-09-18, A12) */
   const [report, setReport] = useState<{ target: "user" | "message"; id: string; blockId: string | null } | null>(null);
   const [peerId, setPeerId] = useState<string | null>(null);
+  /* «Menga»/«Unga» (TZ-08). Ref — so'rov halqasi eng oxirgi tilni
+     ko'rsin (`load` qayta yaratilmasdan) */
+  const [tillar, setTillar] = useState<ChatTillari | null>(null);
+  const tillarRef = useRef<ChatTillari | null>(null);
+  /* Tarjimasiz ketgan xabar haqida — XATO EMAS, xabar ketgan */
+  const [ogoh, setOgoh] = useState<string | null>(null);
+  const askRef = useRef<() => Promise<void>>(async () => {});
+  const tarjima = useRef({ band: false, yana: false });
+  /* Profildagi tarjima sozlamasidan qaytganda standart tillar yangilanadi */
+  const sozlamadan = useRef(false);
 
   const listRef = useRef<FlatList<ChatMsg>>(null);
+  /* PASTGA YOPISHISH: ro'yxat faqat odam oxirida turgan bo'lsa suriladi.
+     Ilgari HAR o'lcham o'zgarishida surilardi — tarixni o'qiyotgan odam
+     eski xabarda «Asl matnni ko'rish» ni bossa ham pastga sakrardi */
+  const stick = useRef(true);
   const kbOpen = useKeyboardOpen();
 
   /* ── yuklash ─────────────────────────────────────────────── */
@@ -107,10 +127,21 @@ export default function Suhbat() {
         const q = !initial && lastTs.current ? `?after=${encodeURIComponent(lastTs.current)}` : "";
         const d = await api<Feed>(`/api/chat/${id}/messages${q}`);
         setReadOnly(!!d.readOnly);
-        if (d.title) setTitle(d.title);
+        /* Sarlavha faqat BIRINCHI sahifadan: eski server `after`
+           so'rovlarida ham umumiy «Suhbat» so'zini qaytaradi va u har
+           6 soniyada suhbatdosh ismining o'rnini egallardi */
+        if (d.title && !q) setTitle(d.title);
         if (d.peerId !== undefined && d.peerId !== null) setPeerId(d.peerId);
         if (initial || !lastTs.current) setPinnedList(d.pinned ?? []);
+        if (d.tillar !== undefined) {
+          tillarRef.current = d.tillar;
+          setTillar(d.tillar);
+        }
         const incoming = d.messages ?? [];
+        /* Suhbat OCHIQ turganda kelgan xabar ham o'girilsin (TZ-08) —
+           faqat o'girilmagan xabar kelganda, har so'rovda emas */
+        const menga = tillarRef.current?.menga ?? null;
+        if (!initial && incoming.some((m) => tarjimaKerak(m, meId, menga))) void askRef.current();
         if (incoming.length) {
           lastTs.current = incoming[incoming.length - 1].createdAt;
           setMessages((prev) => {
@@ -128,25 +159,46 @@ export default function Suhbat() {
         if (initial) setLoaded(true);
       }
     },
-    [id],
+    [id, meId],
   );
 
   /* Kelgan xabarlar tarjimasi — fonda; tayyor bo'lsa ro'yxat
-     qaytadan olinadi */
+     qaytadan olinadi.
+
+     BIR VAQTDA BITTA so'rov: server har chaqiruvda hali o'girilmagan
+     12 tagacha xabarni oladi — ikkita parallel so'rov o'sha xabarlarni
+     IKKI MARTA o'girib, AI chegarasini ikki barobar yerdi. Band paytida
+     kelgan chaqiruv yo'qolmaydi: tugagach bir marta qaytariladi (til
+     almashgan zahoti yangi til uchun so'rov shunday ketadi). */
   const askTranslations = useCallback(async () => {
+    const q = tarjima.current;
+    if (q.band) {
+      q.yana = true;
+      return;
+    }
+    q.band = true;
     try {
-      const r = await api<{ done?: number }>(`/api/chat/${id}/translate`, {
-        method: "POST",
-        body: { mode: "incoming" },
-      });
-      if ((r.done ?? 0) > 0) {
-        lastTs.current = null;
-        await load(true);
-      }
+      do {
+        q.yana = false;
+        const r = await api<{ done?: number }>(`/api/chat/${id}/translate`, {
+          method: "POST",
+          body: { mode: "incoming" },
+        });
+        if ((r.done ?? 0) > 0) {
+          lastTs.current = null;
+          await load(true);
+        }
+      } while (q.yana);
     } catch {
       /* AI yo'q yoki chegara — asl matn qoladi */
+    } finally {
+      q.band = false;
     }
   }, [id, load]);
+
+  useEffect(() => {
+    askRef.current = askTranslations;
+  }, [askTranslations]);
 
   useEffect(() => {
     void setAudioModeAsync({ playsInSilentMode: true });
@@ -163,6 +215,32 @@ export default function Suhbat() {
     await load(true);
   }, [load]);
 
+  /* Til tugmasi bosildi — ro'yxat yangi til bilan qayta olinadi va
+     yetishmagan tarjimalar so'raladi */
+  const tilOzgardi = useCallback(
+    async (yangi: ChatTillari) => {
+      tillarRef.current = yangi;
+      setTillar(yangi);
+      await full();
+      await askTranslations();
+    },
+    [full, askTranslations],
+  );
+
+  /* Profildagi tarjima sozlamasidan qaytdi — «Standart: …» va
+     tanlanmagan «Menga» o'sha sozlamaga bog'liq. Tillar birinchi
+     sahifa bilan birga keladi, alohida so'rov kerak emas */
+  useFocusEffect(
+    useCallback(() => {
+      if (!sozlamadan.current) return;
+      sozlamadan.current = false;
+      void (async () => {
+        await full();
+        await askTranslations();
+      })();
+    }, [full, askTranslations]),
+  );
+
   /* ── yuborish ────────────────────────────────────────────── */
   const sendText = useCallback(async () => {
     const body = text.trim();
@@ -176,20 +254,27 @@ export default function Suhbat() {
       confirms: [], seenBy: 0, seenTotal: 0, pending: true,
     };
     setPending((p) => [...p, temp]);
+    /* O'z xabarimni doim ko'raman — tepada o'qib turgan bo'lsam ham */
+    stick.current = true;
     setText("");
     setImproved(null);
     const reply = replyTo;
     setReplyTo(null);
     setBusy(true);
     setErr(null);
+    setOgoh(null);
     try {
-      await sendOrQueue({
+      const r = await sendOrQueue<{ tarjimasiz?: unknown }>({
         kind: "message",
         path: `/api/chat/${id}/messages`,
         body: { text: body, ...(reply ? { replyToId: reply.id } : {}), clientKey: temp.id },
         files: [],
         priority: P_SOON,
       });
+      /* «Unga» tarjimasi bo'lmadi — xabar BARIBIR ketdi, lekin odam
+         suhbatdosh uni o'z tilida olmaganini bilsin */
+      const sabab = r.queued ? null : tarjimasizSabab(r.javob?.tarjimasiz);
+      if (sabab) setOgoh(t(`chatTil.sabab.${sabab}`));
       setPending((p) => p.filter((m) => m.id !== temp.id));
       await load(false);
     } catch (e) {
@@ -415,6 +500,13 @@ export default function Suhbat() {
         </Pressable>
       </View>
 
+      {/* 🔴 Menga / 🔵 Unga (TZ-08) */}
+      {tillar ? (
+        <View style={s.langRow}>
+          <ChatLangChips chatId={id} tillar={tillar} onChange={(v) => void tilOzgardi(v)} yozaOladi={!readOnly} />
+        </View>
+      ) : null}
+
       {searchOn ? (
         <View style={s.searchBar}>
           <Icon name="search" size={17} stroke={color.mutedForeground} />
@@ -463,7 +555,19 @@ export default function Suhbat() {
         keyExtractor={(m) => m.id}
         contentContainerStyle={s.list}
         showsVerticalScrollIndicator={false}
-        onContentSizeChange={() => !query && listRef.current?.scrollToEnd({ animated: false })}
+        onScroll={(e) => {
+          const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent;
+          stick.current = contentOffset.y + layoutMeasurement.height >= contentSize.height - 80;
+        }}
+        scrollEventThrottle={100}
+        /* `scrollToEnd` EMAS: u oxirgi katakning o'lchamiga tayanadi va bu
+           paytda o'lcham hali eski bo'lishi mumkin — til almashib matnlar
+           uzaygach ro'yxat chala surilib, oxirgi xabar yozish qatori
+           ostida qolardi (brauzerda bosib sinalganda ko'rindi). Yangi
+           balandlik to'g'ridan-to'g'ri beriladi, ortig'i chegaraga qisiladi */
+        onContentSizeChange={(_, h) => {
+          if (!query && stick.current) listRef.current?.scrollToOffset({ offset: h, animated: false });
+        }}
         ListEmptyComponent={
           loaded && !loadErr ? (
             <Text style={s.empty}>{query ? t("mob.msg.notFound") : t("mob.msg.noMessages")}</Text>
@@ -491,6 +595,14 @@ export default function Suhbat() {
         <Pressable style={s.errBar} onPress={() => setErr(null)}>
           <Icon name="alert" size={15} stroke={color.danger} />
           <Text style={s.errText}>{err}</Text>
+        </Pressable>
+      ) : null}
+
+      {ogoh ? (
+        <Pressable style={s.warnBar} onPress={() => setOgoh(null)} accessibilityRole="button">
+          <Icon name="globe" size={15} stroke={color.warning} />
+          <Text style={s.warnText}>{ogoh}</Text>
+          <Icon name="close" size={14} stroke={color.warning} />
         </Pressable>
       ) : null}
 
@@ -593,7 +705,7 @@ export default function Suhbat() {
         <MenuRow icon="bell" label={t(chatMuted ? "mob.msg.menu.unmute" : "mob.msg.menu.mute")} onPress={() => setFlag({ isMuted: !chatMuted })} />
         <MenuRow icon="doc" label={t("mob.msg.menu.docs")} onPress={() => { setMenu(false); router.push({ pathname: "/suhbat/[id]/hujjatlar", params: { id } }); }} />
         <MenuRow icon="alert" label={t("mob.msg.menu.incidents")} onPress={() => { setMenu(false); router.push({ pathname: "/suhbat/[id]/hodisalar", params: { id } }); }} />
-        <MenuRow icon="globe" label={t("mob.msg.menu.lang")} onPress={() => { setMenu(false); router.push("/profil/messenger"); }} />
+        <MenuRow icon="globe" label={t("mob.msg.menu.lang")} onPress={() => { setMenu(false); sozlamadan.current = true; router.push("/profil/messenger"); }} />
         {/* Ilgari bu qator YORDAM CHATINI ochardi: shikoyat na odamga,
             na xabarga bog'lanmasdi va moderator nimani ko'rishini
             bilmasdi (2026-09-18, do'kon auditi A12). Endi suhbatdosh
@@ -710,7 +822,17 @@ function Bubble({
   const special = !!msg.kind && msg.kind !== "LISTING";
   const fg = mine && !special ? "#ffffff" : color.foreground;
   const dim = mine && !special ? "#ffffffcc" : color.mutedForeground;
-  const body = showOrig ? msg.text : (msg.shown ?? msg.text);
+  /* O'Z xabarim boshqa tilda ketgan («Unga», TZ-08): menga asl matnim,
+     bosilsa — suhbatdosh aynan nima olgani. `showOrig` bu yerda
+     «ikkinchi ko'rinish» degani */
+  const ketgan = mine && msg.sentText && isChatTil(msg.sentLang) ? { til: msg.sentLang, matn: msg.sentText } : null;
+  const body = ketgan
+    ? showOrig
+      ? ketgan.matn
+      : msg.text
+    : showOrig
+      ? msg.text
+      : (msg.shown ?? msg.text);
   const kindIcon: Record<string, IconName> = { AGREEMENT: "handshake", PAY_REQUEST: "wallet", EVIDENCE: "paperclip", INCIDENT: "alert", CONFIRM: "check" };
 
   return (
@@ -783,6 +905,21 @@ function Bubble({
 
       {body && !(msg.kind === "LISTING" && msg.refCard) ? (
         <Text style={[s.text, { color: fg }]}>{body}</Text>
+      ) : null}
+
+      {ketgan ? (
+        <Pressable
+          onPress={onToggleOrig}
+          hitSlop={6}
+          style={s.trRow}
+          accessibilityRole="button"
+          accessibilityHint={t("chatTil.ketdi", { til: LOCALE_INFO[ketgan.til].native })}
+        >
+          <View style={s.ungaDot} />
+          <Text style={[s.trText, { color: dim }]}>
+            {LOCALE_INFO[ketgan.til].flag} {t(showOrig ? "chatTil.aslimniKorish" : "chatTil.ketganiniKorish")}
+          </Text>
+        </Pressable>
       ) : null}
 
       {msg.translated ? (
@@ -869,6 +1006,8 @@ const s = themed(() => ({
   title: { fontSize: font.bodyLg, fontWeight: "800", color: color.foreground, letterSpacing: -0.2 },
   sub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
+  langRow: { paddingHorizontal: space.lg, paddingBottom: 8 },
+
   searchBar: {
     flexDirection: "row", alignItems: "center", gap: 8, marginHorizontal: space.lg, marginBottom: 6,
     height: 42, paddingHorizontal: 12, borderRadius: radius.control, backgroundColor: color.card, ...shadow.card,
@@ -903,6 +1042,9 @@ const s = themed(() => ({
   image: { width: 220, height: 220, borderRadius: 12, backgroundColor: color.muted, marginBottom: 4 },
   trRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 },
   trText: { fontSize: 11, textDecorationLine: "underline" },
+  /* «Unga» rangi — tepadagi ko'k tugma bilan bog'lanadi. Oq halqa:
+     o'z xabarim fonida (to'q sariq) ham ko'rinsin */
+  ungaDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: color.blue, borderWidth: 1, borderColor: "#ffffff" },
 
   refCard: { marginTop: 6, padding: 10, borderRadius: 12, backgroundColor: color.background },
   refKind: { fontSize: 10.5, fontWeight: "800", color: color.mutedForeground, letterSpacing: 0.4 },
@@ -922,6 +1064,8 @@ const s = themed(() => ({
 
   errBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: space.lg, paddingVertical: 8, backgroundColor: color.dangerSoft },
   errText: { fontSize: 12, color: color.danger, flex: 1 },
+  warnBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: space.lg, paddingVertical: 8, backgroundColor: color.warningSoft },
+  warnText: { fontSize: 12, color: color.warning, flex: 1 },
 
   readOnly: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, paddingTop: 12, backgroundColor: color.card, ...shadow.bar },
   readOnlyText: { fontSize: 13, color: color.mutedForeground },

@@ -93,18 +93,25 @@ export async function list(): Promise<Job[]> {
 
 /* ─────────────────────────────────────────────── navbatga qo'yish */
 
-export async function enqueue(job: {
+export type NewJob = {
   kind: string;
   path: string;
   method?: string;
   body?: unknown;
   files?: Upload[];
   priority?: number;
-}): Promise<string> {
-  const d = await open();
-  /* Kalit SHU YERDA yaratiladi va O'ZGARMAYDI. Qayta yuborishda
-     o'sha kalit ketadi — server takrorni shundan taniydi. */
+};
+
+export async function enqueue(job: NewJob): Promise<string> {
   const id = Crypto.randomUUID();
+  await insert(id, job);
+  return id;
+}
+
+/* Kalit (`id`) yozuv bilan birga yoziladi va O'ZGARMAYDI. Qayta
+   yuborishda o'sha kalit ketadi — server takrorni shundan taniydi. */
+async function insert(id: string, job: NewJob): Promise<void> {
+  const d = await open();
   await d.runAsync(
     `INSERT INTO outbox (id, kind, path, method, body, files, priority, nextAt, createdAt)
      VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)`,
@@ -118,7 +125,6 @@ export async function enqueue(job: {
     Date.now(),
   );
   await notify();
-  return id;
 }
 
 export async function remove(id: string): Promise<void> {
@@ -141,6 +147,22 @@ export async function retry(id: string): Promise<void> {
 /* ─────────────────────────────────────────────── yuborish */
 
 let running = false;
+
+type Javob = { status: number; text: string };
+
+/**
+ * `sendOrQueue` kutayotgan yozuvlar va ularning server JAVOBI.
+ *
+ * Navbat «yubordim» bilan cheklanmaydi: ba'zi javobda ekran uchun
+ * ma'lumot bor — xabar «Unga» tilida tarjimasiz ketgani (`tarjimasiz`,
+ * TZ-08) yoki rad etish kodi. Ilgari javob tashlab yuborilardi va
+ * suhbat HAR rad etishga bir xil «matnni boshqacha yozib ko'ring»
+ * derdi — bloklangan odamga ham.
+ *
+ * Faqat KUTILAYOTGAN yozuv javobi saqlanadi: fonda ketgan yuzlab GPS
+ * to'plamining javobi xotirada to'planib qolmasin.
+ */
+const kutuvchilar = new Map<string, Javob | null>();
 
 /**
  * Navbatni bo'shatish.
@@ -227,24 +249,29 @@ async function send(job: Job): Promise<boolean> {
     return false;
   }
 
+  /* Kimdir shu yozuvni kutyapti — javob unga yetib borsin. Bazaga
+     yozishdan OLDIN: `sendOrQueue` yozuv o'chganini ko'rgan zahoti
+     javobni oladi. */
+  if (kutuvchilar.has(job.id)) kutuvchilar.set(job.id, { status, text });
+
   if (status >= 200 && status < 300) {
     await d.runAsync(`DELETE FROM outbox WHERE id = ?`, job.id);
     if (job.kind === "gps") await gpsJavobi(job.path, text);
     return true;
   }
 
-  const message = safeMessage(text) ?? `HTTP ${status}`;
+  const kod = xatoKodi(status, text);
 
   /* 4xx — server RAD ETDI. Qayta yuborish yordam bermaydi:
      ma'lumot noto'g'ri yoki huquq yo'q. Yozuvni jimgina
      tashlamaymiz — foydalanuvchi nima o'tmaganini KO'RISHI kerak.
      429 va 408 esa vaqtinchalik, ular kutadi. */
   if (status >= 400 && status < 500 && status !== 429 && status !== 408) {
-    await d.runAsync(`UPDATE outbox SET failed = 1, lastError = ? WHERE id = ?`, message, job.id);
+    await d.runAsync(`UPDATE outbox SET failed = 1, lastError = ? WHERE id = ?`, kod, job.id);
     return true;
   }
 
-  await backoff(job, message);
+  await backoff(job, kod);
   return false;
 }
 
@@ -289,14 +316,34 @@ async function backoff(job: Job, message: string | null) {
   );
 }
 
-function safeMessage(text: string): string | null {
+/**
+ * Rad etish KODI — matni emas (`USER_BLOCKED`, `READ_ONLY`…).
+ *
+ * Ekran uni lug'atdan o'qiydi (`apiErr.*`, CLAUDE.md 3-qoida). Ilgari
+ * bu yerga serverning o'zbekcha `message` i yozilardi: rus tilidagi
+ * haydovchi navbat ekranida o'zbekcha xato ko'rardi.
+ */
+function xatoKodi(status: number, text: string): string {
+  const j = jsonOf(text);
+  return typeof j?.error === "string" ? j.error : `HTTP_${status}`;
+}
+
+function jsonOf(text: string): Record<string, unknown> | null {
   try {
-    const j = JSON.parse(text);
-    return typeof j?.message === "string" ? j.message : (j?.error ?? null);
+    const v: unknown = JSON.parse(text);
+    return v && typeof v === "object" ? (v as Record<string, unknown>) : null;
   } catch {
     return null;
   }
 }
+
+/* ─────────────────────────────────────────────── yuborib kutish */
+
+export type Yuborish<T> =
+  /** Navbatda — aloqa yo'q yoki navbat band; javob keyin, ekransiz */
+  | { queued: true }
+  /** Hozir ketdi; `javob` — server javobining tanasi */
+  | { queued: false; javob: T | null };
 
 /**
  * So'rovni yuborish, aloqa bo'lmasa NAVBATGA qo'yish.
@@ -305,46 +352,45 @@ function safeMessage(text: string): string | null {
  * u telefonda turibdi va aloqa qaytganda ketadi. «Xato» deb
  * ko'rsatsak, haydovchi bir xil narsani qayta-qayta kiritardi.
  */
-export async function sendOrQueue(job: {
-  kind: string;
-  path: string;
-  method?: string;
-  body?: unknown;
-  files?: Upload[];
-  priority?: number;
-}): Promise<{ queued: boolean }> {
-  if (await isOnline()) {
-    try {
-      const id = await enqueue(job);
-      await flush();
-      const d = await open();
-      const still = await d.getFirstAsync<{ id: string; failed: number }>(
-        `SELECT id, failed FROM outbox WHERE id = ?`,
-        id,
-      );
-      if (!still) return { queued: false };
-      /* Server RAD ETGAN bo'lsa — bu haqiqiy xato, ekran ko'rsatsin.
-         Yozuv navbatdan olinadi: takrorlanib turishining ma'nosi
-         yo'q, foydalanuvchi hozir shu yerda va tuzata oladi. */
-      if (still.failed) {
-        const row = await d.getFirstAsync<{ lastError: string | null }>(
-          `SELECT lastError FROM outbox WHERE id = ?`,
-          id,
-        );
-        await remove(id);
-        throw new FuramError({
-          error: "REJECTED",
-          message: row?.lastError ?? "Yuborilmadi",
-          status: 400,
-        });
-      }
-      return { queued: true };
-    } catch (e) {
-      if (e instanceof FuramError) throw e;
-      return { queued: true };
-    }
+export async function sendOrQueue<T = unknown>(job: NewJob): Promise<Yuborish<T>> {
+  if (!(await isOnline())) {
+    await enqueue(job);
+    return { queued: true };
   }
 
-  await enqueue(job);
-  return { queued: true };
+  /* Kalit YOZISHDAN OLDIN kutuvchilarga qo'yiladi: parallel `flush`
+     yozuvni shu zahoti olib ketsa ham javobi yo'qolmaydi */
+  const id = Crypto.randomUUID();
+  kutuvchilar.set(id, null);
+  try {
+    await insert(id, job);
+    await flush();
+    const d = await open();
+    const still = await d.getFirstAsync<{ failed: number; lastError: string | null }>(
+      `SELECT failed, lastError FROM outbox WHERE id = ?`,
+      id,
+    );
+    const javob = kutuvchilar.get(id) ?? null;
+    if (!still) return { queued: false, javob: javob ? (jsonOf(javob.text) as T | null) : null };
+
+    /* Server RAD ETGAN bo'lsa — bu haqiqiy xato, ekran ko'rsatsin.
+       Yozuv navbatdan olinadi: takrorlanib turishining ma'nosi
+       yo'q, foydalanuvchi hozir shu yerda va tuzata oladi. */
+    if (still.failed) {
+      await remove(id);
+      const data = javob ? jsonOf(javob.text) : null;
+      throw new FuramError({
+        error: typeof data?.error === "string" ? data.error : (still.lastError ?? "REJECTED"),
+        status: javob?.status ?? 400,
+        details: data?.details as Record<string, string[]> | undefined,
+        data,
+      });
+    }
+    return { queued: true };
+  } catch (e) {
+    if (e instanceof FuramError) throw e;
+    return { queued: true };
+  } finally {
+    kutuvchilar.delete(id);
+  }
 }

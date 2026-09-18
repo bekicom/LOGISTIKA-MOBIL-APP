@@ -168,6 +168,23 @@
     "OTHER": "Other",
     "VEHICLE_BROKEN": "The truck broke down"
   },
+  "chatTil": {
+    "asl": "Original",
+    "aslimniKorish": "my original",
+    "ketdi": "Sent in %{til}",
+    "ketganiniKorish": "what they received",
+    "menga": "I read",
+    "mengaHint": "Incoming messages are shown in this language",
+    "sabab": {
+      "AI_OFF": "Translation is off right now — message sent untranslated",
+      "FAILED": "Couldn't translate — message sent as written",
+      "RATE_LIMIT": "Translation limit reached — message sent untranslated"
+    },
+    "saveFailed": "Couldn't save",
+    "standart": "Default: %{til}",
+    "unga": "I send",
+    "ungaHint": "My messages reach the other person in this language"
+  },
   "contactCard": {
     "revealFailed": "Could not reveal the number",
     "sendSms": "Send SMS",

@@ -13,9 +13,16 @@
  * tekshiradi — parol va yopilmagan reyslar. Reys ogohlantirishi
  * TO'SIQ EMAS: tasdiqlangach baribir o'chadi, aks holda reysi
  * tiqilib qolgan odam hisobini umuman o'chira olmasdi.
+ *
+ * ⚠️ GOOGLE/APPLE HISOBI (2026-09-17, do'kon auditi A1): bunday hisobda
+ * parol tasodifiy yaratiladi va odam uni BILMAYDI — parol so'ralsa
+ * hisobini umuman o'chira olmasdi. Apple 5.1.1(v) va Google Play buni
+ * to'g'ridan-to'g'ri rad sababi qiladi. Shuning uchun ekran ochilganda
+ * `/api/profile/deletion` dan qanday tasdiq kerakligi so'raladi:
+ * parolli hisobda — parol, ijtimoiy hisobda — aniq tasdiq belgisi.
  */
-import { useState } from "react";
-import { ScrollView, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Button, Card, Field, Header } from "@/components/ui";
@@ -42,6 +49,25 @@ export default function HisobniOchirish() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [trips, setTrips] = useState<ActiveTrip[] | null>(null);
+  /** `null` — hali bilinmadi: parol maydoni ham, tasdiq ham ko'rsatilmaydi */
+  const [social, setSocial] = useState<boolean | null>(null);
+  const [tasdiq, setTasdiq] = useState(false);
+
+  useEffect(() => {
+    let tirik = true;
+    api<{ social: boolean }>("/api/profile/deletion")
+      .then((r) => {
+        if (tirik) setSocial(!!r.social);
+      })
+      /* So'rov o'tmasa parolli yo'lga tushamiz: server baribir tekshiradi,
+         ya'ni bu yerda xato ko'rsatishning ma'nosi yo'q */
+      .catch(() => tirik && setSocial(false));
+    return () => {
+      tirik = false;
+    };
+  }, []);
+
+  const tayyor = social ? tasdiq : !!password;
 
   async function submit() {
     setBusy(true);
@@ -50,7 +76,9 @@ export default function HisobniOchirish() {
       await api("/api/profile", {
         method: "DELETE",
         // Reyslar ko'rsatilgandan keyingi ikkinchi bosish — bilib turib tasdiq
-        body: { password, confirmActiveTrips: trips !== null },
+        body: social
+          ? { confirm: true, confirmActiveTrips: trips !== null }
+          : { password, confirmActiveTrips: trips !== null },
       });
       await signOut();
       router.replace("/til");
@@ -61,7 +89,14 @@ export default function HisobniOchirish() {
       } else if (err.code === "BAD_PASSWORD") {
         setError(t("mob.delete.badPassword"));
       } else if (err.code === "PASSWORD_REQUIRED") {
-        setError(t("mob.delete.passwordRequired"));
+        /* Server hisob ijtimoiy ekanini aytdi — ekran parol so'rab
+           turgan bo'lsa, tasdiq belgisiga o'tamiz */
+        if (err.data?.social === true) {
+          setSocial(true);
+          setError("");
+        } else {
+          setError(t("mob.delete.passwordRequired"));
+        }
       } else {
         setError(err.message ?? t("mob.delete.failed"));
       }
@@ -128,27 +163,50 @@ export default function HisobniOchirish() {
           </View>
         ) : null}
 
-        {/* Parol */}
-        <View>
-          <Field
-            label={t("mob.delete.confirmPassword")}
-            value={password}
-            onChangeText={(v) => {
-              setPassword(v);
-              setError("");
-            }}
-            secureTextEntry={!show}
-            autoCapitalize="none"
-            autoComplete="current-password"
-            placeholder="••••••••"
-            error={error || undefined}
-            right={
-              <Text onPress={() => setShow(!show)} style={s.showBtn}>
-                {show ? t("mob.common.hide") : t("mob.common.show")}
-              </Text>
-            }
-          />
-        </View>
+        {/* Tasdiq: parolli hisobda parol, Google/Apple hisobida belgi */}
+        {social === null ? null : social ? (
+          <View style={{ gap: space.sm }}>
+            <Text style={s.socialNote}>{t("mob.delete.socialNote")}</Text>
+            <Pressable
+              onPress={() => {
+                setTasdiq(!tasdiq);
+                setError("");
+              }}
+              /* Ruxsat belgisi — ekran o'quvchiga ham holati bilinadi */
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: tasdiq }}
+              accessibilityLabel={t("mob.delete.socialConfirm")}
+              style={s.check}
+            >
+              <View style={[s.box, tasdiq && s.boxOn]}>
+                {tasdiq ? <Icon name="check" size={14} stroke="#ffffff" /> : null}
+              </View>
+              <Text style={s.checkText}>{t("mob.delete.socialConfirm")}</Text>
+            </Pressable>
+            {error ? <Text style={s.err}>{error}</Text> : null}
+          </View>
+        ) : (
+          <View>
+            <Field
+              label={t("mob.delete.confirmPassword")}
+              value={password}
+              onChangeText={(v) => {
+                setPassword(v);
+                setError("");
+              }}
+              secureTextEntry={!show}
+              autoCapitalize="none"
+              autoComplete="current-password"
+              placeholder="••••••••"
+              error={error || undefined}
+              right={
+                <Text onPress={() => setShow(!show)} style={s.showBtn}>
+                  {show ? t("mob.common.hide") : t("mob.common.show")}
+                </Text>
+              }
+            />
+          </View>
+        )}
 
         {/* Bekor qilish ASOSIY, o'chirish ikkinchi darajali */}
         <View style={{ gap: space.md }}>
@@ -157,7 +215,7 @@ export default function HisobniOchirish() {
             title={trips ? t("mob.delete.deleteAnyway") : t("mob.delete.title")}
             variant="secondary"
             loading={busy}
-            disabled={!password}
+            disabled={!tayyor}
             onPress={submit}
           />
         </View>
@@ -225,6 +283,16 @@ const s = themed(() => ({
   tripLine: { fontSize: font.caption, color: color.foreground, marginTop: 8 },
 
   showBtn: { fontSize: font.caption, fontWeight: "600", color: color.brand },
+
+  socialNote: { fontSize: font.caption, color: color.mutedForeground, lineHeight: 19 },
+  check: { flexDirection: "row", alignItems: "center", gap: space.sm, paddingVertical: space.sm },
+  box: {
+    width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: color.border,
+    alignItems: "center", justifyContent: "center",
+  },
+  boxOn: { backgroundColor: color.danger, borderColor: color.danger },
+  checkText: { flex: 1, fontSize: font.body, fontWeight: "600", color: color.foreground },
+  err: { fontSize: font.caption, color: color.danger },
 
   foot: { fontSize: 12, color: color.mutedForeground, lineHeight: 18, paddingHorizontal: space.xs },
 }));

@@ -219,6 +219,11 @@ export async function appleBilan(): Promise<Natija> {
           nonce,
           ism: cred.fullName?.givenName ?? null,
           familiya: cred.fullName?.familyName ?? null,
+          /* App Store 5.1.1(v): hisob o'chirilganda Apple'dagi ruxsat ham
+             bekor qilinishi shart. Buning uchun server SHU kodni refresh
+             tokenga almashtirib qo'yadi (`furam/src/lib/apple-revoke.ts`).
+             Kod bir marta ishlaydi — kirishdan boshqa payt olinmaydi. */
+          authorizationCode: cred.authorizationCode ?? null,
         },
       }),
     );

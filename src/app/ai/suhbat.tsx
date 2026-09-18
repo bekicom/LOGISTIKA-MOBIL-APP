@@ -20,6 +20,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import { Icon } from "@/components/Icon";
+import { AiReportButton } from "@/components/AiReport";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t, tOr } from "@/lib/i18n";
@@ -401,6 +402,11 @@ function Bubble({
           </Pressable>
         </View>
       ) : null}
+
+      {/* AI javobi ustidan shikoyat — Google Play talabi (2026-09-18,
+          do'kon auditi A13). Ogohlantirish xabari (`warn`) AI javobi
+          emas, ilovaning o'z matni — unga shikoyat qilinmaydi. */}
+      {!msg.warn ? <AiReportButton place="chat" answer={msg.text} /> : null}
     </View>
   );
 }

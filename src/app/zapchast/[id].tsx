@@ -27,6 +27,7 @@ import { Button, Field, Header, Switch } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
+import { ReportRow, ReportSheet } from "@/components/ReportSheet";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
@@ -79,6 +80,8 @@ export default function Detal() {
   }>(id ? `/api/parts/${id}` : null, [id]);
 
   const [sheet, setSheet] = useState(false);
+  /* Shikoyat varaqasi — do'kon talabi (2026-09-18, A12) */
+  const [report, setReport] = useState(false);
 
   if (loading && !data) {
     return (
@@ -237,7 +240,16 @@ export default function Detal() {
             <Text style={s.btnPriText}>{t("mob.part.order")}</Text>
           </Pressable>
         )}
+
+        {/* Shikoyat — do'kon talabi (2026-09-18, A12) */}
+        {!isMine ? (
+          <ReportRow onPress={() => setReport(true)} label={t("mob.abuse.listing")} />
+        ) : null}
       </ScrollView>
+
+      {report ? (
+        <ReportSheet open onClose={() => setReport(false)} target="part" targetId={p.id} />
+      ) : null}
 
       <OrderSheet
         open={sheet}

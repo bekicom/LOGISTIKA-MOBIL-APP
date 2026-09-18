@@ -51,7 +51,10 @@ export async function clearToken(): Promise<void> {
 export type User = {
   id: string;
   furamId: number;
-  phone: string;
+  /* Google yoki Apple bilan ochilgan hisobda raqam YO'Q (2026-09-17,
+     A10): tur `string` deb yozilgani uchun ilova uni doim bor deb
+     hisoblardi va profil ekranida `null` chizilardi. */
+  phone: string | null;
   firstName: string;
   lastName: string | null;
   role: string;

@@ -31,6 +31,7 @@ import { t } from "@/lib/i18n";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
+import { ReportRow, ReportSheet } from "@/components/ReportSheet";
 
 type Doc = { kind: string; state: string };
 
@@ -88,6 +89,8 @@ export default function MashinaTafsilot() {
   const [shot, setShot] = useState(0);
   const [revealing, setRevealing] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  /* Shikoyat varaqasi — do'kon talabi (2026-09-18, A12) */
+  const [report, setReport] = useState(false);
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<Detail>(
     id ? `/api/trucks/${id}` : null,
@@ -331,8 +334,26 @@ export default function MashinaTafsilot() {
           <Text style={s.footMeta}>
             {t("mob.trucks.viewed", { n: data.views })}
           </Text>
+
+          {/* Shikoyat — do'kon talabi (2026-09-18, A12) */}
+          {!data.isMine && data.owner ? (
+            <ReportRow onPress={() => setReport(true)} label={t("mob.abuse.listing")} />
+          ) : null}
         </View>
       </ScrollView>
+
+      {report && data?.owner ? (
+        <ReportSheet
+          open
+          onClose={() => setReport(false)}
+          target="vehicle"
+          targetId={String(id)}
+          blockUserId={data.owner.id}
+          onDone={(blocked) => {
+            if (blocked) router.back();
+          }}
+        />
+      ) : null}
 
       {/* O'z e'loni: shu mashinaga qanday yuk bor */}
       {data.isMine ? (

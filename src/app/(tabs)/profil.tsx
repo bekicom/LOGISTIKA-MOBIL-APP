@@ -15,7 +15,7 @@
  * Atamalar ham ataylab tanlangan: «obuna» so'zi Apple tekshiruvida
  * IAP talabini chaqiradi, shuning uchun «xizmat rejasi» deyiladi.
  */
-import { Alert, Platform, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Alert, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -177,20 +177,12 @@ function OwnProfil() {
             </View>
           ) : null}
 
-          {Platform.OS === "ios" ? (
-            /* iOS: narx, tugma va havola YO'Q — Guideline 3.1.1 */
-            <Text style={s.iosNote}>{t("mob.profile.iosNote")}</Text>
-          ) : (
-            <View style={{ marginTop: space.lg, gap: space.sm }}>
-              <Text style={s.price}>
-                {plan ? t("mob.profile.extendHint") : t("mob.profile.openPlan")}
-              </Text>
-              <Button
-                title={plan ? t("mob.profile.extend") : t("mob.profile.openPlan")}
-                onPress={() => Alert.alert(t("mob.common.soon"), t("mob.common.soon"))}
-              />
-            </View>
-          )}
+          {/* Narx, tugma va havola YO'Q — Apple 3.1.1. Android'da ilgari
+              «Uzaytirish» tugmasi bor edi-yu, bosilganda «tez orada»
+              oynasi chiqardi: Apple 2.1 buni ham rad qiladi va
+              foydalanuvchiga ham hech narsa bermasdi. To'lov qurilmaguncha
+              ikkala platformada bir xil izoh turadi (2026-09-17, A21/A22). */}
+          <Text style={s.iosNote}>{t("mob.profile.planNote")}</Text>
         </Card>
 
         {/* Menyu */}
@@ -202,6 +194,18 @@ function OwnProfil() {
               title={t("mob.profile.editTitle")}
               onPress={() => router.push("/profil/tahrir")}
             />
+            {/* Raqami YO'Q hisob — Google/Apple bilan ochilgani
+                (2026-09-17, A10). Server e'lon berish va kontakt
+                ochishda raqam so'raydi; odam uni to'siqqa urilmasdan
+                ham qo'sha olishi kerak. */}
+            {user && !user.phone ? (
+              <ListRow
+                icon={<Badge icon="phone" />}
+                title={t("mob.phone.title")}
+                hint={t("mob.phone.hint")}
+                onPress={() => router.push("/profil/telefon")}
+              />
+            ) : null}
             <ListRow
               icon={<Badge icon="bell" />}
               title={t("mob.profile.notifications")}
@@ -213,6 +217,15 @@ function OwnProfil() {
               title={t("mob.profile.devices")}
               hint={t("mob.profile.devicesHint")}
               onPress={() => router.push("/profil/qurilmalar")}
+            />
+            {/* Bloklanganlar — do'kon talabi (2026-09-18, A12):
+                bloklash bo'lsa, ro'yxat va blokni ochish yo'li ham
+                bo'lishi kerak */}
+            <ListRow
+              icon={<Badge icon="shield" />}
+              title={t("mob.block.listTitle")}
+              hint={t("mob.block.listRowHint")}
+              onPress={() => router.push("/profil/bloklanganlar")}
               last
             />
           </Card>
@@ -396,7 +409,6 @@ const s = themed(() => ({
   bar: { height: 6, borderRadius: 3, backgroundColor: color.muted, marginTop: space.md, overflow: "hidden" },
   barFill: { height: 6, borderRadius: 3, backgroundColor: color.brand },
   iosNote: { fontSize: 12, color: color.mutedForeground, lineHeight: 18, marginTop: space.md },
-  price: { fontSize: font.caption, color: color.mutedForeground },
 
   badge: {
     width: 34, height: 34, borderRadius: radius.control,

@@ -22,6 +22,7 @@ import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
+import { ReportRow, ReportSheet } from "@/components/ReportSheet";
 import { Sheet } from "@/components/Sheet";
 import { InviteOwner } from "@/components/InviteOwner";
 import { ContactLinks, type Links } from "@/components/ContactLinks";
@@ -75,6 +76,8 @@ export default function YukTafsiloti() {
   const [offer, setOffer] = useState(false);
   const [revealing, setRevealing] = useState(false);
   const [revealErr, setRevealErr] = useState<string | null>(null);
+  /* Shikoyat varaqasi — do'kon talabi (2026-09-18, A12) */
+  const [report, setReport] = useState(false);
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
@@ -323,9 +326,30 @@ export default function YukTafsiloti() {
             {data.isTaken ? (
               <Notice tone="warning">{t("mob.load.alreadyTrip")}</Notice>
             ) : null}
+
+            {/* Shikoyat — do'kon talabi (2026-09-18, A12). O'z e'loniga
+                ko'rsatilmaydi: server ham `SELF` bilan rad qiladi. */}
+            {!data.isMine && data.owner ? (
+              <ReportRow onPress={() => setReport(true)} label={t("mob.abuse.listing")} />
+            ) : null}
           </>
         ) : null}
       </ScrollView>
+
+      {report && data?.owner ? (
+        <ReportSheet
+          open
+          onClose={() => setReport(false)}
+          target="load"
+          targetId={String(id)}
+          blockUserId={data.owner.id}
+          onDone={(blocked) => {
+            /* Bloklangan bo'lsa e'lon lentada ham ko'rinmaydi —
+               ekranda qolishning ma'nosi yo'q */
+            if (blocked) router.back();
+          }}
+        />
+      ) : null}
 
       {/* Pastki panel */}
       {data && !data.isMine && !data.isTaken ? (

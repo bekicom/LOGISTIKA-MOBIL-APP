@@ -27,6 +27,7 @@ import { fmtNum } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { salePhoto } from "@/lib/img";
 import { openRemoteFile, uploadBinary } from "@/lib/files";
+import { ReportRow, ReportSheet } from "@/components/ReportSheet";
 import { pickVideo } from "@/lib/photo";
 import { toggleCompare, useCompare } from "@/lib/compare";
 import { useApi } from "@/lib/use-api";
@@ -128,6 +129,8 @@ export default function EelonTafsilot() {
 
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState("");
+  /* Shikoyat varaqasi — do'kon talabi (2026-09-18, A12) */
+  const [report, setReport] = useState(false);
 
   const sale = data?.sale;
   const picked = !!sale && chosen.includes(sale.id);
@@ -522,8 +525,19 @@ export default function EelonTafsilot() {
               )}
             </View>
           )}
+
+          {/* Shikoyat — do'kon talabi (2026-09-18, A12). Bloklash
+              belgisi yo'q: bu ekranda sotuvchining id si kelmaydi,
+              bloklash esa suhbat va profil orqali ochiq. */}
+          {!sale.isMine ? (
+            <ReportRow onPress={() => setReport(true)} label={t("mob.abuse.listing")} />
+          ) : null}
         </View>
       </ScrollView>
+
+      {report ? (
+        <ReportSheet open onClose={() => setReport(false)} target="sale" targetId={sale.id} />
+      ) : null}
     </View>
   );
 }

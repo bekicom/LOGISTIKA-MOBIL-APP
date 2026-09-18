@@ -23,6 +23,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
+import { ReportSheet } from "@/components/ReportSheet";
 import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { VoiceBubble } from "@/components/VoiceBubble";
@@ -46,7 +47,15 @@ function hhmm(iso: string) {
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
-type Feed = { messages: ChatMsg[]; pinned: ChatMsg[]; readOnly: boolean; title: string | null };
+type Feed = {
+  messages: ChatMsg[];
+  pinned: ChatMsg[];
+  readOnly: boolean;
+  title: string | null;
+  /* Suhbatdosh — shaxsiy chatda bloklash va shikoyat uchun
+     (2026-09-18, do'kon auditi A12). Guruhda `null` keladi. */
+  peerId?: string | null;
+};
 
 export default function Suhbat() {
   const params = useLocalSearchParams<{ id: string; title?: string; pinned?: string; muted?: string }>();
@@ -83,6 +92,10 @@ export default function Suhbat() {
   const [transcribing, setTranscribing] = useState<string | null>(null);
   const [chatPinned, setChatPinned] = useState(params.pinned === "1");
   const [chatMuted, setChatMuted] = useState(params.muted === "1");
+  /* Shikoyat oynasi: `user` — suhbatdosh ustidan, `message` — aynan
+     shu xabar ustidan (2026-09-18, A12) */
+  const [report, setReport] = useState<{ target: "user" | "message"; id: string; blockId: string | null } | null>(null);
+  const [peerId, setPeerId] = useState<string | null>(null);
 
   const listRef = useRef<FlatList<ChatMsg>>(null);
   const kbOpen = useKeyboardOpen();
@@ -95,6 +108,7 @@ export default function Suhbat() {
         const d = await api<Feed>(`/api/chat/${id}/messages${q}`);
         setReadOnly(!!d.readOnly);
         if (d.title) setTitle(d.title);
+        if (d.peerId !== undefined && d.peerId !== null) setPeerId(d.peerId);
         if (initial || !lastTs.current) setPinnedList(d.pinned ?? []);
         const incoming = d.messages ?? [];
         if (incoming.length) {
@@ -580,7 +594,25 @@ export default function Suhbat() {
         <MenuRow icon="doc" label={t("mob.msg.menu.docs")} onPress={() => { setMenu(false); router.push({ pathname: "/suhbat/[id]/hujjatlar", params: { id } }); }} />
         <MenuRow icon="alert" label={t("mob.msg.menu.incidents")} onPress={() => { setMenu(false); router.push({ pathname: "/suhbat/[id]/hodisalar", params: { id } }); }} />
         <MenuRow icon="globe" label={t("mob.msg.menu.lang")} onPress={() => { setMenu(false); router.push("/profil/messenger"); }} />
-        <MenuRow icon="alert" label={t("mob.chat.report")} danger last onPress={() => { setMenu(false); router.push("/yordam"); }} />
+        {/* Ilgari bu qator YORDAM CHATINI ochardi: shikoyat na odamga,
+            na xabarga bog'lanmasdi va moderator nimani ko'rishini
+            bilmasdi (2026-09-18, do'kon auditi A12). Endi suhbatdosh
+            ustidan shikoyat va bloklash. Guruhda suhbatdosh yo'q —
+            u yerda har xabar alohida shikoyat qilinadi. */}
+        {peerId ? (
+          <MenuRow
+            icon="alert"
+            label={t("mob.chat.report")}
+            danger
+            last
+            onPress={() => {
+              setMenu(false);
+              setReport({ target: "user", id: peerId, blockId: peerId });
+            }}
+          />
+        ) : (
+          <MenuRow icon="alert" label={t("mob.chat.report")} danger last onPress={() => { setMenu(false); router.push("/yordam"); }} />
+        )}
       </Sheet>
 
       {/* Tilga o'girish */}
@@ -605,10 +637,42 @@ export default function Suhbat() {
             {msgMenu.text || msgMenu.shown ? (
               <MenuRow icon="copy" label={t("mob.msg.copy")} onPress={async () => { await Clipboard.setStringAsync(msgMenu.shown ?? msgMenu.text ?? ""); setMsgMenu(null); }} />
             ) : null}
-            {msgMenu.senderId === meId && !readOnly ? <MenuRow icon="trash" label={t("mob.msg.delete")} danger last onPress={() => remove(msgMenu)} /> : null}
+            {msgMenu.senderId === meId && !readOnly ? <MenuRow icon="trash" label={t("mob.msg.delete")} danger onPress={() => remove(msgMenu)} /> : null}
+            {/* BEGONA xabar ustidan shikoyat — do'kon talabi (A12).
+                O'z xabariga shikoyat qilishning ma'nosi yo'q: server
+                ham `SELF` bilan rad qiladi. */}
+            {msgMenu.senderId && msgMenu.senderId !== meId ? (
+              <MenuRow
+                icon="alert"
+                label={t("mob.abuse.title")}
+                danger
+                last
+                onPress={() => {
+                  const m = msgMenu;
+                  setMsgMenu(null);
+                  setReport({ target: "message", id: m.id, blockId: m.senderId ?? null });
+                }}
+              />
+            ) : null}
           </>
         ) : null}
       </Sheet>
+
+      {/* Shikoyat va bloklash (2026-09-18, A12) */}
+      {report ? (
+        <ReportSheet
+          open
+          onClose={() => setReport(null)}
+          target={report.target}
+          targetId={report.id}
+          blockUserId={report.blockId}
+          onDone={(blocked) => {
+            /* Bloklangan bo'lsa suhbatda qolishning ma'nosi yo'q:
+               server yozishni to'sadi va xabarlari ko'rinmaydi */
+            if (blocked) router.back();
+          }}
+        />
+      ) : null}
 
       {/* Rasm ko'rish */}
       <Modal visible={!!viewer} transparent animationType="fade" onRequestClose={() => setViewer(null)}>

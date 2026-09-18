@@ -58,6 +58,7 @@
     "FUTURE_DATE": "Sana kelajakda bo'lolmaydi.",
     "GOOGLE_TAKEN": "Bu Google akkaunti allaqachon ro'yxatdan o'tgan — kiring",
     "GUEST": "Bu bo'lim uchun hisob kerak. Ro'yxatdan o'ting yoki kiring.",
+    "HAS_PHONE": "Hisobingizda telefon raqam allaqachon bor.",
     "ID_REQUIRED": "Qaysi yozuv ekani ko'rsatilmagan.",
     "INVALID_CREDENTIALS": "Telefon yoki parol noto'g'ri.",
     "IS_TRAILER": "Tirkamaga tirkama ulanmaydi.",
@@ -115,6 +116,8 @@
     "RATE_LIMIT": "Juda tez-tez so'rayapsiz. Biroz kuting.",
     "READ_ONLY": "Bu yerda faqat o'qish mumkin.",
     "REJECTED": "Qabul qilinmadi — matnni boshqacha yozib ko'ring.",
+    "REPORT_LIMIT": "Bugun juda ko'p shikoyat yubordingiz. Ertaga davom etasiz.",
+    "REPORT_SELF": "O'z kontentingiz ustidan shikoyat qilib bo'lmaydi.",
     "SAME_DRIVER": "Asosiy va ikkinchi haydovchi bir odam bo'lmaydi.",
     "SEAT_TAKEN": "Bu o'rin band. Avval bog'lanishni uzing yoki ikkinchi o'rinni taklif qiling.",
     "SECTION_LOCKED": "Bu bo'lim rolingizga ochilmagan.",
@@ -143,6 +146,7 @@
     "UNAUTHORIZED": "Sessiya tugadi. Qaytadan kiring.",
     "UNAVAILABLE": "Hozir mavjud emas.",
     "UNKNOWN_ACTION": "Bu amal qo'llab-quvvatlanmaydi. Ilovani yangilang.",
+    "USER_BLOCKED": "Bu odam bilan aloqa yopilgan — biri ikkinchisini bloklagan.",
     "USER_NOT_FOUND": "Bunday FURAM ID topilmadi.",
     "VALIDATION": "Kiritilgan ma'lumotni tekshiring.",
     "VEHICLE_BUSY": "Mashina shu orada band bo'ldi.",
@@ -416,6 +420,22 @@
     "routePartial": "Yo'nalish qisman mos"
   },
   "mob": {
+    "abuse": {
+      "failed": "Yuborilmadi, qaytadan urinib ko'ring",
+      "hint": "Sababni tanlang. Shikoyatni moderator ko'radi va qaror qabul qiladi.",
+      "k_FAKE": "Soxta e'lon yoki hisob",
+      "k_FRAUD": "Aldov, firibgarlik",
+      "k_INSULT": "Haqorat va so'kish",
+      "k_OTHER": "Boshqa",
+      "k_SEXUAL": "Nomaqbul kontent",
+      "k_SPAM": "Spam yoki reklama",
+      "k_VIOLENCE": "Zo'ravonlik yoki tahdid",
+      "listing": "E'lon ustidan shikoyat",
+      "note": "Izoh",
+      "notePh": "Nima bo'ldi?",
+      "send": "Shikoyat yuborish",
+      "title": "Shikoyat qilish"
+    },
     "add": {
       "brand": "Rusum",
       "brandPh": "Mercedes-Benz, MAN, Isuzu...",
@@ -545,6 +565,19 @@
       "AI_OFF": "Administrator xizmatni yoqqanidan keyin ishlaydi.",
       "SECTION_LOCKED": "Bo'limni administrator yopgan. Ochilishi uchun unga murojaat qiling.",
       "TARIFF_REQUIRED": "Rolingizni tanlang yoki tarifni yangilang — shundan keyin ochiladi."
+    },
+    "aiRep": {
+      "btn": "Javobga shikoyat",
+      "failed": "Yuborilmadi, qaytadan urinib ko'ring",
+      "hint": "Javobning nusxasi shikoyat bilan birga yuboriladi — moderator nimani ko'rib qaror qilishini bilishi kerak.",
+      "k_DANGEROUS": "Xavfli maslahat",
+      "k_OFFENSIVE": "Haqoratli javob",
+      "k_OTHER": "Boshqa",
+      "k_PRIVACY": "Shaxsiy ma'lumotni oshkor qildi",
+      "k_WRONG": "Xato yoki noto'g'ri ma'lumot",
+      "notePh": "Nimasi xato?",
+      "sent": "Shikoyat yuborildi",
+      "title": "AI javobi ustidan shikoyat"
     },
     "aiSrc": {
       "analytics": "analitika",
@@ -699,6 +732,17 @@
       "fuel_card": "Yoqilg'i kartasi",
       "insurance": "Sug'urta",
       "visa": "Viza yordami"
+    },
+    "block": {
+      "alsoBlock": "Bu odamni bloklash",
+      "alsoBlockHint": "E'lonlari ko'rinmaydi, yozisha olmaysizlar. Ochiq reys va shartnomalar o'z joyida qoladi.",
+      "empty": "Bloklangan hech kim yo'q",
+      "emptyHint": "Kerak bo'lsa suhbat yoki e'lon oynasidan bloklash mumkin.",
+      "listHint": "Bu odamlarning e'lonlari sizga ko'rinmaydi va yozisha olmaysizlar.",
+      "listRowHint": "Ro'yxatni ko'rish va blokni ochish",
+      "listTitle": "Bloklanganlar",
+      "someone": "Foydalanuvchi",
+      "unblock": "Blokni ochish"
     },
     "budget": {
       "add": "Budjet qo'yish",
@@ -932,7 +976,6 @@
       "saving": "Saqlanmoqda...",
       "show": "Ko'rsatish",
       "signOut": "Chiqish",
-      "soon": "tez orada",
       "stepOf": "%{n}-BOSQICH · %{k} DAN",
       "tryAgain": "Qaytadan urinib ko'ring"
     },
@@ -2010,7 +2053,7 @@
       "aboutWhat": "NIMA HAQIDA XABAR BERILSIN",
       "appliesAll": "Yoqilgan bo'limlarning hammasiga qo'llanadi.",
       "howChannel": "QAYSI YO'L BILAN",
-      "pushNote": "Push bildirishnoma telefon sozlamalarida ham yoqiq bo'lishi kerak. Bu ruxsat App Store va Play Market'dan o'rnatilgan ilovada so'raladi.",
+      "pushNote": "Push bildirishnoma telefonning o'z sozlamalarida ham yoqiq bo'lishi kerak — aks holda xabar ko'rinmaydi.",
       "whyTwo": "Nega ikki bosqich",
       "whyTwoText": "Har bo'lim uchun beshta kalit qo'yilsa 50 ta kalit chiqardi — telefonda hech kim uni sozlamaydi. Shuning uchun avval «nima haqida», keyin «qaysi yo'l bilan»."
     },
@@ -2301,6 +2344,7 @@
       "notReady": "Chegaraga tayyor emassiz",
       "older": "ESKI NUSXALAR",
       "olderHint": "Yangi nusxa yuklanganda eskisi o'chirilmaydi — tarixda qoladi.",
+      "openFailed": "Fayl ochilmadi, qaytadan urinib ko'ring",
       "photo": "Hujjat surati",
       "photoFirst": "Surat qo'shilgach faollashadi",
       "photoHint": "Hujjatni tekis yotqizing va butunlay kadrga sig'diring",
@@ -2362,6 +2406,11 @@
       "sub": "Yo'nalish, tajriba va haq",
       "title": "Dispetcher anketasi",
       "vehicleTypes": "Transport turlari"
+    },
+    "phone": {
+      "hint": "E'lon berish va kontakt ochish uchun kerak",
+      "title": "Telefon raqamini qo'shish",
+      "why": "FURAM raqam bilan ishlaydi: e'londa aloqa raqami turadi va yuk egasiga qo'ng'iroq qilinadi. Raqamingizni bir marta tasdiqlaysiz — keyin hamma narsa ochiladi."
     },
     "phoneCode": {
       "pick": "Davlat kodini tanlang"
@@ -2471,6 +2520,7 @@
       "panelHint": "Reys, haq, hujjat va mashina — bir joyda",
       "phoneNote": "Bu raqam — kirish kaliti. O'zgartirish uchun yangi raqam tasdiqlanishi kerak, shuning uchun u alohida qadamda bo'ladi.",
       "planName": "%{plan} rejasi",
+      "planNote": "Faol rejangiz shu yerda ko'rinadi. Savol bo'lsa yordamga yozing.",
       "planPremium": "Kengaytirilgan",
       "points": "ball",
       "rating": "reyting",
@@ -2732,10 +2782,11 @@
       "noneHint": "Rol tanlaganingizda o'sha bo'limlar ochiladi va sinov muddati boshlanadi.",
       "noneTitle": "Rol tanlanmagan",
       "notFound": "Bunday rol topilmadi",
-      "payNote": "Tarif to'lovi brauzerda qilinadi — ilova ichidagi to'lov do'kon komissiyasiga tushadi.",
+      "payNote": "Rol muddati va tarif holati shu sahifada ko'rinadi.",
       "perMonth": "%{p} so'm/oy",
       "pickSub": "O'zingizga mos rolni tanlang",
       "pickTitle": "Rol tanlash",
+      "planNote": "Rollaringiz va muddatlari shu yerda ko'rinadi. Savol bo'lsa yordamga yozing.",
       "priceDays": "%{sum} so'm / %{n} kun",
       "searchPh": "Rol nomi yoki kalit so'z…",
       "subtitle": "Rollar va tariflar",

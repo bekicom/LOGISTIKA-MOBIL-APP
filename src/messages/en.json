@@ -58,6 +58,7 @@
     "FUTURE_DATE": "The date cannot be in the future.",
     "GOOGLE_TAKEN": "This Google account is already registered — please sign in",
     "GUEST": "This section needs an account. Sign up or sign in.",
+    "HAS_PHONE": "Your account already has a phone number.",
     "ID_REQUIRED": "It's not clear which record this is.",
     "INVALID_CREDENTIALS": "Wrong phone number or password.",
     "IS_TRAILER": "A trailer cannot be coupled to a trailer.",
@@ -115,6 +116,8 @@
     "RATE_LIMIT": "Too many requests. Wait a moment.",
     "READ_ONLY": "This is read-only.",
     "REJECTED": "Not accepted — try wording it differently.",
+    "REPORT_LIMIT": "You have sent too many reports today. Please continue tomorrow.",
+    "REPORT_SELF": "You cannot report your own content.",
     "SAME_DRIVER": "The main and second driver can't be the same person.",
     "SEAT_TAKEN": "That seat is taken. End the existing link first, or offer the second seat.",
     "SECTION_LOCKED": "This section isn't open for your role.",
@@ -143,6 +146,7 @@
     "UNAUTHORIZED": "Your session expired. Sign in again.",
     "UNAVAILABLE": "Not available right now.",
     "UNKNOWN_ACTION": "That action isn't supported. Update the app.",
+    "USER_BLOCKED": "Contact with this person is closed — one of you has blocked the other.",
     "USER_NOT_FOUND": "No such FURAM ID.",
     "VALIDATION": "Check what you entered.",
     "VEHICLE_BUSY": "The vehicle became busy in the meantime.",
@@ -416,6 +420,22 @@
     "routePartial": "Route partially matches"
   },
   "mob": {
+    "abuse": {
+      "failed": "Not sent, please try again",
+      "hint": "Choose a reason. A moderator will review the report and decide.",
+      "k_FAKE": "Fake listing or account",
+      "k_FRAUD": "Scam or fraud",
+      "k_INSULT": "Insults and abuse",
+      "k_OTHER": "Other",
+      "k_SEXUAL": "Inappropriate content",
+      "k_SPAM": "Spam or advertising",
+      "k_VIOLENCE": "Violence or threats",
+      "listing": "Report this listing",
+      "note": "Comment",
+      "notePh": "What happened?",
+      "send": "Send report",
+      "title": "Report"
+    },
     "add": {
       "brand": "Make",
       "brandPh": "Mercedes-Benz, MAN, Isuzu...",
@@ -545,6 +565,19 @@
       "AI_OFF": "It will work once the administrator enables the service.",
       "SECTION_LOCKED": "An administrator has closed this section. Ask them to open it.",
       "TARIFF_REQUIRED": "Pick your role or renew your plan — then it opens."
+    },
+    "aiRep": {
+      "btn": "Report this answer",
+      "failed": "Not sent, please try again",
+      "hint": "A copy of the answer is sent with the report so the moderator can see what it was about.",
+      "k_DANGEROUS": "Dangerous advice",
+      "k_OFFENSIVE": "Offensive answer",
+      "k_OTHER": "Other",
+      "k_PRIVACY": "Revealed personal data",
+      "k_WRONG": "Wrong or inaccurate information",
+      "notePh": "What exactly is wrong?",
+      "sent": "Report sent",
+      "title": "Report an AI answer"
     },
     "aiSrc": {
       "analytics": "analytics",
@@ -699,6 +732,17 @@
       "fuel_card": "Fuel card",
       "insurance": "Insurance",
       "visa": "Visa support"
+    },
+    "block": {
+      "alsoBlock": "Block this person",
+      "alsoBlockHint": "Their listings disappear and neither of you can write. Open trips and contracts stay as they are.",
+      "empty": "No blocked users",
+      "emptyHint": "You can block someone from a chat or a listing when you need to.",
+      "listHint": "You do not see these people's listings and neither of you can write.",
+      "listRowHint": "See the list and unblock",
+      "listTitle": "Blocked users",
+      "someone": "User",
+      "unblock": "Unblock"
     },
     "budget": {
       "add": "Set a budget",
@@ -932,7 +976,6 @@
       "saving": "Saving...",
       "show": "Show",
       "signOut": "Sign out",
-      "soon": "coming soon",
       "stepOf": "STEP %{n} OF %{k}",
       "tryAgain": "Please try again"
     },
@@ -2010,7 +2053,7 @@
       "aboutWhat": "WHAT TO NOTIFY ABOUT",
       "appliesAll": "Applies to every enabled category.",
       "howChannel": "HOW TO DELIVER",
-      "pushNote": "Push must also be enabled in the phone's settings. The permission is requested in the app installed from the App Store or Play Store.",
+      "pushNote": "Push notifications also have to be enabled in the phone settings — otherwise the message will not appear.",
       "whyTwo": "Why two levels",
       "whyTwoText": "Five switches per category would make 50 — nobody configures that on a phone. Hence «about what» first, then «how»."
     },
@@ -2301,6 +2344,7 @@
       "notReady": "You are not ready for the border",
       "older": "OLDER VERSIONS",
       "olderHint": "Uploading a new version does not delete the old one — it stays in history.",
+      "openFailed": "Could not open the file, please try again",
       "photo": "Document photo",
       "photoFirst": "Becomes active once a photo is added",
       "photoHint": "Lay the document flat and fit it fully in the frame",
@@ -2362,6 +2406,11 @@
       "sub": "Routes, experience and fee",
       "title": "Dispatcher profile",
       "vehicleTypes": "Vehicle types"
+    },
+    "phone": {
+      "hint": "Needed to post listings and open contacts",
+      "title": "Add your phone number",
+      "why": "FURAM works with phone numbers: a listing shows a contact number and the cargo owner gets called. You confirm your number once and everything opens up."
     },
     "phoneCode": {
       "pick": "Choose country code"
@@ -2471,6 +2520,7 @@
       "panelHint": "Trip, pay, documents and truck in one place",
       "phoneNote": "This number is your sign-in key. Changing it requires verifying the new number, so it is a separate step.",
       "planName": "%{plan} plan",
+      "planNote": "Your active plan is shown here. If you have questions, write to support.",
       "planPremium": "Extended",
       "points": "points",
       "rating": "rating",
@@ -2732,10 +2782,11 @@
       "noneHint": "Picking a role opens its sections and starts the trial.",
       "noneTitle": "No role chosen",
       "notFound": "No such role",
-      "payNote": "Plans are paid in the browser — in-app payment would carry the store's commission.",
+      "payNote": "The role period and plan status are shown on this page.",
       "perMonth": "%{p} UZS/mo",
       "pickSub": "Pick the role that fits you",
       "pickTitle": "Choose a role",
+      "planNote": "Your roles and their periods are shown here. If you have questions, write to support.",
       "priceDays": "%{sum} UZS / %{n} days",
       "searchPh": "Role name or keyword…",
       "subtitle": "Roles and plans",

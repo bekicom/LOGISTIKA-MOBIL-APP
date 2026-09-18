@@ -19,10 +19,10 @@
  * Buni aytmasak odam «hammasi yo'qoladi» deb qo'rqadi va shu
  * qo'rquv bilan qaror qiladi.
  */
-import { RefreshControl, ScrollView, View, Pressable } from "react-native";
+import { Platform, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Header, Button } from "@/components/ui";
+import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
@@ -50,6 +50,8 @@ type Offer = {
 
 export default function Rollarim() {
   const insets = useSafeAreaInsets();
+  /* Apple 3.1.1 — narx va to'lov yo'nalishi iOS'da ko'rsatilmaydi */
+  const iosDa = Platform.OS === "ios";
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     live: Live[];
@@ -139,9 +141,11 @@ export default function Rollarim() {
                           <>
                             {/* TUGAGANDA NIMA BO'LADI — TZ 25-band */}
                             <Text style={s.endNote}>{t("mob.roles.endNote")}</Text>
-                            <View style={{ marginTop: 11 }}>
-                              <Button title={t("mob.roles.extend")} onPress={() => {}} />
-                            </View>
+                            {/* «Uzaytirish» tugmasi OLIB TASHLANDI (2026-09-17,
+                                A22): `onPress` bo'sh edi — bosilganda hech
+                                narsa bo'lmasdi. Apple 2.1 ishlamaydigan
+                                boshqaruvni rad sababi qiladi. To'lov oqimi
+                                qurilganda qaytariladi. */}
                           </>
                         )}
                       </View>
@@ -158,15 +162,19 @@ export default function Rollarim() {
               </View>
             )}
 
-            {offers.length > 0 && (
+            {/* ══ QO'SHISH MUMKIN ROLLAR ══
+                iOS'da KO'RSATILMAYDI (2026-09-17, A21): Apple 3.1.1 ilova
+                ichida ochiladigan imkoniyatning narxini ko'rsatib, to'lovni
+                tashqariga yo'naltirishni rad qiladi. Ilgari bu yerda
+                narx ham, bosilganda hech narsa qilmaydigan qator ham bor
+                edi. To'lov (IAP yoki bepul tarif) hal bo'lgach qaytariladi.
+                Android'da narx qoladi, lekin qator — oddiy ma'lumot. */}
+            {!iosDa && offers.length > 0 && (
               <View>
                 <Text style={s.group}>{t("mob.roles.addGroup")}</Text>
                 <View style={[s.card, { padding: 0 }]}>
                   {offers.map((o, i) => (
-                    <Pressable
-                      key={o.roleKey}
-                      style={[s.offer, i < offers.length - 1 && s.offerLine]}
-                    >
+                    <View key={o.roleKey} style={[s.offer, i < offers.length - 1 && s.offerLine]}>
                       <View style={[s.iconSm, { backgroundColor: color.muted }]}>
                         <Icon name="plus" size={18} stroke={color.mutedForeground} />
                       </View>
@@ -179,20 +187,19 @@ export default function Rollarim() {
                           })}
                         </Text>
                       </View>
-                      <Icon name="chevron" size={17} stroke={color.mutedForeground} />
-                    </Pressable>
+                    </View>
                   ))}
                 </View>
               </View>
             )}
 
-            {/* ══ TO'LOV WEB'DA ══
-                Ilova ichida to'lov App Store komissiyasiga
-                tushadi. Shuning uchun tarif brauzerda uzaytiriladi
-                va buni yashirmaymiz. */}
+            {/* Ilgari bu yerda «to'lov brauzerda, ilova ichidagi to'lov
+                do'kon komissiyasiga tushadi» degan izoh turardi — Apple
+                3.1.1 va Play to'lov siyosati ikkisi ham buni rad qiladi.
+                O'rniga savol bo'lsa yordamga yo'naltiramiz. */}
             <View style={s.note}>
               <Icon name="alert" size={16} stroke={color.mutedForeground} />
-              <Text style={s.noteText}>{t("mob.roles.payNote")}</Text>
+              <Text style={s.noteText}>{t("mob.roles.planNote")}</Text>
             </View>
           </>
         )}

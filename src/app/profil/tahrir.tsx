@@ -86,7 +86,9 @@ export default function ProfilTahrir() {
           <View style={s.avatar}>
             <Text style={s.avatarText}>{initials}</Text>
           </View>
-          <Text style={s.avatarHint}>{t("mob.profile.avatarSoon")}</Text>
+          {/* «Rasm qo'yish tez orada» OLIB TASHLANDI (2026-09-17, A22):
+              Apple 2.1 tugamagan amal haqidagi yozuvni rad sababi qiladi.
+              Rasm yuklash qurilganda shu joyga tugma qo'yiladi. */}
         </View>
 
         <Field

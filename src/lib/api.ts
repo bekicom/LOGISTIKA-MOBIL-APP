@@ -7,6 +7,7 @@
  * qo'llab-quvvatlaydi (`furam/src/lib/auth.ts`).
  */
 import Constants from "expo-constants";
+import { router } from "expo-router";
 import { getToken } from "./session";
 import { isGuest } from "./guest";
 import { currentLocale, t, tOr } from "./i18n";
@@ -104,6 +105,34 @@ function guestCode(status: number, code: string): string {
   return (status === 401 || status === 403) && isGuest() ? "GUEST" : code;
 }
 
+/**
+ * `PHONE_REQUIRED` — telefon ekranini O'ZI ochadi (2026-09-17, A10).
+ *
+ * Google yoki Apple bilan kirgan odamda raqam yo'q, server esa e'lon
+ * berish, kontakt ochish va bozorda shu kodni qaytaradi
+ * (`furam/src/lib/phone-gate.ts`). Ilgari ilova kodni ushlamasdi:
+ * odam «xato» degan qutini ko'rardi va boshi berk ko'chaga tushardi.
+ *
+ * NEGA SHU YERDA, har ekranda emas: to'siq o'ndan ortiq marshrutda
+ * bor va yangisi qo'shilganda albatta unutilardi — mehmon to'sig'i
+ * ham ayni shu sababdan eng pastga qo'yilgan.
+ *
+ * Xato BARIBIR uloqtiriladi: ekran o'z xabarini ko'rsataveradi,
+ * bu yerda faqat chiqish yo'li ochiladi.
+ */
+let oxirgiTelefonYonaltirish = 0;
+function telefonEkraniga(code: string) {
+  if (code !== "PHONE_REQUIRED") return;
+  /* Bir ekranda bir necha so'rov birdan qulasa, ekran ikki marta
+     ochilib qolmasin */
+  const endi = Date.now();
+  if (endi - oxirgiTelefonYonaltirish < 3000) return;
+  oxirgiTelefonYonaltirish = endi;
+  /* Javob qayta ishlanayotgan payt — chizish oqimining o'rtasi
+     bo'lishi mumkin; navigatsiya keyingi tiklga suriladi */
+  setTimeout(() => router.push("/profil/telefon"), 0);
+}
+
 export class FuramError extends Error {
   code: string;
   status: number;
@@ -181,8 +210,10 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
   const data = text ? safeJson(text) : null;
 
   if (!res.ok) {
+    const kod = guestCode(res.status, data?.error ?? "HTTP_" + res.status);
+    telefonEkraniga(kod);
     throw new FuramError({
-      error: guestCode(res.status, data?.error ?? "HTTP_" + res.status),
+      error: kod,
       message: data?.message,
       details: data?.details,
       status: res.status,
@@ -309,8 +340,10 @@ export async function apiUpload<T>(
     if (__DEV__) {
       console.warn("[apiUpload]", path, res.status, text.slice(0, 300));
     }
+    const kod = guestCode(res.status, data?.error ?? "HTTP_" + res.status);
+    telefonEkraniga(kod);
     throw new FuramError({
-      error: guestCode(res.status, data?.error ?? "HTTP_" + res.status),
+      error: kod,
       message: data?.message,
       details: data?.details,
       status: res.status,

@@ -11,13 +11,15 @@
  * ochganini bilish kerak.
  */
 import { useState } from "react";
-import { Alert, Image, Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Alert, Image, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, API_BASE, FuramError } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
+import { tokenNow } from "@/lib/session";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space, themed } from "@/lib/theme";
@@ -96,8 +98,23 @@ export default function HujjatKorish() {
   const soon = d.state === "soon";
   const tint = bad ? color.danger : soon ? color.warning : color.success;
   /* Faylning o'zi shu manzildan keladi. Ochilishi `DocumentView` ga
-     yoziladi — «kim ko'rgan» ro'yxati shundan to'ladi. */
+     yoziladi — «kim ko'rgan» ro'yxati shundan to'ladi.
+
+     ⚠️ SARLAVHA SHART (2026-09-17, do'kon auditi A23): hujjat ochiq
+     havolada turmaydi — server har so'rovda huquqni tekshiradi.
+     Ilgari rasm ham, ochish ham sarlavhasiz ketardi va 401 olardi:
+     ya'ni «Hujjatlarim» bo'limi ilovada umuman ishlamasdi. Rasm
+     `headers` bilan so'raladi, fayl esa `openRemoteFile` orqali
+     yuklab, tizim oynasida ko'rsatiladi. */
   const fileUrl = `${API_BASE}/api/documents/${d.id}`;
+  const token = tokenNow();
+  const imgHeaders = token ? { Authorization: `Bearer ${token}`, "X-Client": "mobile" } : undefined;
+
+  /** Fayl nomi keshda lotin harflari bilan turadi — `openRemoteFile` tozalaydi */
+  const ochish = (docId: string, ver: number) =>
+    void openRemoteFile(`/api/documents/${docId}`, `${d.kind ?? "hujjat"}-v${ver}${d.isImage ? ".jpg" : ".pdf"}`).catch(
+      () => Alert.alert(t("mob.pdoc.openFailed")),
+    );
 
   return (
     <View style={s.root}>
@@ -108,9 +125,9 @@ export default function HujjatKorish() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
       >
         {/* Surat — to'liq kenglikda, bosilsa ochiladi */}
-        <Pressable onPress={() => Linking.openURL(fileUrl)} style={s.shot}>
+        <Pressable onPress={() => ochish(d.id, d.version)} style={s.shot}>
           {d.isImage ? (
-            <Image source={{ uri: fileUrl }} style={s.shotImg} resizeMode="contain" />
+            <Image source={{ uri: fileUrl, headers: imgHeaders }} style={s.shotImg} resizeMode="contain" />
           ) : (
             <View style={s.shotFile}>
               <Icon name="doc" size={40} stroke="rgba(255,255,255,0.65)" />
@@ -193,7 +210,7 @@ export default function HujjatKorish() {
             {data.older.map((o) => (
               <Pressable
                 key={o.id}
-                onPress={() => Linking.openURL(`${API_BASE}/api/documents/${o.id}`)}
+                onPress={() => ochish(o.id, o.version)}
                 style={({ pressed }) => [s.viewRow, pressed && { backgroundColor: color.muted }]}
               >
                 <View style={s.vBox}>

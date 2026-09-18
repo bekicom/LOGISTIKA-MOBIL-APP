@@ -10,13 +10,13 @@
  * ko'rsatiladi, bo'lmasa jim o'tiladi. Ikkalasini bitta ro'yxatga
  * qo'shsak, «2/3 tayyor» degan hisob ma'nosini yo'qotardi.
  */
-import { Linking, RefreshControl, ScrollView, View } from "react-native";
+import { Alert, RefreshControl, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { Card, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
-import { API_BASE } from "@/lib/api";
+import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
 import { color, space, themed } from "@/lib/theme";
@@ -104,7 +104,13 @@ export default function Papka() {
                     .join(" · ") || undefined
                 }
                 last={i === data.documents.length - 1}
-                onPress={() => void Linking.openURL(`${API_BASE}/api/documents/${d.id}`)}
+                /* Hujjat ochiq havolada turmaydi — `Authorization`
+                   bilan yuklanib, tizim oynasida ochiladi (A23) */
+                onPress={() =>
+                  void openRemoteFile(`/api/documents/${d.id}`, `${d.kind ?? "hujjat"}-${d.id.slice(-6)}`).catch(() =>
+                    Alert.alert(t("mob.pdoc.openFailed")),
+                  )
+                }
               />
             ))}
           </Card>

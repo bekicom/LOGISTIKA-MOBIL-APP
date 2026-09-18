@@ -58,6 +58,7 @@
     "FUTURE_DATE": "日期不能是将来的时间。",
     "GOOGLE_TAKEN": "该 Google 账号已注册，请直接登录",
     "GUEST": "该板块需要账号，请注册或登录。",
+    "HAS_PHONE": "您的账号已绑定手机号。",
     "ID_REQUIRED": "未指明是哪条记录。",
     "INVALID_CREDENTIALS": "手机号或密码不正确。",
     "IS_TRAILER": "挂车不能再挂挂车。",
@@ -115,6 +116,8 @@
     "RATE_LIMIT": "请求过于频繁，请稍候。",
     "READ_ONLY": "此处为只读。",
     "REJECTED": "未被接受——请换一种说法。",
+    "REPORT_LIMIT": "您今天提交的举报过多，请明天继续。",
+    "REPORT_SELF": "不能举报自己发布的内容。",
     "SAME_DRIVER": "主司机和副司机不能是同一人。",
     "SEAT_TAKEN": "该座位已被占用。请先解除关联，或改为第二座位。",
     "SECTION_LOCKED": "该板块未对您的角色开放。",
@@ -143,6 +146,7 @@
     "UNAUTHORIZED": "会话已过期，请重新登录。",
     "UNAVAILABLE": "当前不可用。",
     "UNKNOWN_ACTION": "不支持该操作，请更新应用。",
+    "USER_BLOCKED": "与此用户的联系已关闭——你们中有一方屏蔽了对方。",
     "USER_NOT_FOUND": "找不到该 FURAM ID。",
     "VALIDATION": "请检查输入的内容。",
     "VEHICLE_BUSY": "车辆在此期间已被占用。",
@@ -416,6 +420,22 @@
     "routePartial": "线路部分匹配"
   },
   "mob": {
+    "abuse": {
+      "failed": "发送失败，请重试",
+      "hint": "请选择原因。举报将由审核人员查看并处理。",
+      "k_FAKE": "虚假信息或账号",
+      "k_FRAUD": "欺诈行为",
+      "k_INSULT": "侮辱或谩骂",
+      "k_OTHER": "其他",
+      "k_SEXUAL": "不当内容",
+      "k_SPAM": "垃圾信息或广告",
+      "k_VIOLENCE": "暴力或威胁",
+      "listing": "举报此信息",
+      "note": "说明",
+      "notePh": "发生了什么？",
+      "send": "提交举报",
+      "title": "举报"
+    },
     "add": {
       "brand": "品牌",
       "brandPh": "Mercedes-Benz、MAN、Isuzu…",
@@ -545,6 +565,19 @@
       "AI_OFF": "管理员开通服务后即可使用。",
       "SECTION_LOCKED": "该板块已被管理员关闭。请联系管理员开通。",
       "TARIFF_REQUIRED": "请选择角色或续订套餐——之后即可开通。"
+    },
+    "aiRep": {
+      "btn": "举报该回答",
+      "failed": "发送失败，请重试",
+      "hint": "回答的副本会随举报一并发送——审核人员需要看到具体内容。",
+      "k_DANGEROUS": "危险的建议",
+      "k_OFFENSIVE": "带有侮辱性的回答",
+      "k_OTHER": "其他",
+      "k_PRIVACY": "泄露了个人信息",
+      "k_WRONG": "错误或不准确的信息",
+      "notePh": "具体哪里有问题？",
+      "sent": "举报已发送",
+      "title": "举报 AI 回答"
     },
     "aiSrc": {
       "analytics": "分析数据",
@@ -699,6 +732,17 @@
       "fuel_card": "油卡",
       "insurance": "保险",
       "visa": "签证协助"
+    },
+    "block": {
+      "alsoBlock": "屏蔽此人",
+      "alsoBlockHint": "对方的信息将不再显示，双方也无法互发消息。进行中的运单和合同保持不变。",
+      "empty": "没有已屏蔽的用户",
+      "emptyHint": "需要时可以在聊天或信息页面进行屏蔽。",
+      "listHint": "您看不到这些用户的信息，双方也无法互发消息。",
+      "listRowHint": "查看列表并解除屏蔽",
+      "listTitle": "已屏蔽的用户",
+      "someone": "用户",
+      "unblock": "解除屏蔽"
     },
     "budget": {
       "add": "设定预算",
@@ -932,7 +976,6 @@
       "saving": "保存中…",
       "show": "显示",
       "signOut": "退出",
-      "soon": "即将推出",
       "stepOf": "第 %{n} 步 · 共 %{k} 步",
       "tryAgain": "请重试"
     },
@@ -2010,7 +2053,7 @@
       "aboutWhat": "通知内容",
       "appliesAll": "适用于所有已开启的类别。",
       "howChannel": "通知方式",
-      "pushNote": "推送还需在手机系统设置中开启。权限将在通过 App Store 或应用商店安装的应用中申请。",
+      "pushNote": "推送通知也需要在手机的系统设置中开启——否则消息不会显示。",
       "whyTwo": "为何分两层",
       "whyTwoText": "每类五个开关就是 50 个——手机上没人会去逐一设置。因此先选「内容」，再选「方式」。"
     },
@@ -2301,6 +2344,7 @@
       "notReady": "尚不具备过境条件",
       "older": "历史版本",
       "olderHint": "上传新版本不会删除旧版——旧版保留在历史记录中。",
+      "openFailed": "文件无法打开，请重试",
       "photo": "证件照片",
       "photoFirst": "添加照片后可用",
       "photoHint": "将证件放平，完整置于取景框内",
@@ -2362,6 +2406,11 @@
       "sub": "线路、经验与佣金",
       "title": "调度员资料",
       "vehicleTypes": "车辆类型"
+    },
+    "phone": {
+      "hint": "发布信息和查看联系方式需要用到",
+      "title": "添加手机号",
+      "why": "FURAM 依靠手机号运作：信息中会显示联系电话，货主会接到来电。您只需验证一次号码，之后一切都会开放。"
     },
     "phoneCode": {
       "pick": "选择国家代码"
@@ -2471,6 +2520,7 @@
       "panelHint": "运单、报酬、证件与车辆，尽在一处",
       "phoneNote": "该号码是登录凭据。更换需验证新号码，因此为独立步骤。",
       "planName": "%{plan} 方案",
+      "planNote": "您当前的套餐显示在这里。如有疑问，请联系客服。",
       "planPremium": "扩展版",
       "points": "分",
       "rating": "评分",
@@ -2732,10 +2782,11 @@
       "noneHint": "选择角色后会开放对应板块并开始试用。",
       "noneTitle": "未选择角色",
       "notFound": "未找到该角色",
-      "payNote": "套餐在浏览器中付款——应用内支付会产生商店抽成。",
+      "payNote": "角色期限和套餐状态显示在本页面。",
       "perMonth": "%{p} 苏姆/月",
       "pickSub": "选择适合您的角色",
       "pickTitle": "选择角色",
+      "planNote": "您的角色及其期限显示在这里。如有疑问，请联系客服。",
       "priceDays": "%{sum} 苏姆 / %{n} 天",
       "searchPh": "角色名称或关键词…",
       "subtitle": "角色与套餐",

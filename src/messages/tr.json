@@ -58,6 +58,7 @@
     "FUTURE_DATE": "Tarih gelecekte olamaz.",
     "GOOGLE_TAKEN": "Bu Google hesabı zaten kayıtlı — giriş yapın",
     "GUEST": "Bu bölüm için hesap gerekiyor. Kaydolun veya giriş yapın.",
+    "HAS_PHONE": "Hesabınızda zaten bir telefon numarası var.",
     "ID_REQUIRED": "Hangi kayıt olduğu belirtilmemiş.",
     "INVALID_CREDENTIALS": "Telefon veya şifre yanlış.",
     "IS_TRAILER": "Römorka römork bağlanmaz.",
@@ -115,6 +116,8 @@
     "RATE_LIMIT": "Çok sık istek. Biraz bekleyin.",
     "READ_ONLY": "Burada yalnızca okuma yapılabilir.",
     "REJECTED": "Kabul edilmedi — farklı yazmayı deneyin.",
+    "REPORT_LIMIT": "Bugün çok fazla şikayet gönderdiniz. Yarın devam edebilirsiniz.",
+    "REPORT_SELF": "Kendi içeriğinizi şikayet edemezsiniz.",
     "SAME_DRIVER": "Ana ve ikinci sürücü aynı kişi olamaz.",
     "SEAT_TAKEN": "Bu koltuk dolu. Önce bağlantıyı bitirin ya da ikinci koltuğu önerin.",
     "SECTION_LOCKED": "Bu bölüm rolünüze açık değil.",
@@ -143,6 +146,7 @@
     "UNAUTHORIZED": "Oturum sona erdi. Yeniden giriş yapın.",
     "UNAVAILABLE": "Şu anda kullanılamıyor.",
     "UNKNOWN_ACTION": "Bu işlem desteklenmiyor. Uygulamayı güncelleyin.",
+    "USER_BLOCKED": "Bu kişiyle iletişim kapalı — biriniz diğerini engellemiş.",
     "USER_NOT_FOUND": "Böyle bir FURAM ID yok.",
     "VALIDATION": "Girdiğiniz bilgileri kontrol edin.",
     "VEHICLE_BUSY": "Araç bu arada meşgul oldu.",
@@ -416,6 +420,22 @@
     "routePartial": "Güzergâh kısmen uygun"
   },
   "mob": {
+    "abuse": {
+      "failed": "Gönderilemedi, tekrar deneyin",
+      "hint": "Bir neden seçin. Şikayeti moderatör inceleyip karar verir.",
+      "k_FAKE": "Sahte ilan veya hesap",
+      "k_FRAUD": "Dolandırıcılık",
+      "k_INSULT": "Hakaret ve küfür",
+      "k_OTHER": "Diğer",
+      "k_SEXUAL": "Uygunsuz içerik",
+      "k_SPAM": "Spam veya reklam",
+      "k_VIOLENCE": "Şiddet veya tehdit",
+      "listing": "İlanı şikayet et",
+      "note": "Açıklama",
+      "notePh": "Ne oldu?",
+      "send": "Şikayeti gönder",
+      "title": "Şikayet et"
+    },
     "add": {
       "brand": "Marka",
       "brandPh": "Mercedes-Benz, MAN, Isuzu...",
@@ -545,6 +565,19 @@
       "AI_OFF": "Yönetici hizmeti açtıktan sonra çalışır.",
       "SECTION_LOCKED": "Bölümü yönetici kapattı. Açılması için ona başvurun.",
       "TARIFF_REQUIRED": "Rolünüzü seçin veya tarifenizi yenileyin — sonra açılır."
+    },
+    "aiRep": {
+      "btn": "Yanıtı şikayet et",
+      "failed": "Gönderilemedi, tekrar deneyin",
+      "hint": "Yanıtın bir kopyası şikayetle birlikte gönderilir — moderatör neyi incelediğini görmelidir.",
+      "k_DANGEROUS": "Tehlikeli tavsiye",
+      "k_OFFENSIVE": "Saldırgan yanıt",
+      "k_OTHER": "Diğer",
+      "k_PRIVACY": "Kişisel veriyi açığa çıkardı",
+      "k_WRONG": "Hatalı veya yanlış bilgi",
+      "notePh": "Tam olarak nesi yanlış?",
+      "sent": "Şikayet gönderildi",
+      "title": "Yapay zekâ yanıtını şikayet et"
     },
     "aiSrc": {
       "analytics": "analiz",
@@ -699,6 +732,17 @@
       "fuel_card": "Yakıt kartı",
       "insurance": "Sigorta",
       "visa": "Vize desteği"
+    },
+    "block": {
+      "alsoBlock": "Bu kişiyi engelle",
+      "alsoBlockHint": "İlanları görünmez olur, yazışamazsınız. Açık seferler ve sözleşmeler yerinde kalır.",
+      "empty": "Engellenen kimse yok",
+      "emptyHint": "Gerekirse sohbet veya ilan ekranından engelleyebilirsiniz.",
+      "listHint": "Bu kişilerin ilanları size görünmez ve yazışamazsınız.",
+      "listRowHint": "Listeyi görün ve engeli kaldırın",
+      "listTitle": "Engellenenler",
+      "someone": "Kullanıcı",
+      "unblock": "Engeli kaldır"
     },
     "budget": {
       "add": "Bütçe koy",
@@ -932,7 +976,6 @@
       "saving": "Kaydediliyor...",
       "show": "Göster",
       "signOut": "Çıkış",
-      "soon": "yakında",
       "stepOf": "ADIM %{n} · %{k} İÇİNDEN",
       "tryAgain": "Tekrar deneyin"
     },
@@ -2010,7 +2053,7 @@
       "aboutWhat": "NE HAKKINDA BİLDİRİLSİN",
       "appliesAll": "Açık olan tüm bölümlere uygulanır.",
       "howChannel": "HANGİ YOLLA",
-      "pushNote": "Push, telefon ayarlarında da açık olmalı. İzin, App Store veya Play Market'ten kurulan uygulamada istenir.",
+      "pushNote": "Push bildirimleri telefonun kendi ayarlarında da açık olmalıdır — aksi halde mesaj görünmez.",
       "whyTwo": "Neden iki aşama",
       "whyTwoText": "Her bölüm için beş anahtar 50 eder — telefonda kimse bunu ayarlamaz. Bu yüzden önce «ne hakkında», sonra «nasıl»."
     },
@@ -2301,6 +2344,7 @@
       "notReady": "Sınıra hazır değilsiniz",
       "older": "ESKİ SÜRÜMLER",
       "olderHint": "Yeni sürüm yüklendiğinde eskisi silinmez — geçmişte kalır.",
+      "openFailed": "Dosya açılamadı, tekrar deneyin",
       "photo": "Belge fotoğrafı",
       "photoFirst": "Fotoğraf eklenince aktifleşir",
       "photoHint": "Belgeyi düz koyun ve tamamını kadraja sığdırın",
@@ -2362,6 +2406,11 @@
       "sub": "Güzergâh, deneyim ve ücret",
       "title": "Dispeçer formu",
       "vehicleTypes": "Araç türleri"
+    },
+    "phone": {
+      "hint": "İlan vermek ve iletişim açmak için gerekli",
+      "title": "Telefon numarası ekle",
+      "why": "FURAM numara ile çalışır: ilanda iletişim numarası bulunur ve yük sahibi aranır. Numaranızı bir kez doğrularsınız, sonra her şey açılır."
     },
     "phoneCode": {
       "pick": "Ülke kodunu seçin"
@@ -2471,6 +2520,7 @@
       "panelHint": "Sefer, ücret, belgeler ve araç tek yerde",
       "phoneNote": "Bu numara giriş anahtarınızdır. Değiştirmek için yeni numara doğrulanmalı, bu yüzden ayrı bir adımdır.",
       "planName": "%{plan} planı",
+      "planNote": "Aktif planınız burada görünür. Sorunuz varsa destek ekibine yazın.",
       "planPremium": "Genişletilmiş",
       "points": "puan",
       "rating": "değerlendirme",
@@ -2732,10 +2782,11 @@
       "noneHint": "Bir rol seçince o bölümler açılır ve deneme başlar.",
       "noneTitle": "Rol seçilmedi",
       "notFound": "Böyle bir rol bulunamadı",
-      "payNote": "Tarife ödemesi tarayıcıda yapılır — uygulama içi ödeme mağaza komisyonuna tabidir.",
+      "payNote": "Rol süresi ve plan durumu bu sayfada görünür.",
       "perMonth": "%{p} som/ay",
       "pickSub": "Size uygun rolü seçin",
       "pickTitle": "Rol seçimi",
+      "planNote": "Rolleriniz ve süreleri burada görünür. Sorunuz varsa destek ekibine yazın.",
       "priceDays": "%{sum} som / %{n} gün",
       "searchPh": "Rol adı veya anahtar kelime…",
       "subtitle": "Roller ve tarifeler",

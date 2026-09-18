@@ -26,10 +26,25 @@
  * xato chiqarsa, foydalanuvchi ikki marta jazolanardi.
  */
 import { API_BASE } from "./api";
+import { crashDone, crashList, crashSave } from "./crash-store";
 import { tokenNow } from "./session";
 
 const MAX_PER_SESSION = 20;
 const sent = new Set<string>();
+
+/** Serverga yuborish — bitta joyda, halokat navbati ham shundan o'tadi */
+function post(body: { message: string; stack?: string; path?: string; fatal?: boolean }): Promise<Response | null> {
+  const token = tokenNow();
+  return fetch(`${API_BASE}/api/client-error`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Client": "mobile",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(body),
+  }).catch(() => null);
+}
 
 export function reportError(err: unknown, path?: string): void {
   try {
@@ -45,20 +60,11 @@ export function reportError(err: unknown, path?: string): void {
     if (sent.has(key)) return;
     sent.add(key);
 
-    const token = tokenNow();
-    void fetch(`${API_BASE}/api/client-error`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Client": "mobile",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify({
-        message,
-        stack: typeof e?.stack === "string" ? e.stack.slice(0, 4000) : undefined,
-        path,
-      }),
-    }).catch(() => null);
+    void post({
+      message,
+      stack: typeof e?.stack === "string" ? e.stack.slice(0, 4000) : undefined,
+      path,
+    });
   } catch {
     /* Jurnal yozish ilovani yiqitmasin */
   }
@@ -81,7 +87,52 @@ export function installErrorLog(): void {
   };
   const prev = g.ErrorUtils?.getGlobalHandler?.();
   g.ErrorUtils?.setGlobalHandler?.((e, fatal) => {
+    /* ⚠️ HALOKATLI XATO DISKKA YOZILADI (2026-09-18, A27).
+       Ilova shu zahoti yopiladi va `fetch` yo'lda qolib ketadi —
+       ya'ni ilovani yiqitgan xato serverga hech qachon yetmasdi.
+       Diskka SINXRON yozamiz va keyingi ochilishda yuboramiz. */
+    if (fatal) {
+      const err = e as { message?: unknown; stack?: unknown } | null;
+      const message = String(err?.message ?? e ?? "").slice(0, 500).trim();
+      if (message) {
+        crashSave(message, typeof err?.stack === "string" ? err.stack : null, "global");
+      }
+    }
     reportError(e, "global");
     prev?.(e, fatal);
   });
+}
+
+/**
+ * Oldingi seansda saqlangan halokatlarni yuborish.
+ *
+ * Ilova ochilganda BIR MARTA chaqiriladi. Yuborilgani o'chiriladi,
+ * yuborilmagani turaveradi — keyingi ochilishda yana uriniladi.
+ *
+ * Tarmoq yo'q bo'lsa hech narsa qilinmaydi: `post` xatoni yutadi
+ * va yozuv navbatda qoladi.
+ */
+export async function flushCrashes(): Promise<void> {
+  try {
+    const rows = crashList();
+    if (!rows.length) return;
+    const yuborilgan: number[] = [];
+    for (const r of rows) {
+      const res = await post({
+        message: r.message,
+        stack: r.stack ?? undefined,
+        /* Qachon bo'lganini ham bilish kerak: yuborilishi keyingi
+           ochilishga — ba'zan ertasiga — suriladi */
+        path: `${r.path ?? "global"} · ${new Date(r.at).toISOString().slice(0, 16)}`,
+        fatal: true,
+      });
+      /* 204 — server qabul qildi. Cheklovda ham 204 qaytadi, ya'ni
+         yozuv baribir o'chadi: aks holda navbat abadiy qolib,
+         har ochilishda takror yuborilardi. */
+      if (res && res.status < 500) yuborilgan.push(r.id);
+    }
+    crashDone(yuborilgan);
+  } catch {
+    /* jim — xato haqidagi xabar ilovani yiqitmasin */
+  }
 }

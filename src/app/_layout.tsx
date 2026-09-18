@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { installErrorLog } from "@/lib/error-log";
+import { flushCrashes, installErrorLog } from "@/lib/error-log";
 import { Stack, useRouter } from "expo-router";
 import * as Notifications from "expo-notifications";
 import { StatusBar } from "expo-status-bar";
@@ -27,6 +27,11 @@ import { routeOf } from "@/lib/push";
    MODUL DARAJASIDA: `useEffect` ichida qo'ysak, ilova
    ochilishidagi — ya'ni eng qimmat — xatolar tutilmay qolardi. */
 installErrorLog();
+
+/* Oldingi seansni yiqitgan xato diskda turadi (A27) — ochilishda
+   yuboriladi. Fon ishi: natijasi ekranga ta'sir qilmaydi va
+   tarmoq yo'q bo'lsa keyingi ochilishda yana uriniladi. */
+void flushCrashes();
 
 export default function RootLayout() {
   /* Shrift — Manrope, beshta og'irlik (~480 KB). Yuklanmaguncha

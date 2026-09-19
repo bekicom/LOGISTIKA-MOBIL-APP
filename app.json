@@ -11,7 +11,7 @@
     "ios": {
       "bundleIdentifier": "uz.furam.app",
       "supportsTablet": false,
-      "icon": "./assets/expo.icon",
+      "icon": "./assets/images/icon.png",
       "infoPlist": {
         "UIBackgroundModes": [
           "location"
@@ -32,7 +32,7 @@
     "android": {
       "package": "uz.furam.app",
       "adaptiveIcon": {
-        "backgroundColor": "#f45a18",
+        "backgroundColor": "#0a376e",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -91,7 +91,7 @@
         {
           "backgroundColor": "#0b1526",
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          "imageWidth": 180
         }
       ],
       "expo-localization",

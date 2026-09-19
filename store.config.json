@@ -1,0 +1,124 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "copyright": "2026 ESSEN TRUCK MCHJ",
+    "categories": [
+      "BUSINESS",
+      "PRODUCTIVITY"
+    ],
+    "info": {
+      "ru": {
+        "title": "FURAM: грузы и перевозки",
+        "subtitle": "Грузы, машины, рейсы и чат",
+        "promoText": "AI-помощник находит грузы и подводит итог рейса, а чат сам переводит сообщения на язык собеседника — на 8 языках.",
+        "description": "FURAM — платформа грузоперевозок по Узбекистану и странам СНГ. Владельцы грузов, перевозчики, водители и диспетчеры работают в одном приложении.\n\nГРУЗЫ И ТРАНСПОРТ\n• Биржа грузов и свободных машин с фильтрами по странам и регионам\n• Объявления из Telegram-групп собраны в одной ленте\n• Сохранённые поиски показывают, сколько появилось новых предложений\n\nРЕЙСЫ\n• Рейс от договорённости до закрытия: документы, расходы, этапы\n• Маршрут в реальном времени для владельца груза и диспетчера — только во время рейса и только с вашего разрешения\n• Кнопка SOS\n\nЧАТ БЕЗ ЯЗЫКОВОГО БАРЬЕРА\n• Сообщения переводятся на язык собеседника (8 языков)\n• Голосовые сообщения превращаются в текст\n• Блокировка пользователей и жалобы\n\nAI-ПОМОЩНИК\n• Находит грузы и машины, объясняет договор, подводит итог рейса\n• Работает только с вашего согласия (на базе OpenAI)\n\nАВТОПАРК И ФИНАНСЫ\n• Машины, водители и напоминания о сроках документов\n• Учёт расходов и сканирование чеков\n• Аналитика доходов и расходов\n\nА ТАКЖЕ\n• Автосервисы и запчасти, продажа техники, работа для водителей\n• Рейтинг доверия участников\n• 8 языков интерфейса: узбекский, русский, английский, турецкий, казахский, кыргызский, таджикский, китайский\n\nКаждая роль начинается с бесплатного пробного периода; тариф продлевается покупкой в приложении.",
+        "keywords": [
+          "груз",
+          "фура",
+          "перевозки",
+          "логистика",
+          "диспетчер",
+          "рейс",
+          "водитель",
+          "тягач",
+          "перевозчик",
+          "биржа",
+          "СНГ",
+          "Узбекистан"
+        ],
+        "releaseNotes": "Первая версия FURAM в App Store.",
+        "marketingUrl": "https://furam.uz",
+        "supportUrl": "https://furam.uz/about",
+        "privacyPolicyUrl": "https://furam.uz/privacy"
+      },
+      "en-US": {
+        "title": "FURAM: Freight & Trucks",
+        "subtitle": "Loads, trucks, trips & chat",
+        "promoText": "The AI assistant finds loads and sums up your trip, and the chat translates messages into the other person's language — in 8 languages.",
+        "description": "FURAM is a freight platform for Uzbekistan and the CIS. Cargo owners, carriers, drivers and dispatchers work in one app.\n\nLOADS AND TRUCKS\n• Load board and available trucks with filters by country and region\n• Listings from Telegram groups gathered in one feed\n• Saved searches show how many new offers have appeared\n\nTRIPS\n• A trip from agreement to closing: documents, expenses, stages\n• Live route for the cargo owner and dispatcher — only during a trip and only with your permission\n• SOS button\n\nCHAT WITHOUT A LANGUAGE BARRIER\n• Messages are translated into the other person's language (8 languages)\n• Voice messages turn into text\n• Block and report users\n\nAI ASSISTANT\n• Finds loads and trucks, explains a contract, sums up a trip\n• Works only with your consent (powered by OpenAI)\n\nFLEET AND FINANCE\n• Vehicles, drivers and document expiry reminders\n• Expense tracking and receipt scanning\n• Income and expense analytics\n\nAND MORE\n• Repair shops and spare parts, vehicle sales, jobs for drivers\n• Trust rating of participants\n• 8 interface languages: Uzbek, Russian, English, Turkish, Kazakh, Kyrgyz, Tajik, Chinese\n\nEvery role starts with a free trial; plans are extended with an in-app purchase.",
+        "keywords": [
+          "freight",
+          "load board",
+          "trucking",
+          "logistics",
+          "dispatcher",
+          "cargo",
+          "trucker",
+          "fleet",
+          "CIS",
+          "Uzbekistan",
+          "shipping"
+        ],
+        "releaseNotes": "The first version of FURAM on the App Store.",
+        "marketingUrl": "https://furam.uz",
+        "supportUrl": "https://furam.uz/about",
+        "privacyPolicyUrl": "https://furam.uz/privacy"
+      },
+      "tr": {
+        "title": "FURAM: Yük ve Nakliye",
+        "subtitle": "Yük, araç, sefer ve sohbet",
+        "promoText": "Yapay zekâ asistanı yük bulur ve seferinizi özetler; sohbet ise mesajları karşı tarafın diline çevirir — 8 dilde.",
+        "description": "FURAM, Özbekistan ve BDT genelinde yük taşımacılığı platformudur. Yük sahipleri, taşıyıcılar, sürücüler ve dispeçerler tek bir uygulamada çalışır.\n\nYÜKLER VE ARAÇLAR\n• Ülke ve bölge filtreli yük ve boş araç borsası\n• Telegram gruplarındaki ilanlar tek bir akışta\n• Kayıtlı aramalar kaç yeni teklif geldiğini gösterir\n\nSEFERLER\n• Anlaşmadan kapanışa kadar sefer: belgeler, masraflar, aşamalar\n• Yük sahibi ve dispeçer için canlı rota — yalnızca sefer sırasında ve yalnızca izninizle\n• SOS düğmesi\n\nDİL ENGELİ OLMAYAN SOHBET\n• Mesajlar karşı tarafın diline çevrilir (8 dil)\n• Sesli mesajlar yazıya dönüşür\n• Kullanıcı engelleme ve şikâyet\n\nYAPAY ZEKÂ ASİSTANI\n• Yük ve araç bulur, sözleşmeyi açıklar, sefer özetini çıkarır\n• Yalnızca onayınızla çalışır (OpenAI tabanlı)\n\nFİLO VE FİNANS\n• Araçlar, sürücüler ve belge süresi hatırlatmaları\n• Masraf takibi ve fiş tarama\n• Gelir ve gider analizi\n\nAYRICA\n• Servisler ve yedek parçalar, araç satışı, sürücüler için iş ilanları\n• Katılımcıların güven puanı\n• 8 arayüz dili: Özbekçe, Rusça, İngilizce, Türkçe, Kazakça, Kırgızca, Tacikçe, Çince\n\nHer rol ücretsiz deneme süresiyle başlar; tarife uygulama içi satın alma ile uzatılır.",
+        "keywords": [
+          "yük",
+          "nakliye",
+          "tır",
+          "lojistik",
+          "kamyon",
+          "sevkiyat",
+          "filo",
+          "dispeçer",
+          "taşımacılık",
+          "Özbekistan",
+          "BDT"
+        ],
+        "releaseNotes": "FURAM'ın App Store'daki ilk sürümü.",
+        "marketingUrl": "https://furam.uz",
+        "supportUrl": "https://furam.uz/about",
+        "privacyPolicyUrl": "https://furam.uz/privacy"
+      },
+      "zh-Hans": {
+        "title": "FURAM：货运与车辆",
+        "subtitle": "货源、车辆、运输与聊天",
+        "promoText": "AI 助手帮您找货并总结运输，聊天自动将消息翻译成对方的语言——支持 8 种语言。",
+        "description": "FURAM 是覆盖乌兹别克斯坦及独联体国家的货运平台。货主、承运人、司机和调度员在同一个应用中协作。\n\n货源与车辆\n• 货源和空车信息平台，可按国家和地区筛选\n• Telegram 群组中的货运信息汇集在同一信息流\n• 已保存的搜索会显示新增了多少条信息\n\n运输管理\n• 从达成协议到结束的全过程：单据、费用、阶段\n• 为货主和调度员提供实时路线——仅在运输期间且须经您允许\n• SOS 紧急按钮\n\n无语言障碍的聊天\n• 消息自动翻译成对方的语言（8 种语言）\n• 语音消息可转换为文字\n• 屏蔽用户与举报\n\nAI 助手\n• 查找货源和车辆、解释合同、生成运输总结\n• 仅在您同意后工作（基于 OpenAI）\n\n车队与财务\n• 车辆、司机及证件到期提醒\n• 费用记录与收据扫描\n• 收支分析\n\n更多功能\n• 维修服务与配件、车辆交易、司机招聘\n• 参与者信任评分\n• 8 种界面语言：乌兹别克语、俄语、英语、土耳其语、哈萨克语、吉尔吉斯语、塔吉克语、中文\n\n每个角色均从免费试用期开始；可通过应用内购买延长套餐。",
+        "keywords": [
+          "货运",
+          "物流",
+          "卡车",
+          "司机",
+          "调度",
+          "车队",
+          "运输",
+          "货主",
+          "乌兹别克斯坦",
+          "独联体"
+        ],
+        "releaseNotes": "FURAM 在 App Store 的首个版本。",
+        "marketingUrl": "https://furam.uz",
+        "supportUrl": "https://furam.uz/about",
+        "privacyPolicyUrl": "https://furam.uz/privacy"
+      }
+    },
+    "advisory": {
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gamblingSimulated": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "violenceCartoonOrFantasy": "NONE",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+      "gambling": false,
+      "unrestrictedWebAccess": false,
+      "kidsAgeBand": null,
+      "seventeenPlus": false,
+      "ageRatingOverride": "NONE",
+      "koreaAgeRatingOverride": "NONE"
+    }
+  }
+}

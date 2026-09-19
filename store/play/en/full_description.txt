@@ -1,0 +1,32 @@
+FURAM is a freight platform for Uzbekistan and the CIS. Cargo owners, carriers, drivers and dispatchers work in one app.
+
+LOADS AND TRUCKS
+• Load board and available trucks with filters by country and region
+• Listings from Telegram groups gathered in one feed
+• Saved searches show how many new offers have appeared
+
+TRIPS
+• A trip from agreement to closing: documents, expenses, stages
+• Live route for the cargo owner and dispatcher — only during a trip and only with your permission
+• SOS button
+
+CHAT WITHOUT A LANGUAGE BARRIER
+• Messages are translated into the other person's language (8 languages)
+• Voice messages turn into text
+• Block and report users
+
+AI ASSISTANT
+• Finds loads and trucks, explains a contract, sums up a trip
+• Works only with your consent (powered by OpenAI)
+
+FLEET AND FINANCE
+• Vehicles, drivers and document expiry reminders
+• Expense tracking and receipt scanning
+• Income and expense analytics
+
+AND MORE
+• Repair shops and spare parts, vehicle sales, jobs for drivers
+• Trust rating of participants
+• 8 interface languages: Uzbek, Russian, English, Turkish, Kazakh, Kyrgyz, Tajik, Chinese
+
+Every role starts with a free trial; plans are extended with an in-app purchase.

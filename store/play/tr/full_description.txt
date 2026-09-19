@@ -1,0 +1,32 @@
+FURAM, Özbekistan ve BDT genelinde yük taşımacılığı platformudur. Yük sahipleri, taşıyıcılar, sürücüler ve dispeçerler tek bir uygulamada çalışır.
+
+YÜKLER VE ARAÇLAR
+• Ülke ve bölge filtreli yük ve boş araç borsası
+• Telegram gruplarındaki ilanlar tek bir akışta
+• Kayıtlı aramalar kaç yeni teklif geldiğini gösterir
+
+SEFERLER
+• Anlaşmadan kapanışa kadar sefer: belgeler, masraflar, aşamalar
+• Yük sahibi ve dispeçer için canlı rota — yalnızca sefer sırasında ve yalnızca izninizle
+• SOS düğmesi
+
+DİL ENGELİ OLMAYAN SOHBET
+• Mesajlar karşı tarafın diline çevrilir (8 dil)
+• Sesli mesajlar yazıya dönüşür
+• Kullanıcı engelleme ve şikâyet
+
+YAPAY ZEKÂ ASİSTANI
+• Yük ve araç bulur, sözleşmeyi açıklar, sefer özetini çıkarır
+• Yalnızca onayınızla çalışır (OpenAI tabanlı)
+
+FİLO VE FİNANS
+• Araçlar, sürücüler ve belge süresi hatırlatmaları
+• Masraf takibi ve fiş tarama
+• Gelir ve gider analizi
+
+AYRICA
+• Servisler ve yedek parçalar, araç satışı, sürücüler için iş ilanları
+• Katılımcıların güven puanı
+• 8 arayüz dili: Özbekçe, Rusça, İngilizce, Türkçe, Kazakça, Kırgızca, Tacikçe, Çince
+
+Her rol ücretsiz deneme süresiyle başlar; tarife uygulama içi satın alma ile uzatılır.

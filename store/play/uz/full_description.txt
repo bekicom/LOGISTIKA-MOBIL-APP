@@ -1,0 +1,32 @@
+FURAM — O'zbekiston va MDH bo'ylab yuk tashish platformasi. Yuk egalari, tashuvchilar, haydovchilar va dispetcherlar bitta ilovada ishlaydi.
+
+YUK VA TRANSPORT
+• Yuklar va bo'sh mashinalar birjasi — davlat va hudud bo'yicha filtrlar
+• Telegram guruhlaridagi e'lonlar bitta lentada
+• Saqlangan qidiruvlar nechta yangi taklif chiqqanini ko'rsatadi
+
+REYSLAR
+• Reys kelishuvdan yopilishigacha: hujjatlar, xarajatlar, bosqichlar
+• Yuk egasi va dispetcher uchun jonli marshrut — faqat reys davomida va faqat sizning ruxsatingiz bilan
+• SOS tugmasi
+
+TIL TO'SIG'ISIZ CHAT
+• Xabarlar suhbatdosh tiliga tarjima qilinadi (8 til)
+• Ovozli xabarlar matnga aylanadi
+• Foydalanuvchini bloklash va shikoyat
+
+AI YORDAMCHI
+• Yuk va mashina topadi, shartnomani tushuntiradi, reys xulosasini chiqaradi
+• Faqat sizning roziligingiz bilan ishlaydi (OpenAI asosida)
+
+PARK VA MOLIYA
+• Mashinalar, haydovchilar va hujjat muddati eslatmalari
+• Xarajatlar hisobi va cheklarni skanerlash
+• Daromad va xarajat tahlili
+
+YANA
+• Ustaxonalar va ehtiyot qismlar, texnika savdosi, haydovchilar uchun ish
+• Ishtirokchilarning ishonch reytingi
+• 8 tilda interfeys: o'zbek, rus, ingliz, turk, qozoq, qirg'iz, tojik, xitoy
+
+Har bir rol bepul sinov muddati bilan boshlanadi; tarif ilova ichidagi xarid bilan uzaytiriladi.

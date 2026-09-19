@@ -3648,6 +3648,9 @@
     "OTHER": "Diğer",
     "SALARY": "Maaş"
   },
+  "nav": {
+    "freeTrucks": "Boş araçlar"
+  },
   "notifyTitle": {
     "payLate": "Ödeme %{days} gün gecikti",
     "paySoon": "Ödemeye %{days} gün kaldı",

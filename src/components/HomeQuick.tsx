@@ -21,41 +21,56 @@ import { Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
-import { ASOSIY, QUICK_TELEFON, ikonkasi, yorliqKaliti, type TezkorTugma } from "@/lib/bosh-tugmalar";
+import { ASOSIY, ASOSIY_USTUN, QUICK_TELEFON, ikonkasi, yorliqKaliti, type TezkorTugma } from "@/lib/bosh-tugmalar";
 import { webToApp } from "@/lib/routes";
 import { color, radius, shadow, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export function AsosiyTugmalar() {
   const router = useRouter();
+  /* To'r: 4 ustun (webdagi telefon to'ri — 4 + 3). Qatorlar alohida,
+     oxirgisi bo'sh kataklar bilan to'ldiriladi — kenglik foizda emas,
+     aniq teng bo'lib chiqadi */
+  const bor = ASOSIY.flatMap((a) => {
+    const to = webToApp(a.web);
+    return to ? [{ ...a, to }] : [];
+  });
+  const qatorlar = Array.from({ length: Math.ceil(bor.length / ASOSIY_USTUN) }, (_, i) =>
+    bor.slice(i * ASOSIY_USTUN, (i + 1) * ASOSIY_USTUN),
+  );
   return (
     <View style={s.asosiy}>
-      {ASOSIY.map((a) => {
-        const to = webToApp(a.web);
-        if (!to) return null;
-        const nomi = t(`${a.ns}.${a.key}`);
-        return (
-          <Pressable
-            key={a.key}
-            onPress={() => router.push(to as never)}
-            accessibilityRole="button"
-            accessibilityLabel={nomi}
-            style={({ pressed }) => [s.tile, pressed && { opacity: 0.7 }]}
-          >
-            <View style={s.tileIcon}>
-              <Icon name={a.ikonka} size={20} stroke={color.brand} />
-              {a.qoshish ? (
-                <View style={s.plus}>
-                  <Icon name="plus" size={10} stroke="#ffffff" />
+      {qatorlar.map((qator, i) => (
+        <View key={i} style={s.asosiyQator}>
+          {qator.map((a) => {
+            const nomi = t(`${a.ns}.${a.key}`);
+            return (
+              <Pressable
+                key={a.key}
+                onPress={() => router.push(a.to as never)}
+                accessibilityRole="button"
+                accessibilityLabel={nomi}
+                style={({ pressed }) => [s.tile, pressed && { opacity: 0.7 }]}
+              >
+                <View style={s.tileIcon}>
+                  <Icon name={a.ikonka} size={20} stroke={color.brand} />
+                  {a.qoshish ? (
+                    <View style={s.plus}>
+                      <Icon name="plus" size={10} stroke="#ffffff" />
+                    </View>
+                  ) : null}
                 </View>
-              ) : null}
-            </View>
-            <Text style={s.tileText} numberOfLines={2}>
-              {nomi}
-            </Text>
-          </Pressable>
-        );
-      })}
+                <Text style={s.tileText} numberOfLines={2}>
+                  {nomi}
+                </Text>
+              </Pressable>
+            );
+          })}
+          {Array.from({ length: ASOSIY_USTUN - qator.length }, (_, j) => (
+            <View key={`bosh-${j}`} style={s.tileBosh} />
+          ))}
+        </View>
+      ))}
     </View>
   );
 }
@@ -103,7 +118,9 @@ export function RolTugmalari({ quick }: { quick: readonly TezkorTugma[] }) {
 }
 
 const s = themed(() => ({
-  asosiy: { flexDirection: "row", gap: 6 },
+  asosiy: { gap: 6 },
+  asosiyQator: { flexDirection: "row", gap: 6 },
+  tileBosh: { flex: 1 },
   tile: {
     flex: 1,
     minWidth: 0,

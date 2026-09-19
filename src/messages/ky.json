@@ -3648,6 +3648,9 @@
     "OTHER": "Башка",
     "SALARY": "Айлык"
   },
+  "nav": {
+    "freeTrucks": "Бош транспорт"
+  },
   "notifyTitle": {
     "payLate": "Төлөм %{days} күнгө кечикти",
     "paySoon": "Төлөмгө %{days} күн калды",

@@ -3648,6 +3648,9 @@
     "OTHER": "其他",
     "SALARY": "工资"
   },
+  "nav": {
+    "freeTrucks": "空闲车辆"
+  },
   "notifyTitle": {
     "payLate": "付款已逾期 %{days} 天",
     "paySoon": "距付款还有 %{days} 天",

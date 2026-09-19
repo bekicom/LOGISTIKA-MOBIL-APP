@@ -3648,6 +3648,9 @@
     "OTHER": "Other",
     "SALARY": "Salary"
   },
+  "nav": {
+    "freeTrucks": "Available trucks"
+  },
   "notifyTitle": {
     "payLate": "Payment is %{days} days overdue",
     "paySoon": "%{days} days until payment is due",

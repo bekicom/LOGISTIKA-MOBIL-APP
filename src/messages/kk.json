@@ -3648,6 +3648,9 @@
     "OTHER": "Басқа",
     "SALARY": "Жалақы"
   },
+  "nav": {
+    "freeTrucks": "Бос көліктер"
+  },
   "notifyTitle": {
     "payLate": "Төлем %{days} күнге кешікті",
     "paySoon": "Төлемге %{days} күн қалды",

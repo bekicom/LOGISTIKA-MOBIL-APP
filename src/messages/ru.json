@@ -3648,6 +3648,9 @@
     "OTHER": "Другое",
     "SALARY": "Зарплата"
   },
+  "nav": {
+    "freeTrucks": "Свободный транспорт"
+  },
   "notifyTitle": {
     "payLate": "Платёж просрочен на %{days} дн.",
     "paySoon": "До платежа %{days} дн.",

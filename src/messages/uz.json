@@ -3648,6 +3648,9 @@
     "OTHER": "Boshqa",
     "SALARY": "Oylik"
   },
+  "nav": {
+    "freeTrucks": "Bo'sh transportlar"
+  },
   "notifyTitle": {
     "payLate": "To'lov %{days} kun kechikdi",
     "paySoon": "To'lovga %{days} kun qoldi",

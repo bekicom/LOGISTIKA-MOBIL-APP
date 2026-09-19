@@ -1,9 +1,11 @@
 /**
- * Bosh sahifa tugmalari — besh asosiy va rolga xos qator (TZ-05, 2026-09-19).
+ * Bosh sahifa tugmalari — yetti asosiy va rolga xos qator (TZ-05, 2026-09-19).
  *
- * Mijoz: «Mashina qo'shish, Yuk qo'shish, Mening yuklarim, Mening
- * transportlarim, Parkim — shu 5 ta asosiy tugma hamma rolda tursin.
- * Qolgani pastdagi katakda: har bir rol bo'yicha zarur tugmalar chiqsin».
+ * Mijoz: «Yuklar, Bo'sh transportlar, Mashina qo'shish, Yuk qo'shish,
+ * Mening yuklarim, Mening transportlarim, Parkim — hamma rolda tursin,
+ * qolgani pastdagi katakda har rol bo'yicha». Avval beshta edi; «Yuklar»
+ * va «Bo'sh transportlar» webga shu kuni qo'shildi (`434a67c`) — ilova
+ * orqada qolganini `test-asosiy-mobile` ushladi.
  *
  * ── MANBA — WEB ─────────────────────────────────────────────────
  *
@@ -21,15 +23,17 @@
 
 export type AsosiyTugma = {
   key: string;
-  ns: "quick" | "svc";
+  ns: "quick" | "svc" | "nav";
   /** Web manzili (`nav.ts` bilan bir xil) */
   web: string;
-  ikonka: "truck" | "package" | "route";
+  ikonka: "truck" | "package" | "route" | "search";
   /** «Qo'shish» tugmasi — belgisi ustida «+» */
   qoshish?: boolean;
 };
 
 export const ASOSIY: readonly AsosiyTugma[] = [
+  { key: "loads", ns: "svc", web: "/loads", ikonka: "search" },
+  { key: "freeTrucks", ns: "nav", web: "/trucks", ikonka: "truck" },
   { key: "addVehicle", ns: "quick", web: "/fleet?add=1", ikonka: "truck", qoshish: true },
   { key: "addCargo", ns: "quick", web: "/post", ikonka: "package", qoshish: true },
   { key: "my-loads", ns: "svc", web: "/my-loads", ikonka: "package" },
@@ -66,6 +70,9 @@ export function ikonkasi(web: string): (typeof IKONKA)[keyof typeof IKONKA] | "g
 
 /** Telefonda qatorda nechtasi ko'rinadi — qolgani «Yana» ichida (web `QUICK_TELEFON`) */
 export const QUICK_TELEFON = 4;
+
+/** Asosiy tugmalar to'rida ustun soni — webdagi telefon to'ri (`grid-cols-4`, 4 + 3) */
+export const ASOSIY_USTUN = 4;
 
 /** Server kalitni ruxsat etilgan bo'limdan beradi — boshqasi e'tiborsiz */
 export function yorliqKaliti(q: { key: string; ns: string }): string | null {

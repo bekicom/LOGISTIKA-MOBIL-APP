@@ -3648,6 +3648,9 @@
     "OTHER": "Дигар",
     "SALARY": "Маош"
   },
+  "nav": {
+    "freeTrucks": "Нақлиёти холӣ"
+  },
   "notifyTitle": {
     "payLate": "Пардохт %{days} рӯз дер шуд",
     "paySoon": "То пардохт %{days} рӯз мондааст",

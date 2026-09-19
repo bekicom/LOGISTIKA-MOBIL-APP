@@ -14,6 +14,17 @@
  *
  * Atamalar ham ataylab tanlangan: «obuna» so'zi Apple tekshiruvida
  * IAP talabini chaqiradi, shuning uchun «xizmat rejasi» deyiladi.
+ *
+ * ── TARIF BELGISI (TZ-04, 2026-09-19) ───────────────────────────
+ *
+ * Ism ostida eski rol nomi (`User.role`, to'rt qiymatli eski ustun)
+ * o'rnida — webdagi belgi: «Dispetcher · sinov 7 kun», «Tarif tugadi»,
+ * «Rolni tanlang». Rollar tizimida huquqni rol TARIFI beradi, eski ustun
+ * esa sinovdagi dispecherga ham «Yuk egasi» deb turardi.
+ *
+ * Reja kartasi endi faqat VIP va eski «Kengaytirilgan» rejada: qolganlarga
+ * u «Bepul reja — asosiy imkoniyatlar ochiq» derdi va sinovdagi yoki
+ * tarifi tugagan odamga belgi bilan zid gapirardi.
  */
 import { Alert, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
@@ -25,6 +36,7 @@ import { Button, Card, GroupLabel, ListRow } from "@/components/ui";
 import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
 import { GuestPanel } from "@/components/GuestPanel";
+import { TarifBelgi } from "@/components/TarifBelgi";
 import { isGuest } from "@/lib/guest";
 import { forget, requestTour } from "@/lib/first-run";
 import { color, font, radius, space, themed } from "@/lib/theme";
@@ -62,16 +74,16 @@ export default function ProfilTab() {
 }
 
 function OwnProfil() {
-  const { user, signOut, refresh } = useAuth();
+  const { user, tarif, signOut, refresh } = useAuth();
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
   const trust = useApi<Trust>(user ? `/api/trust/${user.id}` : null, [user?.id]);
 
+  /* VIP va eski «Kengaytirilgan» reja — muddati o'tmagan bo'lsa */
   const vip = daysLeft(user?.vipUntil);
   const premium = daysLeft(user?.premiumUntil);
-  const plan = vip ? "VIP" : premium ? t("mob.profile.planPremium") : null;
-  const left = vip ?? premium;
+  const reja = vip ? { nom: "VIP", kun: vip } : premium ? { nom: t("mob.profile.planPremium"), kun: premium } : null;
 
   async function copyId() {
     if (!user) return;
@@ -128,7 +140,8 @@ function OwnProfil() {
           <Text style={s.name}>
             {[user?.firstName, user?.lastName].filter(Boolean).join(" ") || "—"}
           </Text>
-          <Text style={s.role}>{roleLabel(user?.role)}</Text>
+          {/* Eski server belgini yubormasa (deploydan oldin) — eski rol nomi */}
+          {tarif ? <TarifBelgi /> : <Text style={s.role}>{roleLabel(user?.role)}</Text>}
 
           <Pressable onPress={copyId} style={({ pressed }) => [s.idChip, pressed && { opacity: 0.6 }]}>
             <Text style={s.idText}>FURAM ID: {user?.furamId ?? "—"}</Text>
@@ -154,36 +167,31 @@ function OwnProfil() {
           </View>
         </Card>
 
-        {/* Tarif — platformaga qarab */}
-        <Card style={{ padding: space.lg }}>
-          <View style={s.planTop}>
-            <View style={{ flex: 1 }}>
-              <Text style={s.planName}>{plan ? t("mob.profile.planName", { plan }) : t("mob.profile.freePlan")}</Text>
-              <Text style={s.planHint}>
-                {plan
-                  ? left != null
-                    ? t("mob.profile.daysLeft", { n: left })
-                    : t("mob.profile.expired")
-                  : t("mob.profile.freePlanHint")}
-              </Text>
+        {/* VIP va eski «Kengaytirilgan» reja — muddati bilan. Boshqa holat
+            belgida (ism ostida): u yerda rol, sinov kunlari, tugagani */}
+        {reja ? (
+          <Card style={{ padding: space.lg }}>
+            <View style={s.planTop}>
+              <View style={{ flex: 1 }}>
+                <Text style={s.planName}>{t("mob.profile.planName", { plan: reja.nom })}</Text>
+                <Text style={s.planHint}>{t("mob.profile.daysLeft", { n: reja.kun })}</Text>
+              </View>
+              <Text style={s.planBadge}>{t("mob.profile.active")}</Text>
             </View>
-            {plan ? <Text style={s.planBadge}>{t("mob.profile.active")}</Text> : null}
-          </View>
 
-          {plan && left != null ? (
             <View style={s.bar}>
               {/* 365 kunlik reja bo'yicha taxminiy ulush */}
-              <View style={[s.barFill, { width: `${Math.min(100, (left / 365) * 100)}%` }]} />
+              <View style={[s.barFill, { width: `${Math.min(100, (reja.kun / 365) * 100)}%` }]} />
             </View>
-          ) : null}
 
-          {/* Narx, tugma va havola YO'Q — Apple 3.1.1. Android'da ilgari
-              «Uzaytirish» tugmasi bor edi-yu, bosilganda «tez orada»
-              oynasi chiqardi: Apple 2.1 buni ham rad qiladi va
-              foydalanuvchiga ham hech narsa bermasdi. To'lov qurilmaguncha
-              ikkala platformada bir xil izoh turadi (2026-09-17, A21/A22). */}
-          <Text style={s.iosNote}>{t("mob.profile.planNote")}</Text>
-        </Card>
+            {/* Narx, tugma va havola YO'Q — Apple 3.1.1. Android'da ilgari
+                «Uzaytirish» tugmasi bor edi-yu, bosilganda «tez orada»
+                oynasi chiqardi: Apple 2.1 buni ham rad qiladi va
+                foydalanuvchiga ham hech narsa bermasdi. To'lov qurilmaguncha
+                ikkala platformada bir xil izoh turadi (2026-09-17, A21/A22). */}
+            <Text style={s.iosNote}>{t("mob.profile.planNote")}</Text>
+          </Card>
+        ) : null}
 
         {/* Menyu */}
         <View>

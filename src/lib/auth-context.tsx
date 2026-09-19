@@ -13,6 +13,7 @@ import { clearToken, getToken, saveToken, type User } from "./session";
 import { wipeLocal } from "./local-db";
 import { loadGuest, setGuest } from "./guest";
 import { setFeatures, type FeatureKey } from "./features";
+import { isTarifHolati, type TarifHolati } from "./tarif-belgi";
 import { clearPushAsked, pushState, registerPush, unregisterPush } from "./push";
 
 type State = {
@@ -36,6 +37,12 @@ type State = {
    * oynasini ko'rsatib turardi.
    */
   offerAccepted: boolean | null;
+  /**
+   * Tarif belgisi holati (TZ-04) — «Dispetcher · sinov 7 kun».
+   * `null` — ma'lum emas (mehmon yoki maydonni yubormaydigan eski
+   * server): unda belgi chizilmaydi, eski rol nomi turadi.
+   */
+  tarif: TarifHolati | null;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -46,6 +53,7 @@ const Ctx = createContext<State | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [offerAccepted, setOfferAccepted] = useState<boolean | null>(null);
+  const [tarif, setTarif] = useState<TarifHolati | null>(null);
   const [loading, setLoading] = useState(true);
   /* Ro'yxat holatda ham turadi: `features.ts` dagi to'plam sof
      modul o'zgaruvchisi, o'zgarganda ekran qayta chizilmaydi.
@@ -63,15 +71,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       setFeatures([]);
       setFeats(new Set());
+      setTarif(null);
       setLoading(false);
       return;
     }
     try {
-      const res = await api<{ user: User; features?: string[]; offerAccepted?: boolean }>(
+      const res = await api<{ user: User; features?: string[]; offerAccepted?: boolean; tarif?: unknown }>(
         "/api/auth/me",
       );
       setUser(res.user);
       setOfferAccepted(typeof res.offerAccepted === "boolean" ? res.offerAccepted : null);
+      /* Belgi ham shu javobda: server `accessOf` ni baribir chaqiradi —
+         alohida so'rov ikkinchi manba bo'lardi (`features` dagi sabab) */
+      setTarif(isTarifHolati(res.tarif) ? res.tarif : null);
       /* Tarif ro'yxati foydalanuvchi bilan BIR SO'ROVDA keladi:
          alohida marshrut qo'shilsa ilova ochilishida yana bitta
          so'rov bo'lardi va ikkisi bir-biridan orqada qolib
@@ -95,6 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       setFeatures([]);
       setFeats(new Set());
+      setTarif(null);
     } finally {
       setLoading(false);
     }
@@ -136,13 +149,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setFeatures([]);
     setFeats(new Set());
+    setTarif(null);
   }, []);
 
   const canFeature = useCallback((f: FeatureKey) => feats === null || feats.has(f), [feats]);
 
   const value = useMemo(
-    () => ({ user, loading, can: canFeature, offerAccepted, signIn, signOut, refresh: load }),
-    [user, loading, canFeature, offerAccepted, signIn, signOut, load],
+    () => ({ user, loading, can: canFeature, offerAccepted, tarif, signIn, signOut, refresh: load }),
+    [user, loading, canFeature, offerAccepted, tarif, signIn, signOut, load],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

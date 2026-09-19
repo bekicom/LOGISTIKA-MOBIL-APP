@@ -136,7 +136,7 @@
     "SOLD": "E'lon sotilgan — o'zgartirib bo'lmaydi.",
     "SPECIALITY_REQUIRED": "Kamida bitta mutaxassislik tanlang.",
     "TAKEN": "Bu joy allaqachon band.",
-    "TARIFF_LIMIT": "Tarifingizdagi chegara to'ldi. Tarifni kengaytiring.",
+    "TARIFF_LIMIT": "Tarifingizdagi barcha joylar band — yangi mashina qo'shib bo'lmaydi.",
     "TARIFF_REQUIRED": "Bu tarifingizga kirmaydi. Rolingizni tanlang yoki tarifni yangilang.",
     "TELEGRAM_SOURCE": "Bu e'lon Telegram'dan olingan — ilova ichida yozib bo'lmaydi.",
     "TG_LOAD": "Telegram e'loniga reys ochib bo'lmaydi — egasi bilan telefonda bog'laning.",
@@ -479,8 +479,6 @@
       "single": "Yaxlit",
       "step1": "1-qadam: asosiy ma'lumot",
       "submit": "Saqlash va davom etish",
-      "tariffText": "Bu tarifda mashina qo'shib bo'lmaydi.",
-      "tariffTitle": "Tarif cheklovi",
       "title": "Transport qo'shish",
       "tractor": "Tyagach",
       "trailer": "Tirkama",
@@ -3721,6 +3719,8 @@
     "voiceFailed": "Ovozni tanib bo'lmadi — qayta urinib ko'ring"
   },
   "pgFleet": {
+    "joylarTola": "Barcha joylar band",
+    "joylarTolaMatn": "Tarifingizdagi barcha joylar (%{n} ta) band — yangi mashina qo'shib bo'lmaydi. Parkdagi mashinalar bilan ish davom etadi.",
     "ozimHaydamayman": "O'zim haydamayman",
     "ozimHaydayman": "O'zim haydayman",
     "ozimMaosh": "Bu siz — o'zingizga maosh yozilmaydi. Mashinaning daromadi va xarajati «Daromadlar» bo'limida.",
@@ -3731,7 +3731,8 @@
       "ON_TRIP": "Mashina reysda — reys tugagach o'zgartiring",
       "PHONE_REQUIRED": "Avval profilga telefon raqamingizni qo'shing",
       "SEAT_TAKEN": "Bu mashinada boshqa haydovchi bor — avval uni olib tashlang"
-    }
+    },
+    "tarSeats": "Joylar: %{total} tadan %{used} tasi band"
   },
   "pgHome": {
     "quickMore": "Yana"
@@ -4053,6 +4054,13 @@
     "trust": "Reyting",
     "video": "Video",
     "warehouse": "Ombor"
+  },
+  "tarifBelgi": {
+    "faol": "%{rol} · faol",
+    "sinov": "%{rol} · sinov %{n} kun",
+    "tugadi": "Tarif tugadi",
+    "vip": "VIP · hammasi ochiq",
+    "yoq": "Rolni tanlang"
   },
   "todayCard": {
     "chats": "%{n} ta suhbatda o'qilmagan xabar bor",

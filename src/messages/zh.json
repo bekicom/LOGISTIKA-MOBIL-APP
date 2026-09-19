@@ -136,7 +136,7 @@
     "SOLD": "该信息已售出，无法修改。",
     "SPECIALITY_REQUIRED": "请至少选择一个专长。",
     "TAKEN": "该位置已被占用。",
-    "TARIFF_LIMIT": "已达套餐上限，请升级套餐。",
+    "TARIFF_LIMIT": "您套餐中的名额已全部占用——无法添加新车辆。",
     "TARIFF_REQUIRED": "这不在您的套餐内。请选择角色或续费。",
     "TELEGRAM_SOURCE": "该信息来自 Telegram——无法在应用内私信。",
     "TG_LOAD": "Telegram 广告无法创建行程——请电话联系货主。",
@@ -479,8 +479,6 @@
       "single": "单体车",
       "step1": "第 1 步：基本信息",
       "submit": "保存并继续",
-      "tariffText": "当前套餐无法添加车辆。",
-      "tariffTitle": "套餐限制",
       "title": "添加车辆",
       "tractor": "牵引车",
       "trailer": "挂车",
@@ -3721,6 +3719,8 @@
     "voiceFailed": "无法识别语音——请重试"
   },
   "pgFleet": {
+    "joylarTola": "名额已全部占用",
+    "joylarTolaMatn": "您套餐中的全部名额（%{n} 个）均已占用——无法添加新车辆。车队中现有车辆可照常使用。",
     "ozimHaydamayman": "不再自己驾驶",
     "ozimHaydayman": "我自己驾驶",
     "ozimMaosh": "这是您本人——不会给自己记工资。车辆的收入和支出见「收入」栏目。",
@@ -3731,7 +3731,8 @@
       "ON_TRIP": "车辆正在行程中——行程结束后再更改",
       "PHONE_REQUIRED": "请先在个人资料中添加电话号码",
       "SEAT_TAKEN": "这辆车已有司机——请先将其移除"
-    }
+    },
+    "tarSeats": "席位：%{total} 个中已用 %{used} 个"
   },
   "pgHome": {
     "quickMore": "更多"
@@ -4053,6 +4054,13 @@
     "trust": "评分",
     "video": "视频",
     "warehouse": "仓库"
+  },
+  "tarifBelgi": {
+    "faol": "%{rol} · 已生效",
+    "sinov": "%{rol} · 试用 %{n} 天",
+    "tugadi": "套餐已到期",
+    "vip": "VIP · 全部开放",
+    "yoq": "选择角色"
   },
   "todayCard": {
     "chats": "%{n} 个聊天有未读消息",

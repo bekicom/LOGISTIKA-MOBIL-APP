@@ -136,7 +136,7 @@
     "SOLD": "The listing is sold — it can't be changed.",
     "SPECIALITY_REQUIRED": "Pick at least one speciality.",
     "TAKEN": "That spot is already taken.",
-    "TARIFF_LIMIT": "You've hit your plan's limit. Upgrade the plan.",
+    "TARIFF_LIMIT": "All slots in your plan are in use — a new vehicle can't be added.",
     "TARIFF_REQUIRED": "That's not in your plan. Pick a role or renew the plan.",
     "TELEGRAM_SOURCE": "This listing came from Telegram — you can't message inside the app.",
     "TG_LOAD": "A trip cannot be opened for a Telegram listing — call the owner instead.",
@@ -479,8 +479,6 @@
       "single": "Rigid",
       "step1": "Step 1: the basics",
       "submit": "Save and continue",
-      "tariffText": "You cannot add a vehicle on this plan.",
-      "tariffTitle": "Plan limit",
       "title": "Add vehicle",
       "tractor": "Tractor unit",
       "trailer": "Trailer",
@@ -3721,6 +3719,8 @@
     "voiceFailed": "Couldn't recognise the voice — try again"
   },
   "pgFleet": {
+    "joylarTola": "All slots are in use",
+    "joylarTolaMatn": "All slots in your plan (%{n}) are in use — a new vehicle can't be added. Work with the vehicles already in your fleet continues.",
     "ozimHaydamayman": "Stop driving it myself",
     "ozimHaydayman": "I drive it myself",
     "ozimMaosh": "This is you — no salary is recorded to yourself. The vehicle's income and costs are under “Income”.",
@@ -3731,7 +3731,8 @@
       "ON_TRIP": "The vehicle is on a trip — change it after the trip ends",
       "PHONE_REQUIRED": "Add your phone number to your profile first",
       "SEAT_TAKEN": "This vehicle already has a driver — remove them first"
-    }
+    },
+    "tarSeats": "Seats: %{used} of %{total} used"
   },
   "pgHome": {
     "quickMore": "More"
@@ -4053,6 +4054,13 @@
     "trust": "Rating",
     "video": "Video",
     "warehouse": "Warehouse"
+  },
+  "tarifBelgi": {
+    "faol": "%{rol} · active",
+    "sinov": "%{rol} · trial, %{n} days",
+    "tugadi": "Plan expired",
+    "vip": "VIP · everything unlocked",
+    "yoq": "Choose a role"
   },
   "todayCard": {
     "chats": "Unread messages in %{n} chats",

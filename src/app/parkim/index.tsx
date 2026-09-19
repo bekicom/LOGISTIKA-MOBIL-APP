@@ -8,6 +8,10 @@
  *
  * Muddati tugagan hujjat eng tepada TAKRORLANADI: u pul yo'qotadigan
  * xato (chegarada to'xtatiladi), ro'yxat ichida ko'zdan qochmasin.
+ *
+ * Joylar (2026-09-19): «Joylar: 3 tadan 2 tasi band» ro'yxat tepasida;
+ * joy tugagan bo'lsa «Qo'shish» formani OCHMAYDI — sababini aytadi
+ * (`ParkJoylari` izohi).
  */
 import { useMemo, useState } from "react";
 import { Alert, FlatList, Pressable, RefreshControl, View } from "react-native";
@@ -19,6 +23,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { OzimHaydayman } from "@/components/OzimHaydayman";
+import { JoylarQatori, joyTugadi, tolami, type Joylar } from "@/components/ParkJoylari";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -58,7 +63,8 @@ type Vehicle = {
   docAlert: DocAlert | null;
   trip: Trip | null;
 };
-type Feed = { items: Vehicle[]; counts: Record<string, number>; total: number };
+/* `seats` — eski serverda yo'q (`undefined`), VIP da `null` */
+type Feed = { items: Vehicle[]; counts: Record<string, number>; total: number; seats?: Joylar | null };
 type Transfer = {
   id: string; plate: string; vehicleNo: number; brand: string;
   fromName: string; fromFuramId: number;
@@ -115,6 +121,10 @@ export default function Parkim() {
   const total = data?.total ?? 0;
   const onTrip = data?.counts?.ON_TRIP ?? 0;
 
+  /* Joy tugagan — forma ochilmaydi, sababi shu zahoti (5-qoida) */
+  const joy = data?.seats;
+  const qoshish = () => (joy && tolami(joy) ? joyTugadi(joy.limit) : router.push("/parkim/qoshish"));
+
   return (
     <View style={s.root}>
       <Header
@@ -136,8 +146,8 @@ export default function Parkim() {
               <Icon name="chart" size={17} stroke={color.foreground} />
             </Pressable>
             <Pressable
-              onPress={() => router.push("/parkim/qoshish")}
-              style={({ pressed }) => [s.add, pressed && { backgroundColor: color.brandHover }]}
+              onPress={qoshish}
+              style={({ pressed }) => [s.add, tolami(joy) && { opacity: 0.55 }, pressed && { backgroundColor: color.brandHover }]}
             >
               <Icon name="plus" size={15} stroke="#fff" />
               <Text style={s.addText}>{t("mob.common.add")}</Text>
@@ -190,6 +200,8 @@ export default function Parkim() {
                   o'tmagan, ya'ni uning kartasi ko'rinmaydi). */}
               <IncomingTransfers onDone={reload} />
 
+              <JoylarQatori joy={joy} />
+
               {expired.length > 0 && !filter ? (
                 <View style={s.warn}>
                   <Icon name="alert" size={19} stroke={color.danger} />
@@ -214,7 +226,7 @@ export default function Parkim() {
               title={filter ? t("mob.park.emptyTab") : t("mob.park.emptyTitle")}
               text={filter ? t("mob.park.emptyTabText") : t("mob.park.emptyText")}
               actionLabel={filter ? undefined : t("mob.park.addVehicle")}
-              onAction={filter ? undefined : () => router.push("/parkim/qoshish")}
+              onAction={filter ? undefined : qoshish}
             />
           }
           renderItem={({ item }) => (

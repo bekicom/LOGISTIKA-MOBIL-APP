@@ -136,7 +136,7 @@
     "SOLD": "İlan satıldı — değiştirilemez.",
     "SPECIALITY_REQUIRED": "En az bir uzmanlık seçin.",
     "TAKEN": "Bu yer zaten dolu.",
-    "TARIFF_LIMIT": "Tarife sınırına ulaştınız. Tarifeyi genişletin.",
+    "TARIFF_LIMIT": "Tarifenizdeki tüm yerler dolu — yeni araç eklenemez.",
     "TARIFF_REQUIRED": "Bu tarifenize dahil değil. Rol seçin ya da tarifeyi yenileyin.",
     "TELEGRAM_SOURCE": "Bu ilan Telegram'dan alındı — uygulama içinden yazılamaz.",
     "TG_LOAD": "Telegram ilanı için sefer açılamaz — sahibiyle telefonla iletişime geçin.",
@@ -479,8 +479,6 @@
       "single": "Tek parça",
       "step1": "1. adım: temel bilgiler",
       "submit": "Kaydet ve devam et",
-      "tariffText": "Bu tarifede araç eklenemez.",
-      "tariffTitle": "Tarife sınırı",
       "title": "Araç ekle",
       "tractor": "Çekici",
       "trailer": "Römork",
@@ -3721,6 +3719,8 @@
     "voiceFailed": "Ses tanınamadı — tekrar deneyin"
   },
   "pgFleet": {
+    "joylarTola": "Tüm yerler dolu",
+    "joylarTolaMatn": "Tarifenizdeki tüm yerler (%{n}) dolu — yeni araç eklenemez. Filonuzdaki araçlarla çalışma devam eder.",
     "ozimHaydamayman": "Artık kendim sürmüyorum",
     "ozimHaydayman": "Kendim sürüyorum",
     "ozimMaosh": "Bu sizsiniz — kendinize maaş yazılmaz. Aracın gelir ve giderleri «Gelirler» bölümünde.",
@@ -3731,7 +3731,8 @@
       "ON_TRIP": "Araç seferde — sefer bitince değiştirin",
       "PHONE_REQUIRED": "Önce profilinize telefon numaranızı ekleyin",
       "SEAT_TAKEN": "Bu aracın zaten bir sürücüsü var — önce onu kaldırın"
-    }
+    },
+    "tarSeats": "Yerler: %{total} yerden %{used} dolu"
   },
   "pgHome": {
     "quickMore": "Daha fazla"
@@ -4053,6 +4054,13 @@
     "trust": "Puan",
     "video": "Video",
     "warehouse": "Depo"
+  },
+  "tarifBelgi": {
+    "faol": "%{rol} · aktif",
+    "sinov": "%{rol} · deneme %{n} gün",
+    "tugadi": "Tarife sona erdi",
+    "vip": "VIP · her şey açık",
+    "yoq": "Rol seçin"
   },
   "todayCard": {
     "chats": "%{n} sohbette okunmamış mesaj var",

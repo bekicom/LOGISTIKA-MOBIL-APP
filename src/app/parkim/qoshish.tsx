@@ -9,6 +9,10 @@
  *
  * Tirkama/tyagach tanlovi BIRINCHI savol: hujjat va texnik ko'rik
  * ikkalasida boshqacha yuritiladi (TZ 03, 43-45-band).
+ *
+ * Joy tugagan bo'lsa (2026-09-19) — forma boshida aytiladi va saqlash
+ * to'xtaydi. Forma faqat park ekranidan emas, bosh sahifa va AI dan ham
+ * ochiladi, shuning uchun o'zi ham so'raydi (`/api/fleet/seats`).
  */
 import { useState } from "react";
 import { Alert, Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from "react-native";
@@ -23,6 +27,7 @@ import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 import { TariffNotice } from "@/components/TariffNotice";
+import { JoyTugadiOgohi, joyTugadi, tolami, type Joylar } from "@/components/ParkJoylari";
 import { tariffBlocked } from "@/lib/features";
 
 /* `name` — server SO'ROV TILIDA qaytaradi (`localName`). Ilgari
@@ -49,6 +54,8 @@ export default function TransportQoshish() {
   const drag = useSheetDrag(() => setPickType(false));
   const router = useRouter();
   const types = useApi<{ items: VType[] }>("/api/vehicle-types");
+  const joy = useApi<{ seats: Joylar | null }>("/api/fleet/seats");
+  const joylar = joy.data?.seats;
 
   const [part, setPart] = useState<string>("SINGLE");
   const [plate, setPlate] = useState("");
@@ -109,6 +116,10 @@ export default function TransportQoshish() {
     /* Oxirgi to'siq — ekran boshidagi ogohlantirishga
        e'tibor bermay o'tib ketgan holat uchun. */
     if (tariffBlocked("fleet")) return;
+    if (joylar && tolami(joylar)) {
+      joyTugadi(joylar.limit);
+      return;
+    }
     setBusy(true);
     setErrors({});
     try {
@@ -130,8 +141,12 @@ export default function TransportQoshish() {
           { text: t("mob.common.cancel"), style: "cancel" },
           { text: t("mob.add.dupAnyway"), onPress: () => void save(true) },
         ]);
-      } else if (err.code === "TARIFF" || err.code === "LIMIT") {
-        Alert.alert(t("mob.add.tariffTitle"), err.message ?? t("mob.add.tariffText"));
+      } else if (err.code === "TARIFF_LIMIT") {
+        /* Ilgari kod «TARIFF»/«LIMIT» bilan solishtirilardi va hech qachon
+           mos kelmasdi. Server `message` ida narx bor — ko'rsatilmaydi
+           (Apple 3.1.1): son `seats` dan, matn lug'atdan */
+        joyTugadi((err.data?.seats as Joylar | undefined)?.limit ?? joylar?.limit);
+        joy.reload();
       } else {
         Alert.alert(t("mob.common.notSaved"), err.message ?? t("mob.common.tryAgain"));
       }
@@ -150,6 +165,7 @@ export default function TransportQoshish() {
 
       <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
         <TariffNotice feature="fleet" />
+        <JoyTugadiOgohi joy={joylar} />
         {/* Tuzilishi — birinchi savol, qolgani shunga bog'liq */}
         <View>
           <Text style={s.label}>{t("mob.add.kind")}</Text>

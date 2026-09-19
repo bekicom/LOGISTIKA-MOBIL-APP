@@ -16,6 +16,7 @@ import {
 import { AuthProvider } from "@/lib/auth-context";
 import { OfflineBar } from "@/components/OfflineBar";
 import { PushAsk } from "@/components/PushAsk";
+import { AiRozilikOynasi } from "@/components/AiRozilik";
 import { IntroVideo } from "@/components/IntroVideo";
 import { useOutboxRunner } from "@/lib/use-outbox";
 import { useXaridKuzatuvchi } from "@/lib/use-xarid";
@@ -123,6 +124,8 @@ function Shell() {
     <>
       <OfflineBar online={online} />
       <PushAsk />
+      {/* AI rozilik oynasi — `api.ts` va suhbat ekrani shu yerdan ochadi (B3) */}
+      <AiRozilikOynasi />
       <Stack
         screenOptions={{
           headerShown: false,

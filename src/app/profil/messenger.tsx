@@ -5,16 +5,20 @@
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { Header, Notice, Switch } from "@/components/ui";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { useAuth } from "@/lib/auth-context";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { LOCALES, LOCALE_INFO, t } from "@/lib/i18n";
 
 export default function MessengerSozlama() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const { aiRozilik } = useAuth();
   const { data, reload } = useApi<{ chatLang: string; autoTranslate: boolean }>("/api/profile/chat-lang");
   const [lang, setLang] = useState("uz");
   const [auto, setAuto] = useState(true);
@@ -73,6 +77,15 @@ export default function MessengerSozlama() {
           <Switch value={auto} onValueChange={(v) => save({ autoTranslate: v })} disabled={busy} />
         </View>
 
+        {/* Tarjima OpenAI orqali — roziliksiz ishlamaydi (B3, 2026-09-19) */}
+        {aiRozilik !== true ? (
+          <Pressable style={s.ai} onPress={() => router.push("/ai-xizmatlari")} accessibilityRole="button">
+            <Icon name="sparkle" size={16} stroke={color.brand} />
+            <Text style={s.aiText}>{t("aiRozilik.tarjimaOchiq")}</Text>
+            <Text style={s.aiLink}>{t("aiRozilik.yoqish")}</Text>
+          </Pressable>
+        ) : null}
+
         {saved ? (
           <View style={s.saved}>
             <Icon name="check" size={15} stroke={color.success} />
@@ -99,4 +112,14 @@ const s = themed(() => ({
   autoHint: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3, lineHeight: 18 },
   saved: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "center" },
   savedText: { fontSize: 13, fontWeight: "700", color: color.success },
+  ai: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    padding: 12,
+    borderRadius: radius.card,
+    backgroundColor: color.brandSoft,
+  },
+  aiText: { flex: 1, fontSize: 12.5, lineHeight: 18, color: color.foreground },
+  aiLink: { fontSize: 13, fontWeight: "700", color: color.brand },
 }));

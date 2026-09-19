@@ -157,6 +157,37 @@ export class FuramError extends Error {
   }
 }
 
+/* ── AI ROZILIGI (2026-09-19, B3 — Apple 5.1.2(i)) ──────────────
+   Server `AI_CONSENT_REQUIRED` qaytarsa, rozilik oynasi SHU YERDA
+   ochiladi — telefon ekrani bilan bir xil sabab: AI ni chaqiradigan
+   o'ndan ortiq ekran bor va yangisi qo'shilganda unutilardi.
+
+   Javobdan keyin so'rov BIR MARTA qayta yuboriladi:
+     «Roziman» — AI ishlaydi;
+     «Yo'q»    — AI siz javobi bor marshrut (narx tahlili, nomzod
+                 qidiruvi) natijani beradi, qolgani xato matnini
+                 (`apiErr.AI_CONSENT_REQUIRED` — qayerda yoqishni aytadi);
+     yopildi   — qaror yo'q, qayta yuborilmaydi.
+   Server rozilikni tarmoqqa chiqishdan OLDIN tekshiradi, ya'ni qayta
+   yuborish ikkinchi marta hech narsa qilmaydi. */
+export type AiRozilikJavob = "ha" | "yoq" | "yopildi";
+let aiSorovchi: (() => Promise<AiRozilikJavob>) | null = null;
+
+/** Oyna (`components/AiRozilik.tsx`) o'zini shu yerda ro'yxatdan o'tkazadi */
+export function setAiRozilikSorovchi(fn: (() => Promise<AiRozilikJavob>) | null): void {
+  aiSorovchi = fn;
+}
+
+async function aiRozilikBilan<T>(ishla: () => Promise<T>): Promise<T> {
+  try {
+    return await ishla();
+  } catch (e) {
+    if (!(e instanceof FuramError) || e.code !== "AI_CONSENT_REQUIRED" || !aiSorovchi) throw e;
+    if ((await aiSorovchi()) === "yopildi") throw e;
+    return ishla();
+  }
+}
+
 type Options = {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: unknown;
@@ -168,7 +199,11 @@ type Options = {
   timeoutMs?: number;
 };
 
-export async function api<T>(path: string, opts: Options = {}): Promise<T> {
+export function api<T>(path: string, opts: Options = {}): Promise<T> {
+  return aiRozilikBilan(() => apiBir<T>(path, opts));
+}
+
+async function apiBir<T>(path: string, opts: Options): Promise<T> {
   /* Til QATTIQ YOZILMAYDI. Server javobdagi joy nomlari, transport
      turlari va holat yorliqlarini shu sarlavhaga qarab tanlaydi
      (`furam/src/lib/locale-server.ts`). Ilgari doim "uz" ketardi va
@@ -295,7 +330,7 @@ export function formPart(f: Upload): unknown {
   return { uri: f.uri, name: f.name, type: f.type };
 }
 
-export async function apiUpload<T>(
+export function apiUpload<T>(
   path: string,
   fields: Record<string, string | number | undefined>,
   files: Upload[] = [],
@@ -304,6 +339,15 @@ export async function apiUpload<T>(
      qattiq yozilgan edi va bunday marshrutga fayl umuman
      yuborib bo'lmasdi. */
   method: "POST" | "PUT" = "POST",
+): Promise<T> {
+  return aiRozilikBilan(() => apiUploadBir<T>(path, fields, files, method));
+}
+
+async function apiUploadBir<T>(
+  path: string,
+  fields: Record<string, string | number | undefined>,
+  files: Upload[],
+  method: "POST" | "PUT",
 ): Promise<T> {
   const form = new FormData();
   for (const [k, v] of Object.entries(fields)) {

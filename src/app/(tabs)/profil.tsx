@@ -74,7 +74,7 @@ export default function ProfilTab() {
 }
 
 function OwnProfil() {
-  const { user, tarif, signOut, refresh } = useAuth();
+  const { user, tarif, aiRozilik, signOut, refresh } = useAuth();
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
@@ -234,6 +234,20 @@ function OwnProfil() {
               title={t("mob.block.listTitle")}
               hint={t("mob.block.listRowHint")}
               onPress={() => router.push("/profil/bloklanganlar")}
+            />
+            {/* AI rozilik — qaytarib olish yo'li (B3, Apple 5.1.2(i)).
+                Xato matni va oyna «Profil → AI xizmatlari» deydi */}
+            <ListRow
+              icon={<Badge icon="sparkle" />}
+              title={t("aiRozilik.sozlama")}
+              hint={
+                aiRozilik === true
+                  ? t("aiRozilik.yoqilgan")
+                  : aiRozilik === false
+                    ? t("aiRozilik.ochirilgan")
+                    : t("aiRozilik.soralmagan")
+              }
+              onPress={() => router.push("/ai-xizmatlari")}
               last
             />
           </Card>

@@ -140,6 +140,8 @@ function groups(): Group[] {
         { icon: "headset", title: t("mob.support.title"), href: "/yordam" },
         { icon: "play", title: t("mob.video.title"), href: "/qollanma", open: true },
         { icon: "shield", title: t("mob.legal.title"), href: "/huquqiy", open: true },
+        /* AI rozilik — qaytarib olish yo'li doim ko'rinsin (B3, Apple 5.1.2(i)) */
+        { icon: "sparkle", title: t("aiRozilik.sozlama"), href: "/ai-xizmatlari" },
       ],
     },
   ];

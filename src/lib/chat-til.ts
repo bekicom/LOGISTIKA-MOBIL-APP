@@ -46,8 +46,9 @@ export function isChatTil(v: unknown): v is ChatTil {
   return typeof v === "string" && (CHAT_TILLARI as readonly string[]).includes(v);
 }
 
-/** Xabar «Unga» tilida tarjimasiz ketgan bo'lsa — sababi (`TarjimasizSabab`) */
-export const TARJIMASIZ_SABABLAR = ["RATE_LIMIT", "AI_OFF", "FAILED"] as const;
+/** Xabar «Unga» tilida tarjimasiz ketgan bo'lsa — sababi (`TarjimasizSabab`).
+    ROZILIK — yuboruvchi AI ga (OpenAI) rozi emas (B3, 2026-09-19) */
+export const TARJIMASIZ_SABABLAR = ["RATE_LIMIT", "AI_OFF", "FAILED", "ROZILIK"] as const;
 
 export type TarjimasizSabab = (typeof TARJIMASIZ_SABABLAR)[number];
 

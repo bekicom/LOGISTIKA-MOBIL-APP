@@ -1,8 +1,32 @@
 {
+  "aiRozilik": {
+    "ha": "同意",
+    "i1": "您向 AI 助手提出的问题以及附加的图片和文件",
+    "i2": "您的聊天消息——用于为对方翻译",
+    "i3": "语音消息——用于转换为文字",
+    "i4": "合同、运输、车队和财务数据——用于您请求的解释、总结和分析",
+    "i5": "证件、收据和配件的照片——用于扫描和识别",
+    "kontekstTarjima": "此聊天中的对方使用其他语言。允许 AI 服务后，消息会翻译成您的语言。",
+    "kontekstUnga": "对方使用其他语言阅读。允许 AI 服务后，您的消息会翻译成对方的语言。",
+    "lead": "FURAM 的 AI 功能由 OpenAI（美国）提供。为使其正常工作，您的以下数据会发送给 OpenAI：",
+    "note": "OpenAI 仅将这些数据用于生成回复，不会用于训练模型。只有当对方也同意时，才会翻译其消息。如果您不同意，AI 功能将保持关闭，其他功能照常使用。您可以随时在「个人资料 → AI 服务」中更改此设置。",
+    "ochirilgan": "已关闭",
+    "soralmagan": "未设置",
+    "sozlama": "AI 服务（OpenAI）",
+    "sozlamaIzoh": "AI 助手、翻译、语音转文字和扫描功能。关闭后，您的数据不会发送给 OpenAI，您的消息也不会为对方翻译。",
+    "tarjimaOchiq": "翻译已关闭——未允许 AI 服务",
+    "title": "AI 服务 — OpenAI",
+    "xato": "未保存——请重试",
+    "yoq": "不，谢谢",
+    "yoqilgan": "已开启",
+    "yoqish": "开启"
+  },
   "apiErr": {
     "ACCOUNT_DELETED": "该账号已被删除。",
     "ACTION_REQUIRED": "未指定操作。",
     "ACTIVE_TRIPS": "还有未结束的运单——请先完成。",
+    "AI_AUTHOR_NO_CONSENT": "作者未允许 AI 服务——无法翻译或转写此消息。",
+    "AI_CONSENT_REQUIRED": "此功能使用 AI（OpenAI）。请在「个人资料 → AI 服务」中允许。",
     "AI_OFF": "AI 助手暂时关闭。",
     "ALREADY": "已经添加过了。",
     "ALREADY_APPLIED": "您已申请过该职位。",
@@ -185,7 +209,8 @@
     "sabab": {
       "AI_OFF": "翻译暂时关闭——消息未翻译即发送",
       "FAILED": "翻译失败——消息按原文发送",
-      "RATE_LIMIT": "翻译额度已用完——消息未翻译即发送"
+      "RATE_LIMIT": "翻译额度已用完——消息未翻译即发送",
+      "ROZILIK": "未翻译——您尚未允许 AI 服务"
     },
     "saveFailed": "无法保存",
     "standart": "默认：%{til}",

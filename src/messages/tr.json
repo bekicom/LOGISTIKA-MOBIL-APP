@@ -1,8 +1,32 @@
 {
+  "aiRozilik": {
+    "ha": "Kabul ediyorum",
+    "i1": "Yapay zekâ asistanına sorduğunuz sorular ve eklediğiniz fotoğraf ve belgeler",
+    "i2": "Sohbet mesajlarınız — karşı tarafa çevirmek için",
+    "i3": "Sesli mesajlar — yazıya dökmek için",
+    "i4": "Sözleşme, sefer, filo ve finans verileri — istediğiniz açıklama, özet ve analiz için",
+    "i5": "Belge, fiş ve yedek parça fotoğrafları — tarama ve tanıma için",
+    "kontekstTarjima": "Bu sohbette başka bir dilde yazılıyor. Mesajların dilinize çevrilmesi için yapay zekâ hizmetlerine izin verin.",
+    "kontekstUnga": "Karşı taraf başka bir dilde okuyor. Mesajlarınızın onun diline çevrilmesi için yapay zekâ hizmetlerine izin verin.",
+    "lead": "FURAM'daki yapay zekâ özellikleri OpenAI (ABD) hizmetiyle çalışır. Çalışmaları için aşağıdaki verileriniz OpenAI'a gönderilir:",
+    "note": "OpenAI bu verileri yalnızca yanıt hazırlamak için kullanır ve onlarla model eğitmez. Karşı tarafın mesajları yalnızca o da onay verirse çevrilir. Onay vermezseniz yapay zekâ özellikleri kapalı kalır, diğer her şey çalışır. Kararınızı istediğiniz zaman Profil → Yapay zekâ hizmetleri bölümünden değiştirebilirsiniz.",
+    "ochirilgan": "Kapalı",
+    "soralmagan": "Seçilmedi",
+    "sozlama": "Yapay zekâ hizmetleri (OpenAI)",
+    "sozlamaIzoh": "Yapay zekâ asistanı, çeviri, sesi yazıya dökme ve tarayıcılar. Kapatılırsa verileriniz OpenAI'a gönderilmez ve mesajlarınız karşı tarafa çevrilmez.",
+    "tarjimaOchiq": "Çeviri kapalı — yapay zekâ hizmetlerine izin verilmedi",
+    "title": "Yapay zekâ hizmetleri — OpenAI",
+    "xato": "Kaydedilmedi — tekrar deneyin",
+    "yoq": "Hayır, teşekkürler",
+    "yoqilgan": "Açık",
+    "yoqish": "Aç"
+  },
   "apiErr": {
     "ACCOUNT_DELETED": "Bu hesap silindi.",
     "ACTION_REQUIRED": "İşlem belirtilmedi.",
     "ACTIVE_TRIPS": "Açık seferler var — önce onları kapatın.",
+    "AI_AUTHOR_NO_CONSENT": "Yazar yapay zekâ hizmetlerine izin vermedi — bu mesaj çevrilemez veya yazıya dökülemez.",
+    "AI_CONSENT_REQUIRED": "Bu özellik yapay zekâ (OpenAI) ile çalışır. Profil → Yapay zekâ hizmetleri bölümünden izin verin.",
     "AI_OFF": "AI asistan geçici olarak kapalı.",
     "ALREADY": "Bu zaten eklendi.",
     "ALREADY_APPLIED": "Bu ilana zaten başvurdunuz.",
@@ -185,7 +209,8 @@
     "sabab": {
       "AI_OFF": "Çeviri şu an kapalı — mesaj çevrilmeden gitti",
       "FAILED": "Çevrilemedi — mesaj yazıldığı gibi gitti",
-      "RATE_LIMIT": "Çeviri sınırı doldu — mesaj çevrilmeden gitti"
+      "RATE_LIMIT": "Çeviri sınırı doldu — mesaj çevrilmeden gitti",
+      "ROZILIK": "Çevrilmedi — yapay zekâ hizmetlerine izin vermediniz"
     },
     "saveFailed": "Kaydedilemedi",
     "standart": "Varsayılan: %{til}",

@@ -36,6 +36,7 @@ import { afterSheet } from "@/lib/native-ui";
 import { extOf, messageFile, messageFilePath, type ChatMsg } from "@/lib/chat";
 import { isChatTil, tarjimaKerak, tarjimasizSabab, type ChatTillari } from "@/lib/chat-til";
 import { useAuth } from "@/lib/auth-context";
+import { aiRozilikSora } from "@/components/AiRozilik";
 import { tariffBlocked } from "@/lib/features";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { P_SOON, sendOrQueue } from "@/lib/outbox";
@@ -68,8 +69,15 @@ export default function Suhbat() {
   const id = String(params.id);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, aiRozilik } = useAuth();
   const meId = user?.id ?? null;
+  /* AI rozilik (B3): fondagi tarjima so'rovi o'qiydi — callback har
+     o'zgarishda qayta yaratilmasin. Oyna shu ekranda BIR marta so'raydi */
+  const aiRozilikRef = useRef(aiRozilik);
+  useEffect(() => {
+    aiRozilikRef.current = aiRozilik;
+  }, [aiRozilik]);
+  const rozilikSoraldi = useRef(false);
 
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [pinnedList, setPinnedList] = useState<ChatMsg[]>([]);
@@ -180,10 +188,21 @@ export default function Suhbat() {
     try {
       do {
         q.yana = false;
-        const r = await api<{ done?: number }>(`/api/chat/${id}/translate`, {
+        const r = await api<{ done?: number; error?: string }>(`/api/chat/${id}/translate`, {
           method: "POST",
           body: { mode: "incoming" },
         });
+        /* Tarjima kerak, o'quvchi esa AI ga rozi emas (B3, 2026-09-19).
+           Server faqat tarjima qilinadigan xabar BOR bo'lsa aytadi —
+           bir tilli suhbatda oyna chiqmaydi. Hali so'ralmagan odamdan
+           kontekstda so'raymiz; rad etgan odam bezovta qilinmaydi */
+        if (r.error === "AI_CONSENT_REQUIRED") {
+          if (aiRozilikRef.current === null && !rozilikSoraldi.current) {
+            rozilikSoraldi.current = true;
+            if ((await aiRozilikSora("tarjima")) === "ha") q.yana = true;
+          }
+          continue;
+        }
         if ((r.done ?? 0) > 0) {
           lastTs.current = null;
           await load(true);
@@ -274,7 +293,12 @@ export default function Suhbat() {
       /* «Unga» tarjimasi bo'lmadi — xabar BARIBIR ketdi, lekin odam
          suhbatdosh uni o'z tilida olmaganini bilsin */
       const sabab = r.queued ? null : tarjimasizSabab(r.javob?.tarjimasiz);
-      if (sabab) setOgoh(t(`chatTil.sabab.${sabab}`));
+      /* Yuboruvchi AI ga hali javob bermagan — ogohlantirish o'rniga
+         kontekstda so'raymiz: rozi bo'lsa keyingi xabarlar tarjima bilan */
+      if (sabab === "ROZILIK" && aiRozilikRef.current === null && !rozilikSoraldi.current) {
+        rozilikSoraldi.current = true;
+        if ((await aiRozilikSora("unga")) !== "ha") setOgoh(t("chatTil.sabab.ROZILIK"));
+      } else if (sabab) setOgoh(t(`chatTil.sabab.${sabab}`));
       setPending((p) => p.filter((m) => m.id !== temp.id));
       await load(false);
     } catch (e) {

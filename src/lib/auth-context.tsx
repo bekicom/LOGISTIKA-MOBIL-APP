@@ -43,6 +43,14 @@ type State = {
    * server): unda belgi chizilmaydi, eski rol nomi turadi.
    */
   tarif: TarifHolati | null;
+  /**
+   * AI xizmatlariga (OpenAI) rozilik (B3, 2026-09-19): `null` — hali
+   * so'ralmagan, `false` — rad etgan. Oyna va sozlama shu yerdan
+   * o'qiydi; server baribir o'zi tekshiradi (`AI_CONSENT_REQUIRED`).
+   */
+  aiRozilik: boolean | null;
+  /** Oyna yoki sozlama serverga yozgandan keyin — qayta so'rovsiz */
+  setAiRozilik: (v: boolean) => void;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -54,6 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [offerAccepted, setOfferAccepted] = useState<boolean | null>(null);
   const [tarif, setTarif] = useState<TarifHolati | null>(null);
+  const [aiRozilik, setAiRozilik] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
   /* Ro'yxat holatda ham turadi: `features.ts` dagi to'plam sof
      modul o'zgaruvchisi, o'zgarganda ekran qayta chizilmaydi.
@@ -76,14 +85,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     try {
-      const res = await api<{ user: User; features?: string[]; offerAccepted?: boolean; tarif?: unknown }>(
-        "/api/auth/me",
-      );
+      const res = await api<{
+        user: User;
+        features?: string[];
+        offerAccepted?: boolean;
+        tarif?: unknown;
+        aiRozilik?: boolean | null;
+      }>("/api/auth/me");
       setUser(res.user);
       setOfferAccepted(typeof res.offerAccepted === "boolean" ? res.offerAccepted : null);
       /* Belgi ham shu javobda: server `accessOf` ni baribir chaqiradi —
          alohida so'rov ikkinchi manba bo'lardi (`features` dagi sabab) */
       setTarif(isTarifHolati(res.tarif) ? res.tarif : null);
+      setAiRozilik(typeof res.aiRozilik === "boolean" ? res.aiRozilik : null);
       /* Tarif ro'yxati foydalanuvchi bilan BIR SO'ROVDA keladi:
          alohida marshrut qo'shilsa ilova ochilishida yana bitta
          so'rov bo'lardi va ikkisi bir-biridan orqada qolib
@@ -150,13 +164,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setFeatures([]);
     setFeats(new Set());
     setTarif(null);
+    setAiRozilik(null);
   }, []);
 
   const canFeature = useCallback((f: FeatureKey) => feats === null || feats.has(f), [feats]);
 
   const value = useMemo(
-    () => ({ user, loading, can: canFeature, offerAccepted, tarif, signIn, signOut, refresh: load }),
-    [user, loading, canFeature, offerAccepted, tarif, signIn, signOut, load],
+    () => ({
+      user,
+      loading,
+      can: canFeature,
+      offerAccepted,
+      tarif,
+      aiRozilik,
+      setAiRozilik,
+      signIn,
+      signOut,
+      refresh: load,
+    }),
+    [user, loading, canFeature, offerAccepted, tarif, aiRozilik, signIn, signOut, load],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

@@ -1,8 +1,32 @@
 {
+  "aiRozilik": {
+    "ha": "I agree",
+    "i1": "Your questions to the AI assistant and the photos and documents you attach",
+    "i2": "Your chat messages — to translate them for the other person",
+    "i3": "Voice messages — to convert them to text",
+    "i4": "Contract, trip, fleet and finance data — for the explanations, summaries and analysis you request",
+    "i5": "Photos of documents, receipts and parts — for scanning and recognition",
+    "kontekstTarjima": "People in this chat write in another language. Allow AI services to have messages translated into your language.",
+    "kontekstUnga": "The other person reads another language. Allow AI services to have your messages translated into their language.",
+    "lead": "FURAM's AI features run on OpenAI (USA). To work, they send the following data of yours to OpenAI:",
+    "note": "OpenAI uses this data only to prepare the response and does not train models on it. The other person's messages are translated only if they agree too. If you decline, AI features stay off and everything else works. You can change this anytime in Profile → AI services.",
+    "ochirilgan": "Off",
+    "soralmagan": "Not set",
+    "sozlama": "AI services (OpenAI)",
+    "sozlamaIzoh": "AI assistant, translation, voice-to-text and scanners. When off, your data is not sent to OpenAI and your messages are not translated for others.",
+    "tarjimaOchiq": "Translation is off — AI services are not allowed",
+    "title": "AI services — OpenAI",
+    "xato": "Not saved — please try again",
+    "yoq": "No, thanks",
+    "yoqilgan": "On",
+    "yoqish": "Turn on"
+  },
   "apiErr": {
     "ACCOUNT_DELETED": "This account was deleted.",
     "ACTION_REQUIRED": "No action was given.",
     "ACTIVE_TRIPS": "You have open trips — close them first.",
+    "AI_AUTHOR_NO_CONSENT": "The author has not allowed AI services — this message can't be translated or transcribed.",
+    "AI_CONSENT_REQUIRED": "This feature uses AI (OpenAI). Allow it in Profile → AI services.",
     "AI_OFF": "The AI assistant is switched off for now.",
     "ALREADY": "This has already been added.",
     "ALREADY_APPLIED": "You've already applied to this vacancy.",
@@ -185,7 +209,8 @@
     "sabab": {
       "AI_OFF": "Translation is off right now — message sent untranslated",
       "FAILED": "Couldn't translate — message sent as written",
-      "RATE_LIMIT": "Translation limit reached — message sent untranslated"
+      "RATE_LIMIT": "Translation limit reached — message sent untranslated",
+      "ROZILIK": "Not translated — you haven't allowed AI services"
     },
     "saveFailed": "Couldn't save",
     "standart": "Default: %{til}",

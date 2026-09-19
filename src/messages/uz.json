@@ -1,8 +1,32 @@
 {
+  "aiRozilik": {
+    "ha": "Roziman",
+    "i1": "AI yordamchiga yozgan savollaringiz, biriktirgan rasm va hujjatlaringiz",
+    "i2": "Suhbat xabarlaringiz — suhbatdoshingizga tarjima qilish uchun",
+    "i3": "Ovozli xabarlar — matnga o'girish uchun",
+    "i4": "Shartnoma, reys, park va moliya ma'lumotlari — siz so'ragan tushuntirish, xulosa va tahlil uchun",
+    "i5": "Hujjat, chek va ehtiyot qism suratlari — skanerlash va aniqlash uchun",
+    "kontekstTarjima": "Bu suhbatda boshqa tilda yozishadi. Xabarlar tilingizga tarjima qilinishi uchun AI xizmatlariga ruxsat bering.",
+    "kontekstUnga": "Suhbatdoshingiz boshqa tilda o'qiydi. Xabaringiz uning tiliga tarjima qilinishi uchun AI xizmatlariga ruxsat bering.",
+    "lead": "FURAM'dagi AI funksiyalar OpenAI (AQSh) xizmati orqali ishlaydi. Ular ishlashi uchun quyidagi ma'lumotlaringiz OpenAI'ga yuboriladi:",
+    "note": "OpenAI bu ma'lumotni faqat javob tayyorlash uchun ishlatadi va undan model o'qitmaydi. Suhbatdoshingizning xabari faqat u ham rozi bo'lsa tarjima qilinadi. Rozi bo'lmasangiz AI funksiyalar o'chiq turadi, qolgan hammasi ishlaydi. Qarorni istalgan vaqtda Profil → AI xizmatlari bo'limida o'zgartirasiz.",
+    "ochirilgan": "O'chirilgan",
+    "soralmagan": "Tanlanmagan",
+    "sozlama": "AI xizmatlari (OpenAI)",
+    "sozlamaIzoh": "AI yordamchi, tarjima, ovozni matnga o'girish va skanerlar. O'chirilsa ma'lumotingiz OpenAI'ga yuborilmaydi va xabarlaringiz suhbatdoshlarga tarjima qilinmaydi.",
+    "tarjimaOchiq": "Tarjima o'chiq — AI xizmatlariga ruxsat berilmagan",
+    "title": "AI xizmatlari — OpenAI",
+    "xato": "Saqlanmadi — qayta urinib ko'ring",
+    "yoq": "Yo'q, rahmat",
+    "yoqilgan": "Yoqilgan",
+    "yoqish": "Yoqish"
+  },
   "apiErr": {
     "ACCOUNT_DELETED": "Bu hisob o'chirilgan.",
     "ACTION_REQUIRED": "Amal ko'rsatilmagan.",
     "ACTIVE_TRIPS": "Ochiq reyslar bor — avval ularni yakunlang.",
+    "AI_AUTHOR_NO_CONSENT": "Muallif AI xizmatlariga ruxsat bermagan — bu xabarni tarjima qilib yoki matnga o'girib bo'lmaydi.",
+    "AI_CONSENT_REQUIRED": "Bu funksiya AI (OpenAI) bilan ishlaydi. Profil → AI xizmatlari bo'limida ruxsat bering.",
     "AI_OFF": "AI yordamchi vaqtincha o'chirilgan.",
     "ALREADY": "Bu allaqachon qo'shilgan.",
     "ALREADY_APPLIED": "Bu vakansiyaga allaqachon ariza berdingiz.",
@@ -185,7 +209,8 @@
     "sabab": {
       "AI_OFF": "Tarjima hozir o'chiq — xabar tarjimasiz ketdi",
       "FAILED": "Tarjima bo'lmadi — xabar asl holida ketdi",
-      "RATE_LIMIT": "Tarjima chegarasi tugadi — xabar tarjimasiz ketdi"
+      "RATE_LIMIT": "Tarjima chegarasi tugadi — xabar tarjimasiz ketdi",
+      "ROZILIK": "Tarjima qilinmadi — AI xizmatlariga ruxsat bermagansiz"
     },
     "saveFailed": "Saqlab bo'lmadi",
     "standart": "Standart: %{til}",

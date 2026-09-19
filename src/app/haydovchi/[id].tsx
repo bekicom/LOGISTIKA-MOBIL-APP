@@ -37,6 +37,8 @@ type Feed = {
     id: string; fullName: string; phone: string; isActive: boolean; note: string | null;
     licenseUntil: string | null; furamId: number | null; avatarUrl: string | null;
     hasAccount: boolean; onTrip: boolean;
+    /** Egasining O'ZI («O'zim haydayman», TZ-07) — o'ziga oylik yozilmaydi */
+    ozim?: boolean;
   };
   vehicles: { id: string; plate: string; no: number; main: boolean }[];
   trips: { id: string; no: number; status: string; from: string; to: string; at: string }[];
@@ -162,81 +164,102 @@ export default function Haydovchi() {
               ) : null}
             </View>
 
-            {/* Hisob */}
-            <View style={s.card}>
-              <Text style={s.group}>{t("mob.drv.payroll")}</Text>
-              <View style={{ flexDirection: "row", gap: space.lg, marginTop: 10 }}>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.sumLabel}>{t("mob.drv.paid")}</Text>
-                  {data.totals.paid.length === 0 ? (
-                    <Text style={s.sumValue}>—</Text>
-                  ) : (
-                    data.totals.paid.map((m) => (
-                      <Text key={m.currency} style={s.sumValue}>
-                        {fmt(m.amount)} {m.currency}
-                      </Text>
-                    ))
-                  )}
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.sumLabel}>{t("mob.drv.held")}</Text>
-                  {data.totals.held.length === 0 ? (
-                    <Text style={[s.sumValue, { color: color.mutedForeground }]}>—</Text>
-                  ) : (
-                    data.totals.held.map((m) => (
-                      <Text key={m.currency} style={[s.sumValue, { color: color.danger }]}>
-                        {fmt(m.amount)} {m.currency}
-                      </Text>
-                    ))
-                  )}
+            {/* Hisob. O'ZI bo'lsa (TZ-07) — o'ziga o'zi maosh yozish ma'nosiz,
+                server ham rad etadi (`SELF`). O'rniga mashinaning daromadi va
+                xarajati — «Daromadlar» (web bilan bir xil) */}
+            {d.ozim ? (
+              <View style={s.card}>
+                <Text style={s.group}>{t("mob.drv.payroll")}</Text>
+                <Text style={[s.hint, { marginTop: 8 }]}>{t("pgFleet.ozimMaosh")}</Text>
+                <View style={{ marginTop: space.md }}>
+                  <Button
+                    title={t("svc.money")}
+                    variant="secondary"
+                    onPress={() => router.push("/moliya")}
+                    icon={<Icon name="wallet" size={17} stroke={color.foreground} />}
+                  />
                 </View>
               </View>
+            ) : null}
 
-              <View style={{ marginTop: space.md }}>
-                <Button
-                  title={t("mob.drv.addPay")}
-                  variant="secondary"
-                  onPress={() => setOpen(true)}
-                  icon={<Icon name="plus" size={17} stroke={color.foreground} />}
-                />
-              </View>
-            </View>
-
-            {/* To'lov tarixi */}
-            {data.payments.length === 0 ? (
-              <Text style={s.hint}>{t("mob.drv.noPay")}</Text>
-            ) : (
-              <View style={{ gap: 8 }}>
-                {data.payments.map((p) => {
-                  const minus = p.kind === "DEDUCTION";
-                  return (
-                    <View key={p.id} style={s.row}>
-                      <View
-                        style={[
-                          s.icon,
-                          { backgroundColor: minus ? color.dangerSoft : color.successSoft },
-                        ]}
-                      >
-                        <Icon
-                          name="wallet"
-                          size={17}
-                          stroke={minus ? color.danger : color.success}
-                        />
-                      </View>
-                      <View style={{ flex: 1, minWidth: 0 }}>
-                        <Text style={s.rowTitle}>{t(`payrollKind.${p.kind}`)}</Text>
-                        <Text style={s.meta} numberOfLines={1}>
-                          {[p.period, p.paidAt.slice(0, 10), p.note].filter(Boolean).join(" · ")}
-                        </Text>
-                      </View>
-                      <Text style={[s.amount, minus && { color: color.danger }]}>
-                        {minus ? "−" : ""}
-                        {fmt(p.amount)} {p.currency}
-                      </Text>
+            {d.ozim ? null : (
+              <>
+                <View style={s.card}>
+                  <Text style={s.group}>{t("mob.drv.payroll")}</Text>
+                  <View style={{ flexDirection: "row", gap: space.lg, marginTop: 10 }}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={s.sumLabel}>{t("mob.drv.paid")}</Text>
+                      {data.totals.paid.length === 0 ? (
+                        <Text style={s.sumValue}>—</Text>
+                      ) : (
+                        data.totals.paid.map((m) => (
+                          <Text key={m.currency} style={s.sumValue}>
+                            {fmt(m.amount)} {m.currency}
+                          </Text>
+                        ))
+                      )}
                     </View>
-                  );
-                })}
-              </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={s.sumLabel}>{t("mob.drv.held")}</Text>
+                      {data.totals.held.length === 0 ? (
+                        <Text style={[s.sumValue, { color: color.mutedForeground }]}>—</Text>
+                      ) : (
+                        data.totals.held.map((m) => (
+                          <Text key={m.currency} style={[s.sumValue, { color: color.danger }]}>
+                            {fmt(m.amount)} {m.currency}
+                          </Text>
+                        ))
+                      )}
+                    </View>
+                  </View>
+
+                  <View style={{ marginTop: space.md }}>
+                    <Button
+                      title={t("mob.drv.addPay")}
+                      variant="secondary"
+                      onPress={() => setOpen(true)}
+                      icon={<Icon name="plus" size={17} stroke={color.foreground} />}
+                    />
+                  </View>
+                </View>
+
+                {/* To'lov tarixi */}
+                {data.payments.length === 0 ? (
+                  <Text style={s.hint}>{t("mob.drv.noPay")}</Text>
+                ) : (
+                  <View style={{ gap: 8 }}>
+                    {data.payments.map((p) => {
+                      const minus = p.kind === "DEDUCTION";
+                      return (
+                        <View key={p.id} style={s.row}>
+                          <View
+                            style={[
+                              s.icon,
+                              { backgroundColor: minus ? color.dangerSoft : color.successSoft },
+                            ]}
+                          >
+                            <Icon
+                              name="wallet"
+                              size={17}
+                              stroke={minus ? color.danger : color.success}
+                            />
+                          </View>
+                          <View style={{ flex: 1, minWidth: 0 }}>
+                            <Text style={s.rowTitle}>{t(`payrollKind.${p.kind}`)}</Text>
+                            <Text style={s.meta} numberOfLines={1}>
+                              {[p.period, p.paidAt.slice(0, 10), p.note].filter(Boolean).join(" · ")}
+                            </Text>
+                          </View>
+                          <Text style={[s.amount, minus && { color: color.danger }]}>
+                            {minus ? "−" : ""}
+                            {fmt(p.amount)} {p.currency}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
+              </>
             )}
 
             {/* Mashinalari */}

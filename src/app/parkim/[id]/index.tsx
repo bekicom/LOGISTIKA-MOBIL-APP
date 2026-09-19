@@ -15,6 +15,7 @@ import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { DriverInvite } from "@/components/DriverInvite";
+import { OzimHaydayman } from "@/components/OzimHaydayman";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
@@ -36,7 +37,8 @@ type Detail = {
     bodyHeightM: number | null; fuelLabel: string; fuelNorm: number | null;
     tankL: number | null; odometer: number | null; odometerAt: string | null;
     photos: string[];
-    mainDriver: { id: string; fullName: string; phone: string | null } | null;
+    /** `ozim` — asosiy haydovchi egasining O'ZI (TZ-07) */
+    mainDriver: { id: string; fullName: string; phone: string | null; ozim?: boolean } | null;
     coDriver: { id: string; fullName: string; phone: string | null } | null;
     trailer: { plate: string; no: number; capacityT: number | null } | null;
   };
@@ -195,7 +197,11 @@ export default function TransportTafsilot() {
               <ListRow
                 icon={<Avatar name={v.mainDriver.fullName} />}
                 title={v.mainDriver.fullName}
-                hint={`${t("mob.vehicle.mainDriver")}${v.mainDriver.phone ? ` · ${v.mainDriver.phone}` : ""}`}
+                hint={
+                  v.mainDriver.ozim
+                    ? t("pgFleet.ozimHaydayman")
+                    : `${t("mob.vehicle.mainDriver")}${v.mainDriver.phone ? ` · ${v.mainDriver.phone}` : ""}`
+                }
                 last={!v.coDriver}
                 /* Qo'ng'iroq emas, KARTA ochiladi: telefon kartada
                    ham bor, lekin ish haqi va reyslari faqat u yerda */
@@ -224,6 +230,15 @@ export default function TransportTafsilot() {
               />
             ) : null}
           </Card>
+
+          {/* «O'zim haydayman» (TZ-07) — asosiy o'rin bo'sh bo'lsa; o'zi
+              haydayotgan bo'lsa «O'zim haydamayman» (yordamchisiz va reysdan
+              tashqarida — server ham shuni tekshiradi). Yozuv tarix uchun qoladi */}
+          {!data.trip && (!v.mainDriver || (v.mainDriver.ozim && !v.coDriver)) ? (
+            <View style={{ marginTop: space.md }}>
+              <OzimHaydayman vehicleId={v.id} ajrat={!!v.mainDriver} onDone={reload} />
+            </View>
+          ) : null}
 
           {/* Taklif havolasi — o'rin bo'sh bo'lsagina.
               FURAM ID izlash o'rniga havola: haydovchi uni ochib,

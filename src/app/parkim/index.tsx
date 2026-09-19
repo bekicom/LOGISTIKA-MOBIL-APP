@@ -18,6 +18,7 @@ import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { OzimHaydayman } from "@/components/OzimHaydayman";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -51,6 +52,8 @@ type Vehicle = {
   capacityT: number | null;
   odometer: number | null;
   driver: string | null;
+  /** Asosiy haydovchi — egasining O'ZI («O'zim haydayman», TZ-07) */
+  ozim?: boolean;
   trailer: { plate: string; no: number } | null;
   docAlert: DocAlert | null;
   trip: Trip | null;
@@ -215,7 +218,7 @@ export default function Parkim() {
             />
           }
           renderItem={({ item }) => (
-            <VehicleCard item={item} onPress={() => router.push(`/parkim/${item.id}`)} />
+            <VehicleCard item={item} onPress={() => router.push(`/parkim/${item.id}`)} onChanged={reload} />
           )}
         />
       )}
@@ -313,7 +316,7 @@ function IncomingTransfers({ onDone }: { onDone: () => void }) {
   );
 }
 
-function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) {
+function VehicleCard({ item, onPress, onChanged }: { item: Vehicle; onPress: () => void; onChanged: () => void }) {
   const tone = TONE[item.status] ?? TONE.INACTIVE;
   const alert = item.docAlert;
   const bad = alert?.state === "expired";
@@ -347,9 +350,9 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
           </View>
 
           <View style={s.meta}>
-            <Icon name="user" size={13} stroke={color.mutedForeground} />
-            <Text style={s.metaText} numberOfLines={1}>
-              {item.driver ?? t("mob.park.noDriver")}
+            <Icon name="user" size={13} stroke={item.ozim ? color.brand : color.mutedForeground} />
+            <Text style={[s.metaText, item.ozim && { color: color.brand, fontWeight: "600" }]} numberOfLines={1}>
+              {item.ozim ? t("pgFleet.ozimHaydayman") : (item.driver ?? t("mob.park.noDriver"))}
             </Text>
             {item.odometer ? (
               <>
@@ -361,6 +364,15 @@ function VehicleCard({ item, onPress }: { item: Vehicle; onPress: () => void }) 
 
           {item.trailer ? (
             <Text style={s.trailer}>{t("mob.park.trailerLine", { plate: item.trailer.plate })}</Text>
+          ) : null}
+
+          {/* Haydovchisiz mashina — o'zi haydasa bir bosishda (TZ-07). Reys
+              haydovchisiz ochilmaydi va jonli bazada mashinalarning
+              ko'pchiligi aynan shu holatda turardi */}
+          {!item.driver && !item.trip ? (
+            <View style={{ marginTop: 10 }}>
+              <OzimHaydayman vehicleId={item.id} onDone={onChanged} />
+            </View>
           ) : null}
         </View>
       </View>

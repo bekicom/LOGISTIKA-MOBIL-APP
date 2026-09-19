@@ -3720,6 +3720,19 @@
     "unverified": "⚠️ AI o'qishi — tasdiqlanmagan. Asl hujjat bilan solishtiring.",
     "voiceFailed": "Ovozni tanib bo'lmadi — qayta urinib ko'ring"
   },
+  "pgFleet": {
+    "ozimHaydamayman": "O'zim haydamayman",
+    "ozimHaydayman": "O'zim haydayman",
+    "ozimMaosh": "Bu siz — o'zingizga maosh yozilmaydi. Mashinaning daromadi va xarajati «Daromadlar» bo'limida.",
+    "ozimTayyor": "Siz bu mashinaning haydovchisisiz — endi reys ochishingiz mumkin",
+    "ozimXato": {
+      "CO_EXISTS": "Avval yordamchi haydovchini olib tashlang",
+      "NOT_FOUND": "Mashina topilmadi",
+      "ON_TRIP": "Mashina reysda — reys tugagach o'zgartiring",
+      "PHONE_REQUIRED": "Avval profilga telefon raqamingizni qo'shing",
+      "SEAT_TAKEN": "Bu mashinada boshqa haydovchi bor — avval uni olib tashlang"
+    }
+  },
   "pgHome": {
     "quickMore": "Yana"
   },

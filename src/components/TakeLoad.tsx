@@ -16,6 +16,10 @@
  * taklif havolasini beramiz (5-qoida): aks holda odam xatoni
  * ko'rib, haydovchini qayerdan topishni o'ylab qolardi.
  *
+ * Egasi O'ZI haydasa — «O'zim haydayman» bir bosishda (TZ-07,
+ * 2026-09-19): ilgari u avval o'zini qo'lda «haydovchi» qilib
+ * kiritishi kerak edi va shu qadamda to'xtab qolardi.
+ *
  * ── YORLIQ SHU YERDA YIG'ILADI ──────────────────────────────────
  *
  * Server maydonlarni alohida yuboradi: raqam, marka, haydovchi.
@@ -30,6 +34,7 @@ import { Icon } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { Button } from "@/components/ui";
 import { DriverInvite } from "@/components/DriverInvite";
+import { OzimHaydayman } from "@/components/OzimHaydayman";
 import { api, FuramError } from "@/lib/api";
 import { guestBlocked } from "@/lib/guest-gate";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
@@ -69,14 +74,19 @@ export function TakeLoad({ loadId, ochiqManba = false }: { loadId: string; ochiq
   const [busy, setBusy] = useState(false);
   const [narx, setNarx] = useState("");
   const [valyuta, setValyuta] = useState<string>("USD");
+  /* «O'zim haydayman» bosilgan mashina — ro'yxat yangilanguncha ham
+     «tayyor» deb ko'rsatiladi */
+  const [ozimTayyor, setOzimTayyor] = useState<string | null>(null);
 
   /* Ro'yxat EKRAN OCHILISHIDA emas, tugma bosilganda olinadi: u
      ikkita ortiqcha so'rov va yuk sahifasi undan tez ochiladi */
-  const load = useCallback(async () => {
+  const load = useCallback(async (tanlangan?: string) => {
     try {
       const r = await api<Take>(`/api/loads/${loadId}/take`);
       setData(r);
-      setPicked(r.options[0]?.id ?? null);
+      /* Qayta yuklanganda tanlov saqlanadi — odam boshqa mashinaga
+         sakrab ketganini sezmasdi */
+      setPicked(tanlangan && r.options.some((o) => o.id === tanlangan) ? tanlangan : (r.options[0]?.id ?? null));
       if (r.narxBoshi?.amount) setNarx(String(r.narxBoshi.amount));
       if (r.narxBoshi?.currency) setValyuta(r.narxBoshi.currency);
     } catch (e) {
@@ -193,8 +203,24 @@ export function TakeLoad({ loadId, ochiqManba = false }: { loadId: string; ochiq
             {chosen?.needsDriver ? (
               <View style={s.warn}>
                 <Text style={s.warnTitle}>{t("mob.take.needDriver")}</Text>
+                {/* O'zi haydasa — bir bosishda; ro'yxat yangilanadi va
+                    «Reysni ochish» shu zahoti ochiladi */}
+                {chosen.kind === "vehicle" ? (
+                  <OzimHaydayman
+                    vehicleId={chosen.id}
+                    onDone={() => {
+                      setOzimTayyor(chosen.id);
+                      void load(chosen.id);
+                    }}
+                  />
+                ) : null}
                 <Text style={s.warnBody}>{t("mob.take.needDriverBody")}</Text>
                 <DriverInvite vehicleId={chosen.id} />
+              </View>
+            ) : chosen && ozimTayyor === chosen.id ? (
+              <View style={s.ok}>
+                <Icon name="check" size={15} stroke={color.success} />
+                <Text style={s.okText}>{t("pgFleet.ozimTayyor")}</Text>
               </View>
             ) : null}
 
@@ -299,6 +325,16 @@ const s = themed(() => ({
     gap: 6,
   },
   warnTitle: { fontSize: 12.5, fontWeight: "800", color: color.warning },
+  ok: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginTop: space.md,
+    padding: space.md,
+    borderRadius: radius.control,
+    backgroundColor: color.successSoft,
+  },
+  okText: { flex: 1, fontSize: 12.5, lineHeight: 18, fontWeight: "600", color: color.successText },
   warnBody: { fontSize: 11.5, color: color.mutedForeground, lineHeight: 17 },
 
   empty: { fontSize: 13, color: color.mutedForeground, lineHeight: 20 },

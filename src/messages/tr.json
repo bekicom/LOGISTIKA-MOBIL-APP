@@ -3720,6 +3720,19 @@
     "unverified": "⚠️ Yapay zekâ okudu — doğrulanmadı. Asıl belgeyle karşılaştırın.",
     "voiceFailed": "Ses tanınamadı — tekrar deneyin"
   },
+  "pgFleet": {
+    "ozimHaydamayman": "Artık kendim sürmüyorum",
+    "ozimHaydayman": "Kendim sürüyorum",
+    "ozimMaosh": "Bu sizsiniz — kendinize maaş yazılmaz. Aracın gelir ve giderleri «Gelirler» bölümünde.",
+    "ozimTayyor": "Bu aracın sürücüsü sizsiniz — artık sefer açabilirsiniz",
+    "ozimXato": {
+      "CO_EXISTS": "Önce yardımcı sürücüyü kaldırın",
+      "NOT_FOUND": "Araç bulunamadı",
+      "ON_TRIP": "Araç seferde — sefer bitince değiştirin",
+      "PHONE_REQUIRED": "Önce profilinize telefon numaranızı ekleyin",
+      "SEAT_TAKEN": "Bu aracın zaten bir sürücüsü var — önce onu kaldırın"
+    }
+  },
   "pgHome": {
     "quickMore": "Daha fazla"
   },

@@ -3720,6 +3720,19 @@
     "unverified": "⚠️ AI识别——未经核实。请与原件核对。",
     "voiceFailed": "无法识别语音——请重试"
   },
+  "pgFleet": {
+    "ozimHaydamayman": "不再自己驾驶",
+    "ozimHaydayman": "我自己驾驶",
+    "ozimMaosh": "这是您本人——不会给自己记工资。车辆的收入和支出见「收入」栏目。",
+    "ozimTayyor": "您是这辆车的司机——现在可以开启行程",
+    "ozimXato": {
+      "CO_EXISTS": "请先移除副司机",
+      "NOT_FOUND": "未找到车辆",
+      "ON_TRIP": "车辆正在行程中——行程结束后再更改",
+      "PHONE_REQUIRED": "请先在个人资料中添加电话号码",
+      "SEAT_TAKEN": "这辆车已有司机——请先将其移除"
+    }
+  },
   "pgHome": {
     "quickMore": "更多"
   },

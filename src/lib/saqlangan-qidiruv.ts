@@ -6,10 +6,11 @@
  * bossa yuklar chiqaveradi».
  *
  * Yorliq bosilganda qidiruv ilova FILTRIGA aylanadi (qidiruv kartasida
- * joy nomi, pastda transport turi — odam o'zgartira oladi). Webda
- * saqlangan qidiruvda bir nechta «qayerdan» yoki og'irlik chegarasi
- * bo'lishi mumkin — ilova filtri buni ko'tarmaydi; bunday qidiruv lentaga
- * XOM so'rov bo'lib ketadi, hech narsa jimgina tashlanmaydi.
+ * joy nomi, pastda transport turi — odam o'zgartira oladi). Bir nechta
+ * «qayerdan» ham sig'adi (2026-09-19 dan filtr ro'yxat oladi). Webda
+ * saqlangan qidiruvda og'irlik chegarasi bo'lishi mumkin — ilova filtri
+ * uni ko'tarmaydi; bunday qidiruv lentaga XOM so'rov bo'lib ketadi, hech
+ * narsa jimgina tashlanmaydi.
  */
 /* ⚠️ IMPORT YO'Q — ataylab (`rollar.ts` dagi sabab): furam'dagi sinov bu
    faylni to'g'ridan-to'g'ri import qiladi. */
@@ -37,30 +38,31 @@ export type SaqlanganQidiruv = {
   nomlar: { from: string[]; to: string[]; tur: string[] };
 };
 
+/** Filtrdagi joy (`FiltrSheet.Joy` bilan mos; bayroq kodi bu yerda kerak emas) */
+export type JoyQismi = { id: number; name: string };
+
 /** Ilova filtrining shu yerga kerakli qismi (`FiltrSheet.Filtr` bilan mos) */
 export type FiltrQismi = {
-  fromId: number | null;
-  fromName: string | null;
-  toId: number | null;
-  toName: string | null;
+  from: JoyQismi[];
+  to: JoyQismi[];
   vehicleTypeIds: number[];
   vehicleNames: string[];
 };
 
 /**
- * Ilova filtriga sig'adimi — bitta «qayerdan», bitta «qayerga», og'irliksiz.
- * Sig'sa — filtr qismi, sig'masa `null` (unda `qidiruvSorovi`).
+ * Ilova filtriga sig'adimi — og'irlik chegarasisiz bo'lsa ha (joylar
+ * nechta bo'lsa ham). Sig'sa — filtr qismi, sig'masa `null` (unda
+ * `qidiruvSorovi`). Nom topilmagan joy (o'chirilgan) «—» bo'lib turadi.
  */
 export function filtrga(r: Pick<SaqlanganQidiruv, "params" | "nomlar">): FiltrQismi | null {
   const p = r.params;
-  if ((p.fromId?.length ?? 0) > 1 || (p.toId?.length ?? 0) > 1) return null;
   if (p.weightMin != null || p.weightMax != null) return null;
+  const joylar = (ids: number[] | undefined, nomlar: string[]) =>
+    (ids ?? []).map((id, i) => ({ id, name: nomlar[i] || "—" }));
   const turlar = p.vehicleTypeId ?? [];
   return {
-    fromId: p.fromId?.[0] ?? null,
-    fromName: p.fromId?.length ? r.nomlar.from[0] || null : null,
-    toId: p.toId?.[0] ?? null,
-    toName: p.toId?.length ? r.nomlar.to[0] || null : null,
+    from: joylar(p.fromId, r.nomlar.from),
+    to: joylar(p.toId, r.nomlar.to),
     vehicleTypeIds: [...turlar],
     vehicleNames: turlar.map((_, i) => r.nomlar.tur[i] ?? ""),
   };
@@ -90,10 +92,10 @@ export function paramsKaliti(p: QidiruvParams): string {
 }
 
 /** Ilova filtri → saqlanadigan shart (server `paramsSchema` kutgan ko'rinish) */
-export function filtrdanParams(f: Pick<FiltrQismi, "fromId" | "toId" | "vehicleTypeIds">): QidiruvParams {
+export function filtrdanParams(f: Pick<FiltrQismi, "from" | "to" | "vehicleTypeIds">): QidiruvParams {
   const p: QidiruvParams = {};
-  if (f.fromId) p.fromId = [f.fromId];
-  if (f.toId) p.toId = [f.toId];
+  if (f.from.length) p.fromId = f.from.map((j) => j.id);
+  if (f.to.length) p.toId = f.to.map((j) => j.id);
   if (f.vehicleTypeIds.length) p.vehicleTypeId = [...f.vehicleTypeIds];
   return p;
 }

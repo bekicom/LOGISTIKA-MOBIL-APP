@@ -253,6 +253,10 @@
     "trips": "Sefer ve yük takibi",
     "vacancies": "İş ilanı verme"
   },
+  "feed": {
+    "allRegions": "Tüm bölgeler",
+    "swap": "Yönü değiştir"
+  },
   "googleAuth": {
     "button": "Google ile giriş yap",
     "errBand": "Bu Google hesabı başka bir profile bağlı",
@@ -1810,9 +1814,9 @@
       "emptyFiltered": "Bu koşullara uygun yük yok",
       "filters": "Filtreler",
       "from": "Nereden",
-      "min2": "En az 2 harf yazın",
       "negotiable": "Pazarlıklı",
       "notFound": "Bulunamadı",
+      "pickDone": "Tamam · %{n}",
       "picked": "%{n} seçildi",
       "post": "Yük ilanı ver",
       "postedPrice": "İlandaki fiyat: %{sum}",

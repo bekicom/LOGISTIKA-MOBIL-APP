@@ -253,6 +253,10 @@
     "trips": "Trip and load control",
     "vacancies": "Posting vacancies"
   },
+  "feed": {
+    "allRegions": "All regions",
+    "swap": "Swap direction"
+  },
   "googleAuth": {
     "button": "Sign in with Google",
     "errBand": "This Google account is linked to another profile",
@@ -1810,9 +1814,9 @@
       "emptyFiltered": "No cargo matches these filters",
       "filters": "Filters",
       "from": "From",
-      "min2": "Type at least 2 letters",
       "negotiable": "Negotiable",
       "notFound": "Not found",
+      "pickDone": "Done · %{n}",
       "picked": "%{n} selected",
       "post": "Post cargo",
       "postedPrice": "Price in the listing: %{sum}",

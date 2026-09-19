@@ -253,6 +253,10 @@
     "trips": "Reys va yuk nazorati",
     "vacancies": "Vakansiya joylash"
   },
+  "feed": {
+    "allRegions": "Barcha hududlar",
+    "swap": "Yo'nalishni almashtirish"
+  },
   "googleAuth": {
     "button": "Google bilan kirish",
     "errBand": "Bu Google akkaunti boshqa hisobga ulangan",
@@ -1810,9 +1814,9 @@
       "emptyFiltered": "Bu shartlarga mos yuk yo'q",
       "filters": "Filtrlar",
       "from": "Qayerdan",
-      "min2": "Kamida 2 harf yozing",
       "negotiable": "Kelishiladi",
       "notFound": "Topilmadi",
+      "pickDone": "Tayyor · %{n}",
       "picked": "%{n} tanlangan",
       "post": "Yuk joylash",
       "postedPrice": "E'londagi narx: %{sum}",

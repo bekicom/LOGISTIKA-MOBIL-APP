@@ -25,7 +25,7 @@ import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
 import { TruckCard, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
-import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
+import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
 import { QidiruvYorliqlari, useQidiruvYorliqlari } from "@/components/QidiruvYorliqlari";
 import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
@@ -80,16 +80,18 @@ export default function Mashinalar() {
           <View style={s.searchIcon}>
             <Icon name="search" size={19} stroke={color.blue} />
           </View>
-          <Text
-            style={[s.searchText, !(ss.xom || filtr.fromName || filtr.toName) && s.searchPlaceholder]}
-            numberOfLines={1}
-          >
-            {ss.xom
-              ? ss.xom.nomi
-              : filtr.fromName || filtr.toName
-                ? `${filtr.fromName || "—"} → ${filtr.toName || "—"}`
-                : t("mob.loads.cityPh")}
-          </Text>
+          {ss.xom || !(filtr.from.length || filtr.to.length) ? (
+            <Text style={[s.searchText, !ss.xom && s.searchPlaceholder]} numberOfLines={1}>
+              {ss.xom ? ss.xom.nomi : t("mob.loads.cityPh")}
+            </Text>
+          ) : (
+            <>
+              {/* «Toshkent +2 → —» — «+N» qisqarib ketmaydi (`JoylarYozuvi`) */}
+              <JoylarYozuvi joylar={filtr.from} bosh="—" matnStyle={s.searchJoy} />
+              <Icon name="arrow-right" size={16} stroke={color.blue} />
+              <JoylarYozuvi joylar={filtr.to} bosh="—" matnStyle={s.searchJoy} />
+            </>
+          )}
         </Pressable>
 
         {/* O'z saqlagan qidiruvlari — bir bosishda (TZ-03) */}
@@ -160,7 +162,7 @@ export default function Mashinalar() {
             <Empty
               icon="truck"
               title={t("mob.trucks.notFound")}
-              {...(chips.length || filtr.fromId || filtr.toId || ss.xom
+              {...(chips.length || filtr.from.length || filtr.to.length || ss.xom
                 ? {
                     text: t("mob.misc.widenFilters"),
                     actionLabel: t("mob.misc.clearFilters"),
@@ -210,6 +212,8 @@ const s = themed(() => ({
   },
   searchIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: color.blueSoft, alignItems: "center", justifyContent: "center" },
   searchText: { flex: 1, fontSize: font.body, fontWeight: "700", color: color.foreground },
+  /* `JoylarYozuvi` uchun — `flex` siz (sababi o'sha komponent izohida) */
+  searchJoy: { fontSize: font.body, fontWeight: "700", color: color.foreground },
   searchPlaceholder: { fontWeight: "500", color: "#94a3b8" },
 
   chipRow: { flexDirection: "row", gap: 7, alignItems: "center", flexWrap: "wrap" },

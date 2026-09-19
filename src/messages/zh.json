@@ -253,6 +253,10 @@
     "trips": "运单与货物管控",
     "vacancies": "发布招聘"
   },
+  "feed": {
+    "allRegions": "所有地区",
+    "swap": "交换方向"
+  },
   "googleAuth": {
     "button": "使用 Google 登录",
     "errBand": "该 Google 账号已绑定其他账户",
@@ -1810,9 +1814,9 @@
       "emptyFiltered": "没有符合这些条件的货源",
       "filters": "筛选",
       "from": "起运地",
-      "min2": "请至少输入 2 个字",
       "negotiable": "面议",
       "notFound": "未找到",
+      "pickDone": "完成 · %{n}",
       "picked": "已选 %{n}",
       "post": "发布货源",
       "postedPrice": "信息中的价格：%{sum}",

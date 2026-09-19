@@ -25,7 +25,7 @@ import { Segment } from "@/components/Segment";
 import { HeaderIcons } from "@/components/TabHeader";
 import { ListingCard, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
-import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
+import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
 import { QidiruvYorliqlari, useQidiruvYorliqlari } from "@/components/QidiruvYorliqlari";
 import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
@@ -97,13 +97,18 @@ export default function Yuklar() {
             </Text>
           ) : (
             <>
-              <Text style={[s.searchText, !filtr.fromName && s.searchPlaceholder]} numberOfLines={1}>
-                {filtr.fromName ?? t("mob.loads.from")}
-              </Text>
+              {/* «Toshkent +2» — bir nechta hudud tanlanishi mumkin (TZ 5) */}
+              <JoylarYozuvi
+                joylar={filtr.from}
+                bosh={t("mob.loads.from")}
+                matnStyle={[s.searchJoy, !filtr.from.length && s.searchPlaceholder]}
+              />
               <Icon name="arrow-right" size={16} stroke={color.brand} />
-              <Text style={[s.searchText, !filtr.toName && s.searchPlaceholder]} numberOfLines={1}>
-                {filtr.toName ?? t("mob.loads.to")}
-              </Text>
+              <JoylarYozuvi
+                joylar={filtr.to}
+                bosh={t("mob.loads.to")}
+                matnStyle={[s.searchJoy, !filtr.to.length && s.searchPlaceholder]}
+              />
             </>
           )}
         </Pressable>
@@ -172,7 +177,7 @@ export default function Yuklar() {
             <Skeleton />
           ) : error ? (
             <ErrorBox message={error} onRetry={reload} />
-          ) : chips.length > 0 || filtr.fromId || ss.xom ? (
+          ) : chips.length > 0 || filtr.from.length > 0 || filtr.to.length > 0 || ss.xom ? (
             <Empty
               title={t("mob.loads.emptyFiltered")}
               text={t("mob.misc.widenFilters")}
@@ -228,6 +233,8 @@ const s = themed(() => ({
   },
   searchIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: color.brandSoft, alignItems: "center", justifyContent: "center" },
   searchText: { flex: 1, fontSize: font.body, fontWeight: "700", color: color.foreground },
+  /* `JoylarYozuvi` uchun — `flex` siz (sababi o'sha komponent izohida) */
+  searchJoy: { fontSize: font.body, fontWeight: "700", color: color.foreground },
   searchPlaceholder: { fontWeight: "500", color: "#94a3b8" },
 
   chipRow: { flexDirection: "row", gap: 7, alignItems: "center", flexWrap: "wrap" },

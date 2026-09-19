@@ -499,6 +499,10 @@
       "actRejected": "Öneri reddedildi",
       "askPh": "Sorunuzu yazın",
       "birthDate": "Doğum tarihi",
+      "chatConsent2": "Kişisel numaraların yalnızca son 4 karakteri gösterilir",
+      "chatConsent3": "Sonuç bir AI okumasıdır, doğrulanmamıştır: asıl belgeyle karşılaştırın",
+      "chatConsentCamera": "Kabul ediyorum — fotoğraf çek",
+      "chatConsentText": "Fotoğraf veya PDF okunmak üzere OpenAI sunucusuna gönderilir. Orada saklanmaz ve sohbet geçmişine de yazılmaz — yalnızca 📎 işareti kalır.",
       "checkField": "kontrol edin",
       "confirm": "Onayla",
       "confirmNote": "AI işlemi kendisi yapmaz. Siz onayladıktan sonra sunucu yapar.",
@@ -539,6 +543,8 @@
       "resetHint": "Saatte %{n} soru — sınır yenilenir",
       "resetIn": "%{n} dakika sonra",
       "retake": "Yeniden çek",
+      "rolKerak": "🔒 Bu işlem «%{rol}» rolünde çalışır",
+      "rolniKorish": "Rolü gör",
       "saveOk": "Doğru — kaydet",
       "scanFailed": "Okunamadı",
       "scanHint": "Pasaport veya ehliyeti çekin — alanlar kendiliğinden dolar",
@@ -576,13 +582,15 @@
       "AI_OFF": "AI asistan henüz bağlı değil",
       "BAD_KIND": "Bu belge türü desteklenmiyor",
       "BAD_OUTPUT": "Fotoğraf okunamadı — yeniden çekin",
-      "BAD_TYPE": "Sadece JPG, PNG veya WEBP",
+      "BAD_TYPE": "Yalnızca JPG, PNG, WEBP veya PDF",
       "NO_CONSENT": "Fotoğrafı gönderme izni verilmedi",
       "NO_FILE": "Fotoğraf seçilmedi",
+      "PDF_FAILED": "PDF okunamadı — belgenin fotoğrafını çekin",
+      "PDF_UNSUPPORTED": "PDF okunamadı — belgenin fotoğrafını çekin",
       "RATE_LIMIT": "Saatlik sınır doldu. Biraz sonra tekrar deneyin.",
       "SECTION_LOCKED": "AI asistan rolünüze kapalı",
       "TARIFF_REQUIRED": "AI tarifenizde yok. Rolünüzü seçin veya tarifeyi yenileyin.",
-      "TOO_LARGE": "Fotoğraf 10 MB'tan büyük",
+      "TOO_LARGE": "Dosya 10 MB'tan büyük",
       "UPSTREAM": "AI servisi yanıt vermedi"
     },
     "aiOff": {
@@ -616,8 +624,10 @@
       "feed": "ilanlar",
       "fleet": "filo",
       "guide": "kılavuz",
+      "image": "gönderdiğiniz fotoğraf (doğrulanmamış)",
       "money": "finans",
       "people": "sürücüler",
+      "places": "yakındaki yerler: FURAM ve OpenStreetMap",
       "trips": "seferler"
     },
     "aiSum": {
@@ -3685,6 +3695,39 @@
     "SALARY": "Maaş",
     "TRIP_FEE": "Sefer ücreti"
   },
+  "pgAi": {
+    "allMasters": "Yakındaki tüm ustalar",
+    "ask": "Sor",
+    "attach": "Fotoğraf veya PDF ekle",
+    "joyTur": {
+      "chegara": "Sınır kapısı",
+      "mehmonxona": "Otel",
+      "oshxona": "Lokanta",
+      "toxtash": "Tır parkı",
+      "usta": "Usta",
+      "ustaxona": "Oto servis",
+      "yoqilgi": "Akaryakıt",
+      "zapchast": "Yedek parça"
+    },
+    "km": "%{km} km",
+    "location": "Konumumu gönder",
+    "locationAdded": "📍 Konumum",
+    "map": "Harita",
+    "nearTitle": "Yakınlarda",
+    "open": "Aç",
+    "remove": "Kaldır",
+    "saveDocs": "Belgelerime kaydet",
+    "tarifKerak": "🔒 Bunun için «%{rol}» tarifesi gerekli",
+    "tarifniKorish": "Tarifeyi gör",
+    "unverified": "⚠️ Yapay zekâ okudu — doğrulanmadı. Asıl belgeyle karşılaştırın.",
+    "voiceFailed": "Ses tanınamadı — tekrar deneyin"
+  },
+  "pgNotifications": {
+    "aiNudgeHint": "Boş araç, yanıtsız ilan, yeni yükler ve bilmediğiniz özellikler hakkında — günde en fazla bir kez.",
+    "aiNudgeOff": "Bu hatırlatmalara ihtiyacım yok",
+    "aiNudgeOffDone": "Kapatıldı",
+    "aiNudgeTitle": "Yapay zekâ asistanı hatırlatmaları"
+  },
   "pgStaff": {
     "aboutBody": "Kişi listeye ancak kendisi onayladıktan sonra girer: siz davet bağlantısını gönderirsiniz, o açıp kabul eder. Bağlantıyı her iki taraf da istediği an sonlandırabilir. Listeyi sizden başkası görmez.",
     "aboutTitle": "Nasıl çalışır",
@@ -3908,6 +3951,13 @@
       "vulcan": "Vulkanizasyon",
       "welder": "Kaynakçı"
     }
+  },
+  "serviceUi": {
+    "nearBusy": "Konum alınıyor…",
+    "nearEmpty": "%{n} km içinde usta bulunamadı. Yarıçapı genişletin.",
+    "nearHint": "Konumunuzu verin — en yakın ustalar önce çıkar. Konumunuz kaydedilmez.",
+    "nearOff": "İptal",
+    "withinKm": "%{n} km içinde"
   },
   "sosReason": {
     "ACCIDENT": "Kaza",

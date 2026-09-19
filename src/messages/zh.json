@@ -499,6 +499,10 @@
       "actRejected": "已拒绝该建议",
       "askPh": "请输入您的问题",
       "birthDate": "出生日期",
+      "chatConsent2": "个人证件号码只显示最后 4 位",
+      "chatConsent3": "结果为 AI 识别，未经核实：请与原件核对",
+      "chatConsentCamera": "同意——拍照",
+      "chatConsentText": "照片或 PDF 会发送到 OpenAI 服务器进行识别。它不会在那里保存，也不会写入聊天记录——只保留 📎 标记。",
       "checkField": "请核对",
       "confirm": "确认",
       "confirmNote": "AI 不会自行执行操作。您确认后由服务器执行。",
@@ -539,6 +543,8 @@
       "resetHint": "每小时 %{n} 次——上限将重置",
       "resetIn": "%{n} 分钟后",
       "retake": "重新拍摄",
+      "rolKerak": "🔒 此操作需要“%{rol}”角色",
+      "rolniKorish": "查看角色",
       "saveOk": "无误——保存",
       "scanFailed": "识别失败",
       "scanHint": "拍摄护照或驾驶证——字段将自动填充",
@@ -576,13 +582,15 @@
       "AI_OFF": "AI 助手尚未接入",
       "BAD_KIND": "不支持该证件类型",
       "BAD_OUTPUT": "无法识别照片——请重新拍摄",
-      "BAD_TYPE": "仅支持 JPG、PNG 或 WEBP",
+      "BAD_TYPE": "仅支持 JPG、PNG、WEBP 或 PDF",
       "NO_CONSENT": "未同意发送照片",
       "NO_FILE": "未选择照片",
+      "PDF_FAILED": "无法读取 PDF——请拍摄文件照片",
+      "PDF_UNSUPPORTED": "无法读取 PDF——请拍摄文件照片",
       "RATE_LIMIT": "已达每小时上限。请稍后再试。",
       "SECTION_LOCKED": "AI 助手未对您的角色开放",
       "TARIFF_REQUIRED": "AI 不在您的套餐内。请选择角色或续订套餐。",
-      "TOO_LARGE": "照片超过 10 MB",
+      "TOO_LARGE": "文件超过 10 MB",
       "UPSTREAM": "AI 服务无响应"
     },
     "aiOff": {
@@ -616,8 +624,10 @@
       "feed": "货源信息",
       "fleet": "车队",
       "guide": "使用指南",
+      "image": "您发送的照片（未核实）",
       "money": "财务",
       "people": "司机",
+      "places": "附近地点：FURAM 和 OpenStreetMap",
       "trips": "运单"
     },
     "aiSum": {
@@ -3685,6 +3695,39 @@
     "SALARY": "工资",
     "TRIP_FEE": "行程费"
   },
+  "pgAi": {
+    "allMasters": "附近所有师傅",
+    "ask": "提问",
+    "attach": "附加照片或PDF",
+    "joyTur": {
+      "chegara": "口岸",
+      "mehmonxona": "旅馆",
+      "oshxona": "餐馆",
+      "toxtash": "货车停车场",
+      "usta": "修理师傅",
+      "ustaxona": "修理厂",
+      "yoqilgi": "加油站",
+      "zapchast": "配件"
+    },
+    "km": "%{km} 公里",
+    "location": "发送我的位置",
+    "locationAdded": "📍 我的位置",
+    "map": "地图",
+    "nearTitle": "附近",
+    "open": "查看",
+    "remove": "移除",
+    "saveDocs": "保存到我的证件",
+    "tarifKerak": "🔒 此操作需要「%{rol}」套餐",
+    "tarifniKorish": "查看套餐",
+    "unverified": "⚠️ AI识别——未经核实。请与原件核对。",
+    "voiceFailed": "无法识别语音——请重试"
+  },
+  "pgNotifications": {
+    "aiNudgeHint": "关于车辆闲置、无人回应的信息、新货源和您未用过的功能——每天最多一次。",
+    "aiNudgeOff": "我不需要此类提醒",
+    "aiNudgeOffDone": "已关闭",
+    "aiNudgeTitle": "AI助手提醒"
+  },
   "pgStaff": {
     "aboutBody": "只有本人确认后才会进入名单：您发送邀请链接，对方打开并接受。双方都可以随时解除关系。除您之外没有人能看到这份名单。",
     "aboutTitle": "运作方式",
@@ -3908,6 +3951,13 @@
       "vulcan": "硫化补胎",
       "welder": "焊工"
     }
+  },
+  "serviceUi": {
+    "nearBusy": "正在定位…",
+    "nearEmpty": "%{n} 公里内没有师傅。请扩大范围。",
+    "nearHint": "提供您的位置 — 最近的师傅排在前面。您的位置不会被保存。",
+    "nearOff": "取消",
+    "withinKm": "%{n} 公里内"
   },
   "sosReason": {
     "ACCIDENT": "交通事故",

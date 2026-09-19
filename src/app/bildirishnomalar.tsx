@@ -3,6 +3,14 @@
  *
  * Endpoint web bilan bir xil (`/api/notifications`) — u allaqachon
  * kategoriya, ustuvorlik va o'qilgan holatini qaytaradi.
+ *
+ * ── BOSILSA — O'Z JOYIGA (2026-09-19) ───────────────────────────
+ *
+ * Ilgari qator bosilmasdi: «mos yuk chiqdi» degan xabarni o'qigan odam
+ * yukni o'zi qidirib topishi kerak edi (webda qator — havola). AI
+ * turtkisi (TZ-09 §9.5) aynan shunga qurilgan: «mashinangiz bo'sh,
+ * mana mos yuklar» → bosadi → yuklar. Havola ilova ekraniga
+ * `webToApp` orqali o'giriladi; topilmasa qator faqat o'qiladi.
  */
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, RefreshControl, View } from "react-native";
@@ -13,6 +21,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { webToApp } from "@/lib/routes";
 import { setBadge } from "@/lib/push";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
@@ -25,6 +34,8 @@ type Note = {
   category: string | null;
   isRead: boolean;
   createdAt: string;
+  /** Web manzili — ilova ekraniga `webToApp` bilan o'giriladi */
+  href?: string | null;
 };
 
 /* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
@@ -44,6 +55,8 @@ function tabs() {
 
 /** Turini ikonka va rangga bog'lash — web'dagi kategoriyalarga tayanadi */
 function look(type: string): { icon: IconName; tint: string } {
+  /* AI yordamchi turtkisi (TZ-09 §9.5) — yordamchi belgisi bilan */
+  if (type === "ai_nudge") return { icon: "sparkle", tint: color.brand };
   if (type.startsWith("trip")) return { icon: "route", tint: color.brand };
   if (type.startsWith("chat") || type.startsWith("message")) return { icon: "chat", tint: color.info };
   if (type.startsWith("doc")) return { icon: "doc", tint: color.warning };
@@ -98,6 +111,34 @@ export default function Bildirishnomalar() {
     if (data) void setBadge(data.unread ?? 0);
   }, [data]);
 
+  /* «Menga bunday eslatma kerak emas» — BIR bosishda (TZ-09 §9.5).
+     Sozlamalarda qayta yoqiladi (`profil/bildirishnoma.tsx`) */
+  const [turtkiOchdi, setTurtkiOchdi] = useState(false);
+  const [band, setBand] = useState<string | null>(null);
+
+  async function turtkiniOchir(id: string) {
+    setBand(id);
+    try {
+      await api("/api/ai/turtki", { method: "POST", body: { off: true } });
+      setTurtkiOchdi(true);
+      await api("/api/notifications", { method: "POST", body: { id, action: "dismiss" } }).catch(() => null);
+      reload();
+    } catch {
+      /* Tarmoq yo'q — tugma joyida qoladi, odam qayta bosadi */
+    } finally {
+      setBand(null);
+    }
+  }
+
+  function ochish(n: Note) {
+    if (!n.isRead) {
+      void api("/api/notifications", { method: "POST", body: { id: n.id, action: "read" } }).catch(() => null);
+    }
+    const to = n.href ? webToApp(n.href) : null;
+    if (to) router.push(to as never);
+    else if (!n.isRead) reload();
+  }
+
   async function markAll() {
     // Server har bir xabarni alohida belgilaydi — hammasi uchun bitta
     // amal yo'q. Ro'yxat kichik (40 tagacha), shuning uchun yetarli.
@@ -151,8 +192,14 @@ export default function Bildirishnomalar() {
         renderItem={({ item }) => {
           if (item.kind === "day") return <Text style={s.day}>{item.label}</Text>;
           const l = look(item.type);
+          const bosiladi = !!(item.href && webToApp(item.href));
           return (
-            <View style={[s.note, !item.isRead && s.noteUnread]}>
+            <Pressable
+              onPress={() => ochish(item)}
+              disabled={!bosiladi && item.isRead}
+              accessibilityRole={bosiladi ? "link" : undefined}
+              style={({ pressed }) => [s.note, !item.isRead && s.noteUnread, pressed && bosiladi && { opacity: 0.75 }]}
+            >
               <View style={[s.noteIcon, { backgroundColor: l.tint + "1f" }]}>
                 <Icon name={l.icon} size={19} stroke={l.tint} />
               </View>
@@ -161,12 +208,26 @@ export default function Bildirishnomalar() {
                   {item.title}
                 </Text>
                 {item.body ? <Text style={s.noteBody}>{item.body}</Text> : null}
+                {item.type === "ai_nudge" ? (
+                  <Pressable
+                    onPress={() => void turtkiniOchir(item.id)}
+                    disabled={band === item.id || turtkiOchdi}
+                    hitSlop={6}
+                    style={s.nudgeOff}
+                    accessibilityRole="button"
+                  >
+                    <Text style={s.nudgeOffText}>
+                      {turtkiOchdi ? t("pgNotifications.aiNudgeOffDone") : t("pgNotifications.aiNudgeOff")}
+                    </Text>
+                  </Pressable>
+                ) : null}
               </View>
               <View style={{ alignItems: "flex-end", gap: 6 }}>
                 <Text style={s.time}>{hhmm(item.createdAt)}</Text>
                 {!item.isRead ? <View style={s.dot} /> : null}
+                {bosiladi ? <Icon name="chevron" size={15} stroke={color.iconFaint} /> : null}
               </View>
-            </View>
+            </Pressable>
           );
         }}
         ListEmptyComponent={
@@ -214,4 +275,14 @@ const s = themed(() => ({
   noteBody: { fontSize: font.caption, color: color.icon, marginTop: 2, lineHeight: 19 },
   time: { fontSize: 11, color: color.mutedForeground },
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.brand },
+  nudgeOff: {
+    alignSelf: "flex-start",
+    marginTop: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: color.border,
+  },
+  nudgeOffText: { fontSize: 12, fontWeight: "600", color: color.mutedForeground },
 }));

@@ -91,7 +91,16 @@ export function RolePicker({
  * qayta ko'rsatish uni ikkinchi marta tanlashga majburlardi. Fikri
  * o'zgarsa — «Boshqa rol».
  */
-export function RolTanlangan({ rol, onChange }: { rol: RoyxatRol; onChange: () => void }) {
+export function RolTanlangan({
+  rol,
+  onChange,
+  qator,
+}: {
+  rol: RoyxatRol;
+  onChange: () => void;
+  /** Qo'shimcha qator (Android'da narx) — ro'yxatdagi kartochka bilan bir xil */
+  qator?: string;
+}) {
   const guruh = ROL_GURUHLARI.find((g) => g.rollar.includes(rol))?.guruh ?? "other";
   const rang = rangi(guruh);
   return (
@@ -104,6 +113,7 @@ export function RolTanlangan({ rol, onChange }: { rol: RoyxatRol; onChange: () =
         <Text style={s.hint} numberOfLines={2}>
           {t(rolIzohKaliti(rol))}
         </Text>
+        {qator ? <Text style={s.extra}>{qator}</Text> : null}
       </View>
       <Tap onPress={onChange} hitSlop={8} accessibilityRole="button">
         <Text style={s.change}>{t("mob.signUp.otherRole")}</Text>

@@ -1,6 +1,6 @@
 {
   "ios": {
-    "NSLocationWhenInUseUsageDescription": "Your location is used to show nearby loads and repair shops on the map, share your position in chats or SOS, and show the route to the cargo owner during a trip.",
+    "NSLocationWhenInUseUsageDescription": "Your location is used to show nearby loads, repair shops, fuel stations and truck stops on the map and in the AI assistant, share your position in chats or SOS, and show the route to the cargo owner during a trip.",
     "NSLocationAlwaysAndWhenInUseUsageDescription": "During an active trip your route is recorded and shown to the cargo owner and dispatcher, even when the app is closed or not in use. Recording stops when the trip is closed or when you stop it yourself.",
     "NSLocationAlwaysUsageDescription": "During an active trip your route is recorded and shown to the cargo owner and dispatcher, even when the app is closed or not in use. Recording stops when the trip is closed or when you stop it yourself.",
     "NSCameraUsageDescription": "Used to take photos of documents, receipts, cargo and vehicles, and to scan documents. Scanned documents are sent to an AI service to read the text.",

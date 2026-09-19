@@ -15,6 +15,14 @@
  *
  * Matritsa buzilmaydi: server o'sha shaklni oladi va web'dagi
  * batafsil sozlama ishlayveradi.
+ *
+ * ── AI YORDAMCHI ESLATMALARI (TZ-09 §9.5, 2026-09-19) ───────────
+ *
+ * Alohida kalit — matritsadan tashqarida (`User.aiTurtkiOff`).
+ * Bildirishnomadagi «Menga bunday eslatma kerak emas» bir bosishda
+ * o'chiradi; odam fikrini o'zgartirsa shu yerda qayta yoqadi. Server
+ * holatni bermasa (eski server) — kalit chiqmaydi: noto'g'ri holatni
+ * ko'rsatgandan ko'ra yo'q bo'lgani yaxshi.
  */
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Linking, Pressable, ScrollView, View } from "react-native";
@@ -40,14 +48,29 @@ const CATEGORIES = [
 const CHANNELS = ["push", "inApp", "sound", "email", "sms"] as const;
 type Channel = (typeof CHANNELS)[number];
 
-/** Kategoriya yoqilganda tiklanadigan standart kanallar */
+/** Standart kanallar — `furam/src/lib/notify.ts:DEFAULT_CHANNELS` bilan
+    bir xil: saqlanmagan kategoriya ham, yoqilgani ham shularni oladi */
 const ON_BY_DEFAULT: Channel[] = ["inApp", "push"];
 
-const anyOn = (c: Partial<Record<Channel, boolean>> | undefined) =>
-  !!c && CHANNELS.some((ch) => c[ch]);
+/**
+ * Kanal HAQIQATDA yoqiqmi — saqlanmagan qiymat server standartidan.
+ *
+ * Server faqat odam O'ZGARTIRGANINI saqlaydi (`channelsFor`: bo'sh —
+ * standart). Ilgari bu ekran bo'sh kategoriyani «o'chiq» deb chizardi:
+ * sozlamaga hech tegmagan har bir odam hamma kalitni o'chiq ko'rardi,
+ * holbuki bildirishnomalar kelib turardi (2026-09-19, brauzerda
+ * ko'rindi). Web (`prefs-form.tsx`) standartni to'g'ri hisobga oladi.
+ */
+const kanal = (c: Partial<Record<Channel, boolean>> | undefined, ch: Channel): boolean =>
+  typeof c?.[ch] === "boolean" ? !!c[ch] : ON_BY_DEFAULT.includes(ch);
+
+const anyOn = (c: Partial<Record<Channel, boolean>> | undefined) => CHANNELS.some((ch) => kanal(c, ch));
 
 export default function BildirishnomaSozlama() {
-  const { data, loading, error, reload } = useApi<{ channels: Prefs }>("/api/notifications/prefs");
+  const { data, loading, error, reload } = useApi<{ channels: Prefs; aiTurtkiOff?: boolean }>(
+    "/api/notifications/prefs",
+  );
+  const [turtkiOff, setTurtkiOff] = useState<boolean | null>(null);
   const [prefs, setPrefs] = useState<Prefs>({});
   const [saving, setSaving] = useState(false);
   const [failed, setFailed] = useState("");
@@ -63,7 +86,21 @@ export default function BildirishnomaSozlama() {
 
   useEffect(() => {
     if (data?.channels) setPrefs(data.channels);
+    if (typeof data?.aiTurtkiOff === "boolean") setTurtkiOff(data.aiTurtkiOff);
   }, [data]);
+
+  /* Saqlash DARHOL, xato bo'lsa eski holat qaytadi (kategoriyalar bilan bir xil) */
+  async function turtki(on: boolean) {
+    const before = turtkiOff;
+    setTurtkiOff(!on);
+    setFailed("");
+    try {
+      await api("/api/ai/turtki", { method: "POST", body: { off: !on } });
+    } catch (e) {
+      setTurtkiOff(before);
+      setFailed((e as FuramError).message ?? t("mob.common.notSaved"));
+    }
+  }
 
   /* Saqlash DARHOL: telefonda «Saqlash» tugmasi bosilmay qoladi va
      odam sozlaganini yo'qotadi. Xato bo'lsa eski holat qaytariladi. */
@@ -116,7 +153,7 @@ export default function BildirishnomaSozlama() {
 
   const channelOn = (ch: Channel) => {
     const live = CATEGORIES.filter((c) => anyOn(prefs[c]));
-    return live.length > 0 && live.some((c) => prefs[c]?.[ch]);
+    return live.length > 0 && live.some((c) => kanal(prefs[c], ch));
   };
 
   return (
@@ -185,6 +222,20 @@ export default function BildirishnomaSozlama() {
               </Card>
               <Text style={s.under}>{t("mob.notify.appliesAll")}</Text>
             </View>
+
+            {turtkiOff !== null ? (
+              <View>
+                <GroupLabel>{t("mob.ai.title")}</GroupLabel>
+                <Card>
+                  <ListRow
+                    last
+                    title={t("pgNotifications.aiNudgeTitle")}
+                    hint={t("pgNotifications.aiNudgeHint")}
+                    right={<Switch value={!turtkiOff} onValueChange={(v) => void turtki(v)} />}
+                  />
+                </Card>
+              </View>
+            ) : null}
 
             <View style={s.note}>
               <Text style={s.noteTitle}>{t("mob.notify.whyTwo")}</Text>

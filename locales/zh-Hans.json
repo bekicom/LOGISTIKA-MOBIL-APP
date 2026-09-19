@@ -1,6 +1,6 @@
 {
   "ios": {
-    "NSLocationWhenInUseUsageDescription": "您的位置用于在地图上显示附近的货源和维修店、在聊天或 SOS 中发送您的位置，以及在运输途中向货主显示路线。",
+    "NSLocationWhenInUseUsageDescription": "您的位置用于在地图和 AI 助手中显示附近的货源、维修店、加油站和停车场，在聊天或 SOS 中发送您的位置，以及在运输途中向货主显示路线。",
     "NSLocationAlwaysAndWhenInUseUsageDescription": "在进行中的运输期间，即使应用已关闭或未在使用，您的路线也会被记录并显示给货主和调度员。运输结束或您自行停止时记录即停止。",
     "NSLocationAlwaysUsageDescription": "在进行中的运输期间，即使应用已关闭或未在使用，您的路线也会被记录并显示给货主和调度员。运输结束或您自行停止时记录即停止。",
     "NSCameraUsageDescription": "用于拍摄单据、收据、货物和车辆照片以及扫描文件。扫描的文件会发送至 AI 服务以识别文字。",

@@ -19,12 +19,13 @@
  * Buni aytmasak odam «hammasi yo'qoladi» deb qo'rqadi va shu
  * qo'rquv bilan qaror qiladi.
  */
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Platform, RefreshControl, ScrollView, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Header } from "@/components/ui";
-import { RolePicker } from "@/components/RolePicker";
+import { RolePicker, RolTanlangan } from "@/components/RolePicker";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
@@ -96,6 +97,44 @@ export default function Rollarim() {
   const [ochilmoqda, setOchilmoqda] = useState(false);
   const [xato, setXato] = useState<string | null>(null);
 
+  /* ── AI TUGMASI OLIB KELGAN ROL (TZ-09 §9.4, 2026-09-19) ──
+     «Bu amal uchun yuk egasi roli kerak» → `/rollarim?rol=CARGO_OWNER`.
+     Rol TANLANGAN holda ochiladi va ekran unga suriladi: ro'yxat uzun,
+     odam nega bu yerga kelganini qidirib yurmasin (webdagi `tanlangan`).
+     Faqat hali olinmagan rol tanlanadi — amaldagi yoki muddati tugagan
+     rolni «ochish» tugmasi yo'q.
+
+     O'n bitta kartochka o'rniga BITTA — tanlangan rol va «Boshqa rol»
+     (ro'yxatdan o'tish ekranidagi naqsh): tanlangan kartochka ro'yxat
+     o'rtasida ekran ostida qolib ketardi (brauzerda bosib sinalganda
+     ko'rindi), «ochish» tugmasi esa undan ham pastda edi. */
+  const { rol: kerakli } = useLocalSearchParams<{ rol?: string }>();
+  const [royxatOchiq, setRoyxatOchiq] = useState(false);
+  /* Holat (ref emas): chizishda o'qiladi — bitta kartochka yoki ro'yxat */
+  const [oldindan, setOldindan] = useState(false);
+  /* Effekt bir marta ishlasin — `oldindan` yangilanguncha ikkinchi
+     `data` kelsa ham qayta tanlamasin */
+  const qoyildi = useRef(false);
+  const surildi = useRef(false);
+  const scrollRef = useRef<ScrollView>(null);
+  /* Ro'yxat joyi — `onLayout` effektdan OLDIN ham, KEYIN ham kelishi
+     mumkin; surish ikkala tomondan chaqiriladi va bir marta bajariladi */
+  const qoshishY = useRef<number | null>(null);
+  const suril = useCallback(() => {
+    if (!qoyildi.current || surildi.current || qoshishY.current === null) return;
+    surildi.current = true;
+    scrollRef.current?.scrollTo({ y: Math.max(0, qoshishY.current - space.sm), animated: true });
+  }, []);
+  useEffect(() => {
+    if (qoyildi.current || !data || !isRoyxatRol(kerakli)) return;
+    const olingan = new Set([...data.live.map((l) => l.roleKey), ...(data.expired ?? []).map((e) => e.roleKey)]);
+    if (olingan.has(kerakli)) return;
+    qoyildi.current = true;
+    setTanlov(kerakli);
+    setOldindan(true);
+    suril();
+  }, [data, kerakli, suril]);
+
   async function rolniOch() {
     if (!tanlov || ochilmoqda) return;
     setOchilmoqda(true);
@@ -119,6 +158,7 @@ export default function Rollarim() {
       <Header title={t("mob.roles.title")} subtitle={t("mob.roles.subtitle")} />
 
       <ScrollView
+        ref={scrollRef}
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
       >
@@ -209,17 +249,26 @@ export default function Rollarim() {
             )}
 
             {qoshsaBoladi.length > 0 && (
-              <View>
+              <View
+                onLayout={(e) => {
+                  qoshishY.current = e.nativeEvent.layout.y;
+                  suril();
+                }}
+              >
                 <Text style={s.group}>
                   {live.length === 0 ? t("mob.roles.noneTitle") : t("mob.roles.addGroup")}
                 </Text>
                 <Text style={s.pickHint}>{t("mob.roles.noneHint")}</Text>
-                <RolePicker
-                  value={tanlov}
-                  onChange={setTanlov}
-                  faqat={qoshsaBoladi}
-                  qoshimcha={narxlar}
-                />
+                {oldindan && tanlov && !royxatOchiq ? (
+                  <RolTanlangan rol={tanlov} qator={narxlar[tanlov]} onChange={() => setRoyxatOchiq(true)} />
+                ) : (
+                  <RolePicker
+                    value={tanlov}
+                    onChange={setTanlov}
+                    faqat={qoshsaBoladi}
+                    qoshimcha={narxlar}
+                  />
+                )}
                 {xato ? <Text style={s.err}>{xato}</Text> : null}
                 <View style={{ marginTop: space.md }}>
                   <Button

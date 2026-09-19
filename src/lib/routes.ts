@@ -92,12 +92,25 @@ const DETAIL: Record<string, string> = {
   chats: "/suhbat",
 };
 
-export function webToApp(href: string): string | null {
-  /* So'rov qismi (`?fromId=12`) ATAYLAB tashlanadi: TZ-09 dan beri
-     server `goto` ga filtrli havola yozadi va ilgari to'liq satr
-     jadvaldan qidirilgani uchun HECH NARSA topilmay, tugma hech
-     qayerga olib bormasdi. Filtrni ekranga uzatish — alohida ish. */
-  const clean = href.split("?")[0].split("#")[0].replace(/^\/+/, "").replace(/\/+$/, "");
+/**
+ * Ekran TUSHUNADIGAN so'rov kalitlari — faqat shular o'tadi va faqat
+ * shu shaklda (2026-09-19, TZ-09).
+ *
+ * `/roles?rol=CARGO_OWNER` — AI tugmasi «bu amal uchun yuk egasi roli
+ * kerak» deb olib keladi: ekran o'sha rolni tanlab ochadi.
+ * `/service?near=…&within=50` — AI dagi «Barcha yaqin ustalar»: ekran
+ * ro'yxatni masofa bo'yicha saralaydi. Qolgan filtrlar (`/loads?fromId=`)
+ * hali ekranga uzatilmaydi — ular jim tashlanadi, ekran filtrsiz ochiladi.
+ *
+ * Shakl qat'iy: server manzilni oq ro'yxatdan o'tkazadi, lekin havola
+ * bildirishnomadan ham keladi — ilova ham o'z chegarasini qo'yadi.
+ */
+const PARAMS: Record<string, Readonly<Record<string, RegExp>>> = {
+  "/rollarim": { rol: /^[A-Z_]{2,30}$/ },
+  "/ustaxona": { near: /^-?\d{1,2}(\.\d{1,6})?,-?\d{1,3}(\.\d{1,6})?$/, within: /^\d{1,3}$/ },
+};
+
+function yol(clean: string): string | null {
   const parts = clean.split("/");
   const two = parts.slice(0, 2).join("/");
   if (EXACT[two]) return EXACT[two];
@@ -105,4 +118,24 @@ export function webToApp(href: string): string | null {
     return `${DETAIL[parts[0]]}/${parts[1]}`;
   }
   return MAP[parts[0]] ?? null;
+}
+
+export function webToApp(href: string): string | null {
+  /* So'rov qismi FAQAT `PARAMS` dagi ekranlar uchun o'tadi. Ilgari
+     to'liq satr jadvaldan qidirilgani uchun `/loads?fromId=12` HECH
+     NARSA topmay, tugma hech qayerga olib bormasdi. */
+  const [bosh, qism = ""] = href.split("#")[0].split("?");
+  const target = yol(bosh.replace(/^\/+/, "").replace(/\/+$/, ""));
+  if (!target) return null;
+  const ruxsat = PARAMS[target];
+  if (!ruxsat || !qism) return target;
+  const kirgan = new URLSearchParams(qism);
+  const q = Object.entries(ruxsat)
+    .map(([k, shakl]) => {
+      const v = kirgan.get(k);
+      return v && shakl.test(v) ? `${k}=${encodeURIComponent(v)}` : null;
+    })
+    .filter(Boolean)
+    .join("&");
+  return q ? `${target}?${q}` : target;
 }

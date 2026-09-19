@@ -499,6 +499,10 @@
       "actRejected": "Suggestion rejected",
       "askPh": "Type your question",
       "birthDate": "Date of birth",
+      "chatConsent2": "Only the last 4 characters of personal numbers are shown",
+      "chatConsent3": "The result is an AI reading and is not verified: compare it with the original",
+      "chatConsentCamera": "I agree — take a photo",
+      "chatConsentText": "The photo or PDF is sent to OpenAI's server to be read. It is not stored there and is not saved in the chat history either — only a 📎 mark remains.",
       "checkField": "check this",
       "confirm": "Confirm",
       "confirmNote": "The AI does not perform the action itself. The server does it after you confirm.",
@@ -539,6 +543,8 @@
       "resetHint": "%{n} questions an hour — the limit resets",
       "resetIn": "in %{n} minutes",
       "retake": "Retake the photo",
+      "rolKerak": "🔒 This action works with the “%{rol}” role",
+      "rolniKorish": "View the role",
       "saveOk": "Looks right — save",
       "scanFailed": "Could not read it",
       "scanHint": "Photograph a passport or licence — the fields fill in themselves",
@@ -576,13 +582,15 @@
       "AI_OFF": "The AI assistant is not connected yet",
       "BAD_KIND": "That document type is not supported",
       "BAD_OUTPUT": "The photo could not be read — take it again",
-      "BAD_TYPE": "Only JPG, PNG or WEBP",
+      "BAD_TYPE": "Only JPG, PNG, WEBP or PDF",
       "NO_CONSENT": "Consent to send the photo was not given",
       "NO_FILE": "No photo was chosen",
+      "PDF_FAILED": "The PDF could not be read — take a photo of the document",
+      "PDF_UNSUPPORTED": "The PDF could not be read — take a photo of the document",
       "RATE_LIMIT": "The hourly limit is used up. Try again shortly.",
       "SECTION_LOCKED": "The AI assistant is closed for your role",
       "TARIFF_REQUIRED": "The AI is not in your plan. Pick your role or renew the plan.",
-      "TOO_LARGE": "The photo is larger than 10 MB",
+      "TOO_LARGE": "The file is larger than 10 MB",
       "UPSTREAM": "The AI service did not respond"
     },
     "aiOff": {
@@ -616,8 +624,10 @@
       "feed": "listings",
       "fleet": "fleet",
       "guide": "user guide",
+      "image": "the photo you sent (not verified)",
       "money": "finance",
       "people": "drivers",
+      "places": "nearby places: FURAM and OpenStreetMap",
       "trips": "trips"
     },
     "aiSum": {
@@ -3685,6 +3695,39 @@
     "SALARY": "Salary",
     "TRIP_FEE": "Trip fee"
   },
+  "pgAi": {
+    "allMasters": "All mechanics nearby",
+    "ask": "Ask",
+    "attach": "Attach a photo or PDF",
+    "joyTur": {
+      "chegara": "Border crossing",
+      "mehmonxona": "Hotel",
+      "oshxona": "Food",
+      "toxtash": "Truck parking",
+      "usta": "Mechanic",
+      "ustaxona": "Repair shop",
+      "yoqilgi": "Fuel",
+      "zapchast": "Spare parts"
+    },
+    "km": "%{km} km",
+    "location": "Send my location",
+    "locationAdded": "📍 My location",
+    "map": "Map",
+    "nearTitle": "Nearby",
+    "open": "Open",
+    "remove": "Remove",
+    "saveDocs": "Save to my documents",
+    "tarifKerak": "🔒 This needs the «%{rol}» plan",
+    "tarifniKorish": "See the plan",
+    "unverified": "⚠️ Read by AI — not verified. Check against the original.",
+    "voiceFailed": "Couldn't recognise the voice — try again"
+  },
+  "pgNotifications": {
+    "aiNudgeHint": "About an idle truck, a listing with no replies, new loads and features you haven't tried — at most once a day.",
+    "aiNudgeOff": "I don't need these reminders",
+    "aiNudgeOffDone": "Turned off",
+    "aiNudgeTitle": "AI assistant reminders"
+  },
   "pgStaff": {
     "aboutBody": "A person joins the list only after confirming it: you send an invite link, they open it and accept. Either side can end the link at any time. Nobody but you can see this list.",
     "aboutTitle": "How it works",
@@ -3908,6 +3951,13 @@
       "vulcan": "Vulcanising",
       "welder": "Welder"
     }
+  },
+  "serviceUi": {
+    "nearBusy": "Locating…",
+    "nearEmpty": "No master within %{n} km. Try a wider radius.",
+    "nearHint": "Share your location — the nearest masters come first. Your location is not saved.",
+    "nearOff": "Clear",
+    "withinKm": "Within %{n} km"
   },
   "sosReason": {
     "ACCIDENT": "Accident",

@@ -14,12 +14,23 @@
  * Taklif keldi, qo'shimcha ish so'raldi, ish tugadi — bularning
  * hammasi MENDAN javob kutadi. Server `todo` bilan aytadi, ekran
  * shu kartochkani ajratib ko'rsatadi.
+ *
+ * ── YAQIN USTALAR (2026-09-19) ──────────────────────────────────
+ *
+ * Server masofa bo'yicha saralashni 2026-09-04 dan biladi
+ * (`api/service/list.ts`: `near`, `within`), lekin bu ekran uni
+ * HECH QACHON so'ramagan — mantiq ilova tomonida o'lik yotardi.
+ * Holbuki aynan shu yerda kerak: mashina yo'lda to'xtaganda odam
+ * katalog varaqlamaydi, yaqindagi ustani qidiradi. AI yordamchidagi
+ * «Barcha yaqin ustalar» ham shu ekranni nuqta bilan ochadi (TZ-09).
+ * Nuqta faqat so'rovda yuradi, hech qayerga yozilmaydi.
  */
 import { useState } from "react";
-import { FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import * as Location from "expo-location";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
@@ -47,6 +58,11 @@ type Order = {
   master: string | null;
 };
 
+/** `furam/src/lib/service.ts:NEAR_RADII` va `DEFAULT_NEAR_KM` */
+const RADII = [5, 10, 20, 50, 100] as const;
+const DEFAULT_KM = 20;
+const NUQTA = /^-?\d{1,2}(\.\d{1,6})?,-?\d{1,3}(\.\d{1,6})?$/;
+
 type Master = {
   id: string;
   kind: string;
@@ -60,6 +76,8 @@ type Master = {
   priceNote: string | null;
   verified: boolean;
   done: number;
+  /** Faqat nuqta berilganda; `km: null` — ustaning joyi yozilmagan */
+  near?: { km: number | null } | null;
 };
 
 const TONE: Record<string, string> = {
@@ -74,12 +92,47 @@ const TONE: Record<string, string> = {
 };
 
 export default function Ustaxona() {
+  /* AI yordamchidan kelgan nuqta (`/ustaxona?near=41.3,69.2&within=50`) */
+  const p = useLocalSearchParams<{ near?: string; within?: string }>();
   const [spec, setSpec] = useState<string | null>(null);
   const [mobileOnly, setMobileOnly] = useState(false);
+  const [near, setNear] = useState<string | null>(p.near && NUQTA.test(p.near) ? p.near : null);
+  const [within, setWithin] = useState<number>(
+    (RADII as readonly number[]).includes(Number(p.within)) ? Number(p.within) : DEFAULT_KM,
+  );
+  const [joyBand, setJoyBand] = useState(false);
+  const [joyXato, setJoyXato] = useState(false);
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
-  const query = `${spec ? `spec=${spec}&` : ""}${mobileOnly ? "mobile=1" : ""}`;
+  /* Joyni aniqlash. UCH KASR ≈ 100 metr (web bilan bir xil): usta
+     qidirish uchun yetarli, aniqrog'i esa so'rov jurnaliga odamning
+     uyini yozib qo'yardi */
+  async function joyim() {
+    setJoyBand(true);
+    setJoyXato(false);
+    try {
+      const perm = await Location.requestForegroundPermissionsAsync();
+      if (!perm.granted) {
+        setJoyXato(true);
+        return;
+      }
+      const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      setNear(`${pos.coords.latitude.toFixed(3)},${pos.coords.longitude.toFixed(3)}`);
+    } catch {
+      setJoyXato(true);
+    } finally {
+      setJoyBand(false);
+    }
+  }
+
+  const query = [
+    spec ? `spec=${spec}` : "",
+    mobileOnly ? "mobile=1" : "",
+    near ? `near=${encodeURIComponent(near)}&within=${within}` : "",
+  ]
+    .filter(Boolean)
+    .join("&");
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     canBeMaster: boolean;
     isMaster: boolean;
@@ -184,6 +237,47 @@ export default function Ustaxona() {
               <View>
                 <Text style={s.group}>{t("mob.svc.masters")}</Text>
 
+                {/* Masofa bo'yicha — webdagi «Menga yaqin» */}
+                <View style={s.nearBox}>
+                  <View style={s.nearRow}>
+                    <Pressable
+                      style={[s.nearBtn, near && s.nearBtnOn]}
+                      onPress={() => void joyim()}
+                      disabled={joyBand}
+                      accessibilityRole="button"
+                    >
+                      {joyBand ? (
+                        <ActivityIndicator size="small" color={color.brand} />
+                      ) : (
+                        <Icon name="map-pin" size={15} stroke={near ? color.card : color.brand} />
+                      )}
+                      <Text style={[s.nearBtnText, near && s.nearBtnTextOn]}>
+                        {joyBand ? t("serviceUi.nearBusy") : near ? t("mapUi.nearMeOn") : t("mapUi.nearMe")}
+                      </Text>
+                    </Pressable>
+                    {near ? (
+                      <Pressable onPress={() => setNear(null)} hitSlop={8} accessibilityRole="button">
+                        <Text style={s.nearOff}>{t("serviceUi.nearOff")}</Text>
+                      </Pressable>
+                    ) : null}
+                  </View>
+                  {near ? (
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.chips}>
+                      {RADII.map((km) => (
+                        <Pressable key={km} style={[s.chip, within === km && s.chipOn]} onPress={() => setWithin(km)}>
+                          <Text style={[s.chipText, within === km && s.chipTextOn]}>
+                            {t("serviceUi.withinKm", { n: km })}
+                          </Text>
+                        </Pressable>
+                      ))}
+                    </ScrollView>
+                  ) : (
+                    <Text style={[s.nearHint, joyXato && { color: color.danger }]}>
+                      {joyXato ? t("mob.msg.locDenied") : t("serviceUi.nearHint")}
+                    </Text>
+                  )}
+                </View>
+
                 <ScrollView
                   horizontal
                   showsHorizontalScrollIndicator={false}
@@ -228,7 +322,9 @@ export default function Ustaxona() {
         ListEmptyComponent={
           loading || error ? null : (
             <View style={s.empty}>
-              <Text style={s.emptyText}>{t("mob.svc.noMasters")}</Text>
+              <Text style={s.emptyText}>
+                {near ? t("serviceUi.nearEmpty", { n: within }) : t("mob.svc.noMasters")}
+              </Text>
             </View>
           )
         }
@@ -336,6 +432,8 @@ function MasterCard({ m }: { m: Master }) {
 
       <View style={s.mFoot}>
         <Text style={s.mDone}>{t("mob.svc.doneN", { n: m.done })}</Text>
+        {/* Masofa — manzil emas (server ustaning nuqtasini bermaydi) */}
+        {m.near?.km != null ? <Text style={s.mKm}>{t("pgAi.km", { km: m.near.km })}</Text> : null}
       </View>
     </View>
   );
@@ -514,8 +612,36 @@ const s = themed(() => ({
 
   priceNote: { fontSize: 12, color: color.mutedForeground, marginTop: 10, lineHeight: 18 },
 
-  mFoot: { marginTop: 11, paddingTop: 11, borderTopWidth: 1, borderTopColor: color.border },
+  mFoot: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 11,
+    paddingTop: 11,
+    borderTopWidth: 1,
+    borderTopColor: color.border,
+  },
   mDone: { fontSize: 12, color: color.mutedForeground },
+  mKm: { fontSize: 12, fontWeight: "700", color: color.brandText, fontVariant: ["tabular-nums"] },
+
+  nearBox: { gap: 8, marginBottom: space.sm },
+  nearRow: { flexDirection: "row", alignItems: "center", gap: 12 },
+  nearBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    height: 36,
+    paddingHorizontal: 13,
+    borderRadius: radius.control,
+    borderWidth: 1,
+    borderColor: color.brand + "66",
+    backgroundColor: color.brand + "12",
+  },
+  nearBtnOn: { backgroundColor: color.brand, borderColor: color.brand },
+  nearBtnText: { fontSize: 13, fontWeight: "700", color: color.brandText },
+  nearBtnTextOn: { color: color.card },
+  nearOff: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
+  nearHint: { fontSize: 12, lineHeight: 17, color: color.mutedForeground, marginLeft: 2 },
 
   empty: { padding: space.lg, alignItems: "center" },
   emptyText: { fontSize: 13, color: color.mutedForeground, textAlign: "center" },

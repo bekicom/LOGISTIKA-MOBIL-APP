@@ -499,6 +499,10 @@
       "actRejected": "Taklif rad etildi",
       "askPh": "Savolingizni yozing",
       "birthDate": "Tug'ilgan sana",
+      "chatConsent2": "Shaxsiy raqamlardan faqat oxirgi 4 belgisi ko'rsatiladi",
+      "chatConsent3": "Natija — AI o'qishi, tasdiqlanmagan: asl hujjat bilan solishtiring",
+      "chatConsentCamera": "Roziman — suratga olish",
+      "chatConsentText": "Rasm yoki PDF o'qish uchun OpenAI serveriga yuboriladi. U yerda saqlanmaydi va suhbat tarixiga ham yozilmaydi — faqat 📎 belgisi qoladi.",
       "checkField": "tekshiring",
       "confirm": "Tasdiqlash",
       "confirmNote": "AI amalni o'zi bajarmaydi. Siz tasdiqlaganingizdan keyin server bajaradi.",
@@ -539,6 +543,8 @@
       "resetHint": "Soatiga %{n} ta savol — chegara tiklanadi",
       "resetIn": "%{n} daqiqadan keyin",
       "retake": "Qayta suratga olish",
+      "rolKerak": "🔒 Bu amal «%{rol}» rolida ishlaydi",
+      "rolniKorish": "Rolni ko'rish",
       "saveOk": "To'g'ri — saqlash",
       "scanFailed": "O'qilmadi",
       "scanHint": "Pasport yoki pravani suratga oling — maydonlar o'zi to'ladi",
@@ -576,13 +582,15 @@
       "AI_OFF": "AI yordamchi hozircha ulanmagan",
       "BAD_KIND": "Bunday hujjat turi qo'llab-quvvatlanmaydi",
       "BAD_OUTPUT": "Rasmni o'qib bo'lmadi — qaytadan suratga oling",
-      "BAD_TYPE": "Faqat JPG, PNG yoki WEBP",
+      "BAD_TYPE": "Faqat JPG, PNG, WEBP yoki PDF",
       "NO_CONSENT": "Rasmni yuborishga rozilik berilmagan",
       "NO_FILE": "Rasm tanlanmadi",
+      "PDF_FAILED": "PDF o'qilmadi — hujjatni suratga oling",
+      "PDF_UNSUPPORTED": "PDF o'qilmadi — hujjatni suratga oling",
       "RATE_LIMIT": "Soatlik chegara tugadi. Bir ozdan keyin urinib ko'ring.",
       "SECTION_LOCKED": "AI yordamchi sizning rolingizga ochilmagan",
       "TARIFF_REQUIRED": "AI tarifingizga kirmaydi. Rolingizni tanlang yoki tarifni yangilang.",
-      "TOO_LARGE": "Rasm 10 MB dan katta",
+      "TOO_LARGE": "Fayl 10 MB dan katta",
       "UPSTREAM": "AI xizmati javob bermadi"
     },
     "aiOff": {
@@ -616,8 +624,10 @@
       "feed": "e'lonlar",
       "fleet": "park",
       "guide": "qo'llanma",
+      "image": "siz yuborgan rasm (tasdiqlanmagan)",
       "money": "moliya",
       "people": "haydovchilar",
+      "places": "yaqin joylar: FURAM va OpenStreetMap",
       "trips": "reyslar"
     },
     "aiSum": {
@@ -3685,6 +3695,39 @@
     "SALARY": "Oylik",
     "TRIP_FEE": "Reys haqi"
   },
+  "pgAi": {
+    "allMasters": "Barcha yaqin ustalar",
+    "ask": "So'rash",
+    "attach": "Rasm yoki PDF biriktirish",
+    "joyTur": {
+      "chegara": "Chegara punkti",
+      "mehmonxona": "Mehmonxona",
+      "oshxona": "Oshxona",
+      "toxtash": "To'xtash joyi",
+      "usta": "Usta",
+      "ustaxona": "Ustaxona",
+      "yoqilgi": "Yoqilg'i",
+      "zapchast": "Zapchast"
+    },
+    "km": "%{km} km",
+    "location": "Joylashuvimni yuborish",
+    "locationAdded": "📍 Joylashuvim",
+    "map": "Xarita",
+    "nearTitle": "Yaqin atrofda",
+    "open": "Ko'rish",
+    "remove": "Olib tashlash",
+    "saveDocs": "Hujjatlarimga saqlash",
+    "tarifKerak": "🔒 Bu amal uchun «%{rol}» tarifi kerak",
+    "tarifniKorish": "Tarifni ko'rish",
+    "unverified": "⚠️ AI o'qishi — tasdiqlanmagan. Asl hujjat bilan solishtiring.",
+    "voiceFailed": "Ovozni tanib bo'lmadi — qayta urinib ko'ring"
+  },
+  "pgNotifications": {
+    "aiNudgeHint": "Bo'sh mashina, javobsiz e'lon, yangi yuklar va bilmagan imkoniyatlar haqida — kuniga bittadan ko'p emas.",
+    "aiNudgeOff": "Menga bunday eslatma kerak emas",
+    "aiNudgeOffDone": "O'chirildi",
+    "aiNudgeTitle": "AI yordamchi eslatmalari"
+  },
   "pgStaff": {
     "aboutBody": "Xodim ro'yxatga faqat o'zi tasdiqlagach qo'shiladi: siz taklif havolasini yuborasiz, u ochib qabul qiladi. Bog'lanishni ikkala tomon ham istalgan payt uzadi. Ro'yxatni sizdan boshqa hech kim ko'rmaydi.",
     "aboutTitle": "Qanday ishlaydi",
@@ -3908,6 +3951,13 @@
       "vulcan": "Vulkanizatsiya",
       "welder": "Payvandchi"
     }
+  },
+  "serviceUi": {
+    "nearBusy": "Aniqlanmoqda…",
+    "nearEmpty": "%{n} km ichida usta topilmadi. Doirani kengaytiring.",
+    "nearHint": "Joyingizni bering — yaqin ustalar birinchi chiqadi. Joyingiz saqlanmaydi.",
+    "nearOff": "Bekor qilish",
+    "withinKm": "%{n} km ichida"
   },
   "sosReason": {
     "ACCIDENT": "Avariya",

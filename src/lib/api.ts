@@ -163,6 +163,9 @@ type Options = {
   /** Kirishdan oldingi so'rovlarda token bo'lmaydi */
   auth?: boolean;
   locale?: string;
+  /** Kutish chegarasi, ms. AI suhbati uzoq: vositalar zanjiri va
+      lokatsiyada tashqi xarita manbasi 15 soniyadan oshishi mumkin */
+  timeoutMs?: number;
 };
 
 export async function api<T>(path: string, opts: Options = {}): Promise<T> {
@@ -170,7 +173,7 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
      turlari va holat yorliqlarini shu sarlavhaga qarab tanlaydi
      (`furam/src/lib/locale-server.ts`). Ilgari doim "uz" ketardi va
      rus tilidagi foydalanuvchi o'zbekcha matn olardi. */
-  const { method = "GET", body, auth = true, locale = currentLocale() } = opts;
+  const { method = "GET", body, auth = true, locale = currentLocale(), timeoutMs = 15000 } = opts;
 
   const headers: Record<string, string> = {
     "X-Client": "mobile",
@@ -185,7 +188,7 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
 
   // Sekin tarmoqda cheksiz kutib qolmaslik uchun
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 15000);
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
 
   let res: Response;
   try {

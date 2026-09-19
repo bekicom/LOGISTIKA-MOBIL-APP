@@ -20,7 +20,7 @@
  * qo'rquv bilan qaror qiladi.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Platform, RefreshControl, ScrollView, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -28,10 +28,13 @@ import { Button, Header } from "@/components/ui";
 import { RolePicker, RolTanlangan } from "@/components/RolePicker";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
-import { fmtNum } from "@/components/cards";
+import { RolXaridi, XaridShartlari, XaridYoqildi } from "@/components/RolXaridi";
+import type { Joylar } from "@/components/ParkJoylari";
 import { useApi } from "@/lib/use-api";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
+import { useDokon } from "@/lib/use-xarid";
+import { mavjudmi, xaridniEshit } from "@/lib/xarid";
 import { isRoyxatRol, ROL_IKONKA, ROYXAT_ROLLARI, type RoyxatRol } from "@/lib/rollar";
 import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -56,8 +59,6 @@ type Offer = {
 
 export default function Rollarim() {
   const insets = useSafeAreaInsets();
-  /* Apple 3.1.1 — narx va to'lov yo'nalishi iOS'da ko'rsatilmaydi */
-  const iosDa = Platform.OS === "ios";
 
   const { refresh: authYangila } = useAuth();
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
@@ -67,6 +68,7 @@ export default function Rollarim() {
   }>("/api/roles");
 
   const live = data?.live ?? [];
+  const expired = data?.expired ?? [];
 
   /* ══ ROL QO'SHISH (TZ-04, 2026-09-19) ══
      Ilgari bu ekranda rolni OCHIB BO'LMASDI: Android'da narxli ro'yxat
@@ -79,19 +81,35 @@ export default function Rollarim() {
      yo'q, shuning uchun ikkala platformada bir xil. Ilgari olingan
      (muddati tugagan) rol qayta taklif qilinmaydi: server takror
      sinov bermaydi (`EXISTS`). */
-  const band = new Set([...live.map((l) => l.roleKey), ...(data?.expired ?? []).map((e) => e.roleKey)]);
+  const band = new Set([...live.map((l) => l.roleKey), ...expired.map((e) => e.roleKey)]);
   const qoshsaBoladi = ROYXAT_ROLLARI.filter((r) => !band.has(r));
-  /* Android'da narx — MA'LUMOT sifatida (Play to'lovni tashqariga
-     yo'naltirishni taqiqlaydi, narxni ko'rsatishni emas). iOS'da yo'q:
-     Apple 3.1.1 */
-  const narxlar: Partial<Record<RoyxatRol, string>> = {};
-  if (!iosDa) {
-    for (const o of data?.offers ?? []) {
-      if (isRoyxatRol(o.roleKey)) {
-        narxlar[o.roleKey] = t("mob.roles.priceDays", { sum: fmtNum(o.price), n: o.days });
-      }
-    }
-  }
+
+  /* ══ DO'KON ORQALI XARID (B1, 2026-09-19) ══
+     Amaldagi rol — «Uzaytirish», sinovdagi va tugagani — «Yoqish»
+     (webdagi `renew` / `activateTariff`). Narx faqat do'kondan
+     (`RolXaridi`); webdagi so'mlik narx ilovada KO'RSATILMAYDI — ilgari
+     Android'da rol ro'yxatida turardi, endi do'kon narxi bilan yonma-yon
+     ikki xil narx va boshqa to'lov yo'liga ishora bo'lardi. */
+  const dokon = useDokon();
+  const sotuv = dokon?.bor ? dokon : null;
+  /* Transport egasi: parkdagidan kichik paket o'chiq — sonni so'raymiz */
+  const parkSorovi = sotuv && band.has("VEHICLE_OWNER") ? "/api/fleet/seats" : null;
+  const parkda = useApi<{ seats: Joylar | null }>(parkSorovi).data?.seats?.used;
+  const [yoqildi, setYoqildi] = useState<{ roleKey: string; endsAt: string } | null>(null);
+  /* Obuna bir marta; `reload` esa har renderda yangi funksiya (`useApi`) */
+  const yangila = useRef(reload);
+  useEffect(() => {
+    yangila.current = reload;
+  });
+  useEffect(
+    () =>
+      xaridniEshit((r) => {
+        if (!r.ok) return;
+        if (r.endsAt) setYoqildi({ roleKey: r.roleKey, endsAt: r.endsAt });
+        yangila.current();
+      }),
+    [],
+  );
 
   const [tanlov, setTanlov] = useState<RoyxatRol | null>(null);
   const [ochilmoqda, setOchilmoqda] = useState(false);
@@ -230,23 +248,68 @@ export default function Rollarim() {
                           />
                         </View>
 
-                        {soon && (
-                          <>
-                            {/* TUGAGANDA NIMA BO'LADI — TZ 25-band */}
-                            <Text style={s.endNote}>{t("mob.roles.endNote")}</Text>
-                            {/* «Uzaytirish» tugmasi OLIB TASHLANDI (2026-09-17,
-                                A22): `onPress` bo'sh edi — bosilganda hech
-                                narsa bo'lmasdi. Apple 2.1 ishlamaydigan
-                                boshqaruvni rad sababi qiladi. To'lov oqimi
-                                qurilganda qaytariladi. */}
-                          </>
-                        )}
+                        {/* TUGAGANDA NIMA BO'LADI — TZ 25-band */}
+                        {soon && <Text style={s.endNote}>{t("mob.roles.endNote")}</Text>}
+
+                        {/* «Uzaytirish» 2026-09-17 da olib tashlangan edi (A22:
+                            `onPress` bo'sh — Apple 2.1). Endi do'kon orqali
+                            ishlaydi; do'kon yo'q bo'lsa tugma chizilmaydi */}
+                        {sotuv ? (
+                          <RolXaridi
+                            roleKey={r.roleKey}
+                            dokon={sotuv}
+                            rejim={trial ? "yoq" : "uzaytir"}
+                            parkda={r.roleKey === "VEHICLE_OWNER" ? parkda : undefined}
+                          />
+                        ) : null}
+                        {yoqildi?.roleKey === r.roleKey ? <XaridYoqildi endsAt={yoqildi.endsAt} /> : null}
                       </View>
                     );
                   })}
                 </View>
               </View>
             )}
+
+            {/* Tugagan rol — webdagi kabi ko'rinadi: ilgari ekranda umuman
+                yo'q edi va odam rolini «yo'qotdim» deb o'ylardi */}
+            {expired.length > 0 && (
+              <View>
+                <Text style={s.group}>{t("mob.iap.tugagan")}</Text>
+                <View style={{ gap: 9 }}>
+                  {expired.map((r) => (
+                    <View key={r.roleKey} style={[s.card, s.cardTugagan]}>
+                      <View style={s.row}>
+                        <View style={[s.icon, { backgroundColor: color.danger + "1a" }]}>
+                          <Icon
+                            name={isRoyxatRol(r.roleKey) ? ROL_IKONKA[r.roleKey] : "user"}
+                            size={21}
+                            stroke={color.danger}
+                          />
+                        </View>
+                        <Text style={[s.roleName, { flex: 1 }]}>{t(`mob.role.${r.roleKey}`)}</Text>
+                      </View>
+                      <Text style={s.endNote}>{t("mob.iap.tugaganIzoh")}</Text>
+                      {sotuv ? (
+                        <RolXaridi
+                          roleKey={r.roleKey}
+                          dokon={sotuv}
+                          rejim="yoq"
+                          parkda={r.roleKey === "VEHICLE_OWNER" ? parkda : undefined}
+                        />
+                      ) : null}
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
+
+            {/* Xarid sharti — sotuv kartalari ostida bir marta */}
+            {sotuv && live.length + expired.length > 0 ? <XaridShartlari kun={sotuv.kun} /> : null}
+            {/* Expo Go / brauzerda do'kon moduli yo'q — sinovchi tugma nega
+                yo'qligini bilsin. Do'kon buildida `__DEV__` yolg'on */}
+            {__DEV__ && !mavjudmi() && live.length + expired.length > 0 ? (
+              <Text style={s.pickHint}>{t("mob.iap.expoGo")}</Text>
+            ) : null}
 
             {qoshsaBoladi.length > 0 && (
               <View
@@ -260,14 +323,9 @@ export default function Rollarim() {
                 </Text>
                 <Text style={s.pickHint}>{t("mob.roles.noneHint")}</Text>
                 {oldindan && tanlov && !royxatOchiq ? (
-                  <RolTanlangan rol={tanlov} qator={narxlar[tanlov]} onChange={() => setRoyxatOchiq(true)} />
+                  <RolTanlangan rol={tanlov} onChange={() => setRoyxatOchiq(true)} />
                 ) : (
-                  <RolePicker
-                    value={tanlov}
-                    onChange={setTanlov}
-                    faqat={qoshsaBoladi}
-                    qoshimcha={narxlar}
-                  />
+                  <RolePicker value={tanlov} onChange={setTanlov} faqat={qoshsaBoladi} />
                 )}
                 {xato ? <Text style={s.err}>{xato}</Text> : null}
                 <View style={{ marginTop: space.md }}>
@@ -318,6 +376,7 @@ const s = themed(() => ({
     padding: space.md,
   },
   cardWarn: { borderColor: color.warning + "66" },
+  cardTugagan: { borderColor: color.danger + "4d" },
 
   row: { flexDirection: "row", alignItems: "center", gap: 11 },
   icon: { width: 42, height: 42, borderRadius: 12, alignItems: "center", justifyContent: "center" },
@@ -327,8 +386,6 @@ const s = themed(() => ({
   bar: { height: 5, borderRadius: 3, backgroundColor: color.muted, marginTop: 11, overflow: "hidden" },
   barFill: { height: "100%", borderRadius: 3 },
   endNote: { fontSize: 12, color: color.mutedForeground, marginTop: 9, lineHeight: 18 },
-
-
 
   note: {
     flexDirection: "row",

@@ -18,6 +18,7 @@ import { OfflineBar } from "@/components/OfflineBar";
 import { PushAsk } from "@/components/PushAsk";
 import { IntroVideo } from "@/components/IntroVideo";
 import { useOutboxRunner } from "@/lib/use-outbox";
+import { useXaridKuzatuvchi } from "@/lib/use-xarid";
 import { color, themeName } from "@/lib/theme";
 import { deviceLocale, readLocale, setLocale, useLocaleVersion } from "@/lib/i18n";
 import { loadTheme, useThemeVersion } from "@/lib/theme-store";
@@ -107,6 +108,9 @@ export default function RootLayout() {
 function Shell() {
   const { online } = useOutboxRunner();
   usePushTap();
+  /* Do'kon xaridi: natija qaysi ekranda kelsa ham serverga yetsin,
+     yakunlanmagani ilova ochilganda qayta yuborilsin (`xarid.ts`) */
+  useXaridKuzatuvchi();
   return (
     <>
       <OfflineBar online={online} />

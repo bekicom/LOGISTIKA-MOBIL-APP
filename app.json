@@ -138,6 +138,7 @@
       "expo-web-browser",
       "expo-apple-authentication",
       "expo-video",
+      "expo-iap",
       "./plugins/withoutBackgroundFetch"
     ],
     "experiments": {

@@ -1546,7 +1546,6 @@
     },
     "home": {
       "activeTrips": "Aktif seferler",
-      "border": "Sınır",
       "docExpiringHint": "Sınırda sorun yaşamamak için yenileyin",
       "docExpiringN": "%{n} belgenin süresi doluyor",
       "findLoad": "Yük bul",
@@ -1559,7 +1558,6 @@
       "recentChats": "Son sohbetler",
       "searchHint": "Güzergâh, araç tipi, tarih",
       "searchTitle": "Yük ara",
-      "sos": "SOS",
       "suggested": "Size uygun yükler",
       "todayOk": "Bugün her şey yolunda",
       "todayProblems": "Bugün %{n} iş ilgi bekliyor",
@@ -3722,6 +3720,9 @@
     "unverified": "⚠️ Yapay zekâ okudu — doğrulanmadı. Asıl belgeyle karşılaştırın.",
     "voiceFailed": "Ses tanınamadı — tekrar deneyin"
   },
+  "pgHome": {
+    "quickMore": "Daha fazla"
+  },
   "pgNotifications": {
     "aiNudgeHint": "Boş araç, yanıtsız ilan, yeni yükler ve bilmediğiniz özellikler hakkında — günde en fazla bir kez.",
     "aiNudgeOff": "Bu hatırlatmalara ihtiyacım yok",
@@ -3851,6 +3852,25 @@
     "volumeM3": "Hacim",
     "workHours": "Çalışma saatleri",
     "year": "Üretim yılı"
+  },
+  "quick": {
+    "addCargo": "Yük ekle",
+    "addVehicle": "Araç ekle",
+    "contract": "Sözleşme",
+    "findDriver": "Sürücü bul",
+    "findJob": "İş bul",
+    "findLoad": "Yük bul",
+    "findTruck": "Araç bul",
+    "getQueue": "Sıra al",
+    "greeting": "Merhaba",
+    "newTrip": "Sefer oluştur",
+    "panel": "Panel",
+    "postFreeTruck": "Boş araç ilanı",
+    "postJob": "İlan ver",
+    "postLoad": "Yük ilanı ver",
+    "postTruck": "Boş araç ilanı",
+    "report": "Rapor",
+    "welcome": "Hoş geldiniz"
   },
   "rejectReason": {
     "DATE": "Tarih uygun değil",

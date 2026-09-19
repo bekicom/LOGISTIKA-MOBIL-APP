@@ -350,6 +350,8 @@ export type TripItem = {
   cargo?: string | null;
   plate?: string | null; driver?: string | null;
   remainingKm?: number | null; etaAt?: string | null; placeName?: string | null;
+  /** Yo'lda (boshlangan) — SOS faqat shunda (`/api/home`) */
+  isLive?: boolean;
 };
 
 export function TripCard({

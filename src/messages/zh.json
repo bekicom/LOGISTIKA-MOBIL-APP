@@ -1546,7 +1546,6 @@
     },
     "home": {
       "activeTrips": "进行中的运单",
-      "border": "边境",
       "docExpiringHint": "请及时更新，以免在边境受阻",
       "docExpiringN": "%{n} 份单证即将到期",
       "findLoad": "寻找货源",
@@ -1559,7 +1558,6 @@
       "recentChats": "最近的聊天",
       "searchHint": "路线、车型、日期",
       "searchTitle": "查找货物",
-      "sos": "SOS",
       "suggested": "为您匹配的货源",
       "todayOk": "今天一切正常",
       "todayProblems": "今天有 %{n} 项事务需要关注",
@@ -3722,6 +3720,9 @@
     "unverified": "⚠️ AI识别——未经核实。请与原件核对。",
     "voiceFailed": "无法识别语音——请重试"
   },
+  "pgHome": {
+    "quickMore": "更多"
+  },
   "pgNotifications": {
     "aiNudgeHint": "关于车辆闲置、无人回应的信息、新货源和您未用过的功能——每天最多一次。",
     "aiNudgeOff": "我不需要此类提醒",
@@ -3851,6 +3852,25 @@
     "volumeM3": "容积",
     "workHours": "营业时间",
     "year": "出厂年份"
+  },
+  "quick": {
+    "addCargo": "添加货物",
+    "addVehicle": "添加车辆",
+    "contract": "合同",
+    "findDriver": "寻找司机",
+    "findJob": "找工作",
+    "findLoad": "寻找货源",
+    "findTruck": "寻找车辆",
+    "getQueue": "预约排队",
+    "greeting": "您好",
+    "newTrip": "创建运单",
+    "panel": "面板",
+    "postFreeTruck": "发布空车信息",
+    "postJob": "发布招聘",
+    "postLoad": "发布货源",
+    "postTruck": "发布空车",
+    "report": "报表",
+    "welcome": "欢迎"
   },
   "rejectReason": {
     "DATE": "日期不合适",

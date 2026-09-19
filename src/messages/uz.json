@@ -1546,7 +1546,6 @@
     },
     "home": {
       "activeTrips": "Faol reyslar",
-      "border": "Chegara",
       "docExpiringHint": "Chegarada muammo bo'lmasligi uchun yangilang",
       "docExpiringN": "%{n} ta hujjat muddati tugayapti",
       "findLoad": "Yuk topish",
@@ -1559,7 +1558,6 @@
       "recentChats": "So'nggi suhbatlar",
       "searchHint": "Yo'nalish, transport turi, sana",
       "searchTitle": "Yuk qidirish",
-      "sos": "SOS",
       "suggested": "Sizga mos yuklar",
       "todayOk": "Bugun hammasi joyida",
       "todayProblems": "Bugun %{n} ta ish diqqat talab qiladi",
@@ -3722,6 +3720,9 @@
     "unverified": "⚠️ AI o'qishi — tasdiqlanmagan. Asl hujjat bilan solishtiring.",
     "voiceFailed": "Ovozni tanib bo'lmadi — qayta urinib ko'ring"
   },
+  "pgHome": {
+    "quickMore": "Yana"
+  },
   "pgNotifications": {
     "aiNudgeHint": "Bo'sh mashina, javobsiz e'lon, yangi yuklar va bilmagan imkoniyatlar haqida — kuniga bittadan ko'p emas.",
     "aiNudgeOff": "Menga bunday eslatma kerak emas",
@@ -3851,6 +3852,25 @@
     "volumeM3": "Hajmi",
     "workHours": "Ish vaqti",
     "year": "Ishlab chiqarilgan yili"
+  },
+  "quick": {
+    "addCargo": "Yuk qo'shish",
+    "addVehicle": "Mashina qo'shish",
+    "contract": "Shartnoma",
+    "findDriver": "Haydovchi qidirish",
+    "findJob": "Ish qidirish",
+    "findLoad": "Yuk qidirish",
+    "findTruck": "Transport topish",
+    "getQueue": "Navbat olish",
+    "greeting": "Assalomu alaykum",
+    "newTrip": "Reys yaratish",
+    "panel": "Panel",
+    "postFreeTruck": "Bo'sh transport e'loni",
+    "postJob": "Ish joylash",
+    "postLoad": "Yuk qo'yish",
+    "postTruck": "Bo'sh transport e'loni",
+    "report": "Hisobot",
+    "welcome": "Xush kelibsiz"
   },
   "rejectReason": {
     "DATE": "Sana mos emas",

@@ -104,8 +104,18 @@ export function SosCard({
 
 /* ─────────────────────────────────────────────── tugma + varaq */
 
-export function SosButton({ tripId, onSent }: { tripId: string; onSent: () => void }) {
-  const [open, setOpen] = useState(false);
+export function SosButton({
+  tripId,
+  onSent,
+  boshlab = false,
+}: {
+  tripId: string;
+  onSent: () => void;
+  /** Bosh sahifadagi SOS dan kelinganda varaq OCHIQ holda boshlanadi —
+      odam SOS ni ikkinchi marta qidirib o'tirmasin (TZ-05) */
+  boshlab?: boolean;
+}) {
+  const [open, setOpen] = useState(boshlab);
   const [holding, setHolding] = useState(false);
   const [silent, setSilent] = useState(false);
   const [reason, setReason] = useState<string>("BREAKDOWN");

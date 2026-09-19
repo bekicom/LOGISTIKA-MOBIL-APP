@@ -12,6 +12,14 @@
  *
  * Dispetcher salomlashuvi kodda o'zbekcha qotib qolgan edi
  * («Salom, … Bugun hammasi joyida») — lug'atga ko'chdi.
+ *
+ * ── TZ-05: BESH ASOSIY VA ROLGA XOS QATOR (2026-09-19) ──────────
+ *
+ * Salomlashishdan keyin — hamma rolda bir xil besh tugma, ostida
+ * rolning o'z tugmalari (`/api/home` → `quick`, web bilan bitta
+ * manba). Ilgari faqat haydovchida to'rtta qattiq yozilgan tugma bor
+ * edi, SOS esa bosilmasdi. SOS endi faol reys kartasi ostida — faqat
+ * reys yo'lda bo'lganda (reys ekranidagi shart bilan bir xil).
  */
 import { useEffect } from "react";
 import { Pressable, RefreshControl, ScrollView, View } from "react-native";
@@ -28,6 +36,8 @@ import { FxStrip, StartHere } from "@/components/HomeStart";
 import { TodayCard } from "@/components/TodayCard";
 import { TourPanel } from "@/components/TourPanel";
 import { HomeMap } from "@/components/HomeMap";
+import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
+import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -39,6 +49,8 @@ type Home =
       unreadNotifications: number;
       expiringDocuments: number;
       activeTrips: TripItem[];
+      /** Rolga xos tezkor tugmalar (TZ-05); eski serverda yo'q */
+      quick?: TezkorTugma[];
       suggestedLoads: Listing[];
     }
   | {
@@ -47,8 +59,10 @@ type Home =
       unreadNotifications: number;
       expiringDocuments: number;
       activeTrips: TripItem[];
+      quick?: TezkorTugma[];
       counts: { liveTrips: number; problems: number; awaitingReply: number; expiringDocuments: number };
-      recentChats: { id: string; name: string; lastMessage: string | null; lastAt: string }[];
+      /** `name: null` — ismsiz suhbat, ilova o'z tilida yozadi */
+      recentChats: { id: string; name: string | null; lastMessage: string | null; lastAt: string }[];
     };
 
 export default function Bosh() {
@@ -110,6 +124,11 @@ export default function Bosh() {
           />
         ) : null}
 
+        {/* Besh asosiy tugma — hamma rolda, ma'lumot kutmaydi (TZ-05) */}
+        <AsosiyTugmalar />
+        {/* Rolning o'z tugmalari — serverdan (web bilan bitta jadval) */}
+        {data?.quick?.length ? <RolTugmalari quick={data.quick} /> : null}
+
         {/* «Bugun siz uchun» — kurs USTIDA: bu vazifa, kurs esa
             ma'lumot. Vazifa bo'lmasa kartochka umuman chizilmaydi. */}
         <TodayCard />
@@ -130,7 +149,11 @@ export default function Bosh() {
         <HomeMap />
 
         {data?.kind === "dispatcher" ? (
-          <Dispatcher data={data} onTrip={(tid) => router.push(`/reys/${tid}`)} />
+          <Dispatcher
+            data={data}
+            onTrip={(tid) => router.push(`/reys/${tid}`)}
+            onChat={(cid) => router.push(`/suhbat/${cid}`)}
+          />
         ) : null}
 
         {data?.kind === "driver" ? (
@@ -139,9 +162,8 @@ export default function Bosh() {
             onLoads={() => router.push("/yuklar")}
             onSearch={() => router.push({ pathname: "/yuklar", params: { filtr: "1" } })}
             onTrip={(tid) => router.push(`/reys/${tid}`)}
+            onSos={(tid) => router.push({ pathname: "/reys/[id]", params: { id: tid, sos: "1" } })}
             onLoad={(lid) => router.push(`/yuk/${lid}`)}
-            onPark={() => router.push("/parkim")}
-            onQueue={() => router.push("/navbat")}
             onDocs={() => router.push("/hujjatlarim")}
           />
         ) : null}
@@ -170,14 +192,13 @@ function Hello({ name, sub, warn }: { name: string; sub: string; warn: boolean }
 
 /* ─────────────────────────────────────────────── haydovchi */
 
-function Driver({ data, onLoads, onSearch, onTrip, onLoad, onPark, onQueue, onDocs }: {
+function Driver({ data, onLoads, onSearch, onTrip, onSos, onLoad, onDocs }: {
   data: Extract<Home, { kind: "driver" }>;
   onLoads: () => void;
   onSearch: () => void;
   onTrip: (id: string) => void;
+  onSos: (id: string) => void;
   onLoad: (id: string) => void;
-  onPark: () => void;
-  onQueue: () => void;
   onDocs: () => void;
 }) {
   const trip = data.activeTrips[0] ?? null;
@@ -199,7 +220,21 @@ function Driver({ data, onLoads, onSearch, onTrip, onLoad, onPark, onQueue, onDo
       </Pressable>
 
       {trip ? (
-        <TripCard item={trip} onPress={() => onTrip(trip.id)} />
+        <>
+          <TripCard item={trip} onPress={() => onTrip(trip.id)} />
+          {/* SOS — reys ekranini varaq OCHIQ holda ochadi. Ilgari bu yerda
+              bosilmaydigan SOS katagi turardi (Apple 2.1) */}
+          {trip.isLive ? (
+            <Pressable
+              onPress={() => onSos(trip.id)}
+              accessibilityRole="button"
+              style={({ pressed }) => [s.sos, pressed && { opacity: 0.85 }]}
+            >
+              <Icon name="alert" size={18} stroke={color.danger} />
+              <Text style={s.sosText}>{t("mob.sos.btn")}</Text>
+            </Pressable>
+          ) : null}
+        </>
       ) : (
         <Empty
           icon="route"
@@ -209,14 +244,6 @@ function Driver({ data, onLoads, onSearch, onTrip, onLoad, onPark, onQueue, onDo
           onAction={onLoads}
         />
       )}
-
-      {/* Tez harakatlar */}
-      <View style={s.quick}>
-        <QuickAction icon="package" label={t("mob.home.findLoad")} tint={color.brand} bg={color.brandSoft} onPress={onLoads} />
-        <QuickAction icon="truck" label={t("mob.park.title")} tint={color.blue} bg={color.blueSoft} onPress={onPark} />
-        <QuickAction icon="border" label={t("mob.home.border")} tint={color.warning} bg={color.warningSoft} onPress={onQueue} />
-        <QuickAction icon="alert" label={t("mob.home.sos")} tint={color.danger} bg={color.dangerSoft} />
-      </View>
 
       {data.expiringDocuments > 0 ? (
         <Pressable onPress={onDocs} style={({ pressed }) => [s.alert, pressed && { opacity: 0.85 }]}>
@@ -252,9 +279,10 @@ function Driver({ data, onLoads, onSearch, onTrip, onLoad, onPark, onQueue, onDo
 
 /* ─────────────────────────────────────────────── dispetcher */
 
-function Dispatcher({ data, onTrip }: {
+function Dispatcher({ data, onTrip, onChat }: {
   data: Extract<Home, { kind: "dispatcher" }>;
   onTrip: (id: string) => void;
+  onChat: (id: string) => void;
 }) {
   const c = data.counts;
   return (
@@ -281,19 +309,29 @@ function Dispatcher({ data, onTrip }: {
         <View style={{ gap: space.md }}>
           <Text style={s.sectionTitle}>{t("mob.home.recentChats")}</Text>
           <View style={s.list}>
-            {data.recentChats.map((ch, i) => (
-              <View key={ch.id} style={[s.chatRow, i > 0 && s.divider]}>
-                <View style={s.chatAvatar}>
-                  <Text style={s.chatAvatarText}>{ch.name.slice(0, 2).toUpperCase()}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.chatName} numberOfLines={1}>{ch.name}</Text>
-                  {ch.lastMessage ? (
-                    <Text style={s.chatMsg} numberOfLines={1}>{ch.lastMessage}</Text>
-                  ) : null}
-                </View>
-              </View>
-            ))}
+            {data.recentChats.map((ch, i) => {
+              /* Ilgari qator bosilmasdi — suhbatni chatlar ro'yxatidan qayta
+                 qidirish kerak edi */
+              const nomi = ch.name ?? t("mob.chat.conversation");
+              return (
+                <Pressable
+                  key={ch.id}
+                  onPress={() => onChat(ch.id)}
+                  accessibilityRole="button"
+                  style={({ pressed }) => [s.chatRow, i > 0 && s.divider, pressed && { opacity: 0.7 }]}
+                >
+                  <View style={s.chatAvatar}>
+                    <Text style={s.chatAvatarText}>{nomi.slice(0, 2).toUpperCase()}</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={s.chatName} numberOfLines={1}>{nomi}</Text>
+                    {ch.lastMessage ? (
+                      <Text style={s.chatMsg} numberOfLines={1}>{ch.lastMessage}</Text>
+                    ) : null}
+                  </View>
+                </Pressable>
+              );
+            })}
           </View>
         </View>
       ) : null}
@@ -317,19 +355,6 @@ function Tile({ icon, label, value, tint, bg, hot }: {
       <Text style={[s.tileValue, alert && { color: tint }]}>{value}</Text>
       <Text style={s.tileLabel} numberOfLines={1}>{label}</Text>
     </View>
-  );
-}
-
-function QuickAction({ icon, label, tint, bg, onPress }: {
-  icon: IconName; label: string; tint: string; bg: string; onPress?: () => void;
-}) {
-  return (
-    <Pressable onPress={onPress} style={({ pressed }) => [s.quickItem, pressed && { opacity: 0.6 }]}>
-      <View style={[s.quickIcon, { backgroundColor: bg }]}>
-        <Icon name={icon} size={22} stroke={tint} />
-      </View>
-      <Text style={s.quickLabel} numberOfLines={1}>{label}</Text>
-    </Pressable>
   );
 }
 
@@ -377,13 +402,12 @@ const s = themed(() => ({
   tileValue: { fontSize: 28, fontWeight: "800", color: color.foreground, marginTop: 10, letterSpacing: -0.5 },
   tileLabel: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
-  quick: { flexDirection: "row", gap: 9 },
-  quickItem: {
-    flex: 1, backgroundColor: color.card, borderRadius: radius.card,
-    paddingVertical: 12, paddingHorizontal: 4, alignItems: "center", gap: 8, ...shadow.card,
+  sos: {
+    flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
+    paddingVertical: 12, borderRadius: radius.card,
+    borderWidth: 1.5, borderColor: color.danger + "55", backgroundColor: color.dangerSoft,
   },
-  quickIcon: { width: 44, height: 44, borderRadius: 14, alignItems: "center", justifyContent: "center" },
-  quickLabel: { fontSize: 11.5, fontWeight: "600", color: color.foreground, textAlign: "center" },
+  sosText: { fontSize: 15, fontWeight: "800", color: color.danger, letterSpacing: 0.3 },
 
   alert: {
     backgroundColor: color.warningSoft, borderRadius: radius.card,

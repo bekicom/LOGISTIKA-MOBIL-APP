@@ -83,7 +83,8 @@ function action(status: string): string {
 }
 
 export default function ReysTafsiloti() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  /* `sos=1` — bosh sahifadagi SOS tugmasidan (varaq ochiq boshlanadi) */
+  const { id, sos } = useLocalSearchParams<{ id: string; sos?: string }>();
   const [sheet, setSheet] = useState(false);
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -313,7 +314,7 @@ export default function ReysTafsiloti() {
           {/* SOS faqat yo'ldagi reysda va ochig'i bo'lmasa */}
           {data.isLive && !data.sos ? (
             <View style={{ marginTop: 9 }}>
-              <SosButton tripId={String(id)} onSent={reload} />
+              <SosButton tripId={String(id)} onSent={reload} boshlab={sos === "1"} />
             </View>
           ) : null}
         </View>

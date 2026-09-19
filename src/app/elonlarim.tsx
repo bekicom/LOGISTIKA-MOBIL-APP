@@ -14,7 +14,7 @@ import { useState } from "react";
 import { Image, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Segment } from "@/components/Segment";
@@ -56,7 +56,11 @@ type Feed = { loads: Item[]; trucks: Item[] };
 export default function Elonlarim() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const [tab, setTab] = useState<"loads" | "trucks">("loads");
+  /* «Transportlarim» (TZ-05) shu ekranni transport yorlig'ida ochadi */
+  /* `yorliq` — `tab` EMAS: `tab` serverga ketadigan yorliqlar uchun band
+     (`test-tabs-mobile.ts` ularni server ro'yxati bilan solishtiradi) */
+  const { yorliq: boshlanish } = useLocalSearchParams<{ yorliq?: string }>();
+  const [tab, setTab] = useState<"loads" | "trucks">(boshlanish === "trucks" ? "trucks" : "loads");
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 

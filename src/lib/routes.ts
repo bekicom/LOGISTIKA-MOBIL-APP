@@ -36,8 +36,11 @@ const MAP: Record<string, string> = {
   market: "/bozor",
   "my-loads": "/elonlarim",
   /* «Transportlarim» — transport E'LONLARI (TZ-05, 2026-09-18). Ilgari
-     parkka olib borardi: webda aynan shu chalkashlik tuzatilgan edi. */
-  "my-trucks": "/elonlarim",
+     parkka olib borardi: webda aynan shu chalkashlik tuzatilgan edi.
+     Transport yorlig'i OCHIQ holda (2026-09-19): «Yuklarim» va
+     «Transportlarim» bosh sahifada yonma-yon turadi — ikkalasi bitta
+     yorliqni ochsa, biri ortiqcha bo'lardi */
+  "my-trucks": "/elonlarim?yorliq=trucks",
   notifications: "/bildirishnomalar",
   panel: "/panelim",
   parts: "/zapchast",
@@ -76,6 +79,12 @@ const EXACT: Record<string, string> = {
   "profile/documents": "/hujjatlarim",
   "profile/qidiruvlar": "/saqlangan-qidiruv",
   "profile/support": "/yordam",
+  /* Rolga xos tezkor tugmalar (TZ-05): «Haydovchilar» — xodimlar ekrani
+     (haydovchi 2026-09-05 dan u yerda boshqariladi), «Haydovchi
+     qidirish» — ish beruvchi paneli (vakansiyalar). Ilgari ikkalasi ham
+     Parkimga tushardi */
+  "fleet/drivers": "/xodimlarim",
+  "fleet/vacancies": "/ish-beruvchi",
 };
 
 /**
@@ -125,7 +134,12 @@ export function webToApp(href: string): string | null {
      to'liq satr jadvaldan qidirilgani uchun `/loads?fromId=12` HECH
      NARSA topmay, tugma hech qayerga olib bormasdi. */
   const [bosh, qism = ""] = href.split("#")[0].split("?");
-  const target = yol(bosh.replace(/^\/+/, "").replace(/\/+$/, ""));
+  const toza = bosh.replace(/^\/+/, "").replace(/\/+$/, "");
+  /* «Mashina qo'shish» (TZ-05): webda Parkim sahifasi forma ochiq holda,
+     ilovada — alohida qo'shish ekrani. Ikkala tugma bitta ro'yxatga
+     tushsa, «qo'shish» bosilganini odam sezmasdi */
+  if (toza === "fleet" && new URLSearchParams(qism).get("add") === "1") return "/parkim/qoshish";
+  const target = yol(toza);
   if (!target) return null;
   const ruxsat = PARAMS[target];
   if (!ruxsat || !qism) return target;

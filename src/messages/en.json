@@ -1546,7 +1546,6 @@
     },
     "home": {
       "activeTrips": "Active trips",
-      "border": "Border",
       "docExpiringHint": "Renew them to avoid problems at the border",
       "docExpiringN": "%{n} documents are expiring",
       "findLoad": "Find cargo",
@@ -1559,7 +1558,6 @@
       "recentChats": "Recent chats",
       "searchHint": "Route, vehicle type, date",
       "searchTitle": "Find a load",
-      "sos": "SOS",
       "suggested": "Cargo that suits you",
       "todayOk": "All good today",
       "todayProblems": "%{n} things need attention today",
@@ -3722,6 +3720,9 @@
     "unverified": "⚠️ Read by AI — not verified. Check against the original.",
     "voiceFailed": "Couldn't recognise the voice — try again"
   },
+  "pgHome": {
+    "quickMore": "More"
+  },
   "pgNotifications": {
     "aiNudgeHint": "About an idle truck, a listing with no replies, new loads and features you haven't tried — at most once a day.",
     "aiNudgeOff": "I don't need these reminders",
@@ -3851,6 +3852,25 @@
     "volumeM3": "Volume",
     "workHours": "Working hours",
     "year": "Year of manufacture"
+  },
+  "quick": {
+    "addCargo": "Add cargo",
+    "addVehicle": "Add a vehicle",
+    "contract": "Contract",
+    "findDriver": "Find a driver",
+    "findJob": "Find work",
+    "findLoad": "Find cargo",
+    "findTruck": "Find a truck",
+    "getQueue": "Book a queue slot",
+    "greeting": "Hello",
+    "newTrip": "Create a trip",
+    "panel": "Panel",
+    "postFreeTruck": "Post free truck",
+    "postJob": "Post a vacancy",
+    "postLoad": "Post cargo",
+    "postTruck": "Post free truck",
+    "report": "Report",
+    "welcome": "Welcome"
   },
   "rejectReason": {
     "DATE": "The date doesn't work",

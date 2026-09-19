@@ -3,7 +3,7 @@ import { flushCrashes, installErrorLog } from "@/lib/error-log";
 import { Stack, useRouter } from "expo-router";
 import * as Notifications from "expo-notifications";
 import { StatusBar } from "expo-status-bar";
-import { Platform } from "react-native";
+import { AppState, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   Manrope_400Regular,
@@ -24,6 +24,13 @@ import { deviceLocale, readLocale, setLocale, useLocaleVersion } from "@/lib/i18
 import { loadTheme, useThemeVersion } from "@/lib/theme-store";
 import { markSplashDone } from "@/lib/first-run";
 import { routeOf } from "@/lib/push";
+/* STATIK import — shu bilan `furam-gps` fon vazifasi ilova ishga
+   tushishi bilan e'lon qilinadi (`TaskManager.defineTask`). Ilgari
+   `gps.ts` faqat reys ekrani ochilganda yuklanardi (route'lar dangasa
+   yuklanadi): tizim tiklagan vazifaga nuqta kelganda `expo-task-manager`
+   uni «e'lon qilinmagan» deb O'CHIRIB YUBORARDI (TaskManager.js) va
+   kuzatuv reys oxirigacha jimgina to'xtardi. */
+import { tikla } from "@/lib/gps";
 
 /* Ushlanmagan xato serverga boradi (poydevor, 2026-09-07).
    MODUL DARAJASIDA: `useEffect` ichida qo'ysak, ilova
@@ -111,6 +118,7 @@ function Shell() {
   /* Do'kon xaridi: natija qaysi ekranda kelsa ham serverga yetsin,
      yakunlanmagani ilova ochilganda qayta yuborilsin (`xarid.ts`) */
   useXaridKuzatuvchi();
+  useGpsTiklash();
   return (
     <>
       <OfflineBar online={online} />
@@ -154,6 +162,22 @@ function Shell() {
    ya'ni hook tartibi buzilmaydi. */
 const useLastResponse: typeof Notifications.useLastNotificationResponse =
   Platform.OS === "web" ? () => undefined : Notifications.useLastNotificationResponse;
+
+/**
+ * Reys kuzatuvini tiklash — ilova har old planga chiqqanda urinadi,
+ * jarayonda bir marta ishlaydi (`gps.ts:tikla`). Tizim ilovani
+ * o'ldirgan bo'lsa, foreground service shu yerda qayta yoqiladi.
+ */
+function useGpsTiklash() {
+  useEffect(() => {
+    const urin = () => void tikla().catch(() => null);
+    if (AppState.currentState === "active") urin();
+    const sub = AppState.addEventListener("change", (holat) => {
+      if (holat === "active") urin();
+    });
+    return () => sub.remove();
+  }, []);
+}
 
 function usePushTap() {
   const router = useRouter();

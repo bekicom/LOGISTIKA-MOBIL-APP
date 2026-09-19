@@ -1,8 +1,6 @@
 {
   "ios": {
-    "NSLocationWhenInUseUsageDescription": "Konumunuz haritada ve AI asistanında yakındaki yükleri, servisleri, akaryakıt istasyonlarını ve park yerlerini göstermek, sohbette veya SOS'ta konumunuzu paylaşmak ve sefer sırasında rotayı yük sahibine göstermek için kullanılır.",
-    "NSLocationAlwaysAndWhenInUseUsageDescription": "Aktif sefer sırasında uygulama kapalıyken veya kullanılmıyorken bile rotanız kaydedilir ve yük sahibine ve dispeçere gösterilir. Sefer kapatıldığında veya siz durdurduğunuzda kayıt durur.",
-    "NSLocationAlwaysUsageDescription": "Aktif sefer sırasında uygulama kapalıyken veya kullanılmıyorken bile rotanız kaydedilir ve yük sahibine ve dispeçere gösterilir. Sefer kapatıldığında veya siz durdurduğunuzda kayıt durur.",
+    "NSLocationWhenInUseUsageDescription": "Konumunuz haritada ve AI asistanında yakındaki yükleri, servisleri, akaryakıt istasyonlarını ve park yerlerini göstermek, sohbette veya SOS'ta konumunuzu paylaşmak için kullanılır. Aktif sefer sırasında rotanız uygulama arka plandayken de kaydedilir ve yük sahibine ve dispeçere gösterilir; sefer kapatıldığında veya siz durdurduğunuzda kayıt durur.",
     "NSCameraUsageDescription": "Belge, fiş, yük ve araç fotoğrafı çekmek ve belge taramak için kullanılır. Taranan belge, metni okumak için bir yapay zekâ hizmetine gönderilir.",
     "NSPhotoLibraryUsageDescription": "Galeriden belge, fiş ve ilan fotoğrafı seçip göndermek için kullanılır. Yalnızca seçtiğiniz fotoğraflara erişilir.",
     "NSMicrophoneUsageDescription": "Sohbette sesli mesaj kaydetmek ve ustaya sorunu sesle anlatmak için kullanılır. Kayıt, metne dönüştürülmek üzere bir yapay zekâ hizmetine gönderilebilir."

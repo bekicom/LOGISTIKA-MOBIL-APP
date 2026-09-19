@@ -272,26 +272,30 @@ function options(mode: GpsMode, texts: FgTexts): Location.LocationTaskOptions {
  * «Sozlamalarni ochish» ko'rsatadi — ya'ni YANGI haydovchi ruxsat
  * berish tugmasiga umuman yetolmasdi va GPS kuzatuvni yoqa olmasdi.
  */
-export type PermState = "granted" | "foregroundOnly" | "denied" | "undetermined";
+export type PermState = "granted" | "denied" | "undetermined";
 
-/**
- * Ruxsat IKKI BOSQICHDA so'raladi (TZ §6.3).
- *
- * Birdan «doim» so'ralmaydi: tizim oynasi darrov chiqadi va odam
- * nima uchun kerakligini bilmay rad etadi. Rad javobdan keyin uni
- * qayta so'rab bo'lmaydi — sozlamaga kirish kerak, ya'ni bitta
- * noto'g'ri so'rov kuzatuvni butunlay yo'qotadi.
- */
+/* ── FAQAT «ILOVA OCHIQ PAYTDA» RUXSATI (2026-09-19, B2 qarori) ──
+
+   «Doim» (fon joylashuvi) SO'RALMAYDI. Kuzatuv reys ekranidagi tugma
+   bilan, ilova ochiq paytda boshlanadi va keyin ham ishlaydi:
+     Android — joylashuv turidagi foreground service (bildirishnoma
+               bilan); `expo-location` buni fon ruxsatisiz yuritadi
+               (`LocationModule.kt` startLocationUpdatesAsync, 2-yo'l)
+     iOS     — «When In Use» + `UIBackgroundModes: location`; fonda
+               ekran tepasida joylashuv belgisi chiqadi
+   Ya'ni ekran o'chiq, telefon cho'ntakda yoki boshqa ilova ochiq
+   bo'lsa ham yo'l yoziladi.
+
+   Fon ruxsati faqat tizim ilovani O'LDIRGANDAN keyin yordam berardi,
+   u ham to'liq emas: `expo-location` servisni fonda qayta yoqa olmaydi
+   (`LocationTaskConsumer.maybeStartForegroundService`), nuqtalar
+   Android'ning fon chegarasi bilan soatiga bir necha marta kelardi.
+   Evaziga — Play'da alohida deklaratsiya va qattiq tekshiruv, Android
+   11+ da haydovchi sozlamalarga kirib «Har doim» ni o'zi tanlashi.
+   O'ldirilgan kuzatuv ilova qayta ochilganda tiklanadi (`tikla`). */
 export async function askForeground(): Promise<boolean> {
   const { granted } = await Location.requestForegroundPermissionsAsync();
   return granted;
-}
-
-export async function askBackground(): Promise<PermState> {
-  const fg = await Location.getForegroundPermissionsAsync();
-  if (!fg.granted) return fg.canAskAgain ? "undetermined" : "denied";
-  const bg = await Location.requestBackgroundPermissionsAsync();
-  return bg.granted ? "granted" : "foregroundOnly";
 }
 
 export async function permState(): Promise<PermState> {
@@ -299,10 +303,19 @@ export async function permState(): Promise<PermState> {
   /* `canAskAgain` — tizim oynasi yana chiqa oladimi. iOS'da bir marta
      rad etilgach `false`; Android'da «boshqa so'ramang» tanlanguncha
      `true`. Faqat qayta so'rab bo'lmasa — sozlamalarga yuboramiz. */
-  if (!fg.granted) return fg.canAskAgain ? "undetermined" : "denied";
-  const bg = await Location.getBackgroundPermissionsAsync();
-  return bg.granted ? "granted" : "foregroundOnly";
+  if (fg.granted) return "granted";
+  return fg.canAskAgain ? "undetermined" : "denied";
 }
+
+/**
+ * Izoh ekrani ko'rilganmi (2026-09-17, A15; 2026-09-19 dan bir marta).
+ *
+ * Joylashuvga xarita yoki chatda ruxsat bergan odam ham reys
+ * kuzatuvidan OLDIN izohni bir marta o'qiydi: nima yoziladi, kimga
+ * ko'rinadi, qachon to'xtaydi. Keyingi reyslarda — darrov boshlanadi.
+ */
+export const izohKorildi = async () => (await stateGet("izoh")) === "1";
+export const izohniBelgila = () => stateSet("izoh", "1");
 
 /**
  * Android'da doimiy kuzatuv bildirishnomasi KO'RINISHI uchun ruxsat
@@ -328,6 +341,30 @@ export async function ensureTrackingNotice(): Promise<void> {
 
 export async function isRunning(): Promise<boolean> {
   return TaskManager.isTaskRegisteredAsync(GPS_TASK).catch(() => false);
+}
+
+/**
+ * Ilova old planga chiqqanda kuzatuvni TIKLASH (2026-09-19).
+ *
+ * Tizim ilovani o'ldirsa, `expo-task-manager` vazifani keyingi ishga
+ * tushishda o'zi tiklaydi — lekin foreground service faqat ilova OLDDA
+ * bo'lsa yoqiladi, tiklash esa undan oldin bo'lishi mumkin. Natija:
+ * reys ekranida «kuzatuv yoqilgan», aslida ilova yopilishi bilan yozish
+ * to'xtardi. Vazifa qayta ro'yxatdan o'tkaziladi (`setOptions`) — servis
+ * yo'q bo'lsa yoqiladi, bor bo'lsa hech narsa o'zgarmaydi.
+ *
+ * Har jarayonda bir marta: servis jarayon bilan birga yashaydi.
+ * Muvaffaqiyatsiz bo'lsa (ilova hali oldda emas) — keyingi safar.
+ */
+let tiklandi = false;
+export async function tikla(): Promise<void> {
+  if (tiklandi || Platform.OS === "web") return;
+  const tripId = await stateGet("tripId");
+  if (!tripId || !(await isRunning())) return;
+  if (!(await Location.getForegroundPermissionsAsync()).granted) return;
+  const mode = ((await stateGet("mode")) as GpsMode | null) ?? "slow";
+  await Location.startLocationUpdatesAsync(GPS_TASK, options(mode, await fgTexts()));
+  tiklandi = true;
 }
 
 /** Reys boshlanganda */

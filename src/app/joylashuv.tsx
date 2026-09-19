@@ -8,37 +8,32 @@
  *     rad javobdan keyin uni qayta so'rab bo'lmaydi, sozlamaga
  *     kirish kerak. Ya'ni bitta noto'g'ri so'rov kuzatuvni butunlay
  *     yo'qotadi.
- *  2. Do'kon tekshiruvidan o'tish: Apple (2.5.4) ham, Google Play ham
- *     fon joylashuvini ALOHIDA tekshiradi va «nima uchun» degan javob
- *     tizim so'rovidan OLDIN, ilovaning ichida bo'lishini talab qiladi.
+ *  2. Do'kon tekshiruvidan o'tish: Apple (5.1.1, 2.5.4) ham, Google
+ *     Play ham fonda yig'iladigan joylashuv uchun «nima, kimga, qachon»
+ *     javobini tizim so'rovidan OLDIN, ilovaning ichida talab qiladi.
  *
- * ── IKKI QADAM (2026-09-17, do'kon auditi A15) ──────────────────
+ * ── BITTA RUXSAT (2026-09-19, B2 qarori) ────────────────────────
  *
- * Ilgari bitta bosishda ikkala tizim oynasi ketma-ket chiqardi. Endi:
+ * Faqat «ilova ochiq paytda» so'raladi — «Doim» yo'q. Kuzatuv shu
+ * ruxsat bilan ham fonda ishlaydi (sababi `gps.ts` da). Ilgari ikkinchi
+ * qadam bor edi va «faqat ilova ochiqda bo'lsa, cho'ntakda yozilmaydi»
+ * deb odamni keraksiz «Doim» ga undardi — bu noto'g'ri edi.
  *
- *   1. «Ruxsat berish» — faqat «ilova ochiq paytda» so'raladi;
- *   2. «Doim» ruxsati — ALOHIDA tugma. Xohlamagan odam «Faqat ilova
- *      ochiqda yozish» bilan davom etadi — kuzatuv baribir boshlanadi.
+ * Ekran reys kuzatuvidan oldin BIR MARTA ko'rsatiladi — ruxsat boshqa
+ * ekranda (xarita, chat) berilgan bo'lsa ham (A15, `izohKorildi`).
  *
- * ⚠️ So'ralmagan ruxsat endi «rad etilgan» deb ko'rinmaydi (A9): ilgari
+ * ⚠️ So'ralmagan ruxsat «rad etilgan» deb ko'rinmaydi (A9): ilgari
  * yangi haydovchiga darrov «Sozlamalarni oching» chiqib, ruxsat berish
  * tugmasiga yetib bo'lmasdi.
  */
 import { useEffect, useState } from "react";
-import { Linking, Pressable, ScrollView, View } from "react-native";
+import { Linking, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
-import {
-  askBackground,
-  askForeground,
-  ensureTrackingNotice,
-  permState,
-  start,
-  type PermState,
-} from "@/lib/gps";
+import { askForeground, ensureTrackingNotice, izohniBelgila, permState, start, type PermState } from "@/lib/gps";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space, themed } from "@/lib/theme";
 
@@ -53,8 +48,11 @@ export default function Joylashuv() {
     void permState().then(setState);
   }, []);
 
-  /** Kuzatuvni boshlab ortga qaytish — reys ekranidan kelinganda */
+  /** Kuzatuvni boshlab ortga qaytish — reys ekranidan kelinganda.
+      Izoh o'qildi deb shu yerda belgilanadi: «Hozir emas» bosgan odamga
+      keyingi safar ham ko'rsatiladi */
   async function boshlash() {
+    await izohniBelgila();
     if (!trip) {
       router.back();
       return;
@@ -64,38 +62,17 @@ export default function Joylashuv() {
     router.back();
   }
 
-  /** 1-qadam: faqat «ilova ochiq paytda» */
   async function allow() {
     setBusy(true);
     try {
-      await askForeground();
-      /* Javobni qayta O'QIYMIZ: rad etilgach `canAskAgain` ga qarab
-         «denied» (sozlamalar) yoki yana «undetermined» bo'ladi */
-      const next = await permState();
-      setState(next);
-      /* «Doim» allaqachon berilgan bo'lsa (sozlamalardan) — darrov
-         boshlaymiz; aks holda 2-qadam ekranda ko'rinadi */
-      if (next === "granted") await boshlash();
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  /** 2-qadam: «Doim» — alohida, o'z tugmasi bilan */
-  async function allowAlways() {
-    setBusy(true);
-    try {
-      const next = await askBackground();
-      setState(next);
-      if (next === "granted" || next === "foregroundOnly") await boshlash();
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function foregroundOnly() {
-    setBusy(true);
-    try {
+      if (state !== "granted") {
+        await askForeground();
+        /* Javobni qayta O'QIYMIZ: rad etilgach `canAskAgain` ga qarab
+           «denied» (sozlamalar) yoki yana «undetermined» bo'ladi */
+        const next = await permState();
+        setState(next);
+        if (next !== "granted") return;
+      }
       await boshlash();
     } finally {
       setBusy(false);
@@ -119,7 +96,9 @@ export default function Joylashuv() {
           <Point text={t("mob.geo.p1")} />
           <Point text={t("mob.geo.p2")} />
           <Point text={t("mob.geo.p3")} />
-          <Point text={t("mob.geo.p4")} last />
+          {/* Android — foreground service bildirishnomasi; iOS'da
+              bildirishnoma yo'q, fonda ekran tepasida belgi chiqadi */}
+          <Point text={Platform.OS === "ios" ? t("mob.geo.p4Ios") : t("mob.geo.p4")} last />
         </View>
 
         {/* Rad etilgan va qayta so'rab bo'lmaydi — faqat sozlamalar */}
@@ -128,30 +107,13 @@ export default function Joylashuv() {
             <Icon name="alert" size={17} stroke={color.warning} />
             <Text style={s.warnText}>{t("mob.geo.deniedText")}</Text>
           </View>
-        ) : state === "foregroundOnly" ? (
-          <View style={s.warn}>
-            <Icon name="alert" size={17} stroke={color.warning} />
-            <Text style={s.warnText}>{t("mob.geo.fgOnlyText")}</Text>
-          </View>
         ) : null}
 
         <View style={{ gap: 10, marginTop: space.xl }}>
           {state === "denied" ? (
             <Button title={t("mob.geo.openSettings")} onPress={() => void Linking.openSettings()} />
-          ) : state === "foregroundOnly" ? (
-            <>
-              <Button title={t("mob.geo.allowAlways")} loading={busy} onPress={allowAlways} />
-              {trip ? (
-                <Button
-                  title={t("mob.geo.continueFg")}
-                  variant="secondary"
-                  disabled={busy}
-                  onPress={foregroundOnly}
-                />
-              ) : null}
-            </>
           ) : state === "granted" ? (
-            <Button title={t("mob.geo.startTracking")} loading={busy} onPress={foregroundOnly} />
+            <Button title={t("mob.geo.startTracking")} loading={busy} onPress={allow} />
           ) : (
             <Button title={t("mob.geo.allow")} loading={busy} onPress={allow} />
           )}

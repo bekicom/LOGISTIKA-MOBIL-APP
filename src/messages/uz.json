@@ -3937,6 +3937,20 @@
     "PAUSED": "Pauzada",
     "SOLD": "Sotildi"
   },
+  "saveSearch": {
+    "all": "Hammasi",
+    "any": "Hamma yo'nalish",
+    "exists": "Bu qidiruv allaqachon saqlangan",
+    "hint": "Yangi e'lon chiqsa xabar keladi",
+    "mine": "Mening qidiruvlarim",
+    "needFilter": "Avval yo'nalish yoki transport turini tanlang",
+    "notifyOff": "Xabar o'chiq",
+    "notifyOn": "Xabar yoqiq",
+    "remove": "O'chirish",
+    "save": "🔔 Qidiruvni saqlash",
+    "savedTop": "✓ Saqlandi — tepada yorliq bo'lib turibdi",
+    "saving": "Saqlanmoqda…"
+  },
   "searchHint": {
     "currency": "Valyuta kalkulyatori",
     "finance": "Moliya",

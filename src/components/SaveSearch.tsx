@@ -9,13 +9,21 @@
  * chiqish qiyin — odam bir marta «Toshkent → Moskva, tent»
  * deydi va yangisi chiqqanda xabar oladi.
  *
- * ── FILTRSIZ SAQLASH TO'SILADI ──────────────────────────────────
+ * ── DOIM KO'RINADI, BO'SH FILTRDA O'CHIQ (TZ-03, 2026-09-19) ────
  *
- * Bo'sh qidiruv HAR e'longa mos keladi: odam kuniga o'nlab xabar
- * olib, bildirishnomalarni umuman ochmay qo'yardi. Shart serverda
- * ham tekshiriladi (`BOSH_QIDIRUV`); bu yerdagisi faqat odamga
- * DARROV aytish uchun — tugma bosilgach xato ko'rsatgandan ko'ra,
- * oldindan o'chirilgan turgani yaxshi (5-qoida ruhida).
+ * Mijoz: «qidiruvni saqlash murakkab bo'lib qolibdi — ko'pchilik
+ * tushunmayapti». Sabablaridan biri: tugma filtr tanlanmaguncha
+ * UMUMAN yo'q edi — odam uning borligini bilmasdi. Endi filtr
+ * qatorida doim turadi, bo'sh filtrda o'chiq va nega o'chiqligi
+ * yozilgan. Bo'sh qidiruv HAR e'longa mos kelardi (server ham
+ * `BOSH_QIDIRUV` bilan rad etadi).
+ *
+ * Saqlangach natija DARHOL ko'rinadi: yorliq tepadagi «Mening
+ * qidiruvlarim» qatoriga tushadi (`onSaved`) va tugma o'rnida «✓
+ * Saqlandi — tepada yorliq bo'lib turibdi». Takror saqlash (`EXISTS`)
+ * xato emas — «allaqachon saqlangan». Lenta allaqachon saqlangan
+ * qidiruvni ko'rsatib turgan bo'lsa (`saqlangan`) — tugma o'rnida shu
+ * gap, bosib ko'rish shart emas.
  *
  * ── XATO MATNI SERVERDAN OLINMAYDI ──────────────────────────────
  *
@@ -25,29 +33,30 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
-import { useRouter } from "expo-router";
-import { Icon } from "@/components/Icon";
 import { api, FuramError } from "@/lib/api";
 import { guestBlocked } from "@/lib/guest-gate";
-import { color, radius, space, themed } from "@/lib/theme";
+import { filtrdanParams } from "@/lib/saqlangan-qidiruv";
+import { color, radius, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 import type { Filtr } from "@/components/FiltrSheet";
 
-/** Serverdagi `paramsSchema` kutgan ko'rinish */
-export function filtrToParams(f: Filtr): Record<string, unknown> {
-  const p: Record<string, unknown> = {};
-  if (f.fromId) p.fromId = [f.fromId];
-  if (f.toId) p.toId = [f.toId];
-  if (f.vehicleTypeIds.length) p.vehicleTypeId = f.vehicleTypeIds;
-  return p;
-}
-
-export function SaveSearch({ kind, filtr }: { kind: "load" | "truck"; filtr: Filtr }) {
-  const router = useRouter();
-  const [state, setState] = useState<"idle" | "busy" | "ok">("idle");
+export function SaveSearch({
+  kind,
+  filtr,
+  saqlangan = false,
+  onSaved,
+}: {
+  kind: "load" | "truck";
+  filtr: Filtr;
+  /** Hozirgi lenta — saqlangan yorliqlardan biri (`faolId`) */
+  saqlangan?: boolean;
+  /** Saqlandi — yorliqlar qatori yangilansin */
+  onSaved?: () => void;
+}) {
+  const [state, setState] = useState<"idle" | "busy" | "ok" | "exists">("idle");
   const [err, setErr] = useState<string | null>(null);
 
-  const params = filtrToParams(filtr);
+  const params = filtrdanParams(filtr);
   const empty = Object.keys(params).length === 0;
 
   async function save() {
@@ -57,66 +66,57 @@ export function SaveSearch({ kind, filtr }: { kind: "load" | "truck"; filtr: Fil
     try {
       await api("/api/saved-search", { method: "POST", body: { action: "save", kind, params } });
       setState("ok");
+      onSaved?.();
     } catch (e) {
+      const fe = e as FuramError;
+      if (fe.code === "EXISTS") {
+        setState("exists");
+        return;
+      }
       setState("idle");
-      setErr((e as FuramError).message ?? t("mob.common.failed"));
+      setErr(fe.message ?? t("mob.common.failed"));
     }
   }
 
+  if (state === "ok" || state === "exists" || saqlangan) {
+    return (
+      <Text style={s.done}>{state === "ok" ? t("saveSearch.savedTop") : t("saveSearch.exists")}</Text>
+    );
+  }
+
   return (
-    <View style={{ gap: 6 }}>
-      <View style={s.row}>
-        <Pressable
-          onPress={save}
-          disabled={empty || state !== "idle"}
-          style={({ pressed }) => [
-            s.btn,
-            (empty || state === "busy") && { opacity: 0.5 },
-            pressed && { backgroundColor: color.muted },
-          ]}
-        >
-          <Icon
-            name={state === "ok" ? "check" : "heart"}
-            size={16}
-            stroke={state === "ok" ? color.success : color.brand}
-          />
-          <Text style={[s.btnText, state === "ok" && { color: color.success }]}>
-            {state === "ok"
-              ? t("mob.ssearch.saved")
-              : state === "busy"
-                ? t("mob.common.saving")
-                : t("mob.ssearch.save")}
-          </Text>
-        </Pressable>
-
-        <Pressable onPress={() => router.push("/saqlangan-qidiruv")} hitSlop={8}>
-          <Text style={s.link}>{t("mob.ssearch.mine")}</Text>
-        </Pressable>
-      </View>
-
-      {/* Nega o'chirilgan — aytilmasa odam tugmani bosib ko'rardi */}
-      {empty ? <Text style={s.hint}>{t("mob.ssearch.needFilter")}</Text> : null}
-      {err ? <Text style={s.err}>{err}</Text> : null}
+    <View style={s.row}>
+      <Pressable
+        onPress={save}
+        disabled={empty || state !== "idle"}
+        accessibilityRole="button"
+        accessibilityState={{ disabled: empty || state !== "idle" }}
+        style={({ pressed }) => [s.btn, (empty || state === "busy") && { opacity: 0.5 }, pressed && { backgroundColor: color.muted }]}
+      >
+        <Text style={s.btnText}>{state === "busy" ? t("saveSearch.saving") : t("saveSearch.save")}</Text>
+      </Pressable>
+      {/* Nega o'chirilgan — aytilmasa odam tugmani bosib ko'rardi. Qatorlar
+          cheklanmaydi: kesilgan izoh («…yoki tur ...») hech narsani aytmaydi */}
+      <Text style={[s.hint, err && { color: color.danger }]}>
+        {err ?? (empty ? t("saveSearch.needFilter") : t("saveSearch.hint"))}
+      </Text>
     </View>
   );
 }
 
 const s = themed(() => ({
-  row: { flexDirection: "row", alignItems: "center", gap: space.md },
+  row: { flexDirection: "row", alignItems: "center", gap: 10 },
   btn: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 7,
-    height: 38,
-    paddingHorizontal: 13,
+    height: 34,
+    paddingHorizontal: 12,
     borderRadius: radius.control,
     borderWidth: 1,
     borderStyle: "dashed",
     borderColor: color.brand + "66",
     backgroundColor: color.card,
+    justifyContent: "center",
   },
   btnText: { fontSize: 12.5, fontWeight: "700", color: color.brand },
-  link: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground },
-  hint: { fontSize: 11.5, color: color.mutedForeground },
-  err: { fontSize: 11.5, color: color.danger },
+  hint: { flex: 1, fontSize: 11.5, lineHeight: 15, color: color.mutedForeground },
+  done: { fontSize: 12.5, fontWeight: "700", color: color.success },
 }));

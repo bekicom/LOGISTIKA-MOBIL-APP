@@ -3937,6 +3937,20 @@
     "PAUSED": "Paused",
     "SOLD": "Sold"
   },
+  "saveSearch": {
+    "all": "All",
+    "any": "Any route",
+    "exists": "This search is already saved",
+    "hint": "We'll notify you when a new listing appears",
+    "mine": "My searches",
+    "needFilter": "Pick a route or vehicle type first",
+    "notifyOff": "Alerts off",
+    "notifyOn": "Alerts on",
+    "remove": "Remove",
+    "save": "🔔 Save this search",
+    "savedTop": "✓ Saved — it's pinned at the top",
+    "saving": "Saving…"
+  },
   "searchHint": {
     "currency": "Currency calculator",
     "finance": "Money",

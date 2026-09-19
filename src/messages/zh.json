@@ -3937,6 +3937,20 @@
     "PAUSED": "已暂停",
     "SOLD": "已售出"
   },
+  "saveSearch": {
+    "all": "全部",
+    "any": "所有线路",
+    "exists": "此搜索已保存",
+    "hint": "有新信息时通知您",
+    "mine": "我的搜索",
+    "needFilter": "请先选择线路或车型",
+    "notifyOff": "提醒已关闭",
+    "notifyOn": "提醒已开启",
+    "remove": "删除",
+    "save": "🔔 保存搜索",
+    "savedTop": "✓ 已保存——固定在页面顶部",
+    "saving": "正在保存…"
+  },
   "searchHint": {
     "currency": "汇率计算器",
     "finance": "财务",

@@ -9,6 +9,11 @@
  * «+» shu ishni qiladi, ikkita bir xil tugma chalg'itardi.
  * `?filtr=1` bilan ochilsa (bosh sahifadagi qidiruv kartasi) filtr
  * varag'i o'zi ochiladi.
+ *
+ * TZ-03 (2026-09-19): qidiruv kartasi ostida «Mening qidiruvlarim» —
+ * odamning o'z saqlagan filtrlari, bir bosishda qo'llanadi; «Qidiruvni
+ * saqlash» filtr qatorida doim turadi. `?qidiruv=<id>` — saqlangan
+ * qidiruvlar ro'yxatidan bosib kelinganda o'sha qidiruv qo'llanadi.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, Pressable, RefreshControl, View } from "react-native";
@@ -22,6 +27,8 @@ import { ListingCard, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
+import { QidiruvYorliqlari, useQidiruvYorliqlari } from "@/components/QidiruvYorliqlari";
+import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -29,8 +36,9 @@ import { t } from "@/lib/i18n";
 type Feed = { items: Listing[]; page: number; total: number; hasMore: boolean };
 
 export default function Yuklar() {
-  const { filtr: openParam } = useLocalSearchParams<{ filtr?: string }>();
+  const { filtr: openParam, qidiruv } = useLocalSearchParams<{ filtr?: string; qidiruv?: string }>();
   const [filtr, setFiltr] = useState<Filtr>(EMPTY_FILTR);
+  const ss = useQidiruvYorliqlari("load", filtr, setFiltr, qidiruv);
   const [sheet, setSheet] = useState(false);
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -40,7 +48,13 @@ export default function Yuklar() {
     if (openParam === "1") setSheet(true);
   }, [openParam]);
 
-  const query = useMemo(() => filtrToQuery(filtr), [filtr]);
+  /* Son qalin, lekin uning O'RNI tilga qarab boshqa («9 ta e'lon» /
+     «Объявлений: 9»). Ilgari son alohida qo'yilib, tarjima ham uni
+     takrorlardi: «9 Объявлений: 9» */
+  const [sonOldin, sonKeyin] = t("mob.loads.count", { n: "#N#" }).split("#N#");
+
+  /* Ilova filtriga sig'magan saqlangan qidiruv — xom so'rov bilan */
+  const query = useMemo(() => (ss.xom ? ss.xom.query : filtrToQuery(filtr)), [ss.xom, filtr]);
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
     `/api/loads/list?${query}`,
     [query],
@@ -77,14 +91,25 @@ export default function Yuklar() {
           <View style={s.searchIcon}>
             <Icon name="search" size={19} stroke={color.brand} />
           </View>
-          <Text style={[s.searchText, !filtr.fromName && s.searchPlaceholder]} numberOfLines={1}>
-            {filtr.fromName ?? t("mob.loads.from")}
-          </Text>
-          <Icon name="arrow-right" size={16} stroke={color.brand} />
-          <Text style={[s.searchText, !filtr.toName && s.searchPlaceholder]} numberOfLines={1}>
-            {filtr.toName ?? t("mob.loads.to")}
-          </Text>
+          {ss.xom ? (
+            <Text style={s.searchText} numberOfLines={1}>
+              {ss.xom.nomi}
+            </Text>
+          ) : (
+            <>
+              <Text style={[s.searchText, !filtr.fromName && s.searchPlaceholder]} numberOfLines={1}>
+                {filtr.fromName ?? t("mob.loads.from")}
+              </Text>
+              <Icon name="arrow-right" size={16} stroke={color.brand} />
+              <Text style={[s.searchText, !filtr.toName && s.searchPlaceholder]} numberOfLines={1}>
+                {filtr.toName ?? t("mob.loads.to")}
+              </Text>
+            </>
+          )}
         </Pressable>
+
+        {/* O'z saqlagan qidiruvlari — bir bosishda (TZ-03) */}
+        <QidiruvYorliqlari rows={ss.rows} jami={ss.jami} faolId={ss.faolId} onQoll={ss.qoll} />
 
         {/* Filtr chiplari va sanoq */}
         <View style={s.chipRow}>
@@ -105,24 +130,34 @@ export default function Yuklar() {
             </Pressable>
           ))}
 
+          {ss.xom ? (
+            <Pressable style={s.activeChip} onPress={ss.tozala}>
+              <Text style={s.activeChipText} numberOfLines={1}>
+                {ss.xom.nomi}
+              </Text>
+              <Icon name="close" size={13} stroke={color.brandText} />
+            </Pressable>
+          ) : null}
+
           {data && chips.length === 0 ? (
             <Text style={s.count}>
-              <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text>{" "}
-              {t("mob.loads.count", { n: data?.total ?? 0 })}
+              {sonOldin}
+              <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text>
+              {sonKeyin}
             </Text>
           ) : null}
         </View>
 
-        {/* «Qidiruvni saqlash» — FAQAT filtr qo'yilganda ko'rinadi.
-            Bo'sh qidiruv har e'longa mos keladi va odam kuniga
-            o'nlab xabar olardi; tugmani doim ko'rsatib, keyin
-            «avval filtr tanlang» deyishdan ko'ra ko'rsatmaslik
-            yaxshi. */}
-        {filtr.fromId || filtr.toId || filtr.vehicleTypeIds.length ? (
-          <View style={{ marginTop: 10 }}>
-            <SaveSearch kind="load" filtr={filtr} />
-          </View>
-        ) : null}
+        {/* «Qidiruvni saqlash» — DOIM, bo'sh filtrda o'chiq (TZ-03, 2026-09-19).
+            Ilgari faqat filtr qo'yilganda chiqardi va odam uning borligini
+            bilmasdi. `key` — filtr o'zgarsa «✓ Saqlandi» holati tozalanadi */}
+        <SaveSearch
+          key={paramsKaliti(filtrdanParams(filtr))}
+          kind="load"
+          filtr={filtr}
+          saqlangan={!!ss.faolId}
+          onSaved={ss.reload}
+        />
       </View>
 
       <FlatList
@@ -137,12 +172,15 @@ export default function Yuklar() {
             <Skeleton />
           ) : error ? (
             <ErrorBox message={error} onRetry={reload} />
-          ) : chips.length > 0 || filtr.fromId ? (
+          ) : chips.length > 0 || filtr.fromId || ss.xom ? (
             <Empty
               title={t("mob.loads.emptyFiltered")}
               text={t("mob.misc.widenFilters")}
               actionLabel={t("mob.misc.clearFilters")}
-              onAction={() => setFiltr(EMPTY_FILTR)}
+              onAction={() => {
+                ss.tozala();
+                setFiltr(EMPTY_FILTR);
+              }}
             />
           ) : (
             <Empty title={t("mob.misc.noListings")} text={t("mob.misc.noListingsText")} />

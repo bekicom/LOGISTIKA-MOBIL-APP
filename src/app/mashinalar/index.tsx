@@ -12,18 +12,23 @@
  * Dizayn-2: yuklar ekrani bilan bir xil qobiq — chegarasiz sarlavha,
  * oq qidiruv kartasi, o'ngda chat/qo'ng'iroq. «Mashina joylash»
  * suzuvchi tugmasi olib tashlandi — tab bardagi «+» shu ishni qiladi.
+ *
+ * TZ-03 (2026-09-19): «Mening qidiruvlarim» yorliqlari va doimiy
+ * «Qidiruvni saqlash» — yuklar lentasi bilan bir xil (`QidiruvYorliqlari`).
  */
 import { useCallback, useMemo, useState } from "react";
 import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
 import { TruckCard, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
+import { QidiruvYorliqlari, useQidiruvYorliqlari } from "@/components/QidiruvYorliqlari";
+import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
 import { Segment } from "@/components/Segment";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
@@ -32,12 +37,15 @@ import { t } from "@/lib/i18n";
 type Feed = { items: TruckItem[]; page: number; total: number; hasMore: boolean };
 
 export default function Mashinalar() {
+  const { qidiruv } = useLocalSearchParams<{ qidiruv?: string }>();
   const [filtr, setFiltr] = useState<Filtr>(EMPTY_FILTR);
   const [sheet, setSheet] = useState(false);
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const ss = useQidiruvYorliqlari("truck", filtr, setFiltr, qidiruv);
 
-  const query = useMemo(() => filtrToQuery(filtr), [filtr]);
+  /* Ilova filtriga sig'magan saqlangan qidiruv — xom so'rov bilan */
+  const query = useMemo(() => (ss.xom ? ss.xom.query : filtrToQuery(filtr)), [ss.xom, filtr]);
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
     `/api/trucks/list?${query}`,
     [query],
@@ -72,12 +80,20 @@ export default function Mashinalar() {
           <View style={s.searchIcon}>
             <Icon name="search" size={19} stroke={color.blue} />
           </View>
-          <Text style={[s.searchText, !(filtr.fromName || filtr.toName) && s.searchPlaceholder]} numberOfLines={1}>
-            {filtr.fromName || filtr.toName
-              ? `${filtr.fromName || "—"} → ${filtr.toName || "—"}`
-              : t("mob.loads.cityPh")}
+          <Text
+            style={[s.searchText, !(ss.xom || filtr.fromName || filtr.toName) && s.searchPlaceholder]}
+            numberOfLines={1}
+          >
+            {ss.xom
+              ? ss.xom.nomi
+              : filtr.fromName || filtr.toName
+                ? `${filtr.fromName || "—"} → ${filtr.toName || "—"}`
+                : t("mob.loads.cityPh")}
           </Text>
         </Pressable>
+
+        {/* O'z saqlagan qidiruvlari — bir bosishda (TZ-03) */}
+        <QidiruvYorliqlari rows={ss.rows} jami={ss.jami} faolId={ss.faolId} onQoll={ss.qoll} />
 
         {/* Filtr chiplari va sanoq */}
         <View style={s.chipRow}>
@@ -96,20 +112,29 @@ export default function Mashinalar() {
               <Icon name="close" size={13} stroke={color.brandText} />
             </Pressable>
           ))}
-          {data && chips.length === 0 ? (
+          {ss.xom ? (
+            <Pressable style={s.chip} onPress={ss.tozala}>
+              <Text style={s.chipText} numberOfLines={1}>
+                {ss.xom.nomi}
+              </Text>
+              <Icon name="close" size={13} stroke={color.brandText} />
+            </Pressable>
+          ) : null}
+          {data && chips.length === 0 && !ss.xom ? (
             <Text style={s.count}>
               <Text style={s.countNum}>{data.total}</Text> {t("mob.trucks.count")}
             </Text>
           ) : null}
         </View>
 
-        {/* Yuklar ekranidagi bilan bir xil shart — sababi
-            `(tabs)/yuklar.tsx` da */}
-        {filtr.fromId || filtr.toId || filtr.vehicleTypeIds.length ? (
-          <View style={{ marginTop: 10 }}>
-            <SaveSearch kind="truck" filtr={filtr} />
-          </View>
-        ) : null}
+        {/* Doim turadi, bo'sh filtrda o'chiq — sababi `SaveSearch` izohida */}
+        <SaveSearch
+          key={paramsKaliti(filtrdanParams(filtr))}
+          kind="truck"
+          filtr={filtr}
+          saqlangan={!!ss.faolId}
+          onSaved={ss.reload}
+        />
       </View>
 
       {loading && !items.length ? (
@@ -130,10 +155,21 @@ export default function Mashinalar() {
           }
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
+            /* Filtr bo'lsa — kengaytirish maslahati va tozalash. Ilgari bu
+               yerda yuklar matni turardi: «Под эти условия грузов нет» */
             <Empty
               icon="truck"
               title={t("mob.trucks.notFound")}
-              text={t("mob.loads.emptyFiltered")}
+              {...(chips.length || filtr.fromId || filtr.toId || ss.xom
+                ? {
+                    text: t("mob.misc.widenFilters"),
+                    actionLabel: t("mob.misc.clearFilters"),
+                    onAction: () => {
+                      ss.tozala();
+                      setFiltr(EMPTY_FILTR);
+                    },
+                  }
+                : {})}
             />
           }
           renderItem={({ item, index }) => (

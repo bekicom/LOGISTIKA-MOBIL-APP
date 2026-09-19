@@ -3937,6 +3937,20 @@
     "PAUSED": "Duraklatıldı",
     "SOLD": "Satıldı"
   },
+  "saveSearch": {
+    "all": "Tümü",
+    "any": "Tüm güzergâhlar",
+    "exists": "Bu arama zaten kayıtlı",
+    "hint": "Yeni ilan çıkınca haber veririz",
+    "mine": "Aramalarım",
+    "needFilter": "Önce güzergâh veya araç tipi seçin",
+    "notifyOff": "Bildirim kapalı",
+    "notifyOn": "Bildirim açık",
+    "remove": "Sil",
+    "save": "🔔 Aramayı kaydet",
+    "savedTop": "✓ Kaydedildi — üstte etiket olarak duruyor",
+    "saving": "Kaydediliyor…"
+  },
   "searchHint": {
     "currency": "Döviz hesaplayıcı",
     "finance": "Finans",

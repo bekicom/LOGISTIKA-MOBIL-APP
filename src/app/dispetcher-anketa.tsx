@@ -29,13 +29,9 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { useAuth } from "@/lib/auth-context";
 import { LOCALE_INFO, t, type Locale } from "@/lib/i18n";
+import { ISH_DAVLATLARI } from "@/lib/davlat-royxati";
 import { color, space, themed } from "@/lib/theme";
 
-/** `dispatcher.ts` dagi `WORK_COUNTRIES` */
-const COUNTRIES = [
-  "UZ", "RU", "KZ", "KG", "TJ", "TM", "TR", "CN",
-  "AF", "IR", "AZ", "BY", "GE", "UA", "PL", "DE",
-] as const;
 /** `dispatcher.ts` dagi `LANGUAGES` — ro'yxatda `ky` YO'Q */
 const LANGS = ["uz", "ru", "en", "tr", "kk", "tg", "zh"] as const;
 /** `dispatcher.ts` dagi `FEE_MODES` */
@@ -164,7 +160,7 @@ export default function DispetcherAnketa() {
             <View>
               <Text style={s.label}>{t("mob.pform.countries")}</Text>
               <View style={s.chips}>
-                {COUNTRIES.map((c) => (
+                {ISH_DAVLATLARI.map((c) => (
                   <Chip
                     key={c}
                     on={countries.includes(c)}

@@ -24,6 +24,7 @@ import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
+import { REZYUME_DAVLATLARI, TOIFALAR } from "@/lib/davlat-royxati";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
@@ -47,10 +48,8 @@ type Resume = {
   isActive: boolean;
 };
 
-/** `driver-link.ts` dagi LICENSE_CLASSES */
-const CLASSES = ["B", "C", "CE", "D", "DE"] as const;
-/** Eng ko'p ishlatiladigan yo'nalishlar — `jobCatalog.countries` dan */
-const COUNTRIES = ["UZ", "KZ", "RU", "KG", "TJ", "TM", "TR", "CN"] as const;
+/* Toifalar va davlatlar — webdagi rezyume ro'yxatlari (`davlat-royxati.ts`).
+   Ilgari shu yerda «BE», Belarus va Yevropa yo'q edi */
 
 export default function Rezyume() {
   const insets = useSafeAreaInsets();
@@ -156,7 +155,7 @@ export default function Rezyume() {
           <View>
             <Text style={s.label}>{t("mob.resume.classes")}</Text>
             <View style={s.chips}>
-              {CLASSES.map((c) => {
+              {TOIFALAR.map((c) => {
                 const on = classes.includes(c);
                 return (
                   <Pressable
@@ -175,7 +174,7 @@ export default function Rezyume() {
           <View>
             <Text style={s.label}>{t("mob.resume.countries")}</Text>
             <View style={s.chips}>
-              {COUNTRIES.map((c) => {
+              {REZYUME_DAVLATLARI.map((c) => {
                 const on = countries.includes(c);
                 return (
                   <Pressable

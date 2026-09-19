@@ -26,6 +26,8 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { ISH_DAVLATLARI } from "@/lib/davlat-royxati";
+import { isoBayroq } from "@/lib/phone-codes";
 import { TariffNotice } from "@/components/TariffNotice";
 import { JoyTugadiOgohi, joyTugadi, tolami, type Joylar } from "@/components/ParkJoylari";
 import { tariffBlocked } from "@/lib/features";
@@ -39,15 +41,8 @@ const PARTS = ["SINGLE", "TRACTOR", "TRAILER"] as const;
 const partLabel = (k: string) =>
   ({ SINGLE: t("mob.add.single"), TRACTOR: t("mob.add.tractor"), TRAILER: t("mob.add.trailer") })[k] ?? k;
 
-/* Davlat kodlari. Nomlari web lug'atidagi
-   `jobCatalog.countries.*` dan olinadi — u yerda 17 ta davlat
-   sakkiz tilda tayyor turibdi, ikkinchisini yozishning hojati yo'q. */
-const COUNTRIES = [
-  { code: "UZ", flag: "🇺🇿" }, { code: "KZ", flag: "🇰🇿" },
-  { code: "RU", flag: "🇷🇺" }, { code: "KG", flag: "🇰🇬" },
-  { code: "TJ", flag: "🇹🇯" }, { code: "TM", flag: "🇹🇲" },
-  { code: "TR", flag: "🇹🇷" }, { code: "CN", flag: "🇨🇳" },
-];
+/* Davlatlar — webdagi 16 ta (`ISH_DAVLATLARI`; ilgari shu yerda 8 ta
+   yozilgan edi). Nomlari `jobCatalog.countries.*` dan, bayroq ISO koddan */
 
 export default function TransportQoshish() {
   /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
@@ -273,16 +268,16 @@ export default function TransportQoshish() {
         <View style={!more ? s.gone : undefined}>
           <Text style={s.label}>{t("mob.add.countries")}</Text>
           <View style={s.flags}>
-            {COUNTRIES.map((c) => {
-              const on = countries.includes(c.code);
+            {ISH_DAVLATLARI.map((c) => {
+              const on = countries.includes(c);
               return (
                 <Pressable
-                  key={c.code}
-                  onPress={() => toggleCountry(c.code)}
+                  key={c}
+                  onPress={() => toggleCountry(c)}
                   style={({ pressed }) => [s.flag, on && s.flagOn, pressed && { opacity: 0.7 }]}
                 >
-                  <Text style={{ fontSize: 13 }}>{c.flag}</Text>
-                  <Text style={[s.flagText, on && { color: "#fff", fontWeight: "600" }]}>{t(`jobCatalog.countries.${c.code}`)}</Text>
+                  <Text style={{ fontSize: 13 }}>{isoBayroq(c)}</Text>
+                  <Text style={[s.flagText, on && { color: "#fff", fontWeight: "600" }]}>{t(`jobCatalog.countries.${c}`)}</Text>
                 </Pressable>
               );
             })}

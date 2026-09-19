@@ -34,15 +34,9 @@ import { apiUpload, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { pickDocument, toUpload, type Photo } from "@/lib/photo";
 import { LOCALE_INFO, t, type Locale } from "@/lib/i18n";
+import { ISH_DAVLATLARI, TOIFALAR } from "@/lib/davlat-royxati";
 import { color, radius, space, themed } from "@/lib/theme";
 
-/** `driver-link.ts` dagi `LICENSE_CLASSES` */
-const CLASSES = ["B", "C", "CE", "D", "DE", "BE"] as const;
-/** `dispatcher.ts` dagi `WORK_COUNTRIES` — server boshqasini rad etadi */
-const COUNTRIES = [
-  "UZ", "RU", "KZ", "KG", "TJ", "TM", "TR", "CN",
-  "AF", "IR", "AZ", "BY", "GE", "UA", "PL", "DE",
-] as const;
 /** `dispatcher.ts` dagi `LANGUAGES` — ro'yxatda `ky` YO'Q */
 const LANGS = ["uz", "ru", "en", "tr", "kk", "tg", "zh"] as const;
 
@@ -227,7 +221,7 @@ export default function HaydovchiAnketa() {
             <View>
               <Text style={s.label}>{t("mob.dform.classes")}</Text>
               <View style={s.chips}>
-                {CLASSES.map((c) => (
+                {TOIFALAR.map((c) => (
                   <Chip
                     key={c}
                     on={classes.includes(c)}
@@ -249,7 +243,7 @@ export default function HaydovchiAnketa() {
             <View>
               <Text style={s.label}>{t("mob.dform.countries")}</Text>
               <View style={s.chips}>
-                {COUNTRIES.map((c) => (
+                {ISH_DAVLATLARI.map((c) => (
                   <Chip
                     key={c}
                     on={countries.includes(c)}

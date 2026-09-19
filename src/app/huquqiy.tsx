@@ -23,6 +23,9 @@ import { API_BASE } from "@/lib/api";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space, themed } from "@/lib/theme";
 
+/** Joy nomlari manbasi — litsenziya havola bilan ko'rsatishni so'raydi */
+const GEONAMES = "https://www.geonames.org/";
+
 /** Web'dagi manzillar — `furam/src/app/(info)/` */
 const DOCS = [
   { key: "offer", path: "/offer" },
@@ -69,6 +72,21 @@ export default function Huquqiy() {
             <Text style={s.companyLink}>{t("mob.legal.details")}</Text>
           </Pressable>
         </View>
+
+        {/* Tuman, shahar va qishloq nomlari GeoNames'dan (2026-09-15) —
+            CC BY 4.0 litsenziyasi manbani ko'rsatishni talab qiladi. Webda
+            u sayt pastida turadi; ilovada yuridik ma'lumot shu yerda.
+            Nom va litsenziya — tarjima qilinmaydigan atoqli otlar */}
+        <Pressable
+          onPress={() => void Linking.openURL(GEONAMES)}
+          accessibilityRole="link"
+          hitSlop={6}
+          style={({ pressed }) => [s.manba, pressed && { opacity: 0.6 }]}
+        >
+          <Text style={s.manbaText}>
+            <Text style={s.manbaNom}>GeoNames</Text> · CC BY 4.0
+          </Text>
+        </Pressable>
       </ScrollView>
     </View>
   );
@@ -111,4 +129,8 @@ const s = themed(() => ({
   },
   companyName: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground, marginTop: 6 },
   companyLink: { fontSize: font.caption, fontWeight: "600", color: color.brand, marginTop: 10 },
+
+  manba: { alignSelf: "center", paddingVertical: space.sm },
+  manbaText: { fontSize: 12, color: color.mutedForeground, textAlign: "center" },
+  manbaNom: { fontWeight: "600", textDecorationLine: "underline" },
 }));

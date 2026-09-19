@@ -34,8 +34,14 @@ export function Route({ from, fromC, to, toC, size = 18 }: {
 }
 
 /* Davlat nomi lug'atdan olinadi — ilgari shu yerda o'zbekcha
-   ro'yxat turardi va rus tilidagi ekranda ham o'zbekcha chiqardi. */
-const country = (code: string) => t(`jobCatalog.countries.${code}`);
+   ro'yxat turardi va rus tilidagi ekranda ham o'zbekcha chiqardi.
+   Bo'lim — `countryName` (bazadagi 46 davlat): ilgari `jobCatalog.countries`
+   edi, u esa ish katalogi — 17 ta, va Niderlandiyaga ketadigan yukda
+   `[missing "ru.jobCatalog.countries.NL" translation]` chiqardi
+   (2026-09-19). Bazaga yangi davlat qo'shilsa-yu nomi hali yo'q bo'lsa —
+   ISO kod */
+export const davlatNomi = (code: string) => tOr(`countryName.${code}`, code);
+const country = davlatNomi;
 
 export function Chip({ text, tone = "muted" }: { text: string; tone?: "muted" | "success" | "brand" | "warning" | "danger" | "info" }) {
   /* ⚠️ FON ham TOKEN (2026-09-10). Ilgari u aksent rangning

@@ -22,7 +22,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ContactLinks, type Links } from "@/components/ContactLinks";
-import { Chip, money } from "@/components/cards";
+import { Chip, davlatNomi, money } from "@/components/cards";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
@@ -216,12 +216,12 @@ export default function MashinaTafsilot() {
             <View style={s.routeRow}>
               <View style={{ flex: 1 }}>
                 <Text style={s.city}>{data.route.from}</Text>
-                <Text style={s.country}>{t(`jobCatalog.countries.${data.route.fromCountry}`)}</Text>
+                <Text style={s.country}>{davlatNomi(data.route.fromCountry)}</Text>
               </View>
               <Icon name="arrow-right" size={19} stroke="#94a3b8" />
               <View style={{ flex: 1, alignItems: "flex-end" }}>
                 <Text style={[s.city, { textAlign: "right" }]}>{data.route.to}</Text>
-                <Text style={s.country}>{t(`jobCatalog.countries.${data.route.toCountry}`)}</Text>
+                <Text style={s.country}>{davlatNomi(data.route.toCountry)}</Text>
               </View>
             </View>
             <View style={s.priceRow}>

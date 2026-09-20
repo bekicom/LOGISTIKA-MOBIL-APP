@@ -41,6 +41,7 @@ import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { saleCategoryLabel, saleFeatureLabel, salePriceKindLabel, t } from "@/lib/i18n";
+import { sumKiritish } from "@/lib/sum";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
@@ -372,7 +373,7 @@ export default function BozorJoylash() {
                 <Field
                   label={t("mob.sale.price")}
                   value={price}
-                  onChangeText={setPrice}
+                  onChangeText={(v) => setPrice(sumKiritish(v))}
                   keyboardType="number-pad"
                 />
               </View>

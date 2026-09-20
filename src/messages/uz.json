@@ -1923,6 +1923,10 @@
       "to": "Qayerga",
       "vehicleType": "Transport turi"
     },
+    "loc": {
+      "districts": "SHAHAR VA TUMANLAR",
+      "regions": "VILOYATLAR"
+    },
     "map": {
       "age": "ma'lumot %{n} oldin",
       "ageNone": "navbat ma'lumoti yo'q",

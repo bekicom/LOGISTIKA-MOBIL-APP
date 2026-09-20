@@ -1923,6 +1923,10 @@
       "to": "Nereye",
       "vehicleType": "Araç tipi"
     },
+    "loc": {
+      "districts": "ŞEHİR VE İLÇELER",
+      "regions": "BÖLGELER"
+    },
     "map": {
       "age": "veri %{n} önce",
       "ageNone": "sıra bilgisi yok",

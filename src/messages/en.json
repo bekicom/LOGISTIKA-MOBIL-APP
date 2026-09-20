@@ -1923,6 +1923,10 @@
       "to": "To",
       "vehicleType": "Vehicle type"
     },
+    "loc": {
+      "districts": "CITIES AND DISTRICTS",
+      "regions": "REGIONS"
+    },
     "map": {
       "age": "data from %{n} ago",
       "ageNone": "no queue data",

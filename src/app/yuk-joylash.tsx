@@ -20,6 +20,7 @@ import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { sumKiritish } from "@/lib/sum";
 import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
@@ -280,7 +281,7 @@ export default function YukJoylash() {
                   placeholder="28 000 000"
                   keyboardType="numeric"
                   value={price}
-                  onChangeText={setPrice}
+                  onChangeText={(v) => setPrice(sumKiritish(v))}
                   editable={!negotiable}
                 />
               </View>
@@ -310,7 +311,7 @@ export default function YukJoylash() {
                 placeholder="10 000 000"
                 keyboardType="numeric"
                 value={advance}
-                onChangeText={setAdvance}
+                onChangeText={(v) => setAdvance(sumKiritish(v))}
               />
               <Text style={s.hint}>{t("mob.post.prepayHint")}</Text>
             </View>

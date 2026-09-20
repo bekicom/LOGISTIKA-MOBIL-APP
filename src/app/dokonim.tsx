@@ -34,6 +34,7 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { partConditionLabel, partOrderStatusLabel, partStockLabel, t } from "@/lib/i18n";
+import { sumKiritish } from "@/lib/sum";
 
 type Shop = {
   name: string;
@@ -614,7 +615,7 @@ function PartSheet({
           <Field
             label={t("mob.sale.price")}
             value={price}
-            onChangeText={setPrice}
+            onChangeText={(v) => setPrice(sumKiritish(v))}
             keyboardType="number-pad"
           />
 

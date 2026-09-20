@@ -32,6 +32,7 @@ import { api, FuramError } from "@/lib/api";
 import { tariffBlocked } from "@/lib/features";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { sumKiritish } from "@/lib/sum";
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
 
@@ -141,7 +142,7 @@ export default function TashqiYuk() {
           <Field
             label={t("mob.money.amount")}
             value={price}
-            onChangeText={setPrice}
+            onChangeText={(v) => setPrice(sumKiritish(v))}
             keyboardType="numeric"
             placeholder="0"
           />

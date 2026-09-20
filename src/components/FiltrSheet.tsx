@@ -13,7 +13,7 @@
  * galochka bilan ishlaydi va OCHIQ qoladi; e'lon berish oynalarida esa
  * avvalgidek bitta (yuk bitta joydan ketadi).
  */
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Animated,
   FlatList,
@@ -114,6 +114,8 @@ export type Loc = {
   nameRu: string | null;
   countryCode: string;
   type?: "COUNTRY" | "REGION" | "CITY";
+  /** Viloyat/respublika/poytaxtmi — ro'yxatni guruhlash uchun (server aytadi) */
+  yirik?: boolean;
 };
 
 export function FiltrSheet({
@@ -367,6 +369,28 @@ export function LocationPicker(props: PickerProps) {
      oddiy qator bo'lib tanlanadi */
   const kiradi = (l: Loc) => l.type === "COUNTRY" && !davlat;
 
+  /* VILOYAT VA TUMAN AJRATILADI (2026-09-20 qo'lda sinovi).
+     `Location` jadvalida ikkalasi ham `REGION`: «Andijon viloyati»
+     bilan «Angor» alifbo bo'yicha aralashib ketardi va qaysi biri
+     nima ekani faqat ruscha izohdan bilinardi. Server `yirik`
+     bayrog'ini beradi (`/api/locations`), ro'yxat esa ikki guruhga
+     bo'linadi. Qidiruvda va davlatlar ro'yxatida guruh yo'q —
+     u yerda tartib boshqa mezon bo'yicha. */
+  const royxat = useMemo(() => {
+    const xom = data?.items ?? [];
+    const oddiy = xom.map((j) => ({ bosh: null as string | null, joy: j as Loc | null }));
+    if (!davlat || q.trim().length >= 2) return oddiy;
+    const yirik = xom.filter((j) => j.yirik !== false);
+    const mayda = xom.filter((j) => j.yirik === false);
+    if (!yirik.length || !mayda.length) return oddiy;
+    return [
+      { bosh: t("mob.loc.regions"), joy: null as Loc | null },
+      ...yirik.map((j) => ({ bosh: null as string | null, joy: j as Loc | null })),
+      { bosh: t("mob.loc.districts"), joy: null as Loc | null },
+      ...mayda.map((j) => ({ bosh: null as string | null, joy: j as Loc | null })),
+    ];
+  }, [data, davlat, q]);
+
   function bos(l: Loc) {
     if (kiradi(l)) {
       setDavlat(l);
@@ -432,8 +456,8 @@ export function LocationPicker(props: PickerProps) {
         ) : null}
 
         <FlatList
-          data={data?.items ?? []}
-          keyExtractor={(l) => String(l.id)}
+          data={royxat}
+          keyExtractor={(x) => (x.bosh ? `bosh-${x.bosh}` : String(x.joy!.id))}
           keyboardShouldPersistTaps="handled"
           ListHeaderComponent={
             davlat ? (
@@ -451,7 +475,9 @@ export function LocationPicker(props: PickerProps) {
               </Pressable>
             ) : null
           }
-          renderItem={({ item }) => {
+          renderItem={({ item: qator }) => {
+            if (qator.bosh) return <Text style={s.guruh}>{qator.bosh}</Text>;
+            const item = qator.joy!;
             const on = bormi(item.id);
             return (
               <Pressable style={[s.locRow, on && s.locRowOn]} onPress={() => bos(item)}>
@@ -599,6 +625,15 @@ const s = themed(() => ({
   checkOn: { backgroundColor: color.brand, borderColor: color.brand },
   /* Bayroq — ISO koddan (`isoBayroq`); ilgari shu joyda «UZ» turardi */
   flag: { fontSize: 18, lineHeight: 22 },
+  guruh: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: color.mutedForeground,
+    letterSpacing: 0.6,
+    paddingHorizontal: space.xl,
+    paddingTop: space.lg,
+    paddingBottom: 6,
+  },
   locName: { fontSize: font.body, fontWeight: "500", color: color.foreground },
   locSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   /* Son davlat kodidan KUCHLIROQ ko'rinadi: odam ro'yxatni aynan

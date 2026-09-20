@@ -32,6 +32,7 @@ import { servicePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { serviceSpecLabel, serviceStatusLabel, t } from "@/lib/i18n";
+import { sumKiritish } from "@/lib/sum";
 
 type Fresh = {
   id: string;
@@ -363,7 +364,7 @@ function OfferSheet({
           <Field
             label={t("mob.svc.offerPrice")}
             value={price}
-            onChangeText={setPrice}
+            onChangeText={(v) => setPrice(sumKiritish(v))}
             keyboardType="number-pad"
           />
 

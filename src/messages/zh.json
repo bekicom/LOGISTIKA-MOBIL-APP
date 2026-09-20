@@ -1923,6 +1923,10 @@
       "to": "目的地",
       "vehicleType": "车辆类型"
     },
+    "loc": {
+      "districts": "城市与区县",
+      "regions": "州与省"
+    },
     "map": {
       "age": "数据来自 %{n} 前",
       "ageNone": "无排队数据",

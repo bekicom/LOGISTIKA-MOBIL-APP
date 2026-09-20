@@ -27,6 +27,7 @@ import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
+import { sumKiritish } from "@/lib/sum";
 
 const KINDS = ["SALARY", "ADVANCE", "TRIP_FEE", "BONUS", "DEDUCTION"];
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
@@ -337,7 +338,7 @@ export default function Haydovchi() {
           <Field
             label={t("mob.money.amount")}
             value={amount}
-            onChangeText={setAmount}
+            onChangeText={(v) => setAmount(sumKiritish(v))}
             keyboardType="numeric"
             placeholder="0"
           />

@@ -51,6 +51,13 @@ type State = {
   aiRozilik: boolean | null;
   /** Oyna yoki sozlama serverga yozgandan keyin — qayta so'rovsiz */
   setAiRozilik: (v: boolean) => void;
+  /**
+   * Token bor, lekin server javob bermadi — tarmoq uzilgan yoki 5xx
+   * (masalan deploy paytidagi bir necha soniya). Bu CHIQISH EMAS:
+   * token va oldingi holat saqlanadi, kirish nuqtasi «qayta urinish»
+   * ko'rsatadi (`index.tsx`).
+   */
+  aloqaYoq: boolean;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -58,12 +65,37 @@ type State = {
 
 const Ctx = createContext<State | null>(null);
 
+type MeJavob = {
+  user: User;
+  features?: string[];
+  offerAccepted?: boolean;
+  tarif?: unknown;
+  aiRozilik?: boolean | null;
+};
+
+/** Tarmoq uzilishi (status 0) yoki server 5xx — seans tugagani EMAS */
+function vaqtinchalik(e: unknown): boolean {
+  return !(e instanceof FuramError) || e.status === 0 || e.status >= 500;
+}
+
+/** Deploy paytida server bir necha soniya javob bermaydi — bir marta kutib qayta so'raladi */
+async function meniOl(): Promise<MeJavob> {
+  try {
+    return await api<MeJavob>("/api/auth/me");
+  } catch (e) {
+    if (!vaqtinchalik(e)) throw e;
+    await new Promise((r) => setTimeout(r, 2000));
+    return api<MeJavob>("/api/auth/me");
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [offerAccepted, setOfferAccepted] = useState<boolean | null>(null);
   const [tarif, setTarif] = useState<TarifHolati | null>(null);
   const [aiRozilik, setAiRozilik] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
+  const [aloqaYoq, setAloqaYoq] = useState(false);
   /* Ro'yxat holatda ham turadi: `features.ts` dagi to'plam sof
      modul o'zgaruvchisi, o'zgarganda ekran qayta chizilmaydi.
      Ikkalasi bir joyda — javob kelgan payt — yoziladi. */
@@ -77,6 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const token = await getToken();
     if (!token) {
+      setAloqaYoq(false);
       setUser(null);
       setFeatures([]);
       setFeats(new Set());
@@ -85,13 +118,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     try {
-      const res = await api<{
-        user: User;
-        features?: string[];
-        offerAccepted?: boolean;
-        tarif?: unknown;
-        aiRozilik?: boolean | null;
-      }>("/api/auth/me");
+      const res = await meniOl();
+      setAloqaYoq(false);
       setUser(res.user);
       setOfferAccepted(typeof res.offerAccepted === "boolean" ? res.offerAccepted : null);
       /* Belgi ham shu javobda: server `accessOf` ni baribir chaqiradi —
@@ -118,6 +146,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Tarmoq xatosi bo'lsa tokenni SAQLAB qolamiz — aks holda
       // internetsiz joyda ilova foydalanuvchini chiqarib yuboradi.
       if (e instanceof FuramError && e.status === 401) await clearToken();
+      /* VAQTINCHALIK XATODA ODAM CHIQARILMAYDI (2026-09-19).
+         Oldin bu yerda ham `setUser(null)` bo'lardi: token joyida
+         tursa ham ochilishda `index.tsx` odamni til/kirish ekraniga
+         o'tkazardi, ichkaridagi `refresh()` esa ekranlarni mehmon
+         holatiga tushirardi — deploy paytidagi bir necha soniyalik
+         502 dan keyin odam «chiqib ketdim» derdi. Endi oldingi holat
+         o'z joyida qoladi va kirish nuqtasi «qayta urinish»
+         ko'rsatadi. */
+      else if (vaqtinchalik(e)) {
+        setAloqaYoq(true);
+        return;
+      }
+      setAloqaYoq(false);
       setUser(null);
       setFeatures([]);
       setFeats(new Set());
@@ -160,6 +201,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
        yuborilmagan xarajatini yoki reys tarixini ko'rmasin. */
     await wipeLocal().catch(() => {});
     await clearPushAsked();
+    setAloqaYoq(false);
     setUser(null);
     setFeatures([]);
     setFeats(new Set());
@@ -181,8 +223,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signIn,
       signOut,
       refresh: load,
+      aloqaYoq,
     }),
-    [user, loading, canFeature, offerAccepted, tarif, aiRozilik, signIn, signOut, load],
+    [user, loading, canFeature, offerAccepted, tarif, aiRozilik, signIn, signOut, load, aloqaYoq],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

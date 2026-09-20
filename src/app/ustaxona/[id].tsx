@@ -300,7 +300,7 @@ export default function Buyurtma() {
                     <View style={s.avatar}>
                       <Text style={s.avatarText}>{initials(x.master.name)}</Text>
                     </View>
-                    <View style={{ flexGrow: 1, minWidth: 0 }}>
+                    <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                       <View style={s.nameRow}>
                         <Text style={s.mName} numberOfLines={1}>
                           {x.master.name}
@@ -362,7 +362,7 @@ export default function Buyurtma() {
                   {initials(viewer.isMaster ? (o.client?.name ?? "") : (o.master?.name ?? ""))}
                 </Text>
               </View>
-              <View style={{ flexGrow: 1, minWidth: 0 }}>
+              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                 <Text style={s.mName} numberOfLines={1}>
                   {viewer.isMaster ? o.client?.name : o.master?.name}
                 </Text>

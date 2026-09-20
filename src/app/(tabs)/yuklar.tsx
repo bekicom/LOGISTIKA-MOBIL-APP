@@ -247,7 +247,10 @@ const s = themed(() => ({
     alignItems: "center",
     gap: 7,
   },
-  filterText: { fontSize: 13, fontWeight: "600", color: "#fff" },
+  /* Fon `color.foreground` — yozuv ham mavzu bilan o'zgaradi:
+     qattiq "#fff" qorong'i rejimda oq fonda oq bo'lib yo'qolardi
+     (2026-09-20 avtomatik tekshiruvi) */
+  filterText: { fontSize: 13, fontWeight: "600", color: color.card },
   filterBadge: {
     minWidth: 18, height: 18, paddingHorizontal: 5, borderRadius: 9,
     backgroundColor: color.brand, alignItems: "center", justifyContent: "center",

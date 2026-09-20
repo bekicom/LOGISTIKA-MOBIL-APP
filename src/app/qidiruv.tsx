@@ -133,7 +133,7 @@ export default function Qidiruv() {
                         style={[s.row, i < g.items.length - 1 && s.rowLine]}
                         onPress={go ? () => router.push(go(it.id)) : undefined}
                       >
-                        <View style={{ flexGrow: 1, minWidth: 0 }}>
+                        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                           <Text style={s.rowTitle} numberOfLines={1}>
                             {it.title}
                           </Text>

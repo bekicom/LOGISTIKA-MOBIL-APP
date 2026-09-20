@@ -226,7 +226,9 @@ const s = themed(() => ({
     alignItems: "center",
     gap: 7,
   },
-  filtrText: { fontSize: font.caption, fontWeight: "600", color: "#fff" },
+  /* Fon `color.foreground` — yozuv mavzu bilan (2026-09-20):
+     qattiq "#fff" qorong'i rejimda ko'rinmasdi */
+  filtrText: { fontSize: font.caption, fontWeight: "600", color: color.card },
   badge: {
     minWidth: 18,
     height: 18,

@@ -138,7 +138,10 @@ export default function Reyting() {
                 )}
               </View>
 
-              <View style={{ flexGrow: 1, minWidth: 0 }}>
+              {/* `flexShrink` ham kerak (2026-09-20 tekshiruvi): faqat
+                  `flexGrow` bilan ruscha uzun matn («Новый
+                  пользователь…») ekrandan 59 px chiqib ketardi */}
+              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                 <Text style={s.bandName}>
                   {data.band
                     ? t(`trustBand.${data.band}`)

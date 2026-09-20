@@ -191,7 +191,27 @@ export default function TabsLayout() {
             ...shadow.bar,
           },
           tabBarItemStyle: { paddingVertical: 2 },
-          tabBarLabelStyle: { fontSize: 11, fontFamily: "Manrope_600SemiBold" },
+          tabBarLabelStyle: { fontSize: 10, fontFamily: "Manrope_600SemiBold" },
+          /* YORLIQ SIG'MASA KICHRAYADI (2026-09-20 tekshiruvi).
+             «AI yordamchi» va ruscha «AI-помощник» 11 px da 2-3 px
+             sig'masdi va oxiri kesilardi. O'lchamni hammaga kichik
+             qilish o'rniga, faqat sig'magani kichrayadi — qolgan
+             yorliqlar o'z o'lchamida qoladi. */
+          tabBarLabel: ({ color: rang, children }) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.75}
+              style={{
+                fontSize: 10,
+                fontFamily: "Manrope_600SemiBold",
+                color: rang,
+                textAlign: "center",
+              }}
+            >
+              {children}
+            </Text>
+          ),
         }}
       >
         {/* Ko'rinmaydigan ekran ham E'LON QILINADI: expo-router

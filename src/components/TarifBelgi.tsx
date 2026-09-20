@@ -33,7 +33,14 @@ export function TarifBelgi() {
       hitSlop={6}
       style={({ pressed }) => [s.pill, { backgroundColor: rang.bg, borderColor: rang.chiziq }, pressed && { opacity: 0.7 }]}
     >
-      <Text style={[s.text, { color: rang.fg }]} numberOfLines={1}>
+      {/* SIG'MASA KICHRAYADI (2026-09-20, 320 px): ruscha belgi
+          («Владелец транспорта · пробный, 10 дн. +2») kesilardi */}
+      <Text
+        style={[s.text, { color: rang.fg }]}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.8}
+      >
         {belgiMatni(tarif, t)}
       </Text>
       <Icon name="chevron" size={13} stroke={rang.fg} />

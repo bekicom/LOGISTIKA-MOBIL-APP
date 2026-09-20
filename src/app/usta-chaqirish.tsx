@@ -311,7 +311,7 @@ export default function UstaChaqirish() {
               {point ? (
                 <View style={s.geoOk}>
                   <Icon name="border" size={16} stroke={color.successText} />
-                  <View style={{ flexGrow: 1 }}>
+                  <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                     <Text style={s.geoOkTitle}>{t("mob.svc.pointTaken")}</Text>
                     <Text style={s.geoOkSub}>{t("mob.svc.pointFrom")}</Text>
                   </View>
@@ -347,7 +347,7 @@ export default function UstaChaqirish() {
 
             {/* ── Mobil usta */}
             <View style={[s.mobileRow, needMobile && s.mobileRowOn]}>
-              <View style={{ flexGrow: 1 }}>
+              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                 <Text style={s.mobileTitle}>{t("mob.svc.comeToMe")}</Text>
                 <Text style={s.mobileHint}>{t("mob.svc.comeToMeHint")}</Text>
               </View>

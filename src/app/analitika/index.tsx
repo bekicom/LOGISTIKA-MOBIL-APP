@@ -95,7 +95,7 @@ export default function Analitika() {
           <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
             <Icon name="back" size={22} stroke={color.foreground} />
           </Pressable>
-          <View style={{ flexGrow: 1 }}>
+          <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
             <Text style={s.title}>{t("mob.an.title")}</Text>
             <Text style={s.sub}>{t("mob.an.subtitle")}</Text>
           </View>
@@ -202,7 +202,7 @@ export default function Analitika() {
                   >
                     <Icon name="alert" size={20} stroke={bad > 0 ? color.danger : color.warning} />
                   </View>
-                  <View style={{ flexGrow: 1, minWidth: 0 }}>
+                  <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                     <Text style={s.rowTitle}>{t("mob.an.foundN", { n: problems.length })}</Text>
                     <Text style={s.rowSub} numberOfLines={1}>
                       {problems.map((p) => t(`mob.anProb.${p.key}`)).join(", ")}
@@ -265,7 +265,7 @@ export default function Analitika() {
                             { backgroundColor: neg ? color.danger : color.success },
                           ]}
                         />
-                        <View style={{ flexGrow: 1, minWidth: 0 }}>
+                        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                           <Text style={s.vehPlate}>{v.plate}</Text>
                           <Text style={s.vehMeta}>
                             {t("mob.an.tripsN", { n: v.trips })}
@@ -296,7 +296,7 @@ export default function Analitika() {
                 <View style={[s.icon, { backgroundColor: color.brand + "1a" }]}>
                   <Icon name="chart" size={20} stroke={color.brand} />
                 </View>
-                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.rowTitle}>{t("mob.an.marketTitle")}</Text>
                   <Text style={s.rowSub}>{t("mob.an.marketHint")}</Text>
                 </View>

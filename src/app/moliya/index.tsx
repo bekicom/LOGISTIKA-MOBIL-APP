@@ -67,7 +67,7 @@ export default function Moliya() {
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.title}>{t("mob.fin.title")}</Text>
           <Text style={s.sub}>{t("mob.fin.subtitle")}</Text>
         </View>
@@ -117,7 +117,7 @@ export default function Moliya() {
               {(data?.debts.overdueCount ?? 0) > 0 && (
                 <View style={s.overdue}>
                   <Icon name="alert" size={17} stroke="#fca5a5" />
-                  <View style={{ flexGrow: 1 }}>
+                  <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                     <Text style={s.overdueKey}>
                       {t("mob.fin.overdueN", { n: data?.debts.overdueCount ?? 0 })}
                     </Text>
@@ -141,7 +141,7 @@ export default function Moliya() {
                     <View style={s.pendIcon}>
                       <Icon name="doc" size={21} stroke={color.brandText} />
                     </View>
-                    <View style={{ flexGrow: 1 }}>
+                    <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                       <Text style={s.pendCount}>
                         {t("mob.fin.expensesN", { n: data?.pending.count ?? 0 })}
                       </Text>

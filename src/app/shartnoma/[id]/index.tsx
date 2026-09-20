@@ -162,7 +162,7 @@ export default function Shartnoma() {
                     size={18}
                     stroke={p.approved ? color.success : p.rejected ? color.danger : color.brand}
                   />
-                  <View style={{ flexGrow: 1, minWidth: 0 }}>
+                  <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                     <Text style={s.partyName}>
                       {p.me ? t("mob.ctr.you") : (p.name ?? t("mob.ctr.unknownParty"))}
                     </Text>
@@ -368,7 +368,7 @@ export default function Shartnoma() {
                 <View style={[s.icon, { backgroundColor: color.foreground + "0f" }]}>
                   <Icon name="doc" size={20} stroke={color.foreground} />
                 </View>
-                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.linkTitle}>{t("mob.ctr.payments")}</Text>
                   <Text style={s.linkSub}>
                     {c.pay && c.current
@@ -395,7 +395,7 @@ export default function Shartnoma() {
                 <View style={[s.icon, { backgroundColor: color.blueSoft }]}>
                   <Icon name="file" size={20} stroke={color.blue} />
                 </View>
-                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.linkTitle}>{t("mob.contract.docs")}</Text>
                   <Text style={s.linkSub}>{t("mob.cdoc.lead")}</Text>
                 </View>
@@ -413,7 +413,7 @@ export default function Shartnoma() {
                 <View style={[s.icon, { backgroundColor: color.purpleSoft }]}>
                   <Icon name="sparkle" size={20} stroke={color.purple} />
                 </View>
-                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.linkTitle}>{t("mob.contract.explain")}</Text>
                   <Text style={s.linkSub}>{t("mob.cexp.title")}</Text>
                 </View>

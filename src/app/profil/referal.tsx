@@ -83,7 +83,10 @@ export default function Referal() {
               <Text style={s.label}>{t("mob.ref.yourCode")}</Text>
               <Text style={s.code}>{data.code}</Text>
               <Pressable onPress={copy} style={({ pressed }) => [s.linkRow, pressed && { opacity: 0.8 }]}>
-                <Text style={s.link} numberOfLines={1}>{data.link}</Text>
+                {/* O'RTASIDAN QISQARADI (2026-09-20): havola sig'magani
+                    uchun oxiridagi KOD kesilib ketardi — aynan o'sha
+                    qism muhim («…?ref=FURAM-22382») */}
+                <Text style={s.link} numberOfLines={1} ellipsizeMode="middle">{data.link}</Text>
                 <Icon name={copied ? "check" : "copy"} size={17} stroke={copied ? color.success : color.mutedForeground} />
               </Pressable>
               {copied ? <Text style={s.copied}>{t("mob.ref.copied")}</Text> : null}

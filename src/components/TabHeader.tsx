@@ -120,7 +120,9 @@ export function TabHeader({
   return (
     <View style={[s.head, { paddingTop: insets.top + 6 }]}>
       <View style={{ flex: 1 }}>
-        <Text style={s.title} numberOfLines={1}>
+        {/* SIG'MASA KICHRAYADI (2026-09-20, 320 px): ruscha sarlavha
+            («Что разместить?») 24 px da tor ekranga sig'masdi */}
+        <Text style={s.title} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
           {title}
         </Text>
         {subtitle ? <Text style={s.sub}>{subtitle}</Text> : null}

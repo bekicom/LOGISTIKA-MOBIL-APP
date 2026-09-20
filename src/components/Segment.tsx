@@ -76,7 +76,15 @@ export function Segment({
             accessibilityState={{ selected: on }}
             style={({ pressed }) => [s.item, pressed && !on && s.pressed]}
           >
-            <Text style={[s.text, on && s.textOn]} numberOfLines={1}>
+            {/* SIG'MASA KICHRAYADI (2026-09-20, 320 px): ruscha
+                yorliqlar («Предстоящие», «Завершённые») tor ekranda
+                kesilardi — uchtasi bir qatorda turadi */}
+            <Text
+              style={[s.text, on && s.textOn]}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.8}
+            >
               {o.label}
             </Text>
           </Pressable>
@@ -112,6 +120,7 @@ const s = themed(() => ({
   item: {
     flex: 1,
     height: 36,
+    paddingHorizontal: 4,
     borderRadius: radius.pill,
     alignItems: "center",
     justifyContent: "center",

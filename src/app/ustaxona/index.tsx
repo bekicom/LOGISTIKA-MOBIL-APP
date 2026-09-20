@@ -150,7 +150,7 @@ export default function Ustaxona() {
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.title}>{t("mob.svc.title")}</Text>
           <Text style={s.sub}>{t("mob.svc.subtitle")}</Text>
         </View>
@@ -176,7 +176,7 @@ export default function Ustaxona() {
                   <View style={s.callIcon}>
                     <Icon name="alert" size={21} stroke={color.brand} />
                   </View>
-                  <View style={{ flexGrow: 1 }}>
+                  <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                     <Text style={s.callTitle}>{t("mob.svc.callTitle")}</Text>
                     <Text style={s.callSub}>{t("mob.svc.callSub")}</Text>
                   </View>
@@ -221,7 +221,7 @@ export default function Ustaxona() {
                 <View style={s.panelIcon}>
                   <Icon name="user" size={19} stroke={color.mutedForeground} />
                 </View>
-                <View style={{ flexGrow: 1 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.panelTitle}>{t("mob.svc.masterPanel")}</Text>
                   <Text style={s.panelSub}>
                     {data?.isMaster
@@ -396,7 +396,7 @@ function MasterCard({ m }: { m: Master }) {
         <View style={s.avatar}>
           <Text style={s.avatarText}>{initials(m.name)}</Text>
         </View>
-        <View style={{ flexGrow: 1, minWidth: 0 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <View style={s.nameRow}>
             <Text style={s.mName} numberOfLines={1}>
               {m.name}

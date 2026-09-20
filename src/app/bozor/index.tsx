@@ -93,7 +93,7 @@ export default function Bozor() {
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.title}>{t("mob.market.title")}</Text>
           <Text style={s.sub}>{t("mob.market.subtitle")}</Text>
         </View>
@@ -412,7 +412,9 @@ const s = themed(() => ({
     backgroundColor: color.foreground,
     justifyContent: "center",
   },
-  soldText: { fontSize: 12, fontWeight: "700", color: "#fff", letterSpacing: 0.3 },
+  /* `soldTag` foni `color.foreground` — yozuv ham mavzuga qarab
+     (2026-09-20): «SOTILDI» qorong'i rejimda ko'rinmasdi */
+  soldText: { fontSize: 12, fontWeight: "700", color: color.card, letterSpacing: 0.3 },
 
   body: { padding: space.md },
   name: { fontSize: 16, fontWeight: "700", color: color.foreground },

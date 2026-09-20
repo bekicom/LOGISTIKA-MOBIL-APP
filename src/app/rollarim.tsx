@@ -218,7 +218,7 @@ export default function Rollarim() {
                               stroke={soon ? color.warning : color.success}
                             />
                           </View>
-                          <View style={{ flexGrow: 1, minWidth: 0 }}>
+                          <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                             <Text style={s.roleName}>{t(`mob.role.${r.roleKey}`)}</Text>
                             <Text
                               style={[

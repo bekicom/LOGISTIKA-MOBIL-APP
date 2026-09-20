@@ -91,7 +91,7 @@ export default function IshTopish() {
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.title}>{t("mob.job.title")}</Text>
           <Text style={s.sub}>{t("mob.job.subtitle")}</Text>
         </View>
@@ -123,7 +123,7 @@ export default function IshTopish() {
                     <View style={s.gateIcon}>
                       <Icon name="doc" size={20} stroke={color.brand} />
                     </View>
-                    <View style={{ flexGrow: 1 }}>
+                    <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                       <Text style={s.gateTitle}>{t("mob.job.resumeTitle")}</Text>
                       <Text style={s.gateSub}>{t("mob.job.resumeSub")}</Text>
                     </View>
@@ -206,7 +206,7 @@ export default function IshTopish() {
               <View style={s.panelIcon}>
                 <Icon name="user" size={19} stroke={color.mutedForeground} />
               </View>
-              <View style={{ flexGrow: 1 }}>
+              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                 <Text style={s.panelTitle}>{t("mob.job.employerTitle")}</Text>
                 <Text style={s.panelSub}>{t("mob.job.employerSub")}</Text>
               </View>

@@ -262,7 +262,7 @@ export default function Tolovlar() {
                         size={18}
                         stroke={p.confirmed ? color.success : color.warning}
                       />
-                      <View style={{ flexGrow: 1, minWidth: 0 }}>
+                      <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                         <Text style={s.rowSum}>
                           {fmtNum(p.amount)} {p.currency}
                         </Text>

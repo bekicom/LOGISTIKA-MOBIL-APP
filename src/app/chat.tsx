@@ -168,7 +168,9 @@ export default function ChatRoyxati() {
               <Icon name="users" size={22} stroke={color.blue} />
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={s.name} numberOfLines={1}>{groupTitle(g.key)}</Text>
+              {/* IKKI QATOR (2026-09-20): «🇺🇿 Узбекистан → 🇷🇺 Россия»
+                  bitta qatorga sig'masdi — guruh nomi yarmida kesilardi */}
+              <Text style={s.name} numberOfLines={2}>{groupTitle(g.key)}</Text>
               <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
               <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
             </View>

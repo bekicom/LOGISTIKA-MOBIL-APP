@@ -263,7 +263,7 @@ export default function Xodimlarim() {
                 <Text style={s.group}>{t("pgStaff.inviteSent")}</Text>
                 {invites.map((i) => (
                   <View key={i.id} style={s.inviteRow}>
-                    <View style={{ flexGrow: 1, minWidth: 0 }}>
+                    <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                       <Text style={s.inviteName} numberOfLines={1}>
                         {roleName(i)}
                       </Text>

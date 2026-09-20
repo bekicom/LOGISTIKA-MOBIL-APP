@@ -575,7 +575,9 @@ function ListRow({ icon, title, sub, value, last, onPress }: {
       </View>
       <View style={{ flex: 1 }}>
         <Text style={s.listTitle}>{title}</Text>
-        <Text style={s.meta} numberOfLines={1}>{sub}</Text>
+        {/* IKKI QATOR (2026-09-20): ruscha izoh («Владелец машины
+            получит уведомление сразу») bitta qatorga sig'masdi */}
+        <Text style={s.meta} numberOfLines={2}>{sub}</Text>
       </View>
       <Text style={s.listValue}>{value}</Text>
       <Icon name="chevron" size={18} stroke="#94a3b8" />
@@ -769,12 +771,16 @@ const s = themed(() => ({
     height: 28, paddingHorizontal: 11, borderRadius: radius.control, backgroundColor: "rgba(255,255,255,0.94)",
   },
   gpsDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: color.brand },
-  mapBadgeText: { fontSize: 12, fontWeight: "600", color: color.foreground },
+  /* XARITA BELGILARI DOIM OQ FONDA (2026-09-20 tekshiruvi):
+     xarita yorug', shuning uchun ustidagi yozuv ham DOIM to'q
+     bo'lishi kerak — `color.foreground`/`color.icon` qorong'i
+     rejimda oqarib, belgilar ko'rinmay qolardi. */
+  mapBadgeText: { fontSize: 12, fontWeight: "600", color: color.navy },
   mapPlace: {
     position: "absolute", right: space.lg, bottom: 14, height: 28, paddingHorizontal: 11,
     borderRadius: radius.control, backgroundColor: "rgba(255,255,255,0.94)", justifyContent: "center",
   },
-  mapPlaceText: { fontSize: 12, fontWeight: "500", color: color.icon },
+  mapPlaceText: { fontSize: 12, fontWeight: "500", color: "#475569" },
 
   figures: {
     backgroundColor: color.card, flexDirection: "row", paddingVertical: space.lg,

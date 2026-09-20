@@ -143,7 +143,7 @@ export default function Qarzlar() {
                   <View style={s.avatar}>
                     <Text style={s.avatarText}>{initials(d.party?.name ?? "")}</Text>
                   </View>
-                  <View style={{ flexGrow: 1, minWidth: 0 }}>
+                  <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                     <Text style={s.partyName} numberOfLines={1}>
                       {d.party?.name ?? t("mob.fin.unknownParty")}
                     </Text>

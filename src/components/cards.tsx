@@ -17,7 +17,11 @@ export function Route({ from, fromC, to, toC, size = 18 }: {
   return (
     <View style={s.route}>
       <View style={{ flex: 1 }}>
-        <Text style={[s.city, { fontSize: size }]} numberOfLines={1}>{from}</Text>
+        {/* IKKI QATORGACHA (2026-09-20 tekshiruvi): tafsilot ekranida
+            nom to'liq keladi («Toshkent (poytaxt)» — 195 px) va bitta
+            qatorga sig'masdi. Lentada nom qisqartirilgan, shuning
+            uchun u yerda baribir bitta qator bo'lib qoladi. */}
+        <Text style={[s.city, { fontSize: size }]} numberOfLines={2}>{from}</Text>
         {fromC ? <Text style={s.country}>{country(fromC)}</Text> : null}
       </View>
       {/* Dizayn-2: strelka brend rangida, aylanada — yo'nalish
@@ -26,7 +30,7 @@ export function Route({ from, fromC, to, toC, size = 18 }: {
         <Icon name="arrow-right" size={16} stroke={color.brand} />
       </View>
       <View style={{ flex: 1, alignItems: "flex-end" }}>
-        <Text style={[s.city, { fontSize: size, textAlign: "right" }]} numberOfLines={1}>{to}</Text>
+        <Text style={[s.city, { fontSize: size, textAlign: "right" }]} numberOfLines={2}>{to}</Text>
         {toC ? <Text style={s.country}>{country(toC)}</Text> : null}
       </View>
     </View>
@@ -314,7 +318,9 @@ export function TruckCard({
               <Text style={s.tCapSub}>{` · ${item.volumeM3} m³`}</Text>
             ) : null}
           </View>
-          <Text style={s.tRoute} numberOfLines={1}>
+          {/* IKKI QATORGACHA (2026-09-20, 320 px): «Toshkent (poytaxt)
+              → Samarqand» tor ekranda bitta qatorga sig'masdi */}
+          <Text style={s.tRoute} numberOfLines={2}>
             {item.from} → {item.to}
           </Text>
           <Text style={s.tSub} numberOfLines={1}>

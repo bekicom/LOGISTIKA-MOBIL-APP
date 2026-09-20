@@ -115,7 +115,7 @@ export default function Zapchast() {
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.title}>{t("mob.part.title")}</Text>
           <Text style={s.sub}>{t("mob.part.subtitle")}</Text>
         </View>
@@ -336,7 +336,7 @@ function PartCard({ p, onPress }: { p: Part; onPress: () => void }) {
         <View style={s.thumb}>
           <Icon name="package" size={26} stroke="#94a3b8" />
         </View>
-        <View style={{ flexGrow: 1, minWidth: 0 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.name} numberOfLines={2}>
             {p.name}
           </Text>
@@ -368,7 +368,7 @@ function PartCard({ p, onPress }: { p: Part; onPress: () => void }) {
       </View>
 
       <View style={s.foot}>
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.price}>
             {fmtNum(p.price)} <Text style={s.cur}>{p.currency}</Text>
           </Text>

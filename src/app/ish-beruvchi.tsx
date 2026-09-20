@@ -277,7 +277,7 @@ export default function IshBeruvchi() {
                               <View style={s.avatar}>
                                 <Text style={s.avatarText}>{initials(c.name)}</Text>
                               </View>
-                              <View style={{ flexGrow: 1, minWidth: 0 }}>
+                              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                                 <View style={s.nameRow}>
                                   <Text style={s.candName} numberOfLines={1}>
                                     {c.name}

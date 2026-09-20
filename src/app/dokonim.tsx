@@ -97,7 +97,7 @@ function PartRow({ p, onPress }: { p: Part; onPress: () => void }) {
         <View style={s.thumb}>
           <Icon name="package" size={20} stroke="#94a3b8" />
         </View>
-        <View style={{ flexGrow: 1, minWidth: 0 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.name} numberOfLines={1}>
             {p.name}
           </Text>
@@ -317,7 +317,7 @@ export default function Dokonim() {
                   <View style={s.shopIcon}>
                     <Icon name="doc" size={19} stroke={color.mutedForeground} />
                   </View>
-                  <View style={{ flexGrow: 1 }}>
+                  <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                     <Text style={s.shopTitle}>{t("mob.part.shopInfo")}</Text>
                     <Text style={s.shopSub} numberOfLines={1}>
                       {[shop.location, shop.workHours].filter(Boolean).join(" · ") ||

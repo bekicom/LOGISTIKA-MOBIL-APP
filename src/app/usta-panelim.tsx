@@ -292,7 +292,7 @@ export default function UstaPanelim() {
                 <View style={s.profileIcon}>
                   <Icon name="user" size={19} stroke={color.mutedForeground} />
                 </View>
-                <View style={{ flexGrow: 1 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.profileTitle}>{t("mob.svc.myProfile")}</Text>
                   <Text style={s.profileSub} numberOfLines={1}>
                     {profile.specialities.map((k) => serviceSpecLabel(k)).join(", ")}

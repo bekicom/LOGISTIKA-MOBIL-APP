@@ -128,7 +128,7 @@ function DispCard({ d }: { d: Item }) {
         <View style={s.avatar}>
           <Text style={s.avatarText}>{initials(d.name ?? "")}</Text>
         </View>
-        <View style={{ flexGrow: 1, minWidth: 0 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <View style={s.nameRow}>
             <Text style={s.name} numberOfLines={1}>
               {d.name ?? `FURAM-${d.furamId}`}

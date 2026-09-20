@@ -132,7 +132,7 @@ export default function Detal() {
           {/* ARTIKUL — eng muhim qator */}
           {p.oem ? (
             <View style={s.oemBox}>
-              <View style={{ flexGrow: 1 }}>
+              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                 <Text style={s.oemKey}>{t("mob.part.oem")}</Text>
                 <Text style={s.oemValue} selectable>
                   {p.oem}
@@ -196,7 +196,7 @@ export default function Detal() {
             <View style={s.avatar}>
               <Text style={s.avatarText}>{initials(p.shop.name)}</Text>
             </View>
-            <View style={{ flexGrow: 1, minWidth: 0 }}>
+            <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
               <Text style={s.shopName} numberOfLines={1}>
                 {p.shop.name}
               </Text>
@@ -392,7 +392,7 @@ function OrderSheet({
           {/* ══ USTAGA BOG'LASH ══ */}
           {svc && (
             <View style={[s.linkBox, linked && s.linkBoxOn]}>
-              <View style={{ flexGrow: 1, minWidth: 0 }}>
+              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                 <Text style={s.linkTitle}>{t("mob.part.linkService")}</Text>
                 <Text style={s.linkSub} numberOfLines={1}>
                   #{svc.orderNo} · {svc.problem}

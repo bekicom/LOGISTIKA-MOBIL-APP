@@ -86,7 +86,7 @@ export function GuestPanel() {
                 <View style={s.icon}>
                   <Icon name={r.icon} size={18} stroke={color.mutedForeground} />
                 </View>
-                <View style={{ flexGrow: 1, minWidth: 0 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.rowTitle}>{r.title}</Text>
                   <Text style={s.rowHint} numberOfLines={1}>
                     {r.hint}

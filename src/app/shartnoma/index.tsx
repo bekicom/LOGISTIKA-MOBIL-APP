@@ -151,7 +151,7 @@ function Card({ c, hot }: { c: Item; hot?: boolean }) {
         <View style={s.avatar}>
           <Text style={s.avatarText}>{initials(c.party?.name ?? "")}</Text>
         </View>
-        <View style={{ flexGrow: 1, minWidth: 0 }}>
+        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
           <Text style={s.partyName} numberOfLines={1}>
             {c.party?.name ?? t("mob.ctr.unknownParty")}
           </Text>

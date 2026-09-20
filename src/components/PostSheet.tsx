@@ -104,7 +104,10 @@ export function PostActions({ onDone }: { onDone?: () => void }) {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={s.title}>{a.title}</Text>
-              <Text style={s.hint} numberOfLines={1}>
+              {/* IKKI QATORGACHA (2026-09-20 tekshiruvi): ruscha izoh
+                  («Свободная машина — чтобы найти груз») bitta qatorga
+                  sig'masdi va oxiri kesilardi */}
+              <Text style={s.hint} numberOfLines={2}>
                 {a.hint}
               </Text>
             </View>

@@ -337,7 +337,7 @@ export default function EelonTafsilot() {
                 <View style={s.fleetIcon}>
                   <Icon name="check" size={17} stroke={color.brand} />
                 </View>
-                <View style={{ flexGrow: 1 }}>
+                <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                   <Text style={s.fleetTitle}>{t("mob.market.fleetTitle")}</Text>
                   <Text style={s.fleetSub}>{t("mob.market.fleetSub")}</Text>
                 </View>
@@ -455,7 +455,7 @@ export default function EelonTafsilot() {
               <View style={s.avatar}>
                 <Text style={s.avatarText}>{initials(sale.seller.name)}</Text>
               </View>
-              <View style={{ flexGrow: 1, minWidth: 0 }}>
+              <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                 <View style={s.sellerName}>
                   <Text style={s.sellerNameText} numberOfLines={1}>
                     {sale.seller.name}

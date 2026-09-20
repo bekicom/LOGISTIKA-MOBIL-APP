@@ -105,7 +105,7 @@ export default function Muammolar() {
                             { backgroundColor: bad ? color.danger : color.warning },
                           ]}
                         />
-                        <View style={{ flexGrow: 1, minWidth: 0 }}>
+                        <View style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>
                           {/* Sarlavha — RAQAM bilan, o'z tilida */}
                           <Text style={s.probTitle}>
                             {t(`mob.anProbN.${p.key}`, p.vars)}

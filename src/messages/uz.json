@@ -137,6 +137,7 @@
     "NO_TRIP": "Bu odam bilan umumiy reys yo'q.",
     "NO_TRUCK": "Avval mashina biriktirilishi kerak.",
     "NO_VEHICLE": "Sizga biriktirilgan mashina yo'q. Avval transport egasi sizni mashinaga qo'shsin.",
+    "NO_VEHICLE_LINK": "Mashina biriktirilmagan. Parkingizdagi mashinada «O'zim haydayman» ni belgilang yoki transport egasi sizni qo'shsin.",
     "NO_VERSION": "Shartnomada hali shart yozilmagan.",
     "ON_TRIP": "Transport reysda — hozir o'zgartirib bo'lmaydi.",
     "OWN": "O'z e'loningizga bo'lmaydi.",
@@ -1594,7 +1595,7 @@
       "stopAnytime": "Kuzatuv reys yopilishi bilan o'zi to'xtaydi. Undan oldin ham reys ekranidagi tugma bilan to'xtatishingiz mumkin — hech kimdan so'ramasdan.",
       "title": "Joylashuv",
       "why": "Joylashuvingiz nima uchun kerak",
-      "whyText": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi — ular yukning qayerdaligini biladi. Buning uchun FURAM faol reys davomida joylashuvingizni ilova yopiq yoki ishlatilmayotgan paytda ham fonda yig'adi."
+      "whyText": "Reys davomida joylashuvingiz yuk egasi va dispetcherga ko'rsatiladi — ular yukning qayerdaligini biladi. Kuzatuv ilova fonda turganda ham davom etadi: Android'da bildirishnoma, iPhone'da ekran tepasidagi belgi ko'rinib turadi. Ilovani yopsangiz kuzatuv to'xtaydi."
     },
     "gps": {
       "fgBody": "Reys davomida yo'lingiz yozilmoqda. To'xtatish uchun ilovani oching.",
@@ -2563,7 +2564,7 @@
       "job": "Ish o'rni",
       "jobHint": "Xodim izlash e'loni",
       "later": "Keyinroq",
-      "liveDays": "E'lon 30 kun turadi. Keyin arxivga tushadi — istagan paytda qayta faollashtirasiz.",
+      "liveDays": "E'lon 7 kun turadi, keyin arxivga tushadi — istagan paytda qayta faollashtirasiz.",
       "loadHint": "Yuk — mashina topish uchun",
       "mainType": "Asosiy tur",
       "masterHint": "Usta oldingizga keladi",
@@ -2810,7 +2811,7 @@
       "yourCode": "Sizning kodingiz"
     },
     "rep": {
-      "distance": "Bosib o'tilgan yo'l",
+      "distance": "Yo'l masofasi",
       "docsHint": "CMR, invoys, suratlar",
       "duration": "Davomiyligi"
     },
@@ -3098,7 +3099,7 @@
       "offer": "Ommaviy oferta",
       "offerRequired": "Davom etish uchun ofertaga rozilik bering",
       "otherRole": "Boshqa rol",
-      "passwordMin": "Kamida 6 belgi",
+      "passwordMin": "Kamida 8 belgi",
       "phone": "Telefon raqamingiz",
       "phoneHint": "Raqamni tasdiqlash uchun kod yuboramiz",
       "privacy": "Maxfiylik siyosati",

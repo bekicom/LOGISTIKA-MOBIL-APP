@@ -65,6 +65,11 @@ export function Button({
         onPressIn={off ? undefined : press.onPressIn}
         onPressOut={off ? undefined : press.onPressOut}
         accessibilityRole="button"
+        /* NOMI HAM AYTILADI (2026-09-20 sinovi): ichkaridagi matn
+           `Text` ichida bo'lgani uchun VoiceOver/TalkBack tugmani
+           nomsiz o'qirdi — «tugma» deb. Bitta joyda tuzatilsa,
+           `Button` ishlatadigan hamma ekran to'g'rilanadi. */
+        accessibilityLabel={title}
         accessibilityState={{ disabled: off, busy: loading }}
         style={({ pressed }) => [
           s.btn,

@@ -6,12 +6,12 @@
  */
 import { useCallback, useEffect, useState } from "react";
 import { Redirect } from "expo-router";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { Button } from "@/components/ui";
 import { useAuth } from "@/lib/auth-context";
 import { isGuest } from "@/lib/guest";
 import { t } from "@/lib/i18n";
-import { color, space } from "@/lib/theme";
+import { color, space, themed } from "@/lib/theme";
 
 /** Server javob bermaganda o'zi qayta urinish oralig'i */
 const QAYTA_MS = 10_000;
@@ -67,9 +67,11 @@ function AloqaYoq() {
   );
 }
 
-const s = StyleSheet.create({
+/* `themed` — `StyleSheet.create` EMAS: ranglar modul yuklanganda
+   muzlab qolmasin, rejim o'zgarganda yangilansin (`test-dark-mobile`) */
+const s = themed(() => ({
   ekran: { flex: 1, backgroundColor: color.navy, alignItems: "center", justifyContent: "center" },
   aloqa: { paddingHorizontal: space.xl, gap: space.md },
   sarlavha: { color: color.navyForeground, fontSize: 18, fontWeight: "700", textAlign: "center" },
   izoh: { color: color.navyForeground, opacity: 0.75, fontSize: 15, textAlign: "center", marginBottom: space.sm },
-});
+}));

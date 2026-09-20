@@ -24,7 +24,7 @@ import { roleLabel, t } from "@/lib/i18n";
 
 export default function ProfilTahrir() {
   const router = useRouter();
-  const { user, refresh } = useAuth();
+  const { user, tarif, refresh } = useAuth();
 
   const [firstName, setFirst] = useState(user?.firstName ?? "");
   const [lastName, setLast] = useState(user?.lastName ?? "");
@@ -135,7 +135,11 @@ export default function ProfilTahrir() {
 
         <View style={s.readonly}>
           <Row label="FURAM ID" value={String(user?.furamId ?? "—")} />
-          <Row label={t("mob.profile.role")} value={roleLabel(user?.role)} last />
+          {/* TARIF BELGISI BILAN BIR XIL MANBA (2026-09-20 sinovi):
+              profil sarlavhasida tarif roli («Mashina egasi»), bu
+              yerda esa hisobning asosiy roli («Yuk egasi») chiqib,
+              ikki ekran bir-biriga zid gapirardi. */}
+          <Row label={t("mob.profile.role")} value={roleLabel(tarif && "rol" in tarif ? tarif.rol : user?.role)} last />
         </View>
 
         <Button title={t("mob.common.save")} onPress={save} loading={busy} disabled={!changed} />

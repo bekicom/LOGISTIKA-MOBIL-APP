@@ -138,7 +138,7 @@ export function ChannelPick({
                   ) : null}
                 </View>
               </View>
-              <Text style={s.channelName} numberOfLines={1}>
+              <Text style={s.channelName} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
                 {c === "telegram" ? "Telegram" : "SMS"}
               </Text>
               {ixcham ? null : (
@@ -163,7 +163,7 @@ export function ChannelPick({
             <View style={s.channelTop}>
               {social!.busy === "google" ? <ActivityIndicator size="small" /> : <GoogleG size={22} />}
             </View>
-            <Text style={s.channelName} numberOfLines={1}>
+            <Text style={s.channelName} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
               {t("googleAuth.optGoogle")}
             </Text>
           </Pressable>
@@ -233,13 +233,16 @@ const s = themed(() => ({
 
   channel: {
     flex: 1,
-    padding: 14,
+    padding: 12,
     borderRadius: radius.control,
     borderWidth: 1,
     borderColor: color.border,
   },
   channelOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180a" },
   channelTop: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  /* UCHTA KARTA BITTA QATORDA: 375 px ekranda nomga ~64 px qoladi va
+     «Telegram» (66 px) «Telegra…» bo'lib kesilardi (2026-09-20 sinovi).
+     Ichki bo'shliq 14 → 12, nom esa sig'masa o'zi kichrayadi. */
   channelName: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginTop: 10 },
   channelNote: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
   pressed: { backgroundColor: color.muted },

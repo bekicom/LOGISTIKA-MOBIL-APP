@@ -346,7 +346,7 @@ export default function Royxat() {
                 title={t("mob.signUp.title")}
                 onPress={register}
                 loading={busy}
-                disabled={!rol || !agreed || firstName.trim().length < 2 || password.length < 6}
+                disabled={!rol || !agreed || firstName.trim().length < 2 || password.length < 8}
               />
               {!agreed ? <Text style={s.hintCenter}>{t("mob.signUp.offerRequired")}</Text> : null}
             </View>

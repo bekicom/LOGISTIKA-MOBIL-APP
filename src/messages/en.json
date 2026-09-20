@@ -137,6 +137,7 @@
     "NO_TRIP": "You have no shared trip with this person.",
     "NO_TRUCK": "A vehicle must be assigned first.",
     "NO_VEHICLE": "No vehicle is assigned to you. Ask the vehicle owner to attach you to one first.",
+    "NO_VEHICLE_LINK": "No vehicle is linked to you. Mark “I drive it myself” on a vehicle in your fleet, or ask the owner to add you.",
     "NO_VERSION": "The contract has no terms yet.",
     "ON_TRIP": "The truck is on a trip — you can't change it now.",
     "OWN": "You can't do this on your own listing.",
@@ -1594,7 +1595,7 @@
       "stopAnytime": "Tracking stops by itself when the trip closes. You can also stop it earlier from the trip screen, without asking anyone.",
       "title": "Location",
       "why": "Why we need your location",
-      "whyText": "During a trip your location is shown to the cargo owner and the dispatcher, so they know where the load is. To do this, FURAM collects your location in the background during an active trip, even when the app is closed or not in use."
+      "whyText": "During a trip your location is shown to the cargo owner and the dispatcher, so they know where the load is. Tracking continues while the app is in the background: Android shows a notification, iPhone shows an indicator at the top of the screen. Closing the app stops tracking."
     },
     "gps": {
       "fgBody": "Your route is being recorded during the trip. Open the app to stop.",
@@ -2563,7 +2564,7 @@
       "job": "Job opening",
       "jobHint": "Hiring announcement",
       "later": "Later",
-      "liveDays": "The listing stays up for 30 days, then goes to the archive — you can reactivate it any time.",
+      "liveDays": "The listing stays up for 7 days, then goes to the archive — you can reactivate it any time.",
       "loadHint": "Load — to find a truck",
       "mainType": "Main type",
       "masterHint": "A mechanic comes to you",
@@ -2810,7 +2811,7 @@
       "yourCode": "Your code"
     },
     "rep": {
-      "distance": "Distance covered",
+      "distance": "Route distance",
       "docsHint": "CMR, invoice, photos",
       "duration": "Duration"
     },
@@ -3098,7 +3099,7 @@
       "offer": "Public offer",
       "offerRequired": "Accept the offer to continue",
       "otherRole": "Other role",
-      "passwordMin": "At least 6 characters",
+      "passwordMin": "At least 8 characters",
       "phone": "Your phone number",
       "phoneHint": "We will send a code to confirm the number",
       "privacy": "Privacy policy",

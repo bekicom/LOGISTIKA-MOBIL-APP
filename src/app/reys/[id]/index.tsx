@@ -824,13 +824,18 @@ const s = themed(() => ({
 
   meta: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
+  /* USTMA-UST, YONMA-YON EMAS (2026-09-20 sinovi).
+     Ilgari `flexDirection: "row"` edi: SOS bloki o'z eniga (≈328 px)
+     yoyilib, `flex: 1` li asosiy tugmaga 7 px qoldirardi — «Yuklashga
+     yo'l oldim» yozuvi ekrandan chiqib ketardi va SOS ustiga chiqardi.
+     SOS blokidagi `marginTop: 9` ham ustun tartibga mo'ljallangan. */
   actions: {
-    flexDirection: "row", gap: 8, backgroundColor: color.card,
+    backgroundColor: color.card,
     paddingHorizontal: space.lg, paddingTop: space.md,
     ...shadow.bar,
   },
   primary: {
-    flex: 1, height: 52, borderRadius: radius.control, backgroundColor: color.brand,
+    alignSelf: "stretch", height: 52, borderRadius: radius.control, backgroundColor: color.brand,
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
   },
   primaryText: { fontSize: font.body, fontWeight: "600", color: "#fff" },

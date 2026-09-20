@@ -137,6 +137,7 @@
     "NO_TRIP": "Bu kişiyle ortak sefer yok.",
     "NO_TRUCK": "Önce araç atanmalı.",
     "NO_VEHICLE": "Size atanmış araç yok. Önce araç sahibi sizi bir araca eklesin.",
+    "NO_VEHICLE_LINK": "Size bağlı araç yok. Filonuzdaki araçta “Kendim kullanıyorum” seçeneğini işaretleyin ya da araç sahibi sizi eklesin.",
     "NO_VERSION": "Sözleşmede henüz şart yok.",
     "ON_TRIP": "Araç seferde — şimdi değiştirilemez.",
     "OWN": "Kendi ilanınızda olmaz.",
@@ -1594,7 +1595,7 @@
       "stopAnytime": "Takip, sefer kapanınca kendiliğinden durur. Daha önce de sefer ekranındaki düğmeyle durdurabilirsiniz — kimseye sormadan.",
       "title": "Konum",
       "why": "Konumunuz neden gerekli",
-      "whyText": "Sefer boyunca konumunuz yük sahibi ve dispeçere gösterilir — yükün nerede olduğunu bilirler. Bunun için FURAM, aktif sefer sırasında uygulama kapalıyken veya kullanılmıyorken bile konumunuzu arka planda toplar."
+      "whyText": "Sefer boyunca konumunuz yük sahibine ve sevkiyatçıya gösterilir — yükün nerede olduğunu bilirler. Uygulama arka plandayken de takip sürer: Android'de bildirim, iPhone'da ekranın üstünde bir simge görünür. Uygulamayı kapatırsanız takip durur."
     },
     "gps": {
       "fgBody": "Sefer boyunca rotanız kaydediliyor. Durdurmak için uygulamayı açın.",
@@ -2563,7 +2564,7 @@
       "job": "İş ilanı",
       "jobHint": "Personel arama ilanı",
       "later": "Daha sonra",
-      "liveDays": "İlan 30 gün yayında kalır, sonra arşive düşer — istediğiniz zaman yeniden yayınlarsınız.",
+      "liveDays": "İlan 7 gün yayında kalır, sonra arşive düşer — istediğiniz zaman yeniden yayınlarsınız.",
       "loadHint": "Yük — araç bulmak için",
       "mainType": "Ana tip",
       "masterHint": "Usta size gelir",
@@ -2810,7 +2811,7 @@
       "yourCode": "Kodunuz"
     },
     "rep": {
-      "distance": "Kat edilen yol",
+      "distance": "Güzergâh mesafesi",
       "docsHint": "CMR, fatura, fotoğraflar",
       "duration": "Süre"
     },
@@ -3098,7 +3099,7 @@
       "offer": "Kamu sözleşmesi",
       "offerRequired": "Devam etmek için sözleşmeyi kabul edin",
       "otherRole": "Başka rol",
-      "passwordMin": "En az 6 karakter",
+      "passwordMin": "En az 8 karakter",
       "phone": "Telefon numaranız",
       "phoneHint": "Numarayı doğrulamak için kod göndeririz",
       "privacy": "Gizlilik politikası",

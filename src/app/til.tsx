@@ -132,7 +132,11 @@ const s = themed(() => ({
   },
   cardOn: { backgroundColor: color.brand },
   flag: { fontSize: 28 },
-  name: { fontSize: 13.5, fontWeight: "700", color: color.foreground },
+  /* KARTA DOIM OQ — yozuv ham doim to'q (2026-09-20 sinovi).
+     Ilgari `color.foreground` edi: qorong'i rejimda u oq bo'lib
+     qolardi va til nomlari oq karta ustida ko'rinmasdi (kontrast
+     1.15:1). Bu ekranning qolgan ranglari ham qat'iy yozilgan. */
+  name: { fontSize: 13.5, fontWeight: "700", color: color.navy },
   nameOn: { color: "#ffffff" },
   tick: {
     position: "absolute",

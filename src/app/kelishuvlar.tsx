@@ -342,7 +342,10 @@ const s = themed(() => ({
   },
   filterOn: { backgroundColor: color.foreground, borderColor: color.foreground },
   filterText: { fontSize: font.caption, fontWeight: "500", color: color.icon },
-  filterTextOn: { color: "#fff", fontWeight: "600" },
+  /* Fon `color.foreground` — yozuv ham mavzuga qarab o'zgarsin:
+     qattiq "#fff" bilan qorong'i rejimda oq fonda oq qolardi
+     (2026-09-20 sinovi, `parkim/[id]/texnik` dagi bilan bir xil) */
+  filterTextOn: { color: color.card, fontWeight: "600" },
 
   scroll: { padding: space.lg, gap: space.md },
   groupHot: {

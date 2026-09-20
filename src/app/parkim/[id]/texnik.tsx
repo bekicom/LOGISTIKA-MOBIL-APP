@@ -362,7 +362,12 @@ const s = themed(() => ({
   },
   tabOn: { backgroundColor: color.foreground },
   tabText: { fontSize: 13.5, fontWeight: "700", color: color.mutedForeground },
-  tabTextOn: { color: "#fff" },
+  /* FON `color.foreground` — YOZUV HAM MAVZUGA QARAB (2026-09-20).
+     Qattiq "#fff" edi: qorong'i rejimda fon oqarib ketadi va
+     tanlangan bo'lim nomi oq fonda oq bo'lib yo'qolardi.
+     Boshqa ekranlar (`analitika`, `moliya/qarzlar`…) `color.card`
+     ishlatadi — shu bilan bir xil qilindi. */
+  tabTextOn: { color: color.card },
 
   row: {
     flexDirection: "row",

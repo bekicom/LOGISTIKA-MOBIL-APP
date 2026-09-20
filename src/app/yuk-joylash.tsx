@@ -382,7 +382,15 @@ export default function YukJoylash() {
               />
               <SumRow
                 label={t("mob.load.price")}
-                value={`${negotiable ? "Kelishiladi" : `${price} ${currency}`} · ${pay().find((p) => p.key === payment)?.label}`}
+                /* Yuqoridagi ko'rinish kartasi bilan BIR XIL: raqam
+                   ajratgich bilan, «Kelishiladi» esa lug'atdan —
+                   ilgari shu qator «25000000» va o'zbekcha qattiq
+                   yozilgan so'z bilan chiqardi (2026-09-20 sinovi) */
+                value={`${
+                  negotiable
+                    ? t("mob.loads.negotiable")
+                    : `${new Intl.NumberFormat("ru-RU").format(num(price))} ${currency}`
+                } · ${pay().find((p) => p.key === payment)?.label}`}
                 onEdit={() => setStep(4)}
                 last
               />

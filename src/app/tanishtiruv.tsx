@@ -40,6 +40,12 @@ export default function Tanishtiruv() {
 
   function go(k: number) {
     scroll.current?.scrollTo({ x: k * width, animated: true });
+    /* HOLAT SHU YERDA HAM YANGILANADI (2026-09-20 sinovi):
+       ilgari faqat `onMomentumScrollEnd` yozardi. U ba'zi
+       muhitlarda (jumladan brauzerdagi sinovda) ishlamay qolsa,
+       `i` 0 da qotib, «Keyingi» hamma bosishda 1-slaydga
+       qaytaraverardi. Qo'l bilan surilganda `onEnd` aniqlaydi. */
+    setI(k);
   }
 
   function onEnd(e: NativeSyntheticEvent<NativeScrollEvent>) {

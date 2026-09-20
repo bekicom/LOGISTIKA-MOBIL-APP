@@ -57,7 +57,7 @@ export default function DispetcherAnketa() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const me = useApi<{ profile: Profile | null }>("/api/dispatcher-profile");
+  const me = useApi<{ canEdit?: boolean; profile: Profile | null }>("/api/dispatcher-profile");
   const types = useApi<{ items: VehicleType[] }>("/api/vehicle-types");
 
   const [city, setCity] = useState("");
@@ -88,7 +88,12 @@ export default function DispetcherAnketa() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [me.data]);
 
-  const canEdit = user?.role === "DISPATCHER";
+  /* RUXSATNI SERVER AYTADI (2026-09-20 sinovi).
+     `user.role` — faqat ASOSIY rol. «Men kimman?» dan dispetcher
+     rolini qo'shgan odam ham anketani to'ldira olishi kerak: server
+     `isRole` bilan hamma rolni ko'radi va `canEdit` qaytaradi.
+     Eski server javob bermasa (`undefined`) — eski yo'l bilan. */
+  const canEdit = me.data?.canEdit ?? user?.role === "DISPATCHER";
 
   const toggle = <T,>(list: T[], v: T, set: (x: T[]) => void) =>
     set(list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);

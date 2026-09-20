@@ -358,13 +358,13 @@ const s = themed(() => ({
     paddingHorizontal: 13,
     paddingVertical: 12,
   },
-  pendingText: { flex: 1, fontSize: 13, fontWeight: "700", color: color.brand },
+  pendingText: { flex: 1, fontSize: 13, fontWeight: "700", color: color.brandText },
 
   row: { flexDirection: "row", alignItems: "center", gap: 11, padding: space.md },
   rowLine: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.border },
   rowTitle: { fontSize: 13.5, fontWeight: "700", color: color.foreground },
   rowSub: { fontSize: 11.5, color: color.mutedForeground, marginTop: 2 },
-  fee: { fontSize: 13.5, fontWeight: "800", color: color.brand },
+  fee: { fontSize: 13.5, fontWeight: "800", color: color.brandText },
 
   whyRow: { flexDirection: "row", flexWrap: "wrap", gap: 5, marginTop: 6 },
   why: {
@@ -386,7 +386,7 @@ const s = themed(() => ({
   },
   chipOn: { borderColor: color.brand, backgroundColor: color.brandSoft },
   chipText: { fontSize: 12, fontWeight: "600", color: color.mutedForeground },
-  chipTextOn: { color: color.brand, fontWeight: "800" },
+  chipTextOn: { color: color.brandText, fontWeight: "800" },
 
   dl: {
     flex: 1,
@@ -400,6 +400,6 @@ const s = themed(() => ({
     borderColor: color.brand + "66",
     backgroundColor: color.card,
   },
-  dlText: { fontSize: 13.5, fontWeight: "700", color: color.brand },
+  dlText: { fontSize: 13.5, fontWeight: "700", color: color.brandText },
   repErr: { fontSize: 12.5, color: color.danger, marginTop: space.sm },
 }));

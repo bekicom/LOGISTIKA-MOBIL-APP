@@ -20,6 +20,7 @@ import { Icon } from "./Icon";
 import { Tap } from "./Tap";
 import { color, font, radius, shadow, size, space, themed } from "@/lib/theme";
 import { usePressScale } from "@/lib/motion";
+import { t } from "@/lib/i18n";
 
 /* ─────────────────────────────────────────────── Tugma */
 
@@ -145,7 +146,7 @@ export function Field({ label, hint, error, right, left, style, ...rest }: Field
       >
         {left}
         <TextInput
-          placeholderTextColor="#94a3b8"
+          placeholderTextColor={color.faintText}
           style={[s.input, many && s.inputMany, style]}
           {...rest}
         />
@@ -224,7 +225,7 @@ export function Header({
       <Pressable
         onPress={onBack ?? (() => router.back())}
         accessibilityRole="button"
-        accessibilityLabel="Orqaga"
+        accessibilityLabel={t("mob.common.back")}
         hitSlop={8}
         style={({ pressed }) => [s.headBack, pressed && { opacity: 0.5 }]}
       >

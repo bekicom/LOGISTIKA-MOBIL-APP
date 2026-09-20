@@ -139,13 +139,13 @@ const s = themed(() => ({
   scroll: { padding: space.lg, gap: space.md },
 
   hero: { backgroundColor: color.navy, borderRadius: radius.card, padding: space.xl },
-  heroLabel: { fontSize: 12, color: "#94a3b8", letterSpacing: 0.3 },
+  heroLabel: { fontSize: 12, color: color.faintText, letterSpacing: 0.3 },
   heroValue: { fontSize: 30, fontWeight: "800", color: "#ffffff", marginTop: 4, letterSpacing: -0.6 },
   heroHint: { fontSize: 12.5, color: color.iconFaint, marginTop: 8, lineHeight: 18 },
   stats: { flexDirection: "row", alignItems: "center", gap: 14, marginTop: 16, paddingTop: 14, borderTopWidth: 1, borderTopColor: "#ffffff1f" },
   vline: { width: 1, height: 28, backgroundColor: "#ffffff1f" },
   statValue: { fontSize: 20, fontWeight: "800", color: "#ffffff" },
-  statLabel: { fontSize: 11.5, color: "#94a3b8", marginTop: 1 },
+  statLabel: { fontSize: 11.5, color: color.faintText, marginTop: 1 },
 
   card: { backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, ...shadow.card },
   cardTitle: { fontSize: 15, fontWeight: "800", color: color.foreground, marginBottom: 8 },
@@ -153,7 +153,7 @@ const s = themed(() => ({
   code: { fontSize: 26, fontWeight: "800", color: color.brand, letterSpacing: 1, marginTop: 2 },
   linkRow: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12, padding: 12, borderRadius: radius.control, backgroundColor: color.background },
   link: { flex: 1, fontSize: 13, fontWeight: "600", color: color.blue },
-  copied: { fontSize: 12, fontWeight: "700", color: color.success, marginTop: 6 },
+  copied: { fontSize: 12, fontWeight: "700", color: color.successText, marginTop: 6 },
   shareBtn: {
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
     height: 50, borderRadius: radius.control, backgroundColor: color.brand, marginTop: 12,

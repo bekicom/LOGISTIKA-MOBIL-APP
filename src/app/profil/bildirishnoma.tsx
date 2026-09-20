@@ -267,7 +267,7 @@ const s = themed(() => ({
   },
   warnTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },
   warnBody: { fontSize: 12, color: color.mutedForeground, lineHeight: 18 },
-  warnLink: { fontSize: 12, fontWeight: "600", color: color.brand, marginTop: 2 },
+  warnLink: { fontSize: 12, fontWeight: "600", color: color.brandText, marginTop: 2 },
 
   note: { borderWidth: 1, borderColor: color.iconFaint, borderRadius: radius.card, backgroundColor: color.surface, padding: space.lg, gap: 8 },
   noteTitle: { fontSize: font.caption, fontWeight: "600", color: color.foreground },

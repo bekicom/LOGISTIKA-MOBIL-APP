@@ -250,7 +250,7 @@ const s = themed(() => ({
   label: { fontSize: font.caption, fontWeight: "600", color: color.foreground, marginBottom: 7 },
   phoneRow: { flexDirection: "row", gap: space.sm, alignItems: "flex-start" },
   err: { fontSize: font.caption, color: color.danger },
-  link: { fontSize: font.caption, fontWeight: "600", color: color.brand },
+  link: { fontSize: font.caption, fontWeight: "600", color: color.brandText },
 
   boxes: { flexDirection: "row", gap: space.sm, justifyContent: "center" },
   box: {

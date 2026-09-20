@@ -407,7 +407,7 @@ const s = themed(() => ({
   },
   plate: { fontSize: 20, fontWeight: "700", color: color.foreground, letterSpacing: 0.3 },
   sub: { fontSize: font.caption, color: color.mutedForeground, marginTop: 2 },
-  no: { fontSize: 11, color: "#94a3b8", marginTop: 4, fontFamily: "monospace" },
+  no: { fontSize: 11, color: color.faintText, marginTop: 4, fontFamily: "monospace" },
   chip: {
     fontSize: 10, fontWeight: "700", paddingHorizontal: 8, paddingVertical: 4,
     borderRadius: 6, overflow: "hidden",
@@ -429,9 +429,9 @@ const s = themed(() => ({
   },
   avatarText: { fontSize: 13, fontWeight: "700", color: "#fff" },
 
-  action: { fontSize: 12, fontWeight: "600", color: color.brand },
+  action: { fontSize: 12, fontWeight: "600", color: color.brandText },
   more: {
-    fontSize: font.caption, fontWeight: "600", color: color.brand,
+    fontSize: font.caption, fontWeight: "600", color: color.brandText,
     marginTop: space.sm, marginLeft: space.xs,
   },
 

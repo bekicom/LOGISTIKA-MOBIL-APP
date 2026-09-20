@@ -203,7 +203,7 @@ const s = themed(() => ({
 
   best: { padding: space.md },
   bestLine: { borderBottomWidth: 1, borderBottomColor: color.muted },
-  bestKey: { fontSize: 11, color: "#94a3b8", letterSpacing: 0.3 },
+  bestKey: { fontSize: 11, color: color.faintText, letterSpacing: 0.3 },
   bestRow: {
     flexDirection: "row",
     alignItems: "baseline",
@@ -212,7 +212,7 @@ const s = themed(() => ({
     marginTop: 4,
   },
   bestName: { flexShrink: 1, fontSize: 14.5, fontWeight: "600", color: color.foreground },
-  bestVal: { fontSize: 14, fontWeight: "700", color: color.success },
+  bestVal: { fontSize: 14, fontWeight: "700", color: color.successText },
   bestMeta: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
 
   note: {

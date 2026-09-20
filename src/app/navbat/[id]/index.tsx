@@ -202,7 +202,7 @@ export default function NavbatTafsilot() {
                   {i < data.events.length - 1 ? <View style={s.line} /> : null}
                 </View>
                 <View style={{ flex: 1, paddingBottom: i < data.events.length - 1 ? 16 : 0 }}>
-                  <Text style={[s.stepT, i === data.events.length - 1 && { color: color.brand }]}>
+                  <Text style={[s.stepT, i === data.events.length - 1 && { color: color.brandText }]}>
                     {t(`mob.queueEv.${e.type}`)}
                   </Text>
                   <Text style={s.stepW}>
@@ -322,7 +322,7 @@ const s = themed(() => ({
   clockDate: { fontSize: 15, color: "rgba(241,245,249,0.75)" },
   bar: { height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.15)", marginTop: 12, overflow: "hidden" },
   barFill: { height: 6, borderRadius: 3, backgroundColor: color.brand },
-  clockLeft: { fontSize: 14, fontWeight: "600", color: color.brand },
+  clockLeft: { fontSize: 14, fontWeight: "600", color: color.brandText },
 
   sec: {
     padding: space.lg, paddingBottom: 8, fontSize: 12, fontWeight: "600",

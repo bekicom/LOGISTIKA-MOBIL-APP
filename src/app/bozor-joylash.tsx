@@ -623,7 +623,7 @@ const s = themed(() => ({
 
   orRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   orLine: { flex: 1, height: 1, backgroundColor: color.border },
-  orText: { fontSize: 12, color: "#94a3b8" },
+  orText: { fontSize: 12, color: color.faintText },
 
   ok: {
     flexDirection: "row",
@@ -657,7 +657,7 @@ const s = themed(() => ({
   switchTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
   switchHint: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
 
-  suggest: { fontSize: 12, color: color.brand, fontWeight: "600" },
+  suggest: { fontSize: 12, color: color.brandText, fontWeight: "600" },
 
   shots: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   shot: { width: 106, height: 80, borderRadius: 10, overflow: "hidden", backgroundColor: color.muted },
@@ -695,7 +695,7 @@ const s = themed(() => ({
     justifyContent: "center",
     gap: 4,
   },
-  addText: { fontSize: 11, fontWeight: "500", color: "#94a3b8" },
+  addText: { fontSize: 11, fontWeight: "500", color: color.faintText },
 
   locBtn: {
     height: 46,
@@ -709,7 +709,7 @@ const s = themed(() => ({
     gap: 9,
   },
   locText: { fontSize: 15, color: color.foreground },
-  locPh: { color: "#94a3b8" },
+  locPh: { color: color.faintText },
 
   warn: {
     padding: space.md,

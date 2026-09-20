@@ -472,5 +472,5 @@ const s = themed(() => ({
   vehPlate: { fontSize: 14, fontWeight: "600", color: color.foreground },
   vehMeta: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   vehSum: { fontSize: 15, fontWeight: "700" },
-  vehCur: { fontSize: 11, color: "#94a3b8" },
+  vehCur: { fontSize: 11, color: color.faintText },
 }));

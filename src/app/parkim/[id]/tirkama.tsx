@@ -254,7 +254,7 @@ export default function Tirkama() {
               }}
               style={[s.typeRow, typeId === x.id && s.typeRowOn]}
             >
-              <Text style={[s.typeText, typeId === x.id && { color: color.brand, fontWeight: "700" }]}>
+              <Text style={[s.typeText, typeId === x.id && { color: color.brandText, fontWeight: "700" }]}>
                 {x.name}
               </Text>
               {typeId === x.id ? <Icon name="check" size={16} stroke={color.brand} /> : null}

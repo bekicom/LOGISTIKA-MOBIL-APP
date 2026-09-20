@@ -308,7 +308,7 @@ const s = themed(() => ({
     width: 34, height: 42, borderRadius: 6, backgroundColor: color.muted,
     alignItems: "center", justifyContent: "center",
   },
-  vBoxText: { fontSize: 11, fontWeight: "700", color: "#94a3b8" },
+  vBoxText: { fontSize: 11, fontWeight: "700", color: color.faintText },
 
   emptyViews: { paddingHorizontal: space.lg, paddingVertical: 12, borderTopWidth: 1, borderTopColor: color.border },
   emptyViewsText: { fontSize: font.caption, color: color.mutedForeground },

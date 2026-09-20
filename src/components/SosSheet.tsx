@@ -291,5 +291,5 @@ const s = themed(() => ({
     borderRadius: radius.pill,
     backgroundColor: color.card,
   },
-  resolveText: { fontSize: 13, fontWeight: "700", color: color.success },
+  resolveText: { fontSize: 13, fontWeight: "700", color: color.successText },
 }));

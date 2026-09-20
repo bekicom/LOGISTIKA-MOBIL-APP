@@ -168,7 +168,7 @@ export default function Xodimlarim() {
               </View>
               {x.onTrip && (
                 <View style={[s.tag, s.tagTrip]}>
-                  <Text style={[s.tagText, { color: color.brand }]}>{t("pgStaff.onTrip")}</Text>
+                  <Text style={[s.tagText, { color: color.brandText }]}>{t("pgStaff.onTrip")}</Text>
                 </View>
               )}
               <Text style={s.since}>{shortDate(x.respondedAt ?? x.createdAt)}</Text>
@@ -317,7 +317,7 @@ export default function Xodimlarim() {
                         </View>
                         {j.onTrip && (
                           <View style={[s.tag, s.tagTrip]}>
-                            <Text style={[s.tagText, { color: color.brand }]}>
+                            <Text style={[s.tagText, { color: color.brandText }]}>
                               {t("pgStaff.onTrip")}
                             </Text>
                           </View>
@@ -487,7 +487,7 @@ function AddSheet({
             value={title}
             onChangeText={setTitle}
             placeholder={t("pgStaff.titlePh")}
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={color.faintText}
             maxLength={80}
             style={s.input}
           />
@@ -517,7 +517,7 @@ const s = themed(() => ({
   scroll: { padding: space.lg },
   head2: { gap: space.md, marginBottom: space.md },
   foot2: { gap: space.lg, marginTop: space.lg },
-  add: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
+  add: { fontSize: font.bodyLg, fontWeight: "600", color: color.brandText },
 
   group: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, letterSpacing: 0.3 },
   groupNote: { fontSize: 12, color: color.mutedForeground, lineHeight: 18, marginTop: -4 },
@@ -535,7 +535,7 @@ const s = themed(() => ({
   },
   tagWait: { backgroundColor: color.warning + "1a" },
   tagTrip: { backgroundColor: color.brand + "1a" },
-  tagText: { fontSize: 11, fontWeight: "700", color: color.success },
+  tagText: { fontSize: 11, fontWeight: "700", color: color.successText },
   tagWaitText: { color: color.warning },
   since: { marginLeft: "auto", fontSize: 11, color: color.mutedForeground },
   name: { fontSize: 15, fontWeight: "700", color: color.foreground },
@@ -641,7 +641,7 @@ const s = themed(() => ({
   },
   chipOn: { backgroundColor: color.brand + "1a", borderColor: color.brand },
   chipText: { fontSize: 13, fontWeight: "500", color: color.mutedForeground },
-  chipTextOn: { color: color.brand, fontWeight: "600" },
+  chipTextOn: { color: color.brandText, fontWeight: "600" },
   input: {
     height: 46,
     borderWidth: 1,

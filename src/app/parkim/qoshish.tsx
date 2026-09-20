@@ -174,7 +174,7 @@ export default function TransportQoshish() {
                   style={({ pressed }) => [s.opt, on && s.optOn, pressed && !on && { backgroundColor: color.muted }]}
                 >
                   <Icon name="truck" size={22} stroke={on ? color.brand : color.icon} />
-                  <Text style={[s.optText, on && { color: color.brand }]}>{partLabel(p)}</Text>
+                  <Text style={[s.optText, on && { color: color.brandText }]}>{partLabel(p)}</Text>
                 </Pressable>
               );
             })}
@@ -229,7 +229,7 @@ export default function TransportQoshish() {
             <View style={s.pickIcon}>
               <Icon name="truck" size={19} stroke={color.brand} />
             </View>
-            <Text style={[s.pickText, !type && { color: "#94a3b8" }]}>
+            <Text style={[s.pickText, !type && { color: color.faintText }]}>
               {type ? `${type.name}${type.capacityT ? ` ${type.capacityT} t` : ""}` : t("mob.add.vTypePick")}
             </Text>
             <Icon name="chevron" size={16} stroke="#94a3b8" />
@@ -353,7 +353,7 @@ const s = themed(() => ({
     borderStyle: "dashed",
     borderColor: color.brand + "55",
   },
-  moreText: { fontSize: 13, fontWeight: "700", color: color.brand },
+  moreText: { fontSize: 13, fontWeight: "700", color: color.brandText },
 
   root: { flex: 1, backgroundColor: color.card },
   stepsWrap: { paddingHorizontal: space.xl, paddingTop: space.md },

@@ -128,7 +128,7 @@ const s = themed(() => ({
     letterSpacing: 0.3,
   },
   companyName: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground, marginTop: 6 },
-  companyLink: { fontSize: font.caption, fontWeight: "600", color: color.brand, marginTop: 10 },
+  companyLink: { fontSize: font.caption, fontWeight: "600", color: color.brandText, marginTop: 10 },
 
   manba: { alignSelf: "center", paddingVertical: space.sm },
   manbaText: { fontSize: 12, color: color.mutedForeground, textAlign: "center" },

@@ -372,7 +372,7 @@ const s = themed(() => ({
   gps: { backgroundColor: color.navy, paddingHorizontal: space.lg, paddingVertical: 9, flexDirection: "row", alignItems: "center", gap: 9 },
   gpsDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.brand },
   gpsText: { flex: 1, fontSize: 13, color: "#e2e8f0" },
-  gpsStop: { fontSize: 13, fontWeight: "600", color: color.brand },
+  gpsStop: { fontSize: 13, fontWeight: "600", color: color.brandText },
 
   scroll: { padding: space.lg, paddingTop: space.sm, gap: space.md },
 
@@ -419,7 +419,7 @@ const s = themed(() => ({
 
   sectionHead: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
   sectionTitle: { fontSize: 17, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
-  link: { fontSize: 13, fontWeight: "700", color: color.brand },
+  link: { fontSize: 13, fontWeight: "700", color: color.brandText },
 
   list: { backgroundColor: color.card, borderRadius: radius.card, ...shadow.card },
   chatRow: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md },

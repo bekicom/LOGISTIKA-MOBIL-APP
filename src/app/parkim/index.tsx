@@ -363,7 +363,7 @@ function VehicleCard({ item, onPress, onChanged }: { item: Vehicle; onPress: () 
 
           <View style={s.meta}>
             <Icon name="user" size={13} stroke={item.ozim ? color.brand : color.mutedForeground} />
-            <Text style={[s.metaText, item.ozim && { color: color.brand, fontWeight: "600" }]} numberOfLines={1}>
+            <Text style={[s.metaText, item.ozim && { color: color.brandText, fontWeight: "600" }]} numberOfLines={1}>
               {item.ozim ? t("pgFleet.ozimHaydayman") : (item.driver ?? t("mob.park.noDriver"))}
             </Text>
             {item.odometer ? (
@@ -433,7 +433,7 @@ const s = themed(() => ({
     padding: space.lg,
     ...shadow.card,
   },
-  transferTitle: { fontSize: 11.5, fontWeight: "800", color: color.brand, letterSpacing: 0.3 },
+  transferTitle: { fontSize: 11.5, fontWeight: "800", color: color.brandText, letterSpacing: 0.3 },
   transferPlate: { fontSize: 17, fontWeight: "800", color: color.foreground, marginTop: 6 },
   transferMeta: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3 },
   transferPrice: { fontSize: 15, fontWeight: "800", color: color.foreground, marginTop: 6 },

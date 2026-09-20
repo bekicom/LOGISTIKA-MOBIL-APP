@@ -109,6 +109,19 @@ type Palette = {
   iconFaint: string;
   /** Karta ustidagi ichki yuza (fayl tanlash, bo'sh joy) */
   surface: string;
+  /**
+   * UCHINCHI DARAJALI yozuv — «9 yuk», «ENG PAST», «UZS», o'rin
+   * egasi matni, nofaol yorliq.
+   *
+   * Ilgari hamma joyda `#94a3b8` qo'lda yozilgan edi (60+ joy).
+   * Yorug' rejimda u oq fonda 2.56:1 — AA (4.5:1) dan ikki barobar
+   * past, quyoshda umuman o'qilmasdi (2026-09-20 o'lchovi).
+   *
+   * ⚠️ QORONG'IDA O'SHA `#94a3b8` QOLADI: karta `#212d44` ustida u
+   * 5.38:1, ya'ni allaqachon yaxshi. To'qlashtirilsa 2.8:1 ga
+   * TUSHIB ketardi — shuning uchun bu token, qattiq rang emas.
+   */
+  faintText: string;
   /* Chip yozuvlari: fon `*Soft`, yozuv `*Text` */
   brandText: string;
   successText: string;
@@ -122,7 +135,9 @@ const LIGHT: Palette = {
   foreground: "#0f172a",
   card: "#ffffff",
   muted: "#f1f4f9",
-  mutedForeground: "#64748b",
+  /* 2026-09-20: `#64748b` fon ustida 4.32:1 edi — AA dan sal past.
+     47 ta ekranda ikkinchi darajali yozuv shu rangda */
+  mutedForeground: "#556376",
   /* Chegara endi «bor-yo'q» — ko'p ekran o'z kartasini 1px chegara
      bilan chizadi, ularni birma-bir tuzatmasdan yumshatish yo'li shu */
   border: "#eaeef4",
@@ -159,6 +174,7 @@ const LIGHT: Palette = {
   icon: "#475569",
   iconFaint: "#cbd5e1",
   surface: "#f8fafc",
+  faintText: "#626f86",
   brandText: "#c2490f",
   successText: "#15803d",
   warningText: "#92400e",
@@ -213,6 +229,8 @@ const DARK: Palette = {
 
   icon: "#a7b4c8",
   iconFaint: "#4d5b74",
+  /* Qorong'ida AYNAN eski qiymat: karta ustida 5.38:1 */
+  faintText: "#94a3b8",
   surface: "#2a3651",
   brandText: "#ff8f5c",
   successText: "#5ad894",

@@ -372,5 +372,5 @@ const s = themed(() => ({
     paddingHorizontal: 13,
   },
   locText: { fontSize: 15, color: color.foreground },
-  locPh: { color: "#94a3b8" },
+  locPh: { color: color.faintText },
 }));

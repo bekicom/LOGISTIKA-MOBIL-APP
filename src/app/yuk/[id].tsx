@@ -568,9 +568,9 @@ const s = themed(() => ({
 
   contactLocked: { marginTop: 14, padding: 16, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, backgroundColor: color.surface },
   lockIcon: { width: 38, height: 38, borderRadius: 19, backgroundColor: color.border, alignItems: "center", justifyContent: "center" },
-  hiddenPhone: { fontSize: 17, fontWeight: "700", color: "#94a3b8", letterSpacing: 1 },
+  hiddenPhone: { fontSize: 17, fontWeight: "700", color: color.faintText, letterSpacing: 1 },
   freeAlt: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 7, marginTop: 12 },
-  freeAltText: { fontSize: 13, fontWeight: "600", color: color.brand },
+  freeAltText: { fontSize: 13, fontWeight: "600", color: color.brandText },
   err: { fontSize: 12, color: color.danger, marginTop: 10 },
 
   actions: {

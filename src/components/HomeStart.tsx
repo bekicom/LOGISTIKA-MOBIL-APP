@@ -199,7 +199,7 @@ const s = themed(() => ({
   /* ── Boshlash ── */
   headRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   head: { fontSize: 15, fontWeight: "800", color: color.foreground },
-  all: { fontSize: 12.5, fontWeight: "700", color: color.brand },
+  all: { fontSize: 12.5, fontWeight: "700", color: color.brandText },
 
   bar: {
     height: 6,
@@ -243,5 +243,5 @@ const s = themed(() => ({
   },
   cardTitle: { fontSize: 14, fontWeight: "800", color: color.foreground, marginTop: 10 },
   cardBody: { fontSize: 11.5, color: color.mutedForeground, marginTop: 4, lineHeight: 16 },
-  cardCta: { fontSize: 12.5, fontWeight: "700", color: color.brand, marginTop: 10 },
+  cardCta: { fontSize: 12.5, fontWeight: "700", color: color.brandText, marginTop: 10 },
 }));

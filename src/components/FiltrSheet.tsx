@@ -424,7 +424,7 @@ export function LocationPicker(props: PickerProps) {
             value={q}
             onChangeText={setQ}
             placeholder={t("mob.loads.cityPh")}
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={color.faintText}
             style={s.searchInput}
             autoFocus
           />
@@ -536,7 +536,7 @@ const s = themed(() => ({
     paddingTop: space.md, paddingBottom: 14, borderBottomWidth: 1, borderBottomColor: color.border,
   },
   title: { flex: 1, fontSize: 20, fontWeight: "700", color: color.foreground },
-  link: { fontSize: 14, fontWeight: "600", color: color.brand },
+  link: { fontSize: 14, fontWeight: "600", color: color.brandText },
 
   body: { padding: space.xl, gap: 0 },
   section: { marginTop: space.xl },
@@ -562,7 +562,7 @@ const s = themed(() => ({
   },
   rowText: { flex: 1, fontSize: font.body, fontWeight: "500", color: color.foreground },
   rowJoy: { fontSize: font.body, fontWeight: "500", color: color.foreground },
-  rowPlaceholder: { fontWeight: "400", color: "#94a3b8" },
+  rowPlaceholder: { fontWeight: "400", color: color.faintText },
   dotOutline: { width: 9, height: 9, borderRadius: 5, borderWidth: 2.5, borderColor: color.foreground },
   dotFilled: { width: 9, height: 9, borderRadius: 5, backgroundColor: color.brand },
 
@@ -611,7 +611,7 @@ const s = themed(() => ({
     flexDirection: "row", alignItems: "center", gap: 8,
     paddingHorizontal: space.lg, paddingVertical: 12,
   },
-  countryBackText: { flex: 1, fontSize: font.body, fontWeight: "700", color: color.brand },
+  countryBackText: { flex: 1, fontSize: font.body, fontWeight: "700", color: color.brandText },
 
   locRow: {
     flexDirection: "row", alignItems: "center", paddingHorizontal: space.lg,

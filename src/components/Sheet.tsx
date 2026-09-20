@@ -88,7 +88,7 @@ export function Sheet({
   return (
     <Modal transparent visible statusBarTranslucent animationType="none" onRequestClose={onClose}>
       <Animated.View style={[s.backdrop, { opacity: fade }]}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel="close" />
+        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={t("mob.common.close")} />
       </Animated.View>
 
       {/* Klaviatura varaqni bosib qolmasin: ichidagi tugmalar

@@ -374,7 +374,7 @@ const s = themed(() => ({
   starRow: { flexDirection: "row", alignItems: "center", gap: 6, marginVertical: 14 },
   starCount: { marginLeft: 6, fontSize: 14, fontWeight: "800", color: color.foreground },
 
-  done: { fontSize: 14.5, fontWeight: "700", color: color.success },
+  done: { fontSize: 14.5, fontWeight: "700", color: color.successText },
   link: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground, marginTop: 10 },
 
   rejectBtn: {

@@ -450,7 +450,7 @@ const COMPLAINT_KINDS = ["MONEY_ASK", "FAKE_VACANCY", "PAY_LIE", "FRAUD", "OTHER
 const s = themed(() => ({
   complainLink: { fontSize: 12.5, fontWeight: "700", color: color.danger, textAlign: "center" },
   complainErr: { fontSize: 12.5, color: color.danger, marginTop: 8 },
-  complainOk: { fontSize: 12.5, color: color.success, marginTop: 8 },
+  complainOk: { fontSize: 12.5, color: color.successText, marginTop: 8 },
   cKind: {
     paddingHorizontal: 14, paddingVertical: 12,
     borderRadius: radius.control, borderWidth: 1,
@@ -474,7 +474,7 @@ const s = themed(() => ({
   name: { fontSize: 19, fontWeight: "700", color: color.foreground },
   ownerRow: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 4 },
   owner: { fontSize: 13, color: color.mutedForeground },
-  furam: { fontSize: 12, color: "#94a3b8" },
+  furam: { fontSize: 12, color: color.faintText },
 
   pay: { fontSize: 24, fontWeight: "700", color: color.foreground, marginTop: 13, letterSpacing: -0.5 },
   payCur: { fontSize: 14, color: color.mutedForeground },
@@ -496,7 +496,7 @@ const s = themed(() => ({
   note: { flexDirection: "row", alignItems: "flex-start", gap: 9 },
   noteText: { flex: 1, fontSize: 13, color: color.foreground, lineHeight: 19 },
   noteGap: { fontSize: 13, color: color.warningText, lineHeight: 19 },
-  fix: { fontSize: 12, fontWeight: "600", color: color.brand, marginTop: 3 },
+  fix: { fontSize: 12, fontWeight: "600", color: color.brandText, marginTop: 3 },
   line: { height: 1, backgroundColor: color.muted, marginVertical: 3 },
 
   hintBox: {
@@ -538,7 +538,7 @@ const s = themed(() => ({
   warnText: { fontSize: 12, color: color.warningText, marginTop: 4, lineHeight: 18 },
 
   own: { fontSize: 13, color: color.mutedForeground, textAlign: "center", paddingVertical: space.md },
-  note2: { fontSize: 11, color: "#94a3b8", textAlign: "center", marginTop: 8, lineHeight: 16 },
+  note2: { fontSize: 11, color: color.faintText, textAlign: "center", marginTop: 8, lineHeight: 16 },
 
   btn: { height: 48, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   btnPri: { backgroundColor: color.brand },

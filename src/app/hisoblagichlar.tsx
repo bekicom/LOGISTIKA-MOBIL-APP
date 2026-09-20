@@ -211,7 +211,7 @@ const s = themed(() => ({
   chipText: { fontSize: 13, fontWeight: "700", color: color.mutedForeground },
 
   swap: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 10 },
-  swapText: { fontSize: 12.5, fontWeight: "700", color: color.brand },
+  swapText: { fontSize: 12.5, fontWeight: "700", color: color.brandText },
 
   out: {
     fontSize: 24,

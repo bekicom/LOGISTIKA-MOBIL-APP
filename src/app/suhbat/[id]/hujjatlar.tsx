@@ -200,7 +200,7 @@ const s = themed(() => ({
   meta: { fontSize: 11.5, color: color.mutedForeground, marginTop: 2 },
   seen: { flexDirection: "row", alignItems: "center", gap: 3 },
   seenText: { fontSize: 11, color: color.mutedForeground },
-  replace: { fontSize: 11, fontWeight: "700", color: color.brand },
+  replace: { fontSize: 11, fontWeight: "700", color: color.brandText },
   label: { fontSize: 12, fontWeight: "700", color: color.mutedForeground, marginTop: 8, marginBottom: 8, letterSpacing: 0.3 },
   kinds: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
   kchip: { height: 32, paddingHorizontal: 11, borderRadius: radius.pill, backgroundColor: color.muted, justifyContent: "center" },

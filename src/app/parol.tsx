@@ -322,7 +322,7 @@ const s = themed(() => ({
   link: {
     fontSize: font.body,
     fontWeight: "600",
-    color: color.brand,
+    color: color.brandText,
     marginTop: 18,
     textAlign: "center",
   },

@@ -152,7 +152,7 @@ const s = themed(() => ({
   btnText: { fontSize: 12, fontWeight: "600", color: color.mutedForeground },
 
   doneRow: { flexDirection: "row", alignItems: "center", gap: 5, paddingVertical: 6 },
-  done: { fontSize: 12, fontWeight: "600", color: color.success },
+  done: { fontSize: 12, fontWeight: "600", color: color.successText },
 
   hint: { fontSize: font.caption, color: color.mutedForeground, lineHeight: 19 },
   row: { flexDirection: "row", alignItems: "center", gap: space.md, paddingVertical: 11 },

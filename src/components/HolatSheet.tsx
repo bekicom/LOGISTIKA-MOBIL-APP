@@ -165,7 +165,7 @@ export function HolatSheet({
                 value={note}
                 onChangeText={setNote}
                 placeholder={t("mob.post2.notePh")}
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={color.faintText}
                 multiline
                 style={s.note}
               />

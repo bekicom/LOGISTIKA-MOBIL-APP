@@ -282,7 +282,7 @@ const s = themed(() => ({
   warnBody: { fontSize: font.caption, color: color.warning, lineHeight: 19, marginTop: 5 },
   tripLine: { fontSize: font.caption, color: color.foreground, marginTop: 8 },
 
-  showBtn: { fontSize: font.caption, fontWeight: "600", color: color.brand },
+  showBtn: { fontSize: font.caption, fontWeight: "600", color: color.brandText },
 
   socialNote: { fontSize: font.caption, color: color.mutedForeground, lineHeight: 19 },
   check: { flexDirection: "row", alignItems: "center", gap: space.sm, paddingVertical: space.sm },

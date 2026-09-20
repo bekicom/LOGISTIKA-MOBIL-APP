@@ -525,7 +525,7 @@ const s = themed(() => ({
   cardHead: { flexDirection: "row", alignItems: "center", gap: 7 },
   tag: { height: 21, paddingHorizontal: 8, borderRadius: 6, justifyContent: "center" },
   tagText: { fontSize: 10, fontWeight: "700" },
-  no: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  no: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   problem: { fontSize: 15, fontWeight: "600", color: color.foreground, marginTop: 10, lineHeight: 21 },
 

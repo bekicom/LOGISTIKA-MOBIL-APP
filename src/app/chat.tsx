@@ -160,37 +160,63 @@ export default function ChatRoyxati() {
     const list = groups.data?.groups ?? [];
     if (list.length === 0) return null;
     return (
-      <View style={{ marginTop: space.lg }}>
+      <View style={{ marginTop: space.lg, gap: space.sm }}>
         <Text style={s.groupsHint}>{t("mob.chatList.groupsHint")}</Text>
         {list.map((g) => (
-          <View key={g.key} style={s.row}>
-            <View style={[s.avatar, s.avatarGroup]}>
-              <Icon name="users" size={22} stroke={color.blue} />
-            </View>
-            <View style={{ flex: 1, minWidth: 0 }}>
-              {/* IKKI QATOR (2026-09-20): «🇺🇿 Узбекистан → 🇷🇺 Россия»
-                  bitta qatorga sig'masdi — guruh nomi yarmida kesilardi */}
-              <Text style={s.name} numberOfLines={2}>{groupTitle(g.key)}</Text>
-              <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
-              <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
-            </View>
-            {g.joined && g.chatId ? (
-              <View style={{ alignItems: "flex-end", gap: 6 }}>
-                <Pressable
-                  onPress={() => router.push({ pathname: "/suhbat/[id]", params: { id: g.chatId!, title: groupTitle(g.key) } })}
-                  style={s.openBtn}
-                >
-                  <Text style={s.openText}>{t("mob.chatList.open")}</Text>
-                </Pressable>
-                <Pressable onPress={() => joinGroup(g, false)} disabled={busyKey === g.key} hitSlop={6}>
-                  <Text style={s.leave}>{t("mob.chatList.leave")}</Text>
-                </Pressable>
+          /* ── NOM TEPADA, TUGMA PASTDA (2026-09-20) ─────────────
+             Ilgari nom bilan tugma BITTA qatorda edi. «Qo'shilish»
+             so'zi «Ochish» dan ikki barobar uzun — ya'ni qo'shilmagan
+             guruhda nomga qolgan joy shuncha tor bo'lardi va
+             «🇨🇳 Xitoy → 🇺🇿 / O'zbekiston» deb bayrog'i bilan
+             davlati ikki qatorga bo'linib ketardi. Qo'shni kartalar
+             esa bir qatorga sig'ib, ro'yxat tartibsiz ko'rinardi.
+             Endi nom butun kenglikni oladi, tugmalar ostida. */
+          <View key={g.key} style={s.groupCard}>
+            <View style={s.groupTop}>
+              <View style={[s.avatar, s.avatarGroup]}>
+                <Icon name="users" size={22} stroke={color.blue} />
               </View>
-            ) : (
-              <Pressable onPress={() => joinGroup(g, true)} disabled={busyKey === g.key} style={s.joinBtn}>
-                <Text style={s.joinText}>{t("mob.chatList.join")}</Text>
-              </Pressable>
-            )}
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text style={s.name} numberOfLines={2}>{groupTitle(g.key)}</Text>
+                <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
+              </View>
+            </View>
+
+            <View style={s.groupBottom}>
+              <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
+              {g.joined && g.chatId ? (
+                <View style={s.groupActions}>
+                  {/* «Chiqish» ILGARI SHUNCHAKI MATN edi — kartadan
+                      chiqib turgan kulrang yozuv bosiladigan narsaga
+                      o'xshamasdi. Endi ramkali tugma: bosiladi, lekin
+                      «Ochish» dan past turadi */}
+                  <Pressable
+                    onPress={() => joinGroup(g, false)}
+                    disabled={busyKey === g.key}
+                    accessibilityRole="button"
+                    style={({ pressed }) => [s.leaveBtn, pressed && { opacity: 0.6 }]}
+                  >
+                    <Text style={s.leaveText}>{t("mob.chatList.leave")}</Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => router.push({ pathname: "/suhbat/[id]", params: { id: g.chatId!, title: groupTitle(g.key) } })}
+                    accessibilityRole="button"
+                    style={({ pressed }) => [s.openBtn, pressed && { opacity: 0.85 }]}
+                  >
+                    <Text style={s.openText}>{t("mob.chatList.open")}</Text>
+                  </Pressable>
+                </View>
+              ) : (
+                <Pressable
+                  onPress={() => joinGroup(g, true)}
+                  disabled={busyKey === g.key}
+                  accessibilityRole="button"
+                  style={({ pressed }) => [s.joinBtn, pressed && { opacity: 0.85 }]}
+                >
+                  <Text style={s.joinText}>{t("mob.chatList.join")}</Text>
+                </Pressable>
+              )}
+            </View>
           </View>
         ))}
       </View>
@@ -433,18 +459,23 @@ const s = themed(() => ({
   name: { fontSize: font.body, fontWeight: "700", color: color.foreground, flexShrink: 1 },
   nameRead: { fontWeight: "600", color: color.icon },
   last: { fontSize: font.caption, color: color.mutedForeground, marginTop: 2 },
-  members: { fontSize: 11.5, color: "#94a3b8", marginTop: 3 },
+  members: { fontSize: 11.5, color: color.mutedForeground, flexShrink: 1 },
   tripTag: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 5 },
   tripText: { fontSize: 11, fontWeight: "600", color: color.brandText, flexShrink: 1 },
   time: { fontSize: 11, color: color.mutedForeground },
   badge: { minWidth: 20, height: 20, paddingHorizontal: 6, borderRadius: 10, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
   badgeText: { fontSize: 11, fontWeight: "700", color: "#fff" },
 
-  groupsHint: { fontSize: 12.5, color: color.mutedForeground, lineHeight: 18, marginBottom: 6 },
-  openBtn: { height: 32, paddingHorizontal: 12, borderRadius: 16, backgroundColor: color.blue, justifyContent: "center" },
+  groupsHint: { fontSize: 12.5, color: color.mutedForeground, lineHeight: 18 },
+  groupCard: { backgroundColor: color.card, borderRadius: radius.card, padding: space.md, gap: space.md, ...shadow.card },
+  groupTop: { flexDirection: "row", gap: space.md, alignItems: "center" },
+  groupBottom: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: space.sm },
+  groupActions: { flexDirection: "row", alignItems: "center", gap: space.sm },
+  openBtn: { height: 34, paddingHorizontal: 16, borderRadius: 17, backgroundColor: color.blue, justifyContent: "center" },
   openText: { fontSize: 12.5, fontWeight: "700", color: "#fff" },
-  leave: { fontSize: 11.5, color: color.mutedForeground },
-  joinBtn: { height: 34, paddingHorizontal: 14, borderRadius: 17, backgroundColor: color.brand, justifyContent: "center" },
+  leaveBtn: { height: 34, paddingHorizontal: 14, borderRadius: 17, borderWidth: 1, borderColor: color.border, justifyContent: "center" },
+  leaveText: { fontSize: 12.5, fontWeight: "600", color: color.mutedForeground },
+  joinBtn: { height: 34, paddingHorizontal: 16, borderRadius: 17, backgroundColor: color.brand, justifyContent: "center" },
   joinText: { fontSize: 13, fontWeight: "700", color: "#fff" },
 
   menuRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14, paddingHorizontal: 4 },

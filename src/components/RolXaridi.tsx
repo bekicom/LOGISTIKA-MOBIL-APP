@@ -185,10 +185,10 @@ const s = themed(() => ({
   paketNomOn: { color: color.brandText },
   izoh: { fontSize: 12, lineHeight: 17, color: color.mutedForeground },
   xabar: { fontSize: 12.5, lineHeight: 18, fontWeight: "600" },
-  yoqildi: { color: color.success, marginTop: 8 },
+  yoqildi: { color: color.successText, marginTop: 8 },
 
   shart: { gap: 6, paddingHorizontal: 4 },
   shartMatn: { fontSize: 11.5, lineHeight: 17, color: color.mutedForeground },
   havolalar: { flexDirection: "row", gap: 16 },
-  havola: { fontSize: 12, fontWeight: "600", color: color.brand },
+  havola: { fontSize: 12, fontWeight: "600", color: color.brandText },
 }));

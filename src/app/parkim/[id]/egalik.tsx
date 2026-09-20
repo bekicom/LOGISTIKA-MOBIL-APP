@@ -387,7 +387,7 @@ const s = themed(() => ({
   hint: { fontSize: 11.5, color: color.mutedForeground, marginTop: 10, lineHeight: 17 },
   person: { fontSize: 15, fontWeight: "700", color: color.foreground, marginTop: 6 },
   meta: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3 },
-  link: { fontSize: 13, fontWeight: "700", color: color.brand, marginTop: 12 },
+  link: { fontSize: 13, fontWeight: "700", color: color.brandText, marginTop: 12 },
   linkDanger: { fontSize: 13, fontWeight: "700", color: color.danger, marginTop: 12 },
 
   group: {

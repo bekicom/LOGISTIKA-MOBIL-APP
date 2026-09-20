@@ -312,7 +312,7 @@ const s = themed(() => ({
     paddingRight: 5,
     paddingVertical: 5,
   },
-  askPh: { flex: 1, fontSize: font.bodyLg, color: "#94a3b8" },
+  askPh: { flex: 1, fontSize: font.bodyLg, color: color.faintText },
   askBtn: {
     width: 44,
     height: 44,

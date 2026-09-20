@@ -319,7 +319,7 @@ function Stat({ label, value, accent }: { label: string; value: number; accent?:
   return (
     <View style={s.stat}>
       <Text style={s.statKey}>{label}</Text>
-      <Text style={[s.statValue, accent && { color: color.brand }]}>{value}</Text>
+      <Text style={[s.statValue, accent && { color: color.brandText }]}>{value}</Text>
     </View>
   );
 }
@@ -476,7 +476,7 @@ const s = themed(() => ({
     paddingVertical: 11,
     paddingHorizontal: 12,
   },
-  statKey: { fontSize: 11, color: "#94a3b8" },
+  statKey: { fontSize: 11, color: color.faintText },
   statValue: { fontSize: 20, fontWeight: "700", color: color.foreground, marginTop: 1 },
 
   card: {
@@ -492,7 +492,7 @@ const s = themed(() => ({
   tag: { height: 21, paddingHorizontal: 8, borderRadius: 6, backgroundColor: color.muted, justifyContent: "center" },
   tagMobile: { backgroundColor: color.brand + "1f" },
   tagText: { fontSize: 10, fontWeight: "700", color: color.mutedForeground },
-  no: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  no: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   problem: { fontSize: 14, color: color.foreground, marginTop: 10, lineHeight: 20 },
   meta: { fontSize: 12, color: color.mutedForeground, marginTop: 4 },
@@ -573,7 +573,7 @@ const s = themed(() => ({
   grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: 13, color: color.mutedForeground, lineHeight: 19, marginBottom: space.xs },
-  sheetNote: { fontSize: 11, color: "#94a3b8", textAlign: "center", lineHeight: 16 },
+  sheetNote: { fontSize: 11, color: color.faintText, textAlign: "center", lineHeight: 16 },
 
   label: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, marginBottom: 5 },
   picks: { flexDirection: "row", flexWrap: "wrap", gap: 6 },

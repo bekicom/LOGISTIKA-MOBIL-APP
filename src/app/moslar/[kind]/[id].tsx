@@ -145,7 +145,7 @@ const s = themed(() => ({
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
-  countText: { fontSize: 13, fontWeight: "700", color: color.brand },
+  countText: { fontSize: 13, fontWeight: "700", color: color.brandText },
 
   scoreRow: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 4 },
   badge: { paddingHorizontal: 9, paddingVertical: 4, borderRadius: radius.pill, ...shadow.card },

@@ -152,7 +152,7 @@ export default function HujjatQoshish() {
                   style={({ pressed }) => [s.kind, on && s.kindOn, pressed && !on && { backgroundColor: color.muted }]}
                 >
                   <Icon name="doc" size={20} stroke={on ? color.brand : color.icon} />
-                  <Text style={[s.kindText, on && { color: color.brand }]} numberOfLines={1}>
+                  <Text style={[s.kindText, on && { color: color.brandText }]} numberOfLines={1}>
                     {t(`mob.pdocShort.${k}`)}
                   </Text>
                 </Pressable>
@@ -237,11 +237,11 @@ export default function HujjatQoshish() {
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.card },
   scroll: { padding: space.xl, gap: space.xl, paddingBottom: space.xxl * 2 },
-  save: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
+  save: { fontSize: font.bodyLg, fontWeight: "600", color: color.brandText },
   label: { fontSize: font.caption, fontWeight: "500", color: color.foreground, marginBottom: 6 },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8, lineHeight: 18 },
   err: { fontSize: font.caption, color: color.danger },
-  foot: { textAlign: "center", fontSize: 12, color: "#94a3b8", marginTop: 10 },
+  foot: { textAlign: "center", fontSize: 12, color: color.faintText, marginTop: 10 },
 
   drop: {
     height: 200, borderRadius: 12, borderWidth: 1, borderStyle: "dashed",

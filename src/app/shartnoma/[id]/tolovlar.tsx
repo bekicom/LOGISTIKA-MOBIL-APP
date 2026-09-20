@@ -234,7 +234,7 @@ export default function Tolovlar() {
                     style={({ pressed }) => [s.proof, pressed && { opacity: 0.75 }]}
                   >
                     <Icon name="doc" size={16} stroke={color.brand} />
-                    <Text style={[s.proofText, { color: color.brand, fontWeight: "600" }]}>
+                    <Text style={[s.proofText, { color: color.brandText, fontWeight: "600" }]}>
                       {t("mob.cpay.viewProof")}
                     </Text>
                   </Pressable>

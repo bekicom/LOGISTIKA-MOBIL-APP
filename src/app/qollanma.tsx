@@ -19,7 +19,7 @@ import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-nati
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/components/ui";
-import { Icon } from "@/components/Icon";
+import { Icon, type IconName } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { API_BASE } from "@/lib/api";
@@ -33,6 +33,49 @@ type Video = {
   description: string | null;
   durationSec: number | null;
   hasPoster: boolean;
+};
+
+/**
+ * Bo'lim → ikonka.
+ *
+ * ── NEGA KERAK (2026-09-20, Bekzodning telefonidagi surat) ──────
+ *
+ * Karta tepasidagi 168 px lik maydon BO'M-BO'SH to'q ko'k quti
+ * bo'lib turardi: `posterKey` bazada bor-u, uni YOZADIGAN joy yo'q
+ * (adminda yuklash yo'li yozilmagan, faqat o'chirish bor), ya'ni
+ * `hasPoster` doim `false`. Olti karta — oltita bo'sh quti.
+ *
+ * Birinchi kadrni ko'rsatish (web shunday qiladi: `<video
+ * preload="metadata">`) ilovada `expo-video` ni talab qiladi — bu
+ * NATIVE modul, ya'ni yangi build va do'konga yana bir bog'liqlik.
+ * Do'kon topshiruvi oldidan bunga bormaymiz.
+ *
+ * Shuning uchun maydon MA'NOLI to'ldiriladi: bo'lim ikonkasi xira
+ * fonda, bo'lim nomi yorliqda, o'rtada ▶. Endi har karta o'zini
+ * ko'rsatadi va bir-biridan farq qiladi.
+ */
+const SECTION_ICON: Record<string, IconName> = {
+  loads: "package",
+  trucks: "truck",
+  post: "plus",
+  "post-truck": "truck",
+  trips: "route",
+  contracts: "handshake",
+  queues: "clock",
+  map: "map-pin",
+  drivers: "users",
+  documents: "doc",
+  money: "wallet",
+  finance: "wallet",
+  reports: "chart",
+  analytics: "chart",
+  chats: "chat",
+  ai: "robot",
+  market: "tag",
+  jobs: "briefcase",
+  trust: "shield",
+  roles: "grid",
+  profile: "user",
 };
 
 /** 204 → «3:24» */
@@ -109,8 +152,23 @@ export default function Qollanma() {
                 onPress={() => Linking.openURL(`${API_BASE}/api/video/${v.id}/file`)}
               >
                 <View style={s.poster}>
+                  {/* Xira ikonka — fon naqshi, bosilmaydi */}
+                  <View style={s.glyph} pointerEvents="none">
+                    <Icon
+                      name={SECTION_ICON[v.sectionKey] ?? "play"}
+                      size={104}
+                      stroke={color.navyForeground}
+                    />
+                  </View>
+                  {/* ▶ — o'q emas. «→» keyingi sahifaga o'tishni
+                      bildiradi, videoni emas (2026-09-20) */}
                   <View style={s.play}>
-                    <Icon name="arrow-right" size={20} stroke={color.foreground} />
+                    <Icon name="play" size={18} stroke={color.navy} fill={color.navy} />
+                  </View>
+                  <View style={s.secTag}>
+                    <Text style={s.secTagText} numberOfLines={1}>
+                      {t(`videoSection.${v.sectionKey}`)}
+                    </Text>
                   </View>
                   {!!dur && (
                     <View style={s.dur}>
@@ -171,14 +229,40 @@ const s = themed(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  glyph: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    /* Naqsh darajasida — o'rtadagi ▶ bilan raqobatlashmasin */
+    opacity: 0.1,
+  },
   play: {
     width: 52,
     height: 52,
     borderRadius: 26,
     backgroundColor: "#ffffffeb",
     alignItems: "center",
+    /* ▶ uchburchagi o'zi chapga og'ib turadi — doira ichida ko'zga
+       to'g'ri ko'rinishi uchun 2 px o'ngga suriladi */
+    justifyContent: "center",
+    paddingLeft: 3,
+  },
+  secTag: {
+    position: "absolute",
+    left: 10,
+    top: 10,
+    maxWidth: "70%",
+    height: 22,
+    paddingHorizontal: 8,
+    borderRadius: 11,
+    backgroundColor: "#ffffff29",
     justifyContent: "center",
   },
+  secTagText: { fontSize: 11, fontWeight: "700", color: "#fff", letterSpacing: 0.2 },
   dur: {
     position: "absolute",
     right: 10,

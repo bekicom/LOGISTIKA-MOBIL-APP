@@ -415,7 +415,7 @@ function Stat({ label, value, good }: { label: string; value: string | number; g
   return (
     <View>
       <Text style={s.statLabel}>{label}</Text>
-      <Text style={[s.statValue, good && { color: color.success }]}>{value}</Text>
+      <Text style={[s.statValue, good && { color: color.successText }]}>{value}</Text>
     </View>
   );
 }
@@ -511,7 +511,7 @@ const s = themed(() => ({
   k: { fontSize: font.caption, color: color.mutedForeground },
   vWrap: { flexDirection: "row", alignItems: "center", gap: 7 },
   v: { fontSize: 14, fontWeight: "600", color: color.foreground },
-  vLocked: { color: "#94a3b8", letterSpacing: 1.5 },
+  vLocked: { color: color.faintText, letterSpacing: 1.5 },
 
   ownerRow: { flexDirection: "row", alignItems: "center", gap: 12 },
   avatar: {
@@ -540,7 +540,7 @@ const s = themed(() => ({
   contactOpen: { flexDirection: "row", alignItems: "center", gap: 12 },
   contactPhone: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground },
   err: { fontSize: font.caption, color: color.danger },
-  footMeta: { fontSize: 12, color: "#94a3b8", textAlign: "center" },
+  footMeta: { fontSize: 12, color: color.faintText, textAlign: "center" },
 
   foot: {
     flexDirection: "row",

@@ -210,7 +210,7 @@ const s = themed(() => ({
     justifyContent: "center",
     backgroundColor: color.brandSoft,
   },
-  soniText: { fontSize: 12, fontWeight: "800", color: color.brand, fontVariant: ["tabular-nums"] },
+  soniText: { fontSize: 12, fontWeight: "800", color: color.brandText, fontVariant: ["tabular-nums"] },
 
   bottom: {
     flexDirection: "row",

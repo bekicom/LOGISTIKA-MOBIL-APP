@@ -230,7 +230,7 @@ export default function MashinaJoylash() {
                       onPress={() => setTypeId(vt.id)}
                       style={[s.type, typeId === vt.id && s.typeOn]}
                     >
-                      <Text style={[s.typeText, typeId === vt.id && { color: color.brand }]}>
+                      <Text style={[s.typeText, typeId === vt.id && { color: color.brandText }]}>
                         {vt.name}
                       </Text>
                     </Pressable>
@@ -365,7 +365,7 @@ function Pick({ label, value, onPress }: { label: string; value: string | null; 
     <Pressable onPress={onPress} style={s.pick}>
       <View style={{ flex: 1 }}>
         <Text style={s.pickLabel}>{label}</Text>
-        <Text style={[s.pickValue, !value && { color: "#94a3b8" }]} numberOfLines={1}>
+        <Text style={[s.pickValue, !value && { color: color.faintText }]} numberOfLines={1}>
           {value ?? t("mob.loads.cityPh")}
         </Text>
       </View>
@@ -408,7 +408,7 @@ const s = themed(() => ({
   vehPlate: { fontSize: font.body, fontWeight: "700", color: color.foreground },
   vehSub: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
   vehWarnText: { fontSize: 12, color: color.warning, fontWeight: "600", marginTop: 4 },
-  vehOkText: { fontSize: 12, color: color.success, fontWeight: "600", marginTop: 4 },
+  vehOkText: { fontSize: 12, color: color.successText, fontWeight: "600", marginTop: 4 },
   tick: {
     width: 24,
     height: 24,

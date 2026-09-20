@@ -444,5 +444,5 @@ const s = themed(() => ({
     borderTopWidth: 1,
     borderTopColor: color.border,
   },
-  openText: { flex: 1, fontSize: font.caption, fontWeight: "600", color: color.brand },
+  openText: { flex: 1, fontSize: font.caption, fontWeight: "600", color: color.brandText },
 }));

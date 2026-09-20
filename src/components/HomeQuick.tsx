@@ -169,5 +169,5 @@ const s = themed(() => ({
   },
   pillText: { flexShrink: 1, fontSize: 13, fontWeight: "700", color: "#ffffff" },
   more: { flexDirection: "row", alignItems: "center", gap: 3, height: 38, paddingHorizontal: 4 },
-  moreText: { fontSize: 13, fontWeight: "700", color: color.brand },
+  moreText: { fontSize: 13, fontWeight: "700", color: color.brandText },
 }));

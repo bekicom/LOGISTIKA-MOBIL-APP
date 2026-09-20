@@ -188,7 +188,7 @@ const s = themed(() => ({
     borderRadius: radius.pill,
     backgroundColor: color.brandSoft,
   },
-  scoreText: { fontSize: 11.5, fontWeight: "800", color: color.brand },
+  scoreText: { fontSize: 11.5, fontWeight: "800", color: color.brandText },
 
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 8 },
   chip: {

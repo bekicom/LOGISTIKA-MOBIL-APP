@@ -191,7 +191,7 @@ const s = themed(() => ({
   meta: { fontSize: 12, color: color.mutedForeground },
   desc: { fontSize: 14, color: color.foreground, lineHeight: 21 },
   link: { flexDirection: "row", alignItems: "center", gap: 6 },
-  linkText: { fontSize: 13, fontWeight: "700", color: color.brand, textDecorationLine: "underline" },
+  linkText: { fontSize: 13, fontWeight: "700", color: color.brandText, textDecorationLine: "underline" },
   resolved: { flexDirection: "row", alignItems: "flex-start", gap: 6, padding: 10, borderRadius: radius.control, backgroundColor: color.successSoft },
   resolvedText: { flex: 1, fontSize: 13, color: color.successText },
   item: { flexDirection: "row", gap: 10, alignItems: "flex-start" },
@@ -200,5 +200,5 @@ const s = themed(() => ({
   itemText: { fontSize: 14, color: color.foreground, marginTop: 2 },
   actions: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   chip: { flexDirection: "row", alignItems: "center", gap: 6, height: 36, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: color.brandSoft },
-  chipText: { fontSize: 13, fontWeight: "700", color: color.brand },
+  chipText: { fontSize: 13, fontWeight: "700", color: color.brandText },
 }));

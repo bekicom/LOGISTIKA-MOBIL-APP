@@ -298,7 +298,7 @@ function RateBlock({ tripId, target, onDone }: { tripId: string; target: Target;
             value={comment}
             onChangeText={setComment}
             placeholder={stars < 3 ? t("mob.report.whatWrong") : t("mob.report.noteOptional")}
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={color.faintText}
             multiline
             style={s.comment}
           />
@@ -354,7 +354,7 @@ const s = themed(() => ({
   heroChipText: { fontSize: 11, fontWeight: "600", color: "#4ade80" },
   heroRoute: { flexDirection: "row", alignItems: "center", gap: 10 },
   heroCity: { flex: 1, fontSize: 20, fontWeight: "700", color: "#fff" },
-  heroNo: { fontSize: 12, color: "#94a3b8", fontFamily: "monospace" },
+  heroNo: { fontSize: 12, color: color.faintText, fontFamily: "monospace" },
 
   body: { padding: space.lg, gap: space.md },
   card: {
@@ -389,5 +389,5 @@ const s = themed(() => ({
   },
   err: { fontSize: 12, color: color.danger, marginTop: 8 },
   rated: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: space.lg, paddingTop: space.lg, borderTopWidth: 1, borderTopColor: color.border },
-  ratedText: { fontSize: font.caption, fontWeight: "600", color: color.success },
+  ratedText: { fontSize: font.caption, fontWeight: "600", color: color.successText },
 }));

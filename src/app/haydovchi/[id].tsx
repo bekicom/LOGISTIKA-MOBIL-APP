@@ -404,7 +404,7 @@ const s = themed(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  avatarText: { fontSize: 16, fontWeight: "800", color: color.brand },
+  avatarText: { fontSize: 16, fontWeight: "800", color: color.brandText },
   name: { fontSize: 16.5, fontWeight: "800", color: color.foreground },
   meta: { fontSize: 12.5, color: color.mutedForeground, marginTop: 2 },
   call: {

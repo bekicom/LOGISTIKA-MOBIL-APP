@@ -206,7 +206,7 @@ export default function Elonlarim() {
 function Fig({ n, label, dim, hot }: { n: number; label: string; dim?: boolean; hot?: boolean }) {
   return (
     <View>
-      <Text style={[s.figN, dim && { color: "#94a3b8" }, hot && { color: color.brand }]}>{n}</Text>
+      <Text style={[s.figN, dim && { color: color.faintText }, hot && { color: color.brandText }]}>{n}</Text>
       <Text style={s.figL}>{label}</Text>
     </View>
   );
@@ -249,7 +249,7 @@ const s = themed(() => ({
   shot: { width: 56, height: 56, borderRadius: 10, backgroundColor: color.iconFaint },
   route: { fontSize: font.title, fontWeight: "700", color: color.foreground },
   sub: { fontSize: font.caption, color: color.icon, marginTop: 2 },
-  trip: { fontSize: font.caption, fontWeight: "600", color: color.success, marginTop: 10 },
+  trip: { fontSize: font.caption, fontWeight: "600", color: color.successText, marginTop: 10 },
 
   figs: {
     flexDirection: "row",

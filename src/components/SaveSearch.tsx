@@ -116,7 +116,7 @@ const s = themed(() => ({
     backgroundColor: color.card,
     justifyContent: "center",
   },
-  btnText: { fontSize: 12.5, fontWeight: "700", color: color.brand },
+  btnText: { fontSize: 12.5, fontWeight: "700", color: color.brandText },
   hint: { flex: 1, fontSize: 11.5, lineHeight: 15, color: color.mutedForeground },
-  done: { fontSize: 12.5, fontWeight: "700", color: color.success },
+  done: { fontSize: 12.5, fontWeight: "700", color: color.successText },
 }));

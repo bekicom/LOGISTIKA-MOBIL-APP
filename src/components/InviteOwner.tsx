@@ -57,7 +57,7 @@ export function InviteOwner({ loadId }: { loadId: string }) {
       <View style={[s.box, { borderColor: color.success + "55", backgroundColor: color.successSoft }]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 9 }}>
           <Icon name="check" size={18} stroke={color.success} />
-          <Text style={[s.title, { color: color.success }]}>{t("mob.invOwner.sent")}</Text>
+          <Text style={[s.title, { color: color.successText }]}>{t("mob.invOwner.sent")}</Text>
         </View>
       </View>
     );

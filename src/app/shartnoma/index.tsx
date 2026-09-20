@@ -240,7 +240,7 @@ const s = themed(() => ({
   head: { flexDirection: "row", alignItems: "center", gap: 8 },
   tag: { height: 21, paddingHorizontal: 8, borderRadius: 6, justifyContent: "center" },
   tagText: { fontSize: 10, fontWeight: "700" },
-  no: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  no: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   partyRow: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 11 },
   avatar: {

@@ -535,7 +535,7 @@ export default function Suhbat() {
               value={text}
               onChangeText={setText}
               placeholder={ovozBand ? t("mob.voiceNote.working") : t("mob.ai.askPh")}
-              placeholderTextColor="#94a3b8"
+              placeholderTextColor={color.faintText}
               style={s.input}
               multiline
               editable={!busy && !ovozBand}
@@ -950,7 +950,7 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   title: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground },
-  sub: { fontSize: 12, color: color.success },
+  sub: { fontSize: 12, color: color.successText },
   subOver: { color: color.danger },
 
   list: { padding: space.lg, gap: space.md },
@@ -1014,7 +1014,7 @@ const s = themed(() => ({
     gap: 6,
   },
   unverifiedText: { fontSize: 12.5, lineHeight: 18, fontWeight: "600", color: color.warning },
-  link: { fontSize: 12.5, fontWeight: "700", color: color.brand },
+  link: { fontSize: 12.5, fontWeight: "700", color: color.brandText },
 
   near: { marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: color.border, gap: 7 },
   nearTitle: { fontSize: 11.5, fontWeight: "700", color: color.mutedForeground },

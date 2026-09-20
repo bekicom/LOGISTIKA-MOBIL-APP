@@ -243,7 +243,7 @@ const s = themed(() => ({
     backgroundColor: color.muted, alignItems: "center", justifyContent: "center",
   },
   now: {
-    fontSize: 10, fontWeight: "700", color: color.success,
+    fontSize: 10, fontWeight: "700", color: color.successText,
     backgroundColor: color.success + "1f", paddingHorizontal: 7,
     paddingVertical: 3, borderRadius: 6, overflow: "hidden",
   },

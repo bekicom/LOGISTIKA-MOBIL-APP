@@ -127,5 +127,5 @@ const s = themed(() => ({
   hint: { fontSize: 13, color: color.mutedForeground, lineHeight: 19 },
   card: { backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, gap: space.md, ...shadow.card },
   saved: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "center" },
-  savedText: { fontSize: 13, fontWeight: "700", color: color.success },
+  savedText: { fontSize: 13, fontWeight: "700", color: color.successText },
 }));

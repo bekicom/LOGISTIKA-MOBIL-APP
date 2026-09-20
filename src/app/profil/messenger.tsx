@@ -111,7 +111,7 @@ const s = themed(() => ({
   autoTitle: { fontSize: 15, fontWeight: "700", color: color.foreground },
   autoHint: { fontSize: 12.5, color: color.mutedForeground, marginTop: 3, lineHeight: 18 },
   saved: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "center" },
-  savedText: { fontSize: 13, fontWeight: "700", color: color.success },
+  savedText: { fontSize: 13, fontWeight: "700", color: color.successText },
   ai: {
     flexDirection: "row",
     alignItems: "center",
@@ -121,5 +121,5 @@ const s = themed(() => ({
     backgroundColor: color.brandSoft,
   },
   aiText: { flex: 1, fontSize: 12.5, lineHeight: 18, color: color.foreground },
-  aiLink: { fontSize: 13, fontWeight: "700", color: color.brand },
+  aiLink: { fontSize: 13, fontWeight: "700", color: color.brandText },
 }));

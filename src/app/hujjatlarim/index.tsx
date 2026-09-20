@@ -268,7 +268,7 @@ function DocRow({ d, last, onPress }: { d: Doc; last: boolean; onPress: () => vo
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
-  add: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
+  add: { fontSize: font.bodyLg, fontWeight: "600", color: color.brandText },
 
   ready: {
     flexDirection: "row", alignItems: "center", gap: 14,

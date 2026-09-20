@@ -303,7 +303,7 @@ const s = themed(() => ({
     justifyContent: "center",
     backgroundColor: color.brandSoft,
   },
-  orderText: { fontSize: 12, fontWeight: "800", color: color.brand },
+  orderText: { fontSize: 12, fontWeight: "800", color: color.brandText },
   tripTitle: { fontSize: 13.5, fontWeight: "700", color: color.foreground },
   tripSub: { fontSize: 11.5, color: color.mutedForeground, marginTop: 2 },
 
@@ -325,5 +325,5 @@ const s = themed(() => ({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: color.border,
   },
-  chatText: { flex: 1, fontSize: 13.5, fontWeight: "700", color: color.brand },
+  chatText: { flex: 1, fontSize: 13.5, fontWeight: "700", color: color.brandText },
 }));

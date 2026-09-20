@@ -243,5 +243,5 @@ const s = themed(() => ({
   keyOpText: { fontSize: 24, fontWeight: "600" },
   /* Yoritilgan amalda oq fon — matn ham rangini almashtiradi,
      aks holda oq ustida oq bo'lib ko'rinmay qolardi */
-  keyOnText: { color: color.brand },
+  keyOnText: { color: color.brandText },
 }));

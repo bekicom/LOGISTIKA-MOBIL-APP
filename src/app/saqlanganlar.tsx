@@ -118,7 +118,7 @@ export default function Saqlanganlar() {
                       <Text style={[s.route, gone && s.dimText]}>
                         {it.from} → {it.to}
                       </Text>
-                      <Text style={[s.sub, gone && { color: "#94a3b8" }]} numberOfLines={1}>
+                      <Text style={[s.sub, gone && { color: color.faintText }]} numberOfLines={1}>
                         {[it.title, it.weightT != null ? `${it.weightT} t` : null, it.type]
                           .filter(Boolean)
                           .join(" · ")}
@@ -209,5 +209,5 @@ const s = themed(() => ({
     borderTopColor: color.border,
   },
   goneText: { flex: 1, fontSize: font.caption, color: color.mutedForeground },
-  remove: { fontSize: font.caption, fontWeight: "600", color: color.brand },
+  remove: { fontSize: font.caption, fontWeight: "600", color: color.brandText },
 }));

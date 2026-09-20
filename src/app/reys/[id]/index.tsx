@@ -526,7 +526,7 @@ function StepRow({ step, last }: { step: Step; last: boolean }) {
         {!last ? <View style={[s.line, done && { backgroundColor: color.success }]} /> : null}
       </View>
       <View style={{ flex: 1, paddingBottom: last ? 0 : 14 }}>
-        <Text style={[s.stepLabel, now && { color: color.brand, fontWeight: "700" }, step.state === "next" && s.stepNext]}>
+        <Text style={[s.stepLabel, now && { color: color.brandText, fontWeight: "700" }, step.state === "next" && s.stepNext]}>
           {t(`tripStatus.${step.status}`)}
         </Text>
         {step.at ? <Text style={s.meta}>{when(step.at)}</Text> : now ? <Text style={s.meta}>{t("mob.last.now")}</Text> : null}
@@ -648,7 +648,7 @@ function RouteLive({ trip }: { trip: Trip }) {
           [r.fromLat as number, r.fromLng as number] as [number, number],
           [r.toLat as number, r.toLng as number] as [number, number],
         ],
-        color: "#94a3b8",
+        color: color.faintText,
         dashed: true,
       },
       // Yurilgan iz — to'q sariq, to'liq chiziq
@@ -802,7 +802,7 @@ const s = themed(() => ({
   dotNext: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: color.border },
   line: { flex: 1, width: 2, backgroundColor: color.border, minHeight: 18 },
   stepLabel: { fontSize: 14, fontWeight: "600", color: color.foreground },
-  stepNext: { fontWeight: "500", color: "#94a3b8" },
+  stepNext: { fontWeight: "500", color: color.faintText },
 
   cargoName: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginTop: 10 },
   grid3: { flexDirection: "row", gap: 12, marginTop: 14 },
@@ -813,7 +813,7 @@ const s = themed(() => ({
   driverIcon: { width: 36, height: 36, borderRadius: radius.control, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
   driverName: { fontSize: 14, fontWeight: "600", color: color.foreground },
   call: { height: 36, paddingHorizontal: 14, borderRadius: radius.control, backgroundColor: "#16a34a1a", justifyContent: "center" },
-  callText: { fontSize: 13, fontWeight: "600", color: color.success },
+  callText: { fontSize: 13, fontWeight: "600", color: color.successText },
 
   list: { backgroundColor: color.card, borderRadius: radius.card, overflow: "hidden", ...shadow.card },
   listRow: { flexDirection: "row", alignItems: "center", gap: 12, padding: space.lg },

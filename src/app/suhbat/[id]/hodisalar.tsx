@@ -88,7 +88,7 @@ const s = themed(() => ({
   icon: { width: 42, height: 42, borderRadius: 13, alignItems: "center", justifyContent: "center" },
   title: { fontSize: 14.5, fontWeight: "700", color: color.foreground },
   sub: { fontSize: 12.5, color: color.mutedForeground, marginTop: 2 },
-  meta: { fontSize: 11, color: "#94a3b8", marginTop: 3 },
+  meta: { fontSize: 11, color: color.faintText, marginTop: 3 },
   status: { paddingHorizontal: 9, height: 24, borderRadius: 12, justifyContent: "center" },
   statusText: { fontSize: 11, fontWeight: "700" },
 }));

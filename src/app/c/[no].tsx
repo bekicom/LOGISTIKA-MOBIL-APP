@@ -122,7 +122,7 @@ const s = themed(() => ({
   number: {
     fontSize: 20,
     fontWeight: "800",
-    color: color.brand,
+    color: color.brandText,
     marginTop: 8,
     letterSpacing: 0.5,
   },

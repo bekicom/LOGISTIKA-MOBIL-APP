@@ -131,7 +131,7 @@ export default function Zapchast() {
             onSubmitEditing={() => setSent(q)}
             onBlur={() => setSent(q)}
             placeholder={t("mob.part.searchPh")}
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={color.faintText}
             returnKeyType="search"
             autoCapitalize="characters"
             style={s.searchInput}
@@ -435,7 +435,7 @@ const s = themed(() => ({
   scroll: { padding: space.lg },
   countRow: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginBottom: space.sm },
   count: { fontSize: 13, color: color.mutedForeground },
-  link: { fontSize: 13, fontWeight: "600", color: color.brand },
+  link: { fontSize: 13, fontWeight: "600", color: color.brandText },
   group: {
     fontSize: 12,
     fontWeight: "600",
@@ -459,7 +459,7 @@ const s = themed(() => ({
   tag: { height: 21, paddingHorizontal: 8, borderRadius: 6, backgroundColor: color.muted, justifyContent: "center" },
   tagHit: { alignSelf: "flex-start", marginBottom: 11, backgroundColor: color.brand + "1f" },
   tagText: { fontSize: 10, fontWeight: "700", color: color.mutedForeground },
-  no: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  no: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   row: { flexDirection: "row", gap: 12 },
   thumb: {

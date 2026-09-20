@@ -343,7 +343,10 @@ const s = themed(() => ({
   debtsMid: { fontSize: 20, fontWeight: "700", color: "#fff" },
   debtsSmall: { fontSize: 18, fontWeight: "700", color: "#fff" },
   debtsCur: { fontSize: 14, color: "#f1f5f999" },
-  debtsZero: { fontSize: 17, fontWeight: "600", color: "#f1f5f966" },
+  /* «Yo'q» — 0x66 (40%) da to'q ko'k fonda kontrast 3.6:1 edi,
+     ya'ni AA (4.5:1) dan past va telefonda quyoshda o'qilmasdi
+     (2026-09-20). 0x80 (50%) da 5.0:1 — hali xira, lekin o'qiladi. */
+  debtsZero: { fontSize: 17, fontWeight: "600", color: "#f1f5f980" },
   debtsLine: { height: 1, backgroundColor: "#ffffff1a", marginVertical: 15 },
 
   overdue: {
@@ -403,7 +406,7 @@ const s = themed(() => ({
   rv: { fontSize: 13, fontWeight: "600", color: color.foreground },
   profitRow: { flexDirection: "row", justifyContent: "space-between", paddingTop: 10 },
   profitKey: { fontSize: 14, fontWeight: "700", color: color.foreground },
-  profitValue: { fontSize: 17, fontWeight: "700", color: color.success },
+  profitValue: { fontSize: 17, fontWeight: "700", color: color.successText },
 
   warn: {
     flexDirection: "row",

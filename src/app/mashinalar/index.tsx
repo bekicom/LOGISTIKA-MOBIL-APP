@@ -214,7 +214,7 @@ const s = themed(() => ({
   searchText: { flex: 1, fontSize: font.body, fontWeight: "700", color: color.foreground },
   /* `JoylarYozuvi` uchun — `flex` siz (sababi o'sha komponent izohida) */
   searchJoy: { fontSize: font.body, fontWeight: "700", color: color.foreground },
-  searchPlaceholder: { fontWeight: "500", color: "#94a3b8" },
+  searchPlaceholder: { fontWeight: "500", color: color.faintText },
 
   chipRow: { flexDirection: "row", gap: 7, alignItems: "center", flexWrap: "wrap" },
   filtrBtn: {

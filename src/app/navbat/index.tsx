@@ -217,7 +217,7 @@ function QueueCard({ q, onPress }: { q: Queue; onPress: () => void }) {
               : needs
                 ? { color: color.danger, backgroundColor: color.danger + "1f" }
                 : isToday(q.slotAt)
-                  ? { color: color.brand, backgroundColor: color.brand + "24" }
+                  ? { color: color.brandText, backgroundColor: color.brand + "24" }
                   : { color: color.info, backgroundColor: color.info + "1f" },
           ]}
         >
@@ -237,7 +237,7 @@ function QueueCard({ q, onPress }: { q: Queue; onPress: () => void }) {
           <View style={s.timeRow}>
             <Text style={s.time}>{q.timeText}</Text>
             {left ? (
-              <Text style={[s.left, left.urgent && { color: color.brand }]}>{left.text}</Text>
+              <Text style={[s.left, left.urgent && { color: color.brandText }]}>{left.text}</Text>
             ) : null}
           </View>
           <View style={s.foot}>

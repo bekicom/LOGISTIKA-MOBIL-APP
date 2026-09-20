@@ -431,7 +431,7 @@ const s = themed(() => ({
     justifyContent: "center",
     gap: 4,
   },
-  addText: { fontSize: 11, fontWeight: "500", color: "#94a3b8" },
+  addText: { fontSize: 11, fontWeight: "500", color: color.faintText },
 
   picks: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
   pick: {
@@ -484,7 +484,7 @@ const s = themed(() => ({
   },
   geoOkTitle: { fontSize: 13, fontWeight: "600", color: color.foreground },
   geoOkSub: { fontSize: 11, color: color.mutedForeground, marginTop: 1 },
-  change: { fontSize: 12, fontWeight: "600", color: color.brand },
+  change: { fontSize: 12, fontWeight: "600", color: color.brandText },
 
   geoWait: { padding: 14, borderRadius: 12, backgroundColor: color.muted, alignItems: "center" },
   geoWaitText: { fontSize: 13, color: color.mutedForeground },
@@ -501,7 +501,7 @@ const s = themed(() => ({
     gap: 9,
   },
   locText: { fontSize: 15, color: color.foreground },
-  locPh: { color: "#94a3b8" },
+  locPh: { color: color.faintText },
 
   mobileRow: {
     flexDirection: "row",
@@ -524,5 +524,5 @@ const s = themed(() => ({
     paddingHorizontal: space.lg,
     paddingTop: space.md,
   },
-  footNote: { fontSize: 11, color: "#94a3b8", textAlign: "center", marginTop: 8, lineHeight: 16 },
+  footNote: { fontSize: 11, color: color.faintText, textAlign: "center", marginTop: 8, lineHeight: 16 },
 }));

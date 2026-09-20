@@ -352,7 +352,7 @@ const s = themed(() => ({
     marginLeft: 4,
   },
   groupRow: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
-  link: { fontSize: 12, fontWeight: "600", color: color.brand, marginBottom: 7 },
+  link: { fontSize: 12, fontWeight: "600", color: color.brandText, marginBottom: 7 },
 
   gate: { backgroundColor: color.navy, borderRadius: radius.card, padding: space.md },
   gateHead: { flexDirection: "row", alignItems: "center", gap: 11 },

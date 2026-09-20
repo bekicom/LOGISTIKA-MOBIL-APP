@@ -389,7 +389,7 @@ const s = themed(() => ({
     borderBottomWidth: 1, borderBottomColor: color.border,
   },
   title: { flex: 1, fontSize: 22, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
-  edit: { fontSize: font.body, fontWeight: "600", color: color.brand },
+  edit: { fontSize: font.body, fontWeight: "600", color: color.brandText },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
 
   person: { alignItems: "center", gap: 6, paddingTop: space.sm },
@@ -410,7 +410,7 @@ const s = themed(() => ({
   trustTop: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   trustLabel: { fontSize: font.body, fontWeight: "700", color: color.foreground },
   band: {
-    fontSize: 11, fontWeight: "700", color: color.success,
+    fontSize: 11, fontWeight: "700", color: color.successText,
     backgroundColor: color.success + "1f", paddingHorizontal: 8, paddingVertical: 3,
     borderRadius: 6, overflow: "hidden",
   },
@@ -424,7 +424,7 @@ const s = themed(() => ({
   planName: { fontSize: font.body, fontWeight: "700", color: color.foreground },
   planHint: { fontSize: font.caption, color: color.mutedForeground, marginTop: 2 },
   planBadge: {
-    fontSize: 10, fontWeight: "700", color: color.brand,
+    fontSize: 10, fontWeight: "700", color: color.brandText,
     backgroundColor: color.brand + "1f", paddingHorizontal: 8, paddingVertical: 3,
     borderRadius: 6, overflow: "hidden",
   },

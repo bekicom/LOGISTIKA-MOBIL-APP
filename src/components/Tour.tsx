@@ -161,7 +161,7 @@ const s = themed(() => ({
     padding: space.xl,
   },
   cardTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 },
-  count: { fontSize: 12, fontWeight: "700", color: color.brand, letterSpacing: 0.5 },
+  count: { fontSize: 12, fontWeight: "700", color: color.brandText, letterSpacing: 0.5 },
   skip: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
   title: { fontSize: 19, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
   text: { fontSize: 14.5, color: color.mutedForeground, marginTop: 6, lineHeight: 21 },

@@ -340,7 +340,7 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   catText: { fontSize: 12, fontWeight: "600", color: color.brandText },
-  meta: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  meta: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   amount: { fontSize: 24, fontWeight: "700", color: color.foreground, marginTop: 11 },
   cur: { fontSize: 14, color: color.mutedForeground },

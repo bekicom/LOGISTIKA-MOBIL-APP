@@ -196,7 +196,7 @@ export default function Skaner() {
                         pressed && !on ? { backgroundColor: color.muted } : null,
                       ]}
                     >
-                      <Text style={[s.kindText, on ? { color: color.brand } : null]}>
+                      <Text style={[s.kindText, on ? { color: color.brandText } : null]}>
                         {t(`mob.pdocKind.${k.doc}`)}
                       </Text>
                     </Pressable>
@@ -432,7 +432,7 @@ function Line({
           value={value}
           onChangeText={onChange}
           placeholder={placeholder}
-          placeholderTextColor="#94a3b8"
+          placeholderTextColor={color.faintText}
           autoCapitalize={autoCapitalize}
           keyboardType={keyboardType}
           style={s.fInput}

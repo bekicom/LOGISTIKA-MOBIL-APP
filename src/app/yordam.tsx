@@ -132,7 +132,7 @@ export default function Yordam() {
 
       <View style={[s.composer, { paddingBottom: composerPad(insets.bottom, kbOpen) }]}>
         <View style={s.field}>
-          <TextInput value={text} onChangeText={setText} placeholder={t("mob.support.placeholder")} placeholderTextColor="#94a3b8" style={s.input} multiline maxLength={2000} />
+          <TextInput value={text} onChangeText={setText} placeholder={t("mob.support.placeholder")} placeholderTextColor={color.faintText} style={s.input} multiline maxLength={2000} />
         </View>
         <Pressable style={[s.sendBtn, !text.trim() && { backgroundColor: color.border }]} onPress={send} disabled={!text.trim() || busy}>
           {busy ? <ActivityIndicator color="#fff" size="small" /> : <Icon name="send" size={19} stroke="#fff" />}
@@ -157,9 +157,9 @@ const s = themed(() => ({
   bubble: { maxWidth: "82%", padding: 11, borderRadius: 18 },
   in: { alignSelf: "flex-start", backgroundColor: color.card, borderBottomLeftRadius: 5, ...shadow.card },
   out: { alignSelf: "flex-end", backgroundColor: color.brand, borderBottomRightRadius: 5 },
-  sender: { fontSize: 11, fontWeight: "700", color: color.brand, marginBottom: 3 },
+  sender: { fontSize: 11, fontWeight: "700", color: color.brandText, marginBottom: 3 },
   text: { fontSize: 14.5, lineHeight: 21, color: color.foreground },
-  time: { fontSize: 10.5, color: "#94a3b8", textAlign: "right", marginTop: 4 },
+  time: { fontSize: 10.5, color: color.faintText, textAlign: "right", marginTop: 4 },
   errBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: space.lg, paddingVertical: 8, backgroundColor: color.dangerSoft },
   errText: { fontSize: 12, color: color.danger, flex: 1 },
   composer: { backgroundColor: color.card, flexDirection: "row", alignItems: "flex-end", gap: 8, paddingHorizontal: 12, paddingTop: 8, ...shadow.bar },

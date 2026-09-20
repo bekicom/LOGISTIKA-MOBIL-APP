@@ -359,6 +359,6 @@ const s = themed(() => ({
   },
   chipOn: { borderColor: color.brand, backgroundColor: color.brand + "14" },
   chipText: { fontSize: 13, fontWeight: "600", color: color.foreground },
-  chipTextOn: { color: color.brand },
+  chipTextOn: { color: color.brandText },
   hint: { fontSize: 11.5, color: color.mutedForeground, marginTop: 6 },
 }));

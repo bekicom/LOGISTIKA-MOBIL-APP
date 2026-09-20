@@ -251,7 +251,7 @@ const s = themed(() => ({
   },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   title: { flex: 1, fontSize: 20, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
-  link: { fontSize: 13, fontWeight: "600", color: color.brand, paddingRight: space.md },
+  link: { fontSize: 13, fontWeight: "600", color: color.brandText, paddingRight: space.md },
 
   tabs: { flexDirection: "row", gap: 7,
     paddingHorizontal: space.lg, paddingBottom: space.md,

@@ -194,8 +194,8 @@ const s = themed(() => ({
   chipTextOn: { color: "#ffffff" },
   soni: { minWidth: 24, height: 22, paddingHorizontal: 6, borderRadius: 11, alignItems: "center", justifyContent: "center", backgroundColor: color.brandSoft },
   soniOn: { backgroundColor: "#ffffff33" },
-  soniText: { fontSize: 11, fontWeight: "800", color: color.brand, fontVariant: ["tabular-nums"] },
+  soniText: { fontSize: 11, fontWeight: "800", color: color.brandText, fontVariant: ["tabular-nums"] },
   soniTextOn: { color: "#ffffff" },
   all: { flexDirection: "row", alignItems: "center", gap: 2, height: 34, paddingHorizontal: 4 },
-  allText: { fontSize: 12.5, fontWeight: "700", color: color.brand },
+  allText: { fontSize: 12.5, fontWeight: "700", color: color.brandText },
 }));

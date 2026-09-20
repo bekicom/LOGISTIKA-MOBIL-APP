@@ -334,7 +334,7 @@ export default function YukJoylash() {
                 value={desc}
                 onChangeText={(v) => setDesc(v.slice(0, 1000))}
                 placeholder={t("mob.post.detailsPh")}
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={color.faintText}
                 multiline
                 style={s.textarea}
               />
@@ -496,7 +496,7 @@ const s = themed(() => ({
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 6, lineHeight: 17 },
   meta: { fontSize: 12, color: color.mutedForeground },
   rowBetween: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
-  counterHint: { fontSize: 12, fontWeight: "600", color: color.brand },
+  counterHint: { fontSize: 12, fontWeight: "600", color: color.brandText },
 
   pick: {
     height: 52, borderWidth: 1, borderColor: color.border, borderRadius: radius.control,
@@ -504,7 +504,7 @@ const s = themed(() => ({
   },
   pickOn: { borderWidth: 2, borderColor: color.brand },
   pickText: { flex: 1, fontSize: font.bodyLg, fontWeight: "600", color: color.foreground },
-  pickPlaceholder: { fontWeight: "400", color: "#94a3b8" },
+  pickPlaceholder: { fontWeight: "400", color: color.faintText },
   dot: { width: 10, height: 10, borderRadius: 5 },
   dotDark: { borderWidth: 3, borderColor: color.foreground },
   dotBrand: { backgroundColor: color.brand },
@@ -578,7 +578,7 @@ const s = themed(() => ({
   sumRow: { flexDirection: "row", alignItems: "center", gap: space.md, padding: 14 },
   sumDivider: { borderBottomWidth: 1, borderBottomColor: color.border },
   sumValue: { fontSize: 14, fontWeight: "600", color: color.foreground, marginTop: 2 },
-  edit: { fontSize: 13, fontWeight: "600", color: color.brand },
+  edit: { fontSize: 13, fontWeight: "600", color: color.brandText },
 
   foot: { paddingHorizontal: space.xl, paddingTop: 14, borderTopWidth: 1, borderTopColor: color.border, backgroundColor: color.card },
   footHint: { fontSize: 12, color: color.mutedForeground, textAlign: "center", marginTop: 10 },

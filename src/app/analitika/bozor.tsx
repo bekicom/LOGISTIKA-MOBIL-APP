@@ -250,7 +250,7 @@ const s = themed(() => ({
 
   rateTop: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
   rateCur: { fontSize: 15, fontWeight: "700", color: color.foreground },
-  rateCount: { fontSize: 12, color: "#94a3b8" },
+  rateCount: { fontSize: 12, color: color.faintText },
 
   track: {
     height: 6,
@@ -269,11 +269,11 @@ const s = themed(() => ({
     backgroundColor: color.foreground,
   },
   rateFoot: { flexDirection: "row", justifyContent: "space-between" },
-  rateKey: { fontSize: 10.5, color: "#94a3b8", letterSpacing: 0.3 },
+  rateKey: { fontSize: 10.5, color: color.faintText, letterSpacing: 0.3 },
   rateSide: { fontSize: 13.5, fontWeight: "600", color: color.foreground, marginTop: 1 },
   rateMid: { fontSize: 15, fontWeight: "700", color: color.foreground, marginTop: 1 },
   rateRange: { fontSize: 18, fontWeight: "700", color: color.foreground, marginTop: 9 },
-  rateNote: { fontSize: 12, color: "#94a3b8", marginTop: 5 },
+  rateNote: { fontSize: 12, color: color.faintText, marginTop: 5 },
 
   tag: { alignSelf: "flex-start", height: 21, paddingHorizontal: 8, borderRadius: 6, justifyContent: "center" },
   tagText: { fontSize: 10.5, fontWeight: "700" },

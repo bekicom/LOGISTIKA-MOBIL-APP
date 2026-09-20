@@ -84,6 +84,19 @@ export default function Panelim() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
+        {/* ORQAGA TUGMASI YO'Q EDI (2026-09-20). Ekran menyudan
+            ochiladi, `Stack` da esa `headerShown: false` — ya'ni
+            iPhone'da faqat chetdan surish qolardi, ko'rinadigan
+            chiqish yo'li umuman yo'q edi. */}
+        <Pressable
+          onPress={() => (router.canGoBack() ? router.back() : router.replace("/bosh"))}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={t("mob.common.back")}
+          style={({ pressed }) => [s.back, pressed && { opacity: 0.5 }]}
+        >
+          <Icon name="back" size={22} stroke={color.foreground} />
+        </Pressable>
         <View style={s.avatar}>
           <Text style={s.avatarText}>{initials}</Text>
         </View>
@@ -389,7 +402,7 @@ const docText = (state: string) =>
 function Fig({ value, label, good }: { value: string; label: string; good?: boolean }) {
   return (
     <View style={{ flex: 1 }}>
-      <Text style={[s.figValue, good && { color: color.success }]}>{value}</Text>
+      <Text style={[s.figValue, good && { color: color.successText }]}>{value}</Text>
       <Text style={s.figLabel}>{label}</Text>
     </View>
   );
@@ -405,6 +418,7 @@ const s = themed(() => ({
     alignItems: "center",
     gap: 12,
   },
+  back: { width: 36, height: 36, marginLeft: -10, marginRight: -6, alignItems: "center", justifyContent: "center" },
   avatar: {
     width: 42,
     height: 42,
@@ -553,7 +567,7 @@ const s = themed(() => ({
   },
   secHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   secTitle: { fontSize: font.body, fontWeight: "700", color: color.foreground },
-  ready: { fontSize: font.caption, fontWeight: "600", color: color.success },
+  ready: { fontSize: font.caption, fontWeight: "600", color: color.successText },
 
   figs: { flexDirection: "row", gap: 10, marginTop: 14 },
   figValue: { fontSize: 22, fontWeight: "700", color: color.foreground, letterSpacing: -0.4 },
@@ -598,6 +612,6 @@ const s = themed(() => ({
   },
   empIconText: { fontSize: 13, fontWeight: "700", color: color.info },
   empName: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginTop: 12 },
-  empSince: { fontSize: 12, color: color.success, marginTop: 1 },
+  empSince: { fontSize: 12, color: color.successText, marginTop: 1 },
   empText: { fontSize: 12, color: color.mutedForeground, marginTop: 4, lineHeight: 19 },
 }));

@@ -254,10 +254,10 @@ const s = themed(() => ({
     borderTopWidth: 1,
     borderTopColor: color.muted,
   },
-  statKey: { fontSize: 11, color: "#94a3b8" },
+  statKey: { fontSize: 11, color: color.faintText },
   statVal: { fontSize: 15, fontWeight: "700", color: color.foreground, marginTop: 1 },
-  statSub: { fontSize: 11, fontWeight: "400", color: "#94a3b8" },
-  statNone: { fontSize: 13, fontWeight: "500", color: "#94a3b8", marginTop: 3 },
+  statSub: { fontSize: 11, fontWeight: "400", color: color.faintText },
+  statNone: { fontSize: 13, fontWeight: "500", color: color.faintText, marginTop: 3 },
 
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 5, marginTop: 11 },
   chip: { height: 22, paddingHorizontal: 8, borderRadius: 6, backgroundColor: color.muted, justifyContent: "center" },

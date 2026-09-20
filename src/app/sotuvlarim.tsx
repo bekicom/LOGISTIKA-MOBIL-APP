@@ -438,7 +438,7 @@ const s = themed(() => ({
   tag: { height: 21, paddingHorizontal: 8, borderRadius: 6, justifyContent: "center" },
   tagBoost: { backgroundColor: color.brand + "1f" },
   tagText: { fontSize: 10, fontWeight: "700" },
-  no: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  no: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   name: { fontSize: 15, fontWeight: "600", color: color.foreground, marginTop: 10 },
   seller: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
@@ -452,7 +452,7 @@ const s = themed(() => ({
     borderTopWidth: 1,
     borderTopColor: color.muted,
   },
-  statKey: { fontSize: 11, color: "#94a3b8" },
+  statKey: { fontSize: 11, color: color.faintText },
   statValue: { fontSize: 15, fontWeight: "700", color: color.foreground, marginTop: 1 },
 
   acts: { flexDirection: "row", gap: 7, marginTop: 12 },

@@ -538,7 +538,7 @@ export default function Suhbat() {
             value={query}
             onChangeText={setQuery}
             placeholder={t("mob.msg.search")}
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={color.faintText}
             style={s.searchInput}
             autoFocus
           />
@@ -678,7 +678,7 @@ export default function Suhbat() {
                 value={text}
                 onChangeText={setText}
                 placeholder={t("mob.ui.writeMessage")}
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={color.faintText}
                 style={s.input}
                 multiline
                 maxLength={4000}
@@ -1053,7 +1053,7 @@ const s = themed(() => ({
   out: { alignSelf: "flex-end", backgroundColor: color.brand, borderBottomRightRadius: 5 },
   special: { alignSelf: "stretch", maxWidth: "100%", backgroundColor: color.card, borderLeftWidth: 3, borderLeftColor: color.brand, ...shadow.card },
   kindRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 5 },
-  kindText: { fontSize: 11.5, fontWeight: "800", color: color.brand, letterSpacing: 0.2 },
+  kindText: { fontSize: 11.5, fontWeight: "800", color: color.brandText, letterSpacing: 0.2 },
   sender: { fontSize: 11.5, fontWeight: "700", color: color.blue, marginBottom: 3 },
   quote: { borderLeftWidth: 2, paddingLeft: 8, marginBottom: 6 },
   quoteName: { fontSize: 11, fontWeight: "700" },
@@ -1074,17 +1074,17 @@ const s = themed(() => ({
   refKind: { fontSize: 10.5, fontWeight: "800", color: color.mutedForeground, letterSpacing: 0.4 },
   refTitle: { fontSize: 14, fontWeight: "700", color: color.foreground, marginTop: 2 },
   refSub: { fontSize: 12, color: color.mutedForeground },
-  refMeta: { fontSize: 14, fontWeight: "800", color: color.brand, marginTop: 2 },
+  refMeta: { fontSize: 14, fontWeight: "800", color: color.brandText, marginTop: 2 },
 
   confirmBox: { marginTop: 8, paddingTop: 8, borderTopWidth: 1, borderTopColor: color.border },
-  confirmed: { fontSize: 12, fontWeight: "600", color: color.success },
+  confirmed: { fontSize: 12, fontWeight: "600", color: color.successText },
 
   metaRow: { flexDirection: "row", alignItems: "center", justifyContent: "flex-end", gap: 4, marginTop: 4 },
   time: { fontSize: 10.5, fontVariant: ["tabular-nums"] },
 
   system: { alignSelf: "center", backgroundColor: color.muted, borderRadius: 12, paddingVertical: 7, paddingHorizontal: 13, maxWidth: "90%" },
   systemText: { fontSize: 12, color: color.icon, textAlign: "center" },
-  systemTime: { fontSize: 10, color: "#94a3b8", textAlign: "center", marginTop: 2 },
+  systemTime: { fontSize: 10, color: color.faintText, textAlign: "center", marginTop: 2 },
 
   errBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: space.lg, paddingVertical: 8, backgroundColor: color.dangerSoft },
   errText: { fontSize: 12, color: color.danger, flex: 1 },
@@ -1098,7 +1098,7 @@ const s = themed(() => ({
   replyBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.control, backgroundColor: color.brandSoft },
   replyText: { flex: 1, fontSize: 12.5, color: color.foreground },
   aiCard: { padding: 12, borderRadius: radius.control + 2, backgroundColor: color.blueSoft },
-  aiTitle: { fontSize: 11.5, fontWeight: "800", color: color.brand, letterSpacing: 0.2 },
+  aiTitle: { fontSize: 11.5, fontWeight: "800", color: color.brandText, letterSpacing: 0.2 },
   aiText: { fontSize: 14, color: color.foreground, marginTop: 6, lineHeight: 20 },
   aiApply: { height: 32, paddingHorizontal: 14, borderRadius: 16, backgroundColor: color.brand, justifyContent: "center" },
   aiApplyText: { fontSize: 13, fontWeight: "700", color: "#fff" },

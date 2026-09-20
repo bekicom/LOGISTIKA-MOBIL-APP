@@ -181,7 +181,11 @@ export default function TabsLayout() {
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: color.brand,
-          tabBarInactiveTintColor: "#8a94a6",
+          /* Nofaol yorliq `#8a94a6` edi — oq panel ustida 3.06:1,
+             ya'ni 10 px lik yozuv uchun juda xira (2026-09-20).
+             `faintText` yorug'da 5.08:1, qorong'ida esa eski
+             qiymatning o'zi qoladi. */
+          tabBarInactiveTintColor: color.faintText,
           tabBarStyle: {
             backgroundColor: color.card,
             borderTopWidth: 0,
@@ -265,7 +269,12 @@ export default function TabsLayout() {
 }
 
 const s = themed(() => ({
-  centerWrap: { flex: 1, alignItems: "center", justifyContent: "flex-start", top: -18 },
+  /* ⚠️ `top` YOZUVNI ham ko'taradi, faqat tugmani emas (2026-09-20).
+     -18 da «Joylash» yozuvi qo'shnilaridan 9 px past tushib, ekran
+     chetidan 7 px chiqib ketardi — ya'ni Androidda (pastki bo'shliq
+     0 bo'lganda) umuman kesilardi. -27 da yozuv «Bosh sahifa»,
+     «Yuklar», «Menyu» bilan bir chiziqda turadi. */
+  centerWrap: { flex: 1, alignItems: "center", justifyContent: "flex-start", top: -27 },
   center: {
     width: 58,
     height: 58,
@@ -277,5 +286,5 @@ const s = themed(() => ({
     borderColor: color.card,
     ...shadow.float,
   },
-  centerLabel: { fontSize: 11, fontWeight: "600", color: "#8a94a6", marginTop: 2 },
+  centerLabel: { fontSize: 11, fontWeight: "600", color: color.faintText, marginTop: 2 },
 }));

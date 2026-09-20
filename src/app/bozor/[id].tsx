@@ -272,7 +272,7 @@ export default function EelonTafsilot() {
                 size={16}
                 stroke={picked ? color.success : color.foreground}
               />
-              <Text style={[s.cmpText, picked && { color: color.success }]}>
+              <Text style={[s.cmpText, picked && { color: color.successText }]}>
                 {picked ? t("mob.cmp.added") : t("mob.cmp.add")}
               </Text>
               {chosen.length > 0 ? (
@@ -669,7 +669,7 @@ const s = themed(() => ({
     backgroundColor: color.card,
   },
   cmpText: { flex: 1, fontSize: 13.5, fontWeight: "700", color: color.foreground },
-  cmpOpen: { fontSize: 12.5, fontWeight: "700", color: color.brand },
+  cmpOpen: { fontSize: 12.5, fontWeight: "700", color: color.brandText },
 
   videoHint: { fontSize: 11.5, color: color.mutedForeground, textAlign: "center", lineHeight: 17 },
   videoErr: { fontSize: 12.5, color: color.danger, textAlign: "center" },
@@ -722,7 +722,7 @@ const s = themed(() => ({
   topRow: { flexDirection: "row", alignItems: "center", gap: 8 },
   status: { height: 21, paddingHorizontal: 8, borderRadius: 6, justifyContent: "center" },
   statusText: { fontSize: 10, fontWeight: "700" },
-  no: { fontSize: 11, color: "#94a3b8" },
+  no: { fontSize: 11, color: color.faintText },
 
   name: { fontSize: 21, fontWeight: "700", color: color.foreground, marginTop: 8, letterSpacing: -0.4 },
   meta: { fontSize: 13, color: color.mutedForeground, marginTop: 2 },
@@ -805,7 +805,7 @@ const s = themed(() => ({
   avatarText: { fontSize: 13, fontWeight: "700", color: color.mutedForeground },
   sellerName: { flexDirection: "row", alignItems: "center", gap: 6 },
   sellerNameText: { flexShrink: 1, fontSize: 14, fontWeight: "600", color: color.foreground },
-  sellerId: { fontSize: 12, color: "#94a3b8" },
+  sellerId: { fontSize: 12, color: color.faintText },
 
   primary: {
     height: 46,
@@ -818,7 +818,7 @@ const s = themed(() => ({
     marginTop: 13,
   },
   primaryText: { fontSize: 15, fontWeight: "600", color: color.brandForeground },
-  note: { fontSize: 11, color: "#94a3b8", marginTop: 8, textAlign: "center" },
+  note: { fontSize: 11, color: color.faintText, marginTop: 8, textAlign: "center" },
   own: { fontSize: 13, color: color.mutedForeground, marginTop: 11 },
 
   deal: { borderColor: color.brand, borderWidth: 2 },

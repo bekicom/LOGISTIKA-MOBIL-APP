@@ -161,7 +161,7 @@ function Row({ label, value, last }: { label: string; value: string; last?: bool
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.card },
   scroll: { padding: space.lg, gap: space.lg, paddingBottom: space.xxl * 2 },
-  save: { fontSize: font.bodyLg, fontWeight: "600", color: color.brand },
+  save: { fontSize: font.bodyLg, fontWeight: "600", color: color.brandText },
 
   avatarWrap: { alignItems: "center", gap: space.sm, paddingTop: space.sm },
   avatar: {

@@ -357,7 +357,7 @@ function Stat({ label, value, accent }: { label: string; value: number; accent?:
   return (
     <View style={s.stat}>
       <Text style={s.statKey}>{label}</Text>
-      <Text style={[s.statValue, accent && { color: color.brand }]}>{value}</Text>
+      <Text style={[s.statValue, accent && { color: color.brandText }]}>{value}</Text>
     </View>
   );
 }
@@ -722,7 +722,7 @@ const s = themed(() => ({
     paddingVertical: 11,
     paddingHorizontal: 12,
   },
-  statKey: { fontSize: 11, color: "#94a3b8" },
+  statKey: { fontSize: 11, color: color.faintText },
   statValue: { fontSize: 20, fontWeight: "700", color: color.foreground, marginTop: 1 },
 
   card: {
@@ -736,7 +736,7 @@ const s = themed(() => ({
   cardHead: { flexDirection: "row", alignItems: "center", gap: 7 },
   tag: { height: 21, paddingHorizontal: 8, borderRadius: 6, backgroundColor: color.muted, justifyContent: "center" },
   tagText: { fontSize: 10, fontWeight: "700", color: color.mutedForeground },
-  no: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  no: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   name: { fontSize: 15, fontWeight: "600", color: color.foreground, marginTop: 10 },
   oem: { fontSize: 12, color: color.mutedForeground, marginTop: 2, fontFamily: "monospace" },
@@ -784,7 +784,7 @@ const s = themed(() => ({
     justifyContent: "center",
     gap: 8,
   },
-  addText: { fontSize: 14, fontWeight: "600", color: "#94a3b8" },
+  addText: { fontSize: 14, fontWeight: "600", color: color.faintText },
 
   shopRow: {
     flexDirection: "row",
@@ -846,7 +846,7 @@ const s = themed(() => ({
 
   two: { flexDirection: "row", gap: 10 },
   yearRow: { flexDirection: "row", alignItems: "center", gap: 10 },
-  dash: { fontSize: 15, color: "#94a3b8" },
+  dash: { fontSize: 15, color: color.faintText },
   picks: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
   pick: {
     height: 40,
@@ -875,7 +875,7 @@ const s = themed(() => ({
     paddingHorizontal: 13,
   },
   locText: { fontSize: 15, color: color.foreground },
-  locPh: { color: "#94a3b8" },
+  locPh: { color: color.faintText },
 
   later: { alignItems: "center", paddingVertical: space.md },
   laterText: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },

@@ -249,7 +249,7 @@ const s = themed(() => ({
   head: { flexDirection: "row", alignItems: "center", gap: 8 },
   tag: { height: 21, paddingHorizontal: 8, borderRadius: 6, justifyContent: "center" },
   tagText: { fontSize: 10, fontWeight: "700" },
-  when: { marginLeft: "auto", fontSize: 11, color: "#94a3b8" },
+  when: { marginLeft: "auto", fontSize: 11, color: color.faintText },
 
   name: { fontSize: 16, fontWeight: "700", color: color.foreground, marginTop: 10 },
   meta: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
@@ -285,5 +285,5 @@ const s = themed(() => ({
   smallGhost: { borderWidth: 1, borderColor: color.border },
   smallGhostText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
 
-  closed: { fontSize: 12, color: "#94a3b8", marginTop: 10 },
+  closed: { fontSize: 12, color: color.faintText, marginTop: 10 },
 }));

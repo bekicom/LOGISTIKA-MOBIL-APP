@@ -345,7 +345,7 @@ const s = themed(() => ({
   },
   kindOn: { borderColor: color.brand, backgroundColor: color.brandSoft },
   kindText: { fontSize: 12.5, fontWeight: "600", color: color.mutedForeground },
-  kindTextOn: { color: color.brand, fontWeight: "800" },
+  kindTextOn: { color: color.brandText, fontWeight: "800" },
 
   shot: {
     height: 190,

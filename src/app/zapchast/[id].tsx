@@ -567,7 +567,7 @@ const s = themed(() => ({
   grab: { width: 36, height: 4, borderRadius: 2, backgroundColor: color.iconFaint, alignSelf: "center", marginBottom: space.xs },
   sheetTitle: { fontSize: 18, fontWeight: "700", color: color.foreground },
   sheetSub: { fontSize: 13, color: color.mutedForeground, lineHeight: 19, marginBottom: space.xs },
-  sheetNote: { fontSize: 11, color: "#94a3b8", textAlign: "center", lineHeight: 16 },
+  sheetNote: { fontSize: 11, color: color.faintText, textAlign: "center", lineHeight: 16 },
 
   label: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, marginBottom: 5 },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 6 },
@@ -602,7 +602,7 @@ const s = themed(() => ({
   wayOff: { opacity: 0.5 },
   wayText: { fontSize: 13, fontWeight: "600", color: color.mutedForeground },
   wayTextOn: { color: color.brandText },
-  waySub: { fontSize: 11, color: "#94a3b8" },
+  waySub: { fontSize: 11, color: color.faintText },
 
   linkBox: {
     flexDirection: "row",

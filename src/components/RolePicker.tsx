@@ -217,6 +217,6 @@ const s = themed(() => ({
     justifyContent: "center",
   },
   radioOnBrand: { borderColor: "#cbd5e1" },
-  change: { fontSize: font.caption, fontWeight: "600", color: color.brand },
+  change: { fontSize: font.caption, fontWeight: "600", color: color.brandText },
   radioOn: { backgroundColor: color.brand, borderColor: color.brand },
 }));

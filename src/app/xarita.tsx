@@ -859,7 +859,7 @@ const s = themed(() => ({
     borderWidth: 1,
     borderColor: color.brand,
   },
-  ghostText: { fontSize: 12, fontWeight: "700", color: color.brand },
+  ghostText: { fontSize: 12, fontWeight: "700", color: color.brandText },
   vehHead: { flexDirection: "row", alignItems: "center", gap: 8 },
   state: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: radius.pill },
   stateText: { fontSize: 10.5, fontWeight: "800", color: "#fff" },

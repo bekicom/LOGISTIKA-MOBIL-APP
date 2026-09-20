@@ -115,7 +115,7 @@ const s = themed(() => ({
     borderWidth: 1, borderStyle: "dashed", borderColor: color.brand + "66",
     backgroundColor: color.card,
   },
-  inviteText: { fontSize: 13.5, fontWeight: "700", color: color.brand },
+  inviteText: { fontSize: 13.5, fontWeight: "700", color: color.brandText },
   inviteErr: { fontSize: 12, color: color.danger, marginTop: 6, textAlign: "center" },
   inviteBox: {
     marginTop: space.sm, backgroundColor: color.card, borderRadius: radius.card,

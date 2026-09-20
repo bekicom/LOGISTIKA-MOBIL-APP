@@ -169,7 +169,7 @@ export default function Shartnoma() {
                     <Text
                       style={[
                         s.partyMeta,
-                        !p.approved && !p.rejected && p.me && { color: color.brand },
+                        !p.approved && !p.rejected && p.me && { color: color.brandText },
                       ]}
                     >
                       {t(`contractRole.${p.role}`)} ·{" "}
@@ -808,7 +808,7 @@ const s = themed(() => ({
   },
   payerOn: { borderColor: color.brand, backgroundColor: color.brandSoft },
   payerText: { fontSize: 12.5, fontWeight: "600", color: color.mutedForeground },
-  payerTextOn: { color: color.brand, fontWeight: "800" },
+  payerTextOn: { color: color.brandText, fontWeight: "800" },
   payerWarn: { fontSize: 11.5, color: color.warning, marginTop: 7, lineHeight: 17 },
 
   root: { flex: 1, backgroundColor: color.background },
@@ -834,7 +834,7 @@ const s = themed(() => ({
 
   changeTitle: { fontSize: 14, fontWeight: "600", color: color.foreground },
   changeSum: { fontSize: 21, fontWeight: "700", color: color.foreground, marginTop: 6 },
-  changeDiff: { fontSize: 12.5, color: color.brand, marginTop: 3 },
+  changeDiff: { fontSize: 12.5, color: color.brandText, marginTop: 3 },
   changeNote: { fontSize: 12.5, color: color.mutedForeground, marginTop: 4, fontStyle: "italic" },
   changeSafe: { fontSize: 12.5, color: color.mutedForeground, marginTop: 9, lineHeight: 19 },
   changeWait: { fontSize: 13, color: color.mutedForeground, marginTop: 11 },
@@ -880,7 +880,7 @@ const s = themed(() => ({
   dot: { width: 9, height: 9, borderRadius: 5, marginTop: 4 },
   line: { flexGrow: 1, width: 1, backgroundColor: color.border, marginVertical: 3 },
   stepTitle: { fontSize: 13.5, fontWeight: "600", color: color.foreground },
-  stepDiff: { fontSize: 12, color: color.brand, marginTop: 2 },
+  stepDiff: { fontSize: 12, color: color.brandText, marginTop: 2 },
   stepNote: { fontSize: 12, color: color.mutedForeground, marginTop: 2, fontStyle: "italic" },
 
   linkRow: { flexDirection: "row", alignItems: "center", gap: 11 },

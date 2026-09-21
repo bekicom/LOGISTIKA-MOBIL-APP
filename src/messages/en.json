@@ -1528,6 +1528,9 @@
       "NEGOTIABLE": "Agreed each time",
       "PERCENT": "Percent of the freight"
     },
+    "feed": {
+      "tgHint": "Show listings collected from Telegram groups"
+    },
     "fin": {
       "allCats": "All categories",
       "allDoneHint": "New expenses show up here and we'll tell you.",
@@ -1885,6 +1888,7 @@
       "alreadyTrip": "A trip has already been created for this cargo.",
       "cash": "Cash",
       "contactFailed": "Couldn't open the contact",
+      "detailTitle": "Load details",
       "loading": "Loading",
       "mixed": "Mixed",
       "offer": "Send an offer",
@@ -1897,7 +1901,6 @@
       "ratingsN": "%{n} ratings",
       "tapToCall": "Tap to call",
       "transfer": "Bank transfer",
-      "vehicleType": "Vehicle type",
       "weight": "Weight",
       "yourPrice": "Your price (%{cur})"
     },
@@ -2593,7 +2596,6 @@
       "whereFrom": "Cargo from where to where?"
     },
     "post2": {
-      "altFirstMain": "The first is the main one, the rest also work",
       "cargoName": "Cargo name",
       "cargoPh": "Dried fruit, packaged",
       "extraHint": "Part load — the truck is not full",

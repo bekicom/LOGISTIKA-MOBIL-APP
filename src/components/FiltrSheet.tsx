@@ -13,7 +13,7 @@
  * galochka bilan ishlaydi va OCHIQ qoladi; e'lon berish oynalarida esa
  * avvalgidek bitta (yuk bitta joydan ketadi).
  */
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Animated,
   FlatList,
@@ -28,11 +28,13 @@ import {
 import { Text } from "@/components/Text";
 import { SheetBackdrop, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as Haptics from "expo-haptics";
 import { Icon } from "./Icon";
-import { TruckIcon } from "./TruckIcon";
+import { TruckTypeGrid } from "./TruckImage";
 import { Button } from "./ui";
 import { ErrorBox } from "./state";
 import { useApi } from "@/lib/use-api";
+import { SPRING, useReduceMotion } from "@/lib/motion";
 import { isoBayroq } from "@/lib/phone-codes";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -90,6 +92,68 @@ export function JoylarYozuvi({
       </Text>
       {joylar.length > 1 ? <Text style={s.yozuvKop}>+{joylar.length - 1}</Text> : null}
     </View>
+  );
+}
+
+/**
+ * ⇄ — qidiruv qatorining o'rtasida: yo'nalishni bir bosishda teskarisiga.
+ *
+ * Bekzod (2026-09-21): «o'rtadagi strelkani ikki tarafga qarat». Ilgari
+ * u yerda oddiy → turardi — faqat bezak. Endi tugma: «Namangan → Moskva»
+ * ni qaytish yo'liga aylantirish uchun oynani ochib, ikki joyni qaytadan
+ * tanlash shart emas (filtr oynasidagi ⇅ bilan bir xil ish).
+ *
+ * Qidiruv qatorining o'zi ham tugma — filtr oynasini ochadi. Joy
+ * tanlanmagan bo'lsa bu tugma `disabled`: bosish qatorga o'tadi va oyna
+ * ochiladi, ya'ni «bosdim, hech narsa bo'lmadi» degan joy qolmaydi.
+ */
+export function YonalishAlmashtir({
+  bor,
+  onPress,
+  tone = "brand",
+}: {
+  /** Almashtiradigan joy bormi */
+  bor: boolean;
+  onPress: () => void;
+  tone?: "brand" | "blue";
+}) {
+  const reduce = useReduceMotion();
+  const [burilish] = useState(() => new Animated.Value(0));
+  const soni = useRef(0);
+
+  const bos = () => {
+    onPress();
+    void Haptics.selectionAsync().catch(() => {});
+    if (reduce) return;
+    /* Har bosishda yarim aylanadi: ⇄ 180° da o'z shakliga qaytadi,
+       harakatning o'zi esa «almashdi» deydi */
+    soni.current += 1;
+    Animated.spring(burilish, { toValue: soni.current, useNativeDriver: true, ...SPRING }).start();
+  };
+
+  const rang = tone === "blue" ? color.blue : color.brand;
+  return (
+    <Pressable
+      onPress={bos}
+      disabled={!bor}
+      hitSlop={8}
+      accessibilityRole="button"
+      accessibilityLabel={t("feed.swap")}
+      accessibilityState={{ disabled: !bor }}
+      style={({ pressed }) => [
+        s.almashtir,
+        { backgroundColor: tone === "blue" ? color.blueSoft : color.brandSoft },
+        pressed && { opacity: 0.7 },
+      ]}
+    >
+      <Animated.View
+        style={{
+          transform: [{ rotate: burilish.interpolate({ inputRange: [0, 1], outputRange: ["0deg", "180deg"] }) }],
+        }}
+      >
+        <Icon name="swap-h" size={16} stroke={rang} />
+      </Animated.View>
+    </Pressable>
   );
 }
 
@@ -232,19 +296,12 @@ export function FiltrSheet({
                   <Text style={s.hint}>{t("mob.loads.picked", { n: draft.vehicleTypeIds.length })}</Text>
                 ) : null}
               </View>
-              <View style={s.grid}>
-                {(types.data?.items ?? []).map((t) => {
-                  const on = draft.vehicleTypeIds.includes(t.id);
-                  return (
-                    <Pressable key={t.id} onPress={() => toggleType(t)} style={[s.type, on && s.typeOn]}>
-                      <TruckIcon type={t.key} size={34} color={on ? color.brand : color.mutedForeground} />
-                      <Text style={[s.typeText, on && s.typeTextOn]} numberOfLines={2}>
-                        {t.name}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
+              <TruckTypeGrid
+                items={types.data?.items ?? []}
+                isOn={(it) => draft.vehicleTypeIds.includes(it.id)}
+                onPress={toggleType}
+                multi
+              />
             </View>
 
             {/* Kalit */}
@@ -551,6 +608,7 @@ const s = themed(() => ({
     fontSize: 11.5, fontWeight: "800", color: color.brandText, backgroundColor: color.brandSoft,
     paddingHorizontal: 6, paddingVertical: 1, borderRadius: 8, overflow: "hidden",
   },
+  almashtir: { width: 30, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center" },
   swap: {
     width: 30, height: 30, borderRadius: 15, marginBottom: 4,
     alignItems: "center", justifyContent: "center", backgroundColor: color.brandSoft,
@@ -566,15 +624,6 @@ const s = themed(() => ({
   dotOutline: { width: 9, height: 9, borderRadius: 5, borderWidth: 2.5, borderColor: color.foreground },
   dotFilled: { width: 9, height: 9, borderRadius: 5, backgroundColor: color.brand },
 
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  type: {
-    width: "22.6%", flexGrow: 1, borderWidth: 1, borderColor: color.border,
-    borderRadius: radius.control, paddingVertical: 10, paddingHorizontal: 2,
-    minHeight: 78, alignItems: "center", justifyContent: "center", gap: 6,
-  },
-  typeOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180f" },
-  typeText: { fontSize: 10, fontWeight: "500", color: color.icon, textAlign: "center", lineHeight: 13 },
-  typeTextOn: { fontWeight: "700", color: color.brandText },
 
   switchRow: { flexDirection: "row", alignItems: "center", gap: space.md },
   switchLabel: { flex: 1, fontSize: 14, color: color.foreground },

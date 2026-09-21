@@ -15,6 +15,8 @@ export type IconName =
   | "route"
   /* Yo'nalishni almashtirish — «qayerdan ⇅ qayerga» (2026-09-19) */
   | "swap"
+  /* Xuddi shu, lekin yonma-yon «qayerdan ⇄ qayerga» uchun (2026-09-21) */
+  | "swap-h"
   | "chat"
   | "sparkle"
   | "robot"
@@ -136,6 +138,7 @@ export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "
       {name === "close" && <Path {...p} d="M18 6 6 18M6 6l12 12" />}
       {name === "arrow-right" && <Path {...p} d="M5 12h14M13 6l6 6-6 6" />}
       {name === "swap" && <Path {...p} d="M7 20V4M3 8l4-4 4 4M17 4v16M21 16l-4 4-4-4" />}
+      {name === "swap-h" && <Path {...p} d="M16 3l4 4-4 4M20 7H4M8 21l-4-4 4-4M4 17h16" />}
       {name === "truck" && (
         <>
           <Path {...p} d="M10 17h4V5H2v12h3M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1" />

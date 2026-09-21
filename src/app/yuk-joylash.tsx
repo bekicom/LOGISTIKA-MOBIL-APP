@@ -11,7 +11,7 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
-import { TruckIcon } from "@/components/TruckIcon";
+import { TruckTypeGrid } from "@/components/TruckImage";
 import { LocationPicker, type Loc } from "@/components/FiltrSheet";
 import { Route, Chip } from "@/components/cards";
 import { Button, Field, Notice, Steps } from "@/components/ui";
@@ -213,17 +213,14 @@ export default function YukJoylash() {
             <Text style={s.title}>{t("mob.post.whatVehicle")}</Text>
 
             <Text style={[s.label, { marginTop: space.xxl }]}>{t("mob.post.mainType")}</Text>
-            <View style={s.grid}>
-              {(types.data?.items ?? []).map((t) => {
-                const on = typeId === t.id;
-                return (
-                  <Pressable key={t.id} onPress={() => { setTypeId(t.id); setAlts((a) => a.filter((x) => x !== t.id)); }} style={[s.type, on && s.typeOn]}>
-                    <TruckIcon type={t.key} size={34} color={on ? color.brand : color.mutedForeground} />
-                    <Text style={[s.typeText, on && s.typeTextOn]} numberOfLines={2}>{t.name}</Text>
-                  </Pressable>
-                );
-              })}
-            </View>
+            <TruckTypeGrid
+              items={types.data?.items ?? []}
+              isOn={(it) => typeId === it.id}
+              onPress={(it) => {
+                setTypeId(it.id);
+                setAlts((a) => a.filter((x) => x !== it.id));
+              }}
+            />
 
             {typeId != null ? (
               <>
@@ -528,14 +525,6 @@ const s = themed(() => ({
   knob: { width: 21, height: 21, borderRadius: 11, backgroundColor: "#fff" },
   knobOn: { alignSelf: "flex-end" },
 
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  type: {
-    width: "22.6%", flexGrow: 1, borderWidth: 1, borderColor: color.border, borderRadius: radius.control,
-    paddingVertical: 10, paddingHorizontal: 2, minHeight: 78, alignItems: "center", justifyContent: "center", gap: 6,
-  },
-  typeOn: { borderWidth: 2, borderColor: color.brand, backgroundColor: "#f45a180f" },
-  typeText: { fontSize: 10, fontWeight: "500", color: color.icon, textAlign: "center", lineHeight: 13 },
-  typeTextOn: { fontWeight: "700", color: color.brandText },
 
   chipWrap: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   altChip: { height: 34, paddingHorizontal: 12, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, justifyContent: "center" },

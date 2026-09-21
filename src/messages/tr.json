@@ -1528,6 +1528,9 @@
       "NEGOTIABLE": "Her seferinde anlaşılır",
       "PERCENT": "Navlundan yüzde"
     },
+    "feed": {
+      "tgHint": "Telegram gruplarından toplanan ilanları göster"
+    },
     "fin": {
       "allCats": "Tüm kategoriler",
       "allDoneHint": "Yeni gider burada görünür ve haber veririz.",
@@ -1885,6 +1888,7 @@
       "alreadyTrip": "Bu yük için sefer zaten açıldı.",
       "cash": "Nakit",
       "contactFailed": "İletişim açılamadı",
+      "detailTitle": "Yük bilgileri",
       "loading": "Yükleme",
       "mixed": "Karma",
       "offer": "Teklif gönder",
@@ -1897,7 +1901,6 @@
       "ratingsN": "%{n} değerlendirme",
       "tapToCall": "Dokunun — arama başlar",
       "transfer": "Havale",
-      "vehicleType": "Araç tipi",
       "weight": "Ağırlık",
       "yourPrice": "Fiyatınız (%{cur})"
     },
@@ -2593,7 +2596,6 @@
       "whereFrom": "Yük nereden nereye?"
     },
     "post2": {
-      "altFirstMain": "İlki ana, diğerleri de olur",
       "cargoName": "Yük adı",
       "cargoPh": "Kuru meyve, paketli",
       "extraHint": "Parsiyel yük — araç dolu değil",

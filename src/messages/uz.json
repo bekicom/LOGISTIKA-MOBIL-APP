@@ -1528,6 +1528,9 @@
       "NEGOTIABLE": "Har safar kelishiladi",
       "PERCENT": "Fraxtdan foiz"
     },
+    "feed": {
+      "tgHint": "Telegram guruhlaridan yig'ilgan e'lonlarni ko'rsatish"
+    },
     "fin": {
       "allCats": "Barcha kategoriya",
       "allDoneHint": "Yangi xarajat kelganda shu yerda chiqadi va sizga xabar beramiz.",
@@ -1885,6 +1888,7 @@
       "alreadyTrip": "Bu yukka allaqachon reys ochilgan.",
       "cash": "Naqd",
       "contactFailed": "Kontakt ochilmadi",
+      "detailTitle": "Yuk ma'lumotlari",
       "loading": "Yuklash",
       "mixed": "Aralash",
       "offer": "Taklif yuborish",
@@ -1897,7 +1901,6 @@
       "ratingsN": "%{n} baho",
       "tapToCall": "Bosing — qo'ng'iroq qilinadi",
       "transfer": "O'tkazma",
-      "vehicleType": "Transport turi",
       "weight": "Og'irlik",
       "yourPrice": "Narxingiz (%{cur})"
     },
@@ -2593,7 +2596,6 @@
       "whereFrom": "Yuk qayerdan qayerga?"
     },
     "post2": {
-      "altFirstMain": "Birinchisi asosiy, qolgani ham bo'laveradi",
       "cargoName": "Yuk nomi",
       "cargoPh": "Quruq mevalar, qadoqlangan",
       "extraHint": "Qo'shimcha yuk — mashina to'la emas",

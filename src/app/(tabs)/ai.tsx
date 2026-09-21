@@ -14,8 +14,25 @@
  * profilga tepadan ham kirsa bo'ladi». Profil avatari endi HAR
  * tabning sarlavhasida (`TabHeader`), ilgari faqat bosh sahifada
  * edi — busiz «Yuklar» dan profilga yo'l qolmasdi.
+ *
+ * ── SAVOL MAYDONI ENG TEPADA (2026-09-21) ───────────────────────
+ *
+ * Bekzod: «savol yozishni birinchiga qo'y — kirganda darrov savol
+ * yoza olsin». Ilgari maydon eng pastda turardi va telefonda ekranga
+ * sig'masdi: odam tayyor savollar, skaner va hisoblagichdan aylantirib
+ * o'tishi kerak edi. Ustiga u maydon ham emas, tugma edi — bosilsa
+ * suhbat ochilar, yozish o'sha yerda boshlanardi.
+ *
+ * Endi haqiqiy maydon: shu yerning o'zida yoziladi, yuborilganda suhbat
+ * shu savol bilan ochiladi va u darrov ketadi (tayyor savollardagi `q`
+ * yo'li — rozilik, tarif va cheklov tekshiruvi suhbat ekranida, bitta
+ * joyda qoladi). Tayyor savollar pastda — maslahat bo'lib qoladi.
+ *
+ * Klaviatura O'ZI OCHILMAYDI: har tabga kirishda ekranning yarmini
+ * yopib, tayyor savollarni ko'rsatmay qo'yardi.
  */
-import { Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { useState } from "react";
+import { Pressable, RefreshControl, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -53,6 +70,21 @@ export default function Screen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { data, loading, error, refreshing, refresh, reload } = useApi<Usage>("/api/ai/usage");
+  const [savol, setSavol] = useState("");
+  const [fokus, setFokus] = useState(false);
+
+  /* Server 2 belgidan qisqa savolni rad etadi. Bo'sh maydonda tugma
+     suhbatning o'zini ochadi — rasm, ovoz va joylashuv faqat o'sha yerda */
+  const tayyor = savol.trim().length >= 2;
+  const yubor = () => {
+    if (!tayyor) {
+      router.push("/ai/suhbat");
+      return;
+    }
+    const q = savol.trim();
+    setSavol("");
+    router.push({ pathname: "/ai/suhbat", params: { q } });
+  };
 
   const ask = data?.ask ?? null;
   const over = !!ask && ask.hourLeft === 0;
@@ -74,6 +106,9 @@ export default function Screen() {
       <ScrollView
         /* Tab bar ostida qolib ketmasin — menyu tabidagidek */
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl * 2 }]}
+        /* Klaviatura ochiq turganda → birinchi bosishda yuboradi (aks holda
+           birinchi bosish faqat klaviaturani yopardi) */
+        keyboardShouldPersistTaps="handled"
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
         }
@@ -146,7 +181,31 @@ export default function Screen() {
           </>
         ) : (
           <>
-            {/* Nima so'rash mumkin — birinchi savol shu */}
+            {/* Savol — ENG TEPADA (sababi fayl boshida) */}
+            <View style={[s.askBar, fokus && s.askBarFokus]}>
+              <TextInput
+                value={savol}
+                onChangeText={setSavol}
+                placeholder={t("mob.ai.askPh")}
+                placeholderTextColor={color.faintText}
+                style={s.askInput}
+                returnKeyType="send"
+                onSubmitEditing={() => tayyor && yubor()}
+                onFocus={() => setFokus(true)}
+                onBlur={() => setFokus(false)}
+                accessibilityLabel={t("mob.ai.askPh")}
+              />
+              <Pressable
+                onPress={yubor}
+                accessibilityRole="button"
+                accessibilityLabel={t("pgAi.ask")}
+                style={({ pressed }) => [s.askBtn, pressed && { opacity: 0.85 }]}
+              >
+                <Icon name="arrow-right" size={18} stroke="#fff" />
+              </Pressable>
+            </View>
+
+            {/* Nima so'rash mumkin */}
             <View style={s.intro}>
               <View style={s.introHead}>
                 <View style={s.introIcon}>
@@ -221,17 +280,6 @@ export default function Screen() {
               </View>
             ) : null}
 
-            {/* Savol yozish — pastda, chunki tayyor savollar tepada */}
-            <Pressable
-              onPress={() => router.push("/ai/suhbat")}
-              accessibilityRole="button"
-              style={({ pressed }) => [s.askBar, pressed ? { backgroundColor: color.muted } : null]}
-            >
-              <Text style={s.askPh}>{t("mob.ai.askPh")}</Text>
-              <View style={s.askBtn}>
-                <Icon name="arrow-right" size={18} stroke="#fff" />
-              </View>
-            </Pressable>
           </>
         )}
       </ScrollView>
@@ -308,11 +356,15 @@ const s = themed(() => ({
     backgroundColor: color.card,
     ...shadow.card,
     borderRadius: radius.pill,
+    borderWidth: 1.5,
+    borderColor: color.card,
     paddingLeft: 18,
     paddingRight: 5,
     paddingVertical: 5,
   },
-  askPh: { flex: 1, fontSize: font.bodyLg, color: color.faintText },
+  /* Yozayotganda chegara brend rangida — maydon faol ekani ko'rinsin */
+  askBarFokus: { borderColor: color.brand },
+  askInput: { flex: 1, minHeight: 44, fontSize: font.bodyLg, color: color.foreground, paddingVertical: 8 },
   askBtn: {
     width: 44,
     height: 44,

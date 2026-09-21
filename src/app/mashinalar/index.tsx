@@ -25,12 +25,14 @@ import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
 import { TruckCard, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
-import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi } from "@/components/FiltrSheet";
+import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi, YonalishAlmashtir } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
 import { QidiruvYorliqlari, useQidiruvYorliqlari } from "@/components/QidiruvYorliqlari";
 import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
 import { Segment } from "@/components/Segment";
 import { useApi } from "@/lib/use-api";
+import { tgSorov, useTgLenta } from "@/lib/tg-lenta";
+import { TgToggle } from "@/components/TgToggle";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -45,7 +47,12 @@ export default function Mashinalar() {
   const ss = useQidiruvYorliqlari("truck", filtr, setFiltr, qidiruv);
 
   /* Ilova filtriga sig'magan saqlangan qidiruv — xom so'rov bilan */
-  const query = useMemo(() => (ss.xom ? ss.xom.query : filtrToQuery(filtr)), [ss.xom, filtr]);
+  /* Yuklar bilan BITTA holat — `lib/tg-lenta.ts` */
+  const [tg] = useTgLenta();
+  const query = useMemo(
+    () => tgSorov(ss.xom ? ss.xom.query : filtrToQuery(filtr), tg),
+    [ss.xom, filtr, tg],
+  );
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
     `/api/trucks/list?${query}`,
     [query],
@@ -88,7 +95,7 @@ export default function Mashinalar() {
             <>
               {/* «Toshkent +2 → —» — «+N» qisqarib ketmaydi (`JoylarYozuvi`) */}
               <JoylarYozuvi joylar={filtr.from} bosh="—" matnStyle={s.searchJoy} />
-              <Icon name="arrow-right" size={16} stroke={color.blue} />
+              <YonalishAlmashtir bor tone="blue" onPress={() => setFiltr((f) => ({ ...f, from: f.to, to: f.from }))} />
               <JoylarYozuvi joylar={filtr.to} bosh="—" matnStyle={s.searchJoy} />
             </>
           )}
@@ -100,7 +107,7 @@ export default function Mashinalar() {
         {/* Filtr chiplari va sanoq */}
         <View style={s.chipRow}>
           <Pressable style={s.filtrBtn} onPress={() => setSheet(true)}>
-            <Icon name="filter" size={15} stroke="#fff" />
+            <Icon name="filter" size={15} stroke={color.card} />
             <Text style={s.filtrText}>{t("mob.loads.filters")}</Text>
             {chips.length ? (
               <View style={s.badge}>
@@ -108,6 +115,7 @@ export default function Mashinalar() {
               </View>
             ) : null}
           </Pressable>
+          <TgToggle />
           {chips.map((c) => (
             <Pressable key={c.key} style={s.chip} onPress={() => clearOne(c.key as keyof Filtr)}>
               <Text style={s.chipText}>{c.label}</Text>

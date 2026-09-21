@@ -144,6 +144,23 @@ function LinkOnly({ item }: { item: Listing }) {
  * xil yozilishi («620000» va «58 000») e'tiborni tortadi va
  * beparvolikdek ko'rinadi.
  */
+/**
+ * E'lon nomi — Telegram e'lonida havola bo'lib qolgan bo'lsa CHIQMAYDI.
+ *
+ * Nom Telegram xabaridan ajratiladi va ba'zan guruh reklamasining bir
+ * bo'lagi tushib qoladi: «lar: https://t» (2026-09-21, lentada ketma-ket
+ * kartalarda ko'rindi). Bunday nom yukni emas, reklamani bildiradi.
+ * Odamlar o'zi yozgan nomga tegilmaydi.
+ *
+ * ⚠️ Ildizi serverda — Telegram xabaridan nom ajratish. Bu yerda faqat
+ * ko'rsatish to'sig'i.
+ */
+export function elonNomi(title: string | null | undefined, telegram: boolean): string | null {
+  if (!title) return null;
+  if (telegram && /https?:|t\.me\//i.test(title)) return null;
+  return title;
+}
+
 export function fmtNum(n: number): string {
   return new Intl.NumberFormat("ru-RU").format(n);
 }
@@ -245,6 +262,7 @@ export function ListingCard({
   const enter = useFadeUp(index != null ? stagger(index) : 0, reduce || index == null);
   const price = money(item.price, item.currency, item.isNegotiable);
   const yangi = !!item.createdAt && Date.now() - new Date(item.createdAt).getTime() < YANGI_MS;
+  const nom = elonNomi(item.title, item.source === "TELEGRAM");
 
   return (
     /* Bosishda KICHRAYADI (`motion.ts`): kartochka katta, shuning
@@ -284,11 +302,11 @@ export function ListingCard({
           </View>
         </View>
 
-        {item.title ? (
+        {nom ? (
           <View style={s.lCargo}>
             <Icon name="package" size={15} stroke={color.mutedForeground} />
             <Text style={s.lCargoText} numberOfLines={2}>
-              {item.title}
+              {nom}
             </Text>
           </View>
         ) : null}

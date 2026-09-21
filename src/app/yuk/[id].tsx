@@ -6,14 +6,15 @@
  * «ochilganmi» degan javob keladi.
  */
 import { useState } from "react";
-import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Path } from "react-native-svg";
 import { Icon } from "@/components/Icon";
-import { TruckIcon } from "@/components/TruckIcon";
-import { Route, Chip, ago } from "@/components/cards";
+import { TruckImage } from "@/components/TruckImage";
+import { Chip, ago, davlatNomi, elonNomi } from "@/components/cards";
+import type { IconName } from "@/components/Icon";
 import { Button, Field, Notice } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
@@ -101,17 +102,38 @@ export default function YukTafsiloti() {
 
   const c = data?.cargo;
 
+  /* ── TELEGRAM E'LONI: ASL POST KO'RSATILMAYDI (2026-09-21, Bekzod) ──
+     `description` ga guruhdagi xabar butunlay tushadi: «📱 Tel: • • •»,
+     guruh reklamasi («O'zbekiston ichidagi yuklar»), bot havolasi —
+     FURAM ekranida begona matn. Kerakli qismi (yo'nalish, og'irlik,
+     tur) allaqachon ajratilib, yuqorida o'z joyida turibdi.
+     Nom ham shu matndan ajratiladi va ba'zan havola bo'lib qoladi
+     («lar: https://t») — bunday nom ham chiqmaydi. Odamlar o'zi
+     yozgan e'lonlarga tegilmaydi. */
+  const tg = !!data?.ochiqManba;
+  const izoh = tg ? null : data?.description ?? null;
+  const nom = elonNomi(data?.title, tg);
+
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
+      {/* Sarlavha o'rtada (raqobatchi namunasi). ♡ OLIB TASHLANDI — u
+          tugma emas edi: `onPress` yo'q, bosilganda hech narsa bo'lmasdi */}
       <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
+        <Pressable
+          onPress={() => router.back()}
+          hitSlop={10}
+          style={s.back}
+          accessibilityRole="button"
+          accessibilityLabel={t("mob.common.back")}
+        >
           <Icon name="back" size={22} stroke={color.foreground} />
         </Pressable>
-        <View style={{ flex: 1 }} />
-        {data ? <ShareButton kind="load" id={data.id} href={data.slug ? `/loads/${data.slug}` : null} /> : null}
-        <Pressable hitSlop={10} style={s.back}>
-          <Icon name="heart" size={22} stroke={color.iconFaint} />
-        </Pressable>
+        <Text style={s.headerTitle} numberOfLines={1}>
+          {t("mob.load.detailTitle")}
+        </Text>
+        <View style={s.headerRight}>
+          {data ? <ShareButton kind="load" id={data.id} href={data.slug ? `/loads/${data.slug}` : null} compact /> : null}
+        </View>
       </View>
 
       <ScrollView
@@ -124,90 +146,116 @@ export default function YukTafsiloti() {
 
         {data && c ? (
           <>
-            {/* Asosiy */}
+            {/* ── ASOSIY (dizayn, 2026-09-21) ─────────────────────────
+                Bekzod raqobatchi ilovadagi «Transport ma'lumotlari»
+                ekranini ko'rsatdi: «bu ro'yxat juda xunuk, shunday
+                qil». Ilgari: ikki ustunli yo'nalish, to'rt katakli jadval
+                va alohida narx kartasi. Endi: tur rasmi + ikonkali
+                yo'nalish + «Narx» qutisi bitta kartada, qolgani ikonkali
+                ro'yxatda. */}
             <View style={s.card}>
-              <View style={s.cardHead}>
-                {data.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
-                <Text style={s.meta}>{ago(data.createdAt)} · {t("mob.trucks.viewed", { n: data.views })}</Text>
-              </View>
-
-              <View style={{ marginTop: 14 }}>
-                <Route
-                  from={data.route.from}
-                  fromC={data.route.fromCountry}
-                  to={data.route.to}
-                  toC={data.route.toCountry}
-                  size={21}
-                />
-              </View>
-
-              {data.title ? <Text style={s.cargoName}>{data.title}</Text> : null}
-
-              <View style={s.grid}>
-                <Cell label={t("mob.load.weight")} value={c.weightT != null ? `${c.weightT} t` : "—"} />
-                <Cell label={t("mob.last.volume")} value={c.volumeM3 != null ? `${c.volumeM3} m³` : "—"} />
-                <Cell label={t("mob.last.truckCount")} value={String(c.vehicleCount)} />
-                <Cell
-                  label={t("mob.load.loading")}
-                  value={c.isReadyNow ? t("mob.loads.readyNow") : c.loadingDate ? date(c.loadingDate) : "—"}
-                  tone={c.isReadyNow ? color.success : undefined}
-                />
-              </View>
-
-              {/* Transport turlari */}
-              <View style={s.types}>
-                <Text style={s.label}>{t("mob.load.vehicleType")}</Text>
-                <View style={s.typeRow}>
-                  <View style={s.typeMain}>
-                    <TruckIcon type={c.vehicleType.key} size={26} color="#fff" />
-                    <Text style={s.typeMainText}>{c.vehicleType.name}</Text>
-                  </View>
-                  {c.altVehicleTypes.map((a) => (
-                    <View key={a.key} style={s.typeAlt}>
-                      <Text style={s.typeAltText}>{a.name}</Text>
-                    </View>
-                  ))}
+              <View style={s.heroTop}>
+                <View style={s.heroThumb}>
+                  <TruckImage typeKey={c.vehicleType.key} style={s.heroImg} />
                 </View>
-                {c.altVehicleTypes.length > 0 ? (
-                  <Text style={s.hint}>{t("mob.post2.altFirstMain")}</Text>
-                ) : null}
+                <View style={s.heroInfo}>
+                  <View style={s.typeRow}>
+                    <View style={s.typeChip}>
+                      <Icon name="truck" size={15} stroke={color.foreground} />
+                      <Text style={s.typeChipText} numberOfLines={1}>
+                        {c.vehicleType.name}
+                      </Text>
+                    </View>
+                    {c.altVehicleTypes.map((a) => (
+                      <View key={a.key} style={s.typeAlt}>
+                        <Text style={s.typeAltText}>{a.name}</Text>
+                      </View>
+                    ))}
+                  </View>
+                  <Text style={s.meta}>
+                    {ago(data.createdAt)} · {t("mob.trucks.viewed", { n: data.views })}
+                  </Text>
+                </View>
+                {data.isTop ? <Chip text="TOP" tone="brand" /> : null}
               </View>
 
+              <View style={s.route}>
+                <Bekat
+                  icon="package"
+                  city={data.route.from}
+                  country={davlatNomi(data.route.fromCountry)}
+                  right={c.isReadyNow ? t("mob.loads.readyNow") : c.loadingDate ? date(c.loadingDate) : undefined}
+                  rightTone={c.isReadyNow ? color.successText : undefined}
+                />
+                <View style={s.routeDots}>
+                  <View style={s.routeDot} />
+                  <View style={s.routeDot} />
+                  <View style={s.routeDot} />
+                </View>
+                <Bekat icon="border" city={data.route.to} country={davlatNomi(data.route.toCountry)} />
+              </View>
+
+              {nom ? (
+                <View style={s.cargoRow}>
+                  <Icon name="doc" size={16} stroke={color.mutedForeground} />
+                  <Text style={s.cargoName}>{nom}</Text>
+                </View>
+              ) : null}
+
+              <View style={s.priceBox}>
+                <View style={s.priceIcon}>
+                  <Icon name="wallet" size={20} stroke={color.brand} />
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text style={s.priceLabel}>{t("mob.load.price")}</Text>
+                  {data.price.isNegotiable || data.price.amount == null ? (
+                    <Text style={s.priceNego}>{t("mob.loads.negotiable")}</Text>
+                  ) : (
+                    <Text style={s.price} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>
+                      {money(data.price.amount, data.price.currency)}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            </View>
+
+            {/* ── Ma'lumotlar — ikonkali ro'yxat ── */}
+            <View style={[s.card, s.listCard]}>
+              <Qator icon="package" label={t("mob.load.weight")} value={c.weightT != null ? `${c.weightT} t` : "—"} />
+              <Qator icon="grid" label={t("mob.last.volume")} value={c.volumeM3 != null ? `${c.volumeM3} m³` : "—"} />
+              <Qator icon="truck" label={t("mob.last.truckCount")} value={String(c.vehicleCount)} />
+              <Qator
+                icon="clock"
+                label={t("mob.load.loading")}
+                value={c.isReadyNow ? t("mob.loads.readyNow") : c.loadingDate ? date(c.loadingDate) : "—"}
+                tone={c.isReadyNow ? color.successText : undefined}
+              />
+              <Qator
+                icon="wallet"
+                label={t("mob.post.payType")}
+                value={[
+                  pay()[data.price.paymentType] ?? data.price.paymentType,
+                  data.price.advance
+                    ? t("mob.load.advance", { sum: money(data.price.advance, data.price.currency) ?? "" })
+                    : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+                last={!c.isExtraLoad && !izoh}
+              />
               {c.isExtraLoad ? (
-                <View style={{ marginTop: space.md }}>
-                  <Chip text={t("mob.post2.extraHint")} tone="info" />
+                <View style={[s.extraNote, !izoh && { borderBottomWidth: 0 }]}>
+                  <Icon name="plus" size={15} stroke={color.blue} />
+                  <Text style={s.extraText}>{t("mob.post2.extraHint")}</Text>
+                </View>
+              ) : null}
+              {izoh ? (
+                <View style={s.noteBox}>
+                  <Text style={s.noteLabel}>{t("mob.exp.note")}</Text>
+                  <Text style={s.desc}>{izoh}</Text>
                 </View>
               ) : null}
             </View>
-
-            {/* Narx */}
-            <View style={s.card}>
-              <Text style={s.meta}>{t("mob.load.price")}</Text>
-              <Text style={s.price}>
-                {data.price.isNegotiable || data.price.amount == null
-                  ? t("mob.loads.negotiable")
-                  : money(data.price.amount, data.price.currency)}
-              </Text>
-              <View style={s.priceChips}>
-                <Chip text={pay()[data.price.paymentType] ?? data.price.paymentType} />
-                {data.price.advance ? (
-                  <Chip
-                    text={t("mob.load.advance", {
-                      sum: money(data.price.advance, data.price.currency) ?? "",
-                    })}
-                    tone="info"
-                  />
-                ) : null}
-              </View>
-            </View>
-
-            {/* Izoh */}
-            {data.description ? (
-              <View style={s.card}>
-                <Text style={s.cardTitle}>{t("mob.exp.note")}</Text>
-                <Text style={s.desc}>{data.description}</Text>
-              </View>
-            ) : null}
 
             {/* E'lon beruvchi */}
             {data.owner ? (
@@ -363,9 +411,7 @@ export default function YukTafsiloti() {
           >
             <Text style={s.primaryText}>{t("mob.load.offer")}</Text>
           </Pressable>
-          <View style={s.iconBtn}>
-            <Icon name="chat" size={20} stroke={color.foreground} />
-          </View>
+          {/* 💬 OLIB TASHLANDI — `View` edi, bosilmasdi */}
         </View>
       ) : null}
 
@@ -387,11 +433,62 @@ function date(iso: string) {
   return new Date(iso).toLocaleDateString(currentLocale(), { day: "numeric", month: "short" });
 }
 
-function Cell({ label, value, tone }: { label: string; value: string; tone?: string }) {
+/** Yo'nalish bekati: belgi · shahar (qalin) · davlat (xira) · o'ngda sana */
+function Bekat({
+  icon,
+  city,
+  country,
+  right,
+  rightTone,
+}: {
+  icon: IconName;
+  city: string;
+  country: string;
+  right?: string;
+  rightTone?: string;
+}) {
   return (
-    <View style={{ width: "47%", flexGrow: 1 }}>
-      <Text style={s.meta}>{label}</Text>
-      <Text style={[s.cellValue, tone ? { color: tone } : null]}>{value}</Text>
+    <View style={s.stop}>
+      <View style={s.stopIcon}>
+        <Icon name={icon} size={19} stroke={color.brand} />
+      </View>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text style={s.stopCity}>{city}</Text>
+        <Text style={s.stopCountry}>{country}</Text>
+      </View>
+      {right ? <Text style={[s.stopRight, rightTone ? { color: rightTone } : null]}>{right}</Text> : null}
+    </View>
+  );
+}
+
+/**
+ * Ma'lumot qatori: rangli katakdagi belgi · nom · qiymat.
+ *
+ * Ilgari to'rt katakli jadval edi: qiymat nomdan kattaroq, belgisiz —
+ * ko'z qaysi raqam nima ekanini har safar pastdagi yozuvdan qidirardi.
+ */
+function Qator({
+  icon,
+  label,
+  value,
+  tone,
+  last,
+}: {
+  icon: IconName;
+  label: string;
+  value: string;
+  tone?: string;
+  last?: boolean;
+}) {
+  return (
+    <View style={[s.row, !last && s.rowDivider]}>
+      <View style={s.rowIcon}>
+        <Icon name={icon} size={17} stroke={color.brand} />
+      </View>
+      <Text style={s.rowLabel}>{label}</Text>
+      <Text style={[s.rowValue, tone ? { color: tone } : null]} numberOfLines={2}>
+        {value}
+      </Text>
     </View>
   );
 }
@@ -519,37 +616,84 @@ const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4 },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
+  headerTitle: { flex: 1, textAlign: "center", fontSize: 17, fontWeight: "700", color: color.foreground },
+  /* Chapdagi tugma bilan teng kenglik — sarlavha haqiqatan o'rtada tursin */
+  headerRight: { width: 44, alignItems: "center", justifyContent: "center" },
+
+  /* Asosiy karta */
+  heroTop: { flexDirection: "row", alignItems: "center", gap: space.md },
+  heroThumb: {
+    width: 96, height: 66, borderRadius: 18, backgroundColor: color.muted,
+    alignItems: "center", justifyContent: "center",
+  },
+  heroImg: { width: 86, height: 54 },
+  heroInfo: { flex: 1, minWidth: 0, gap: 7 },
+  typeChip: {
+    flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start",
+    height: 30, paddingHorizontal: 10, borderRadius: radius.control, backgroundColor: color.muted,
+  },
+  typeChipText: { fontSize: 14, fontWeight: "700", color: color.foreground, flexShrink: 1 },
+
+  route: {
+    marginTop: space.lg, paddingTop: space.lg,
+    borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: color.border,
+  },
+  stop: { flexDirection: "row", alignItems: "flex-start", gap: 11 },
+  stopIcon: { width: 26, height: 24, alignItems: "center", justifyContent: "center" },
+  stopCity: { fontSize: 17, lineHeight: 23, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
+  stopCountry: { fontSize: 13, color: color.mutedForeground, marginTop: 1 },
+  stopRight: { fontSize: 13, fontWeight: "600", color: color.mutedForeground, marginTop: 3 },
+  routeDots: { width: 26, alignItems: "center", gap: 4, paddingVertical: 5 },
+  routeDot: { width: 3, height: 3, borderRadius: 2, backgroundColor: color.iconFaint },
+
+  cargoRow: { flexDirection: "row", alignItems: "flex-start", gap: 9, marginTop: space.lg },
+
+  priceBox: {
+    flexDirection: "row", alignItems: "center", gap: space.md,
+    marginTop: space.lg, padding: space.md, borderRadius: radius.control,
+    backgroundColor: color.brandSoft,
+  },
+  priceIcon: {
+    width: 44, height: 44, borderRadius: 13, backgroundColor: color.card,
+    alignItems: "center", justifyContent: "center",
+  },
+  priceLabel: { fontSize: 12.5, color: color.mutedForeground },
+  priceNego: { fontSize: 19, fontWeight: "800", color: color.brandText, marginTop: 1 },
+
+  /* Ma'lumotlar ro'yxati */
+  listCard: { paddingVertical: 4 },
+  row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 13 },
+  rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.border },
+  rowIcon: {
+    width: 34, height: 34, borderRadius: 11, backgroundColor: color.brandSoft,
+    alignItems: "center", justifyContent: "center",
+  },
+  rowLabel: { flex: 1, fontSize: 14, color: color.mutedForeground },
+  rowValue: { maxWidth: "55%", textAlign: "right", fontSize: 15, fontWeight: "700", color: color.foreground },
+  extraNote: {
+    flexDirection: "row", alignItems: "center", gap: 9, paddingVertical: 13,
+    borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.border,
+  },
+  extraText: { flex: 1, fontSize: 13, fontWeight: "600", color: color.blue },
+  noteBox: { paddingTop: 13, paddingBottom: 12, gap: 6 },
+  noteLabel: { fontSize: 13, color: color.mutedForeground },
 
   body: { padding: space.lg, gap: space.md },
   card: {
     backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, ...shadow.card,
   },
-  cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   cardTitle: { fontSize: font.body, fontWeight: "600", color: color.foreground, marginBottom: 8 },
   meta: { fontSize: 12, color: color.mutedForeground },
 
-  cargoName: { fontSize: font.bodyLg, fontWeight: "600", color: color.foreground, marginTop: 16 },
+  cargoName: { flex: 1, fontSize: font.bodyLg, fontWeight: "600", color: color.foreground, lineHeight: 22 },
 
-  grid: {
-    flexDirection: "row", flexWrap: "wrap", gap: 14, marginTop: 16,
-    paddingTop: 16, borderTopWidth: 1, borderTopColor: color.border,
-  },
-  cellValue: { fontSize: 17, fontWeight: "700", color: color.foreground, marginTop: 2 },
 
-  types: { marginTop: 16, paddingTop: 16, borderTopWidth: 1, borderTopColor: color.border },
-  label: { fontSize: 12, color: color.mutedForeground, marginBottom: 9 },
   typeRow: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
-  typeMain: {
-    height: 34, paddingHorizontal: 12, borderRadius: radius.control, backgroundColor: color.brand,
-    flexDirection: "row", alignItems: "center", gap: 7,
-  },
-  typeMainText: { fontSize: 13, fontWeight: "600", color: "#fff" },
   typeAlt: { height: 34, paddingHorizontal: 12, borderRadius: radius.control, backgroundColor: color.muted, justifyContent: "center" },
   typeAltText: { fontSize: 13, fontWeight: "500", color: color.icon },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8 },
 
-  price: { fontSize: 30, fontWeight: "800", color: color.brand, letterSpacing: -0.6, marginTop: 2 },
-  priceChips: { flexDirection: "row", gap: 7, marginTop: 12, flexWrap: "wrap" },
+  price: { fontSize: 24, fontWeight: "800", color: color.brand, letterSpacing: -0.5, marginTop: 1 },
   desc: { fontSize: 14, color: color.icon, lineHeight: 22 },
 
   ownerRow: { flexDirection: "row", alignItems: "center", gap: 12 },
@@ -578,7 +722,6 @@ const s = themed(() => ({
     paddingHorizontal: space.lg, paddingTop: space.md, ...shadow.bar },
   primary: { flex: 1, height: 52, borderRadius: radius.control, backgroundColor: color.brand, alignItems: "center", justifyContent: "center" },
   primaryText: { fontSize: font.body, fontWeight: "600", color: "#fff" },
-  iconBtn: { width: 52, height: 52, borderRadius: radius.control, borderWidth: 1, borderColor: color.border, alignItems: "center", justifyContent: "center" },
 
   sheet: { backgroundColor: color.card, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet },
   sheetSub: { fontSize: font.caption, color: color.mutedForeground, marginTop: 5, lineHeight: 20 },

@@ -1528,6 +1528,9 @@
       "NEGOTIABLE": "每次面议",
       "PERCENT": "运费百分比"
     },
+    "feed": {
+      "tgHint": "显示从 Telegram 群组收集的信息"
+    },
     "fin": {
       "allCats": "全部类别",
       "allDoneHint": "新的支出会出现在这里，我们也会通知您。",
@@ -1885,6 +1888,7 @@
       "alreadyTrip": "该货源已生成运单。",
       "cash": "现金",
       "contactFailed": "无法打开联系方式",
+      "detailTitle": "货物详情",
       "loading": "装货",
       "mixed": "混合",
       "offer": "发送报价",
@@ -1897,7 +1901,6 @@
       "ratingsN": "%{n} 条评价",
       "tapToCall": "点击即可拨打",
       "transfer": "转账",
-      "vehicleType": "车辆类型",
       "weight": "重量",
       "yourPrice": "您的报价（%{cur}）"
     },
@@ -2593,7 +2596,6 @@
       "whereFrom": "货物从哪运到哪？"
     },
     "post2": {
-      "altFirstMain": "第一个为主，其余也可接受",
       "cargoName": "货物名称",
       "cargoPh": "干果，已包装",
       "extraHint": "拼车货——车未装满",

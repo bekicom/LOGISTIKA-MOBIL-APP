@@ -39,11 +39,18 @@ export function ShareButton({
   kind,
   id,
   href,
+  compact,
 }: {
   kind: ShareKind;
   id: string;
   /** `/loads/<slug>` — bo'lmasa server bergani ishlatiladi */
   href?: string | null;
+  /**
+   * Faqat belgi (2026-09-21). Sarlavha o'rtada turgan ekranda (yuk
+   * tafsiloti) yozuvli tugma o'ng burchakka sig'masdi va «Ul/as» bo'lib
+   * bo'linardi. Yozuv ekran o'quvchiga baribir aytiladi.
+   */
+  compact?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -52,10 +59,12 @@ export function ShareButton({
       <Pressable
         onPress={() => setOpen(true)}
         hitSlop={8}
-        style={({ pressed }) => [s.btn, pressed && { backgroundColor: color.muted }]}
+        accessibilityRole="button"
+        accessibilityLabel={t("mob.share.btn")}
+        style={({ pressed }) => [compact ? s.btnIcon : s.btn, pressed && { backgroundColor: color.muted }]}
       >
-        <Icon name="send" size={16} stroke={color.foreground} />
-        <Text style={s.btnText}>{t("mob.share.btn")}</Text>
+        <Icon name="send" size={compact ? 20 : 16} stroke={color.foreground} />
+        {compact ? null : <Text style={s.btnText}>{t("mob.share.btn")}</Text>}
       </Pressable>
 
       <ShareSheet open={open} onClose={() => setOpen(false)} kind={kind} id={id} href={href} />
@@ -225,6 +234,7 @@ const s = themed(() => ({
     borderColor: color.border,
   },
   btnText: { fontSize: 13, fontWeight: "700", color: color.foreground },
+  btnIcon: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center" },
 
   card: {
     backgroundColor: color.muted,

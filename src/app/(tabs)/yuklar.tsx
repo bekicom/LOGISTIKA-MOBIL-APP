@@ -25,11 +25,13 @@ import { Segment } from "@/components/Segment";
 import { HeaderIcons } from "@/components/TabHeader";
 import { ListingCard, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
-import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi } from "@/components/FiltrSheet";
+import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi, YonalishAlmashtir } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
 import { QidiruvYorliqlari, useQidiruvYorliqlari } from "@/components/QidiruvYorliqlari";
 import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
 import { useApi } from "@/lib/use-api";
+import { tgSorov, useTgLenta } from "@/lib/tg-lenta";
+import { TgToggle } from "@/components/TgToggle";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -54,7 +56,11 @@ export default function Yuklar() {
   const [sonOldin, sonKeyin] = t("mob.loads.count", { n: "#N#" }).split("#N#");
 
   /* Ilova filtriga sig'magan saqlangan qidiruv — xom so'rov bilan */
-  const query = useMemo(() => (ss.xom ? ss.xom.query : filtrToQuery(filtr)), [ss.xom, filtr]);
+  const [tg] = useTgLenta();
+  const query = useMemo(
+    () => tgSorov(ss.xom ? ss.xom.query : filtrToQuery(filtr), tg),
+    [ss.xom, filtr, tg],
+  );
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
     `/api/loads/list?${query}`,
     [query],
@@ -103,7 +109,10 @@ export default function Yuklar() {
                 bosh={t("mob.loads.from")}
                 matnStyle={[s.searchJoy, !filtr.from.length && s.searchPlaceholder]}
               />
-              <Icon name="arrow-right" size={16} stroke={color.brand} />
+              <YonalishAlmashtir
+                bor={filtr.from.length > 0 || filtr.to.length > 0}
+                onPress={() => setFiltr((f) => ({ ...f, from: f.to, to: f.from }))}
+              />
               <JoylarYozuvi
                 joylar={filtr.to}
                 bosh={t("mob.loads.to")}
@@ -119,7 +128,9 @@ export default function Yuklar() {
         {/* Filtr chiplari va sanoq */}
         <View style={s.chipRow}>
           <Pressable style={s.filterBtn} onPress={() => setSheet(true)}>
-            <Icon name="filter" size={15} stroke="#fff" />
+            {/* Ikonka ham mavzudan (2026-09-21): «#fff» qorong'i rejimda
+                och fonda ko'rinmasdi — yozuvi 09-20 da tuzatilgan edi */}
+            <Icon name="filter" size={15} stroke={color.card} />
             <Text style={s.filterText}>{t("mob.loads.filters")}</Text>
             {chips.length > 0 ? (
               <View style={s.filterBadge}>
@@ -127,6 +138,10 @@ export default function Yuklar() {
               </View>
             ) : null}
           </Pressable>
+
+          {/* «+ Telegram» — web'dagidek: o'chirilsa faqat odamlar o'zi
+              joylagan e'lonlar qoladi (Bekzod, 2026-09-21) */}
+          <TgToggle />
 
           {chips.map((c) => (
             <Pressable key={c.key} style={s.activeChip} onPress={() => clearOne(c.key)}>

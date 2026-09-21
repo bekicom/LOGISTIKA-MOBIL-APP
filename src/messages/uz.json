@@ -57,6 +57,7 @@
     "BAD_PASSWORD": "Joriy parol noto'g'ri.",
     "BAD_PHONE": "Telefon raqamini tekshiring.",
     "BAD_PRICE": "Narxni tekshiring.",
+    "BAD_PROFESSION": "Kasb topilmadi",
     "BAD_REFS": "Tanlangan qiymatlar noto'g'ri. Ro'yxatdan qayta tanlang.",
     "BAD_STATUS": "Holat noto'g'ri.",
     "BAD_TAB": "Noto'g'ri bo'lim tanlandi. Ilovani yangilang.",
@@ -3663,6 +3664,11 @@
     "unit": {
       "t": "t"
     },
+    "vac": {
+      "fixedPay": "Aniq summa",
+      "post": "Vakansiya berish",
+      "posted": "Vakansiya e'lon qilindi"
+    },
     "vacStatus": {
       "CLOSED": "Yopilgan",
       "OPEN": "Ochiq"
@@ -3845,6 +3851,29 @@
       "SEAT_TAKEN": "Bu mashinada boshqa haydovchi bor — avval uni olib tashlang"
     },
     "tarSeats": "Joylar: %{total} tadan %{used} tasi band"
+  },
+  "pgFleetVacancies": {
+    "anyProfession": "Aniqlanmagan",
+    "driverNeeded": "Haydovchi kerak",
+    "fCountries": "Qaysi davlatlarga chiqadi",
+    "fDirection": "Yo'nalish",
+    "fFrom": "Qayerdan (odatiy yo'nalish)",
+    "fLicense": "Prava toifasi",
+    "fMinExp": "Kamida staj (yil)",
+    "fNote": "Izoh",
+    "fNotePh": "Qanday haydovchi kerak, qanday shartlar",
+    "fPay": "To'lov",
+    "fProfession": "Kasb",
+    "fTitle": "Lavozim nomi",
+    "fTitlePh": "Masalan: Xalqaro yo'nalish dispecheri",
+    "fTo": "Qayerga",
+    "fVehicle": "Qaysi mashinaga *",
+    "negotiable": "Kelishiladi",
+    "noSeatsHint": "Bo'sh o'rin yo'q — haydovchi e'loni uchun avval mashina qo'shing yoki o'rinni bo'shating.",
+    "optional": "Ixtiyoriy",
+    "postBtn": "E'lonni qo'yish",
+    "posting": "Qo'yilmoqda...",
+    "workerNeeded": "Xodim kerak"
   },
   "pgHome": {
     "quickMore": "Yana"

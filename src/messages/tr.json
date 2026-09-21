@@ -57,6 +57,7 @@
     "BAD_PASSWORD": "Mevcut şifre yanlış.",
     "BAD_PHONE": "Telefon numarasını kontrol edin.",
     "BAD_PRICE": "Fiyatı kontrol edin.",
+    "BAD_PROFESSION": "Meslek bulunamadı",
     "BAD_REFS": "Seçilen değerler geçersiz. Listeden yeniden seçin.",
     "BAD_STATUS": "Durum geçersiz.",
     "BAD_TAB": "Geçersiz bölüm seçildi. Uygulamayı güncelleyin.",
@@ -3663,6 +3664,11 @@
     "unit": {
       "t": "t"
     },
+    "vac": {
+      "fixedPay": "Net tutar",
+      "post": "İş ilanı ver",
+      "posted": "İş ilanı yayınlandı"
+    },
     "vacStatus": {
       "CLOSED": "Kapalı",
       "OPEN": "Açık"
@@ -3845,6 +3851,29 @@
       "SEAT_TAKEN": "Bu aracın zaten bir sürücüsü var — önce onu kaldırın"
     },
     "tarSeats": "Yerler: %{total} yerden %{used} dolu"
+  },
+  "pgFleetVacancies": {
+    "anyProfession": "Belirtilmemiş",
+    "driverNeeded": "Sürücü aranıyor",
+    "fCountries": "Hangi ülkelere çıkıyor",
+    "fDirection": "Alan",
+    "fFrom": "Nereden (olağan güzergâh)",
+    "fLicense": "Ehliyet sınıfı",
+    "fMinExp": "En az deneyim (yıl)",
+    "fNote": "Not",
+    "fNotePh": "Nasıl bir sürücü gerekli, hangi şartlarla",
+    "fPay": "Ödeme",
+    "fProfession": "Meslek",
+    "fTitle": "Görev adı",
+    "fTitlePh": "Örneğin: uluslararası hat operatörü",
+    "fTo": "Nereye",
+    "fVehicle": "Hangi araç için *",
+    "negotiable": "Anlaşmalı",
+    "noSeatsHint": "Boş yer yok — sürücü ilanı için önce araç ekleyin veya bir yeri boşaltın.",
+    "optional": "İsteğe bağlı",
+    "postBtn": "İlanı yayınla",
+    "posting": "Yayınlanıyor...",
+    "workerNeeded": "Personel aranıyor"
   },
   "pgHome": {
     "quickMore": "Daha fazla"

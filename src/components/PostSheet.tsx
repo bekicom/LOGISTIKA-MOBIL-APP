@@ -23,7 +23,7 @@ type Action = {
   icon: IconName;
   title: string;
   hint: string;
-  href: "/yuk-joylash" | "/mashina-joylash" | "/bozor-joylash" | "/ish-beruvchi" | "/usta-chaqirish";
+  href: "/yuk-joylash" | "/mashina-joylash" | "/bozor-joylash" | "/vakansiya" | "/usta-chaqirish";
   feature: FeatureKey | null;
   tint: string;
   bg: string;
@@ -63,7 +63,9 @@ function actions(): Action[] {
       icon: "briefcase",
       title: t("mob.post.job"),
       hint: t("mob.post.jobHint"),
-      href: "/ish-beruvchi",
+      /* To'g'ri SHAKLGA (2026-09-21). Ilgari ish beruvchi sahifasiga
+         olib borardi — u yerda e'lon berishning yo'li yo'q edi */
+      href: "/vakansiya",
       feature: "vacancies",
       tint: color.success,
       bg: color.successSoft,

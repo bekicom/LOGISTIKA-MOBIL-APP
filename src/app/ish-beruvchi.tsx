@@ -18,10 +18,11 @@
  * takrorlamaydi: «qabul qilindi» ni ish beruvchi bosa olmasligi
  * shu qoidadan kelib chiqadi.
  */
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useFocusEffect, useRouter } from "expo-router";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
@@ -77,6 +78,7 @@ type Candidate = {
 
 export default function IshBeruvchi() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   /* Nomzodlar QIMMAT: `matchedCandidates` barcha rezyumeni o'qib,
      formuladan o'tkazadi. Shuning uchun faqat ochilgan vakansiya
@@ -88,6 +90,23 @@ export default function IshBeruvchi() {
     vacancies: Vacancy[];
     candidates: Candidate[] | null;
   }>(`/api/jobs/employer${openId ? `?vacancyId=${openId}` : ""}`, [openId]);
+
+  /* Shakldan qaytganda yangi e'lon darhol ko'rinsin (chat ro'yxatidagi
+     usul: birinchi fokus o'tkaziladi, keyingilarida yangilanadi) */
+  const yangila = useRef(refresh);
+  useEffect(() => {
+    yangila.current = refresh;
+  });
+  const birinchiFokus = useRef(true);
+  useFocusEffect(
+    useCallback(() => {
+      if (birinchiFokus.current) {
+        birinchiFokus.current = false;
+        return;
+      }
+      yangila.current();
+    }, []),
+  );
 
   const [busy, setBusy] = useState<string | null>(null);
   const [failed, setFailed] = useState("");
@@ -113,7 +132,16 @@ export default function IshBeruvchi() {
 
   return (
     <View style={s.root}>
-      <Header title={t("mob.job.employerTitle")} subtitle={t("mob.job.employerSub")} />
+      <Header
+        title={t("mob.job.employerTitle")}
+        subtitle={t("mob.job.employerSub")}
+        /* Yangi vakansiya — shu yerdan (2026-09-21; ilgari yo'li yo'q edi) */
+        right={
+          <Pressable onPress={() => router.push("/vakansiya")} hitSlop={8} accessibilityRole="button">
+            <Text style={s.add}>{t("mob.common.add")}</Text>
+          </Pressable>
+        }
+      />
 
       <ScrollView
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
@@ -129,6 +157,8 @@ export default function IshBeruvchi() {
             icon="package"
             title={t("mob.job.noVacTitle")}
             text={t("mob.job.noVacHint")}
+            actionLabel={t("mob.vac.post")}
+            onAction={() => router.push("/vakansiya")}
           />
         ) : (
           <>
@@ -366,6 +396,7 @@ function initials(name: string) {
 }
 
 const s = themed(() => ({
+  add: { fontSize: 15, fontWeight: "600", color: color.brandText },
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg, gap: space.md },
 

@@ -57,6 +57,7 @@
     "BAD_PASSWORD": "当前密码不正确。",
     "BAD_PHONE": "请检查电话号码。",
     "BAD_PRICE": "请检查价格。",
+    "BAD_PROFESSION": "未找到该职业",
     "BAD_REFS": "所选内容无效，请从列表中重新选择。",
     "BAD_STATUS": "状态无效。",
     "BAD_TAB": "选择的板块无效，请更新应用。",
@@ -3663,6 +3664,11 @@
     "unit": {
       "t": "吨"
     },
+    "vac": {
+      "fixedPay": "固定金额",
+      "post": "发布职位",
+      "posted": "职位已发布"
+    },
     "vacStatus": {
       "CLOSED": "已关闭",
       "OPEN": "招聘中"
@@ -3845,6 +3851,29 @@
       "SEAT_TAKEN": "这辆车已有司机——请先将其移除"
     },
     "tarSeats": "席位：%{total} 个中已用 %{used} 个"
+  },
+  "pgFleetVacancies": {
+    "anyProfession": "未指定",
+    "driverNeeded": "招聘司机",
+    "fCountries": "需前往哪些国家",
+    "fDirection": "方向",
+    "fFrom": "起点（常跑线路）",
+    "fLicense": "驾照类别",
+    "fMinExp": "最低经验（年）",
+    "fNote": "备注",
+    "fNotePh": "需要什么样的司机、有哪些条件",
+    "fPay": "报酬",
+    "fProfession": "职业",
+    "fTitle": "职位名称",
+    "fTitlePh": "例如：国际线路调度员",
+    "fTo": "终点",
+    "fVehicle": "面向哪辆车 *",
+    "negotiable": "面议",
+    "noSeatsHint": "没有空缺席位——发布司机招聘前请先添加车辆或腾出席位。",
+    "optional": "可选",
+    "postBtn": "发布公告",
+    "posting": "发布中...",
+    "workerNeeded": "招聘员工"
   },
   "pgHome": {
     "quickMore": "更多"

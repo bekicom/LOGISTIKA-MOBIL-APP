@@ -57,6 +57,7 @@
     "BAD_PASSWORD": "The current password is wrong.",
     "BAD_PHONE": "Check the phone number.",
     "BAD_PRICE": "Check the price.",
+    "BAD_PROFESSION": "Profession not found",
     "BAD_REFS": "The chosen values aren't valid. Pick again from the list.",
     "BAD_STATUS": "That status isn't valid.",
     "BAD_TAB": "Invalid section selected. Please update the app.",
@@ -3663,6 +3664,11 @@
     "unit": {
       "t": "t"
     },
+    "vac": {
+      "fixedPay": "Fixed amount",
+      "post": "Post a vacancy",
+      "posted": "Vacancy posted"
+    },
     "vacStatus": {
       "CLOSED": "Closed",
       "OPEN": "Open"
@@ -3845,6 +3851,29 @@
       "SEAT_TAKEN": "This vehicle already has a driver — remove them first"
     },
     "tarSeats": "Seats: %{used} of %{total} used"
+  },
+  "pgFleetVacancies": {
+    "anyProfession": "Not specified",
+    "driverNeeded": "Driver wanted",
+    "fCountries": "Which countries the job covers",
+    "fDirection": "Field",
+    "fFrom": "From (usual route)",
+    "fLicense": "Licence category",
+    "fMinExp": "Minimum experience (years)",
+    "fNote": "Note",
+    "fNotePh": "What kind of driver you need and on what terms",
+    "fPay": "Pay",
+    "fProfession": "Profession",
+    "fTitle": "Job title",
+    "fTitlePh": "For example: international routes dispatcher",
+    "fTo": "To",
+    "fVehicle": "For which vehicle *",
+    "negotiable": "Negotiable",
+    "noSeatsHint": "No free seats — for a driver vacancy add a vehicle first or free up a seat.",
+    "optional": "Optional",
+    "postBtn": "Post the listing",
+    "posting": "Posting...",
+    "workerNeeded": "Staff needed"
   },
   "pgHome": {
     "quickMore": "More"

@@ -13,8 +13,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Path } from "react-native-svg";
 import { Icon } from "@/components/Icon";
 import { TruckImage } from "@/components/TruckImage";
+import { Bekat, NarxQutisi, Qator, YolNuqtalari } from "@/components/ElonTafsilot";
 import { Chip, ago, davlatNomi, elonNomi } from "@/components/cards";
-import type { IconName } from "@/components/Icon";
 import { Button, Field, Notice } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
@@ -187,11 +187,7 @@ export default function YukTafsiloti() {
                   right={c.isReadyNow ? t("mob.loads.readyNow") : c.loadingDate ? date(c.loadingDate) : undefined}
                   rightTone={c.isReadyNow ? color.successText : undefined}
                 />
-                <View style={s.routeDots}>
-                  <View style={s.routeDot} />
-                  <View style={s.routeDot} />
-                  <View style={s.routeDot} />
-                </View>
+                <YolNuqtalari />
                 <Bekat icon="border" city={data.route.to} country={davlatNomi(data.route.toCountry)} />
               </View>
 
@@ -202,21 +198,13 @@ export default function YukTafsiloti() {
                 </View>
               ) : null}
 
-              <View style={s.priceBox}>
-                <View style={s.priceIcon}>
-                  <Icon name="wallet" size={20} stroke={color.brand} />
-                </View>
-                <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={s.priceLabel}>{t("mob.load.price")}</Text>
-                  {data.price.isNegotiable || data.price.amount == null ? (
-                    <Text style={s.priceNego}>{t("mob.loads.negotiable")}</Text>
-                  ) : (
-                    <Text style={s.price} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>
-                      {money(data.price.amount, data.price.currency)}
-                    </Text>
-                  )}
-                </View>
-              </View>
+              <NarxQutisi
+                narx={
+                  data.price.isNegotiable || data.price.amount == null
+                    ? null
+                    : money(data.price.amount, data.price.currency)
+                }
+              />
             </View>
 
             {/* ── Ma'lumotlar — ikonkali ro'yxat ── */}
@@ -433,66 +421,6 @@ function date(iso: string) {
   return new Date(iso).toLocaleDateString(currentLocale(), { day: "numeric", month: "short" });
 }
 
-/** Yo'nalish bekati: belgi · shahar (qalin) · davlat (xira) · o'ngda sana */
-function Bekat({
-  icon,
-  city,
-  country,
-  right,
-  rightTone,
-}: {
-  icon: IconName;
-  city: string;
-  country: string;
-  right?: string;
-  rightTone?: string;
-}) {
-  return (
-    <View style={s.stop}>
-      <View style={s.stopIcon}>
-        <Icon name={icon} size={19} stroke={color.brand} />
-      </View>
-      <View style={{ flex: 1, minWidth: 0 }}>
-        <Text style={s.stopCity}>{city}</Text>
-        <Text style={s.stopCountry}>{country}</Text>
-      </View>
-      {right ? <Text style={[s.stopRight, rightTone ? { color: rightTone } : null]}>{right}</Text> : null}
-    </View>
-  );
-}
-
-/**
- * Ma'lumot qatori: rangli katakdagi belgi · nom · qiymat.
- *
- * Ilgari to'rt katakli jadval edi: qiymat nomdan kattaroq, belgisiz —
- * ko'z qaysi raqam nima ekanini har safar pastdagi yozuvdan qidirardi.
- */
-function Qator({
-  icon,
-  label,
-  value,
-  tone,
-  last,
-}: {
-  icon: IconName;
-  label: string;
-  value: string;
-  tone?: string;
-  last?: boolean;
-}) {
-  return (
-    <View style={[s.row, !last && s.rowDivider]}>
-      <View style={s.rowIcon}>
-        <Icon name={icon} size={17} stroke={color.brand} />
-      </View>
-      <Text style={s.rowLabel}>{label}</Text>
-      <Text style={[s.rowValue, tone ? { color: tone } : null]} numberOfLines={2}>
-        {value}
-      </Text>
-    </View>
-  );
-}
-
 /* ─────────────────────────────────────────────── taklif */
 
 function OfferSheet({ open, loadId, suggested, currency, onClose, onDone }: {
@@ -638,38 +566,12 @@ const s = themed(() => ({
     marginTop: space.lg, paddingTop: space.lg,
     borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: color.border,
   },
-  stop: { flexDirection: "row", alignItems: "flex-start", gap: 11 },
-  stopIcon: { width: 26, height: 24, alignItems: "center", justifyContent: "center" },
-  stopCity: { fontSize: 17, lineHeight: 23, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
-  stopCountry: { fontSize: 13, color: color.mutedForeground, marginTop: 1 },
-  stopRight: { fontSize: 13, fontWeight: "600", color: color.mutedForeground, marginTop: 3 },
-  routeDots: { width: 26, alignItems: "center", gap: 4, paddingVertical: 5 },
-  routeDot: { width: 3, height: 3, borderRadius: 2, backgroundColor: color.iconFaint },
 
   cargoRow: { flexDirection: "row", alignItems: "flex-start", gap: 9, marginTop: space.lg },
 
-  priceBox: {
-    flexDirection: "row", alignItems: "center", gap: space.md,
-    marginTop: space.lg, padding: space.md, borderRadius: radius.control,
-    backgroundColor: color.brandSoft,
-  },
-  priceIcon: {
-    width: 44, height: 44, borderRadius: 13, backgroundColor: color.card,
-    alignItems: "center", justifyContent: "center",
-  },
-  priceLabel: { fontSize: 12.5, color: color.mutedForeground },
-  priceNego: { fontSize: 19, fontWeight: "800", color: color.brandText, marginTop: 1 },
 
   /* Ma'lumotlar ro'yxati */
   listCard: { paddingVertical: 4 },
-  row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 13 },
-  rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.border },
-  rowIcon: {
-    width: 34, height: 34, borderRadius: 11, backgroundColor: color.brandSoft,
-    alignItems: "center", justifyContent: "center",
-  },
-  rowLabel: { flex: 1, fontSize: 14, color: color.mutedForeground },
-  rowValue: { maxWidth: "55%", textAlign: "right", fontSize: 15, fontWeight: "700", color: color.foreground },
   extraNote: {
     flexDirection: "row", alignItems: "center", gap: 9, paddingVertical: 13,
     borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.border,
@@ -693,7 +595,6 @@ const s = themed(() => ({
   typeAltText: { fontSize: 13, fontWeight: "500", color: color.icon },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8 },
 
-  price: { fontSize: 24, fontWeight: "800", color: color.brand, letterSpacing: -0.5, marginTop: 1, fontVariant: ["tabular-nums"] },
   desc: { fontSize: 14, color: color.icon, lineHeight: 22 },
 
   ownerRow: { flexDirection: "row", alignItems: "center", gap: 12 },

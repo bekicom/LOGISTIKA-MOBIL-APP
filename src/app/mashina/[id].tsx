@@ -13,21 +13,39 @@
  *  3. DAVLAT RAQAMI KONTAKT OCHILMAGUNCHA YOPIQ. Raqam bo'yicha
  *     mashinani boshqa joydan topib FURAM'ni chetlab o'tish mumkin;
  *     telefon raqami allaqachon shunday himoyalangan.
+ *
+ * ── 2026-09-21: YUK SAHIFASI BILAN BIR XIL ─────────────────────
+ *
+ * Yuk sahifasi Bekzod ko'rsatgan namunadagidek qayta chizilgan edi,
+ * mashina sahifasi esa eskisida qolgandi: suratsiz e'londa (Telegram —
+ * ro'yxatning ko'pi) tepada BO'SH to'q ko'k blok, katta «—» va
+ * «Boshqa» turardi. Endi qismlar umumiy (`ElonTafsilot`): ikonkali
+ * yo'nalish, «Narx» qutisi, ikonkali qatorlar. Surat bo'lsa — galereya
+ * avvalgidek tepada (1-qaror), bo'lmasa oddiy sarlavha va tur rasmi.
+ *
+ * «Taklif yuborish» faqat chat RO'YXATINI ochardi — hech narsa
+ * yuborilmasdi. Endi «Xabar yozish»: egasi bilan suhbat ochiladi
+ * (`POST /api/chats`, webdagi kontakt kartasi bilan bir xil yo'l).
+ * Telegram e'lonida yozib bo'lmaydi — tugma chiqmaydi, bog'lanish
+ * havolalari sahifaning o'zida.
  */
 import { useState } from "react";
-import { Image, Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Image, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ContactLinks, type Links } from "@/components/ContactLinks";
-import { Chip, davlatNomi, money } from "@/components/cards";
+import { ago, davlatNomi, money } from "@/components/cards";
+import { TruckImage } from "@/components/TruckImage";
+import { Bekat, NarxQutisi, Qator, YolNuqtalari } from "@/components/ElonTafsilot";
+import { xabarcha } from "@/components/Xabarcha";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
-import { t } from "@/lib/i18n";
+import { currentLocale, t } from "@/lib/i18n";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
@@ -97,6 +115,20 @@ export default function MashinaTafsilot() {
     [id],
   );
 
+  const [yozBand, setYozBand] = useState(false);
+  async function yozish() {
+    if (guestBlocked()) return;
+    setYozBand(true);
+    try {
+      const r = await api<{ chatId: string }>("/api/chats", { method: "POST", body: { kind: "truck", id: String(id) } });
+      router.push({ pathname: "/suhbat/[id]", params: { id: r.chatId } });
+    } catch (e) {
+      xabarcha({ matn: (e as FuramError).message, ohang: "xato" });
+    } finally {
+      setYozBand(false);
+    }
+  }
+
   async function reveal() {
     setRevealing(true);
     setErr(null);
@@ -131,6 +163,7 @@ export default function MashinaTafsilot() {
 
   const v = data.vehicle;
   const photos = v?.photos ?? [];
+  const rasmli = photos.length > 0 && !!v;
   const price = money(data.price.amount, data.price.currency, data.price.isNegotiable);
 
   return (
@@ -141,95 +174,105 @@ export default function MashinaTafsilot() {
           <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
         }
       >
-        {/* Galereya — to'liq enlik */}
-        <View style={s.gallery}>
-          {photos.length && v ? (
+        {/* Surat bo'lsa — galereya tepada (1-qaror). Bo'lmasa bo'sh to'q
+            blok o'rniga oddiy sarlavha: yuk sahifasi bilan bir xil */}
+        {rasmli && v ? (
+          <View style={s.gallery}>
             <Image source={vehiclePhoto(v.id, photos[shot])} style={s.shot} resizeMode="cover" />
-          ) : (
-            <View style={[s.shot, s.shotEmpty]}>
-              <Icon name="truck" size={54} stroke="rgba(255,255,255,0.5)" />
+
+            <Pressable
+              onPress={() => router.back()}
+              style={[s.round, { top: insets.top + 4, left: 12 }]}
+              hitSlop={6}
+              accessibilityRole="button"
+              accessibilityLabel={t("mob.common.back")}
+            >
+              <Icon name="back" size={21} stroke="#fff" />
+            </Pressable>
+
+            {/* Ulashish — surat ustida, «orqaga» ning ro'parasida */}
+            <View style={[s.shareWrap, { top: insets.top + 4 }]}>
+              <ShareButton kind="truck" id={data.id} href={data.slug ? `/trucks/${data.slug}` : null} />
             </View>
-          )}
 
-          <Pressable
-            onPress={() => router.back()}
-            style={[s.round, { top: insets.top + 4, left: 12 }]}
-            hitSlop={6}
-            accessibilityRole="button"
-          >
-            <Icon name="back" size={21} stroke="#fff" />
-          </Pressable>
-
-          {/* Ulashish — surat ustida, «orqaga» ning ro'parasida */}
-          <View style={[s.shareWrap, { top: insets.top + 4 }]}>
-            <ShareButton
-              kind="truck"
-              id={data.id}
-              href={data.slug ? `/trucks/${data.slug}` : null}
-            />
+            {photos.length > 1 ? (
+              <>
+                <View style={s.counter}>
+                  <Text style={s.counterText}>
+                    {shot + 1} / {photos.length}
+                  </Text>
+                </View>
+                <View style={s.dots}>
+                  {photos.map((_, i) => (
+                    <Pressable key={i} onPress={() => setShot(i)} hitSlop={8}>
+                      <View style={[s.dot, i === shot && s.dotOn]} />
+                    </Pressable>
+                  ))}
+                </View>
+              </>
+            ) : null}
           </View>
-
-          {photos.length > 1 ? (
-            <>
-              <View style={s.counter}>
-                <Text style={s.counterText}>
-                  {shot + 1} / {photos.length}
-                </Text>
-              </View>
-              <View style={s.dots}>
-                {photos.map((_, i) => (
-                  <Pressable key={i} onPress={() => setShot(i)} hitSlop={8}>
-                    <View style={[s.dot, i === shot && s.dotOn]} />
-                  </Pressable>
-                ))}
-              </View>
-            </>
-          ) : null}
-        </View>
+        ) : (
+          <View style={[s.header, { paddingTop: insets.top + 4 }]}>
+            <Pressable
+              onPress={() => router.back()}
+              hitSlop={10}
+              style={s.back}
+              accessibilityRole="button"
+              accessibilityLabel={t("mob.common.back")}
+            >
+              <Icon name="back" size={22} stroke={color.foreground} />
+            </Pressable>
+            <Text style={s.headerTitle} numberOfLines={1}>
+              {t("mob.trucks.detailTitle")}
+            </Text>
+            <View style={s.headerRight}>
+              <ShareButton kind="truck" id={data.id} href={data.slug ? `/trucks/${data.slug}` : null} compact />
+            </View>
+          </View>
+        )}
 
         <View style={s.body}>
-          {/* Sig'im — bosh raqam */}
-          <View>
-            <View style={s.capRow}>
-              <Text style={s.cap}>{data.truck.capacityT != null ? `${data.truck.capacityT} t` : "—"}</Text>
-              {data.truck.volumeM3 != null ? (
-                <Text style={s.capSub}>{` · ${data.truck.volumeM3} m³`}</Text>
+          {/* ── Asosiy karta: tur · yo'nalish · narx ── */}
+          <View style={s.card}>
+            <View style={s.heroTop}>
+              {!rasmli ? (
+                <View style={s.heroThumb}>
+                  <TruckImage typeKey={data.truck.vehicleType.key} style={s.heroImg} />
+                </View>
               ) : null}
+              <View style={s.heroInfo}>
+                <View style={s.typeChip}>
+                  <Icon name="truck" size={15} stroke={color.foreground} />
+                  <Text style={s.typeChipText} numberOfLines={1}>
+                    {data.truck.vehicleType.name}
+                  </Text>
+                </View>
+                <Text style={s.meta}>
+                  {ago(data.createdAt)} · {t("mob.trucks.viewed", { n: data.views })}
+                </Text>
+              </View>
             </View>
-            <Text style={s.sub}>
-              {[data.truck.vehicleType.name, v ? [v.brand, v.model].filter(Boolean).join(" ") : null]
-                .filter(Boolean)
-                .join(" · ")}
-            </Text>
-            <View style={s.chips}>
-              {data.truck.isFreeNow ? (
-                <Chip text={t("mob.trucks.freeNow")} tone="success" />
-              ) : data.truck.freeDate ? (
-                <Chip text={t("mob.trucks.freeFrom", { d: data.truck.freeDate.slice(0, 10) })} />
-              ) : null}
-              {data.truck.takesExtraLoad ? <Chip text={t("mob.trucks.takesExtra")} /> : null}
-            </View>
-          </View>
 
-          {/* Yo'nalish va narx */}
-          <View style={s.sec}>
-            <View style={s.routeRow}>
-              <View style={{ flex: 1 }}>
-                <Text style={s.city}>{data.route.from}</Text>
-                <Text style={s.country}>{davlatNomi(data.route.fromCountry)}</Text>
-              </View>
-              <Icon name="arrow-right" size={19} stroke="#94a3b8" />
-              <View style={{ flex: 1, alignItems: "flex-end" }}>
-                <Text style={[s.city, { textAlign: "right" }]}>{data.route.to}</Text>
-                <Text style={s.country}>{davlatNomi(data.route.toCountry)}</Text>
-              </View>
+            <View style={s.route}>
+              <Bekat
+                icon="truck"
+                city={data.route.from}
+                country={davlatNomi(data.route.fromCountry)}
+                right={
+                  data.truck.isFreeNow
+                    ? t("mob.trucks.freeNow")
+                    : data.truck.freeDate
+                      ? t("mob.trucks.freeFrom", { d: sana(data.truck.freeDate) })
+                      : undefined
+                }
+                rightTone={data.truck.isFreeNow ? color.successText : undefined}
+              />
+              <YolNuqtalari />
+              <Bekat icon="border" city={data.route.to} country={davlatNomi(data.route.toCountry)} />
             </View>
-            <View style={s.priceRow}>
-              <Text style={price ? s.price : s.noPrice}>{price ?? t("mob.trucks.noPrice")}</Text>
-              {data.price.isNegotiable ? (
-                <Text style={s.meta}>{t("mob.loads.negotiable")}</Text>
-              ) : null}
-            </View>
+
+            <NarxQutisi narx={price} />
           </View>
 
           {/* Hujjatlari joyidami — faqat park mashinasida */}
@@ -251,29 +294,57 @@ export default function MashinaTafsilot() {
             </View>
           ) : null}
 
-          {/* Texnik */}
-          {v ? (
-            <View style={s.sec}>
-              <Text style={s.secTitle}>{t("mob.trucks.vehicle")}</Text>
-              <Kv k={t("mob.trucks.brand")} v={[v.brand, v.model].filter(Boolean).join(" ")} />
-              {v.year ? <Kv k={t("mob.trucks.year")} v={String(v.year)} /> : null}
-              {v.trailer ? (
-                <Kv
-                  k={t("mob.trucks.trailer")}
-                  v={v.trailer.plate ?? t("mob.trucks.hidden")}
-                  locked={!v.trailer.plate}
-                />
-              ) : null}
-              <Kv
-                k={t("mob.trucks.plate")}
-                v={v.plate ?? "01 A ••• ••"}
-                locked={!v.plate}
+          {/* ── Ma'lumotlar — ikonkali ro'yxat (yuk sahifasidagidek) ── */}
+          <View style={[s.card, s.listCard]}>
+            <Qator
+              icon="package"
+              label={t("mob.trucks.capShort")}
+              value={data.truck.capacityT != null ? `${data.truck.capacityT} t` : "—"}
+            />
+            <Qator
+              icon="grid"
+              label={t("mob.last.volume")}
+              value={data.truck.volumeM3 != null ? `${data.truck.volumeM3} m³` : "—"}
+            />
+            {v ? (
+              <Qator icon="truck" label={t("mob.trucks.brand")} value={[v.brand, v.model].filter(Boolean).join(" ") || "—"} />
+            ) : null}
+            {v?.year ? <Qator icon="clock" label={t("mob.trucks.year")} value={String(v.year)} /> : null}
+            {v?.trailer ? (
+              <Qator
+                icon="route"
+                label={t("mob.trucks.trailer")}
+                value={v.trailer.plate ?? t("mob.trucks.hidden")}
+                locked={!v.trailer.plate}
               />
-            </View>
-          ) : null}
+            ) : null}
+            {v ? (
+              <Qator icon="doc" label={t("mob.trucks.plate")} value={v.plate ?? "01 A ••• ••"} locked={!v.plate} />
+            ) : null}
+            <Qator
+              icon="wallet"
+              label={t("mob.post.payType")}
+              value={[
+                tolov()[data.price.paymentType] ?? data.price.paymentType,
+                data.price.advance
+                  ? t("mob.load.advance", { sum: money(data.price.advance, data.price.currency) ?? "" })
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+              last={!data.truck.takesExtraLoad}
+            />
+            {data.truck.takesExtraLoad ? (
+              <View style={s.extraNote}>
+                <Icon name="plus" size={15} stroke={color.blue} />
+                <Text style={s.extraText}>{t("mob.trucks.takesExtra")}</Text>
+              </View>
+            ) : null}
+          </View>
 
-          {/* Egasi */}
-          {data.owner ? (
+          {/* Egasi — Telegram e'lonida «egasi» guruh boti: «Telegram, — — 0»
+              degan ma'nosiz karta chiqardi (2026-09-21) */}
+          {data.owner && data.source !== "TELEGRAM" ? (
             <View style={s.sec}>
               <View style={s.ownerRow}>
                 <View style={s.avatar}>
@@ -296,8 +367,9 @@ export default function MashinaTafsilot() {
             </View>
           ) : null}
 
-          {/* Izoh */}
-          {data.description ? (
+          {/* Izoh — Telegram e'lonida ko'rsatilmaydi (Bekzod, 2026-09-21: «tg dan
+              kelgan datani ko'rsatma»): u yerdagi matn guruhning xom posti */}
+          {data.description && data.source !== "TELEGRAM" ? (
             <View style={s.sec}>
               <Text style={s.secTitle}>{t("mob.trucks.ownerNote")}</Text>
               <Text style={s.note}>{data.description}</Text>
@@ -330,10 +402,6 @@ export default function MashinaTafsilot() {
                 postga havola yagona yo'l bo'lib qoladi */}
             <ContactLinks links={data.links} hasPhone={data.hasPhone} />
           </View>
-
-          <Text style={s.footMeta}>
-            {t("mob.trucks.viewed", { n: data.views })}
-          </Text>
 
           {/* Shikoyat — do'kon talabi (2026-09-18, A12) */}
           {!data.isMine && data.owner ? (
@@ -374,39 +442,18 @@ export default function MashinaTafsilot() {
       ) : null}
 
       {/* Pastdagi tugmalar */}
-      {!data.isMine ? (
+      {!data.isMine && data.source !== "TELEGRAM" ? (
         <View style={[s.foot, { paddingBottom: insets.bottom + 14 }]}>
-          <Pressable
-            style={s.iconBtn}
-            onPress={() => router.push("/chat")}
-            accessibilityRole="button"
-            accessibilityLabel={t("mob.trucks.message")}
-          >
-            <Icon name="chat" size={21} stroke={color.icon} />
-          </Pressable>
           <View style={{ flex: 1 }}>
             <Button
-              title={t("mob.trucks.sendOffer")}
-              onPress={() => {
-                if (guestBlocked()) return;
-                router.push("/chat");
-              }}
+              title={t("mob.trucks.writeOwner")}
+              onPress={() => void yozish()}
+              loading={yozBand}
+              icon={<Icon name="chat" size={18} stroke="#fff" />}
             />
           </View>
         </View>
       ) : null}
-    </View>
-  );
-}
-
-function Kv({ k, v, locked }: { k: string; v: string; locked?: boolean }) {
-  return (
-    <View style={s.kv}>
-      <Text style={s.k}>{k}</Text>
-      <View style={s.vWrap}>
-        <Text style={[s.v, locked && s.vLocked]}>{v}</Text>
-        {locked ? <Icon name="alert" size={15} stroke="#94a3b8" /> : null}
-      </View>
     </View>
   );
 }
@@ -427,7 +474,6 @@ const s = themed(() => ({
 
   gallery: { height: 260, backgroundColor: "#b9c3cf" },
   shot: { width: "100%", height: 260 },
-  shotEmpty: { backgroundColor: color.navy, alignItems: "center", justifyContent: "center" },
   round: {
     position: "absolute",
     width: 40,
@@ -461,11 +507,30 @@ const s = themed(() => ({
   dotOn: { width: 18, backgroundColor: "#fff" },
 
   body: { padding: space.lg, gap: space.md },
-  capRow: { flexDirection: "row", alignItems: "baseline" },
-  cap: { fontSize: 34, fontWeight: "700", color: color.foreground, letterSpacing: -1 },
-  capSub: { fontSize: font.bodyLg, color: color.mutedForeground },
-  sub: { fontSize: font.body, color: color.icon, marginTop: 3 },
-  chips: { flexDirection: "row", gap: 6, marginTop: 11, flexWrap: "wrap" },
+  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingBottom: 4 },
+  back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
+  headerTitle: { flex: 1, textAlign: "center", fontSize: 17, fontWeight: "700", color: color.foreground },
+  headerRight: { width: 44, alignItems: "center", justifyContent: "center" },
+  card: { backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, ...shadow.card },
+  heroTop: { flexDirection: "row", alignItems: "center", gap: space.md },
+  heroThumb: {
+    width: 96, height: 66, borderRadius: 18, backgroundColor: color.muted,
+    alignItems: "center", justifyContent: "center",
+  },
+  heroImg: { width: 86, height: 54 },
+  heroInfo: { flex: 1, minWidth: 0, gap: 7 },
+  typeChip: {
+    flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start",
+    height: 30, paddingHorizontal: 10, borderRadius: radius.control, backgroundColor: color.muted,
+  },
+  typeChipText: { fontSize: 14, fontWeight: "700", color: color.foreground, flexShrink: 1 },
+  route: {
+    marginTop: space.lg, paddingTop: space.lg,
+    borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: color.border,
+  },
+  listCard: { paddingVertical: 4 },
+  extraNote: { flexDirection: "row", alignItems: "center", gap: 9, paddingVertical: 13 },
+  extraText: { flex: 1, fontSize: 13, fontWeight: "600", color: color.blue },
 
   sec: {
     backgroundColor: color.card,
@@ -475,20 +540,6 @@ const s = themed(() => ({
   },
   secTitle: { fontSize: font.caption, fontWeight: "700", color: color.foreground },
 
-  routeRow: { flexDirection: "row", alignItems: "flex-start", gap: 10 },
-  city: { fontSize: font.title, fontWeight: "700", color: color.foreground },
-  country: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
-  priceRow: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    justifyContent: "space-between",
-    marginTop: 13,
-    paddingTop: 13,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
-  },
-  price: { fontSize: 22, fontWeight: "800", color: color.brand, letterSpacing: -0.4, fontVariant: ["tabular-nums"] },
-  noPrice: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
   meta: { fontSize: 12, color: color.mutedForeground },
 
   banner: { flexDirection: "row", gap: 11, borderRadius: radius.card, padding: 14 },
@@ -499,19 +550,6 @@ const s = themed(() => ({
   bannerTitleWarn: { fontSize: font.caption, fontWeight: "700", color: color.warning },
   bannerTextWarn: { fontSize: 12, color: color.warning, marginTop: 3, lineHeight: 18 },
 
-  kv: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
-    marginTop: 4,
-  },
-  k: { fontSize: font.caption, color: color.mutedForeground },
-  vWrap: { flexDirection: "row", alignItems: "center", gap: 7 },
-  v: { fontSize: 14, fontWeight: "600", color: color.foreground },
-  vLocked: { color: color.faintText, letterSpacing: 1.5 },
 
   ownerRow: { flexDirection: "row", alignItems: "center", gap: 12 },
   avatar: {
@@ -540,7 +578,6 @@ const s = themed(() => ({
   contactOpen: { flexDirection: "row", alignItems: "center", gap: 12 },
   contactPhone: { fontSize: font.bodyLg, fontWeight: "700", color: color.foreground },
   err: { fontSize: font.caption, color: color.danger },
-  footMeta: { fontSize: 12, color: color.faintText, textAlign: "center" },
 
   foot: {
     flexDirection: "row",
@@ -550,13 +587,14 @@ const s = themed(() => ({
     paddingTop: 12,
     ...shadow.bar,
   },
-  iconBtn: {
-    width: 52,
-    height: 52,
-    borderRadius: radius.control,
-    borderWidth: 1,
-    borderColor: color.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
 }));
+
+/* FUNKSIYA — til o'zgarganda qayta o'qilsin (yuk sahifasidagi `pay()` bilan bir xil) */
+function tolov(): Record<string, string> {
+  return { CASH: t("mob.load.cash"), TRANSFER: t("mob.load.transfer"), MIXED: t("mob.load.mixed") };
+}
+
+/** «2026-09-25» → «25-sen» — tanlangan tilda */
+function sana(iso: string) {
+  return new Date(iso).toLocaleDateString(currentLocale(), { day: "numeric", month: "short" });
+}

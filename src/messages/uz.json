@@ -575,7 +575,8 @@
     "ago": {
       "day": "%{n} kun",
       "hour": "%{n} soat",
-      "min": "%{n} daq"
+      "min": "%{n} daq",
+      "now": "hozirgina"
     },
     "ai": {
       "actDone": "Bajarildi",

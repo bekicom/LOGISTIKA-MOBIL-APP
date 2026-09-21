@@ -1,10 +1,10 @@
 /** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
-import { Animated, Image, View } from "react-native";
+import { Animated, Image, StyleSheet, View } from "react-native";
 import { Tap } from "@/components/Tap";
 import { stagger, useFadeUp, useReduceMotion } from "@/lib/motion";
 import { Text } from "@/components/Text";
 import { Icon } from "./Icon";
-import { TruckIcon } from "./TruckIcon";
+import { TruckImage } from "./TruckImage";
 import { vehiclePhoto } from "@/lib/img";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
@@ -159,12 +159,75 @@ export function money(price: number | null | undefined, currency = "UZS", negoti
 export function ago(iso?: string) {
   if (!iso) return "";
   const m = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  /* «0 daq» xatoga o'xshardi (2026-09-21, Bekzod emulyatorda) */
+  if (m < 1) return t("mob.ago.now");
   if (m < 60) return t("mob.ago.min", { n: m });
   const h = Math.round(m / 60);
   if (h < 24) return t("mob.ago.hour", { n: h });
   return t("mob.ago.day", { n: Math.round(h / 24) });
 }
 
+/** E'lon YANGI hisoblanadi — shu vaqt ichida joylangan bo'lsa */
+const YANGI_MS = 3 * 3_600_000;
+
+/**
+ * Yo'nalish — TIK chiziqda: yuqorida qayerdan, pastda qayerga.
+ *
+ * Kartada ilgari `Route` edi — ikki ustun, o'rtada strelka. Manzil
+ * o'ngga tekislanib, uzun nom («Qashqadaryo · Shahrisabz») ikkiga
+ * bo'linardi va ko'z har kartada ikki chekkaga sakrardi. Tik chiziq
+ * — yuk ilovalaridagi odatiy ko'rinish: nom qancha uzun bo'lsa ham
+ * chapdan o'qiladi, o'ng tomon esa narxga bo'shaydi.
+ *
+ * Chiziq ikki bo'lakdan: birinchi qatorda nuqta + pastga to'ldiruvchi
+ * chiziq (qator balandligi nomning uzunligiga qarab o'zgaradi),
+ * ikkinchisida qisqa chiziq + nuqta. Shunda nuqtalar har doim nomning
+ * birinchi qatori ro'parasida turadi.
+ */
+function RouteStack({ from, fromC, to, toC }: { from: string; fromC?: string | null; to: string; toC?: string | null }) {
+  return (
+    <View style={s.rs}>
+      <View style={s.rsRow}>
+        <View style={s.rsRail}>
+          <View style={s.rsDotFrom} />
+          <View style={s.rsLine} />
+        </View>
+        <View style={s.rsText}>
+          <Text style={s.rsCity} numberOfLines={2}>{from}</Text>
+          {fromC ? <Text style={s.rsCountry}>{country(fromC)}</Text> : null}
+        </View>
+      </View>
+      <View style={[s.rsRow, { paddingBottom: 0 }]}>
+        <View style={s.rsRail}>
+          <View style={s.rsLineTop} />
+          <View style={s.rsDotTo} />
+        </View>
+        <View style={s.rsText}>
+          <Text style={s.rsCity} numberOfLines={2}>{to}</Text>
+          {toC ? <Text style={s.rsCountry}>{country(toC)}</Text> : null}
+        </View>
+      </View>
+    </View>
+  );
+}
+
+/**
+ * Yuk e'loni kartasi — lenta, bosh sahifa, moslar.
+ *
+ * ── DIZAYN-3 (2026-09-21, Bekzod: «bu karta yoqmayapti») ─────────
+ *
+ * Ierarxiya: yo'nalish → narx → yuk → xususiyatlar. Ilgari
+ * ko'zga birinchi tashlanadigani har kartadagi yashil «YANGI» va
+ * pastdagi katta to'q sariq yozuv edi — narx YO'Q bo'lsa ham
+ * («Kelishiladi» o'sha o'lchamda chizilardi).
+ *
+ *   · «Kelishiladi» — narx emas, holat: kulrang, kichik;
+ *   · «YANGI» — faqat oxirgi 3 soatda joylangan e'londa (ilgari
+ *     3 haftalik e'londa ham chiqardi, ya'ni hech narsa demasdi);
+ *     alohida chip emas — vaqt yonida yashil nuqta;
+ *   · mashina turi ikonkasi olib tashlandi: «Boshqa» turida u «?»
+ *     bo'lib chiqar va tugmaga o'xshardi. Tur nomi pastdagi chipda.
+ */
 export function ListingCard({
   item,
   onPress,
@@ -181,6 +244,7 @@ export function ListingCard({
   const reduce = useReduceMotion();
   const enter = useFadeUp(index != null ? stagger(index) : 0, reduce || index == null);
   const price = money(item.price, item.currency, item.isNegotiable);
+  const yangi = !!item.createdAt && Date.now() - new Date(item.createdAt).getTime() < YANGI_MS;
 
   return (
     /* Bosishda KICHRAYADI (`motion.ts`): kartochka katta, shuning
@@ -196,36 +260,48 @@ export function ListingCard({
           pressed && s.pressed,
         ]}
       >
-      <View style={s.cardHead}>
-        {item.isTop ? <Chip text="TOP" tone="brand" /> : <Chip text={t("mob.listing.new")} tone="success" />}
-        <LinkOnly item={item} />
-        <View style={{ flex: 1 }} />
-        {item.vehicleTypeKey ? (
-          <View style={s.typeIcon}>
-            <TruckIcon type={item.vehicleTypeKey} size={26} color={color.mutedForeground} />
+        <View style={s.lTop}>
+          <RouteStack from={item.from} fromC={item.fromCountry} to={item.to} toC={item.toCountry} />
+
+          <View style={s.lSide}>
+            {item.isTop ? <Chip text="TOP" tone="brand" /> : null}
+            {price ? (
+              <Text style={s.lPrice} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
+                {price}
+              </Text>
+            ) : (
+              <Text style={s.lNego}>{t("mob.loads.negotiable")}</Text>
+            )}
+            {/* Kerakli mashina turi — web'dagi brendli rasm, KATTA
+                (Bekzod: «mashinalar rasmini kattaroq qilib ko'rsat») */}
+            {item.vehicleTypeKey ? <TruckImage typeKey={item.vehicleTypeKey} style={s.lTruck} /> : null}
+            {item.createdAt ? (
+              <View style={s.lWhen}>
+                {yangi ? <View style={s.lFresh} /> : null}
+                <Text style={[s.meta, yangi && { color: color.successText }]}>{ago(item.createdAt)}</Text>
+              </View>
+            ) : null}
+          </View>
+        </View>
+
+        {item.title ? (
+          <View style={s.lCargo}>
+            <Icon name="package" size={15} stroke={color.mutedForeground} />
+            <Text style={s.lCargoText} numberOfLines={2}>
+              {item.title}
+            </Text>
           </View>
         ) : null}
-        <Icon name="heart" size={20} stroke={color.iconFaint} />
-      </View>
 
-      <View style={{ marginTop: 11 }}>
-        <Route from={item.from} fromC={item.fromCountry} to={item.to} toC={item.toCountry} />
-      </View>
-
-      {item.title ? <Text style={s.cargo} numberOfLines={1}>{item.title}</Text> : null}
-
-      <View style={s.chips}>
-        {item.weightT != null ? <Chip text={`${item.weightT} t`} /> : null}
-        {item.vehicleType ? <Chip text={item.vehicleType} /> : null}
-        {item.isReadyNow ? <Chip text={t("mob.loads.readyNow")} tone="success" /> : null}
-      </View>
-
-      <View style={s.cardFoot}>
-        <Text style={s.price}>
-          {price ?? t("mob.loads.negotiable")}
-        </Text>
-        {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
-      </View>
+        <View style={s.lFoot}>
+          <View style={s.lSpecs}>
+            {item.weightT != null ? <Chip text={`${item.weightT} t`} /> : null}
+            {item.vehicleType ? <Chip text={item.vehicleType} /> : null}
+            {item.isReadyNow ? <Chip text={t("mob.loads.readyNow")} tone="success" /> : null}
+            <LinkOnly item={item} />
+          </View>
+          <Icon name="heart" size={20} stroke={color.iconFaint} />
+        </View>
       </Tap>
     </Animated.View>
   );
@@ -234,6 +310,14 @@ export function ListingCard({
 /* ─────────────────────────────────────────────── mashina kartasi */
 
 export type TruckItem = Listing & {
+  /**
+   * Tur nomi — mashina lentasida SHU nom bilan keladi (`vehicleType`
+   * emas): `/api/trucks/list` lenta qatorini o'zgartirmasdan yoyadi.
+   * Ilgari karta faqat `vehicleType` ni o'qirdi va tur nomi hech
+   * qachon chiqmasdi — sig'imi yo'q e'londa sarlavha «—» edi
+   * (2026-09-21, emulyatorda ko'rindi).
+   */
+  vehicleTypeName?: string | null;
   volumeM3?: number | null;
   isFreeNow?: boolean;
   statusKey?: string | null;
@@ -272,6 +356,7 @@ export function TruckCard({
   const enter = useFadeUp(index != null ? stagger(index) : 0, reduce || index == null);
   const price = money(item.price, item.currency, item.isNegotiable);
   const tg = item.source === "TELEGRAM";
+  const turi = item.vehicleType ?? item.vehicleTypeName ?? null;
 
   return (
     <Animated.View style={enter}>
@@ -301,18 +386,24 @@ export function TruckCard({
       </View>
 
       <View style={s.tRow}>
+        {/* Haqiqiy surat (parkdagi mashinadan) — bo'lsa o'sha. Bo'lmasa
+            (Telegram e'lonlari — ro'yxatning yarmi) ilgari bo'sh kulrang
+            quti va chiziqli ikonka turardi; endi web'dagi brendli rasm */}
         {item.photo && item.vehicleId ? (
           <Image source={vehiclePhoto(item.vehicleId, item.photo)} style={s.tShot} resizeMode="cover" />
         ) : (
-          <View style={[s.tShot, s.tShotEmpty]}>
-            <Icon name="truck" size={26} stroke="#94a3b8" />
+          <View style={[s.tShot, s.tShotType]}>
+            <TruckImage typeKey={item.vehicleTypeKey} style={s.tTypeImg} />
           </View>
         )}
 
         <View style={s.tBody}>
+          {/* SIG'IM BO'LMASA — TUR NOMI (2026-09-21). Telegram e'lonlarining
+              ko'pida tonna yozilmaydi va sarlavha o'rnida yolg'iz katta «—»
+              turardi: rasm yonida bo'sh, buzilgan kartadek ko'rinardi */}
           <View style={s.tCap}>
-            <Text style={s.tCapNum}>
-              {item.weightT != null ? `${item.weightT} t` : "—"}
+            <Text style={s.tCapNum} numberOfLines={1}>
+              {item.weightT != null ? `${item.weightT} t` : turi ?? "—"}
             </Text>
             {item.volumeM3 != null ? (
               <Text style={s.tCapSub}>{` · ${item.volumeM3} m³`}</Text>
@@ -324,7 +415,7 @@ export function TruckCard({
             {item.from} → {item.to}
           </Text>
           <Text style={s.tSub} numberOfLines={1}>
-            {[item.brandModel, item.vehicleType].filter(Boolean).join(" · ")}
+            {[item.brandModel, item.weightT != null ? turi : null].filter(Boolean).join(" · ")}
           </Text>
         </View>
       </View>
@@ -339,7 +430,7 @@ export function TruckCard({
       </View>
 
       <View style={s.cardFoot}>
-        <Text style={price ? s.price : s.noPrice}>{price ?? t("mob.trucks.noPrice")}</Text>
+        {price ? <Text style={s.price}>{price}</Text> : <Text style={s.lNego}>{t("mob.trucks.noPrice")}</Text>}
         {item.createdAt ? <Text style={s.meta}>{ago(item.createdAt)}</Text> : null}
       </View>
           </Tap>
@@ -456,7 +547,11 @@ const s = themed(() => ({
   cardMine: { borderColor: color.info + "59", backgroundColor: color.info + "08" },
 
   tRow: { flexDirection: "row", gap: 12, marginTop: 11 },
-  tShot: { width: 72, height: 72, borderRadius: 12, backgroundColor: color.iconFaint },
+  /* Keng quti: mashina rasmlari 2:1 — 4.5:1 nisbatda, kvadrat ichida
+     (72×72) fura 16 px balandlikda chiqardi */
+  tShot: { width: 118, height: 76, borderRadius: 14, backgroundColor: color.iconFaint },
+  tShotType: { backgroundColor: color.muted, alignItems: "center", justifyContent: "center", paddingHorizontal: 6 },
+  tTypeImg: { width: "100%", height: 58 },
   tShotEmpty: {
     backgroundColor: color.muted,
     borderWidth: 1,
@@ -472,7 +567,45 @@ const s = themed(() => ({
   tRoute: { fontSize: 14, fontWeight: "600", color: color.foreground, marginTop: 4 },
   tSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   noPrice: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
-  pressed: { backgroundColor: "#fafbfc" },
+  /* ⚠️ Token (2026-09-21): ilgari `#fafbfc` edi — qorong'i rejimda
+     bosilgan karta deyarli OQ bo'lib yonib ketardi */
+  pressed: { backgroundColor: color.muted },
+
+  /* ── Yuk kartasi (dizayn-3) ── */
+  lTop: { flexDirection: "row", alignItems: "flex-start", gap: space.md },
+  lSide: { alignItems: "flex-end", gap: 6, maxWidth: "46%", paddingTop: 1 },
+  lPrice: { fontSize: 19, fontWeight: "800", color: color.brand, letterSpacing: -0.4 },
+  lNego: {
+    fontSize: 12.5, fontWeight: "600", color: color.mutedForeground,
+    backgroundColor: color.muted, paddingHorizontal: 9, paddingVertical: 4,
+    borderRadius: radius.control, overflow: "hidden",
+  },
+  lWhen: { flexDirection: "row", alignItems: "center", gap: 5 },
+  lTruck: { width: 108, height: 36 },
+  lFresh: { width: 7, height: 7, borderRadius: 4, backgroundColor: color.success },
+  lCargo: {
+    flexDirection: "row", alignItems: "flex-start", gap: 8,
+    marginTop: space.md, paddingTop: space.md,
+    borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: color.border,
+  },
+  lCargoText: { flex: 1, fontSize: 14, lineHeight: 19, color: color.foreground, marginTop: -1 },
+  lFoot: { flexDirection: "row", alignItems: "center", gap: space.sm, marginTop: space.md },
+  lSpecs: { flex: 1, flexDirection: "row", flexWrap: "wrap", gap: 6 },
+
+  /* Tik yo'nalish: nuqta markazi nom birinchi qatorining o'rtasida */
+  rs: { flex: 1, minWidth: 0 },
+  rsRow: { flexDirection: "row", gap: 10, paddingBottom: 10 },
+  rsRail: { width: 12, alignItems: "center" },
+  rsDotFrom: {
+    width: 11, height: 11, borderRadius: 6, marginTop: 5,
+    borderWidth: 2.5, borderColor: color.brand, backgroundColor: color.card,
+  },
+  rsDotTo: { width: 11, height: 11, borderRadius: 6, backgroundColor: color.brand },
+  rsLine: { flex: 1, width: 2, marginTop: 3, marginBottom: -10, borderRadius: 1, backgroundColor: color.border },
+  rsLineTop: { height: 5, width: 2, backgroundColor: color.border },
+  rsText: { flex: 1, minWidth: 0 },
+  rsCity: { fontSize: 16.5, lineHeight: 21, fontWeight: "800", color: color.foreground, letterSpacing: -0.3 },
+  rsCountry: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   /* `gap` — «havola» belgisi chip bilan yopishib qolmasin; belgi
      chizilmasa gap ham joy egallamaydi */
   cardHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 6 },
@@ -489,7 +622,7 @@ const s = themed(() => ({
   chip: { height: 26, paddingHorizontal: 10, borderRadius: radius.control, alignItems: "center", justifyContent: "center" },
   chipText: { fontSize: 12, fontWeight: "500" },
 
-  cardFoot: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginTop: 13 },
+  cardFoot: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 13 },
   price: { fontSize: 21, fontWeight: "800", color: color.brand, letterSpacing: -0.4 },
   meta: { fontSize: 12, color: color.mutedForeground },
   no: { fontSize: 12, color: color.mutedForeground, fontFamily: "monospace" },

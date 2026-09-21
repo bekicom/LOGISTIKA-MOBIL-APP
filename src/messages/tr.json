@@ -575,7 +575,8 @@
     "ago": {
       "day": "%{n} gün",
       "hour": "%{n} sa",
-      "min": "%{n} dk"
+      "min": "%{n} dk",
+      "now": "az önce"
     },
     "ai": {
       "actDone": "Yapıldı",

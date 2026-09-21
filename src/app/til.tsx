@@ -37,7 +37,11 @@ export default function TilTanlash() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const cardW = (width - space.xl * 2 - GAP * (COLS - 1)) / COLS;
+  /* `Math.floor` (2026-09-21, Android emulyatorida ko'rindi): Pixel 7
+     kengligi 411.43 dp — kasr karta kengligi piksellarga yaxlitlanganda
+     uchta karta qatordan 1 px oshib ketar va uchinchisi pastga tushib,
+     panjara 2 ustunli bo'lib qolardi (o'ngda bo'sh joy bilan). */
+  const cardW = Math.floor((width - space.xl * 2 - GAP * (COLS - 1)) / COLS);
 
   async function choose(code: Locale) {
     if (busy) return;

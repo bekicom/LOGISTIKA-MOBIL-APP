@@ -575,7 +575,8 @@
     "ago": {
       "day": "%{n} d",
       "hour": "%{n} h",
-      "min": "%{n} min"
+      "min": "%{n} min",
+      "now": "just now"
     },
     "ai": {
       "actDone": "Done",

@@ -156,6 +156,10 @@ export default function Xodimlarim() {
       />
 
       <FlatList
+        /* Klaviatura ochiq turganda tugma BIRINCHI bosishda ishlasin (2026-09-21,
+           expo-native-ui: «Keyboard Blindness») — aks holda birinchi bosish
+           faqat klaviaturani yopardi */
+        keyboardShouldPersistTaps="handled"
         data={loading && !data ? [] : staff}
         keyExtractor={(x) => x.id}
         renderItem={({ item: x }) => (

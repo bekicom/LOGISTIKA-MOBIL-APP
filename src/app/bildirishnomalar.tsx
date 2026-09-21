@@ -149,10 +149,16 @@ export default function Bildirishnomalar() {
     reload();
   }
 
-  // Kun bo'yicha guruhlash — ro'yxatga sarlavha qatorlari qo'shiladi
+  // Kun bo'yicha guruhlash — ro'yxatga sarlavha qatorlari qo'shiladi.
+  /* ⚠️ AVVAL SANA BO'YICHA (2026-09-21). Server MUHIMLIK bo'yicha
+     tartiblaydi (`priority`, keyin sana) — web ro'yxati uchun. Shu
+     tartibda kunlarga bo'linganda sarlavhalar aralashardi: «10-sen,
+     9-sen, … 4-sen», keyin yana «19-sen» — eng yangi xabarlar pastda
+     qolardi. Muhimligi kartaning o'zida ko'rinadi. */
+  const tartibli = [...(data?.items ?? [])].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   const rows: ({ kind: "day"; label: string } | ({ kind: "note" } & Note))[] = [];
   let last = "";
-  for (const n of data?.items ?? []) {
+  for (const n of tartibli) {
     const d = day(n.createdAt);
     if (d !== last) {
       rows.push({ kind: "day", label: d });

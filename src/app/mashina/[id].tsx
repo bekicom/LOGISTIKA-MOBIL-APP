@@ -487,7 +487,7 @@ const s = themed(() => ({
     borderTopWidth: 1,
     borderTopColor: color.border,
   },
-  price: { fontSize: 22, fontWeight: "800", color: color.brand, letterSpacing: -0.4 },
+  price: { fontSize: 22, fontWeight: "800", color: color.brand, letterSpacing: -0.4, fontVariant: ["tabular-nums"] },
   noPrice: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
   meta: { fontSize: 12, color: color.mutedForeground },
 

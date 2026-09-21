@@ -693,7 +693,7 @@ const s = themed(() => ({
   typeAltText: { fontSize: 13, fontWeight: "500", color: color.icon },
   hint: { fontSize: 12, color: color.mutedForeground, marginTop: 8 },
 
-  price: { fontSize: 24, fontWeight: "800", color: color.brand, letterSpacing: -0.5, marginTop: 1 },
+  price: { fontSize: 24, fontWeight: "800", color: color.brand, letterSpacing: -0.5, marginTop: 1, fontVariant: ["tabular-nums"] },
   desc: { fontSize: 14, color: color.icon, lineHeight: 22 },
 
   ownerRow: { flexDirection: "row", alignItems: "center", gap: 12 },

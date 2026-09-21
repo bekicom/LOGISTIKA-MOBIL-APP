@@ -191,8 +191,8 @@ const s = themed(() => ({
      qo'shnilaridan pastda turardi. Endi hammasi bir chiziqdan boshlanadi. */
   fxCell: { flex: 1, alignSelf: "flex-start" },
   fxCode: { fontSize: 10.5, fontWeight: "800", color: color.mutedForeground, letterSpacing: 0.4 },
-  fxVal: { fontSize: 14.5, fontWeight: "800", color: color.foreground, marginTop: 1 },
-  fxDiff: { fontSize: 10.5, fontWeight: "700", marginTop: 1 },
+  fxVal: { fontSize: 14.5, fontWeight: "800", color: color.foreground, marginTop: 1, fontVariant: ["tabular-nums"] },
+  fxDiff: { fontSize: 10.5, fontWeight: "700", marginTop: 1, fontVariant: ["tabular-nums"] },
   fxCalc: {
     width: 34,
     height: 34,

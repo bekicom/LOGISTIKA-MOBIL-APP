@@ -543,9 +543,6 @@ export default function MapScreen() {
         </View>
       ) : null}
 
-      {data && data.borders.missing > 0 && borderOn ? (
-        <Text style={s.missing}>{t("mob.map.borderMissing", { n: data.borders.missing })}</Text>
-      ) : null}
     </View>
   );
 }
@@ -873,14 +870,5 @@ const s = themed(() => ({
     backgroundColor: color.dangerSoft,
     fontSize: 12,
     color: color.dangerText,
-  },
-  missing: {
-    position: "absolute",
-    left: space.md,
-    right: space.md,
-    top: 4,
-    fontSize: 10.5,
-    color: color.warningText,
-    textAlign: "center",
   },
 }));

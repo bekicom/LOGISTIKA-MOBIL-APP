@@ -23,7 +23,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Segment } from "@/components/Segment";
 import { HeaderIcons } from "@/components/TabHeader";
-import { ListingCard, type Listing } from "@/components/cards";
+import { ListingCard, fmtNum, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi, YonalishAlmashtir } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
@@ -162,7 +162,8 @@ export default function Yuklar() {
           {data && chips.length === 0 ? (
             <Text style={s.count}>
               {sonOldin}
-              <Text style={{ fontWeight: "700", color: color.foreground }}>{data.total}</Text>
+              {/* «20071» emas «20 071» — katta son bir qarashda o'qilsin (2026-09-21) */}
+              <Text style={{ fontWeight: "700", color: color.foreground }}>{fmtNum(data.total)}</Text>
               {sonKeyin}
             </Text>
           ) : null}

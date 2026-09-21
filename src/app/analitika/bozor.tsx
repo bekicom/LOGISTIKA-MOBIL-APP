@@ -170,32 +170,30 @@ export default function Bozor() {
                         </View>
                         <Text style={s.routeName}>{r.route}</Text>
 
+                        {/* NISBAT — ikki gorizontal chiziq (2026-09-21). Ilgari ikki
+                            ustun edi: yuk ustuni har doim to'la qizil «plita», transport
+                            ustuni esa 3 px — ko'z nisbatni emas, qizil to'rtburchakni
+                            ko'rardi. Endi uzunlik sonni o'qiydi: «93 yuk / 3 transport» */}
                         <View style={s.bars}>
-                          <View style={s.barCol}>
-                            <View style={s.barBox}>
-                              <View
-                                style={[
-                                  s.barFill,
-                                  {
-                                    height: `${(r.loads / top) * 100}%`,
-                                    backgroundColor: tone,
-                                  },
-                                ]}
-                              />
+                          {[
+                            { n: r.loads, yozuv: t("mob.an.loadsN", { n: r.loads }), rang: tone },
+                            { n: r.trucks, yozuv: t("mob.an.trucksN", { n: r.trucks }), rang: color.iconFaint },
+                          ].map((ch) => (
+                            <View key={ch.yozuv} style={s.barRow}>
+                              <View style={s.barTrack}>
+                                <View
+                                  style={[
+                                    s.barFill,
+                                    {
+                                      width: ch.n > 0 ? `${Math.max(3, (ch.n / top) * 100)}%` : 0,
+                                      backgroundColor: ch.rang,
+                                    },
+                                  ]}
+                                />
+                              </View>
+                              <Text style={s.barKey}>{ch.yozuv}</Text>
                             </View>
-                            <Text style={s.barKey}>{t("mob.an.loadsN", { n: r.loads })}</Text>
-                          </View>
-                          <View style={s.barCol}>
-                            <View style={s.barBox}>
-                              <View
-                                style={[
-                                  s.barFill,
-                                  { height: `${(r.trucks / top) * 100}%`, backgroundColor: color.iconFaint },
-                                ]}
-                              />
-                            </View>
-                            <Text style={s.barKey}>{t("mob.an.trucksN", { n: r.trucks })}</Text>
-                          </View>
+                          ))}
                         </View>
                       </View>
                     );
@@ -279,9 +277,9 @@ const s = themed(() => ({
   tagText: { fontSize: 10.5, fontWeight: "700" },
   routeName: { fontSize: 15, fontWeight: "600", color: color.foreground, marginTop: 9 },
 
-  bars: { flexDirection: "row", gap: 3, marginTop: 9 },
-  barCol: { flex: 1 },
-  barBox: { height: 26, justifyContent: "flex-end" },
-  barFill: { borderRadius: 3, minHeight: 3 },
-  barKey: { fontSize: 11, color: color.mutedForeground, marginTop: 4 },
+  bars: { gap: 7, marginTop: 11 },
+  barRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  barTrack: { flex: 1, height: 8, borderRadius: 4, backgroundColor: color.muted, overflow: "hidden" },
+  barFill: { height: "100%", borderRadius: 4 },
+  barKey: { minWidth: 86, fontSize: 11.5, color: color.mutedForeground, textAlign: "right", fontVariant: ["tabular-nums"] },
 }));

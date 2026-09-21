@@ -23,7 +23,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
-import { TruckCard, type TruckItem } from "@/components/cards";
+import { TruckCard, fmtNum, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi, YonalishAlmashtir } from "@/components/FiltrSheet";
 import { SaveSearch } from "@/components/SaveSearch";
@@ -132,7 +132,7 @@ export default function Mashinalar() {
           ) : null}
           {data && chips.length === 0 && !ss.xom ? (
             <Text style={s.count}>
-              <Text style={s.countNum}>{data.total}</Text> {t("mob.trucks.count")}
+              <Text style={s.countNum}>{fmtNum(data.total)}</Text> {t("mob.trucks.count")}
             </Text>
           ) : null}
         </View>

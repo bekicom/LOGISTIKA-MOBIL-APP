@@ -27,7 +27,7 @@ import { TariffNotice } from "@/components/TariffNotice";
 import { api, FuramError } from "@/lib/api";
 import { tariffBlocked } from "@/lib/features";
 import { useApi } from "@/lib/use-api";
-import { budgetCategoryLabel, t } from "@/lib/i18n";
+import { budgetCategoryLabel, currentLocale, t } from "@/lib/i18n";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 
 const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
@@ -118,7 +118,8 @@ export default function Budjet() {
 
   return (
     <View style={s.root}>
-      <Header title={t("mob.budget.title")} subtitle={data?.period} />
+      {/* «2026-09» emas — «Sentabr 2026» (2026-09-21) */}
+      <Header title={t("mob.budget.title")} subtitle={data?.period ? oyYil(data.period) : undefined} />
 
       <ScrollView
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
@@ -191,7 +192,8 @@ export default function Budjet() {
           })}
         </View>
 
-        <Text style={s.hint}>{t("mob.budget.delHint")}</Text>
+        {/* «O'chirish uchun bosib turing» — faqat o'chiradigan qator bo'lsa */}
+        {rows.length > 0 ? <Text style={s.hint}>{t("mob.budget.delHint")}</Text> : null}
 
         <Button
           title={t("mob.budget.add")}
@@ -313,3 +315,11 @@ const s = themed(() => ({
   chipOn: { backgroundColor: color.brand },
   chipText: { fontSize: 12.5, fontWeight: "700", color: color.mutedForeground },
 }));
+
+/** «2026-09» → «Sentabr 2026» — foydalanuvchi tilida */
+function oyYil(period: string): string {
+  const d = new Date(`${period}-01T00:00:00`);
+  if (Number.isNaN(d.getTime())) return period;
+  const s = d.toLocaleDateString(currentLocale(), { month: "long", year: "numeric" });
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}

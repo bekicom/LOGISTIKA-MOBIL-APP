@@ -102,7 +102,15 @@ export default function Reyslar() {
           ) : error ? (
             <ErrorBox message={error} onRetry={reload} />
           ) : (
-            <Empty icon="route" title={empty()[tab].title} text={empty()[tab].text} />
+            <Empty
+              icon="route"
+              title={empty()[tab].title}
+              text={empty()[tab].text}
+              /* Bo'sh ro'yxat — keyingi qadam (2026-09-21): reys yukdan boshlanadi */
+              {...(tab === "active"
+                ? { actionLabel: t("mob.home.findLoad"), onAction: () => router.push("/yuklar") }
+                : {})}
+            />
           )
         }
       />

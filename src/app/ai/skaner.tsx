@@ -175,7 +175,11 @@ export default function Skaner() {
         }
       />
 
-      <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 40 }]}>
+      <ScrollView
+        contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 40 }]}
+        /* Klaviatura ochiq turganda «Saqlash» birinchi bosishda ishlasin */
+        keyboardShouldPersistTaps="handled"
+      >
         <TariffNotice feature="ai" />
         {!scan ? (
           <>

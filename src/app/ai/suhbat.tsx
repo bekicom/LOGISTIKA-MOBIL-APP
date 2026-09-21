@@ -439,6 +439,10 @@ export default function Suhbat() {
       </View>
 
       <FlatList
+        /* Klaviatura ochiq turganda tugma BIRINCHI bosishda ishlasin (2026-09-21,
+           expo-native-ui: «Keyboard Blindness») — aks holda birinchi bosish
+           faqat klaviaturani yopardi */
+        keyboardShouldPersistTaps="handled"
         ref={listRef}
         data={msgs}
         keyExtractor={(m) => m.id}

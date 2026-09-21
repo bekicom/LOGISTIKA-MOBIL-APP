@@ -111,7 +111,16 @@ export default function YangiNavbat() {
         ) : null}
 
         {cars.data && cars.data.items.length === 0 ? (
-          <Notice tone="warning">{t("mob.queueNew.noVehicles")}</Notice>
+          <>
+            <Notice tone="warning">{t("mob.queueNew.noVehicles")}</Notice>
+            {/* Keyingi qadam shu yerda (2026-09-21): ilgari odam «avval mashina
+                qo'shing» ni o'qib, qayerdan qo'shishni o'zi qidirardi */}
+            <Button
+              title={t("mob.park.addVehicle")}
+              variant="secondary"
+              onPress={() => router.push("/parkim/qoshish")}
+            />
+          </>
         ) : null}
 
         {cars.data && cars.data.items.length > 0 ? (

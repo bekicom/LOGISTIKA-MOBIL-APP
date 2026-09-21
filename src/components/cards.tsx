@@ -437,6 +437,12 @@ export function TruckCard({
   const price = money(item.price, item.currency, item.isNegotiable);
   const tg = item.source === "TELEGRAM";
   const turi = item.vehicleType ?? item.vehicleTypeName ?? null;
+  /* SARLAVHA: sig'im, bo'lmasa tur — lekin «Boshqa» EMAS (2026-09-21).
+     Telegram mashinalarining ko'pida na tonna, na tur yozilgan va
+     lentada ketma-ket katta «Boshqa» turardi — hech narsa demasdi.
+     Unda sarlavha yo'q, yo'nalishning o'zi kattaroq yoziladi. */
+  const sarlavha =
+    item.weightT != null ? `${item.weightT} t` : turi && item.vehicleTypeKey !== "boshqa" ? turi : null;
 
   return (
     <Animated.View style={enter}>
@@ -482,17 +488,19 @@ export function TruckCard({
           {/* SIG'IM BO'LMASA — TUR NOMI (2026-09-21). Telegram e'lonlarining
               ko'pida tonna yozilmaydi va sarlavha o'rnida yolg'iz katta «—»
               turardi: rasm yonida bo'sh, buzilgan kartadek ko'rinardi */}
-          <View style={s.tCap}>
-            <Text style={s.tCapNum} numberOfLines={1}>
-              {item.weightT != null ? `${item.weightT} t` : turi ?? "—"}
-            </Text>
-            {item.volumeM3 != null ? (
-              <Text style={s.tCapSub}>{` · ${item.volumeM3} m³`}</Text>
-            ) : null}
-          </View>
+          {sarlavha ? (
+            <View style={s.tCap}>
+              <Text style={s.tCapNum} numberOfLines={1}>
+                {sarlavha}
+              </Text>
+              {item.volumeM3 != null ? (
+                <Text style={s.tCapSub}>{` · ${item.volumeM3} m³`}</Text>
+              ) : null}
+            </View>
+          ) : null}
           {/* IKKI QATORGACHA (2026-09-20, 320 px): «Toshkent (poytaxt)
               → Samarqand» tor ekranda bitta qatorga sig'masdi */}
-          <Text style={s.tRoute} numberOfLines={2}>
+          <Text style={[s.tRoute, !sarlavha && s.tRouteBosh]} numberOfLines={2}>
             {item.from} → {item.to}
           </Text>
           <Text style={s.tSub} numberOfLines={1}>
@@ -643,9 +651,11 @@ const s = themed(() => ({
   },
   tBody: { flex: 1, minWidth: 0 },
   tCap: { flexDirection: "row", alignItems: "baseline" },
-  tCapNum: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.5 },
+  tCapNum: { fontSize: 24, fontWeight: "700", color: color.foreground, letterSpacing: -0.5, fontVariant: ["tabular-nums"] },
   tCapSub: { fontSize: 13, color: color.mutedForeground },
   tRoute: { fontSize: 14, fontWeight: "600", color: color.foreground, marginTop: 4 },
+  /* Sarlavha bo'lmaganda yo'nalish o'zi bosh qator */
+  tRouteBosh: { fontSize: 17, lineHeight: 22, fontWeight: "700", marginTop: 0 },
   tSub: { fontSize: 12, color: color.mutedForeground, marginTop: 1 },
   noPrice: { fontSize: font.body, fontWeight: "600", color: color.mutedForeground },
   /* ⚠️ Token (2026-09-21): ilgari `#fafbfc` edi — qorong'i rejimda
@@ -655,7 +665,8 @@ const s = themed(() => ({
   /* ── Yuk kartasi (dizayn-3) ── */
   lTop: { flexDirection: "row", alignItems: "flex-start", gap: space.md },
   lSide: { alignItems: "flex-end", gap: 6, maxWidth: "46%", paddingTop: 1 },
-  lPrice: { fontSize: 19, fontWeight: "800", color: color.brand, letterSpacing: -0.4 },
+  /* Raqamlar teng enli — lentada narxlar ustma-ust tekis turadi (expo-native-ui) */
+  lPrice: { fontSize: 19, fontWeight: "800", color: color.brand, letterSpacing: -0.4, fontVariant: ["tabular-nums"] },
   lNego: {
     fontSize: 12.5, fontWeight: "600", color: color.mutedForeground,
     backgroundColor: color.muted, paddingHorizontal: 9, paddingVertical: 4,

@@ -103,7 +103,14 @@ export default function Saqlanganlar() {
         ) : error ? (
           <ErrorBox message={error} onRetry={reload} />
         ) : !items.length ? (
-          <Empty icon="bookmark" title={t("mob.saved.empty")} text={t("mob.saved.emptyText")} />
+          <Empty
+            icon="bookmark"
+            title={t("mob.saved.empty")}
+            text={t("mob.saved.emptyText")}
+            /* Saqlash lentada bo'ladi — o'sha yerga bir bosishda (2026-09-21) */
+            actionLabel={tab === "loads" ? t("mob.home.findLoad") : t("mob.trucks.title")}
+            onAction={() => router.push(tab === "loads" ? "/yuklar" : "/mashinalar")}
+          />
         ) : (
           <>
             {err ? <ErrorBox message={err} /> : null}

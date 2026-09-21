@@ -114,6 +114,9 @@ export default function Elonlarim() {
             icon={tab === "loads" ? "package" : "truck"}
             title={t("mob.mine.empty")}
             text={t("mob.mine.emptyText")}
+            /* Keyingi qadam shu yerning o'zida (2026-09-21) */
+            actionLabel={tab === "loads" ? t("mob.loads.post") : t("mob.post.truck")}
+            onAction={() => router.push(tab === "loads" ? "/yuk-joylash" : "/mashina-joylash")}
           />
         ) : (
           <>
@@ -127,7 +130,8 @@ export default function Elonlarim() {
                   <Text style={s.meta}>
                     {ago(it.createdAt)}
                     {it.status === "ACTIVE" && it.daysLeft != null
-                      ? ` · ${t("mob.mine.daysLeft", { n: Math.max(0, it.daysLeft) })}`
+                      ? /* «0 kun qoldi» o'rniga «Bugun tugaydi» (2026-09-21) */
+                        ` · ${it.daysLeft <= 0 ? t("mob.mine.endsToday") : t("mob.mine.daysLeft", { n: it.daysLeft })}`
                       : ""}
                   </Text>
                 </View>

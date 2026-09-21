@@ -165,11 +165,24 @@ export default function Bozor() {
             </Text>
           }
           ListEmptyComponent={
-            <Empty
-              icon="truck"
-              title={t("mob.market.emptyTitle")}
-              text={t("mob.market.emptyHint")}
-            />
+            /* Filtr qo'yilmagan bo'lsa «filtrni kengaytiring» deyish noto'g'ri —
+               bozorda shunchaki e'lon yo'q. Unda keyingi qadam: o'zi sotish
+               (2026-09-21) */
+            !cat && !Object.values(flags).some(Boolean) ? (
+              <Empty
+                icon="truck"
+                title={t("mob.market.emptyTitle")}
+                text={t("mob.market.emptyAllHint")}
+                actionLabel={t("mob.market.sell")}
+                onAction={() => router.push("/bozor-joylash")}
+              />
+            ) : (
+              <Empty
+                icon="truck"
+                title={t("mob.market.emptyTitle")}
+                text={t("mob.market.emptyHint")}
+              />
+            )
           }
           renderItem={({ item }) => (
             <SaleCard item={item} onPress={() => router.push(`/bozor/${item.id}`)} />

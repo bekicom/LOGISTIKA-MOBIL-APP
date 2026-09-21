@@ -28,6 +28,7 @@
  */
 import { Alert, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
+import { xabarcha } from "@/components/Xabarcha";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
@@ -88,7 +89,9 @@ function OwnProfil() {
   async function copyId() {
     if (!user) return;
     await Clipboard.setStringAsync(String(user.furamId));
-    Alert.alert(t("mob.profile.copied"), `FURAM ID: ${user.furamId}`);
+    /* Qisqa xabar, oyna emas (2026-09-21): nusxa olish muvaffaqiyati
+       uchun «OK» bosishni talab qilish — ortiqcha to'xtash */
+    xabarcha({ matn: `${t("mob.profile.copied")} · FURAM ID ${user.furamId}` });
   }
 
   function confirmLeave() {

@@ -79,6 +79,10 @@ export default function Hisobot() {
       ) : null}
 
       <ScrollView
+        /* Klaviatura ochiq turganda tugma BIRINCHI bosishda ishlasin (2026-09-21,
+           expo-native-ui: «Keyboard Blindness») — aks holda birinchi bosish
+           faqat klaviaturani yopardi */
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={[s.body, { paddingBottom: insets.bottom + space.xl }]}
         refreshControl={
           <RefreshControl

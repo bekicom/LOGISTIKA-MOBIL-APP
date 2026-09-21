@@ -24,6 +24,7 @@ import { Pressable, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { Icon } from "@/components/Icon";
 import { color, font, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -126,6 +127,9 @@ export default function Kalkulyator() {
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
+      {/* To'q ekran — soat va batareya oq bo'lsin (2026-09-21: to'q ko'k
+          ustida to'q belgilar ko'rinmasdi). Ekran yopilganda ildizdagisi qaytadi */}
+      <StatusBar style="light" />
       <View style={s.head}>
         <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
           <Icon name="back" size={22} stroke="#ffffff" />

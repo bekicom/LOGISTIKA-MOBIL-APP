@@ -173,7 +173,8 @@ export default function RezyumeHujjat() {
 
         {data?.mine ? (
           <>
-            <Text style={s.hint}>{t("mob.rdoc.delHint")}</Text>
+            {/* «O'chirish uchun bosib turing» — faqat o'chiradigan narsa bo'lsa */}
+            {(data?.items ?? []).length > 0 ? <Text style={s.hint}>{t("mob.rdoc.delHint")}</Text> : null}
             <Button
               title={t("mob.rdoc.add")}
               variant="secondary"

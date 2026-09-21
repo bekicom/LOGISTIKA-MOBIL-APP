@@ -13,6 +13,7 @@
 import { useState } from "react";
 import { Alert, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
+import { xabarcha } from "@/components/Xabarcha";
 import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
@@ -129,7 +130,8 @@ export default function Qurilmalar() {
             try {
               const r = await api<{ removed: number }>("/api/sessions", { method: "DELETE" });
               reload();
-              Alert.alert(t("mob.devices.done"), t("mob.devices.cutAllDone", { n: r.removed }));
+              /* Natija ro'yxatning o'zida ko'rinadi — qisqa xabar yetarli */
+              xabarcha({ matn: t("mob.devices.cutAllDone", { n: r.removed }) });
             } catch (e) {
               Alert.alert(t("mob.devices.failed"), (e as FuramError).message ?? t("mob.common.tryAgain"));
             } finally {

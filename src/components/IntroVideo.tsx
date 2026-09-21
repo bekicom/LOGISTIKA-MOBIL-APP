@@ -9,8 +9,12 @@
  *
  * Avval splash qoidasi saqlangan edi: birinchi marta to'liq, keyin
  * faqat oxiri (~2 s). Bekzod: «nega juda tez o'tib ketdi? video 5 s-ku,
- * to'liq ko'rinsin». Endi har ochilishda to'liq (5.7 s); odam
- * xohlasa ekranga bosib o'tkazib yuboradi.
+ * to'liq ko'rinsin». Endi har ochilishda to'liq; odam xohlasa ekranga
+ * bosib o'tkazib yuboradi.
+ *
+ * ⚠️ DAVOMIYLIK KODDA YOZILMAGAN — `player.duration` dan olinadi
+ * (2026-09-21 da video almashtirildi: 5.7 s → 6.3 s, yangi brend
+ * rolig`i. Fayl `assets/intro.mp4`, ovozsiz, 355 KB).
  *
  * ── OVOZSIZ ─────────────────────────────────────────────────────
  *

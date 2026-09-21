@@ -776,8 +776,12 @@ const s = themed(() => ({
      bo'lishi kerak — `color.foreground`/`color.icon` qorong'i
      rejimda oqarib, belgilar ko'rinmay qolardi. */
   mapBadgeText: { fontSize: 12, fontWeight: "600", color: color.navy },
+  /* PASTKI CHAPDA (2026-09-21, do'kon skrinshotida ko'rindi). Ilgari
+     o'ngda edi va xarita sahifasining zoom tugmasini (`embed/lib.ts`:
+     `control.zoom({ position: "bottomright" })`) yopib, «−» ni
+     bosib bo'lmasdi. Chap pastda xaritaning o'z belgilari yo'q. */
   mapPlace: {
-    position: "absolute", right: space.lg, bottom: 14, height: 28, paddingHorizontal: 11,
+    position: "absolute", left: space.lg, bottom: 14, height: 28, paddingHorizontal: 11,
     borderRadius: radius.control, backgroundColor: "rgba(255,255,255,0.94)", justifyContent: "center",
   },
   mapPlaceText: { fontSize: 12, fontWeight: "500", color: "#475569" },

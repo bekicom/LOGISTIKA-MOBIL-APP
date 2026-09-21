@@ -17,7 +17,7 @@
  * bosilganda hech qayerga olib bormaydigan tugma — Apple 2.1 rad sababi.
  */
 import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, View, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
@@ -26,8 +26,32 @@ import { webToApp } from "@/lib/routes";
 import { color, radius, shadow, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
+/**
+ * Katak yozuvi — TOR EKRANDA kichrayadi (2026-09-21, do'kon
+ * skrinshotida topildi).
+ *
+ * «Transportlarim» 10.5 px da 75.5 px — 360 px li telefonda (eng
+ * keng tarqalgan Android kengligi) katakda esa 73.5 px joy bor edi va
+ * so'z O'RTASIDAN bo'linardi: «Transportlari / m». `adjustsFontSizeToFit`
+ * bu yerda yordam bermaydi — bitta uzun so'z harfma-harf bo'linganda
+ * matn ikki qatorga «sig'di» hisoblanadi va kichraymaydi.
+ *
+ * Shuning uchun dizayn 375 px da tekshirildi (u yerda hamma 8 tilning
+ * eng uzun so'zi sig'adi, eng kami 5 px zaxira bilan) va undan tor
+ * ekranda yozuv katak kengligiga PROPORSIONAL kichrayadi — zaxira
+ * nisbati o'zgarmaydi. 50 = sahifa chekkalari (2 × 16) + 3 oraliq (3 × 6).
+ */
+const ASOS = 375;
+function yozuvOlchami(kenglik: number) {
+  if (kenglik >= ASOS) return null;
+  const k = (kenglik - 50) / (ASOS - 50);
+  return { fontSize: 10.5 * k, lineHeight: 13 * k };
+}
+
 export function AsosiyTugmalar() {
   const router = useRouter();
+  const { width } = useWindowDimensions();
+  const kichik = yozuvOlchami(width);
   /* To'r: 4 ustun (webdagi telefon to'ri — 4 + 3). Qatorlar alohida,
      oxirgisi bo'sh kataklar bilan to'ldiriladi — kenglik foizda emas,
      aniq teng bo'lib chiqadi */
@@ -60,7 +84,7 @@ export function AsosiyTugmalar() {
                     </View>
                   ) : null}
                 </View>
-                <Text style={s.tileText} numberOfLines={2}>
+                <Text style={[s.tileText, kichik]} numberOfLines={2}>
                   {nomi}
                 </Text>
               </Pressable>
@@ -128,7 +152,8 @@ const s = themed(() => ({
     gap: 6,
     paddingTop: 10,
     paddingBottom: 9,
-    paddingHorizontal: 2,
+    /* 0 — yozuv katakning butun kengligini oladi (375 px da 81 px) */
+    paddingHorizontal: 0,
     borderRadius: radius.card,
     backgroundColor: color.card,
     ...shadow.card,

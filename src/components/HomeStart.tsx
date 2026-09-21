@@ -64,15 +64,18 @@ export function FxStrip() {
       accessibilityRole="button"
     >
       {shown.map((c) => {
-        const d = data?.diff?.[c] ?? 0;
+        /* YAXLITLAB, KEYIN tekshiriladi (2026-09-21). Ilgari tekshiruv
+           xom qiymatda edi: −0.12 «nol emas» deb o'tardi, ko'rsatishda
+           esa yaxlitlanib qizil «−0» chiqardi (tenge kursida har kuni). */
+        const d = Math.round(data?.diff?.[c] ?? 0);
         return (
           <View key={c} style={s.fxCell}>
             <Text style={s.fxCode}>{c}</Text>
             <Text style={s.fxVal}>{new Intl.NumberFormat("ru-RU").format(rates[c])}</Text>
             {d !== 0 ? (
-              <Text style={[s.fxDiff, { color: d > 0 ? color.success : color.danger }]}>
+              <Text style={[s.fxDiff, { color: d > 0 ? color.successText : color.dangerText }]}>
                 {d > 0 ? "+" : ""}
-                {new Intl.NumberFormat("ru-RU").format(Math.round(d))}
+                {new Intl.NumberFormat("ru-RU").format(d)}
               </Text>
             ) : null}
           </View>
@@ -183,7 +186,10 @@ const s = themed(() => ({
     marginTop: space.md,
     ...shadow.card,
   },
-  fxCell: { flex: 1 },
+  /* `alignSelf: "flex-start"` — o'zgarishi yo'q valyuta (masalan
+     bugun tenge qimirlamagan) qator o'rtasiga tushib, kod va kurs
+     qo'shnilaridan pastda turardi. Endi hammasi bir chiziqdan boshlanadi. */
+  fxCell: { flex: 1, alignSelf: "flex-start" },
   fxCode: { fontSize: 10.5, fontWeight: "800", color: color.mutedForeground, letterSpacing: 0.4 },
   fxVal: { fontSize: 14.5, fontWeight: "800", color: color.foreground, marginTop: 1 },
   fxDiff: { fontSize: 10.5, fontWeight: "700", marginTop: 1 },

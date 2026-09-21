@@ -3032,14 +3032,17 @@
     },
     "saved": {
       "empty": "尚无收藏",
-      "emptyText": "点击信息上的心形图标，即可收藏到这里。",
+      "emptyText": "点击信息上的书签图标，即可收藏到这里。",
       "remove": "移除",
+      "removed": "已从收藏中移除",
       "savedOn": "%{d} 收藏",
+      "see": "查看",
       "st_active": "进行中",
       "st_closed": "信息已关闭",
       "st_expired": "信息已过期",
       "st_taken": "该信息已被接单",
-      "title": "已收藏"
+      "title": "已收藏",
+      "unsave": "从收藏中移除"
     },
     "scanIssue": {
       "EXPIRED": "已于 %{n} 天前过期",

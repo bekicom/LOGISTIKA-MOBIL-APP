@@ -66,7 +66,7 @@ function look(type: string): { icon: IconName; tint: string } {
      ogohlantiradi, shuning uchun qizil. */
   if (type.startsWith("tech")) return { icon: "wrench", tint: color.danger };
   if (type.startsWith("expense")) return { icon: "wallet", tint: color.warning };
-  if (type.startsWith("saved")) return { icon: "heart", tint: color.brand };
+  if (type.startsWith("saved")) return { icon: "bookmark", tint: color.brand };
   if (type.includes("pay") || type.includes("balance")) return { icon: "check", tint: color.success };
   if (type.startsWith("border") || type.startsWith("queue")) return { icon: "border", tint: color.warning };
   if (type.includes("load") || type.includes("match")) return { icon: "package", tint: color.mutedForeground };

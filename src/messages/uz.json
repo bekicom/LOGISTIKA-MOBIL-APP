@@ -3032,14 +3032,17 @@
     },
     "saved": {
       "empty": "Saqlangan e'lon yo'q",
-      "emptyText": "E'londagi yurakchani bossangiz, u shu yerga tushadi.",
+      "emptyText": "E'londagi saqlash belgisini bossangiz, u shu yerga tushadi.",
       "remove": "O'chirish",
+      "removed": "Saqlanganlardan olib tashlandi",
       "savedOn": "%{d} da saqlangan",
+      "see": "Ko'rish",
       "st_active": "Faol",
       "st_closed": "E'lon yopilgan",
       "st_expired": "E'lon muddati tugagan",
       "st_taken": "Bu e'lon allaqachon olingan",
-      "title": "Saqlanganlar"
+      "title": "Saqlanganlar",
+      "unsave": "Saqlanganlardan olib tashlash"
     },
     "scanIssue": {
       "EXPIRED": "Muddati %{n} kun oldin tugagan",

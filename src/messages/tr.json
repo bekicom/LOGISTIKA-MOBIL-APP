@@ -3032,14 +3032,17 @@
     },
     "saved": {
       "empty": "Kaydedilmiş ilan yok",
-      "emptyText": "İlandaki kalbe dokunun, buraya düşer.",
+      "emptyText": "İlandaki yer imi simgesine dokunun, buraya düşer.",
       "remove": "Kaldır",
+      "removed": "Kaydedilenlerden kaldırıldı",
       "savedOn": "%{d} tarihinde kaydedildi",
+      "see": "Görüntüle",
       "st_active": "Aktif",
       "st_closed": "İlan kapatıldı",
       "st_expired": "İlanın süresi doldu",
       "st_taken": "Bu ilan çoktan alındı",
-      "title": "Kaydedilenler"
+      "title": "Kaydedilenler",
+      "unsave": "Kaydedilenlerden kaldır"
     },
     "scanIssue": {
       "EXPIRED": "Süresi %{n} gün önce doldu",

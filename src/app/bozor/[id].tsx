@@ -230,7 +230,7 @@ export default function EelonTafsilot() {
               hitSlop={8}
             >
               <Icon
-                name="heart"
+                name="bookmark"
                 size={18}
                 stroke={isSaved ? color.brand : "#fff"}
                 fill={isSaved ? color.brand : undefined}

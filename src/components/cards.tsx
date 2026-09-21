@@ -1,5 +1,6 @@
 /** E'lon va reys kartochkalari — bosh sahifa, yuklar va reyslarda ishlatiladi. */
-import { Animated, Image, StyleSheet, View } from "react-native";
+import { useState } from "react";
+import { Animated, Image, Pressable, StyleSheet, View } from "react-native";
 import { Tap } from "@/components/Tap";
 import { stagger, useFadeUp, useReduceMotion } from "@/lib/motion";
 import { Text } from "@/components/Text";
@@ -8,6 +9,8 @@ import { TruckImage } from "./TruckImage";
 import { vehiclePhoto } from "@/lib/img";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
+import { saqlashniAlmashtir, useSaqlangan, type SaqlashTuri } from "@/lib/saqlangan";
+import { guestBlocked } from "@/lib/guest-gate";
 
 /* ─────────────────────────────────────────────── umumiy bo'laklar */
 
@@ -123,6 +126,10 @@ export type Listing = {
    */
   source?: string | null;
   hasPhone?: boolean;
+  /** Necha marta ko'rilgan — kartada 👁 (2026-09-21, web kartochkasida ham bor) */
+  views?: number | null;
+  /** Shu odam saqlaganmi — 🔖 to'la chiziladi (`/api/loads/list`) */
+  saved?: boolean;
 };
 
 /**
@@ -318,10 +325,65 @@ export function ListingCard({
             {item.isReadyNow ? <Chip text={t("mob.loads.readyNow")} tone="success" /> : null}
             <LinkOnly item={item} />
           </View>
-          <Icon name="heart" size={20} stroke={color.iconFaint} />
+          <Korishlar n={item.views} />
+          <SaqlashBelgi tur="load" id={item.id} boshida={item.saved} />
         </View>
       </Tap>
     </Animated.View>
+  );
+}
+
+/* ─────────────────────────────────────────────── 🔖 va 👁 */
+
+/**
+ * 🔖 — e'lonni saqlash (2026-09-21). Ilgari o'rnida BEZAK yurak turardi:
+ * bosilsa karta ochilardi, hech narsa saqlanmasdi. Endi o'zi alohida
+ * tugma — karta ochilmaydi, belgi brend rangida to'ladi va tepada
+ * «Saqlandi · Ko'rish» chiqadi (`lib/saqlangan.ts`).
+ *
+ * YURAK EMAS, SAQLASH BELGISI — Bekzod: «yurakcha emas, saqlashning
+ * o'z ikonkasi bor, shuni qo'y — userlar adashmaydi». Yurak «yoqdi»
+ * deb o'qiladi. Shakl va rang web'dagi `SaveButton` bilan bir xil.
+ */
+function SaqlashBelgi({ tur, id, boshida }: { tur: SaqlashTuri; id: string; boshida?: boolean }) {
+  const on = useSaqlangan(tur, id, boshida);
+  const reduce = useReduceMotion();
+  const [k] = useState(() => new Animated.Value(1));
+
+  const bos = () => {
+    if (guestBlocked()) return;
+    /* Saqlanganda bir «sakraydi» — bosilgani barmoq ostida ham sezilsin */
+    if (!on && !reduce) {
+      k.setValue(0.6);
+      Animated.spring(k, { toValue: 1, useNativeDriver: true, damping: 7, stiffness: 300, mass: 0.6 }).start();
+    }
+    void saqlashniAlmashtir(tur, id, on);
+  };
+
+  return (
+    <Pressable
+      onPress={bos}
+      hitSlop={12}
+      accessibilityRole="button"
+      accessibilityLabel={on ? t("mob.saved.unsave") : t("mob.common.save")}
+      accessibilityState={{ selected: on }}
+      style={s.yurak}
+    >
+      <Animated.View style={{ transform: [{ scale: k }] }}>
+        <Icon name="bookmark" size={21} stroke={on ? color.brand : color.iconFaint} fill={on ? color.brand : "none"} />
+      </Animated.View>
+    </Pressable>
+  );
+}
+
+/** 👁 12 — e'lon necha marta ochilgan. Server bermasa (eski javob) — chizilmaydi */
+function Korishlar({ n }: { n?: number | null }) {
+  if (n == null) return null;
+  return (
+    <View style={s.korish} accessible accessibilityLabel={t("mob.trucks.viewed", { n })}>
+      <Icon name="eye" size={15} stroke={color.faintText} />
+      <Text style={s.korishSon}>{n}</Text>
+    </View>
   );
 }
 
@@ -400,7 +462,8 @@ export function TruckCard({
         )}
         <LinkOnly item={item} />
         <View style={{ flex: 1 }} />
-        <Icon name="heart" size={20} stroke={color.iconFaint} />
+        <Korishlar n={item.views} />
+        <SaqlashBelgi tur="truck" id={item.id} boshida={item.saved} />
       </View>
 
       <View style={s.tRow}>
@@ -608,6 +671,11 @@ const s = themed(() => ({
   },
   lCargoText: { flex: 1, fontSize: 14, lineHeight: 19, color: color.foreground, marginTop: -1 },
   lFoot: { flexDirection: "row", alignItems: "center", gap: space.sm, marginTop: space.md },
+  /* 32 px quti + 12 px `hitSlop` = 56 px bosish joyi; o'ng chekka
+     karta matni bilan bir chiziqda qolsin deb −6 */
+  yurak: { width: 32, height: 32, alignItems: "center", justifyContent: "center", marginRight: -6 },
+  korish: { flexDirection: "row", alignItems: "center", gap: 4 },
+  korishSon: { fontSize: 12.5, fontWeight: "600", color: color.faintText, fontVariant: ["tabular-nums"] },
   lSpecs: { flex: 1, flexDirection: "row", flexWrap: "wrap", gap: 6 },
 
   /* Tik yo'nalish: nuqta markazi nom birinchi qatorining o'rtasida */

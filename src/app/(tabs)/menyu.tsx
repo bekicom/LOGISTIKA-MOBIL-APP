@@ -98,7 +98,7 @@ function groups(): Group[] {
         { icon: "users", title: t("mob.cand.title"), href: "/ish/nomzodlar", feature: "ai_matching" },
         { icon: "file", title: t("mob.rdoc.title"), href: "/rezyume-hujjat" },
         { icon: "chart", title: t("mob.cmp.title"), href: "/bozor/taqqoslash", open: true },
-        { icon: "heart", title: t("mob.profile.saved"), href: "/saqlanganlar" },
+        { icon: "bookmark", title: t("mob.profile.saved"), href: "/saqlanganlar" },
         /* Saqlangan QIDIRUV — saqlangan E'LON dan boshqa narsa va
            shuning uchun yonida turadi: birinchisi «shu e'lonni
            eslab qol», ikkinchisi «shunga o'xshash yangisi

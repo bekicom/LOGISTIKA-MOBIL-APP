@@ -3032,14 +3032,17 @@
     },
     "saved": {
       "empty": "Nothing saved yet",
-      "emptyText": "Tap the heart on a listing and it lands here.",
+      "emptyText": "Tap the bookmark on a listing and it lands here.",
       "remove": "Remove",
+      "removed": "Removed from saved",
       "savedOn": "saved on %{d}",
+      "see": "View",
       "st_active": "Active",
       "st_closed": "The listing is closed",
       "st_expired": "The listing has expired",
       "st_taken": "This listing has already been taken",
-      "title": "Saved"
+      "title": "Saved",
+      "unsave": "Remove from saved"
     },
     "scanIssue": {
       "EXPIRED": "Expired %{n} days ago",

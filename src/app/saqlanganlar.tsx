@@ -22,6 +22,8 @@ import { money } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
 import { useApi } from "@/lib/use-api";
+import { saqlanganDeb } from "@/lib/saqlangan";
+import { xabarcha } from "@/components/Xabarcha";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space, themed } from "@/lib/theme";
 
@@ -59,7 +61,14 @@ export default function Saqlanganlar() {
     setBusy(it.id);
     setErr(null);
     try {
-      await api("/api/saved", { method: "DELETE", body: { kind: it.kind, id: it.id } });
+      /* ⚠️ SO'ROV QATORIDA (2026-09-21). Ilgari tanada yuborilardi,
+         server esa `DELETE` da faqat `?kind=&id=` ni o'qiydi — javob
+         doim 400 VALIDATION edi, ya'ni «O'chirish» HECH QACHON
+         ishlamagan. */
+      await api(`/api/saved?kind=${it.kind}&id=${encodeURIComponent(it.id)}`, { method: "DELETE" });
+      /* Lentadagi karta 🔖 ham bo'shasin */
+      saqlanganDeb(it.kind, it.id, false);
+      xabarcha({ matn: t("mob.saved.removed") });
       reload();
     } catch (e) {
       setErr((e as FuramError).message);
@@ -94,7 +103,7 @@ export default function Saqlanganlar() {
         ) : error ? (
           <ErrorBox message={error} onRetry={reload} />
         ) : !items.length ? (
-          <Empty icon="heart" title={t("mob.saved.empty")} text={t("mob.saved.emptyText")} />
+          <Empty icon="bookmark" title={t("mob.saved.empty")} text={t("mob.saved.emptyText")} />
         ) : (
           <>
             {err ? <ErrorBox message={err} /> : null}
@@ -124,7 +133,24 @@ export default function Saqlanganlar() {
                           .join(" · ")}
                       </Text>
                     </View>
-                    <Icon name="heart" size={20} stroke={gone ? color.iconFaint : color.brand} fill={gone ? color.iconFaint : color.brand} />
+                    {/* 🔖 — TUGMA (2026-09-21). Ilgari bezak yurak edi: faol e'lonni
+                        bu ekrandan olib tashlashning umuman yo'li yo'q edi,
+                        «O'chirish» faqat yopilganlarida chiqardi */}
+                    <Pressable
+                      onPress={() => remove(it)}
+                      disabled={busy === it.id}
+                      hitSlop={12}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("mob.saved.unsave")}
+                      style={({ pressed }) => [s.yurak, pressed && { opacity: 0.6 }]}
+                    >
+                      <Icon
+                        name="bookmark"
+                        size={20}
+                        stroke={gone ? color.iconFaint : color.brand}
+                        fill={gone ? color.iconFaint : color.brand}
+                      />
+                    </Pressable>
                   </View>
 
                   {gone ? (
@@ -185,6 +211,7 @@ const s = themed(() => ({
   },
   cardGone: { backgroundColor: color.surface },
   head: { flexDirection: "row", gap: 12, alignItems: "flex-start" },
+  yurak: { width: 32, height: 32, alignItems: "center", justifyContent: "center", marginRight: -6, marginTop: -4 },
   shot: { width: 56, height: 56, borderRadius: 10, backgroundColor: color.iconFaint },
   route: { fontSize: font.title, fontWeight: "700", color: color.foreground },
   dimText: { color: color.mutedForeground },

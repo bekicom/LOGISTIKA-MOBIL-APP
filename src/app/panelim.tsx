@@ -210,7 +210,7 @@ export default function Panelim() {
 
                     {data.resume.saved > 0 ? (
                       <Pressable style={s.seekFoot} onPress={() => router.push("/rezyume")}>
-                        <Icon name="heart" size={15} stroke={color.success} />
+                        <Icon name="bookmark" size={15} stroke={color.success} />
                         <Text style={s.seekFootText}>
                           {t("mob.panel.savedBy", { n: data.resume.saved })}
                         </Text>

@@ -16,6 +16,7 @@ import {
 import { AuthProvider } from "@/lib/auth-context";
 import { OfflineBar } from "@/components/OfflineBar";
 import { PushAsk } from "@/components/PushAsk";
+import { XabarchaJoyi } from "@/components/Xabarcha";
 import { AiRozilikOynasi } from "@/components/AiRozilik";
 import { IntroVideo } from "@/components/IntroVideo";
 import { useOutboxRunner } from "@/lib/use-outbox";
@@ -144,6 +145,8 @@ function Shell() {
           fullScreenGestureEnabled: true,
         }}
       />
+      {/* «Saqlandi» kabi qisqa xabar — ekranlar USTIDA (`Xabarcha.tsx`) */}
+      <XabarchaJoyi />
     </>
   );
 }

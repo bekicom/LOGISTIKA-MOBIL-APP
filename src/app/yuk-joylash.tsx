@@ -348,7 +348,7 @@ export default function YukJoylash() {
             <View style={[s.preview, { marginTop: space.xl }]}>
               <View style={s.rowBetween}>
                 <Chip text={t("mob.loads.readyNow")} tone="success" />
-                <Icon name="heart" size={20} stroke={color.iconFaint} />
+                <Icon name="bookmark" size={20} stroke={color.iconFaint} />
               </View>
               <View style={{ marginTop: 11 }}>
                 <Route from={from?.name ?? ""} to={to?.name ?? ""} />

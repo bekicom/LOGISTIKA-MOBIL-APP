@@ -157,7 +157,11 @@ export default function MenyuTab() {
   const { user } = useAuth();
   const guest = !user && isGuest();
 
-  const tileW = (width - space.lg * 2 - GAP * (COLS - 1)) / COLS;
+  /* PASTGA yaxlitlanadi (2026-09-21). Kasr en (Pixel 7 da 119.8) Android'da
+     piksellarga yaxlitlanganda uch plitka + ikki oraliq qatordan 1 px oshib
+     ketardi va uchinchisi pastga tushardi: menyu IKKI ustun bo'lib, o'ngda
+     bo'sh joy qolardi. `til.tsx` da ham xuddi shu xato bo'lgan edi. */
+  const tileW = Math.floor((width - space.lg * 2 - GAP * (COLS - 1)) / COLS);
 
   function open(it: Item) {
     if (guest && !it.open) {
@@ -247,6 +251,11 @@ const s = themed(() => ({
     paddingHorizontal: 6,
     alignItems: "center",
     minHeight: 104,
+    /* Bir qatordagi plitkalar bo'yi teng: yozuvi ikki qatorli
+       («Haydovchi anketasi») qo'shnisidan baland chiqib, qator
+       tishli bo'lib qolardi. `Tap` ning tashqi qutisi qatorga
+       cho'ziladi, plitkaning o'zi esa uni to'ldiradi */
+    flexGrow: 1,
     ...shadow.card,
   },
   iconBox: {

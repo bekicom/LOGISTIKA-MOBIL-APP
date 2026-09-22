@@ -8,7 +8,7 @@ import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-nati
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, G, Path, Rect } from "react-native-svg";
 import { Icon, type IconName } from "@/components/Icon";
 import { StatusChip, toneFor } from "@/components/cards";
@@ -356,11 +356,17 @@ function GpsCard({ tripId, on }: { tripId: string; on: boolean }) {
     setWaiting(await pendingPoints());
   }, []);
 
-  useEffect(() => {
-    void refresh();
-    const timer = setInterval(() => void refresh(), 15_000);
-    return () => clearInterval(timer);
-  }, [refresh]);
+  /* EKRANGA QAYTGANDA ham o'qiladi. Ilgari faqat 15 soniyalik
+     hisoblagich bor edi: haydovchi tushuntirish ekranida ruxsat berib
+     qaytardi va karta yana «Kuzatuv yoqilmagan» deb turardi — odam
+     tugmani ikkinchi marta bosardi (2026-09-23). */
+  useFocusEffect(
+    useCallback(() => {
+      void refresh();
+      const timer = setInterval(() => void refresh(), 15_000);
+      return () => clearInterval(timer);
+    }, [refresh]),
+  );
 
   async function toggle() {
     setBusy(true);

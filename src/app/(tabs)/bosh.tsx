@@ -21,15 +21,16 @@
  * edi, SOS esa bosilmasdi. SOS endi faol reys kartasi ostida — faqat
  * reys yo'lda bo'lganda (reys ekranidagi shart bilan bir xil).
  */
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import { HeaderIcons } from "@/components/TabHeader";
 import { setCounts } from "@/lib/counts";
+import { activeTrip, isRunning as gpsRunning, stop as gpsStop } from "@/lib/gps";
 import { ListingCard, TripCard, type Listing, type TripItem } from "@/components/cards";
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
 import { FxStrip, StartHere } from "@/components/HomeStart";
@@ -89,16 +90,8 @@ export default function Bosh() {
         <HeaderIcons search />
       </View>
 
-      {/* GPS chizig'i — faol reys kuzatilayotgan bo'lsa */}
-      {data?.activeTrips?.[0] ? (
-        <View style={s.gps}>
-          <View style={s.gpsDot} />
-          <Text style={s.gpsText}>
-            {t("mob.home.gpsOn")} <Text style={{ fontWeight: "600", color: "#fff" }}>#TR-{data.activeTrips[0].no}</Text>
-          </Text>
-          <Text style={s.gpsStop}>{t("mob.home.gpsStop")}</Text>
-        </View>
-      ) : null}
+      {/* GPS chizig'i — faqat kuzatuv HAQIQATAN ishlayotganda */}
+      <GpsChiziq trips={data?.activeTrips ?? []} />
 
       <ScrollView
         contentContainerStyle={[s.scroll, { paddingBottom: space.xxl * 2 }]}
@@ -173,6 +166,61 @@ export default function Bosh() {
             u ishini ikkinchi ekrandan boshlardi. */}
         <StartHere />
       </ScrollView>
+    </View>
+  );
+}
+
+/* ──────────────────────────────────────────────── GPS chizig'i */
+
+/**
+ * «GPS yoqilgan» chizig'i — FAQAT kuzatuv haqiqatan ishlayotganda.
+ *
+ * Ilgari chiziq FAOL REYS bo'lsa chizilardi: kuzatuv o'chiq bo'lsa ham
+ * «GPS yoqilgan» deb turardi, «To'xtatish» esa oddiy matn edi va
+ * bosilmasdi (2026-09-23 da video yozayotganda topildi). Ikkalasi ham
+ * joylashuv haqida YOLG'ON da'vo — Google do'koni buni rad etish sababi
+ * deb biladi, haydovchi esa yozuvni to'xtata olmasdi.
+ */
+function GpsChiziq({ trips }: { trips: TripItem[] }) {
+  const router = useRouter();
+  const [tripId, setTripId] = useState<string | null>(null);
+
+  const holat = useCallback(async () => {
+    setTripId((await gpsRunning()) ? await activeTrip() : null);
+  }, []);
+
+  /* Ekranga qaytganda ham tekshiriladi: kuzatuv reys ekranidan
+     yoqiladi va shu chiziq darrov to'g'ri bo'lishi kerak */
+  useFocusEffect(
+    useCallback(() => {
+      void holat();
+      const timer = setInterval(() => void holat(), 15_000);
+      return () => clearInterval(timer);
+    }, [holat]),
+  );
+
+  if (!tripId) return null;
+  const no = trips.find((tr) => tr.id === tripId)?.no ?? null;
+
+  return (
+    <View style={s.gps}>
+      <View style={s.gpsDot} />
+      <Pressable style={{ flex: 1 }} onPress={() => router.push(`/reys/${tripId}`)} accessibilityRole="button">
+        <Text style={s.gpsText}>
+          {t("mob.home.gpsOn")}
+          {no != null ? <Text style={{ fontWeight: "600", color: "#fff" }}> #TR-{no}</Text> : null}
+        </Text>
+      </Pressable>
+      <Pressable
+        onPress={async () => {
+          await gpsStop();
+          void holat();
+        }}
+        hitSlop={10}
+        accessibilityRole="button"
+      >
+        <Text style={s.gpsStop}>{t("mob.home.gpsStop")}</Text>
+      </Pressable>
     </View>
   );
 }

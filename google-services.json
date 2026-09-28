@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "656633446917",
+    "project_id": "furam-bf009",
+    "storage_bucket": "furam-bf009.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656633446917:android:e39a69fca019f1c564926c",
+        "android_client_info": {
+          "package_name": "uz.furam.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS4xa2bv7QxtEpkEelUdh_PUo9zHfG9gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

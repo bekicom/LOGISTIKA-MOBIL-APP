@@ -21,7 +21,9 @@ expo-env.d.ts
 *.mobileprovision
 *.jks
 *.keystore
-google-services.json
+# google-services.json MAXFIY EMAS (Google: faqat Android ilovaga bog'langan
+# kalit, APK ichida baribir bor). EAS build .gitignore dagini yuklamaydi —
+# shuning uchun repoda turadi (2026-09-28, push uchun).
 GoogleService-Info.plist
 
 # Ishchi fayllar

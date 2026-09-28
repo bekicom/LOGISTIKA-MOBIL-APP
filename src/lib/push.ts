@@ -26,7 +26,13 @@ import { api } from "./api";
 export const pushSupported =
   /* Web'da (brauzerda sinash) push moduli yo'q — chaqiruvlar xato
      tashlardi (2026-09-19) */
-  Platform.OS !== "web" && Device.isDevice && Constants.appOwnership !== "expo";
+  Platform.OS !== "web" &&
+  /* Android emulyatori ham push oladi: Google Play xizmatlari bor
+     obrazda FCM ishlaydi. Chetda faqat iOS simulyatori qoladi —
+     busiz push'ni telefonsiz sinab bo'lmasdi (2026-09-28). GMS yo'q
+     obrazda token olinmaydi va `registerPush` jim chiqadi. */
+  (Device.isDevice || Platform.OS === "android") &&
+  Constants.appOwnership !== "expo";
 
 /* Ilova ochiq turganda ham xabar ko'rinsin: haydovchi ekranga
    qarab turgan bo'lsa ham «yangi yuk» xabarini o'tkazib

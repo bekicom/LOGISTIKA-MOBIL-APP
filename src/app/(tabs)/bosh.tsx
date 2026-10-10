@@ -40,6 +40,7 @@ import { HomeMap } from "@/components/HomeMap";
 import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
 import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
+import { notePushMoment } from "@/lib/push";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -76,6 +77,21 @@ export default function Bosh() {
   useEffect(() => {
     if (data) setCounts({ notif: data.unreadNotifications });
   }, [data]);
+
+  /* BILDIRISHNOMA RUXSATI — BOSH SAHIFADA, BIR MARTA (2026-10-10).
+     Ilgari faqat e'lon joylaganda, usta chaqirganda va holat
+     o'zgartirganda so'ralardi. Ko'pchilik esa faqat yuk qidiradi va
+     undan hech qachon so'ralmasdi: Android 13+ da ruxsatsiz token
+     yo'q — push 100 dan ortiq foydalanuvchidan 8 tasigagina borardi.
+     Oyna `PushAsk` — tushuntirish bilan va bir marta (`pushAsked`);
+     ruxsat bor yoki allaqachon so'ralgan bo'lsa chiqmaydi. Kechikish
+     — sahifa avval chizilsin, oyna bo'sh ekran ustida chiqmasin. */
+  const yuklandi = !!data;
+  useEffect(() => {
+    if (!yuklandi) return;
+    const timer = setTimeout(notePushMoment, 1500);
+    return () => clearTimeout(timer);
+  }, [yuklandi]);
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>

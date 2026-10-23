@@ -192,6 +192,10 @@ export default function Rollarim() {
                 <View style={{ gap: 9 }}>
                   {live.map((r) => {
                     const trial = r.status === "TRIAL";
+                    /* Bepul rejim (2026-10-23, server `bepul.ts`): rol
+                       muddatsiz — chiziq to'la, matn «Bepul». Tarif nomi
+                       («Bepul davr») serverdan xom o'zbekcha keladi. */
+                    const bepul = r.status === "FREE";
                     const left = r.daysLeft;
                     /* Chiziq muddatning O'Z uzunligiga nisbatan: sinov
                        tarifning `trialDays` i (TZ-04 dan beri 10 kun),
@@ -200,7 +204,7 @@ export default function Rollarim() {
                        kun «to'la» ko'rsatardi. */
                     const tarif = data?.offers?.find((o) => o.roleKey === r.roleKey);
                     const span = Math.max(1, trial ? (tarif?.trialDays ?? 10) : (tarif?.days ?? 30));
-                    const pct = left == null ? 0 : Math.max(2, Math.min(100, (left / span) * 100));
+                    const pct = bepul ? 100 : left == null ? 0 : Math.max(2, Math.min(100, (left / span) * 100));
                     const soon = left != null && left <= 5;
 
                     return (
@@ -228,7 +232,7 @@ export default function Rollarim() {
                             >
                               {[
                                 left != null ? t("mob.roles.daysLeft", { n: Math.max(0, left) }) : null,
-                                trial ? t("mob.roles.trial") : r.tariff,
+                                bepul ? t("mob.roles.free") : trial ? t("mob.roles.trial") : r.tariff,
                               ]
                                 .filter(Boolean)
                                 .join(" · ")}

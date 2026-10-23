@@ -4197,6 +4197,7 @@
     "warehouse": "Depo"
   },
   "tarifBelgi": {
+    "bepul": "Şimdilik ücretsiz",
     "faol": "%{rol} · aktif",
     "sinov": "%{rol} · deneme %{n} gün",
     "tugadi": "Tarife sona erdi",

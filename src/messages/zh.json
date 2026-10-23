@@ -4197,6 +4197,7 @@
     "warehouse": "仓库"
   },
   "tarifBelgi": {
+    "bepul": "目前免费",
     "faol": "%{rol} · 已生效",
     "sinov": "%{rol} · 试用 %{n} 天",
     "tugadi": "套餐已到期",

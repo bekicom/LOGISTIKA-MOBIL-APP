@@ -4197,6 +4197,7 @@
     "warehouse": "Ombor"
   },
   "tarifBelgi": {
+    "bepul": "Hozircha bepul",
     "faol": "%{rol} · faol",
     "sinov": "%{rol} · sinov %{n} kun",
     "tugadi": "Tarif tugadi",

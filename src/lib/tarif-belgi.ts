@@ -17,6 +17,8 @@
 export type TarifHolati =
   /** VIP yoki eski «premium» yoki admin — hammasi ochiq */
   | { holat: "VIP" }
+  /** Bepul rejim — to'lov vaqtincha o'chirilgan (2026-10-23) */
+  | { holat: "BEPUL" }
   | { holat: "TRIAL"; rol: string; kun: number | null; boshqa: number }
   | { holat: "ACTIVE"; rol: string; boshqa: number }
   | { holat: "EXPIRED"; rol: string }
@@ -27,7 +29,7 @@ export type BelgiTon = "ok" | "sinov" | "tugadi" | "yoq";
 
 type Tarjimon = (kalit: string, p?: Record<string, string | number>) => string;
 
-const HOLATLAR = ["VIP", "TRIAL", "ACTIVE", "EXPIRED", "NONE"] as const;
+const HOLATLAR = ["VIP", "BEPUL", "TRIAL", "ACTIVE", "EXPIRED", "NONE"] as const;
 
 /** Serverdan kelgani taniladimi — eski yoki buzilgan javobda belgi chizilmaydi */
 export function isTarifHolati(x: unknown): x is TarifHolati {
@@ -44,6 +46,8 @@ export function belgiMatni(x: TarifHolati, t: Tarjimon): string {
   switch (x.holat) {
     case "VIP":
       return t("tarifBelgi.vip");
+    case "BEPUL":
+      return t("tarifBelgi.bepul");
     case "NONE":
       return t("tarifBelgi.yoq");
     case "EXPIRED":
@@ -58,6 +62,7 @@ export function belgiMatni(x: TarifHolati, t: Tarjimon): string {
 export function belgiToni(x: TarifHolati): BelgiTon {
   switch (x.holat) {
     case "VIP":
+    case "BEPUL":
     case "ACTIVE":
       return "ok";
     case "TRIAL":

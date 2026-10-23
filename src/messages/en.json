@@ -4197,6 +4197,7 @@
     "warehouse": "Warehouse"
   },
   "tarifBelgi": {
+    "bepul": "Free for now",
     "faol": "%{rol} · active",
     "sinov": "%{rol} · trial, %{n} days",
     "tugadi": "Plan expired",

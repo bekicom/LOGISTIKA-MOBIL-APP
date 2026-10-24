@@ -3761,6 +3761,7 @@
     "freeTrucks": "空闲车辆"
   },
   "nav5": {
+    "addRole": "添加角色",
     "ai": "FURAM AI",
     "all": "全部",
     "messenger": "消息",

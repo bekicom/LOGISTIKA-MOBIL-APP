@@ -39,6 +39,7 @@ import { TourPanel } from "@/components/TourPanel";
 import { HomeMap } from "@/components/HomeMap";
 import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
 import { BoshqaXizmatlar } from "@/components/BoshqaXizmatlar";
+import { RolAlmashtirgich } from "@/components/RolAlmashtirgich";
 import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
@@ -54,6 +55,9 @@ type Home =
       activeTrips: TripItem[];
       /** Rolga xos tezkor tugmalar (TZ-05); eski serverda yo'q */
       quick?: TezkorTugma[];
+      /** Rol almashtirgich (TZ v2 §2.2); eski serverda yo'q */
+      faolRol?: string;
+      rollar?: string[];
       suggestedLoads: Listing[];
     }
   | {
@@ -63,6 +67,8 @@ type Home =
       expiringDocuments: number;
       activeTrips: TripItem[];
       quick?: TezkorTugma[];
+      faolRol?: string;
+      rollar?: string[];
       counts: { liveTrips: number; problems: number; awaitingReply: number; expiringDocuments: number };
       /** `name: null` — ismsiz suhbat, ilova o'z tilida yozadi */
       recentChats: { id: string; name: string | null; lastMessage: string | null; lastAt: string }[];
@@ -133,6 +139,9 @@ export default function Bosh() {
             warn={data.kind === "dispatcher" ? data.counts.problems > 0 : data.expiringDocuments > 0}
           />
         ) : null}
+
+        {/* «Dispetcher ▾» — «Mening ishim» qaysi rolniki (TZ v2 §2.2) */}
+        {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
 
         {/* Besh asosiy tugma — hamma rolda, ma'lumot kutmaydi (TZ-05) */}
         <AsosiyTugmalar />

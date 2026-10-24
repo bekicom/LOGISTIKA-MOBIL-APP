@@ -21,6 +21,7 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
+import { RasmlarEkrani } from "@/components/RasmlarEkrani";
 import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
@@ -121,6 +122,8 @@ export default function EelonTafsilot() {
   );
 
   const [shot, setShot] = useState(0);
+  /* Butun ekrandagi rasm — `null` yopiq */
+  const [tola, setTola] = useState<number | null>(null);
   const [phone, setPhone] = useState<string | null>(null);
   const [saved, setSaved] = useState<boolean | null>(null);
   const chosen = useCompare();
@@ -195,13 +198,15 @@ export default function EelonTafsilot() {
                 setShot(Math.round(e.nativeEvent.contentOffset.x / width))
               }
             >
-              {sale.photos.map((p) => (
-                <Image
-                  key={p}
-                  source={salePhoto(sale.id, p)}
-                  style={{ width, height: width * 0.72 }}
-                  resizeMode="cover"
-                />
+              {sale.photos.map((p, j) => (
+                /* Bosilsa butun ekranda — kattalashtirish bilan (TZ v2 §7) */
+                <Pressable key={p} onPress={() => setTola(j)} accessibilityRole="imagebutton">
+                  <Image
+                    source={salePhoto(sale.id, p)}
+                    style={{ width, height: width * 0.72 }}
+                    resizeMode="cover"
+                  />
+                </Pressable>
               ))}
             </ScrollView>
           ) : (
@@ -246,6 +251,14 @@ export default function EelonTafsilot() {
             </View>
           )}
         </View>
+
+        {tola !== null && sale.photos.length > 0 ? (
+          <RasmlarEkrani
+            rasmlar={sale.photos.map((p) => salePhoto(sale.id, p))}
+            boshi={tola}
+            onYop={() => setTola(null)}
+          />
+        ) : null}
 
         <View style={s.body}>
           {/* Video — suratdan keyingi eng kuchli dalil: tent

@@ -23,6 +23,7 @@ import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
 import { ASOSIY, ASOSIY_USTUN, QUICK_TELEFON, ikonkasi, yorliqKaliti, type TezkorTugma } from "@/lib/bosh-tugmalar";
 import { webToApp } from "@/lib/routes";
+import { useAuth } from "@/lib/auth-context";
 import { color, radius, shadow, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -52,12 +53,15 @@ export function AsosiyTugmalar() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const kichik = yozuvOlchami(width);
+  const { yashirin } = useAuth();
   /* To'r: 4 ustun (webdagi telefon to'ri — 4 + 3). Qatorlar alohida,
      oxirgisi bo'sh kataklar bilan to'ldiriladi — kenglik foizda emas,
      aniq teng bo'lib chiqadi */
   const bor = ASOSIY.flatMap((a) => {
     const to = webToApp(a.web);
-    return to ? [{ ...a, to }] : [];
+    /* Admin o'chirgan modul tugmasi chizilmaydi (TZ v2 §8.1) — web
+       bilan bir xil (`nav.ts:asosiyTugmalar`) */
+    return to && !yashirin(a.web) ? [{ ...a, to }] : [];
   });
   const qatorlar = Array.from({ length: Math.ceil(bor.length / ASOSIY_USTUN) }, (_, i) =>
     bor.slice(i * ASOSIY_USTUN, (i + 1) * ASOSIY_USTUN),

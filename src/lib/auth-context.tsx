@@ -14,6 +14,7 @@ import { wipeLocal } from "./local-db";
 import { loadGuest, setGuest } from "./guest";
 import { setFeatures, type FeatureKey } from "./features";
 import { isTarifHolati, type TarifHolati } from "./tarif-belgi";
+import { yashirinTuplam, yashirinmi } from "./yashirin";
 import { clearPushAsked, pushState, registerPush, unregisterPush } from "./push";
 
 type State = {
@@ -49,6 +50,12 @@ type State = {
    * o'qiydi; server baribir o'zi tekshiradi (`AI_CONSENT_REQUIRED`).
    */
   aiRozilik: boolean | null;
+  /**
+   * Admin o'chirgan yoki shu odamga bermagan bo'lim (TZ v2 §8.1) —
+   * menyu va bosh sahifa plitkasi chizilmaydi. Manzil ilova yoki web
+   * manzili bo'lishi mumkin (`yashirin.ts`).
+   */
+  yashirin: (href: string) => boolean;
   /** Oyna yoki sozlama serverga yozgandan keyin — qayta so'rovsiz */
   setAiRozilik: (v: boolean) => void;
   /**
@@ -71,11 +78,21 @@ type MeJavob = {
   offerAccepted?: boolean;
   tarif?: unknown;
   aiRozilik?: boolean | null;
+  yashirinYollar?: string[];
 };
 
 /** Tarmoq uzilishi (status 0) yoki server 5xx — seans tugagani EMAS */
 function vaqtinchalik(e: unknown): boolean {
   return !(e instanceof FuramError) || e.status === 0 || e.status >= 500;
+}
+
+/** Mehmonga yopiq bo'limlar (`/api/modullar` — kirishsiz) */
+async function mehmonYashirin(): Promise<ReadonlySet<string> | null> {
+  try {
+    return yashirinTuplam((await api<{ yashirinYollar?: string[] }>("/api/modullar")).yashirinYollar);
+  } catch {
+    return null;
+  }
 }
 
 /** Deploy paytida server bir necha soniya javob bermaydi — bir marta kutib qayta so'raladi */
@@ -100,6 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      modul o'zgaruvchisi, o'zgarganda ekran qayta chizilmaydi.
      Ikkalasi bir joyda — javob kelgan payt — yoziladi. */
   const [feats, setFeats] = useState<ReadonlySet<string> | null>(null);
+  const [yashirinlar, setYashirinlar] = useState<ReadonlySet<string> | null>(null);
 
   const load = useCallback(async () => {
     /* MEHMON BELGISI TOKENDAN OLDIN o'qiladi: `index.tsx` qayerga
@@ -115,6 +133,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setFeats(new Set());
       setTarif(null);
       setLoading(false);
+      /* Mehmon ham o'chiq bo'limni ko'rmasin — kutilmaydi, menyu
+         avval to'liq chiziladi, javob kelgach qisqaradi. Tarmoq
+         bo'lmasa hech narsa yashirilmaydi */
+      void mehmonYashirin().then(setYashirinlar);
       return;
     }
     try {
@@ -135,6 +157,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
          «hech narsa ochiq emas» EMAS: `features.ts` dagi izohga
          qarang. */
       setFeats(res.features ? new Set(res.features) : null);
+      setYashirinlar(yashirinTuplam(res.yashirinYollar));
       /* TOKEN HAR OCHILISHDA QAYTA YOZILADI: Expo tokeni ilova qayta
          o'rnatilsa yoki tizim yangilansa o'zgaradi va eskisiga
          yuborilgan push hech qayerga yetib bormaydi.
@@ -207,9 +230,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setFeats(new Set());
     setTarif(null);
     setAiRozilik(null);
+    void mehmonYashirin().then(setYashirinlar);
   }, []);
 
   const canFeature = useCallback((f: FeatureKey) => feats === null || feats.has(f), [feats]);
+  const yashirin = useCallback((href: string) => yashirinmi(yashirinlar, href), [yashirinlar]);
 
   const value = useMemo(
     () => ({
@@ -220,12 +245,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       tarif,
       aiRozilik,
       setAiRozilik,
+      yashirin,
       signIn,
       signOut,
       refresh: load,
       aloqaYoq,
     }),
-    [user, loading, canFeature, offerAccepted, tarif, aiRozilik, signIn, signOut, load, aloqaYoq],
+    [user, loading, canFeature, offerAccepted, tarif, aiRozilik, yashirin, signIn, signOut, load, aloqaYoq],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

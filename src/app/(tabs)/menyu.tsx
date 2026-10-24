@@ -154,7 +154,7 @@ export default function MenyuTab() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { width } = useWindowDimensions();
-  const { user } = useAuth();
+  const { user, yashirin } = useAuth();
   const guest = !user && isGuest();
 
   /* PASTGA yaxlitlanadi (2026-09-21). Kasr en (Pixel 7 da 119.8) Android'da
@@ -187,7 +187,12 @@ export default function MenyuTab() {
           </View>
         ) : null}
 
-        {groups().map((g) => (
+        {/* Admin o'chirgan bo'lim chizilmaydi (TZ v2 §8.1); guruh
+            bo'shab qolsa sarlavhasi ham */}
+        {groups()
+          .map((g) => ({ ...g, items: g.items.filter((it) => !yashirin(it.href)) }))
+          .filter((g) => g.items.length > 0)
+          .map((g) => (
           <View key={g.key}>
             <GroupLabel>{g.title}</GroupLabel>
             <View style={s.grid}>

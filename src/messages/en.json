@@ -134,6 +134,7 @@
     "NO_OPEN_SOS": "There is no open SOS.",
     "NO_RESULT": "No result. Please try again.",
     "NO_RESUME": "Fill in your resume first.",
+    "NO_SHARED_CHAT": "You have no shared group with this person",
     "NO_SHOP": "Set up your shop profile first.",
     "NO_TRIP": "You have no shared trip with this person.",
     "NO_TRUCK": "A vehicle must be assigned first.",
@@ -156,6 +157,7 @@
     "REJECTED": "Not accepted — try wording it differently.",
     "REPORT_LIMIT": "You have sent too many reports today. Please continue tomorrow.",
     "REPORT_SELF": "You cannot report your own content.",
+    "ROLE_NOT_OWNED": "You don't have this role",
     "SAME_DRIVER": "The main and second driver can't be the same person.",
     "SEAT_TAKEN": "That seat is taken. End the existing link first, or offer the second seat.",
     "SECTION_LOCKED": "This section isn't open for your role.",
@@ -200,6 +202,12 @@
     "LOAD_CANCELLED": "The load was cancelled",
     "OTHER": "Other",
     "VEHICLE_BROKEN": "The truck broke down"
+  },
+  "chatKarta": {
+    "rating": "Rating",
+    "reviews": "%{n} reviews",
+    "verified": "Verified",
+    "write": "Send message"
   },
   "chatTil": {
     "asl": "Original",

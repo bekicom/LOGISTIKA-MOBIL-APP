@@ -24,6 +24,7 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { ReportSheet } from "@/components/ReportSheet";
+import { SenderKarta } from "@/components/SenderKarta";
 import { ChatLangChips } from "@/components/ChatLangChips";
 import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
@@ -102,6 +103,7 @@ export default function Suhbat() {
   const [searchOn, setSearchOn] = useState(false);
   const [query, setQuery] = useState("");
   const [viewer, setViewer] = useState<ChatMsg | null>(null);
+  const [odam, setOdam] = useState<{ id: string; name: string } | null>(null);
   const [orig, setOrig] = useState<Set<string>>(new Set());
   const [transcribing, setTranscribing] = useState<string | null>(null);
   const [chatPinned, setChatPinned] = useState(params.pinned === "1");
@@ -615,6 +617,7 @@ export default function Suhbat() {
             onTranscribe={() => transcribe(item)}
             onOpenFile={() => openAttachment(item)}
             onOpenImage={() => setViewer(item)}
+            onSender={() => item.senderId && setOdam({ id: item.senderId, name: item.senderName })}
           />
         )}
       />
@@ -798,6 +801,9 @@ export default function Suhbat() {
         ) : null}
       </Sheet>
 
+      {/* Guruhdagi ism bosildi → «Xabar yozish» (TZ v2 §5.1) */}
+      <SenderKarta odam={odam} onClose={() => setOdam(null)} />
+
       {/* Shikoyat va bloklash (2026-09-18, A12) */}
       {report ? (
         <ReportSheet
@@ -831,11 +837,13 @@ export default function Suhbat() {
 
 function Bubble({
   msg, chatId, meId, readOnly, showOrig, transcribing,
-  onLongPress, onToggleOrig, onConfirm, onTranscribe, onOpenFile, onOpenImage,
+  onLongPress, onToggleOrig, onConfirm, onTranscribe, onOpenFile, onOpenImage, onSender,
 }: {
   msg: ChatMsg; chatId: string; meId: string | null; readOnly: boolean; showOrig: boolean; transcribing: boolean;
   onLongPress: () => void; onToggleOrig: () => void; onConfirm: () => void; onTranscribe: () => void;
   onOpenFile: () => void; onOpenImage: () => void;
+  /** Ism bosildi — profil kartasi va «Xabar yozish» (TZ v2 §5.1) */
+  onSender: () => void;
 }) {
   if (msg.type === "SYSTEM" || (msg.senderId === null && !msg.kind)) {
     return (
@@ -875,7 +883,11 @@ function Bubble({
           <Text style={s.kindText}>{t(`mob.msg.kind.${msg.kind}`)}</Text>
         </View>
       ) : null}
-      {!mine && msg.senderName ? <Text style={s.sender}>{msg.senderName}</Text> : null}
+      {!mine && msg.senderName ? (
+        <Pressable onPress={onSender} hitSlop={6} accessibilityRole="button">
+          <Text style={[s.sender, { color: color.brand }]}>{msg.senderName}</Text>
+        </Pressable>
+      ) : null}
 
       {msg.replyTo ? (
         <View style={[s.quote, { borderLeftColor: mine && !special ? "#ffffff88" : color.brand }]}>

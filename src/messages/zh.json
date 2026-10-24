@@ -134,6 +134,7 @@
     "NO_OPEN_SOS": "没有未解决的 SOS。",
     "NO_RESULT": "没有结果，请重试。",
     "NO_RESUME": "请先填写简历。",
+    "NO_SHARED_CHAT": "您与此人没有共同群组",
     "NO_SHOP": "请先创建店铺资料。",
     "NO_TRIP": "与该用户没有共同的运单。",
     "NO_TRUCK": "需要先指派车辆。",
@@ -156,6 +157,7 @@
     "REJECTED": "未被接受——请换一种说法。",
     "REPORT_LIMIT": "您今天提交的举报过多，请明天继续。",
     "REPORT_SELF": "不能举报自己发布的内容。",
+    "ROLE_NOT_OWNED": "您没有此角色",
     "SAME_DRIVER": "主司机和副司机不能是同一人。",
     "SEAT_TAKEN": "该座位已被占用。请先解除关联，或改为第二座位。",
     "SECTION_LOCKED": "该板块未对您的角色开放。",
@@ -200,6 +202,12 @@
     "LOAD_CANCELLED": "货源取消",
     "OTHER": "其他",
     "VEHICLE_BROKEN": "车辆故障"
+  },
+  "chatKarta": {
+    "rating": "评分",
+    "reviews": "%{n} 条评价",
+    "verified": "已认证",
+    "write": "发消息"
   },
   "chatTil": {
     "asl": "原文",

@@ -134,6 +134,7 @@
     "NO_OPEN_SOS": "Ochiq SOS yo'q.",
     "NO_RESULT": "Natija chiqmadi. Qaytadan urinib ko'ring.",
     "NO_RESUME": "Avval rezyume to'ldiring.",
+    "NO_SHARED_CHAT": "Bu odam bilan umumiy guruhingiz yo'q",
     "NO_SHOP": "Avval do'kon profilini oching.",
     "NO_TRIP": "Bu odam bilan umumiy reys yo'q.",
     "NO_TRUCK": "Avval mashina biriktirilishi kerak.",
@@ -156,6 +157,7 @@
     "REJECTED": "Qabul qilinmadi — matnni boshqacha yozib ko'ring.",
     "REPORT_LIMIT": "Bugun juda ko'p shikoyat yubordingiz. Ertaga davom etasiz.",
     "REPORT_SELF": "O'z kontentingiz ustidan shikoyat qilib bo'lmaydi.",
+    "ROLE_NOT_OWNED": "Bu rol sizda yo'q",
     "SAME_DRIVER": "Asosiy va ikkinchi haydovchi bir odam bo'lmaydi.",
     "SEAT_TAKEN": "Bu o'rin band. Avval bog'lanishni uzing yoki ikkinchi o'rinni taklif qiling.",
     "SECTION_LOCKED": "Bu bo'lim rolingizga ochilmagan.",
@@ -200,6 +202,12 @@
     "LOAD_CANCELLED": "Yuk bekor bo'ldi",
     "OTHER": "Boshqa",
     "VEHICLE_BROKEN": "Mashina buzildi"
+  },
+  "chatKarta": {
+    "rating": "Reyting",
+    "reviews": "%{n} ta baho",
+    "verified": "Tasdiqlangan",
+    "write": "Xabar yozish"
   },
   "chatTil": {
     "asl": "Asl matn",

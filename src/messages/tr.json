@@ -134,6 +134,7 @@
     "NO_OPEN_SOS": "Açık SOS yok.",
     "NO_RESULT": "Sonuç çıkmadı. Tekrar deneyin.",
     "NO_RESUME": "Önce özgeçmişinizi doldurun.",
+    "NO_SHARED_CHAT": "Bu kişiyle ortak grubunuz yok",
     "NO_SHOP": "Önce mağaza profilinizi oluşturun.",
     "NO_TRIP": "Bu kişiyle ortak sefer yok.",
     "NO_TRUCK": "Önce araç atanmalı.",
@@ -156,6 +157,7 @@
     "REJECTED": "Kabul edilmedi — farklı yazmayı deneyin.",
     "REPORT_LIMIT": "Bugün çok fazla şikayet gönderdiniz. Yarın devam edebilirsiniz.",
     "REPORT_SELF": "Kendi içeriğinizi şikayet edemezsiniz.",
+    "ROLE_NOT_OWNED": "Bu role sahip değilsiniz",
     "SAME_DRIVER": "Ana ve ikinci sürücü aynı kişi olamaz.",
     "SEAT_TAKEN": "Bu koltuk dolu. Önce bağlantıyı bitirin ya da ikinci koltuğu önerin.",
     "SECTION_LOCKED": "Bu bölüm rolünüze açık değil.",
@@ -200,6 +202,12 @@
     "LOAD_CANCELLED": "Yük iptal oldu",
     "OTHER": "Diğer",
     "VEHICLE_BROKEN": "Araç bozuldu"
+  },
+  "chatKarta": {
+    "rating": "Puan",
+    "reviews": "%{n} değerlendirme",
+    "verified": "Doğrulanmış",
+    "write": "Mesaj yaz"
   },
   "chatTil": {
     "asl": "Orijinal",

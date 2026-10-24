@@ -35,7 +35,8 @@ import { Button } from "./ui";
 import { ErrorBox } from "./state";
 import { useApi } from "@/lib/use-api";
 import { SPRING, useReduceMotion } from "@/lib/motion";
-import { isoBayroq } from "@/lib/phone-codes";
+import { PHONE_CODES, isoBayroq } from "@/lib/phone-codes";
+import { boshlangichKod } from "./PhoneCodePick";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -413,6 +414,8 @@ export function LocationPicker(props: PickerProps) {
       if (f) for (const [k, v] of new URLSearchParams(f)) sp.set(k, v);
     }
   }
+  /* Telefon turgan davlat birinchi (TZ v2, Audit 3) — vaqt mintaqasidan */
+  sp.set("yaqin", PHONE_CODES[boshlangichKod()].iso);
   const qs = sp.toString();
 
   const { data, loading, error, reload } = useApi<{ items: Loc[] }>(open ? `/api/locations?${qs}` : null, [qs, open]);

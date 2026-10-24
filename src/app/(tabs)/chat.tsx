@@ -284,14 +284,6 @@ export default function ChatRoyxati() {
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
         <View style={s.headRow}>
-          <Pressable
-            onPress={() => (router.canGoBack() ? router.back() : router.replace("/bosh"))}
-            hitSlop={8}
-            accessibilityRole="button"
-            style={s.back}
-          >
-            <Icon name="back" size={22} stroke={color.foreground} />
-          </Pressable>
           <Text style={s.title}>{t("mob.chat.title")}</Text>
           {(data?.unread ?? 0) > 0 ? (
             <View style={s.unreadPill}>
@@ -426,7 +418,6 @@ const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
   head: { paddingTop: 4, paddingBottom: space.sm, gap: space.md },
   headRow: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: space.lg },
-  back: { width: 40, height: 40, marginLeft: -10, alignItems: "center", justifyContent: "center" },
   title: { fontSize: 24, fontWeight: "800", color: color.foreground, letterSpacing: -0.5 },
   langBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: color.card, alignItems: "center", justifyContent: "center", ...shadow.card },
   unreadPill: { minWidth: 24, height: 24, paddingHorizontal: 8, borderRadius: 12, backgroundColor: color.brand, alignItems: "center", justifyContent: "center", marginLeft: 4 },

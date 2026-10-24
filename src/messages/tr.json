@@ -2177,10 +2177,8 @@
     },
     "nav": {
       "chat": "Sohbet",
-      "home": "Ana sayfa",
       "loads": "Yükler",
       "menu": "Menü",
-      "post": "Yayınla",
       "profile": "Profil",
       "trips": "Seferler"
     },
@@ -3761,6 +3759,19 @@
   },
   "nav": {
     "freeTrucks": "Boş araçlar"
+  },
+  "nav5": {
+    "ai": "FURAM AI",
+    "all": "Tümü",
+    "messenger": "Mesajlar",
+    "myWork": "İşim",
+    "otherServices": "Diğer hizmetler",
+    "post": "İlan ver",
+    "postHint": "Ne yayınlıyorsunuz?",
+    "postLoad": "Yük",
+    "postSale": "Pazar ilanı",
+    "postTruck": "Boş araç",
+    "search": "Ara"
   },
   "notifyTitle": {
     "payLate": "Ödeme %{days} gün gecikti",

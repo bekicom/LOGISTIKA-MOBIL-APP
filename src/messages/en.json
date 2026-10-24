@@ -2177,10 +2177,8 @@
     },
     "nav": {
       "chat": "Chat",
-      "home": "Home",
       "loads": "Cargo",
       "menu": "Menu",
-      "post": "Post",
       "profile": "Profile",
       "trips": "Trips"
     },
@@ -3761,6 +3759,19 @@
   },
   "nav": {
     "freeTrucks": "Available trucks"
+  },
+  "nav5": {
+    "ai": "FURAM AI",
+    "all": "All",
+    "messenger": "Messenger",
+    "myWork": "My work",
+    "otherServices": "Other services",
+    "post": "Post",
+    "postHint": "What are you posting?",
+    "postLoad": "Cargo",
+    "postSale": "Market listing",
+    "postTruck": "Free truck",
+    "search": "Search"
   },
   "notifyTitle": {
     "payLate": "Payment is %{days} days overdue",

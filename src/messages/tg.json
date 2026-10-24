@@ -2177,10 +2177,8 @@
     },
     "nav": {
       "chat": "Чат",
-      "home": "Асосӣ",
       "loads": "Борҳо",
       "menu": "Меню",
-      "post": "Ҷойгир кардан",
       "profile": "Профил",
       "trips": "Сафарҳо"
     },
@@ -3761,6 +3759,19 @@
   },
   "nav": {
     "freeTrucks": "Нақлиёти холӣ"
+  },
+  "nav5": {
+    "ai": "FURAM AI",
+    "all": "Ҳама",
+    "messenger": "Паёмрасон",
+    "myWork": "Кори ман",
+    "otherServices": "Хизматҳои дигар",
+    "post": "Эълон додан",
+    "postHint": "Чӣ ҷойгир мекунед?",
+    "postLoad": "Бор",
+    "postSale": "Эълони Бозор",
+    "postTruck": "Нақлиёти холӣ",
+    "search": "Ҷустуҷӯ"
   },
   "notifyTitle": {
     "payLate": "Пардохт %{days} рӯз дер шуд",

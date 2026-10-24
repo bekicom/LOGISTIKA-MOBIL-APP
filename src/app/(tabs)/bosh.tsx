@@ -38,6 +38,7 @@ import { TodayCard } from "@/components/TodayCard";
 import { TourPanel } from "@/components/TourPanel";
 import { HomeMap } from "@/components/HomeMap";
 import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
+import { BoshqaXizmatlar } from "@/components/BoshqaXizmatlar";
 import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
@@ -176,6 +177,10 @@ export default function Bosh() {
             onDocs={() => router.push("/hujjatlarim")}
           />
         ) : null}
+
+        {/* Bozor, ish, usta va boshqalar — pastki menyu beshta
+            bo'limga qisqargach shu yerda (TZ v2 §2.1) */}
+        <BoshqaXizmatlar />
 
         {/* «Boshlash» — eng OXIRIDA. Yangi odamga kerak, tanish
             odamga esa lenta muhimroq; tepaga qo'ysak, har ochilishda

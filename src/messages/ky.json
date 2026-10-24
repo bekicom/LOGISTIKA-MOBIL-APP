@@ -2177,10 +2177,8 @@
     },
     "nav": {
       "chat": "Чат",
-      "home": "Башкы бет",
       "loads": "Жүктөр",
       "menu": "Меню",
-      "post": "Жарыялоо",
       "profile": "Профиль",
       "trips": "Рейстер"
     },
@@ -3761,6 +3759,19 @@
   },
   "nav": {
     "freeTrucks": "Бош транспорт"
+  },
+  "nav5": {
+    "ai": "FURAM AI",
+    "all": "Баары",
+    "messenger": "Мессенджер",
+    "myWork": "Менин ишим",
+    "otherServices": "Башка кызматтар",
+    "post": "Жарыялоо",
+    "postHint": "Эмне жарыялайсыз?",
+    "postLoad": "Жүк",
+    "postSale": "Базар жарнамасы",
+    "postTruck": "Бош унаа",
+    "search": "Издөө"
   },
   "notifyTitle": {
     "payLate": "Төлөм %{days} күнгө кечикти",

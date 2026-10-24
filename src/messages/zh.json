@@ -2177,10 +2177,8 @@
     },
     "nav": {
       "chat": "聊天",
-      "home": "首页",
       "loads": "货源",
       "menu": "菜单",
-      "post": "发布",
       "profile": "我的",
       "trips": "运单"
     },
@@ -3761,6 +3759,19 @@
   },
   "nav": {
     "freeTrucks": "空闲车辆"
+  },
+  "nav5": {
+    "ai": "FURAM AI",
+    "all": "全部",
+    "messenger": "消息",
+    "myWork": "我的工作",
+    "otherServices": "其他服务",
+    "post": "发布",
+    "postHint": "您要发布什么？",
+    "postLoad": "货源",
+    "postSale": "市场广告",
+    "postTruck": "空车",
+    "search": "搜索"
   },
   "notifyTitle": {
     "payLate": "付款已逾期 %{days} 天",

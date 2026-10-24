@@ -84,9 +84,6 @@ export default function Qidiruv() {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
-        <Pressable onPress={() => router.back()} hitSlop={10} style={s.back}>
-          <Icon name="back" size={22} stroke={color.foreground} />
-        </Pressable>
         <View style={s.field}>
           <Icon name="search" size={18} stroke={color.mutedForeground} />
           <TextInput
@@ -203,7 +200,6 @@ const s = themed(() => ({
     borderBottomWidth: 1,
     borderBottomColor: color.border,
   },
-  back: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
   field: {
     flexGrow: 1,
     flexDirection: "row",

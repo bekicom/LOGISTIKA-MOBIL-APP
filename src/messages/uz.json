@@ -2177,10 +2177,8 @@
     },
     "nav": {
       "chat": "Chat",
-      "home": "Bosh sahifa",
       "loads": "Yuklar",
       "menu": "Menyu",
-      "post": "Joylash",
       "profile": "Profil",
       "trips": "Reyslar"
     },
@@ -3761,6 +3759,19 @@
   },
   "nav": {
     "freeTrucks": "Bo'sh transportlar"
+  },
+  "nav5": {
+    "ai": "FURAM AI",
+    "all": "Hammasi",
+    "messenger": "Messenjer",
+    "myWork": "Mening ishim",
+    "otherServices": "Boshqa xizmatlar",
+    "post": "E'lon berish",
+    "postHint": "Nima joylaysiz?",
+    "postLoad": "Yuk e'loni",
+    "postSale": "Bozor e'loni",
+    "postTruck": "Bo'sh transport",
+    "search": "Qidiruv"
   },
   "notifyTitle": {
     "payLate": "To'lov %{days} kun kechikdi",

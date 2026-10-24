@@ -33,6 +33,18 @@
  * u to'g'ridan-to'g'ri manzil bilan ochilsa (deep link) o'sha
  * ro'yxatni oddiy ekran qilib ko'rsatadi.
  *
+ * ── BESH BO'LIM — WEB BILAN BIR XIL (TZ v2 §2.1, 2026-10-24) ─────
+ *
+ *   Mening ishim | Qidiruv | (+) | Messenjer | FURAM AI
+ *
+ * Mijozning yakuniy TZ si: «pastki menyu (mobil) = chap menyu (web),
+ * har doim bir xil». Yuklar ro'yxati «Qidiruv» ichida, menyudagi
+ * hamma bo'lim — «Mening ishim» ostidagi «Boshqa xizmatlar» da.
+ * Chat va qidiruv ekranlari shu papkaga ko'chdi — manzili o'zgarmadi
+ * (`/chat`, `/qidiruv`), ya'ni eski havolalar ham yorliqni ochadi.
+ * «Yuklar» va «Menyu» yorliqlari kirgan odamda yashirin (`href: null`),
+ * lekin ekranlari joyida: bildirishnoma va «Hammasi» tugmasi ochadi.
+ *
  * ── MEHMONDA ────────────────────────────────────────────────────
  *
  * Kirmagan odamga «Bosh» ochilmaydi — serveri 401 beradi. Yorliq
@@ -53,27 +65,35 @@ import { clearTourRequest, markSeen, seen, useSplashDone, useTourRequest } from 
 import { color, shadow, themed } from "@/lib/theme";
 import { SPRING, useReduceMotion } from "@/lib/motion";
 import { useAuth } from "@/lib/auth-context";
+import { useCounts } from "@/lib/counts";
 import { isGuest } from "@/lib/guest";
 import { guestBlocked } from "@/lib/guest-gate";
 import { t } from "@/lib/i18n";
 
 type Tab = { name: string; title: string; icon: IconName; guest: boolean; center?: boolean };
 
+/** Hamma yorliq ekrani — ko'rinmaydigani ham e'lon qilinadi (pastdagi izoh) */
+const HAMMASI = ["bosh", "qidiruv", "yuklar", "joylash", "chat", "menyu", "ai", "profil"] as const;
+
 /* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
    o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
 function tabs(guest: boolean): Tab[] {
+  /* Mehmon: avvalgidek — yuklar, «+», menyu, kirish. Uning «ishi»
+     yo'q, chat va AI hisobsiz ishlamaydi */
+  if (guest) {
+    return [
+      { name: "yuklar", title: t("mob.nav.loads"), icon: "package", guest: true },
+      { name: "joylash", title: t("nav5.post"), icon: "plus", guest: true, center: true },
+      { name: "menyu", title: t("mob.nav.menu"), icon: "grid", guest: true },
+      { name: "profil", title: t("mob.intro.signIn"), icon: "user", guest: true },
+    ];
+  }
   return [
-    { name: "bosh", title: t("mob.nav.home"), icon: "home", guest: false },
-    { name: "yuklar", title: t("mob.nav.loads"), icon: "package", guest: true },
-    { name: "joylash", title: t("mob.nav.post"), icon: "plus", guest: true, center: true },
-    { name: "menyu", title: t("mob.nav.menu"), icon: "grid", guest: true },
-    /* Beshinchi o'rin ROLGA QARAB: kirgan odamga AI, mehmonga
-       kirish taklifi. Ikkalasi ham e'lon qilinadi va keraksizi
-       `href: null` bilan yashiriladi — expo-router ekranni
-       o'chirib-yoqib turishni yoqtirmaydi. */
-    ...(guest
-      ? [{ name: "profil", title: t("mob.intro.signIn"), icon: "user", guest: true } as Tab]
-      : [{ name: "ai", title: t("mob.ai.title"), icon: "robot", guest: false } as Tab]),
+    { name: "bosh", title: t("nav5.myWork"), icon: "briefcase", guest: false },
+    { name: "qidiruv", title: t("nav5.search"), icon: "search", guest: false },
+    { name: "joylash", title: t("nav5.post"), icon: "plus", guest: false, center: true },
+    { name: "chat", title: t("nav5.messenger"), icon: "chat", guest: false },
+    { name: "ai", title: t("nav5.ai"), icon: "robot", guest: false },
   ];
 }
 
@@ -143,10 +163,14 @@ export default function TabsLayout() {
      chizilmaydi. Mehmon kirgan zahoti yorliqlar qaytib kelishi
      uchun `user` ga qaraymiz: u holat, ya'ni o'zgarsa React
      shu joyni qayta chizadi. */
-  const { user } = useAuth();
+  const { user, yashirin } = useAuth();
   const guest = !user && isGuest();
+  /* Admin o'chirgan modul yorlig'i yo'q (TZ v2 §8.1): masalan Messenjer */
+  const korinadi = tabs(guest).filter((tb) => tb.center || !yashirin(`/${tb.name}`));
   const insets = useSafeAreaInsets();
   const [post, setPost] = useState(false);
+  /* Messenjer yorlig'ida o'qilmaganlar soni — sarlavhadagi bilan bitta manba */
+  const counts = useCounts();
 
   /* Yo'l-yo'riq — kirgan odamga, bir marta, splash tugagach.
      Mehmonga emas: uning tab bari boshqacha (bosh yo'q). */
@@ -222,9 +246,7 @@ export default function TabsLayout() {
             fayl bor-u `Tabs.Screen` yo'q bo'lsa uni baribir
             yorliq qilib qo'shadi va oltinchi yorliq paydo
             bo'lardi. */}
-        <Tabs.Screen name={guest ? "ai" : "profil"} options={{ href: null }} />
-
-        {tabs(guest).map((tab) => (
+        {korinadi.map((tab) => (
           <Tabs.Screen
             key={tab.name}
             name={tab.name}
@@ -237,6 +259,9 @@ export default function TabsLayout() {
             options={{
               title: tab.title,
               href: guest && !tab.guest ? null : undefined,
+              tabBarBadge:
+                tab.name === "chat" && counts.chat > 0 ? (counts.chat > 9 ? "9+" : counts.chat) : undefined,
+              tabBarBadgeStyle: { backgroundColor: color.brand, fontSize: 10 },
               /* Faol ikonka bir oz KATTALASHADI (`TabIcon`): yorliq
                  almashganda ko'z harakatni ilg'aydi va qaysi
                  bo'limga o'tganini rang bilan birga tasdiqlaydi */
@@ -248,6 +273,9 @@ export default function TabsLayout() {
                 : null),
             }}
           />
+        ))}
+        {HAMMASI.filter((n) => !korinadi.some((x) => x.name === n)).map((n) => (
+          <Tabs.Screen key={n} name={n} options={{ href: null }} />
         ))}
       </Tabs>
 

@@ -30,7 +30,7 @@ import { Button, Field, Steps } from "@/components/ui";
 import { ChannelPick, SentVia, useChannels, type Channel } from "@/components/ChannelPick";
 import { api, FuramError } from "@/lib/api";
 import { t } from "@/lib/i18n";
-import { PhoneCodePick } from "@/components/PhoneCodePick";
+import { PhoneCodePick, boshlangichKod } from "@/components/PhoneCodePick";
 import { PHONE_CODES } from "@/lib/phone-codes";
 import { color, font, radius, space, themed } from "@/lib/theme";
 
@@ -39,7 +39,8 @@ type Step = "phone" | "code" | "password";
 export default function Parol() {
   /* Davlat kodi (2026-09-14): avval «+998» qotib turardi — MDH va
      Yevropa raqamlari umuman kiritilmasdi. 0 — O'zbekiston. */
-  const [ccIdx, setCcIdx] = useState(0);
+  /* Boshlang'ich kod — telefon turgan davlatdan (TZ v2: «kod o'zi tanlanadi») */
+  const [ccIdx, setCcIdx] = useState(boshlangichKod);
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");

@@ -2562,7 +2562,8 @@
       "why": "FURAM numara ile çalışır: ilanda iletişim numarası bulunur ve yük sahibi aranır. Numaranızı bir kez doğrularsınız, sonra her şey açılır."
     },
     "phoneCode": {
-      "pick": "Ülke kodunu seçin"
+      "pick": "Ülke kodunu seçin",
+      "search": "Ülke veya kod"
     },
     "photo": {
       "camera": "Kamera",

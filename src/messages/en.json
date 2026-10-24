@@ -2562,7 +2562,8 @@
       "why": "FURAM works with phone numbers: a listing shows a contact number and the cargo owner gets called. You confirm your number once and everything opens up."
     },
     "phoneCode": {
-      "pick": "Choose country code"
+      "pick": "Choose country code",
+      "search": "Country or code"
     },
     "photo": {
       "camera": "Camera",

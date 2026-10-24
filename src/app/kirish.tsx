@@ -16,7 +16,7 @@ import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
-import { PhoneCodePick } from "@/components/PhoneCodePick";
+import { PhoneCodePick, boshlangichKod } from "@/components/PhoneCodePick";
 import { PHONE_CODES } from "@/lib/phone-codes";
 
 type Mode = "phone" | "furamId";
@@ -24,7 +24,8 @@ type Mode = "phone" | "furamId";
 export default function Kirish() {
   /* Davlat kodi (2026-09-14): avval «+998» qotib turardi — MDH va
      Yevropa raqamlari umuman kiritilmasdi. 0 — O'zbekiston. */
-  const [ccIdx, setCcIdx] = useState(0);
+  /* Boshlang'ich kod — telefon turgan davlatdan (TZ v2: «kod o'zi tanlanadi») */
+  const [ccIdx, setCcIdx] = useState(boshlangichKod);
   const [mode, setMode] = useState<Mode>("phone");
   const [phone, setPhone] = useState("");
   const [furamId, setFuramId] = useState("");

@@ -2562,7 +2562,8 @@
       "why": "FURAM raqam bilan ishlaydi: e'londa aloqa raqami turadi va yuk egasiga qo'ng'iroq qilinadi. Raqamingizni bir marta tasdiqlaysiz — keyin hamma narsa ochiladi."
     },
     "phoneCode": {
-      "pick": "Davlat kodini tanlang"
+      "pick": "Davlat kodini tanlang",
+      "search": "Davlat yoki kod"
     },
     "photo": {
       "camera": "Kamera",

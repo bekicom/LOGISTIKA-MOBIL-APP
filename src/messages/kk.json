@@ -3850,6 +3850,8 @@
     "location": "Орнымды жіберу",
     "locationAdded": "📍 Менің орным",
     "map": "Карта",
+    "nearClosed": "Жабық",
+    "nearOpen": "Ашық",
     "nearTitle": "Жақын маңда",
     "open": "Ашу",
     "remove": "Алып тастау",

@@ -3850,6 +3850,8 @@
     "location": "发送我的位置",
     "locationAdded": "📍 我的位置",
     "map": "地图",
+    "nearClosed": "已关闭",
+    "nearOpen": "营业中",
     "nearTitle": "附近",
     "open": "查看",
     "remove": "移除",

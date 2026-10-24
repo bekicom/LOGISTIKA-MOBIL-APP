@@ -86,6 +86,10 @@ type YaqinJoy = {
   lat?: number;
   lng?: number;
   href?: string;
+  /** Ish vaqti (TZ v5.0 4.1): `true` ochiq, `false` yopiq, yo'q — ma'lum emas */
+  ochiq?: boolean | null;
+  /** `24/7` yoki `08:00-20:00` */
+  soat?: string | null;
 };
 
 type Msg = {
@@ -701,6 +705,14 @@ function Bubble({
                 {j.nomi || t(`pgAi.joyTur.${j.tur}`)}
               </Text>
               <Text style={s.nearKm}>{t("pgAi.km", { km: j.km })}</Text>
+              {/* Ochiq / yopiq — webdagi kabi (`ai-client.tsx`): tunda yopiq
+                  ustaxonaga 40 km yurib borilmasin */}
+              {j.ochiq != null ? (
+                <Text style={[s.nearKm, { color: j.ochiq ? color.success : color.danger, fontWeight: "700" }]}>
+                  {j.ochiq ? t("pgAi.nearOpen") : t("pgAi.nearClosed")}
+                  {j.soat ? ` · ${j.soat}` : ""}
+                </Text>
+              ) : null}
               {j.lat != null && j.lng != null ? (
                 <Pressable
                   onPress={() => void Linking.openURL(xarita(j.lat!, j.lng!))}

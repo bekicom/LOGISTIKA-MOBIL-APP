@@ -3850,6 +3850,8 @@
     "location": "Send my location",
     "locationAdded": "📍 My location",
     "map": "Map",
+    "nearClosed": "Closed",
+    "nearOpen": "Open",
     "nearTitle": "Nearby",
     "open": "Open",
     "remove": "Remove",

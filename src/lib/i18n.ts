@@ -22,6 +22,7 @@ import { getLocales } from "expo-localization";
 import { kvGet, kvSet } from "./secure-kv";
 
 import uz from "@/messages/uz.json";
+import uzCyrl from "@/messages/uz-Cyrl.json";
 import ru from "@/messages/ru.json";
 import en from "@/messages/en.json";
 import kk from "@/messages/kk.json";
@@ -31,13 +32,15 @@ import tr from "@/messages/tr.json";
 import zh from "@/messages/zh.json";
 
 /** Web'dagi `furam/src/lib/locale.ts` bilan bir xil ro'yxat */
-export const LOCALES = ["uz", "ru", "en", "tr", "kk", "ky", "tg", "zh"] as const;
+export const LOCALES = ["uz", "uz-Cyrl", "ru", "en", "tr", "kk", "ky", "tg", "zh"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "uz";
 
 export const LOCALE_INFO: Record<Locale, { native: string; flag: string }> = {
   uz: { native: "O'zbekcha", flag: "🇺🇿" },
+  /* Kirill yozuvi (TZ v2 §1) — lug'at lotinchadan yasaladi (`furam/scripts/yasa-kirill.ts`) */
+  "uz-Cyrl": { native: "Ўзбекча", flag: "🇺🇿" },
   ru: { native: "Русский", flag: "🇷🇺" },
   en: { native: "English", flag: "🇬🇧" },
   tr: { native: "Türkçe", flag: "🇹🇷" },
@@ -52,7 +55,7 @@ export const isLocale = (v: unknown): v is Locale =>
 
 const KEY = "furam_locale";
 
-export const i18n = new I18n({ uz, ru, en, kk, ky, tg, tr, zh });
+export const i18n = new I18n({ uz, "uz-Cyrl": uzCyrl, ru, en, kk, ky, tg, tr, zh });
 
 /* Kalit topilmasa o'zbekchaga tushadi — bo'sh matn yoki
    «[missing ...]» ko'rsatishdan ko'ra tushunarli. */
@@ -64,6 +67,8 @@ i18n.locale = DEFAULT_LOCALE;
 export function deviceLocale(): Locale {
   for (const l of getLocales()) {
     const tag = l.languageCode?.toLowerCase();
+    /* Telefon o'zbekcha KIRILLda — «uz-Cyrl-UZ» */
+    if (tag === "uz" && l.languageScriptCode === "Cyrl") return "uz-Cyrl";
     if (isLocale(tag)) return tag;
   }
   return DEFAULT_LOCALE;

@@ -229,6 +229,11 @@
     "unga": "Отправляю",
     "ungaHint": "Мои сообщения уходят собеседнику на этом языке"
   },
+  "chatUi": {
+    "tab_guruhlar": "Группы",
+    "tab_reyslar": "Рейсы",
+    "tab_shaxsiy": "Личные"
+  },
   "contactCard": {
     "revealFailed": "Не удалось открыть номер",
     "sendSms": "Отправить SMS",
@@ -981,7 +986,6 @@
       "gallery": "Галерея",
       "location": "Локация",
       "msgCount": "сообщений: %{n}",
-      "private": "Личные",
       "report": "Пожаловаться",
       "sendFailed": "Сообщение не отправлено",
       "sending": "Отправляется",

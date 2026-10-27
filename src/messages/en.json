@@ -229,6 +229,11 @@
     "unga": "I send",
     "ungaHint": "My messages reach the other person in this language"
   },
+  "chatUi": {
+    "tab_guruhlar": "Groups",
+    "tab_reyslar": "Trips",
+    "tab_shaxsiy": "Personal"
+  },
   "contactCard": {
     "revealFailed": "Could not reveal the number",
     "sendSms": "Send SMS",
@@ -981,7 +986,6 @@
       "gallery": "Gallery",
       "location": "Location",
       "msgCount": "%{n} messages",
-      "private": "Direct",
       "report": "Report",
       "sendFailed": "The message was not sent",
       "sending": "Sending",

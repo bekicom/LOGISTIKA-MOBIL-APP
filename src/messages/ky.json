@@ -229,6 +229,11 @@
     "unga": "Жөнөтөм",
     "ungaHint": "Менин билдирүүлөрүм маектешке ушул тилде барат"
   },
+  "chatUi": {
+    "tab_guruhlar": "Топтор",
+    "tab_reyslar": "Рейстер",
+    "tab_shaxsiy": "Жеке"
+  },
   "contactCard": {
     "revealFailed": "Номерди ачуу мүмкүн болгон жок",
     "sendSms": "SMS жиберүү",
@@ -981,7 +986,6 @@
       "gallery": "Галерея",
       "location": "Жайгашуу",
       "msgCount": "%{n} билдирүү",
-      "private": "Жеке",
       "report": "Даттануу",
       "sendFailed": "Билдирүү жиберилген жок",
       "sending": "Жиберилүүдө",

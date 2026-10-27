@@ -229,6 +229,11 @@
     "unga": "我发",
     "ungaHint": "我的消息以此语言发送给对方"
   },
+  "chatUi": {
+    "tab_guruhlar": "群组",
+    "tab_reyslar": "行程",
+    "tab_shaxsiy": "私聊"
+  },
   "contactCard": {
     "revealFailed": "无法显示号码",
     "sendSms": "发送短信",
@@ -981,7 +986,6 @@
       "gallery": "相册",
       "location": "位置",
       "msgCount": "%{n} 条消息",
-      "private": "私聊",
       "report": "举报",
       "sendFailed": "消息发送失败",
       "sending": "发送中",

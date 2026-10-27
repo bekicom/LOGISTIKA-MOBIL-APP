@@ -61,9 +61,10 @@ type Group = { key: string; chatId: string | null; members: number; joined: bool
  * o'zgartirmasdan ikki tomonni bir xil qilishning yagona yo'li. */
 function tabs() {
   return [
-    { key: "umumiy", label: t("mob.chatList.general") },
-    { key: "yuk", label: t("mob.chatList.loadTrip") },
-    { key: "shaxsiy", label: t("mob.chat.private") },
+    /* TZ v2 §5.2: Shaxsiy · Guruhlar · Reyslar — web bilan bir xil */
+    { key: "shaxsiy", label: t("chatUi.tab_shaxsiy") },
+    { key: "umumiy", label: t("chatUi.tab_guruhlar") },
+    { key: "yuk", label: t("chatUi.tab_reyslar") },
   ] as const;
 }
 
@@ -93,7 +94,7 @@ function when(iso: string | null) {
 }
 
 export default function ChatRoyxati() {
-  const [tab, setTab] = useState<Section>("umumiy");
+  const [tab, setTab] = useState<Section>("shaxsiy");
   const [held, setHeld] = useState<Chat | null>(null);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);

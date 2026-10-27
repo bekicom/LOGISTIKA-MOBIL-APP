@@ -229,6 +229,11 @@
     "unga": "Мефиристам",
     "ungaHint": "Паёмҳои ман ба ҳамсуҳбат бо ҳамин забон мераванд"
   },
+  "chatUi": {
+    "tab_guruhlar": "Гурӯҳҳо",
+    "tab_reyslar": "Сафарҳо",
+    "tab_shaxsiy": "Шахсӣ"
+  },
   "contactCard": {
     "revealFailed": "Рақамро кушода нашуд",
     "sendSms": "Фиристодани SMS",
@@ -981,7 +986,6 @@
       "gallery": "Галерея",
       "location": "Ҷойгиршавӣ",
       "msgCount": "%{n} паём",
-      "private": "Шахсӣ",
       "report": "Шикоят кардан",
       "sendFailed": "Паём фиристода нашуд",
       "sending": "Фиристода мешавад",

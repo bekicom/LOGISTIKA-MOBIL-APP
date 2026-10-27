@@ -229,6 +229,11 @@
     "unga": "Унга",
     "ungaHint": "Мен ёзганим суҳбатдошга шу тилда кетади"
   },
+  "chatUi": {
+    "tab_guruhlar": "Гуруҳлар",
+    "tab_reyslar": "Рейслар",
+    "tab_shaxsiy": "Шахсий"
+  },
   "contactCard": {
     "revealFailed": "Рақамни очиб бўлмади",
     "sendSms": "SMS юбориш",
@@ -981,7 +986,6 @@
       "gallery": "Галерея",
       "location": "Жойлашув",
       "msgCount": "%{n} та хабар",
-      "private": "Шахсий",
       "report": "Шикоят қилиш",
       "sendFailed": "Хабар юборилмади",
       "sending": "Юборилмоқда",

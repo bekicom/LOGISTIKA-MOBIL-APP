@@ -111,6 +111,22 @@ export default function Elonlarim() {
     }
   }
 
+  async function qayta(it: Item) {
+    setBusy(it.id);
+    setErr(null);
+    try {
+      await api(`/api/${it.kind === "load" ? "loads" : "trucks"}/${it.id}`, {
+        method: "PATCH",
+        body: { action: "activate" },
+      });
+      reload();
+    } catch (e) {
+      setErr((e as FuramError).message);
+    } finally {
+      setBusy(null);
+    }
+  }
+
   return (
     <View style={s.root}>
       <Header title={t("mob.mine.title")} />
@@ -249,6 +265,18 @@ export default function Elonlarim() {
                             <Text style={s.btnText}>{t("mob.mine.close")}</Text>
                           </Pressable>
                         ) : null}
+                      </View>
+                    ) : ozimniki ? (
+                      /* Arxivdan «Qayta e'lon qilish» (TZ v3 §15-16): yana 7 kun lentada */
+                      <View style={s.btns}>
+                        <Pressable
+                          style={[s.btn, busy === it.id && s.btnOff]}
+                          disabled={busy === it.id}
+                          onPress={() => void qayta(it)}
+                          accessibilityRole="button"
+                        >
+                          <Text style={s.btnText}>{t("yopish.qaytaElon")}</Text>
+                        </Pressable>
                       </View>
                     ) : null}
                   </>

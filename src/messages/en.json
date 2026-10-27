@@ -4238,6 +4238,7 @@
     "matchLoads": "%{n} new loads match you",
     "matchTrucks": "%{n} matching trucks found for your load",
     "noDriver": "%{n} trucks have no driver",
+    "profileGap": "Your profile is %{n}% complete — add the missing details",
     "rateTrips": "Rate %{n} closed trips",
     "scoreHint": "Activity score — see what it is made of",
     "title": "Today for you",

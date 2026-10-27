@@ -4238,6 +4238,7 @@
     "matchLoads": "有 %{n} 条适合您的新货源",
     "matchTrucks": "为您的货物找到 %{n} 辆合适的车",
     "noDriver": "%{n} 辆车没有司机",
+    "profileGap": "您的资料已完成 %{n}% —— 请补充缺少的信息",
     "rateTrips": "为 %{n} 个已结束行程评分",
     "scoreHint": "活跃度指标——查看它由什么构成",
     "title": "今天为您",

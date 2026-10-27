@@ -60,7 +60,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon, type IconName } from "@/components/Icon";
 import { PostSheet } from "@/components/PostSheet";
 import { Tour } from "@/components/Tour";
-import { NudgeGate } from "@/components/Nudge";
 import { clearTourRequest, markSeen, seen, useSplashDone, useTourRequest } from "@/lib/first-run";
 import { color, shadow, themed } from "@/lib/theme";
 import { SPRING, useReduceMotion } from "@/lib/motion";
@@ -291,7 +290,8 @@ export default function TabsLayout() {
       {/* Eslatma oynasi — yo'l-yo'riqdan KEYIN. Ikkalasi bir vaqtda
           chiqsa, odam birinchisini yopgan barmog'i bilan
           ikkinchisini ham yopadi. */}
-      {!tour ? <NudgeGate /> : null}
+      {/* «Profil to'liq emas» oynasi O'CHIRILDI (TZ v2 §2.5): ekranni yopmaydi —
+          «Mening ishim» dagi vazifa (`TodayCard`, server `today.ts`) */}
     </>
   );
 }

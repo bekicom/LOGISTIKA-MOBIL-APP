@@ -4238,6 +4238,7 @@
     "matchLoads": "Size uygun %{n} yeni yük var",
     "matchTrucks": "Yükünüz için %{n} uygun araç bulundu",
     "noDriver": "%{n} aracın şoförü yok",
+    "profileGap": "Profiliniz yüzde %{n} dolu — eksik bilgileri ekleyin",
     "rateTrips": "%{n} tamamlanmış seferi puanlayın",
     "scoreHint": "Etkinlik puanı — nelerden oluştuğunu görün",
     "title": "Bugün sizin için",

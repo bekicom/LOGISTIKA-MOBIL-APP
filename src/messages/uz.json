@@ -4238,6 +4238,7 @@
     "matchLoads": "Sizga mos %{n} ta yangi yuk bor",
     "matchTrucks": "Yukingiz uchun %{n} ta mos mashina topildi",
     "noDriver": "%{n} ta mashinada haydovchi yo'q",
+    "profileGap": "Profilingiz %{n}% to'ldirilgan — yetishmagan ma'lumotni kiriting",
     "rateTrips": "%{n} ta yopilgan reysni baholang",
     "scoreHint": "Faollik ko'rsatkichi — nimadan yig'ilishini ko'rish",
     "title": "Bugun siz uchun",

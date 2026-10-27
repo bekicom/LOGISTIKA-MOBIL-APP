@@ -397,6 +397,16 @@
     "submit": "Sign up",
     "taken": "This Google account is already registered — sign in on the login page"
   },
+  "income": {
+    "days": "last %{n} days",
+    "empty": "No financial records yet — income and expenses will appear here once trips are closed.",
+    "expense": "Expenses",
+    "feeEarned": "Fees earned",
+    "feePending": "Pending",
+    "net": "Net income",
+    "revenue": "Revenue",
+    "title": "My income"
+  },
   "ishim": {
     "bitim": "Deals this month",
     "bosh": "Free",

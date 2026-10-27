@@ -397,6 +397,16 @@
     "submit": "Ro'yxatdan o'tish",
     "taken": "Bu Google akkaunti allaqachon ro'yxatdan o'tgan — kirish sahifasidan kiring"
   },
+  "income": {
+    "days": "oxirgi %{n} kun",
+    "empty": "Hali moliyaviy yozuv yo'q — reyslar yopilganda tushum va xarajat shu yerda ko'rinadi.",
+    "expense": "Xarajat",
+    "feeEarned": "Olingan xizmat haqi",
+    "feePending": "Kutilayotgan",
+    "net": "Sof daromad",
+    "revenue": "Tushum",
+    "title": "Mening daromadim"
+  },
   "ishim": {
     "bitim": "Bu oy bitimlar",
     "bosh": "Bo'sh",

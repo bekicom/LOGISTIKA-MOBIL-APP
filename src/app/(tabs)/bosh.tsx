@@ -41,6 +41,7 @@ import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
 import { BoshqaXizmatlar } from "@/components/BoshqaXizmatlar";
 import { RolAlmashtirgich } from "@/components/RolAlmashtirgich";
 import { AsosiyIsh, type AsosiyIshData } from "@/components/AsosiyIsh";
+import { Raqamlar, type RaqamlarData } from "@/components/Raqamlar";
 import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
@@ -60,6 +61,7 @@ type Home =
       faolRol?: string;
       rollar?: string[];
       asosiy?: AsosiyIshData | null;
+      raqamlar?: RaqamlarData | null;
       suggestedLoads: Listing[];
     }
   | {
@@ -72,6 +74,7 @@ type Home =
       faolRol?: string;
       rollar?: string[];
       asosiy?: AsosiyIshData | null;
+      raqamlar?: RaqamlarData | null;
       counts: { liveTrips: number; problems: number; awaitingReply: number; expiringDocuments: number };
       /** `name: null` — ismsiz suhbat, ilova o'z tilida yozadi */
       recentChats: { id: string; name: string | null; lastMessage: string | null; lastAt: string }[];
@@ -147,6 +150,8 @@ export default function Bosh() {
         {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
         {/* 2-blok: rolning asosiy ishi (TZ v2 §2.3) */}
         {data ? <AsosiyIsh d={data.asosiy} /> : null}
+        {/* 3-blok: raqamlar (TZ v2 §2.3) — webdagi «Mening daromadim» */}
+        {data ? <Raqamlar d={data.raqamlar} /> : null}
 
         {/* Besh asosiy tugma — hamma rolda, ma'lumot kutmaydi (TZ-05) */}
         <AsosiyTugmalar />

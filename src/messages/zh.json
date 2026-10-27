@@ -397,6 +397,16 @@
     "submit": "注册",
     "taken": "该 Google 账号已注册 — 请在登录页登录"
   },
+  "income": {
+    "days": "最近 %{n} 天",
+    "empty": "暂无财务记录——行程结束后，收入和支出将显示在这里。",
+    "expense": "支出",
+    "feeEarned": "已收服务费",
+    "feePending": "待收",
+    "net": "净收入",
+    "revenue": "收入",
+    "title": "我的收入"
+  },
   "ishim": {
     "bitim": "本月成交",
     "bosh": "空闲",

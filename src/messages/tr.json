@@ -397,6 +397,16 @@
     "submit": "Kaydol",
     "taken": "Bu Google hesabı zaten kayıtlı — giriş sayfasından girin"
   },
+  "income": {
+    "days": "son %{n} gün",
+    "empty": "Henüz mali kayıt yok — seferler kapandığında gelir ve giderler burada görünecek.",
+    "expense": "Gider",
+    "feeEarned": "Alınan komisyon",
+    "feePending": "Bekleyen",
+    "net": "Net gelir",
+    "revenue": "Gelir",
+    "title": "Gelirim"
+  },
   "ishim": {
     "bitim": "Bu ayki anlaşmalar",
     "bosh": "Boşta",

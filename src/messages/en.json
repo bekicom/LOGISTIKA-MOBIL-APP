@@ -4099,8 +4099,7 @@
     "saveDocs": "Save to my documents",
     "tarifKerak": "🔒 This needs the «%{rol}» plan",
     "tarifniKorish": "See the plan",
-    "unverified": "⚠️ Read by AI — not verified. Check against the original.",
-    "voiceFailed": "Couldn't recognise the voice — try again"
+    "unverified": "⚠️ Read by AI — not verified. Check against the original."
   },
   "pgFleet": {
     "joylarTola": "All slots are in use",

@@ -4099,8 +4099,7 @@
     "saveDocs": "Hujjatlarimga saqlash",
     "tarifKerak": "🔒 Bu amal uchun «%{rol}» tarifi kerak",
     "tarifniKorish": "Tarifni ko'rish",
-    "unverified": "⚠️ AI o'qishi — tasdiqlanmagan. Asl hujjat bilan solishtiring.",
-    "voiceFailed": "Ovozni tanib bo'lmadi — qayta urinib ko'ring"
+    "unverified": "⚠️ AI o'qishi — tasdiqlanmagan. Asl hujjat bilan solishtiring."
   },
   "pgFleet": {
     "joylarTola": "Barcha joylar band",

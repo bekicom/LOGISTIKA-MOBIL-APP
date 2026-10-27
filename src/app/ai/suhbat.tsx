@@ -53,7 +53,6 @@ import { Icon, type IconName } from "@/components/Icon";
 import { AiReportButton } from "@/components/AiReport";
 import { Sheet } from "@/components/Sheet";
 import { Button } from "@/components/ui";
-import { MicButton, type VoiceFile } from "@/components/Recorder";
 import { webToApp } from "@/lib/routes";
 import { api, apiUpload, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
@@ -237,7 +236,6 @@ export default function Suhbat() {
   const [joy, setJoy] = useState<{ lat: number; lng: number } | null>(null);
   const [rozilik, setRozilik] = useState(false);
   const [joyBand, setJoyBand] = useState(false);
-  const [ovozBand, setOvozBand] = useState(false);
 
   const listRef = useRef<FlatList<Msg>>(null);
   const { data: usage, refresh } = useApi<Usage>("/api/ai/usage");
@@ -350,28 +348,6 @@ export default function Suhbat() {
     }
   }
 
-  /** Ovoz → matn: yozilgan matn o'chmaydi, yangisi ortidan qo'shiladi */
-  async function ovozdan(v: VoiceFile) {
-    /* Qoida 5: to'siq OLDINDAN — ovozni o'girish ham `ai` tarifida */
-    if (tariffBlocked("ai")) return;
-    setOvozBand(true);
-    try {
-      const r = await apiUpload<{ text?: string }>("/api/ai/voice-text", {}, [
-        { field: "file", uri: v.uri, name: v.name, type: v.type },
-      ]);
-      const matn = (r.text ?? "").trim();
-      if (!matn) {
-        ogoh(t("pgAi.voiceFailed"));
-        return;
-      }
-      setText((old) => (old.trim() ? `${old.trim()} ${matn}` : matn));
-    } catch (e) {
-      ogoh(aiError(e as FuramError));
-    } finally {
-      setOvozBand(false);
-    }
-  }
-
   /** Taklifni tasdiqlash yoki rad etish */
   async function decide(a: Action, confirm: boolean) {
     setAsk(null);
@@ -406,7 +382,7 @@ export default function Suhbat() {
   }
 
   const left = usage?.ask.hourLeft ?? null;
-  const yuborsaBoladi = !busy && !ovozBand && (text.trim().length >= 2 || !!fayl || !!joy);
+  const yuborsaBoladi = !busy && (text.trim().length >= 2 || !!fayl || !!joy);
 
   return (
     <KeyboardAvoidingView
@@ -542,15 +518,16 @@ export default function Suhbat() {
             <TextInput
               value={text}
               onChangeText={setText}
-              placeholder={ovozBand ? t("mob.voiceNote.working") : t("mob.ai.askPh")}
+              placeholder={t("mob.ai.askPh")}
               placeholderTextColor={color.faintText}
               style={s.input}
               multiline
-              editable={!busy && !ovozBand}
+              editable={!busy}
             />
           </View>
-          {/* Matn yoki ilova bo'lmasa — mikrofon (chatdagidek) */}
-          {text.trim() || fayl || joy || busy ? (
+          {/* Mikrofon olib tashlandi (TZ v3 3.4: ovozli boshqaruv yo'q) — doim yuborish */}
+          {(
+
             <Pressable
               style={[s.sendBtn, !yuborsaBoladi ? s.sendOff : null]}
               onPress={() => void send(text)}
@@ -564,17 +541,6 @@ export default function Suhbat() {
                 <Icon name="arrow-right" size={19} stroke="#fff" />
               )}
             </Pressable>
-          ) : ovozBand ? (
-            <View style={[s.sendBtn, s.sendOff]}>
-              <ActivityIndicator color="#fff" size="small" />
-            </View>
-          ) : (
-            <MicButton
-              onDone={(v) => void ovozdan(v)}
-              onError={ogoh}
-              onHint={(matn) => setToast({ matn, ohang: "info" })}
-              disabled={busy}
-            />
           )}
         </View>
       </View>

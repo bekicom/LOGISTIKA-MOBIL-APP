@@ -4099,8 +4099,7 @@
     "saveDocs": "Belgelerime kaydet",
     "tarifKerak": "🔒 Bunun için «%{rol}» tarifesi gerekli",
     "tarifniKorish": "Tarifeyi gör",
-    "unverified": "⚠️ Yapay zekâ okudu — doğrulanmadı. Asıl belgeyle karşılaştırın.",
-    "voiceFailed": "Ses tanınamadı — tekrar deneyin"
+    "unverified": "⚠️ Yapay zekâ okudu — doğrulanmadı. Asıl belgeyle karşılaştırın."
   },
   "pgFleet": {
     "joylarTola": "Tüm yerler dolu",

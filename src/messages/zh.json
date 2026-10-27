@@ -4099,8 +4099,7 @@
     "saveDocs": "保存到我的证件",
     "tarifKerak": "🔒 此操作需要「%{rol}」套餐",
     "tarifniKorish": "查看套餐",
-    "unverified": "⚠️ AI识别——未经核实。请与原件核对。",
-    "voiceFailed": "无法识别语音——请重试"
+    "unverified": "⚠️ AI识别——未经核实。请与原件核对。"
   },
   "pgFleet": {
     "joylarTola": "名额已全部占用",

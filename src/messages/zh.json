@@ -169,6 +169,10 @@
     "PHONE_NOT_VERIFIED": "请先验证手机号。",
     "PHONE_REQUIRED": "请先验证您的手机号",
     "PHONE_TAKEN": "该号码已注册。",
+    "PIN_FORMAT": "PIN 须为 4–6 位数字",
+    "PIN_LOCKED": "PIN 已错误 5 次——请 15 分钟后再试",
+    "PIN_REQUIRED": "请输入签署 PIN",
+    "PIN_WRONG": "PIN 错误",
     "PRICE_REQUIRED": "请输入与货主商定的价格。",
     "RADIUS_REQUIRED": "请设置服务半径。",
     "RATE_LIMIT": "请求过于频繁，请稍候。",
@@ -506,6 +510,13 @@
     "yoq": "暂无匹配司机——出现时我们会通知您",
     "yozish": "发消息",
     "yuborildi": "邀请已发送"
+  },
+  "imzoPin": {
+    "imzolash": "签署",
+    "izoh": "确认即您的签名。切勿泄露 PIN",
+    "izohYangi": "今后签署所有合同都需要此 PIN",
+    "kiriting": "输入签署 PIN",
+    "ornating": "设置签署 PIN（4–6 位数字）"
   },
   "income": {
     "days": "最近 %{n} 天",
@@ -4560,6 +4571,18 @@
     "OTHER": "其他",
     "PADS": "刹车片",
     "TIRES": "轮胎"
+  },
+  "versiyaFarq": {
+    "almashtirilgan": "已替换",
+    "dispetcher": "调度费",
+    "joriy": "当前",
+    "kutilmoqda": "待确认",
+    "mashina": "车辆",
+    "narx": "价格",
+    "shartlar": "附加条款",
+    "tolov": "付款条件",
+    "tushirish": "卸货日期",
+    "yuklash": "装货日期"
   },
   "videoSection": {
     "ai": "AI 助手",

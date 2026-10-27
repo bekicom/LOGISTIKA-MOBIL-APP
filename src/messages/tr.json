@@ -169,6 +169,10 @@
     "PHONE_NOT_VERIFIED": "Önce telefon numaranızı doğrulayın.",
     "PHONE_REQUIRED": "Önce telefon numaranızı doğrulayın",
     "PHONE_TAKEN": "Bu numara zaten kayıtlı.",
+    "PIN_FORMAT": "PIN 4–6 rakam olmalı",
+    "PIN_LOCKED": "PIN 5 kez yanlış girildi — 15 dakika sonra deneyin",
+    "PIN_REQUIRED": "İmza PIN'inizi girin",
+    "PIN_WRONG": "PIN yanlış",
     "PRICE_REQUIRED": "Sahibiyle anlaşılan fiyatı girin.",
     "RADIUS_REQUIRED": "Hizmet yarıçapını belirtin.",
     "RATE_LIMIT": "Çok sık istek. Biraz bekleyin.",
@@ -506,6 +510,13 @@
     "yoq": "Henüz uygun sürücü yok — çıkınca haber veririz",
     "yozish": "Yaz",
     "yuborildi": "Teklif gönderildi"
+  },
+  "imzoPin": {
+    "imzolash": "İmzala",
+    "izoh": "Onay sizin imzanızdır. PIN'i kimseyle paylaşmayın",
+    "izohYangi": "Bu PIN sonraki tüm sözleşmeleri imzalamak için gerekecek",
+    "kiriting": "İmza PIN'inizi girin",
+    "ornating": "İmza PIN'i belirleyin (4–6 rakam)"
   },
   "income": {
     "days": "son %{n} gün",
@@ -4560,6 +4571,18 @@
     "OTHER": "Diğer",
     "PADS": "Balata",
     "TIRES": "Lastikler"
+  },
+  "versiyaFarq": {
+    "almashtirilgan": "değiştirildi",
+    "dispetcher": "Dispeçer ücreti",
+    "joriy": "geçerli",
+    "kutilmoqda": "onay bekliyor",
+    "mashina": "Araç",
+    "narx": "Fiyat",
+    "shartlar": "Ek koşullar",
+    "tolov": "Ödeme koşulu",
+    "tushirish": "Boşaltma tarihi",
+    "yuklash": "Yükleme tarihi"
   },
   "videoSection": {
     "ai": "AI asistan",

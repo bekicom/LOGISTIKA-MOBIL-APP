@@ -169,6 +169,10 @@
     "PHONE_NOT_VERIFIED": "Confirm your phone number first.",
     "PHONE_REQUIRED": "Please confirm your phone number first",
     "PHONE_TAKEN": "That number is already registered.",
+    "PIN_FORMAT": "The PIN must be 4–6 digits",
+    "PIN_LOCKED": "Wrong PIN 5 times — try again in 15 minutes",
+    "PIN_REQUIRED": "Enter your signing PIN",
+    "PIN_WRONG": "Wrong PIN",
     "PRICE_REQUIRED": "Enter the price agreed with the owner.",
     "RADIUS_REQUIRED": "Set your service radius.",
     "RATE_LIMIT": "Too many requests. Wait a moment.",
@@ -506,6 +510,13 @@
     "yoq": "No matching drivers yet — we'll notify you when they appear",
     "yozish": "Message",
     "yuborildi": "Offer sent"
+  },
+  "imzoPin": {
+    "imzolash": "Sign",
+    "izoh": "Approval is your signature. Never share your PIN",
+    "izohYangi": "You'll use this PIN to sign all future contracts",
+    "kiriting": "Enter your signing PIN",
+    "ornating": "Set a signing PIN (4–6 digits)"
   },
   "income": {
     "days": "last %{n} days",
@@ -4560,6 +4571,18 @@
     "OTHER": "Other",
     "PADS": "Brake pads",
     "TIRES": "Tyres"
+  },
+  "versiyaFarq": {
+    "almashtirilgan": "replaced",
+    "dispetcher": "Dispatcher fee",
+    "joriy": "current",
+    "kutilmoqda": "awaiting approval",
+    "mashina": "Vehicle",
+    "narx": "Price",
+    "shartlar": "Special terms",
+    "tolov": "Payment terms",
+    "tushirish": "Unloading date",
+    "yuklash": "Loading date"
   },
   "videoSection": {
     "ai": "AI assistant",

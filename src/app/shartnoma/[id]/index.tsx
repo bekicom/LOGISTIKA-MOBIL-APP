@@ -52,6 +52,8 @@ type Version = {
   byMe: boolean;
   byName: string | null;
   changed: { field: string; dir?: "up" | "down" }[];
+  /* TZ v2 §6.3 — eski serverda yo'q */
+  holat?: "joriy" | "almashtirilgan" | "kutilmoqda";
 };
 
 type Detail = {
@@ -111,15 +113,34 @@ export default function Shartnoma() {
     [id],
   );
 
+  /* Imzo PIN'i (TZ v2 §6.3): tasdiq PIN bilan, birinchi marta — o'rnatiladi */
+  const [pinSheet, setPinSheet] = useState(false);
+  const [pin, setPin] = useState("");
+  const [pinBor, setPinBor] = useState(true);
+  const [pinXato, setPinXato] = useState<string | null>(null);
+
   async function decide(body: Record<string, unknown>) {
     setBusy(true);
     setErr(null);
+    setPinXato(null);
     try {
-      await api(`/api/contracts/${id}`, { method: "PATCH", body });
+      const r = await api<{ tripId?: string | null }>(`/api/contracts/${id}`, { method: "PATCH", body });
       setSheet(null);
+      setPinSheet(false);
+      setPin("");
+      /* Mashina va haydovchi bo'lsa reys o'zi ochildi (TZ v2 §4.3) */
+      if (r?.tripId) {
+        router.push({ pathname: "/reys/[id]", params: { id: r.tripId } });
+        return;
+      }
       reload();
     } catch (e) {
-      setErr((e as Error).message);
+      const fe = e as FuramError;
+      if (typeof fe.code === "string" && fe.code.startsWith("PIN_")) {
+        setPinSheet(true);
+        if (typeof fe.data?.pinBor === "boolean") setPinBor(fe.data.pinBor);
+        if (fe.code !== "PIN_REQUIRED") setPinXato(fe.message);
+      } else setErr(fe.message);
     } finally {
       setBusy(false);
     }
@@ -133,6 +154,26 @@ export default function Shartnoma() {
         title={c?.label ?? t("mob.ctr.one")}
         subtitle={c ? t(`contractStatus.${c.status}`) : undefined}
       />
+
+      {/* Imzo PIN'i (TZ v2 §6.3) */}
+      <Modal visible={pinSheet} transparent animationType="fade" onRequestClose={() => setPinSheet(false)}>
+        <Pressable style={s.pinBg} onPress={() => setPinSheet(false)}>
+          <Pressable style={s.pinBox} onPress={() => null}>
+            <Text style={s.pinTitle}>{pinBor ? t("imzoPin.kiriting") : t("imzoPin.ornating")}</Text>
+            <Text style={s.pinIzoh}>{pinBor ? t("imzoPin.izoh") : t("imzoPin.izohYangi")}</Text>
+            <Field
+              label=""
+              value={pin}
+              onChangeText={(v) => setPin(v.replace(/\D/g, "").slice(0, 6))}
+              keyboardType="number-pad"
+              secureTextEntry
+              autoFocus
+            />
+            {pinXato ? <Text style={{ color: color.danger, fontSize: 13 }}>{pinXato}</Text> : null}
+            <Button title={t("imzoPin.imzolash")} loading={busy} disabled={pin.length < 4} onPress={() => decide({ action: "approve", pin })} />
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       <ScrollView
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + space.xxl }]}
@@ -278,6 +319,12 @@ export default function Shartnoma() {
                           </Text>
                         )}
                         {!!v.note && <Text style={s.stepNote}>«{v.note}»</Text>}
+                        {/* Eski versiya «almashtirilgan» (TZ v2 §6.3) */}
+                        {v.holat && v.holat !== "joriy" ? (
+                          <Text style={[s.stepNote, { textDecorationLine: v.holat === "almashtirilgan" ? "line-through" : "none" }]}>
+                            {t(`versiyaFarq.${v.holat}`)}
+                          </Text>
+                        ) : null}
                       </View>
                     </View>
                   ))}
@@ -340,7 +387,7 @@ export default function Shartnoma() {
                 <Button
                   title={t("mob.ctr.approve")}
                   loading={busy}
-                  onPress={() => decide({ action: "approve" })}
+                  onPress={() => setPinSheet(true)}
                 />
                 <View style={{ flexDirection: "row", gap: 9 }}>
                   <View style={{ flex: 1 }}>
@@ -796,6 +843,10 @@ function CounterSheet({
 }
 
 const s = themed(() => ({
+  pinBg: { flex: 1, backgroundColor: "#00000066", justifyContent: "center" as const, padding: space.lg },
+  pinBox: { backgroundColor: color.card, borderRadius: radius.card, padding: space.lg, gap: 10 },
+  pinTitle: { fontSize: 16, fontFamily: "Manrope_700Bold", color: color.foreground },
+  pinIzoh: { fontSize: 13, color: color.mutedForeground },
   payerLabel: { fontSize: 13, fontWeight: "600", color: color.foreground, marginBottom: 8 },
   payerRow: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   payer: {

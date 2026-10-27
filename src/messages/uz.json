@@ -169,6 +169,10 @@
     "PHONE_NOT_VERIFIED": "Avval telefon raqamini tasdiqlang.",
     "PHONE_REQUIRED": "Avval telefon raqamingizni tasdiqlang",
     "PHONE_TAKEN": "Bu raqam allaqachon ro'yxatdan o'tgan.",
+    "PIN_FORMAT": "PIN 4–6 ta raqamdan iborat bo'lsin",
+    "PIN_LOCKED": "PIN 5 marta xato kiritildi — 15 daqiqadan keyin urinib ko'ring",
+    "PIN_REQUIRED": "Imzo PIN'ini kiriting",
+    "PIN_WRONG": "PIN noto'g'ri",
     "PRICE_REQUIRED": "Egasi bilan kelishilgan narxni kiriting.",
     "RADIUS_REQUIRED": "Xizmat radiusini ko'rsating.",
     "RATE_LIMIT": "Juda tez-tez so'rayapsiz. Biroz kuting.",
@@ -506,6 +510,13 @@
     "yoq": "Hozircha mos haydovchi topilmadi — mos haydovchilar chiqqanda xabar beramiz",
     "yozish": "Yozish",
     "yuborildi": "Taklif yuborildi"
+  },
+  "imzoPin": {
+    "imzolash": "Imzolash",
+    "izoh": "Tasdiq — sizning imzoyingiz. PIN'ni hech kimga aytmang",
+    "izohYangi": "Bu PIN keyingi barcha shartnomalarni imzolash uchun kerak bo'ladi",
+    "kiriting": "Imzo PIN'ini kiriting",
+    "ornating": "Imzo PIN'ini o'rnating (4–6 raqam)"
   },
   "income": {
     "days": "oxirgi %{n} kun",
@@ -4560,6 +4571,18 @@
     "OTHER": "Boshqa",
     "PADS": "Kolodka",
     "TIRES": "Balon"
+  },
+  "versiyaFarq": {
+    "almashtirilgan": "almashtirilgan",
+    "dispetcher": "Dispetcher haqi",
+    "joriy": "joriy",
+    "kutilmoqda": "tasdiq kutilmoqda",
+    "mashina": "Mashina",
+    "narx": "Narx",
+    "shartlar": "Qo'shimcha shartlar",
+    "tolov": "To'lov sharti",
+    "tushirish": "Tushirish sanasi",
+    "yuklash": "Yuklash sanasi"
   },
   "videoSection": {
     "ai": "AI yordamchi",

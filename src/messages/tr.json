@@ -397,6 +397,26 @@
     "submit": "Kaydol",
     "taken": "Bu Google hesabı zaten kayıtlı — giriş sayfasından girin"
   },
+  "ishim": {
+    "bitim": "Bu ayki anlaşmalar",
+    "bosh": "Boşta",
+    "dispTitle": "Dispeçer işi",
+    "faol": "Aktif ilanlar",
+    "faolYuk": "Aktif yükler",
+    "haydovchiTitle": "Şu anki işim",
+    "haydovchisiz": "Şoförsüz",
+    "kuzatuvda": "Takipteki seferler",
+    "mosYuk": "Yeni uygun yükler",
+    "open": "Aç",
+    "parkTitle": "Filo durumu",
+    "qiziqqan": "İlgilenenler (7 gün)",
+    "reys": "Sefer",
+    "reysYoq": "Aktif sefer yok",
+    "reysda": "Seferde",
+    "tamirda": "Tamirde",
+    "yolda": "Yolda",
+    "yukTitle": "Yüklerim"
+  },
   "issueStatus": {
     "FIXED": "Giderildi",
     "IGNORED": "Yok sayıldı",

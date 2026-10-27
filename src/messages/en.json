@@ -397,6 +397,26 @@
     "submit": "Sign up",
     "taken": "This Google account is already registered — sign in on the login page"
   },
+  "ishim": {
+    "bitim": "Deals this month",
+    "bosh": "Free",
+    "dispTitle": "Dispatcher work",
+    "faol": "Active listings",
+    "faolYuk": "Active loads",
+    "haydovchiTitle": "My current work",
+    "haydovchisiz": "No driver",
+    "kuzatuvda": "Trips under control",
+    "mosYuk": "New matching loads",
+    "open": "Open",
+    "parkTitle": "Fleet status",
+    "qiziqqan": "Interested (7 days)",
+    "reys": "Trip",
+    "reysYoq": "No active trip",
+    "reysda": "On trip",
+    "tamirda": "In repair",
+    "yolda": "On the road",
+    "yukTitle": "My loads"
+  },
   "issueStatus": {
     "FIXED": "Fixed",
     "IGNORED": "Ignored",

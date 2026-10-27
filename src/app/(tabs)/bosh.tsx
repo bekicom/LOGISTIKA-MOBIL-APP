@@ -40,6 +40,7 @@ import { HomeMap } from "@/components/HomeMap";
 import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
 import { BoshqaXizmatlar } from "@/components/BoshqaXizmatlar";
 import { RolAlmashtirgich } from "@/components/RolAlmashtirgich";
+import { AsosiyIsh, type AsosiyIshData } from "@/components/AsosiyIsh";
 import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
@@ -58,6 +59,7 @@ type Home =
       /** Rol almashtirgich (TZ v2 §2.2); eski serverda yo'q */
       faolRol?: string;
       rollar?: string[];
+      asosiy?: AsosiyIshData | null;
       suggestedLoads: Listing[];
     }
   | {
@@ -69,6 +71,7 @@ type Home =
       quick?: TezkorTugma[];
       faolRol?: string;
       rollar?: string[];
+      asosiy?: AsosiyIshData | null;
       counts: { liveTrips: number; problems: number; awaitingReply: number; expiringDocuments: number };
       /** `name: null` — ismsiz suhbat, ilova o'z tilida yozadi */
       recentChats: { id: string; name: string | null; lastMessage: string | null; lastAt: string }[];
@@ -142,6 +145,8 @@ export default function Bosh() {
 
         {/* «Dispetcher ▾» — «Mening ishim» qaysi rolniki (TZ v2 §2.2) */}
         {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
+        {/* 2-blok: rolning asosiy ishi (TZ v2 §2.3) */}
+        {data ? <AsosiyIsh d={data.asosiy} /> : null}
 
         {/* Besh asosiy tugma — hamma rolda, ma'lumot kutmaydi (TZ-05) */}
         <AsosiyTugmalar />

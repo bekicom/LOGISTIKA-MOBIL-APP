@@ -397,6 +397,26 @@
     "submit": "注册",
     "taken": "该 Google 账号已注册 — 请在登录页登录"
   },
+  "ishim": {
+    "bitim": "本月成交",
+    "bosh": "空闲",
+    "dispTitle": "调度工作",
+    "faol": "有效信息",
+    "faolYuk": "有效货物",
+    "haydovchiTitle": "当前工作",
+    "haydovchisiz": "无司机",
+    "kuzatuvda": "监控中的行程",
+    "mosYuk": "新的匹配货源",
+    "open": "打开",
+    "parkTitle": "车队状态",
+    "qiziqqan": "感兴趣（7天）",
+    "reys": "行程",
+    "reysYoq": "暂无进行中的行程",
+    "reysda": "运输中",
+    "tamirda": "维修中",
+    "yolda": "在途",
+    "yukTitle": "我的货物"
+  },
   "issueStatus": {
     "FIXED": "已修复",
     "IGNORED": "已忽略",

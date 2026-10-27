@@ -397,6 +397,26 @@
     "submit": "Ro'yxatdan o'tish",
     "taken": "Bu Google akkaunti allaqachon ro'yxatdan o'tgan — kirish sahifasidan kiring"
   },
+  "ishim": {
+    "bitim": "Bu oy bitimlar",
+    "bosh": "Bo'sh",
+    "dispTitle": "Dispetcher ishi",
+    "faol": "Faol e'lonlar",
+    "faolYuk": "Faol yuklar",
+    "haydovchiTitle": "Joriy ishim",
+    "haydovchisiz": "Haydovchisiz",
+    "kuzatuvda": "Kuzatuvdagi reyslar",
+    "mosYuk": "Mos yangi yuklar",
+    "open": "Ochish",
+    "parkTitle": "Avtopark holati",
+    "qiziqqan": "Qiziqqanlar (7 kun)",
+    "reys": "Reys",
+    "reysYoq": "Faol reys yo'q",
+    "reysda": "Reysda",
+    "tamirda": "Ta'mirda",
+    "yolda": "Yo'lda",
+    "yukTitle": "Mening yuklarim"
+  },
   "issueStatus": {
     "FIXED": "Tuzatildi",
     "IGNORED": "E'tiborsiz qoldirildi",

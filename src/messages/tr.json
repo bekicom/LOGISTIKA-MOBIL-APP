@@ -4903,5 +4903,9 @@
     "s_REYS_YAKUNLANDI": "Sefer tamamlandı",
     "s_SANA_OTDI": "Yükleme tarihi geçti",
     "sarlavha": "Neden kapatıyorsunuz?"
+  },
+  "zapchastFiltr": {
+    "ustaChaqirish": "Usta çağır",
+    "zapchastSorash": "Bu araca yedek parça"
   }
 }

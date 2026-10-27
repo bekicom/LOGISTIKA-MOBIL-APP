@@ -4903,5 +4903,9 @@
     "s_REYS_YAKUNLANDI": "行程已完成",
     "s_SANA_OTDI": "装货日期已过",
     "sarlavha": "为什么关闭？"
+  },
+  "zapchastFiltr": {
+    "ustaChaqirish": "叫维修工",
+    "zapchastSorash": "此车配件"
   }
 }

@@ -4903,5 +4903,9 @@
     "s_REYS_YAKUNLANDI": "Рейс аяктады",
     "s_SANA_OTDI": "Жүктөө күнү өттү",
     "sarlavha": "Эмне үчүн жабасыз?"
+  },
+  "zapchastFiltr": {
+    "ustaChaqirish": "Уста чакыруу",
+    "zapchastSorash": "Ушул унаага запчасть"
   }
 }

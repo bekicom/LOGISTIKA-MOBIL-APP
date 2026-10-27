@@ -333,6 +333,17 @@ export default function TransportTafsilot() {
               hint={t("mob.tstate.issues")}
               onPress={() => router.push(`/parkim/${v.id}/texnik`)}
             />
+            {/* Bir bosishda: shu mashinaga zapchast va usta (TZ v3 §9, §15-19) */}
+            <ListRow
+              icon={<Icon name="tag" size={18} stroke={color.brand} />}
+              title={t("zapchastFiltr.zapchastSorash")}
+              onPress={() => router.push(`/zapchast?vehicleId=${v.id}` as never)}
+            />
+            <ListRow
+              icon={<Icon name="wrench" size={18} stroke={color.brand} />}
+              title={t("zapchastFiltr.ustaChaqirish")}
+              onPress={() => router.push(`/usta-chaqirish?vehicleId=${v.id}` as never)}
+            />
             <ListRow
               icon={<Icon name="truck" size={18} stroke={color.blue} />}
               title={t("mob.trailer.title")}

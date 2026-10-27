@@ -4903,5 +4903,9 @@
     "s_REYS_YAKUNLANDI": "Рейс якунланди",
     "s_SANA_OTDI": "Юклаш санаси ўтди",
     "sarlavha": "Нега ёпяпсиз?"
+  },
+  "zapchastFiltr": {
+    "ustaChaqirish": "Уста чақириш",
+    "zapchastSorash": "Шу машинага запчаст"
   }
 }

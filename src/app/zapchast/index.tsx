@@ -25,7 +25,7 @@ import { Animated, FlatList, Modal, Pressable, RefreshControl, ScrollView, TextI
 import { Text } from "@/components/Text";
 import { SheetBackdrop, SheetClose, useSheetDrag } from "@/components/sheet-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
@@ -85,15 +85,19 @@ export default function Zapchast() {
   /* Yopishning uchta yo'li: surish, ✕, parda (2026-09-13) */
   const drag = useSheetDrag(() => setPicking(false));
   const router = useRouter();
+  /* Parkimdagi mashinadan bir bosishda (TZ v3 §15-19): `?vehicleId=` — so'rov
+     shu mashinaning marka/model/yiliga mos chiqadi (server mashinadan oladi) */
+  const { vehicleId: tanlangan } = useLocalSearchParams<{ vehicleId?: string }>();
 
   const query = useMemo(() => {
     const p = new URLSearchParams();
     if (sent.trim()) p.set("q", sent.trim());
     if (vehicle) p.set("vehicleId", vehicle.id);
+    else if (tanlangan) p.set("vehicleId", tanlangan);
     if (inStock) p.set("stock", "1");
     if (cond) p.set("cond", cond);
     return p.toString();
-  }, [sent, vehicle, inStock, cond]);
+  }, [sent, vehicle, inStock, cond, tanlangan]);
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     canSell: boolean;

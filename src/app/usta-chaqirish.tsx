@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Location from "expo-location";
 import { Button, Field, Header, Steps, Switch } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -75,6 +75,11 @@ export default function UstaChaqirish() {
   const [err, setErr] = useState<string | null>(null);
 
   const fleet = useApi<{ items: Fleet[] }>("/api/fleet/vehicles");
+  /* Parkimdagi mashinadan bir bosishda (TZ v3 §15-19): `?vehicleId=` —
+     mashina tanlangan holda ochiladi; odam boshqasini tanlasa o'zgaradi */
+  const { vehicleId: tanlangan } = useLocalSearchParams<{ vehicleId?: string }>();
+  const [tegildi, setTegildi] = useState(false);
+  const tanlov = pick ?? (!tegildi && tanlangan ? (fleet.data?.items.find((v) => v.id === tanlangan) ?? null) : null);
 
   /* Nuqta 2-qadamga o'tilganda so'raladi, ekran ochilganda emas:
      odam hali nima uchun kerakligini bilmaydi va rad etadi. */
@@ -103,7 +108,7 @@ export default function UstaChaqirish() {
   const canNext =
     step === 1
       ? problem.trim().length > 0
-      : (!!pick || vehicleText.trim().length > 0) && (!needMobile || hasPlace);
+      : (!!tanlov || vehicleText.trim().length > 0) && (!needMobile || hasPlace);
 
   function toggleSpec(k: string) {
     setSpecs((v) => (v.includes(k) ? v.filter((x) => x !== k) : [...v, k]));
@@ -138,8 +143,8 @@ export default function UstaChaqirish() {
           action: "create",
           problem: problem.trim(),
           services: specs,
-          vehicleId: pick?.id ?? null,
-          vehicleText: pick ? null : vehicleText.trim() || null,
+          vehicleId: tanlov?.id ?? null,
+          vehicleText: tanlov ? null : vehicleText.trim() || null,
           locationId: loc?.id ?? null,
           address: address.trim() || null,
           lat: point?.lat ?? null,
@@ -265,12 +270,15 @@ export default function UstaChaqirish() {
             <View>
               <Text style={s.label}>{t("mob.svc.whichVehicle")}</Text>
               {(fleet.data?.items ?? []).map((v) => {
-                const on = pick?.id === v.id;
+                const on = tanlov?.id === v.id;
                 return (
                   <Pressable
                     key={v.id}
                     style={[s.veh, on && s.vehOn]}
-                    onPress={() => setPick(on ? null : v)}
+                    onPress={() => {
+                      setTegildi(true);
+                      setPick(on ? null : v);
+                    }}
                   >
                     {v.photo ? (
                       <Image source={vehiclePhoto(v.id, v.photo)} style={s.vehShot} resizeMode="cover" />
@@ -294,7 +302,7 @@ export default function UstaChaqirish() {
                 );
               })}
 
-              {!pick && (
+              {!tanlov && (
                 <Field
                   label={t("mob.svc.otherVehicle")}
                   value={vehicleText}

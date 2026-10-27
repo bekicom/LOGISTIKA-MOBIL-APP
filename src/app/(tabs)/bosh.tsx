@@ -41,6 +41,7 @@ import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
 import { BoshqaXizmatlar } from "@/components/BoshqaXizmatlar";
 import { RolAlmashtirgich } from "@/components/RolAlmashtirgich";
 import { AsosiyIsh, type AsosiyIshData } from "@/components/AsosiyIsh";
+import { Bosqich, type BosqichData } from "@/components/Bosqich";
 import { Raqamlar, type RaqamlarData } from "@/components/Raqamlar";
 import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
@@ -61,6 +62,8 @@ type Home =
       faolRol?: string;
       rollar?: string[];
       asosiy?: AsosiyIshData | null;
+      /** «0 dan 100 gacha» (TZ v2 §3.4.1) */
+      bosqich?: BosqichData | null;
       raqamlar?: RaqamlarData | null;
       suggestedLoads: Listing[];
     }
@@ -74,6 +77,8 @@ type Home =
       faolRol?: string;
       rollar?: string[];
       asosiy?: AsosiyIshData | null;
+      /** «0 dan 100 gacha» (TZ v2 §3.4.1) */
+      bosqich?: BosqichData | null;
       raqamlar?: RaqamlarData | null;
       counts: { liveTrips: number; problems: number; awaitingReply: number; expiringDocuments: number };
       /** `name: null` — ismsiz suhbat, ilova o'z tilida yozadi */
@@ -148,6 +153,8 @@ export default function Bosh() {
 
         {/* «Dispetcher ▾» — «Mening ishim» qaysi rolniki (TZ v2 §2.2) */}
         {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
+        {/* «0 dan 100 gacha» — yo'l va keyingi qadam (TZ v2 §3.4.1) */}
+        {data ? <Bosqich d={data.bosqich} /> : null}
         {/* 2-blok: rolning asosiy ishi (TZ v2 §2.3) */}
         {data ? <AsosiyIsh d={data.asosiy} /> : null}
         {/* 3-blok: raqamlar (TZ v2 §2.3) — webdagi «Mening daromadim» */}

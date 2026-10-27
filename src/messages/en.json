@@ -4735,6 +4735,20 @@
     "trucks": "Trucks",
     "trust": "Rating and trust"
   },
+  "yangiReys": {
+    "mashina": "Vehicle (My fleet)",
+    "mashinaQosh": "Add a vehicle",
+    "mashinaYoq": "No vehicles in your fleet.",
+    "ochish": "Open the trip",
+    "s_BAND": "Busy",
+    "s_HAYDOVCHISIZ": "No driver",
+    "s_REYSDA": "On a trip",
+    "tugma": "New trip",
+    "xato": "Could not open the trip",
+    "yuk": "Load (yours)",
+    "yukQosh": "Add a load",
+    "yukYoq": "You have no active loads."
+  },
   "yopish": {
     "s_BOSHQA": "Other reason",
     "s_BOSHQA_MASHINA": "Went with another vehicle",

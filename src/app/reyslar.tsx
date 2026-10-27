@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
+import { YangiReys } from "@/components/YangiReys";
 import { TripCard, type TripItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
@@ -61,6 +62,8 @@ export default function Reyslar() {
           </Pressable>
           <Text style={s.title}>{t("mob.trips.title")}</Text>
           <View style={{ flex: 1 }} />
+          {/* TZ v3 §15-6: o'z yukim + Parkim mashinasi */}
+          <YangiReys />
           <HeaderIcons />
         </View>
 

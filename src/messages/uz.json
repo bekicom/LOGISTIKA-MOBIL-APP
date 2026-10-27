@@ -4735,6 +4735,20 @@
     "trucks": "Transportlar",
     "trust": "Reyting va ishonch"
   },
+  "yangiReys": {
+    "mashina": "Mashina (Parkim)",
+    "mashinaQosh": "Mashina qo'shish",
+    "mashinaYoq": "Parkimda mashina yo'q.",
+    "ochish": "Reysni ochish",
+    "s_BAND": "Band",
+    "s_HAYDOVCHISIZ": "Haydovchi yo'q",
+    "s_REYSDA": "Reysda",
+    "tugma": "Yangi reys",
+    "xato": "Reys ochilmadi",
+    "yuk": "Yuk (o'zingizniki)",
+    "yukQosh": "Yuk qo'shish",
+    "yukYoq": "Faol yukingiz yo'q."
+  },
   "yopish": {
     "s_BOSHQA": "Boshqa sabab",
     "s_BOSHQA_MASHINA": "Boshqa mashina bilan ketdi",

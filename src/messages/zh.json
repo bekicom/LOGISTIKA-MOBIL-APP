@@ -4735,6 +4735,20 @@
     "trucks": "车辆",
     "trust": "评分与信任"
   },
+  "yangiReys": {
+    "mashina": "车辆（我的车队）",
+    "mashinaQosh": "添加车辆",
+    "mashinaYoq": "车队中没有车辆。",
+    "ochish": "开启行程",
+    "s_BAND": "忙碌",
+    "s_HAYDOVCHISIZ": "无司机",
+    "s_REYSDA": "行程中",
+    "tugma": "新行程",
+    "xato": "无法开启行程",
+    "yuk": "货物（您的）",
+    "yukQosh": "添加货物",
+    "yukYoq": "您没有有效的货物。"
+  },
   "yopish": {
     "s_BOSHQA": "其他原因",
     "s_BOSHQA_MASHINA": "已由其他车辆运走",

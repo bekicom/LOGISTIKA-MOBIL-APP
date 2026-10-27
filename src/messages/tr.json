@@ -4735,6 +4735,20 @@
     "trucks": "Araçlar",
     "trust": "Puan ve güven"
   },
+  "yangiReys": {
+    "mashina": "Araç (Filom)",
+    "mashinaQosh": "Araç ekle",
+    "mashinaYoq": "Filonuzda araç yok.",
+    "ochish": "Seferi aç",
+    "s_BAND": "Meşgul",
+    "s_HAYDOVCHISIZ": "Sürücü yok",
+    "s_REYSDA": "Seferde",
+    "tugma": "Yeni sefer",
+    "xato": "Sefer açılamadı",
+    "yuk": "Yük (sizin)",
+    "yukQosh": "Yük ekle",
+    "yukYoq": "Aktif yükünüz yok."
+  },
   "yopish": {
     "s_BOSHQA": "Başka sebep",
     "s_BOSHQA_MASHINA": "Başka araçla gitti",

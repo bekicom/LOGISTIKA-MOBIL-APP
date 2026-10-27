@@ -29,7 +29,6 @@ import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYo
 import { SaveSearch } from "@/components/SaveSearch";
 import { QidiruvYorliqlari, useQidiruvYorliqlari } from "@/components/QidiruvYorliqlari";
 import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
-import { Segment } from "@/components/Segment";
 import { useApi } from "@/lib/use-api";
 import { tgSorov, useTgLenta } from "@/lib/tg-lenta";
 import { TgToggle } from "@/components/TgToggle";
@@ -70,16 +69,11 @@ export default function Mashinalar() {
     <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.head}>
         <View style={s.headRow}>
-          <View style={{ flex: 1 }}>
-            <Segment
-              value="trucks"
-              onChange={(v) => v === "loads" && router.replace("/yuklar")}
-              options={[
-                { key: "loads", label: t("mob.loads.title") },
-                { key: "trucks", label: t("mob.trucks.title") },
-              ]}
-            />
-          </View>
+          {/* TZ v3 §4: «Transportlar» — o'z yorlig'i, «Transport qo'shish» shu panel ichida */}
+          <Text style={s.sarlavha} numberOfLines={1}>
+            {t("nav5.trucks")}
+          </Text>
+          <View style={{ flex: 1 }} />
           <HeaderIcons />
         </View>
 
@@ -198,11 +192,35 @@ export default function Mashinalar() {
           setSheet(false);
         }}
       />
+      {/* «Qo'shish» — shu panel ichida (TZ v3 §4): pastki menyuda «+» yo'q */}
+      <Pressable
+        onPress={() => router.push("/mashina-joylash")}
+        accessibilityRole="button"
+        style={({ pressed }) => [s.qosh, pressed && { opacity: 0.85 }]}
+      >
+        <Icon name="plus" size={18} stroke="#ffffff" />
+        <Text style={s.qoshText}>{t("ishStoli.transportQoshish")}</Text>
+      </Pressable>
     </View>
   );
 }
 
 const s = themed(() => ({
+  sarlavha: { fontSize: 24, fontWeight: "800", color: color.foreground, letterSpacing: -0.5, flexShrink: 1 },
+  qosh: {
+    position: "absolute",
+    right: 16,
+    bottom: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    height: 48,
+    paddingHorizontal: 18,
+    borderRadius: 999,
+    backgroundColor: color.brand,
+    ...shadow.card,
+  },
+  qoshText: { fontSize: 14.5, fontWeight: "800", color: "#ffffff" },
   root: { flex: 1, backgroundColor: color.background },
   head: { paddingHorizontal: space.lg, paddingTop: 6, paddingBottom: space.sm, gap: space.md },
   headRow: { flexDirection: "row", alignItems: "center", gap: space.md },

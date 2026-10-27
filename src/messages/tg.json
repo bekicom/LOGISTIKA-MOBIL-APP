@@ -264,6 +264,16 @@
     "step": "%{n}/100",
     "title": "Роҳи шумо"
   },
+  "bozor4": {
+    "texnika": "Савдои техника",
+    "texnikaIzoh": "Мошинҳои боркаш, прицепҳо, техникаи махсус",
+    "usta": "Устоҳо ва хизматрасонӣ",
+    "ustaIzoh": "Таъмир, даъват, устохонаҳо",
+    "yolovchi": "Интиқоли мусофирон",
+    "yolovchiIzoh": "Сафарҳои байнишаҳрӣ ва почта",
+    "zapchast": "Мағозаҳои эҳтиёҷот",
+    "zapchastIzoh": "Аз рӯи марка ва модел"
+  },
   "cancelReason": {
     "AGREED": "Тарафҳо мувофиқа карданд",
     "BORDER": "Мушкилоти сарҳад",
@@ -538,6 +548,48 @@
     "net": "Даромади соф",
     "revenue": "Даромад",
     "title": "Даромади ман"
+  },
+  "ishStoli": {
+    "arizalarim": "Аризаҳои ман",
+    "bozor": "FURAM Бозор",
+    "bronlar": "Бронҳо",
+    "buyurtmalar": "Фармоишҳо",
+    "dispetcherPaneli": "Панели диспетчер",
+    "elonQoshish": "Илова кардани эълон",
+    "haydovchilarim": "Ронандагони ман",
+    "hisobotlar": "Ҳисоботҳо",
+    "hujjatlar": "Ҳуҷҷатҳо",
+    "hujjatlarim": "Ҳуҷҷатҳои ман",
+    "ishTopish": "Ҷустуҷӯи кор",
+    "kelishuvlar": "Созишномаҳо",
+    "mahsulotQoshish": "Илова кардани маҳсулот",
+    "mahsulotlarim": "Маҳсулоти ман",
+    "mashinam": "Мошини ман",
+    "mening-transportlarim": "Нақлиёти ман",
+    "mening-yuklarim": "Борҳои ман",
+    "meningReysim": "Сафари ман",
+    "mijozlarim": "Мизоҷони ман",
+    "mosYuklar": "Борҳои мувофиқ",
+    "nomzodlar": "Номзадҳо",
+    "parkim": "Парки ман",
+    "pochta": "Почта",
+    "profilim": "Профили ман",
+    "reysNazorati": "Назорати сафарҳо",
+    "reyslar": "Сафарҳо",
+    "rezyumem": "Резюмеи ман",
+    "rolQoshish": "Илова кардани нақш",
+    "safarQoshish": "Илова кардани сафар",
+    "safarlarim": "Сафарҳои ман",
+    "sotuvlarim": "Фурӯшҳои ман",
+    "transportBazasi": "Базаи нақлиёт",
+    "transportQoshish": "Илова кардани нақлиёт",
+    "vakansiyalar": "Ҷойҳои холӣ",
+    "vakansiyalarim": "Ҷойҳои холии ман",
+    "xarajatQoshish": "Илова кардани харҷ",
+    "yoldagiYuklarim": "Борҳои ман дар роҳ",
+    "yukQoshish": "Илова кардани бор",
+    "yuklarBazasi": "Базаи борҳо",
+    "zapchastBozori": "Бозори эҳтиёҷот"
   },
   "ishim": {
     "bitim": "Аҳдҳои ин моҳ",
@@ -4017,6 +4069,8 @@
     "addRole": "Нақш илова кардан",
     "ai": "FURAM AI",
     "all": "Ҳама",
+    "loads": "Борҳо",
+    "market": "Бозор",
     "messenger": "Паёмрасон",
     "myWork": "Кори ман",
     "otherServices": "Хизматҳои дигар",
@@ -4025,7 +4079,8 @@
     "postLoad": "Бор",
     "postSale": "Эълони Бозор",
     "postTruck": "Нақлиёти холӣ",
-    "search": "Ҷустуҷӯ"
+    "search": "Ҷустуҷӯ",
+    "trucks": "Нақлиёт"
   },
   "notifyTitle": {
     "payLate": "Пардохт %{days} рӯз дер шуд",
@@ -4158,9 +4213,6 @@
     "postBtn": "Гузоштани эълон",
     "posting": "Гузошта мешавад...",
     "workerNeeded": "Корманд лозим аст"
-  },
-  "pgHome": {
-    "quickMore": "Боз"
   },
   "pgNotifications": {
     "aiNudgeHint": "Дар бораи мошини бекор, эълони бе ҷавоб, борҳои нав ва имкониятҳои нодониста — на бештар аз як бор дар як рӯз.",
@@ -4748,6 +4800,19 @@
     "yuk": "Бор (аз они шумо)",
     "yukQosh": "Илова кардани бор",
     "yukYoq": "Бори фаъоли шумо нест."
+  },
+  "yolovchiUi": {
+    "bosh": "Ҳоло сафари кушода нест",
+    "boshIzoh": "Сафарҳои нав дар ин ҷо пайдо мешаванд",
+    "bron": "Брон кардан",
+    "bronBoldi": "Брон шуд. Рамз: %{kod}",
+    "ism": "Номи мусофир",
+    "joy": "%{n} ҷойи холӣ",
+    "kelishiladi": "Бо созиш",
+    "necha": "Чанд ҷой?",
+    "oferta": "Бо оферта розиам",
+    "sarlavha": "Интиқоли мусофирон",
+    "telefon": "Телефон"
   },
   "yopish": {
     "s_BOSHQA": "Сабаби дигар",

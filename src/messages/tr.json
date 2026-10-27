@@ -264,6 +264,16 @@
     "step": "%{n}/100",
     "title": "Yolunuz"
   },
+  "bozor4": {
+    "texnika": "Araç satışı",
+    "texnikaIzoh": "Kamyon, römork, iş makinesi",
+    "usta": "Usta ve servis",
+    "ustaIzoh": "Tamir, çağrı, atölyeler",
+    "yolovchi": "Yolcu taşıma",
+    "yolovchiIzoh": "Şehirlerarası yolculuk ve kargo",
+    "zapchast": "Yedek parça mağazaları",
+    "zapchastIzoh": "Marka ve modele göre"
+  },
   "cancelReason": {
     "AGREED": "Taraflar anlaştı",
     "BORDER": "Sınır sorunu",
@@ -538,6 +548,48 @@
     "net": "Net gelir",
     "revenue": "Gelir",
     "title": "Gelirim"
+  },
+  "ishStoli": {
+    "arizalarim": "Başvurularım",
+    "bozor": "FURAM Pazar",
+    "bronlar": "Rezervasyonlar",
+    "buyurtmalar": "Siparişler",
+    "dispetcherPaneli": "Dispeçer paneli",
+    "elonQoshish": "İlan ekle",
+    "haydovchilarim": "Sürücülerim",
+    "hisobotlar": "Raporlar",
+    "hujjatlar": "Belgeler",
+    "hujjatlarim": "Belgelerim",
+    "ishTopish": "İş bul",
+    "kelishuvlar": "Anlaşmalar",
+    "mahsulotQoshish": "Ürün ekle",
+    "mahsulotlarim": "Ürünlerim",
+    "mashinam": "Aracım",
+    "mening-transportlarim": "Araçlarım",
+    "mening-yuklarim": "Yüklerim",
+    "meningReysim": "Seferim",
+    "mijozlarim": "Müşterilerim",
+    "mosYuklar": "Uygun yükler",
+    "nomzodlar": "Adaylar",
+    "parkim": "Filom",
+    "pochta": "Kargo",
+    "profilim": "Profilim",
+    "reysNazorati": "Sefer kontrolü",
+    "reyslar": "Seferler",
+    "rezyumem": "Özgeçmişim",
+    "rolQoshish": "Rol ekle",
+    "safarQoshish": "Yolculuk ekle",
+    "safarlarim": "Yolculuklarım",
+    "sotuvlarim": "Satışlarım",
+    "transportBazasi": "Araç bankası",
+    "transportQoshish": "Araç ekle",
+    "vakansiyalar": "İş ilanları",
+    "vakansiyalarim": "İlanlarım",
+    "xarajatQoshish": "Gider ekle",
+    "yoldagiYuklarim": "Yoldaki yüklerim",
+    "yukQoshish": "Yük ekle",
+    "yuklarBazasi": "Yük bankası",
+    "zapchastBozori": "Yedek parça pazarı"
   },
   "ishim": {
     "bitim": "Bu ayki anlaşmalar",
@@ -4017,6 +4069,8 @@
     "addRole": "Rol ekle",
     "ai": "FURAM AI",
     "all": "Tümü",
+    "loads": "Yükler",
+    "market": "Pazar",
     "messenger": "Mesajlar",
     "myWork": "İşim",
     "otherServices": "Diğer hizmetler",
@@ -4025,7 +4079,8 @@
     "postLoad": "Yük",
     "postSale": "Pazar ilanı",
     "postTruck": "Boş araç",
-    "search": "Ara"
+    "search": "Ara",
+    "trucks": "Araçlar"
   },
   "notifyTitle": {
     "payLate": "Ödeme %{days} gün gecikti",
@@ -4158,9 +4213,6 @@
     "postBtn": "İlanı yayınla",
     "posting": "Yayınlanıyor...",
     "workerNeeded": "Personel aranıyor"
-  },
-  "pgHome": {
-    "quickMore": "Daha fazla"
   },
   "pgNotifications": {
     "aiNudgeHint": "Boş araç, yanıtsız ilan, yeni yükler ve bilmediğiniz özellikler hakkında — günde en fazla bir kez.",
@@ -4748,6 +4800,19 @@
     "yuk": "Yük (sizin)",
     "yukQosh": "Yük ekle",
     "yukYoq": "Aktif yükünüz yok."
+  },
+  "yolovchiUi": {
+    "bosh": "Henüz açık yolculuk yok",
+    "boshIzoh": "Yeni yolculuklar burada görünecek",
+    "bron": "Rezervasyon yap",
+    "bronBoldi": "Rezerve edildi. Kod: %{kod}",
+    "ism": "Yolcu adı",
+    "joy": "%{n} boş koltuk",
+    "kelishiladi": "Pazarlıklı",
+    "necha": "Kaç koltuk?",
+    "oferta": "Teklif şartlarını kabul ediyorum",
+    "sarlavha": "Yolcu taşıma",
+    "telefon": "Telefon"
   },
   "yopish": {
     "s_BOSHQA": "Başka sebep",

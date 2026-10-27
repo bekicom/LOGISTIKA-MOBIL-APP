@@ -264,6 +264,16 @@
     "step": "%{n}/100",
     "title": "Ваш путь"
   },
+  "bozor4": {
+    "texnika": "Продажа техники",
+    "texnikaIzoh": "Грузовики, прицепы, спецтехника",
+    "usta": "Мастера и сервис",
+    "ustaIzoh": "Ремонт, вызов, мастерские",
+    "yolovchi": "Пассажирские перевозки",
+    "yolovchiIzoh": "Междугородние поездки и посылки",
+    "zapchast": "Магазины запчастей",
+    "zapchastIzoh": "По марке и модели"
+  },
   "cancelReason": {
     "AGREED": "Стороны договорились",
     "BORDER": "Проблема на границе",
@@ -538,6 +548,48 @@
     "net": "Чистый доход",
     "revenue": "Выручка",
     "title": "Мой доход"
+  },
+  "ishStoli": {
+    "arizalarim": "Мои отклики",
+    "bozor": "FURAM Базар",
+    "bronlar": "Брони",
+    "buyurtmalar": "Заказы",
+    "dispetcherPaneli": "Панель диспетчера",
+    "elonQoshish": "Добавить объявление",
+    "haydovchilarim": "Мои водители",
+    "hisobotlar": "Отчёты",
+    "hujjatlar": "Документы",
+    "hujjatlarim": "Мои документы",
+    "ishTopish": "Найти работу",
+    "kelishuvlar": "Соглашения",
+    "mahsulotQoshish": "Добавить товар",
+    "mahsulotlarim": "Мои товары",
+    "mashinam": "Моя машина",
+    "mening-transportlarim": "Мой транспорт",
+    "mening-yuklarim": "Мои грузы",
+    "meningReysim": "Мой рейс",
+    "mijozlarim": "Мои клиенты",
+    "mosYuklar": "Подходящие грузы",
+    "nomzodlar": "Кандидаты",
+    "parkim": "Мой парк",
+    "pochta": "Посылки",
+    "profilim": "Мой профиль",
+    "reysNazorati": "Контроль рейсов",
+    "reyslar": "Рейсы",
+    "rezyumem": "Моё резюме",
+    "rolQoshish": "Добавить роль",
+    "safarQoshish": "Добавить поездку",
+    "safarlarim": "Мои поездки",
+    "sotuvlarim": "Мои продажи",
+    "transportBazasi": "База транспорта",
+    "transportQoshish": "Добавить транспорт",
+    "vakansiyalar": "Вакансии",
+    "vakansiyalarim": "Мои вакансии",
+    "xarajatQoshish": "Добавить расход",
+    "yoldagiYuklarim": "Мои грузы в пути",
+    "yukQoshish": "Добавить груз",
+    "yuklarBazasi": "База грузов",
+    "zapchastBozori": "Рынок запчастей"
   },
   "ishim": {
     "bitim": "Сделки за месяц",
@@ -4017,6 +4069,8 @@
     "addRole": "Добавить роль",
     "ai": "FURAM AI",
     "all": "Все",
+    "loads": "Грузы",
+    "market": "Базар",
     "messenger": "Мессенджер",
     "myWork": "Моя работа",
     "otherServices": "Другие сервисы",
@@ -4025,7 +4079,8 @@
     "postLoad": "Груз",
     "postSale": "Объявление на Базаре",
     "postTruck": "Свободный транспорт",
-    "search": "Поиск"
+    "search": "Поиск",
+    "trucks": "Транспорт"
   },
   "notifyTitle": {
     "payLate": "Платёж просрочен на %{days} дн.",
@@ -4158,9 +4213,6 @@
     "postBtn": "Разместить объявление",
     "posting": "Размещается...",
     "workerNeeded": "Нужен сотрудник"
-  },
-  "pgHome": {
-    "quickMore": "Ещё"
   },
   "pgNotifications": {
     "aiNudgeHint": "О простое машины, объявлении без откликов, новых грузах и полезных функциях — не чаще раза в день.",
@@ -4748,6 +4800,19 @@
     "yuk": "Груз (ваш)",
     "yukQosh": "Добавить груз",
     "yukYoq": "У вас нет активного груза."
+  },
+  "yolovchiUi": {
+    "bosh": "Пока нет открытых поездок",
+    "boshIzoh": "Новые поездки появятся здесь",
+    "bron": "Забронировать",
+    "bronBoldi": "Забронировано. Код: %{kod}",
+    "ism": "Имя пассажира",
+    "joy": "%{n} свободных мест",
+    "kelishiladi": "Договорная",
+    "necha": "Сколько мест?",
+    "oferta": "Согласен с офертой",
+    "sarlavha": "Пассажирские перевозки",
+    "telefon": "Телефон"
   },
   "yopish": {
     "s_BOSHQA": "Другая причина",

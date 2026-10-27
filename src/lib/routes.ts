@@ -87,6 +87,15 @@ const EXACT: Record<string, string> = {
      Parkimga tushardi */
   "fleet/drivers": "/xodimlarim",
   "fleet/vacancies": "/ish-beruvchi",
+  /* «Mening ishim» ish stoli tugmalari (TZ v3 §6) */
+  "parts/shop": "/dokonim",
+  "jobs/resume": "/rezyume",
+  "jobs/history": "/arizalarim",
+  "jobs/candidates": "/ish/nomzodlar",
+  "jobs/agreements": "/ish/kelishuv",
+  "market/my": "/sotuvlarim",
+  "market/new": "/bozor-joylash",
+  "service/profile": "/usta-profil",
 };
 
 /**

@@ -75,6 +75,9 @@ export function HeaderIcons({ search }: { search?: boolean }) {
       ) : null}
       {!guest ? (
         <>
+          {/* FURAM AI — har ekranda burchakdagi kichik belgi (TZ v3 §4):
+              pastki menyuda endi yo'q */}
+          <IconButton icon="robot" label={t("nav5.ai")} onPress={() => router.push("/ai")} />
           <IconButton
             icon="chat"
             count={counts.chat}
@@ -143,7 +146,7 @@ const s = themed(() => ({
   title: { fontSize: 24, fontWeight: "800", color: color.foreground, letterSpacing: -0.5 },
   sub: { fontSize: 13, color: color.mutedForeground, marginTop: 1 },
 
-  icons: { flexDirection: "row", alignItems: "center", gap: 8 },
+  icons: { flexDirection: "row", alignItems: "center", gap: 6 },
   avatar: {
     width: 42,
     height: 42,

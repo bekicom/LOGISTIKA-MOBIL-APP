@@ -264,6 +264,16 @@
     "step": "%{n}/100",
     "title": "Сіздің жолыңыз"
   },
+  "bozor4": {
+    "texnika": "Техника саудасы",
+    "texnikaIzoh": "Жүк көліктері, тіркемелер, арнайы техника",
+    "usta": "Шебер және сервис",
+    "ustaIzoh": "Жөндеу, шақыру, шеберханалар",
+    "yolovchi": "Жолаушы тасымалы",
+    "yolovchiIzoh": "Қалааралық сапар және сәлемдеме",
+    "zapchast": "Бөлшек дүкендері",
+    "zapchastIzoh": "Маркасы мен моделі бойынша"
+  },
   "cancelReason": {
     "AGREED": "Тараптар келісті",
     "BORDER": "Шекара мәселесі",
@@ -538,6 +548,48 @@
     "net": "Таза табыс",
     "revenue": "Түсім",
     "title": "Менің табысым"
+  },
+  "ishStoli": {
+    "arizalarim": "Өтінімдерім",
+    "bozor": "FURAM Базар",
+    "bronlar": "Брондар",
+    "buyurtmalar": "Тапсырыстар",
+    "dispetcherPaneli": "Диспетчер панелі",
+    "elonQoshish": "Хабарландыру қосу",
+    "haydovchilarim": "Менің жүргізушілерім",
+    "hisobotlar": "Есептер",
+    "hujjatlar": "Құжаттар",
+    "hujjatlarim": "Менің құжаттарым",
+    "ishTopish": "Жұмыс табу",
+    "kelishuvlar": "Келісімдер",
+    "mahsulotQoshish": "Тауар қосу",
+    "mahsulotlarim": "Менің тауарларым",
+    "mashinam": "Менің көлігім",
+    "mening-transportlarim": "Менің көліктерім",
+    "mening-yuklarim": "Менің жүктерім",
+    "meningReysim": "Менің рейсім",
+    "mijozlarim": "Менің клиенттерім",
+    "mosYuklar": "Сәйкес жүктер",
+    "nomzodlar": "Үміткерлер",
+    "parkim": "Паркім",
+    "pochta": "Сәлемдемелер",
+    "profilim": "Менің профилім",
+    "reysNazorati": "Рейстер бақылауы",
+    "reyslar": "Рейстер",
+    "rezyumem": "Менің түйіндемем",
+    "rolQoshish": "Рөл қосу",
+    "safarQoshish": "Сапар қосу",
+    "safarlarim": "Сапарларым",
+    "sotuvlarim": "Сатуларым",
+    "transportBazasi": "Көліктер базасы",
+    "transportQoshish": "Көлік қосу",
+    "vakansiyalar": "Бос орындар",
+    "vakansiyalarim": "Менің бос орындарым",
+    "xarajatQoshish": "Шығын қосу",
+    "yoldagiYuklarim": "Жолдағы жүктерім",
+    "yukQoshish": "Жүк қосу",
+    "yuklarBazasi": "Жүктер базасы",
+    "zapchastBozori": "Қосалқы бөлшектер базары"
   },
   "ishim": {
     "bitim": "Осы айдағы мәмілелер",
@@ -4017,6 +4069,8 @@
     "addRole": "Рөл қосу",
     "ai": "FURAM AI",
     "all": "Барлығы",
+    "loads": "Жүктер",
+    "market": "Базар",
     "messenger": "Мессенджер",
     "myWork": "Менің жұмысым",
     "otherServices": "Басқа қызметтер",
@@ -4025,7 +4079,8 @@
     "postLoad": "Жүк",
     "postSale": "Базар хабарландыруы",
     "postTruck": "Бос көлік",
-    "search": "Іздеу"
+    "search": "Іздеу",
+    "trucks": "Көліктер"
   },
   "notifyTitle": {
     "payLate": "Төлем %{days} күнге кешікті",
@@ -4158,9 +4213,6 @@
     "postBtn": "Хабарландыруды жариялау",
     "posting": "Жарияланып жатыр...",
     "workerNeeded": "Қызметкер керек"
-  },
-  "pgHome": {
-    "quickMore": "Тағы"
   },
   "pgNotifications": {
     "aiNudgeHint": "Бос көлік, жауапсыз хабарландыру, жаңа жүктер және білмеген мүмкіндіктер туралы — күніне бір реттен артық емес.",
@@ -4748,6 +4800,19 @@
     "yuk": "Жүк (өзіңіздікі)",
     "yukQosh": "Жүк қосу",
     "yukYoq": "Белсенді жүгіңіз жоқ."
+  },
+  "yolovchiUi": {
+    "bosh": "Әзірге ашық сапар жоқ",
+    "boshIzoh": "Жаңа сапарлар осында шығады",
+    "bron": "Брондау",
+    "bronBoldi": "Брондалды. Код: %{kod}",
+    "ism": "Жолаушы аты",
+    "joy": "%{n} бос орын",
+    "kelishiladi": "Келісімді",
+    "necha": "Неше орын?",
+    "oferta": "Офертамен келісемін",
+    "sarlavha": "Жолаушы тасымалы",
+    "telefon": "Телефон"
   },
   "yopish": {
     "s_BOSHQA": "Басқа себеп",

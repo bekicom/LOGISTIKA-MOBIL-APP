@@ -21,7 +21,7 @@
  * edi, SOS esa bosilmasdi. SOS endi faol reys kartasi ostida — faqat
  * reys yo'lda bo'lganda (reys ekranidagi shart bilan bir xil).
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -33,10 +33,9 @@ import { setCounts } from "@/lib/counts";
 import { activeTrip, isRunning as gpsRunning, stop as gpsStop } from "@/lib/gps";
 import { ListingCard, TripCard, type Listing, type TripItem } from "@/components/cards";
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
-import { FxStrip, StartHere } from "@/components/HomeStart";
+import { StartHere } from "@/components/HomeStart";
 import { TodayCard } from "@/components/TodayCard";
 import { TourPanel } from "@/components/TourPanel";
-import { HomeMap } from "@/components/HomeMap";
 import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
 import { BoshqaXizmatlar } from "@/components/BoshqaXizmatlar";
 import { RolAlmashtirgich } from "@/components/RolAlmashtirgich";
@@ -89,6 +88,9 @@ export default function Bosh() {
   const { data, loading, error, refreshing, refresh, reload } = useApi<Home>("/api/home");
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  /* «Mening ishim» katta tugmasi — ish stoliga suradi (TZ v3 §4) */
+  const scroll = useRef<ScrollView>(null);
+  const [stolY, setStolY] = useState(0);
 
   /* Qo'ng'iroq nishoni endi sarlavha komponentida — sanoqni
      do'konga yozib qo'yamiz, u yerdan o'qiydi */
@@ -115,23 +117,28 @@ export default function Bosh() {
     <View style={[s.root, { paddingTop: insets.top }]}>
       {/* Sarlavha */}
       <View style={s.header}>
-        <Logo width={104} />
+        <Logo width={96} />
         <View style={{ flex: 1 }} />
         {/* Dizayn-2: qidiruv, chat va qo'ng'iroq — hamma tabda bir xil
             (`TabHeader`). Sanoqlar `lib/counts` do'konidan. */}
         {/* Avatar `HeaderIcons` ichida — 2026-09-07 dan u HAR
             tabda bor. Bu yerda alohida chizilsa ikkita bo'lardi. */}
-        <HeaderIcons search />
+        <HeaderIcons />
       </View>
 
       {/* GPS chizig'i — faqat kuzatuv HAQIQATAN ishlayotganda */}
       <GpsChiziq trips={data?.activeTrips ?? []} />
 
       <ScrollView
+        ref={scroll}
         contentContainerStyle={[s.scroll, { paddingBottom: space.xxl * 2 }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
       >
+        {/* 4 KATTA TUGMA — eng tepada (TZ v3 §4): Mening ishim · Yuklar ·
+            Transportlar · FURAM Bozor. Ma'lumot kutmaydi */}
+        <AsosiyTugmalar onIshim={() => scroll.current?.scrollTo({ y: stolY, animated: true })} />
+
         {loading ? <Skeleton /> : null}
         {error ? <ErrorBox message={error} onRetry={reload} /> : null}
 
@@ -151,19 +158,19 @@ export default function Bosh() {
           />
         ) : null}
 
-        {/* «Dispetcher ▾» — «Mening ishim» qaysi rolniki (TZ v2 §2.2) */}
-        {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
+        {/* ── «MENING ISHIM» ISH STOLI (TZ v3 §6) ──
+            «Dispetcher ▾» — qaysi rolniki (TZ v2 §2.2), ostida rolning 4–6 tugmasi */}
+        <View onLayout={(e) => setStolY(e.nativeEvent.layout.y)} style={{ gap: space.md }}>
+          {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
+          {/* Rolning o'z tugmalari — serverdan (web bilan bitta jadval) */}
+          {data?.quick?.length ? <RolTugmalari quick={data.quick} /> : null}
+        </View>
         {/* «0 dan 100 gacha» — yo'l va keyingi qadam (TZ v2 §3.4.1) */}
         {data ? <Bosqich d={data.bosqich} /> : null}
         {/* 2-blok: rolning asosiy ishi (TZ v2 §2.3) */}
         {data ? <AsosiyIsh d={data.asosiy} /> : null}
         {/* 3-blok: raqamlar (TZ v2 §2.3) — webdagi «Mening daromadim» */}
         {data ? <Raqamlar d={data.raqamlar} /> : null}
-
-        {/* Besh asosiy tugma — hamma rolda, ma'lumot kutmaydi (TZ-05) */}
-        <AsosiyTugmalar />
-        {/* Rolning o'z tugmalari — serverdan (web bilan bitta jadval) */}
-        {data?.quick?.length ? <RolTugmalari quick={data.quick} /> : null}
 
         {/* «Bugun siz uchun» — kurs USTIDA: bu vazifa, kurs esa
             ma'lumot. Vazifa bo'lmasa kartochka umuman chizilmaydi. */}
@@ -175,15 +182,9 @@ export default function Bosh() {
             shu tugmadan boshlanadi. */}
         {data?.kind === "driver" ? <TourPanel /> : null}
 
-        {/* Kurs — ikkala rolda ham. Narx o'girish kunlik ish va u
-            bo'limlar ichida ko'milib qolmasin. */}
-        <FxStrip />
-
-        {/* Xarita — kursdan KEYIN: kurs har kuni kerak bo'ladigan
-            raqam, xarita esa «bozor tirikmi» degan savolga javob.
-            Yo'nalish bo'lmasa kartochka o'zi chizilmaydi. */}
-        <HomeMap />
-
+        {/* Kurs va xarita bosh sahifadan «Boshqa xizmatlar» ichiga o'tdi
+            (TZ v3 §4: «Valyuta, Kalkulyator, Xarita … menyuda alohida
+            turmaydi») — web bilan bir xil */}
         {data?.kind === "dispatcher" ? (
           <Dispatcher
             data={data}

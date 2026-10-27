@@ -264,6 +264,16 @@
     "step": "%{n}/100",
     "title": "Your path"
   },
+  "bozor4": {
+    "texnika": "Vehicle sales",
+    "texnikaIzoh": "Trucks, trailers, special machinery",
+    "usta": "Mechanics & service",
+    "ustaIzoh": "Repairs, call-outs, workshops",
+    "yolovchi": "Passenger rides",
+    "yolovchiIzoh": "Intercity rides and parcels",
+    "zapchast": "Parts shops",
+    "zapchastIzoh": "By make and model"
+  },
   "cancelReason": {
     "AGREED": "Both sides agreed",
     "BORDER": "Border problem",
@@ -538,6 +548,48 @@
     "net": "Net income",
     "revenue": "Revenue",
     "title": "My income"
+  },
+  "ishStoli": {
+    "arizalarim": "My applications",
+    "bozor": "FURAM Market",
+    "bronlar": "Bookings",
+    "buyurtmalar": "Orders",
+    "dispetcherPaneli": "Dispatcher panel",
+    "elonQoshish": "Add a listing",
+    "haydovchilarim": "My drivers",
+    "hisobotlar": "Reports",
+    "hujjatlar": "Documents",
+    "hujjatlarim": "My documents",
+    "ishTopish": "Find a job",
+    "kelishuvlar": "Agreements",
+    "mahsulotQoshish": "Add a product",
+    "mahsulotlarim": "My products",
+    "mashinam": "My vehicle",
+    "mening-transportlarim": "My trucks",
+    "mening-yuklarim": "My loads",
+    "meningReysim": "My trip",
+    "mijozlarim": "My clients",
+    "mosYuklar": "Matching loads",
+    "nomzodlar": "Candidates",
+    "parkim": "My fleet",
+    "pochta": "Parcels",
+    "profilim": "My profile",
+    "reysNazorati": "Trip control",
+    "reyslar": "Trips",
+    "rezyumem": "My resume",
+    "rolQoshish": "Add a role",
+    "safarQoshish": "Add a ride",
+    "safarlarim": "My rides",
+    "sotuvlarim": "My sales",
+    "transportBazasi": "Truck board",
+    "transportQoshish": "Add a truck",
+    "vakansiyalar": "Vacancies",
+    "vakansiyalarim": "My vacancies",
+    "xarajatQoshish": "Add expense",
+    "yoldagiYuklarim": "My loads on the road",
+    "yukQoshish": "Add a load",
+    "yuklarBazasi": "Load board",
+    "zapchastBozori": "Parts market"
   },
   "ishim": {
     "bitim": "Deals this month",
@@ -4017,6 +4069,8 @@
     "addRole": "Add role",
     "ai": "FURAM AI",
     "all": "All",
+    "loads": "Loads",
+    "market": "Market",
     "messenger": "Messenger",
     "myWork": "My work",
     "otherServices": "Other services",
@@ -4025,7 +4079,8 @@
     "postLoad": "Cargo",
     "postSale": "Market listing",
     "postTruck": "Free truck",
-    "search": "Search"
+    "search": "Search",
+    "trucks": "Trucks"
   },
   "notifyTitle": {
     "payLate": "Payment is %{days} days overdue",
@@ -4158,9 +4213,6 @@
     "postBtn": "Post the listing",
     "posting": "Posting...",
     "workerNeeded": "Staff needed"
-  },
-  "pgHome": {
-    "quickMore": "More"
   },
   "pgNotifications": {
     "aiNudgeHint": "About an idle truck, a listing with no replies, new loads and features you haven't tried — at most once a day.",
@@ -4748,6 +4800,19 @@
     "yuk": "Load (yours)",
     "yukQosh": "Add a load",
     "yukYoq": "You have no active loads."
+  },
+  "yolovchiUi": {
+    "bosh": "No open rides yet",
+    "boshIzoh": "New rides will appear here",
+    "bron": "Book",
+    "bronBoldi": "Booked. Code: %{kod}",
+    "ism": "Passenger name",
+    "joy": "%{n} seats free",
+    "kelishiladi": "Negotiable",
+    "necha": "How many seats?",
+    "oferta": "I accept the offer terms",
+    "sarlavha": "Passenger rides",
+    "telefon": "Phone"
   },
   "yopish": {
     "s_BOSHQA": "Other reason",

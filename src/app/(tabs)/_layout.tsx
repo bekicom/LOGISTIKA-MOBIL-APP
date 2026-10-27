@@ -69,10 +69,10 @@ import { isGuest } from "@/lib/guest";
 import { guestBlocked } from "@/lib/guest-gate";
 import { t } from "@/lib/i18n";
 
-type Tab = { name: string; title: string; icon: IconName; guest: boolean; center?: boolean };
+type Tab = { name: string; title: string; icon: IconName; guest: boolean; center?: boolean; web?: string };
 
 /** Hamma yorliq ekrani — ko'rinmaydigani ham e'lon qilinadi (pastdagi izoh) */
-const HAMMASI = ["bosh", "qidiruv", "yuklar", "joylash", "chat", "menyu", "ai", "profil"] as const;
+const HAMMASI = ["bosh", "qidiruv", "yuklar", "transportlar", "bozor-bolimlar", "joylash", "chat", "menyu", "ai", "profil"] as const;
 
 /* FUNKSIYA, o'zgarmas emas: modul yuklanganda til hali
    o'qilmagan bo'ladi va matn o'zbekchada qotib qolardi. */
@@ -87,12 +87,17 @@ function tabs(guest: boolean): Tab[] {
       { name: "profil", title: t("mob.intro.signIn"), icon: "user", guest: true },
     ];
   }
+  /* TZ v3 §4 (2026-10-27): Mening ishim · Yuklar · Transportlar · Bozor ·
+     Messenjer — web menyusi bilan bir xil (`furam/src/lib/nav.ts:ASOSIY`).
+     «+» va «FURAM AI» yorliqlari olib tashlandi: qo'shish — Yuklar va
+     Transportlar ekranining o'zida, AI — sarlavhadagi kichik belgi
+     (`TabHeader`). Qidiruv ham sarlavhada */
   return [
     { name: "bosh", title: t("nav5.myWork"), icon: "briefcase", guest: false },
-    { name: "qidiruv", title: t("nav5.search"), icon: "search", guest: false },
-    { name: "joylash", title: t("nav5.post"), icon: "plus", guest: false, center: true },
-    { name: "chat", title: t("nav5.messenger"), icon: "chat", guest: false },
-    { name: "ai", title: t("nav5.ai"), icon: "robot", guest: false },
+    { name: "yuklar", title: t("nav5.loads"), icon: "package", guest: false, web: "/loads" },
+    { name: "transportlar", title: t("nav5.trucks"), icon: "truck", guest: false, web: "/trucks" },
+    { name: "bozor-bolimlar", title: t("nav5.market"), icon: "tag", guest: false, web: "/market" },
+    { name: "chat", title: t("nav5.messenger"), icon: "chat", guest: false, web: "/chats" },
   ];
 }
 
@@ -165,7 +170,7 @@ export default function TabsLayout() {
   const { user, yashirin } = useAuth();
   const guest = !user && isGuest();
   /* Admin o'chirgan modul yorlig'i yo'q (TZ v2 §8.1): masalan Messenjer */
-  const korinadi = tabs(guest).filter((tb) => tb.center || !yashirin(`/${tb.name}`));
+  const korinadi = tabs(guest).filter((tb) => tb.center || !yashirin(tb.web ?? `/${tb.name}`));
   const insets = useSafeAreaInsets();
   const [post, setPost] = useState(false);
   /* Messenjer yorlig'ida o'qilmaganlar soni — sarlavhadagi bilan bitta manba */

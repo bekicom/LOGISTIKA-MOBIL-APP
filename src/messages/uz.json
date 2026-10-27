@@ -264,6 +264,16 @@
     "step": "%{n}/100",
     "title": "Sizning yo'lingiz"
   },
+  "bozor4": {
+    "texnika": "Texnika savdosi",
+    "texnikaIzoh": "Yuk mashinasi, tirkama, maxsus texnika",
+    "usta": "Usta va servis",
+    "ustaIzoh": "Ta'mir, chaqiruv, ustaxonalar",
+    "yolovchi": "Yo'lovchi tashish",
+    "yolovchiIzoh": "Shaharlar orasi safar va pochta",
+    "zapchast": "Zapchast do'konlari",
+    "zapchastIzoh": "Marka va model bo'yicha"
+  },
   "cancelReason": {
     "AGREED": "Tomonlar kelishdi",
     "BORDER": "Chegara muammosi",
@@ -538,6 +548,48 @@
     "net": "Sof daromad",
     "revenue": "Tushum",
     "title": "Mening daromadim"
+  },
+  "ishStoli": {
+    "arizalarim": "Arizalarim",
+    "bozor": "FURAM Bozor",
+    "bronlar": "Bronlar",
+    "buyurtmalar": "Buyurtmalar",
+    "dispetcherPaneli": "Dispetcher paneli",
+    "elonQoshish": "E'lon qo'shish",
+    "haydovchilarim": "Haydovchilarim",
+    "hisobotlar": "Hisobotlar",
+    "hujjatlar": "Hujjatlar",
+    "hujjatlarim": "Hujjatlarim",
+    "ishTopish": "Ish topish",
+    "kelishuvlar": "Kelishuvlar",
+    "mahsulotQoshish": "Mahsulot qo'shish",
+    "mahsulotlarim": "Mahsulotlarim",
+    "mashinam": "Mashinam",
+    "mening-transportlarim": "Mening transportlarim",
+    "mening-yuklarim": "Mening yuklarim",
+    "meningReysim": "Mening reysim",
+    "mijozlarim": "Mijozlarim",
+    "mosYuklar": "Mos yuklar",
+    "nomzodlar": "Nomzodlar",
+    "parkim": "Parkim",
+    "pochta": "Pochta",
+    "profilim": "Profilim",
+    "reysNazorati": "Reyslar nazorati",
+    "reyslar": "Reyslar",
+    "rezyumem": "Rezyumem",
+    "rolQoshish": "Rol qo'shish",
+    "safarQoshish": "Safar qo'shish",
+    "safarlarim": "Safarlarim",
+    "sotuvlarim": "Sotuvlarim",
+    "transportBazasi": "Transportlar bazasi",
+    "transportQoshish": "Transport qo'shish",
+    "vakansiyalar": "Vakansiyalar",
+    "vakansiyalarim": "Vakansiyalarim",
+    "xarajatQoshish": "Xarajat qo'shish",
+    "yoldagiYuklarim": "Yo'ldagi yuklarim",
+    "yukQoshish": "Yuk qo'shish",
+    "yuklarBazasi": "Yuklar bazasi",
+    "zapchastBozori": "Zapchast bozori"
   },
   "ishim": {
     "bitim": "Bu oy bitimlar",
@@ -4017,6 +4069,8 @@
     "addRole": "Rol qo'shish",
     "ai": "FURAM AI",
     "all": "Hammasi",
+    "loads": "Yuklar",
+    "market": "Bozor",
     "messenger": "Messenjer",
     "myWork": "Mening ishim",
     "otherServices": "Boshqa xizmatlar",
@@ -4025,7 +4079,8 @@
     "postLoad": "Yuk e'loni",
     "postSale": "Bozor e'loni",
     "postTruck": "Bo'sh transport",
-    "search": "Qidiruv"
+    "search": "Qidiruv",
+    "trucks": "Transportlar"
   },
   "notifyTitle": {
     "payLate": "To'lov %{days} kun kechikdi",
@@ -4158,9 +4213,6 @@
     "postBtn": "E'lonni qo'yish",
     "posting": "Qo'yilmoqda...",
     "workerNeeded": "Xodim kerak"
-  },
-  "pgHome": {
-    "quickMore": "Yana"
   },
   "pgNotifications": {
     "aiNudgeHint": "Bo'sh mashina, javobsiz e'lon, yangi yuklar va bilmagan imkoniyatlar haqida — kuniga bittadan ko'p emas.",
@@ -4748,6 +4800,19 @@
     "yuk": "Yuk (o'zingizniki)",
     "yukQosh": "Yuk qo'shish",
     "yukYoq": "Faol yukingiz yo'q."
+  },
+  "yolovchiUi": {
+    "bosh": "Hozircha ochiq safar yo'q",
+    "boshIzoh": "Yangi safarlar shu yerda chiqadi",
+    "bron": "Bron qilish",
+    "bronBoldi": "Bron qilindi. Kod: %{kod}",
+    "ism": "Yo'lovchi ismi",
+    "joy": "%{n} bo'sh joy",
+    "kelishiladi": "Kelishiladi",
+    "necha": "Nechta joy?",
+    "oferta": "Ofertaga roziman",
+    "sarlavha": "Yo'lovchi tashish",
+    "telefon": "Telefon"
   },
   "yopish": {
     "s_BOSHQA": "Boshqa sabab",

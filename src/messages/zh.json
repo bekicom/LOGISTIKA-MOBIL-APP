@@ -264,6 +264,16 @@
     "step": "%{n}/100",
     "title": "您的进程"
   },
+  "bozor4": {
+    "texnika": "车辆买卖",
+    "texnikaIzoh": "卡车、挂车、专用机械",
+    "usta": "维修与服务",
+    "ustaIzoh": "维修、上门、修理厂",
+    "yolovchi": "客运",
+    "yolovchiIzoh": "城际出行和包裹",
+    "zapchast": "配件商店",
+    "zapchastIzoh": "按品牌和型号"
+  },
   "cancelReason": {
     "AGREED": "双方协商一致",
     "BORDER": "口岸问题",
@@ -538,6 +548,48 @@
     "net": "净收入",
     "revenue": "收入",
     "title": "我的收入"
+  },
+  "ishStoli": {
+    "arizalarim": "我的申请",
+    "bozor": "FURAM 市场",
+    "bronlar": "预订",
+    "buyurtmalar": "订单",
+    "dispetcherPaneli": "调度面板",
+    "elonQoshish": "发布信息",
+    "haydovchilarim": "我的司机",
+    "hisobotlar": "报告",
+    "hujjatlar": "文件",
+    "hujjatlarim": "我的文件",
+    "ishTopish": "找工作",
+    "kelishuvlar": "协议",
+    "mahsulotQoshish": "添加商品",
+    "mahsulotlarim": "我的商品",
+    "mashinam": "我的车辆",
+    "mening-transportlarim": "我的车辆",
+    "mening-yuklarim": "我的货物",
+    "meningReysim": "我的行程",
+    "mijozlarim": "我的客户",
+    "mosYuklar": "匹配货物",
+    "nomzodlar": "候选人",
+    "parkim": "我的车队",
+    "pochta": "包裹",
+    "profilim": "我的资料",
+    "reysNazorati": "行程监控",
+    "reyslar": "行程",
+    "rezyumem": "我的简历",
+    "rolQoshish": "添加角色",
+    "safarQoshish": "添加行程",
+    "safarlarim": "我的行程",
+    "sotuvlarim": "我的销售",
+    "transportBazasi": "车源库",
+    "transportQoshish": "添加车辆",
+    "vakansiyalar": "职位",
+    "vakansiyalarim": "我的职位",
+    "xarajatQoshish": "添加费用",
+    "yoldagiYuklarim": "在途货物",
+    "yukQoshish": "添加货物",
+    "yuklarBazasi": "货源库",
+    "zapchastBozori": "配件市场"
   },
   "ishim": {
     "bitim": "本月成交",
@@ -4017,6 +4069,8 @@
     "addRole": "添加角色",
     "ai": "FURAM AI",
     "all": "全部",
+    "loads": "货物",
+    "market": "市场",
     "messenger": "消息",
     "myWork": "我的工作",
     "otherServices": "其他服务",
@@ -4025,7 +4079,8 @@
     "postLoad": "货源",
     "postSale": "市场广告",
     "postTruck": "空车",
-    "search": "搜索"
+    "search": "搜索",
+    "trucks": "车辆"
   },
   "notifyTitle": {
     "payLate": "付款已逾期 %{days} 天",
@@ -4158,9 +4213,6 @@
     "postBtn": "发布公告",
     "posting": "发布中...",
     "workerNeeded": "招聘员工"
-  },
-  "pgHome": {
-    "quickMore": "更多"
   },
   "pgNotifications": {
     "aiNudgeHint": "关于车辆闲置、无人回应的信息、新货源和您未用过的功能——每天最多一次。",
@@ -4748,6 +4800,19 @@
     "yuk": "货物（您的）",
     "yukQosh": "添加货物",
     "yukYoq": "您没有有效的货物。"
+  },
+  "yolovchiUi": {
+    "bosh": "暂无可预订行程",
+    "boshIzoh": "新行程将显示在这里",
+    "bron": "预订",
+    "bronBoldi": "已预订。代码：%{kod}",
+    "ism": "乘客姓名",
+    "joy": "%{n} 个空位",
+    "kelishiladi": "可议价",
+    "necha": "几个座位？",
+    "oferta": "我接受要约条款",
+    "sarlavha": "客运",
+    "telefon": "电话"
   },
   "yopish": {
     "s_BOSHQA": "其他原因",

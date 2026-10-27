@@ -16,12 +16,11 @@
  * Ilova ekranida yo'q manzil (masalan yo'lovchi tashish) chizilmaydi:
  * bosilganda hech qayerga olib bormaydigan tugma — Apple 2.1 rad sababi.
  */
-import { useState } from "react";
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
-import { ASOSIY, ASOSIY_USTUN, QUICK_TELEFON, ikonkasi, yorliqKaliti, type TezkorTugma } from "@/lib/bosh-tugmalar";
+import { ASOSIY, ikonkasi, yorliqKaliti, type TezkorTugma } from "@/lib/bosh-tugmalar";
 import { webToApp } from "@/lib/routes";
 import { useAuth } from "@/lib/auth-context";
 import { color, radius, shadow, themed } from "@/lib/theme";
@@ -49,63 +48,52 @@ function yozuvOlchami(kenglik: number) {
   return { fontSize: 10.5 * k, lineHeight: 13 * k };
 }
 
-export function AsosiyTugmalar() {
+export function AsosiyTugmalar({ onIshim }: { onIshim?: () => void }) {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const kichik = yozuvOlchami(width);
   const { yashirin } = useAuth();
-  /* To'r: 4 ustun (webdagi telefon to'ri — 4 + 3). Qatorlar alohida,
-     oxirgisi bo'sh kataklar bilan to'ldiriladi — kenglik foizda emas,
-     aniq teng bo'lib chiqadi */
+  /* 4 katta tugma bitta qatorda (TZ v3 §4). «Mening ishim» — shu ekran,
+     bosilganda ish stoliga suriladi; qolganlari o'z ekraniga */
   const bor = ASOSIY.flatMap((a) => {
+    if (a.web === "/") return [{ ...a, to: null as string | null }];
     const to = webToApp(a.web);
-    /* Admin o'chirgan modul tugmasi chizilmaydi (TZ v2 §8.1) — web
-       bilan bir xil (`nav.ts:asosiyTugmalar`) */
+    /* Admin o'chirgan modul tugmasi chizilmaydi (TZ v2 §8.1) */
     return to && !yashirin(a.web) ? [{ ...a, to }] : [];
   });
-  const qatorlar = Array.from({ length: Math.ceil(bor.length / ASOSIY_USTUN) }, (_, i) =>
-    bor.slice(i * ASOSIY_USTUN, (i + 1) * ASOSIY_USTUN),
-  );
   return (
-    <View style={s.asosiy}>
-      {qatorlar.map((qator, i) => (
-        <View key={i} style={s.asosiyQator}>
-          {qator.map((a) => {
-            const nomi = t(`${a.ns}.${a.key}`);
-            return (
-              <Pressable
-                key={a.key}
-                onPress={() => router.push(a.to as never)}
-                accessibilityRole="button"
-                accessibilityLabel={nomi}
-                style={({ pressed }) => [s.tile, pressed && { opacity: 0.7 }]}
-              >
-                <View style={s.tileIcon}>
-                  <Icon name={a.ikonka} size={20} stroke={color.brand} />
-                  {a.qoshish ? (
-                    <View style={s.plus}>
-                      <Icon name="plus" size={10} stroke="#ffffff" />
-                    </View>
-                  ) : null}
-                </View>
-                <Text style={[s.tileText, kichik]} numberOfLines={2}>
-                  {nomi}
-                </Text>
-              </Pressable>
-            );
-          })}
-          {Array.from({ length: ASOSIY_USTUN - qator.length }, (_, j) => (
-            <View key={`bosh-${j}`} style={s.tileBosh} />
-          ))}
-        </View>
-      ))}
+    <View style={s.asosiyQator}>
+      {bor.map((a) => {
+        const nomi = t(`${a.ns}.${a.key}`);
+        const ishim = a.to === null;
+        return (
+          <Pressable
+            key={a.key}
+            onPress={() => (ishim ? onIshim?.() : router.push(a.to as never))}
+            accessibilityRole="button"
+            accessibilityLabel={nomi}
+            style={({ pressed }) => [s.tile, ishim && s.tileIshim, pressed && { opacity: 0.7 }]}
+          >
+            <View style={[s.tileIcon, ishim && s.tileIconIshim]}>
+              <Icon name={a.ikonka} size={20} stroke={ishim ? "#ffffff" : color.brand} />
+            </View>
+            <Text style={[s.tileText, ishim && { color: "#ffffff" }, kichik]} numberOfLines={2}>
+              {nomi}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
 
+/**
+ * Rolning ish stoli tugmalari (TZ v3 §6) — serverdan, web bilan bitta
+ * jadval (`home.ts:QUICK`). 4–7 ta, hammasi ochiq: «Yana» yo'q — TZ
+ * «tepada 4–6 ta asosiy tugma» deydi, ular yashirilmaydi.
+ */
 export function RolTugmalari({ quick }: { quick: readonly TezkorTugma[] }) {
   const router = useRouter();
-  const [yana, setYana] = useState(false);
 
   /* Faqat ilovada ochiladigan va lug'atda yorlig'i bor tugmalar */
   const tugmalar = quick.flatMap((q) => {
@@ -115,40 +103,31 @@ export function RolTugmalari({ quick }: { quick: readonly TezkorTugma[] }) {
   });
   if (!tugmalar.length) return null;
 
-  const korinadi = yana ? tugmalar : tugmalar.slice(0, QUICK_TELEFON);
-  const qolgan = tugmalar.length - QUICK_TELEFON;
-
   return (
     <View style={s.quick}>
-      {korinadi.map((q) => (
+      {tugmalar.map((q) => (
         <Pressable
           key={q.href}
           onPress={() => router.push(q.to as never)}
           accessibilityRole="button"
-          style={({ pressed }) => [s.pill, pressed && { opacity: 0.85 }]}
+          style={({ pressed }) => [s.stol, pressed && { opacity: 0.85 }]}
         >
-          <Icon name={ikonkasi(q.icon)} size={16} stroke="#ffffff" />
-          <Text style={s.pillText} numberOfLines={1}>
+          <View style={s.stolIcon}>
+            <Icon name={ikonkasi(q.icon)} size={17} stroke="#ffffff" />
+          </View>
+          <Text style={s.stolText} numberOfLines={2}>
             {t(q.kalit)}
           </Text>
         </Pressable>
       ))}
-      {qolgan > 0 && !yana ? (
-        <Pressable onPress={() => setYana(true)} hitSlop={8} accessibilityRole="button" style={s.more}>
-          <Text style={s.moreText}>
-            {t("pgHome.quickMore")} ({qolgan})
-          </Text>
-          <Icon name="chevron" size={14} stroke={color.brand} />
-        </Pressable>
-      ) : null}
     </View>
   );
 }
 
 const s = themed(() => ({
-  asosiy: { gap: 6 },
   asosiyQator: { flexDirection: "row", gap: 6 },
-  tileBosh: { flex: 1 },
+  tileIshim: { backgroundColor: color.brand },
+  tileIconIshim: { backgroundColor: "#ffffff33" },
   tile: {
     flex: 1,
     minWidth: 0,
@@ -185,18 +164,22 @@ const s = themed(() => ({
   },
   tileText: { fontSize: 10.5, lineHeight: 13, fontWeight: "700", color: color.foreground, textAlign: "center" },
 
-  quick: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 8 },
-  pill: {
+  quick: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  /* Ikki ustun: (100% − 8) / 2 */
+  stol: {
+    flexBasis: "48%",
+    flexGrow: 1,
     flexDirection: "row",
     alignItems: "center",
-    gap: 7,
-    height: 38,
-    paddingHorizontal: 13,
-    borderRadius: 12,
-    backgroundColor: color.brand,
-    maxWidth: "100%",
+    gap: 9,
+    minHeight: 56,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 14,
+    backgroundColor: color.brandSoft,
+    borderWidth: 1,
+    borderColor: color.brand + "33",
   },
-  pillText: { flexShrink: 1, fontSize: 13, fontWeight: "700", color: "#ffffff" },
-  more: { flexDirection: "row", alignItems: "center", gap: 3, height: 38, paddingHorizontal: 4 },
-  moreText: { fontSize: 13, fontWeight: "700", color: color.brandText },
+  stolIcon: { width: 34, height: 34, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: color.brand },
+  stolText: { flex: 1, fontSize: 13.5, fontWeight: "700", color: color.foreground },
 }));

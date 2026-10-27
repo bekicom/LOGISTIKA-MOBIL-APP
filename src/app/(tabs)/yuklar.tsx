@@ -21,7 +21,6 @@ import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
-import { Segment } from "@/components/Segment";
 import { HeaderIcons } from "@/components/TabHeader";
 import { ListingCard, fmtNum, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
@@ -77,19 +76,11 @@ export default function Yuklar() {
       {/* Sarlavha va qidiruv */}
       <View style={s.head}>
         <View style={s.headRow}>
-          {/* Yuklar va mashinalar — lentaning ikki yarmi. Mashinalar
-              uchun alohida tab yo'q, menyuga yashirsak esa bo'limni
-              hech kim topmasdi. */}
-          <View style={{ flex: 1 }}>
-            <Segment
-              value="loads"
-              onChange={(v) => v === "trucks" && router.push("/mashinalar")}
-              options={[
-                { key: "loads", label: t("mob.loads.title") },
-                { key: "trucks", label: t("mob.trucks.title") },
-              ]}
-            />
-          </View>
+          {/* TZ v3 §4: «Yuklar» — o'z yorlig'i, «Yuk qo'shish» shu panel ichida */}
+          <Text style={s.sarlavha} numberOfLines={1}>
+            {t("nav5.loads")}
+          </Text>
+          <View style={{ flex: 1 }} />
           <HeaderIcons />
         </View>
 
@@ -220,11 +211,35 @@ export default function Yuklar() {
         }}
         total={data?.total}
       />
+      {/* «Qo'shish» — shu panel ichida (TZ v3 §4): pastki menyuda «+» yo'q */}
+      <Pressable
+        onPress={() => router.push("/yuk-joylash")}
+        accessibilityRole="button"
+        style={({ pressed }) => [s.qosh, pressed && { opacity: 0.85 }]}
+      >
+        <Icon name="plus" size={18} stroke="#ffffff" />
+        <Text style={s.qoshText}>{t("ishStoli.yukQoshish")}</Text>
+      </Pressable>
     </View>
   );
 }
 
 const s = themed(() => ({
+  sarlavha: { fontSize: 24, fontWeight: "800", color: color.foreground, letterSpacing: -0.5, flexShrink: 1 },
+  qosh: {
+    position: "absolute",
+    right: 16,
+    bottom: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    height: 48,
+    paddingHorizontal: 18,
+    borderRadius: 999,
+    backgroundColor: color.brand,
+    ...shadow.card,
+  },
+  qoshText: { fontSize: 14.5, fontWeight: "800", color: "#ffffff" },
   root: { flex: 1, backgroundColor: color.background },
 
   head: {

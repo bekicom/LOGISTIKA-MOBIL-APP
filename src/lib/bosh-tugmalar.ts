@@ -23,22 +23,22 @@
 
 export type AsosiyTugma = {
   key: string;
-  ns: "quick" | "svc" | "nav";
+  ns: "quick" | "svc" | "nav" | "nav5" | "ishStoli";
   /** Web manzili (`nav.ts` bilan bir xil) */
   web: string;
-  ikonka: "truck" | "package" | "route" | "search";
+  ikonka: "truck" | "package" | "route" | "search" | "briefcase" | "tag";
   /** «Qo'shish» tugmasi — belgisi ustida «+» */
   qoshish?: boolean;
 };
 
+/* 4 KATTA TUGMA (TZ v3 §4, 2026-10-27) — web bosh sahifasidagi bilan
+   bir xil: Mening ishim · Yuklar · Transportlar · FURAM Bozor.
+   «/» — shu ekranning o'zi: bosilganda ish stoliga suriladi */
 export const ASOSIY: readonly AsosiyTugma[] = [
-  { key: "loads", ns: "svc", web: "/loads", ikonka: "search" },
-  { key: "freeTrucks", ns: "nav", web: "/trucks", ikonka: "truck" },
-  { key: "addVehicle", ns: "quick", web: "/fleet?add=1", ikonka: "truck", qoshish: true },
-  { key: "addCargo", ns: "quick", web: "/post", ikonka: "package", qoshish: true },
-  { key: "my-loads", ns: "svc", web: "/my-loads", ikonka: "package" },
-  { key: "my-trucks", ns: "svc", web: "/my-trucks", ikonka: "route" },
-  { key: "park", ns: "svc", web: "/fleet", ikonka: "truck" },
+  { key: "myWork", ns: "nav5", web: "/", ikonka: "briefcase" },
+  { key: "loads", ns: "svc", web: "/loads", ikonka: "package" },
+  { key: "trucks", ns: "svc", web: "/trucks", ikonka: "truck" },
+  { key: "bozor", ns: "ishStoli", web: "/market", ikonka: "tag" },
 ];
 
 /** Serverdagi tezkor tugma (`/api/home` → `quick`) */
@@ -74,8 +74,9 @@ export const QUICK_TELEFON = 4;
 /** Asosiy tugmalar to'rida ustun soni — webdagi telefon to'ri (`grid-cols-4`, 4 + 3) */
 export const ASOSIY_USTUN = 4;
 
-/** Server kalitni ruxsat etilgan bo'limdan beradi — boshqasi e'tiborsiz */
+/** Server kalitni ruxsat etilgan bo'limdan beradi — boshqasi e'tiborsiz.
+ *  `ishStoli` — «Mening ishim» ish stoli tugmalari (TZ v3 §6) */
 export function yorliqKaliti(q: { key: string; ns: string }): string | null {
-  if (q.ns !== "quick" && q.ns !== "svc") return null;
+  if (q.ns !== "quick" && q.ns !== "svc" && q.ns !== "ishStoli") return null;
   return /^[\w-]{1,40}$/.test(q.key) ? `${q.ns}.${q.key}` : null;
 }

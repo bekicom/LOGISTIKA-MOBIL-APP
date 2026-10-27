@@ -689,6 +689,15 @@
     "routeOk": "Güzergâh deneyimi var",
     "routePartial": "Güzergâh kısmen uygun"
   },
+  "matndanYuk": {
+    "izoh": "Gruptaki ilanı kopyalayıp buraya yapıştırın — güzergâh, yük, ağırlık, araç ve fiyat otomatik doldurulur",
+    "ph": "Taşkent — Moskova, 20 t pamuk, tenteli, 3000$",
+    "qisman": "Kısmen dolduruldu — güzergâhı kendiniz seçin",
+    "title": "Telegram metninden doldur",
+    "toldir": "Doldur",
+    "toldirildi": "Dolduruldu — kontrol edip «Yayınla»ya basın",
+    "xato": "Metin okunamadı — elle doldurun"
+  },
   "mob": {
     "abuse": {
       "failed": "Gönderilemedi, tekrar deneyin",

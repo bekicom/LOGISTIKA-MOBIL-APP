@@ -22,6 +22,7 @@ import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 import { sumKiritish } from "@/lib/sum";
 import { TariffNotice } from "@/components/TariffNotice";
+import { MatndanToldirish } from "@/components/MatndanToldirish";
 import { tariffBlocked } from "@/lib/features";
 
 type VehicleType = { id: number; key: string; name: string };
@@ -161,6 +162,24 @@ export default function YukJoylash() {
             <View style={{ gap: space.md, marginTop: space.xxl }}>
               <Picker label={t("mob.loads.from")} value={from?.name ?? null} filled onPress={() => setPicking("from")} />
               <Picker label={t("mob.loads.to")} value={to?.name ?? null} onPress={() => setPicking("to")} />
+            </View>
+            {/* A4 (TZ v2 §3): Telegram'dan nusxalangan matn → maydonlar */}
+            <View style={{ marginTop: space.xl }}>
+              <MatndanToldirish
+                onTaklif={(tk) => {
+                  if (tk.from) setFrom(tk.from);
+                  if (tk.to) setTo(tk.to);
+                  if (tk.title) setTitle(tk.title);
+                  if (tk.weightT != null) setWeight(String(tk.weightT));
+                  if (tk.volumeM3 != null) setVolume(String(tk.volumeM3));
+                  if (tk.vehicleCount != null) setCount(tk.vehicleCount);
+                  if (tk.vehicleTypeId != null) setTypeId(tk.vehicleTypeId);
+                  if (tk.price != null) setPrice(String(tk.price));
+                  if (tk.currency && CURRENCIES.includes(tk.currency)) setCurrency(tk.currency);
+                  if (tk.isExtraLoad) setExtra(true);
+                  if (tk.description) setDesc(tk.description);
+                }}
+              />
             </View>
           </>
         ) : null}

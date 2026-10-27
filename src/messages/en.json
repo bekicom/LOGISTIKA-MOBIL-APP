@@ -689,6 +689,15 @@
     "routeOk": "Has experience on this route",
     "routePartial": "Route partially matches"
   },
+  "matndanYuk": {
+    "izoh": "Copy a listing from a group and paste it here — route, cargo, weight, vehicle and price are filled in automatically",
+    "ph": "Tashkent — Moscow, 20 t cotton, curtain-sider, $3000",
+    "qisman": "Partly filled in — choose the route yourself",
+    "title": "Fill from Telegram text",
+    "toldir": "Fill in",
+    "toldirildi": "Filled in — check and tap “Post”",
+    "xato": "Couldn't read the text — fill in manually"
+  },
   "mob": {
     "abuse": {
       "failed": "Not sent, please try again",

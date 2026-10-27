@@ -689,6 +689,15 @@
     "routeOk": "Yo'nalish tajribasi bor",
     "routePartial": "Yo'nalish qisman mos"
   },
+  "matndanYuk": {
+    "izoh": "Guruhdagi e'lonni nusxalab shu yerga qo'ying — yo'nalish, yuk, og'irlik, transport va narx o'zi to'ldiriladi",
+    "ph": "Toshkent — Moskva, 20 t paxta, tent, 3000$",
+    "qisman": "Qisman to'ldirildi — yo'nalishni o'zingiz tanlang",
+    "title": "Telegram matnidan to'ldirish",
+    "toldir": "To'ldirish",
+    "toldirildi": "To'ldirildi — tekshirib «Joylash» ni bosing",
+    "xato": "Matnni o'qib bo'lmadi — qo'lda to'ldiring"
+  },
   "mob": {
     "abuse": {
       "failed": "Yuborilmadi, qaytadan urinib ko'ring",

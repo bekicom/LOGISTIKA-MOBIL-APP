@@ -4092,7 +4092,10 @@
   },
   "rolTanlash": {
     "DRIVER": "我开别人的车——行程、货源、收入",
-    "VEHICLE_OWNER": "我有车——自己开或由司机开"
+    "VEHICLE_OWNER": "我有车——自己开或由司机开",
+    "boshqa": "其他角色",
+    "savol": "您是谁？",
+    "yopish": "收起"
   },
   "roleGroup": {
     "cargo": "货运与物流",

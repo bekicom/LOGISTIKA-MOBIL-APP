@@ -11,7 +11,7 @@
  * Ikki ko'rinish: `surface` — oddiy fon (kartochka rangida),
  * `onBrand` — `rol.tsx` dagi ko'k fon (oq kartochkalar).
  */
-import { memo } from "react";
+import { memo, useState } from "react";
 import { View } from "react-native";
 import { Text } from "@/components/Text";
 import { Icon } from "@/components/Icon";
@@ -39,6 +39,9 @@ function rangi(g: RolGuruh): { tint: string; bg: string } {
   return { tint, bg: `${tint}1f` };
 }
 
+/** «Siz kimsiz?» ning 4 ta katta kartasi (TZ v2 §2.2) */
+const ASOSIY_ROLLAR: readonly RoyxatRol[] = ["DRIVER", "VEHICLE_OWNER", "CARGO_OWNER", "DISPATCHER"];
+
 export function RolePicker({
   value,
   onChange,
@@ -55,14 +58,36 @@ export function RolePicker({
   /** Rol ostida qo'shimcha qator (masalan Android'da narx) */
   qoshimcha?: Partial<Record<RoyxatRol, string>>;
 }) {
-  const guruhlar = faqat
-    ? ROL_GURUHLARI.map((g) => ({ ...g, rollar: g.rollar.filter((r) => faqat.includes(r)) })).filter(
-        (g) => g.rollar.length > 0,
-      )
-    : ROL_GURUHLARI;
+  const [boshqa, setBoshqa] = useState(false);
+  /* ── «SIZ KIMSIZ?» — 4 TA KATTA KARTA (TZ v2 §2.2, 2026-10-27) ──
+     Ro'yxatdan o'tishda (`faqat` berilmagan) avval 4 ta asosiy rol,
+     qolganlari «Boshqa rollar» ostida — web bilan bir xil
+     (`furam/src/components/auth/rol-tanlash.tsx`). Tanlangan rol
+     boshqalardan bo'lsa ro'yxat ochiq turadi. */
+  const asosiyRejim = !faqat;
+  const ochiq = !asosiyRejim || boshqa || (value != null && !ASOSIY_ROLLAR.includes(value));
+  const guruhlar = (
+    faqat
+      ? ROL_GURUHLARI.map((g) => ({ ...g, rollar: g.rollar.filter((r) => faqat.includes(r)) }))
+      : ROL_GURUHLARI.map((g) => ({ ...g, rollar: g.rollar.filter((r) => !ASOSIY_ROLLAR.includes(r)) }))
+  ).filter((g) => g.rollar.length > 0);
+  const guruhOf = (r: RoyxatRol) => ROL_GURUHLARI.find((g) => g.rollar.includes(r))?.guruh ?? "other";
   return (
     <View style={s.root} accessibilityRole="radiogroup">
-      {guruhlar.map((g) => (
+      {asosiyRejim ? (
+        <View style={s.group}>
+          <Text style={[s.groupLabel, tone === "onBrand" && s.groupLabelOnBrand]}>{t("rolTanlash.savol")}</Text>
+          {ASOSIY_ROLLAR.map((r) => (
+            <RolKarta key={r} rol={r} guruh={guruhOf(r)} on={value === r} tone={tone} qator={qoshimcha?.[r]} onPress={onChange} />
+          ))}
+          <Tap onPress={() => setBoshqa((x) => !x)} hitSlop={8} accessibilityRole="button">
+            <Text style={[s.change, { paddingVertical: 6 }]}>
+              {ochiq ? t("rolTanlash.yopish") : `${t("rolTanlash.boshqa")} (${ROL_GURUHLARI.flatMap((g) => g.rollar).filter((r) => !ASOSIY_ROLLAR.includes(r)).length})`}
+            </Text>
+          </Tap>
+        </View>
+      ) : null}
+      {ochiq && guruhlar.map((g) => (
         <View key={g.guruh} style={s.group}>
           <Text style={[s.groupLabel, tone === "onBrand" && s.groupLabelOnBrand]}>
             {t(`roleGroup.${g.guruh}`)}

@@ -4092,7 +4092,10 @@
   },
   "rolTanlash": {
     "DRIVER": "Başkasının aracında çalışıyorum — sefer, yük, kazanç",
-    "VEHICLE_OWNER": "Aracım var — kendim sürüyorum ya da sürücü çalışıyor"
+    "VEHICLE_OWNER": "Aracım var — kendim sürüyorum ya da sürücü çalışıyor",
+    "boshqa": "Diğer roller",
+    "savol": "Siz kimsiniz?",
+    "yopish": "Gizle"
   },
   "roleGroup": {
     "cargo": "Yük ve lojistik",

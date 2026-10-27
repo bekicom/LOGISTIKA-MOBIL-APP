@@ -4092,7 +4092,10 @@
   },
   "rolTanlash": {
     "DRIVER": "Boshqaning mashinasida ishlayman — reys, yuk, daromad",
-    "VEHICLE_OWNER": "Mashinam bor — o'zim haydayman yoki haydovchi ishlaydi"
+    "VEHICLE_OWNER": "Mashinam bor — o'zim haydayman yoki haydovchi ishlaydi",
+    "boshqa": "Boshqa rollar",
+    "savol": "Siz kimsiz?",
+    "yopish": "Yashirish"
   },
   "roleGroup": {
     "cargo": "Yuk va logistika",

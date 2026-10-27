@@ -4092,7 +4092,10 @@
   },
   "rolTanlash": {
     "DRIVER": "I drive someone else's truck — trips, loads, earnings",
-    "VEHICLE_OWNER": "I own a truck — I drive it myself or a driver does"
+    "VEHICLE_OWNER": "I own a truck — I drive it myself or a driver does",
+    "boshqa": "Other roles",
+    "savol": "Who are you?",
+    "yopish": "Hide"
   },
   "roleGroup": {
     "cargo": "Cargo & logistics",

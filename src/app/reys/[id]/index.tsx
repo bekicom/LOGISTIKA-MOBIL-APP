@@ -229,6 +229,9 @@ export default function ReysTafsiloti() {
                   onPress={() => router.push(`/reys/${id}/hujjatlar`)} />
                 <ListRow icon="package" title={t("mob.trip.expenses")} sub={t("mob.trip.expensesHint")} value={String(data.counts.expenses)}
                   onPress={() => router.push(`/reys/${id}/xarajatlar`)} />
+                {/* Pul oqimi (TZ v3 §10): 4 katta tugma, har valyuta alohida, tafovutlar */}
+                <ListRow icon="wallet" title={t("pulOqimi.sarlavha")} sub={t("pulOqimi.izoh")}
+                  onPress={() => router.push(`/reys/${id}/pul-oqimi` as never)} />
                 <ListRow icon="wallet" title={t("mob.trip.money")} sub={t("mob.trip.moneyHint")}
                   onPress={() => router.push(`/reys/${id}/pul`)} />
                 <ListRow icon="user" title={t("mob.trip.participants")} sub={data.participants.map((p) => t(`mob.role.${p.role}`)).join(", ")} value={String(data.participants.length)}

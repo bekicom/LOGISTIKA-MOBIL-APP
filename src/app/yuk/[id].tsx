@@ -28,6 +28,7 @@ import { Sheet } from "@/components/Sheet";
 import { InviteOwner } from "@/components/InviteOwner";
 import { ContactLinks, type Links } from "@/components/ContactLinks";
 import { TakeLoad } from "@/components/TakeLoad";
+import { NarxMaslahat } from "@/components/NarxMaslahat";
 
 type Load = {
   id: string; slug: string | null; title: string | null; description: string | null;
@@ -205,6 +206,9 @@ export default function YukTafsiloti() {
                     : money(data.price.amount, data.price.currency)
                 }
               />
+              {/* A11 (TZ v2 §3.4.3): egasiga — «sizniki past», transportchiga —
+                  «bozordan past, qarshi narx taklif qiling» */}
+              {!data.price.isNegotiable && data.price.amount != null ? <NarxMaslahat load={data.id} /> : null}
             </View>
 
             {/* ── Ma'lumotlar — ikonkali ro'yxat ── */}

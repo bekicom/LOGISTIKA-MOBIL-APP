@@ -23,6 +23,7 @@ import { t } from "@/lib/i18n";
 import { sumKiritish } from "@/lib/sum";
 import { TariffNotice } from "@/components/TariffNotice";
 import { MatndanToldirish } from "@/components/MatndanToldirish";
+import { NarxMaslahat } from "@/components/NarxMaslahat";
 import { tariffBlocked } from "@/lib/features";
 
 type VehicleType = { id: number; key: string; name: string };
@@ -312,6 +313,13 @@ export default function YukJoylash() {
                 </View>
               </View>
             </View>
+
+            {/* A11 (TZ v2 §3.4.3): narx bozor bilan solishtiriladi */}
+            {!negotiable ? (
+              <View style={{ marginTop: space.md }}>
+                <NarxMaslahat from={from?.id ?? null} to={to?.id ?? null} vt={typeId} price={num(price) || null} currency={currency} />
+              </View>
+            ) : null}
 
             <Pressable style={s.check} onPress={() => setNegotiable((v) => !v)}>
               <View style={[s.box, negotiable && s.boxOn]}>

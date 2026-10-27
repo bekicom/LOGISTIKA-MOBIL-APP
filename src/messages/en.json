@@ -3986,6 +3986,16 @@
     "vazifa_t": "Try to close these loads today — matching trucks are available",
     "yonalish": "Most profitable route"
   },
+  "narxMaslahat": {
+    "egasi_baland": "Yours is %{foiz} % above the average (%{median} %{cur}) — a truck will be found quickly, but you may overpay",
+    "egasi_mos": "The price matches the market: average %{median} %{cur} on this route (%{n} prices)",
+    "egasi_past": "The average price on this route is %{median} %{cur} (%{n} prices). Yours is %{foiz} % lower — it may be hard to find a truck",
+    "kuting": "Wait a little: %{n} trucks are heading to this area — they will be free soon and the price may drop",
+    "tashuvchi_baland": "This load pays %{foiz} % above the market (average %{median} %{cur}) — a good offer",
+    "tashuvchi_mos": "The price matches the market: average %{median} %{cur} on this route (%{n} prices)",
+    "tashuvchi_past": "This load pays %{foiz} % below the market (average %{median} %{cur}) — make a counter-offer",
+    "title": "AI dispatcher"
+  },
   "nav": {
     "freeTrucks": "Available trucks"
   },
@@ -4424,14 +4434,21 @@
     "withinKm": "Within %{n} km"
   },
   "shablon": {
+    "cmr": "CMR",
     "cmrReyssiz": "The vehicle must be on an active trip for a CMR",
+    "ishonchnoma": "Power of attorney",
     "izoh": "One tap — a PDF filled from the vehicle, driver and company cards. It is added to the vehicle's documents (CMR — to the trip)",
     "polisYukla": "Upload policy",
+    "s_CARGO": "Cargo insurance",
+    "s_GREEN_CARD": "Green Card",
+    "s_KASKO": "Comprehensive (KASKO)",
+    "s_OSAGO": "MTPL (OSAGO)",
     "sugurta": "Insurance",
     "sugurtaIzoh": "The button opens the official website. Once you get the policy, upload a photo — AI reads it and adds it to documents",
     "tayyor": "Done — the document was added to the documents list",
     "tezOrada": "coming soon",
-    "title": "Document templates"
+    "title": "Document templates",
+    "yol_varaqa": "Waybill"
   },
   "sosReason": {
     "ACCIDENT": "Accident",

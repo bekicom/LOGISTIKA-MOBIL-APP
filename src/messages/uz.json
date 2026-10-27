@@ -3986,6 +3986,16 @@
     "vazifa_t": "Shu yuklarni bugun yopishga harakat qiling — mos mashinalar bor",
     "yonalish": "Eng foydali yo'nalish"
   },
+  "narxMaslahat": {
+    "egasi_baland": "Sizniki o'rtachadan (%{median} %{cur}) %{foiz} % yuqori — mashina tez topiladi, lekin ortiqcha to'lashingiz mumkin",
+    "egasi_mos": "Narx bozorga mos: bu yo'nalishda o'rtacha %{median} %{cur} (%{n} ta narx)",
+    "egasi_past": "Bu yo'nalishda o'rtacha narx %{median} %{cur} (%{n} ta narx). Sizniki %{foiz} % past — mashina topilishi qiyin bo'lishi mumkin",
+    "kuting": "Biroz kuting: shu hududga %{n} ta mashina ketyapti — tez orada bo'shaydi, narx arzonlashishi mumkin",
+    "tashuvchi_baland": "Bu yuk narxi bozordan %{foiz} % yuqori (o'rtacha %{median} %{cur}) — yaxshi taklif",
+    "tashuvchi_mos": "Narx bozorga mos: bu yo'nalishda o'rtacha %{median} %{cur} (%{n} ta narx)",
+    "tashuvchi_past": "Bu yuk narxi bozordan %{foiz} % past (o'rtacha %{median} %{cur}) — qarshi narx taklif qiling",
+    "title": "AI-dispetcher"
+  },
   "nav": {
     "freeTrucks": "Bo'sh transportlar"
   },
@@ -4424,14 +4434,21 @@
     "withinKm": "%{n} km ichida"
   },
   "shablon": {
+    "cmr": "CMR",
     "cmrReyssiz": "CMR uchun mashina faol reysda bo'lishi kerak",
+    "ishonchnoma": "Ishonchnoma",
     "izoh": "Bir tugma — mashina, haydovchi va korxona kartasidan to'ldirilgan PDF. Hujjat mashina (CMR — reys) hujjatlariga o'zi qo'shiladi",
     "polisYukla": "Polisni yuklash",
+    "s_CARGO": "Yuk sug'urtasi",
+    "s_GREEN_CARD": "Yashil karta",
+    "s_KASKO": "KASKO",
+    "s_OSAGO": "OSAGO",
     "sugurta": "Sug'urta",
     "sugurtaIzoh": "Tugma rasmiy saytni ochadi. Polisni olgach rasmini yuklang — AI o'qib hujjatlarga qo'shadi",
     "tayyor": "Tayyor — hujjat hujjatlar ro'yxatiga qo'shildi",
     "tezOrada": "tez orada",
-    "title": "Hujjat shablonlari"
+    "title": "Hujjat shablonlari",
+    "yol_varaqa": "Yo'l varaqasi"
   },
   "sosReason": {
     "ACCIDENT": "Avariya",

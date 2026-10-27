@@ -3986,6 +3986,16 @@
     "vazifa_t": "Bu yükleri bugün kapatmaya çalışın — uygun araçlar var",
     "yonalish": "En kârlı güzergâh"
   },
+  "narxMaslahat": {
+    "egasi_baland": "Sizinki ortalamadan (%{median} %{cur}) yüzde %{foiz} yüksek — araç hızlı bulunur ama fazla ödeyebilirsiniz",
+    "egasi_mos": "Fiyat piyasaya uygun: bu güzergâhta ortalama %{median} %{cur} (%{n} fiyat)",
+    "egasi_past": "Bu güzergâhta ortalama fiyat %{median} %{cur} (%{n} fiyat). Sizinki yüzde %{foiz} düşük — araç bulmak zor olabilir",
+    "kuting": "Biraz bekleyin: bu bölgeye %{n} araç gidiyor — yakında boşalacak, fiyat düşebilir",
+    "tashuvchi_baland": "Bu yükün fiyatı piyasadan yüzde %{foiz} yüksek (ortalama %{median} %{cur}) — iyi bir teklif",
+    "tashuvchi_mos": "Fiyat piyasaya uygun: bu güzergâhta ortalama %{median} %{cur} (%{n} fiyat)",
+    "tashuvchi_past": "Bu yükün fiyatı piyasadan yüzde %{foiz} düşük (ortalama %{median} %{cur}) — karşı teklif verin",
+    "title": "Yapay zekâ dispeçer"
+  },
   "nav": {
     "freeTrucks": "Boş araçlar"
   },
@@ -4424,14 +4434,21 @@
     "withinKm": "%{n} km içinde"
   },
   "shablon": {
+    "cmr": "CMR",
     "cmrReyssiz": "CMR için araç aktif bir seferde olmalı",
+    "ishonchnoma": "Vekaletname",
     "izoh": "Tek dokunuş — araç, sürücü ve şirket kartlarından doldurulmuş PDF. Belge aracın (CMR — seferin) belgelerine otomatik eklenir",
     "polisYukla": "Poliçe yükle",
+    "s_CARGO": "Yük sigortası",
+    "s_GREEN_CARD": "Yeşil Kart",
+    "s_KASKO": "Kasko",
+    "s_OSAGO": "Zorunlu trafik sigortası",
     "sugurta": "Sigorta",
     "sugurtaIzoh": "Düğme resmi siteyi açar. Poliçeyi aldıktan sonra fotoğrafını yükleyin — yapay zekâ okuyup belgelere ekler",
     "tayyor": "Hazır — belge listeye eklendi",
     "tezOrada": "yakında",
-    "title": "Belge şablonları"
+    "title": "Belge şablonları",
+    "yol_varaqa": "Yol belgesi"
   },
   "sosReason": {
     "ACCIDENT": "Kaza",

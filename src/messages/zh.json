@@ -3986,6 +3986,16 @@
     "vazifa_t": "争取今天成交这些货源——有匹配的车辆",
     "yonalish": "最赚钱的路线"
   },
+  "narxMaslahat": {
+    "egasi_baland": "您的价格比平均价（%{median} %{cur}）高 %{foiz} % —— 能很快找到车辆，但可能多付",
+    "egasi_mos": "价格符合市场：该线路平均 %{median} %{cur}（%{n} 个报价）",
+    "egasi_past": "该线路平均价格为 %{median} %{cur}（%{n} 个报价）。您的价格低 %{foiz} % —— 可能较难找到车辆",
+    "kuting": "请稍等：有 %{n} 辆车正前往该地区——很快会空出来，价格可能下降",
+    "tashuvchi_baland": "该货物价格高于市场 %{foiz} %（平均 %{median} %{cur}）—— 是个好报价",
+    "tashuvchi_mos": "价格符合市场：该线路平均 %{median} %{cur}（%{n} 个报价）",
+    "tashuvchi_past": "该货物价格低于市场 %{foiz} %（平均 %{median} %{cur}）—— 请提出还价",
+    "title": "AI 调度员"
+  },
   "nav": {
     "freeTrucks": "空闲车辆"
   },
@@ -4424,14 +4434,21 @@
     "withinKm": "%{n} 公里内"
   },
   "shablon": {
+    "cmr": "CMR",
     "cmrReyssiz": "生成 CMR 需要车辆处于进行中的行程",
+    "ishonchnoma": "委托书",
     "izoh": "一键生成——根据车辆、司机和公司信息填写的 PDF。文件会自动添加到车辆（CMR——行程）文件中",
     "polisYukla": "上传保单",
+    "s_CARGO": "货物保险",
+    "s_GREEN_CARD": "绿卡",
+    "s_KASKO": "车损险（KASKO）",
+    "s_OSAGO": "交强险（OSAGO）",
     "sugurta": "保险",
     "sugurtaIzoh": "按钮会打开官方网站。拿到保单后上传照片——AI 会识别并添加到文件中",
     "tayyor": "完成——文件已添加到文件列表",
     "tezOrada": "即将推出",
-    "title": "文件模板"
+    "title": "文件模板",
+    "yol_varaqa": "路单"
   },
   "sosReason": {
     "ACCIDENT": "交通事故",

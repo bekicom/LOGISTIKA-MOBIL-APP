@@ -710,6 +710,14 @@
     "user": "用户",
     "vehicle": "我的车辆"
   },
+  "lavozim": {
+    "dispetcher": "调度员",
+    "haydovchi": "司机",
+    "lavozim": "职位",
+    "logist": "物流专员",
+    "rezyumeBerish": "提交简历",
+    "usta": "维修工"
+  },
   "mapUi": {
     "allLayers": "全部",
     "andMore": "还有 %{n} 个",

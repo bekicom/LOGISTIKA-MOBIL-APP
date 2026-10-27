@@ -710,6 +710,14 @@
     "user": "Пайдаланушылар",
     "vehicle": "Менің көлігім"
   },
+  "lavozim": {
+    "dispetcher": "Диспетчер",
+    "haydovchi": "Жүргізуші",
+    "lavozim": "Лауазым",
+    "logist": "Логист",
+    "rezyumeBerish": "Түйіндеме беру",
+    "usta": "Шебер"
+  },
   "mapUi": {
     "allLayers": "Барлығы",
     "andMore": "және тағы %{n}",

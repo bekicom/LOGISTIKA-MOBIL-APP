@@ -710,6 +710,14 @@
     "user": "Foydalanuvchilar",
     "vehicle": "Transportlarim"
   },
+  "lavozim": {
+    "dispetcher": "Dispetcher",
+    "haydovchi": "Haydovchi",
+    "lavozim": "Lavozim",
+    "logist": "Logist",
+    "rezyumeBerish": "Rezyume berish",
+    "usta": "Usta"
+  },
   "mapUi": {
     "allLayers": "Hammasi",
     "andMore": "va yana %{n} ta",

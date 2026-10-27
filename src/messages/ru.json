@@ -710,6 +710,14 @@
     "user": "Пользователи",
     "vehicle": "Мой транспорт"
   },
+  "lavozim": {
+    "dispetcher": "Диспетчер",
+    "haydovchi": "Водитель",
+    "lavozim": "Должность",
+    "logist": "Логист",
+    "rezyumeBerish": "Разместить резюме",
+    "usta": "Мастер"
+  },
   "mapUi": {
     "allLayers": "Все",
     "andMore": "и ещё %{n}",

@@ -710,6 +710,14 @@
     "user": "Kullanıcılar",
     "vehicle": "Araçlarım"
   },
+  "lavozim": {
+    "dispetcher": "Dispeçer",
+    "haydovchi": "Sürücü",
+    "lavozim": "Pozisyon",
+    "logist": "Lojistikçi",
+    "rezyumeBerish": "Özgeçmiş ver",
+    "usta": "Usta"
+  },
   "mapUi": {
     "allLayers": "Tümü",
     "andMore": "ve %{n} tane daha",

@@ -69,12 +69,22 @@ type Vacancy = {
   applied: string | null;
 };
 
+/** Lavozim tezkor tanlovi — web `/jobs` dagi bilan bir xil (TZ v3 §15-20) */
+const LAVOZIMLAR: { k: string; dir: string; prof: string | null }[] = [
+  { k: "haydovchi", dir: "DRIVER", prof: null },
+  { k: "dispetcher", dir: "LOGISTICS", prof: "dispatcher" },
+  { k: "logist", dir: "LOGISTICS", prof: "logist" },
+  { k: "usta", dir: "WORKSHOP", prof: "mechanic" },
+];
+
 export default function IshTopish() {
   const [dir, setDir] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
-  const query = useMemo(() => (dir ? `dir=${dir}` : ""), [dir]);
+  /* Lavozim — bir bosishda (TZ v3 §15-20): dispetcher, logist, usta */
+  const [prof, setProf] = useState<string | null>(null);
+  const query = useMemo(() => [dir ? `dir=${dir}` : "", prof ? `prof=${prof}` : ""].filter(Boolean).join("&"), [dir, prof]);
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     canApply: boolean;
     hasResume: boolean;
@@ -167,14 +177,38 @@ export default function IshTopish() {
                   showsHorizontalScrollIndicator={false}
                   contentContainerStyle={s.chips}
                 >
-                  <Pressable style={[s.chip, !dir && s.chipOn]} onPress={() => setDir(null)}>
+                  {LAVOZIMLAR.map((l) => {
+                    const on = l.prof ? prof === l.prof : dir === l.dir && !prof;
+                    return (
+                      <Pressable
+                        key={l.k}
+                        style={[s.chip, on && s.chipOn]}
+                        onPress={() => {
+                          setDir(on ? null : l.dir);
+                          setProf(on ? null : l.prof);
+                        }}
+                      >
+                        <Text style={[s.chipText, on && s.chipTextOn]}>{t(`lavozim.${l.k}`)}</Text>
+                      </Pressable>
+                    );
+                  })}
+                  <Pressable
+                    style={[s.chip, !dir && s.chipOn]}
+                    onPress={() => {
+                      setDir(null);
+                      setProf(null);
+                    }}
+                  >
                     <Text style={[s.chipText, !dir && s.chipTextOn]}>{t("mob.market.all")}</Text>
                   </Pressable>
                   {DIRECTIONS.map((d) => (
                     <Pressable
                       key={d}
                       style={[s.chip, dir === d && s.chipOn]}
-                      onPress={() => setDir(dir === d ? null : d)}
+                      onPress={() => {
+                        setDir(dir === d ? null : d);
+                        setProf(null);
+                      }}
                     >
                       <Text style={[s.chipText, dir === d && s.chipTextOn]}>
                         {jobDirectionLabel(d)}

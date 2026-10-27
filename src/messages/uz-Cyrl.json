@@ -710,6 +710,14 @@
     "user": "Фойдаланувчилар",
     "vehicle": "Транспортларим"
   },
+  "lavozim": {
+    "dispetcher": "Диспетчер",
+    "haydovchi": "Ҳайдовчи",
+    "lavozim": "Лавозим",
+    "logist": "Логист",
+    "rezyumeBerish": "Резюме бериш",
+    "usta": "Уста"
+  },
   "mapUi": {
     "allLayers": "Ҳаммаси",
     "andMore": "ва яна %{n} та",

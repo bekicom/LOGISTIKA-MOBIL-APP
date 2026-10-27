@@ -710,6 +710,14 @@
     "user": "Корбарон",
     "vehicle": "Нақлиёти ман"
   },
+  "lavozim": {
+    "dispetcher": "Диспетчер",
+    "haydovchi": "Ронанда",
+    "lavozim": "Вазифа",
+    "logist": "Логист",
+    "rezyumeBerish": "Резюме додан",
+    "usta": "Усто"
+  },
   "mapUi": {
     "allLayers": "Ҳама",
     "andMore": "ва боз %{n}",

@@ -18,6 +18,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Segment } from "@/components/Segment";
+import { Sheet } from "@/components/Sheet";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { ago } from "@/components/cards";
 import { api, FuramError } from "@/lib/api";
@@ -48,10 +49,25 @@ type Item = {
   tripNo?: number | null;
   photo?: string | null;
   vehicleId?: string | null;
+  /** Yangi → Taklif → Kelishilgan → Reysda → Yetkazildi → Arxiv (TZ v3 §5) */
+  bosqich?: string;
+  sabab?: string | null;
   createdAt: string;
 };
 
-type Feed = { loads: Item[]; trucks: Item[] };
+type Feed = {
+  loads: Item[];
+  trucks: Item[];
+  /* TZ v3 §5: «Dispetcherlik qilaman» bosilganlar va menga taklif qilinganlar */
+  dispetcherLoads?: Item[];
+  mengaLoads?: Item[];
+  dispetcherTrucks?: Item[];
+  mengaTrucks?: Item[];
+};
+
+type Guruh = "meniki" | "dispetcher" | "menga" | "arxiv";
+/* Egasi tanlaydigan yopish sabablari — web `lib/taklif.ts:EGASI_SABABLARI` bilan bir xil */
+const SABABLAR = ["BOSHQA_MASHINA", "PLATFORMADAN_TASHQARI", "NARX_KELISHILMADI", "EGASI_OCHIRDI", "BOSHQA"] as const;
 
 export default function Elonlarim() {
   const insets = useSafeAreaInsets();
@@ -63,18 +79,29 @@ export default function Elonlarim() {
   const [tab, setTab] = useState<"loads" | "trucks">(boshlanish === "trucks" ? "trucks" : "loads");
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [guruh, setGuruh] = useState<Guruh>("meniki");
+  /* «Yopish» — sabab ro'yxatdan (TZ v3 §15-16) */
+  const [yopish, setYopish] = useState<Item | null>(null);
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>("/api/my-listings");
 
-  const items = (tab === "loads" ? data?.loads : data?.trucks) ?? [];
+  const ozim = (tab === "loads" ? data?.loads : data?.trucks) ?? [];
+  const dispetcher = (tab === "loads" ? data?.dispetcherLoads : data?.dispetcherTrucks) ?? [];
+  const menga = (tab === "loads" ? data?.mengaLoads : data?.mengaTrucks) ?? [];
+  /* Muddati o'tgan e'lon «Faol» da emas — Arxivda (TZ v3 §15-16) */
+  const faol = ozim.filter((i) => i.status === "ACTIVE");
+  const arxiv = ozim.filter((i) => i.status !== "ACTIVE");
+  const items = guruh === "meniki" ? faol : guruh === "arxiv" ? arxiv : guruh === "dispetcher" ? dispetcher : menga;
+  const ozimniki = guruh === "meniki" || guruh === "arxiv";
 
-  async function close(it: Item) {
+  async function close(it: Item, sabab: string) {
     setBusy(it.id);
     setErr(null);
+    setYopish(null);
     try {
       await api(`/api/${it.kind === "load" ? "loads" : "trucks"}/${it.id}`, {
         method: "PATCH",
-        body: { action: "close" },
+        body: { action: "close", sabab },
       });
       reload();
     } catch (e) {
@@ -97,6 +124,19 @@ export default function Elonlarim() {
             { key: "trucks", label: `${t("mob.trucks.title")} · ${data?.trucks.length ?? 0}` },
           ]}
         />
+        {/* TZ v3 §5: o'zimniki · dispetcherlik · menga taklif · arxiv */}
+        <View style={{ marginTop: 8 }}>
+          <Segment
+            value={guruh}
+            onChange={(v) => setGuruh(v as Guruh)}
+            options={[
+              { key: "meniki", label: `${t("mob.mine.active")} · ${faol.length}` },
+              { key: "dispetcher", label: `${t("panel5.tabDispetcher")} · ${dispetcher.length}` },
+              { key: "menga", label: `${t("panel5.tabMenga")} · ${menga.length}` },
+              { key: "arxiv", label: `${t("panel5.tabArxiv")} · ${arxiv.length}` },
+            ]}
+          />
+        </View>
       </View>
 
       <ScrollView
@@ -109,6 +149,11 @@ export default function Elonlarim() {
           <Skeleton rows={3} />
         ) : error ? (
           <ErrorBox message={error} onRetry={reload} />
+        ) : !items.length && !ozimniki ? (
+          <Empty
+            icon={tab === "loads" ? "package" : "truck"}
+            title={t(guruh === "dispetcher" ? (tab === "loads" ? "panel5.boshDispetcherYuk" : "panel5.boshDispetcherTransport") : tab === "loads" ? "panel5.boshMengaYuk" : "panel5.boshMengaTransport")}
+          />
         ) : !items.length ? (
           <Empty
             icon={tab === "loads" ? "package" : "truck"}
@@ -127,6 +172,14 @@ export default function Elonlarim() {
                   <View style={[s.badge, statusBg(it)]}>
                     <Text style={[s.badgeText, { color: statusFg(it) }]}>{statusLabel(it)}</Text>
                   </View>
+                  {it.bosqich ? (
+                    <View style={[s.badge, { backgroundColor: color.brand + "1a" }]}>
+                      <Text style={[s.badgeText, { color: color.brandText }]} numberOfLines={1}>
+                        {t(`taklif.b_${it.bosqich}`)}
+                        {it.sabab ? ` · ${t(`yopish.s_${it.sabab}`)}` : ""}
+                      </Text>
+                    </View>
+                  ) : null}
                   <Text style={s.meta}>
                     {ago(it.createdAt)}
                     {it.status === "ACTIVE" && it.daysLeft != null
@@ -186,14 +239,16 @@ export default function Elonlarim() {
                         >
                           <Text style={s.btnText}>{t("mob.mine.open")}</Text>
                         </Pressable>
-                        <Pressable
-                          style={[s.btn, busy === it.id && s.btnOff]}
-                          disabled={busy === it.id}
-                          onPress={() => close(it)}
-                          accessibilityRole="button"
-                        >
-                          <Text style={s.btnText}>{t("mob.mine.close")}</Text>
-                        </Pressable>
+                        {ozimniki ? (
+                          <Pressable
+                            style={[s.btn, busy === it.id && s.btnOff]}
+                            disabled={busy === it.id}
+                            onPress={() => setYopish(it)}
+                            accessibilityRole="button"
+                          >
+                            <Text style={s.btnText}>{t("mob.mine.close")}</Text>
+                          </Pressable>
+                        ) : null}
                       </View>
                     ) : null}
                   </>
@@ -203,6 +258,17 @@ export default function Elonlarim() {
           </>
         )}
       </ScrollView>
+
+      {/* Yopish sababi (TZ v3 §15-16) */}
+      <Sheet open={!!yopish} onClose={() => setYopish(null)} title={t("yopish.sarlavha")}>
+        <View style={{ gap: 8 }}>
+          {SABABLAR.map((sb) => (
+            <Pressable key={sb} style={s.btn} onPress={() => yopish && void close(yopish, sb)} accessibilityRole="button">
+              <Text style={s.btnText}>{t(`yopish.s_${sb}`)}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </Sheet>
     </View>
   );
 }

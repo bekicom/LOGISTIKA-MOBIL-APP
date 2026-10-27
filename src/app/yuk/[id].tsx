@@ -5,7 +5,7 @@
  * Uni ochish alohida amal: `/api/contact-reveal`. Bu yerda faqat
  * «ochilganmi» degan javob keladi.
  */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,12 +22,14 @@ import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { currentLocale, t } from "@/lib/i18n";
 import { guestBlocked } from "@/lib/guest-gate";
+import { isGuest } from "@/lib/guest";
 import { ShareButton } from "@/components/ShareSheet";
 import { ReportRow, ReportSheet } from "@/components/ReportSheet";
 import { Sheet } from "@/components/Sheet";
 import { InviteOwner } from "@/components/InviteOwner";
 import { ContactLinks, type Links } from "@/components/ContactLinks";
 import { TakeLoad } from "@/components/TakeLoad";
+import { AloqaTugmalari, KartaTakliflar } from "@/components/Takliflar";
 import { NarxMaslahat } from "@/components/NarxMaslahat";
 
 type Load = {
@@ -76,6 +78,9 @@ function money(n: number, cur: string) {
 export default function YukTafsiloti() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [offer, setOffer] = useState(false);
+  /* «Taklif qilish» — takliflar bo'limiga suriladi (TZ v3 §13) */
+  const scrollRef = useRef<ScrollView>(null);
+  const [taklifY, setTaklifY] = useState<number | null>(null);
   const [revealing, setRevealing] = useState(false);
   const [revealErr, setRevealErr] = useState<string | null>(null);
   /* Shikoyat varaqasi — do'kon talabi (2026-09-18, A12) */
@@ -138,6 +143,7 @@ export default function YukTafsiloti() {
       </View>
 
       <ScrollView
+        ref={scrollRef}
         contentContainerStyle={[s.body, { paddingBottom: space.xl }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
@@ -249,6 +255,31 @@ export default function YukTafsiloti() {
               ) : null}
             </View>
 
+            {/* ── ALOQA E'LON OSTIDA (TZ v3 §13) ──────────────────────
+                Ilgari aloqa eng pastda edi va odamlarning ko'pi uni
+                topolmasdi. Endi tanlangan e'lonning darhol ostida:
+                Qo'ng'iroq · Yozish (FURAM messenjer) · Taklif qilish.
+                Ochiq manbada (Telegram) egasi platformada yo'q — u yerda
+                faqat qo'ng'iroq va manba guruhi tugmasi */}
+            {!data.isMine ? (
+              <AloqaTugmalari elon={{ kind: "load", id: data.id }}
+                egaId={data.ochiqManba ? null : (data.owner?.id ?? null)}
+                onQongiroq={() => {
+                  if (guestBlocked()) return;
+                  if (data.contact) void Linking.openURL(`tel:${data.contact}`);
+                  else void reveal();
+                }}
+                onTaklif={
+                  data.ochiqManba || data.isTaken
+                    ? null
+                    : () => {
+                        if (guestBlocked()) return;
+                        if (taklifY != null) scrollRef.current?.scrollTo({ y: taklifY, animated: true });
+                      }
+                }
+              />
+            ) : null}
+
             {/* E'lon beruvchi */}
             {data.owner ? (
               <View style={s.card}>
@@ -331,7 +362,9 @@ export default function YukTafsiloti() {
                 O'z e'loniga va band yukka chiqmaydi; qolgan
                 shartlarni (Telegram e'loni, holat) server hal
                 qiladi va ro'yxat bo'sh kelsa oyna shuni aytadi. */}
-            {!data.isMine && !data.isTaken ? <TakeLoad loadId={data.id} ochiqManba={!!data.ochiqManba} /> : null}
+            {/* Platformadagi yukda — avval taklif, egasi qabul qilgach reys (TZ v3 §5);
+                ochiq manbada egasi yo'q — «Yukni olaman» narx bilan qoladi */}
+            {!data.isMine && !data.isTaken && data.ochiqManba ? <TakeLoad loadId={data.id} ochiqManba /> : null}
 
             {/* Bog'lanish yo'llari: Telegram / WhatsApp / SMS.
                 Raqamsiz Telegram e'lonida asl postga havola —
@@ -343,6 +376,14 @@ export default function YukTafsiloti() {
                 Shart SERVERDA hisoblangan — bu yerda takrorlansa,
                 ikkita bir-biriga mos kelmaydigan qoida bo'lardi. */}
             {data.canInviteOwner ? <InviteOwner loadId={data.id} /> : null}
+
+            {/* Taklif oqimi bitta kartada (TZ v3 §5): bosqich, mos variantlar,
+                takliflar, kelishilgan → reys / shartnoma */}
+            {!data.ochiqManba && !isGuest() ? (
+              <View onLayout={(e) => setTaklifY(e.nativeEvent.layout.y)}>
+                <KartaTakliflar loadId={data.id} narx={{ price: data.price.amount, currency: data.price.currency }} />
+              </View>
+            ) : null}
 
             {/* O'z e'loni: kim olib keta oladi */}
             {data.isMine && !data.isTaken ? (
@@ -391,19 +432,28 @@ export default function YukTafsiloti() {
         />
       ) : null}
 
-      {/* Pastki panel */}
-      {data && !data.isMine && !data.isTaken ? (
-        <View style={[s.actions, { paddingBottom: insets.bottom + space.lg }]}>
-          <Pressable
-            style={({ pressed }) => [s.primary, pressed && { backgroundColor: color.brandHover }]}
-            onPress={() => {
+      {/* Pastki qotib turuvchi panel (TZ v3 §13): sahifa qancha surilsa ham
+          o'sha 3 tugma ekran pastida. Ilgari bitta «Taklif» (dispetcher
+          xizmat taklifi) edi — endi «Dispetcherlik qilaman» kartada */}
+      {data && !data.isMine ? (
+        <View style={[s.actions, { paddingBottom: insets.bottom + space.md }]}>
+          <AloqaTugmalari elon={{ kind: "load", id: data.id }}
+            ixcham
+            egaId={data.ochiqManba ? null : (data.owner?.id ?? null)}
+            onQongiroq={() => {
               if (guestBlocked()) return;
-              setOffer(true);
+              if (data.contact) void Linking.openURL(`tel:${data.contact}`);
+              else void reveal();
             }}
-          >
-            <Text style={s.primaryText}>{t("mob.load.offer")}</Text>
-          </Pressable>
-          {/* 💬 OLIB TASHLANDI — `View` edi, bosilmasdi */}
+            onTaklif={
+              data.ochiqManba || data.isTaken
+                ? null
+                : () => {
+                    if (guestBlocked()) return;
+                    if (taklifY != null) scrollRef.current?.scrollTo({ y: taklifY, animated: true });
+                  }
+            }
+          />
         </View>
       ) : null}
 

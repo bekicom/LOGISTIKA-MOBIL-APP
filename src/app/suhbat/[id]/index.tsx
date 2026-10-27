@@ -13,6 +13,7 @@
  * Yangi xabar 6 soniyada bir so'raladi (`after=`), WebSocket yo'q —
  * web ham shunday.
  */
+import { TaklifChatTugmalari } from "@/components/Takliflar";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Alert, FlatList, Image, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, TextInput, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
@@ -1150,6 +1151,8 @@ function Bubble({
           {msg.refCard.meta ? <Text style={s.refMeta}>{msg.refCard.meta}</Text> : null}
         </View>
       ) : null}
+      {/* Taklif kartasi (TZ v3 §5): Qabul / Rad chatning o'zida */}
+      {msg.kind === "LISTING" && msg.refKind === "taklif" && msg.refId && !readOnly ? <TaklifChatTugmalari id={msg.refId} /> : null}
 
       {msg.kind === "CONFIRM" ? (
         <View style={s.confirmBox}>

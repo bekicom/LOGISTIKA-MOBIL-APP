@@ -29,7 +29,7 @@
  * Telegram e'lonida yozib bo'lmaydi — tugma chiqmaydi, bog'lanish
  * havolalari sahifaning o'zida.
  */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Image, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -40,7 +40,6 @@ import { ContactLinks, type Links } from "@/components/ContactLinks";
 import { ago, davlatNomi, money } from "@/components/cards";
 import { TruckImage } from "@/components/TruckImage";
 import { Bekat, NarxQutisi, Qator, YolNuqtalari } from "@/components/ElonTafsilot";
-import { xabarcha } from "@/components/Xabarcha";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { vehiclePhoto } from "@/lib/img";
@@ -50,6 +49,8 @@ import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { guestBlocked } from "@/lib/guest-gate";
 import { ShareButton } from "@/components/ShareSheet";
 import { ReportRow, ReportSheet } from "@/components/ReportSheet";
+import { AloqaTugmalari, KartaTakliflar } from "@/components/Takliflar";
+import { isGuest } from "@/lib/guest";
 
 type Doc = { kind: string; state: string };
 
@@ -58,7 +59,7 @@ type Detail = {
   slug: string | null;
   description: string | null;
   isMine: boolean;
-  source: "USER" | "TELEGRAM";
+  source: "USER" | "TELEGRAM" | "WHATSAPP";
   views: number;
   createdAt: string;
   route: {
@@ -115,19 +116,20 @@ export default function MashinaTafsilot() {
     [id],
   );
 
-  const [yozBand, setYozBand] = useState(false);
-  async function yozish() {
+  /* «Taklif qilish» — takliflar bo'limiga suriladi (TZ v3 §13) */
+  const scrollRef = useRef<ScrollView>(null);
+  const [taklifY, setTaklifY] = useState<number | null>(null);
+  const ochiqManba = data?.source === "TELEGRAM" || data?.source === "WHATSAPP";
+  const qongiroq = () => {
     if (guestBlocked()) return;
-    setYozBand(true);
-    try {
-      const r = await api<{ chatId: string }>("/api/chats", { method: "POST", body: { kind: "truck", id: String(id) } });
-      router.push({ pathname: "/suhbat/[id]", params: { id: r.chatId } });
-    } catch (e) {
-      xabarcha({ matn: (e as FuramError).message, ohang: "xato" });
-    } finally {
-      setYozBand(false);
-    }
-  }
+    if (data?.contact) void Linking.openURL(`tel:${data.contact}`);
+    else void reveal();
+  };
+  const taklifga = () => {
+    if (guestBlocked()) return;
+    if (taklifY != null) scrollRef.current?.scrollTo({ y: taklifY, animated: true });
+  };
+
 
   async function reveal() {
     setRevealing(true);
@@ -169,6 +171,7 @@ export default function MashinaTafsilot() {
   return (
     <View style={s.root}>
       <ScrollView
+        ref={scrollRef}
         contentContainerStyle={{ paddingBottom: space.xxl }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />
@@ -342,6 +345,20 @@ export default function MashinaTafsilot() {
             ) : null}
           </View>
 
+          {/* Aloqa e'lon OSTIDA (TZ v3 §13): Qo'ng'iroq · Yozish · Taklif qilish */}
+          {!data.isMine ? (
+            <View style={{ marginTop: space.md }}>
+              <AloqaTugmalari elon={{ kind: "truck", id: data.id }} egaId={ochiqManba ? null : (data.owner?.id ?? null)} onQongiroq={qongiroq} onTaklif={ochiqManba ? null : taklifga} />
+            </View>
+          ) : null}
+
+          {/* Taklif oqimi bitta kartada (TZ v3 §5) */}
+          {!ochiqManba && !isGuest() ? (
+            <View onLayout={(e) => setTaklifY(e.nativeEvent.layout.y)}>
+              <KartaTakliflar truckId={data.id} narx={{ price: data.price.amount, currency: data.price.currency }} />
+            </View>
+          ) : null}
+
           {/* Egasi — Telegram e'lonida «egasi» guruh boti: «Telegram, — — 0»
               degan ma'nosiz karta chiqardi (2026-09-21) */}
           {data.owner && data.source !== "TELEGRAM" ? (
@@ -441,16 +458,11 @@ export default function MashinaTafsilot() {
         </View>
       ) : null}
 
-      {/* Pastdagi tugmalar */}
-      {!data.isMine && data.source !== "TELEGRAM" ? (
+      {/* Pastki qotib turuvchi panel (TZ v3 §13): o'sha 3 tugma doim ko'rinadi */}
+      {!data.isMine ? (
         <View style={[s.foot, { paddingBottom: insets.bottom + 14 }]}>
           <View style={{ flex: 1 }}>
-            <Button
-              title={t("mob.trucks.writeOwner")}
-              onPress={() => void yozish()}
-              loading={yozBand}
-              icon={<Icon name="chat" size={18} stroke="#fff" />}
-            />
+            <AloqaTugmalari elon={{ kind: "truck", id: data.id }} ixcham egaId={ochiqManba ? null : (data.owner?.id ?? null)} onQongiroq={qongiroq} onTaklif={ochiqManba ? null : taklifga} />
           </View>
         </View>
       ) : null}

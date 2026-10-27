@@ -25,6 +25,7 @@ export default function TaklifQabul() {
   const { data, error, loading, reload } = useApi<Taklif>(token ? `/api/driver-invites/${encodeURIComponent(token)}` : null, [token]);
   const [band, setBand] = useState(false);
   const [ok, setOk] = useState(false);
+  const [radEtildi, setRadEtildi] = useState(false);
   const [xato, setXato] = useState<string | null>(null);
 
   async function qabul() {
@@ -35,6 +36,20 @@ export default function TaklifQabul() {
       setOk(true);
     } catch (e) {
       setXato((e as FuramError).message ?? t("mob.msg.actionFailed"));
+    } finally {
+      setBand(false);
+    }
+  }
+
+  /* «Rad etish» (TZ v3 §8): taklif yopiladi, egasiga xabar boradi */
+  async function rad() {
+    setBand(true);
+    setXato(null);
+    try {
+      await api(`/api/driver-invites/${encodeURIComponent(String(token))}`, { method: "PATCH" });
+      setRadEtildi(true);
+    } catch {
+      setXato(t("haydovchiTop.radXato"));
     } finally {
       setBand(false);
     }
@@ -56,10 +71,15 @@ export default function TaklifQabul() {
                 <Text style={[s.text, { color: color.success, fontFamily: "Manrope_700Bold" }]}>{t("haydovchiTop.qabulOk")}</Text>
                 <Button title={t("mob.common.continueBtn")} onPress={() => router.replace("/panelim")} />
               </>
+            ) : radEtildi ? (
+              <Text style={s.text}>{t("haydovchiTop.radEtildi")}</Text>
             ) : data.state !== "ok" ? (
               <Text style={[s.text, { color: color.danger }]}>{t("haydovchiTop.eskirgan")}</Text>
             ) : (
-              <Button title={t("haydovchiTop.qabul")} onPress={() => void qabul()} loading={band} />
+              <>
+                <Button title={t("haydovchiTop.qabul")} onPress={() => void qabul()} loading={band} />
+                <Button title={t("haydovchiTop.radEtish")} variant="secondary" onPress={() => void rad()} disabled={band} />
+              </>
             )}
             {xato ? <Text style={[s.text, { color: color.danger }]}>{xato}</Text> : null}
           </View>

@@ -55,6 +55,7 @@ type Profile = {
   languages: string[];
   certificates: string | null;
   about: string | null;
+  ishIzlayapman?: boolean;
   hasPassport: boolean;
   hasLicense: boolean;
 };
@@ -81,6 +82,8 @@ export default function HaydovchiAnketa() {
   const [langs, setLangs] = useState<string[]>([]);
   const [certs, setCerts] = useState("");
   const [about, setAbout] = useState("");
+  /* «Ish izlayapman: Ha / Yo'q» (TZ v3 §8) — standart «Ha» */
+  const [ishIz, setIshIz] = useState(true);
   const [passportFile, setPassportFile] = useState<Photo | null>(null);
   const [licenseFile, setLicenseFile] = useState<Photo | null>(null);
 
@@ -105,6 +108,7 @@ export default function HaydovchiAnketa() {
     setLangs(p.languages);
     setCerts(p.certificates ?? "");
     setAbout(p.about ?? "");
+    setIshIz(p.ishIzlayapman !== false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [me.data]);
 
@@ -132,6 +136,7 @@ export default function HaydovchiAnketa() {
           languages: langs.join(","),
           certificates: certs.trim(),
           about: about.trim(),
+          ishIzlayapman: ishIz ? "1" : "0",
         },
         [
           ...(passportFile ? [toUpload(passportFile, "passportFile")] : []),
@@ -294,6 +299,14 @@ export default function HaydovchiAnketa() {
               style={s.area}
               maxLength={500}
             />
+            <View>
+              <Text style={s.label}>{t("haydovchiTop.ishIzlayapman")}</Text>
+              <View style={s.chips}>
+                <Chip on={ishIz} label={t("haydovchiTop.ha2")} onPress={() => setIshIz(true)} />
+                <Chip on={!ishIz} label={t("haydovchiTop.yoq2")} onPress={() => setIshIz(false)} />
+              </View>
+              <Text style={s.hint}>{t("haydovchiTop.ishIzlayapmanIzoh")}</Text>
+            </View>
             <Field
               label={t("mob.dform.about")}
               value={about}
@@ -358,6 +371,7 @@ function FilePick({
 }
 
 const s = themed(() => ({
+  hint: { fontSize: 12, color: color.mutedForeground, marginTop: 6 },
   root: { flex: 1, backgroundColor: color.background },
   scroll: { padding: space.lg },
 

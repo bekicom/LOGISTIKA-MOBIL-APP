@@ -35,6 +35,26 @@ export function HaydovchiTopish({ vehicleId, ochiq }: { vehicleId: string; ochiq
   const [band, setBand] = useState<string | null>(null);
   const [xabar, setXabar] = useState<string | null>(null);
   const [yuborildi, setYuborildi] = useState<Set<string>>(new Set());
+  /* «Ro'yxatdan biriktirish» (TZ v3 §8): mashinasiz HAMMA haydovchi, filtr bilan */
+  const [filtr, setFiltr] = useState<{ toifa: string; xalqaro: boolean; tajriba: string } | null>(null);
+
+  async function royxat(f: { toifa: string; xalqaro: boolean; tajriba: string }) {
+    setFiltr(f);
+    setBand("royxat");
+    setXabar(null);
+    const q = new URLSearchParams({ royxat: "1" });
+    if (f.toifa) q.set("toifa", f.toifa);
+    if (f.xalqaro) q.set("xalqaro", "1");
+    if (f.tajriba) q.set("tajriba", f.tajriba);
+    try {
+      const r = await api<{ nomzodlar: Nomzod[] }>(`/api/fleet/vehicles/${vehicleId}/haydovchi?${q}`);
+      setNomzodlar(r.nomzodlar ?? []);
+    } catch (e) {
+      setXabar((e as Error).message);
+    } finally {
+      setBand(null);
+    }
+  }
 
   async function ha() {
     setBand("ha");
@@ -80,6 +100,12 @@ export function HaydovchiTopish({ vehicleId, ochiq }: { vehicleId: string; ochiq
         <View style={{ marginTop: 8 }}>
           <Button title={t("haydovchiTop.ha")} onPress={() => void ha()} loading={band === "ha"} />
         </View>
+        <Button
+          title={t("haydovchiTop.royxatdan")}
+          variant="secondary"
+          onPress={() => void royxat({ toifa: "", xalqaro: false, tajriba: "" })}
+          loading={band === "royxat"}
+        />
         {xabar ? <Text style={s.muted}>{xabar}</Text> : null}
       </View>
     );
@@ -87,7 +113,24 @@ export function HaydovchiTopish({ vehicleId, ochiq }: { vehicleId: string; ochiq
 
   return (
     <View style={s.card}>
-      <Text style={s.title}>{t("haydovchiTop.nomzodlar")}</Text>
+      <Text style={s.title}>{filtr ? t("haydovchiTop.royxatdan") : t("haydovchiTop.nomzodlar")}</Text>
+      {filtr ? (
+        <View style={s.filtr}>
+          {["B", "C", "CE", "D"].map((k) => (
+            <Tap key={k} onPress={() => void royxat({ ...filtr, toifa: filtr.toifa === k ? "" : k })} feel="select" style={[s.chip, filtr.toifa === k && s.btnMain]}>
+              <Text style={[s.btnText, filtr.toifa === k && { color: "#ffffff" }]}>{k}</Text>
+            </Tap>
+          ))}
+          {["3", "5"].map((n) => (
+            <Tap key={n} onPress={() => void royxat({ ...filtr, tajriba: filtr.tajriba === n ? "" : n })} feel="select" style={[s.chip, filtr.tajriba === n && s.btnMain]}>
+              <Text style={[s.btnText, filtr.tajriba === n && { color: "#ffffff" }]}>{t("haydovchiTop.tajribaKamida", { n })}</Text>
+            </Tap>
+          ))}
+          <Tap onPress={() => void royxat({ ...filtr, xalqaro: !filtr.xalqaro })} feel="select" style={[s.chip, filtr.xalqaro && s.btnMain]}>
+            <Text style={[s.btnText, filtr.xalqaro && { color: "#ffffff" }]}>{t("haydovchiTop.fXalqaro")}</Text>
+          </Tap>
+        </View>
+      ) : null}
       {nomzodlar.length === 0 ? <Text style={s.muted}>{t("haydovchiTop.yoq")}</Text> : null}
       {nomzodlar.map((n) => (
         <View key={n.userId} style={s.row}>
@@ -147,4 +190,6 @@ const s = themed(() => ({
   btn: { paddingHorizontal: 12, paddingVertical: 7, borderRadius: radius.control, borderWidth: 1, borderColor: color.border },
   btnMain: { backgroundColor: color.brand, borderColor: color.brand },
   btnText: { fontSize: 13, fontFamily: "Manrope_700Bold", color: color.foreground },
+  filtr: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  chip: { paddingHorizontal: 11, paddingVertical: 6, borderRadius: 999, borderWidth: 1, borderColor: color.border },
 }));

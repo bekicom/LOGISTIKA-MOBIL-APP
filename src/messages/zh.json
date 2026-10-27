@@ -202,6 +202,15 @@
     "VEHICLE_UNAVAILABLE": "车辆不空闲——正在运输或维修中。",
     "WRONG_PASSWORD": "密码不正确。"
   },
+  "boshElon": {
+    "formaga": "打开表单",
+    "joyYoq": "未找到上一趟行程——请在表单中选择路线",
+    "joyla": "发布",
+    "qayerdan": "出发地",
+    "qayerga": "目的地",
+    "sigim": "载重 %{n} 吨",
+    "title": "发布空车信息"
+  },
   "bosqich": {
     "CARGO_OWNER_0": "填写公司信息",
     "CARGO_OWNER_20": "发布第一条货源",

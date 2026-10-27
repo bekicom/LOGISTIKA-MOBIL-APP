@@ -202,6 +202,15 @@
     "VEHICLE_UNAVAILABLE": "Araç boşta değil — seferde veya tamirde.",
     "WRONG_PASSWORD": "Şifre yanlış."
   },
+  "boshElon": {
+    "formaga": "Formu aç",
+    "joyYoq": "Önceki sefer bulunamadı — güzergâhı formda seçin",
+    "joyla": "İlan ver",
+    "qayerdan": "Nereden",
+    "qayerga": "Nereye",
+    "sigim": "Kapasite %{n} t",
+    "title": "Boş aracınızın ilanını verin"
+  },
   "bosqich": {
     "CARGO_OWNER_0": "Şirket bilgilerinizi doldurun",
     "CARGO_OWNER_20": "İlk yük ilanınızı verin",

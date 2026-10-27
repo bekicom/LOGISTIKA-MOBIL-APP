@@ -202,6 +202,15 @@
     "VEHICLE_UNAVAILABLE": "The vehicle is not free — it is on a trip or in repair.",
     "WRONG_PASSWORD": "Wrong password."
   },
+  "boshElon": {
+    "formaga": "Open the form",
+    "joyYoq": "No previous trip found — choose the route in the form",
+    "joyla": "Post",
+    "qayerdan": "From",
+    "qayerga": "To",
+    "sigim": "Capacity %{n} t",
+    "title": "Post your free truck"
+  },
   "bosqich": {
     "CARGO_OWNER_0": "Fill in your company details",
     "CARGO_OWNER_20": "Post your first load",

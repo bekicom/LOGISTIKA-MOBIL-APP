@@ -202,6 +202,15 @@
     "VEHICLE_UNAVAILABLE": "Mashina bo'sh emas — hozir reysda yoki ta'mirda.",
     "WRONG_PASSWORD": "Parol noto'g'ri."
   },
+  "boshElon": {
+    "formaga": "Formani ochish",
+    "joyYoq": "Oxirgi reys topilmadi — yo'nalishni formada tanlang",
+    "joyla": "E'lon qilish",
+    "qayerdan": "Qayerdan",
+    "qayerga": "Qayerga",
+    "sigim": "Sig'imi %{n} t",
+    "title": "Bo'sh mashinani e'lon qilish"
+  },
   "bosqich": {
     "CARGO_OWNER_0": "Kompaniya ma'lumotlarini to'ldiring",
     "CARGO_OWNER_20": "Birinchi yuk e'loningizni joylang",

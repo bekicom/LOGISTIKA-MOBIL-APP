@@ -104,6 +104,8 @@ const DETAIL: Record<string, string> = {
   /* TZ v2 §4.2: haydovchilikka taklif va «haydovchi kerak» bildirishnomalari */
   d: "/d",
   "haydovchi-kerak": "/haydovchi-kerak",
+  /* TZ v2 §4.4: «bo'sh mashinangizni e'lon qilaymi?» */
+  "elon-qilish": "/elon-qilish",
 };
 
 /**

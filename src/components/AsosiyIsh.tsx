@@ -16,7 +16,14 @@ import { t } from "@/lib/i18n";
 export type AsosiyIshData =
   | { tur: "park"; bosh: number; reysda: number; tamirda: number; haydovchisiz: number; href: string }
   | { tur: "yuk"; faol: number; yolda: number; qiziqqan: number; href: string }
-  | { tur: "haydovchi"; reys: { id: string; no: number; status: string } | null; mosYuk: number; href: string }
+  | {
+      tur: "haydovchi";
+      reys: { id: string; no: number; status: string } | null;
+      mosYuk: number;
+      href: string;
+      /** «Mashinam» (TZ v3 §15-5) — eski server bermasa `undefined` */
+      mashina?: { vehicleId: string; plate: string; brand: string; turi: string; ega: string; ozimHaydayman: boolean } | null;
+    }
   | { tur: "dispetcher"; faolYuk: number; reysda: number; bitim: number; href: string };
 
 type Son = { label: string; n: number | string; tone?: string };
@@ -87,6 +94,19 @@ export function AsosiyIsh({ d }: { d?: AsosiyIshData | null }) {
         ))}
       </View>
     </Tap>
+    {/* «Mashinam» (TZ v3 §15-5): biriktirilgan mashina darhol ko'rinadi */}
+    {d.tur === "haydovchi" && d.mashina !== undefined ? (
+      <Tap
+        onPress={() => router.push((d.mashina?.ozimHaydayman ? `/parkim/${d.mashina.vehicleId}` : "/panelim") as never)}
+        feel="select"
+        scale={0.98}
+        style={s.coach}
+      >
+        <Text style={s.coachText} numberOfLines={2}>
+          🚛 {d.mashina ? `${t("ishim.mashinam")}: ${d.mashina.plate} · ${d.mashina.brand} — ${d.mashina.ega}` : t("ishim.mashinaYoq")}
+        </Text>
+      </Tap>
+    ) : null}
     {/* Dispetcher murabbiyi (TZ v2 §3.4.7, A15) — webdagi havola bilan bir xil */}
     {d.tur === "dispetcher" ? (
       <Tap onPress={() => router.push("/murabbiy" as never)} feel="select" scale={0.98} style={s.coach}>

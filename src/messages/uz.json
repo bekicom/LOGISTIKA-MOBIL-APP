@@ -4028,6 +4028,15 @@
     "trucks": "Yukingizga mos bo'sh mashinani yo'nalish, tonnaj va kuzov turi bo'yicha topasiz, keyin haydovchi bilan to'g'ridan-to'g'ri bog'lanasiz.",
     "trust": "Har tugagan ishdan keyin qo'yilgan baho ikkalangizning reytingini oshiradi — ishonchli sherik tezroq ish topadi."
   },
+  "ovozliXarajat": {
+    "izoh": "Ayting yoki yozing: «200 litr solyarka, 2 mln» — AI maydonlarni to'ldiradi, siz tekshirib saqlaysiz",
+    "ph": "200 litr solyarka, 2 mln",
+    "title": "Ovoz bilan yozish",
+    "toldir": "To'ldirish",
+    "toldirildi": "To'ldirildi — summani tekshirib «Qo'shish» ni bosing",
+    "tushunmadi": "Summa yoki xarajat turi tushunilmadi — aniqroq ayting",
+    "xato": "Hozir o'qib bo'lmadi — qo'lda to'ldiring"
+  },
   "payMethod": {
     "BANK": "Bank o'tkazmasi",
     "CARD": "Karta",
@@ -4404,6 +4413,16 @@
     "nearHint": "Joyingizni bering — yaqin ustalar birinchi chiqadi. Joyingiz saqlanmaydi.",
     "nearOff": "Bekor qilish",
     "withinKm": "%{n} km ichida"
+  },
+  "shablon": {
+    "cmrReyssiz": "CMR uchun mashina faol reysda bo'lishi kerak",
+    "izoh": "Bir tugma — mashina, haydovchi va korxona kartasidan to'ldirilgan PDF. Hujjat mashina (CMR — reys) hujjatlariga o'zi qo'shiladi",
+    "polisYukla": "Polisni yuklash",
+    "sugurta": "Sug'urta",
+    "sugurtaIzoh": "Tugma rasmiy saytni ochadi. Polisni olgach rasmini yuklang — AI o'qib hujjatlarga qo'shadi",
+    "tayyor": "Tayyor — hujjat hujjatlar ro'yxatiga qo'shildi",
+    "tezOrada": "tez orada",
+    "title": "Hujjat shablonlari"
   },
   "sosReason": {
     "ACCIDENT": "Avariya",

@@ -17,6 +17,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
 import { ReceiptScan } from "@/components/ReceiptScan";
+import { OvozliXarajat } from "@/components/OvozliXarajat";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { P_SOON, P_WIFI, sendOrQueue } from "@/lib/outbox";
@@ -230,6 +231,20 @@ function AddSheet({ open, tripId, onClose, onDone }: {
             renderItem={() => (
               <View>
                 <Text style={s.sheetTitle}>{t("mob.exp.add")}</Text>
+
+                {/* Ovozli xarajat (TZ v2 §6.2): «200 litr solyarka, 2 mln» → maydonlar */}
+                <View style={{ marginTop: space.lg }}>
+                  <OvozliXarajat
+                    onTaklif={(f) => {
+                      if (f.category && cats().some((c) => c.key === f.category)) setCat(f.category);
+                      if (f.amount != null) setAmount(String(f.amount));
+                      if (f.currency && CURRENCIES.includes(f.currency)) setCur(f.currency);
+                      if (f.liters != null) setLiters(String(f.liters));
+                      if (f.station) setStation(f.station);
+                      if (f.note) setNote(f.note);
+                    }}
+                  />
+                </View>
 
                 <Text style={[s.label, { marginTop: space.xl }]}>{t("mob.exp.kind")}</Text>
                 <View style={s.cats}>

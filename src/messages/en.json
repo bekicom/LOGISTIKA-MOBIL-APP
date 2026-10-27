@@ -4028,6 +4028,15 @@
     "trucks": "Find a free vehicle for your load by route, tonnage and body type, then contact the driver directly.",
     "trust": "A rating after a finished job lifts both your scores — a trusted partner gets work faster."
   },
+  "ovozliXarajat": {
+    "izoh": "Say or type: “200 litres of diesel, 2 mln” — AI fills in the fields, you check and save",
+    "ph": "200 litres of diesel, 2 mln",
+    "title": "Add by voice",
+    "toldir": "Fill in",
+    "toldirildi": "Filled in — check the amount and tap “Add”",
+    "tushunmadi": "Couldn't understand the amount or expense type — try being more specific",
+    "xato": "Couldn't read it right now — fill in manually"
+  },
   "payMethod": {
     "BANK": "Bank transfer",
     "CARD": "Card",
@@ -4404,6 +4413,16 @@
     "nearHint": "Share your location — the nearest masters come first. Your location is not saved.",
     "nearOff": "Clear",
     "withinKm": "Within %{n} km"
+  },
+  "shablon": {
+    "cmrReyssiz": "The vehicle must be on an active trip for a CMR",
+    "izoh": "One tap — a PDF filled from the vehicle, driver and company cards. It is added to the vehicle's documents (CMR — to the trip)",
+    "polisYukla": "Upload policy",
+    "sugurta": "Insurance",
+    "sugurtaIzoh": "The button opens the official website. Once you get the policy, upload a photo — AI reads it and adds it to documents",
+    "tayyor": "Done — the document was added to the documents list",
+    "tezOrada": "coming soon",
+    "title": "Document templates"
   },
   "sosReason": {
     "ACCIDENT": "Accident",

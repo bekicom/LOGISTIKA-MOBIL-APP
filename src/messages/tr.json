@@ -4028,6 +4028,15 @@
     "trucks": "Yükünüze uygun boş aracı güzergâh, tonaj ve kasa tipine göre bulup şoförle doğrudan iletişime geçersiniz.",
     "trust": "Biten işten sonra verilen puan iki tarafın da itibarını yükseltir — güvenilir ortak daha çabuk iş bulur."
   },
+  "ovozliXarajat": {
+    "izoh": "Söyleyin veya yazın: «200 litre motorin, 2 milyon» — yapay zekâ alanları doldurur, siz kontrol edip kaydedersiniz",
+    "ph": "200 litre motorin, 2 milyon",
+    "title": "Sesle ekle",
+    "toldir": "Doldur",
+    "toldirildi": "Dolduruldu — tutarı kontrol edip «Ekle»ye basın",
+    "tushunmadi": "Tutar veya gider türü anlaşılamadı — daha net söyleyin",
+    "xato": "Şu an okunamadı — elle doldurun"
+  },
   "payMethod": {
     "BANK": "Banka havalesi",
     "CARD": "Kart",
@@ -4404,6 +4413,16 @@
     "nearHint": "Konumunuzu verin — en yakın ustalar önce çıkar. Konumunuz kaydedilmez.",
     "nearOff": "İptal",
     "withinKm": "%{n} km içinde"
+  },
+  "shablon": {
+    "cmrReyssiz": "CMR için araç aktif bir seferde olmalı",
+    "izoh": "Tek dokunuş — araç, sürücü ve şirket kartlarından doldurulmuş PDF. Belge aracın (CMR — seferin) belgelerine otomatik eklenir",
+    "polisYukla": "Poliçe yükle",
+    "sugurta": "Sigorta",
+    "sugurtaIzoh": "Düğme resmi siteyi açar. Poliçeyi aldıktan sonra fotoğrafını yükleyin — yapay zekâ okuyup belgelere ekler",
+    "tayyor": "Hazır — belge listeye eklendi",
+    "tezOrada": "yakında",
+    "title": "Belge şablonları"
   },
   "sosReason": {
     "ACCIDENT": "Kaza",

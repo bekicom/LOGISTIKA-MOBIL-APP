@@ -70,7 +70,8 @@ export default function Referal() {
             <View style={s.hero}>
               <Text style={s.heroLabel}>{t("mob.ref.balance")}</Text>
               <Text style={s.heroValue}>{fmtNum(data.balance)} UZS</Text>
-              <Text style={s.heroHint}>{t("mob.ref.cashbackHint", { pct: data.cashbackPct })}</Text>
+              {/* «0% cashback» chiqmaydi (TZ v3 §15-26) */}
+              {data.cashbackPct > 0 ? <Text style={s.heroHint}>{t("mob.ref.cashbackHint", { pct: data.cashbackPct })}</Text> : null}
               <View style={s.stats}>
                 <Stat label={t("mob.ref.invited")} value={data.invited} />
                 <View style={s.vline} />

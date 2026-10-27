@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
+import { YangiGuruhSheet } from "@/components/Guruh";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
@@ -95,6 +96,8 @@ function when(iso: string | null) {
 
 export default function ChatRoyxati() {
   const [tab, setTab] = useState<Section>("shaxsiy");
+  /* O'z guruhini ochish (TZ v2 §5.1) */
+  const [yangiGuruh, setYangiGuruh] = useState(false);
   const [held, setHeld] = useState<Chat | null>(null);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
@@ -322,6 +325,22 @@ export default function ChatRoyxati() {
         </ScrollView>
       </View>
 
+      {tab === "umumiy" ? (
+        <Pressable onPress={() => setYangiGuruh(true)} style={s.newGroup} accessibilityRole="button">
+          <Icon name="plus" size={16} stroke={color.brand} />
+          <Text style={s.newGroupText}>{t("guruh.newGroup")}</Text>
+        </Pressable>
+      ) : null}
+
+      <YangiGuruhSheet
+        open={yangiGuruh}
+        onClose={() => setYangiGuruh(false)}
+        onDone={(chatId, title) => {
+          setYangiGuruh(false);
+          router.push({ pathname: "/suhbat/[id]", params: { id: chatId, title } });
+        }}
+      />
+
       {err ? (
         <View style={s.errBar}>
           <Icon name="alert" size={15} stroke={color.danger} />
@@ -417,6 +436,21 @@ function Row({ icon, label, onPress, last }: { icon: IconName; label: string; on
 
 const s = themed(() => ({
   root: { flex: 1, backgroundColor: color.background },
+  newGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    alignSelf: "flex-start",
+    marginHorizontal: space.lg,
+    marginTop: space.sm,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: color.brand,
+    backgroundColor: color.brandSoft,
+  },
+  newGroupText: { fontSize: 13, fontFamily: "Manrope_700Bold", color: color.brand },
   head: { paddingTop: 4, paddingBottom: space.sm, gap: space.md },
   headRow: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: space.lg },
   title: { fontSize: 24, fontWeight: "800", color: color.foreground, letterSpacing: -0.5 },

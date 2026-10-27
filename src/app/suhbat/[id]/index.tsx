@@ -25,6 +25,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { ReportSheet } from "@/components/ReportSheet";
 import { SenderKarta } from "@/components/SenderKarta";
+import { AzolarSheet } from "@/components/Guruh";
 import { ChatLangChips } from "@/components/ChatLangChips";
 import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
@@ -140,6 +141,7 @@ export default function Suhbat() {
   const [holat, setHolat] = useState<ChatHolati | null>(null);
   const [uzatish, setUzatish] = useState<string | null>(null);
   const [jonliSheet, setJonliSheet] = useState(false);
+  const [azolar, setAzolar] = useState(false);
   const yozdim = useRef(0);
 
   const listRef = useRef<FlatList<ChatMsg>>(null);
@@ -811,6 +813,10 @@ export default function Suhbat() {
       <Sheet open={menu} onClose={() => setMenu(false)}>
         <MenuRow icon="pin" label={t(chatPinned ? "mob.msg.menu.unpinChat" : "mob.msg.menu.pinChat")} onPress={() => setFlag({ isPinned: !chatPinned })} />
         <MenuRow icon="bell" label={t(chatMuted ? "mob.msg.menu.unmute" : "mob.msg.menu.mute")} onPress={() => setFlag({ isMuted: !chatMuted })} />
+        {/* Guruh a'zolari va boshqaruv (TZ v2 §5.1) — shaxsiy chatda suhbatdosh bor */}
+        {!peerId ? (
+          <MenuRow icon="users" label={t("guruh.members")} onPress={() => { setMenu(false); setAzolar(true); }} />
+        ) : null}
         <MenuRow icon="doc" label={t("mob.msg.menu.docs")} onPress={() => { setMenu(false); router.push({ pathname: "/suhbat/[id]/hujjatlar", params: { id } }); }} />
         <MenuRow icon="alert" label={t("mob.msg.menu.incidents")} onPress={() => { setMenu(false); router.push({ pathname: "/suhbat/[id]/hodisalar", params: { id } }); }} />
         <MenuRow icon="globe" label={t("mob.msg.menu.lang")} onPress={() => { setMenu(false); sozlamadan.current = true; router.push("/profil/messenger"); }} />
@@ -847,6 +853,17 @@ export default function Suhbat() {
           />
         ))}
       </Sheet>
+
+      <AzolarSheet
+        chatId={id}
+        open={azolar}
+        onClose={() => setAzolar(false)}
+        onLeft={() => {
+          setAzolar(false);
+          router.back();
+        }}
+        onRenamed={(v) => setTitle(v)}
+      />
 
       {/* Uzatish (TZ v2 §5.1) */}
       <UzatishSheet

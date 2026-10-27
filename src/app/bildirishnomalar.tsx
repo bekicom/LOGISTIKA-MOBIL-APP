@@ -119,7 +119,8 @@ export default function Bildirishnomalar() {
   async function turtkiniOchir(id: string) {
     setBand(id);
     try {
-      await api("/api/ai/turtki", { method: "POST", body: { off: true } });
+      /* Faqat SHU turdagi turtki yopiladi (TZ v2 §3.2) */
+      await api("/api/ai/turtki", { method: "POST", body: { off: true, notificationId: id } });
       setTurtkiOchdi(true);
       await api("/api/notifications", { method: "POST", body: { id, action: "dismiss" } }).catch(() => null);
       reload();

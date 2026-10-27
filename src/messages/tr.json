@@ -465,6 +465,27 @@
     "selected": "%{n} kişi seçildi",
     "you": "siz"
   },
+  "haydovchiTop": {
+    "availableNow": "Şu an işe hazırım",
+    "biriktirish": "Ata",
+    "brands": "Hangi markalarda çalıştınız",
+    "eskirgan": "Teklifin süresi doldu veya iptal edildi",
+    "ha": "Evet, sürücü gerekli",
+    "languages": "Hangi dilleri biliyorsunuz",
+    "nomzodlar": "Uygun sürücüler",
+    "qabul": "Kabul et",
+    "qabulMatn": "%{ega} sizi %{mashina} %{raqam} aracına sürücü olarak davet ediyor",
+    "qabulOk": "Filoya eklendiniz",
+    "qabulTitle": "Sürücülük teklifi",
+    "savol": "Bu araca sürücü gerekiyor mu?",
+    "savolIzoh": "AI uygun sürücüleri bulur: ehliyet, güzergâh, deneyim, marka",
+    "tajriba": "%{n} yıl deneyim",
+    "taklifKetdi": "Teklif gönderildi — sürücü kabul ederse filonuza eklenir",
+    "tasdiqlangan": "Doğrulanmış sürücü",
+    "yoq": "Henüz uygun sürücü yok — çıkınca haber veririz",
+    "yozish": "Yaz",
+    "yuborildi": "Teklif gönderildi"
+  },
   "income": {
     "days": "son %{n} gün",
     "empty": "Henüz mali kayıt yok — seferler kapandığında gelir ve giderler burada görünecek.",

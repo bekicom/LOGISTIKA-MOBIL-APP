@@ -465,6 +465,27 @@
     "selected": "%{n} selected",
     "you": "you"
   },
+  "haydovchiTop": {
+    "availableNow": "Available now",
+    "biriktirish": "Assign",
+    "brands": "Truck brands you have driven",
+    "eskirgan": "The offer has expired or was cancelled",
+    "ha": "Yes, I need a driver",
+    "languages": "Languages you speak",
+    "nomzodlar": "Matching drivers",
+    "qabul": "Accept",
+    "qabulMatn": "%{ega} invites you to drive %{mashina} %{raqam}",
+    "qabulOk": "You have joined the fleet",
+    "qabulTitle": "Driver job offer",
+    "savol": "Does this truck need a driver?",
+    "savolIzoh": "AI finds matching drivers: licence, routes, experience, brand",
+    "tajriba": "%{n} years of experience",
+    "taklifKetdi": "Offer sent — once the driver accepts, they join your fleet",
+    "tasdiqlangan": "Verified driver",
+    "yoq": "No matching drivers yet — we'll notify you when they appear",
+    "yozish": "Message",
+    "yuborildi": "Offer sent"
+  },
   "income": {
     "days": "last %{n} days",
     "empty": "No financial records yet — income and expenses will appear here once trips are closed.",

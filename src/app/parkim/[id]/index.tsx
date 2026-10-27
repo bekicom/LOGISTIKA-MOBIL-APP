@@ -15,6 +15,7 @@ import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { DriverInvite } from "@/components/DriverInvite";
+import { HaydovchiTopish } from "@/components/HaydovchiTopish";
 import { OzimHaydayman } from "@/components/OzimHaydayman";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
@@ -92,7 +93,7 @@ function docName(d: { kind: string; title?: string | null }) {
 }
 
 export default function TransportTafsilot() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, haydovchi } = useLocalSearchParams<{ id: string; haydovchi?: string }>();
   const router = useRouter();
   const { data, loading, error, refreshing, refresh, reload } = useApi<Detail>(
     id ? `/api/fleet/vehicles/${id}` : null,
@@ -246,6 +247,9 @@ export default function TransportTafsilot() {
           {!v.mainDriver || !v.coDriver ? (
             <DriverInvite vehicleId={v.id} seat={v.mainDriver ? "CO" : "MAIN"} />
           ) : null}
+
+          {/* «Bu mashinaga haydovchi kerakmi?» → AI nomzodlar (TZ v2 §4.2) */}
+          {!v.mainDriver ? <HaydovchiTopish vehicleId={v.id} ochiq={haydovchi === "1"} /> : null}
         </View>
 
         {/* 3. Nima to'sqinlik qiladi */}

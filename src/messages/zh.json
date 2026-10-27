@@ -465,6 +465,27 @@
     "selected": "已选 %{n} 人",
     "you": "你"
   },
+  "haydovchiTop": {
+    "availableNow": "现在可以上岗",
+    "biriktirish": "指派",
+    "brands": "您开过哪些品牌的车",
+    "eskirgan": "邀请已过期或被取消",
+    "ha": "是的，需要司机",
+    "languages": "您会哪些语言",
+    "nomzodlar": "匹配的司机",
+    "qabul": "接受",
+    "qabulMatn": "%{ega} 邀请您驾驶 %{mashina} %{raqam}",
+    "qabulOk": "您已加入车队",
+    "qabulTitle": "司机工作邀请",
+    "savol": "这辆车需要司机吗？",
+    "savolIzoh": "AI 会按驾照类别、路线、经验和品牌匹配司机",
+    "tajriba": "%{n} 年经验",
+    "taklifKetdi": "邀请已发送——司机接受后将加入您的车队",
+    "tasdiqlangan": "已认证司机",
+    "yoq": "暂无匹配司机——出现时我们会通知您",
+    "yozish": "发消息",
+    "yuborildi": "邀请已发送"
+  },
   "income": {
     "days": "最近 %{n} 天",
     "empty": "暂无财务记录——行程结束后，收入和支出将显示在这里。",

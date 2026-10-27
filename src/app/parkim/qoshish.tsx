@@ -123,7 +123,8 @@ export default function TransportQoshish() {
         method: "POST",
         body: payload(force),
       });
-      router.replace(`/parkim/${res.id}`);
+      /* TZ v2 §4.2: qo'shilgach AI so'raydi — «haydovchi kerakmi?» */
+      router.replace(`/parkim/${res.id}?haydovchi=1`);
     } catch (e) {
       const err = e as FuramError;
       if (err.details) {

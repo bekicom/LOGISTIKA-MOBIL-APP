@@ -23,7 +23,7 @@ import { Button, Field, Header } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { t } from "@/lib/i18n";
+import { LOCALES, LOCALE_INFO, t } from "@/lib/i18n";
 import { REZYUME_DAVLATLARI, TOIFALAR } from "@/lib/davlat-royxati";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
@@ -38,6 +38,10 @@ type Resume = {
   experienceY: number | null;
   licenseClasses: string[];
   countries: string[];
+  /* TZ v2 §4.1 — eski serverda yo'q */
+  truckBrands?: string[];
+  languages?: string[];
+  availableNow?: boolean;
   docs: string[];
   payFrom: number | null;
   payCurrency: string | null;
@@ -61,6 +65,10 @@ export default function Rezyume() {
   const [countries, setCountries] = useState<string[]>([]);
   const [pay, setPay] = useState("");
   const [about, setAbout] = useState("");
+  /* TZ v2 §4.1: markalar, tillar, hozir bo'shmi */
+  const [brands, setBrands] = useState("");
+  const [langs, setLangs] = useState<string[]>([]);
+  const [bosh, setBosh] = useState(true);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -75,6 +83,9 @@ export default function Rezyume() {
     setCountries(r.countries);
     setPay(r.payFrom != null ? String(r.payFrom) : "");
     setAbout(r.about ?? "");
+    setBrands((r.truckBrands ?? []).join(", "));
+    setLangs(r.languages ?? []);
+    setBosh(r.availableNow ?? true);
   }, [data]);
 
   const toggle = (list: string[], v: string) =>
@@ -110,6 +121,9 @@ export default function Rezyume() {
           countries,
           payFrom: pay ? Number(pay.replace(/\s/g, "")) : null,
           about: about.trim() || null,
+          truckBrands: brands.split(",").map((x) => x.trim()).filter(Boolean),
+          languages: langs,
+          availableNow: bosh,
         },
       });
       router.back();
@@ -191,6 +205,31 @@ export default function Rezyume() {
               })}
             </View>
           </View>
+
+          <Field label={t("haydovchiTop.brands")} value={brands} onChangeText={setBrands} placeholder="MAN, Volvo, Mercedes-Benz" />
+
+          <View>
+            <Text style={s.label}>{t("haydovchiTop.languages")}</Text>
+            <View style={s.chips}>
+              {LOCALES.filter((c) => c !== "uz-Cyrl").map((c) => {
+                const on = langs.includes(c);
+                return (
+                  <Pressable key={c} onPress={() => setLangs((l) => toggle(l, c))} style={[s.chipWide, on && s.chipOn]} accessibilityRole="button">
+                    <Text style={[s.chipText, on && { color: "#fff" }]}>{LOCALE_INFO[c].native}</Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          <Pressable
+            onPress={() => setBosh((v) => !v)}
+            style={[s.chipWide, bosh && s.chipOn, { alignSelf: "flex-start" }]}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: bosh }}
+          >
+            <Text style={[s.chipText, bosh && { color: "#fff" }]}>{bosh ? "✓ " : ""}{t("haydovchiTop.availableNow")}</Text>
+          </Pressable>
 
           <Field
             label={t("mob.resume.pay")}

@@ -101,6 +101,9 @@ const DETAIL: Record<string, string> = {
   trucks: "/mashina",
   trips: "/reys",
   chats: "/suhbat",
+  /* TZ v2 §4.2: haydovchilikka taklif va «haydovchi kerak» bildirishnomalari */
+  d: "/d",
+  "haydovchi-kerak": "/haydovchi-kerak",
 };
 
 /**

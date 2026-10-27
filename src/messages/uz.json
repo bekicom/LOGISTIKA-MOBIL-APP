@@ -465,6 +465,27 @@
     "selected": "%{n} kishi tanlandi",
     "you": "siz"
   },
+  "haydovchiTop": {
+    "availableNow": "Hozir ishga tayyorman",
+    "biriktirish": "Biriktirish",
+    "brands": "Qaysi mashina markalarida ishlagansiz",
+    "eskirgan": "Taklif eskirgan yoki bekor qilingan",
+    "ha": "Ha, haydovchi kerak",
+    "languages": "Qaysi tillarni bilasiz",
+    "nomzodlar": "Mos haydovchilar",
+    "qabul": "Qabul qilish",
+    "qabulMatn": "%{ega} sizni %{mashina} %{raqam} mashinasiga haydovchi qilib taklif qilmoqda",
+    "qabulOk": "Siz avtoparkka qo'shildingiz",
+    "qabulTitle": "Haydovchilikka taklif",
+    "savol": "Bu mashinaga haydovchi kerakmi?",
+    "savolIzoh": "AI mos haydovchilarni topadi: toifa, yo'nalish, tajriba, marka",
+    "tajriba": "%{n} yil tajriba",
+    "taklifKetdi": "Taklif yuborildi — haydovchi qabul qilsa avtoparkingizga qo'shiladi",
+    "tasdiqlangan": "Tasdiqlangan haydovchi",
+    "yoq": "Hozircha mos haydovchi topilmadi — mos haydovchilar chiqqanda xabar beramiz",
+    "yozish": "Yozish",
+    "yuborildi": "Taklif yuborildi"
+  },
   "income": {
     "days": "oxirgi %{n} kun",
     "empty": "Hali moliyaviy yozuv yo'q — reyslar yopilganda tushum va xarajat shu yerda ko'rinadi.",

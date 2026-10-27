@@ -15,6 +15,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Card, GroupLabel, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { ErrorBox, Skeleton } from "@/components/state";
+import { Shablonlar } from "@/components/Shablonlar";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
@@ -146,6 +147,9 @@ export default function TransportHujjatlar() {
                 </Card>
               </View>
             ) : null}
+
+            {/* TZ v2 §6.1.1–6.1.2: shablonlar va sug'urta */}
+            <Shablonlar vehicleId={String(id)} onYaratildi={reload} onPolis={() => add("INSURANCE")} />
 
             <View style={s.note}>
               <Text style={s.noteTitle}>{t("mob.docs.reminder")}</Text>

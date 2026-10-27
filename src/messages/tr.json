@@ -82,6 +82,7 @@
     "BOSH_QIDIRUV": "Önce filtre seçin — boş arama her ilana uyar.",
     "CHEGARA": "Sınıra ulaşıldı — önce birini silin.",
     "CLOSED": "Bu kapandı — değiştirilemez.",
+    "CMR_NO_TRIP": "CMR için araç aktif bir seferde olmalı.",
     "CO_DRIVER": "Bunu ikinci sürücü yapamaz.",
     "CSRF": "Güvenlik doğrulaması başarısız. Uygulamayı yeniden açın.",
     "CURRENT_SESSION": "Kullandığınız cihaz kaldırılamaz.",

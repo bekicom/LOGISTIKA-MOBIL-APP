@@ -82,6 +82,7 @@
     "BOSH_QIDIRUV": "Pick a filter first — an empty search matches every listing.",
     "CHEGARA": "You've hit the limit — delete one first.",
     "CLOSED": "This is closed — it can't be changed.",
+    "CMR_NO_TRIP": "The vehicle must be on an active trip for a CMR.",
     "CO_DRIVER": "The second driver can't do this.",
     "CSRF": "The security check failed. Please reopen the app.",
     "CURRENT_SESSION": "You can't remove the device you're using.",

@@ -82,6 +82,7 @@
     "BOSH_QIDIRUV": "Avval filtr tanlang — bo'sh qidiruv har e'longa mos keladi.",
     "CHEGARA": "Chegaraga yetdingiz — avval bittasini o'chiring.",
     "CLOSED": "Bu yopilgan — o'zgartirib bo'lmaydi.",
+    "CMR_NO_TRIP": "CMR uchun mashina faol reysda bo'lishi kerak.",
     "CO_DRIVER": "Bu amalni ikkinchi haydovchi bajara olmaydi.",
     "CSRF": "Xavfsizlik tekshiruvidan o'tmadi. Ilovani qayta oching.",
     "CURRENT_SESSION": "Hozirgi qurilmani o'chirib bo'lmaydi.",

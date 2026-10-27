@@ -44,6 +44,7 @@ import { saleCategoryLabel, saleFeatureLabel, salePriceKindLabel, t } from "@/li
 import { sumKiritish } from "@/lib/sum";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
+import { AiElon } from "@/components/AiElon";
 import { tariffBlocked } from "@/lib/features";
 
 const CATS = ["FURA", "TRUCK", "TRAILER", "MINIBUS", "BUS", "SPECIAL", "CAR", "OTHER"] as const;
@@ -217,6 +218,19 @@ export default function BozorJoylash() {
         {/* ══ 1: nima sotilyapti ══ */}
         {step === 1 && (
           <>
+            {/* AI e'lon tuzadi: rasm + ovoz/matn → maydonlar (TZ v2 §7, A4) */}
+            <AiElon
+              onTaklif={(x) => {
+                if (x.category) setCat(x.category);
+                if (x.brand) setBrand(x.brand);
+                if (x.model) setModel(x.model);
+                if (x.year != null) setYear(String(x.year));
+                if (x.odometer != null) setOdometer(String(x.odometer));
+                if (x.price != null) setPrice(String(x.price));
+                if (x.currency) setCurrency(x.currency);
+                if (x.about) setAbout((a) => a || x.about || "");
+              }}
+            />
             <Text style={s.lead}>{t("mob.sale.pickLead")}</Text>
 
             {fleet.loading ? (

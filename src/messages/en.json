@@ -1,4 +1,16 @@
 {
+  "aiElon": {
+    "izoh": "Send photos and a voice message about the vehicle — AI fills in brand, year, mileage and price",
+    "matnPh": "Or type: “MAN TGX 2018, 450k km, $45,000”",
+    "oqilmoqda": "AI is reading…",
+    "ovozBor": "Voice recorded",
+    "rasm": "Photos (up to 3)",
+    "rasmN": "%{n} photos",
+    "title": "Fill with AI",
+    "toldir": "Fill in",
+    "toldirildi": "Form filled — review it and press “Post”",
+    "xato": "AI couldn't read it — fill in the fields manually"
+  },
   "aiRozilik": {
     "ha": "I agree",
     "i1": "Your questions to the AI assistant and the photos and documents you attach",
@@ -4270,6 +4282,12 @@
       "TRAILER": "Trailers",
       "TRUCK": "Trucks"
     },
+    "fApply": "Apply",
+    "fBrand": "Brand",
+    "fEuro": "Euro standard",
+    "fLoc": "Location",
+    "fPriceTo": "Price up to",
+    "fYear": "Year from",
     "feature": {
       "ac": "Air conditioning",
       "adr": "ADR permit",
@@ -4291,6 +4309,14 @@
     "NEGOTIATING": "In negotiation",
     "PAUSED": "Paused",
     "SOLD": "Sold"
+  },
+  "saleV2": {
+    "narxBaland": "This price is %{n}% above the market",
+    "narxManba": "Based on similar FURAM listings",
+    "narxPast": "This price is %{n}% below the market",
+    "narxTeng": "The price is at the market average",
+    "telefonTugmada": "The phone number is behind the “Show phone” button",
+    "yozish": "Message the seller"
   },
   "saveSearch": {
     "all": "All",

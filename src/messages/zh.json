@@ -1,4 +1,16 @@
 {
+  "aiElon": {
+    "izoh": "发送照片并录一段关于车辆的语音——AI 会自动填写品牌、年份、里程和价格",
+    "matnPh": "或输入：“MAN TGX 2018，45 万公里，45,000 美元”",
+    "oqilmoqda": "AI 正在读取…",
+    "ovozBor": "语音已录制",
+    "rasm": "照片（最多 3 张）",
+    "rasmN": "%{n} 张照片",
+    "title": "用 AI 填写",
+    "toldir": "填写",
+    "toldirildi": "表单已填写——请检查后点击“发布”",
+    "xato": "AI 无法读取——请手动填写"
+  },
   "aiRozilik": {
     "ha": "同意",
     "i1": "您向 AI 助手提出的问题以及附加的图片和文件",
@@ -4270,6 +4282,12 @@
       "TRAILER": "挂车",
       "TRUCK": "货车"
     },
+    "fApply": "应用",
+    "fBrand": "品牌",
+    "fEuro": "欧排标准",
+    "fLoc": "地点",
+    "fPriceTo": "价格至",
+    "fYear": "年份起",
     "feature": {
       "ac": "空调",
       "adr": "ADR 许可",
@@ -4291,6 +4309,14 @@
     "NEGOTIATING": "洽谈中",
     "PAUSED": "已暂停",
     "SOLD": "已售出"
+  },
+  "saleV2": {
+    "narxBaland": "该价格比市场高 %{n}%",
+    "narxManba": "基于 FURAM 上的同类信息",
+    "narxPast": "该价格比市场低 %{n}%",
+    "narxTeng": "价格处于市场平均水平",
+    "telefonTugmada": "电话号码在“显示电话”按钮中",
+    "yozish": "联系卖家"
   },
   "saveSearch": {
     "all": "全部",

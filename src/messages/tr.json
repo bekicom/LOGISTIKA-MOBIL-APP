@@ -1,4 +1,16 @@
 {
+  "aiElon": {
+    "izoh": "Fotoğraf gönderin ve araç hakkında sesli mesaj kaydedin — AI marka, yıl, kilometre ve fiyatı kendisi doldurur",
+    "matnPh": "Veya yazın: «MAN TGX 2018, 450 bin km, 45.000$»",
+    "oqilmoqda": "AI okuyor…",
+    "ovozBor": "Ses kaydedildi",
+    "rasm": "Fotoğraf (en fazla 3)",
+    "rasmN": "%{n} fotoğraf",
+    "title": "AI ile doldur",
+    "toldir": "Doldur",
+    "toldirildi": "Form dolduruldu — kontrol edip «Yayınla»ya basın",
+    "xato": "AI okuyamadı — alanları elle doldurun"
+  },
   "aiRozilik": {
     "ha": "Kabul ediyorum",
     "i1": "Yapay zekâ asistanına sorduğunuz sorular ve eklediğiniz fotoğraf ve belgeler",
@@ -4270,6 +4282,12 @@
       "TRAILER": "Römorklar",
       "TRUCK": "Kamyonlar"
     },
+    "fApply": "Uygula",
+    "fBrand": "Marka",
+    "fEuro": "Euro standardı",
+    "fLoc": "Konum",
+    "fPriceTo": "Fiyat (en çok)",
+    "fYear": "Yıl (en az)",
     "feature": {
       "ac": "Klima",
       "adr": "ADR belgesi",
@@ -4291,6 +4309,14 @@
     "NEGOTIATING": "Görüşmede",
     "PAUSED": "Duraklatıldı",
     "SOLD": "Satıldı"
+  },
+  "saleV2": {
+    "narxBaland": "Bu fiyat piyasanın %{n}% üstünde",
+    "narxManba": "FURAM'daki benzer ilanlara göre",
+    "narxPast": "Bu fiyat piyasanın %{n}% altında",
+    "narxTeng": "Fiyat piyasa ortalamasında",
+    "telefonTugmada": "Telefon numarası «Telefonu göster» düğmesinde",
+    "yozish": "Satıcıya yaz"
   },
   "saveSearch": {
     "all": "Tümü",

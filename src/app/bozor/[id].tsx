@@ -75,6 +75,9 @@ type Sale = {
   specs: { key: string; value: string }[];
   features: string[];
   about: string | null;
+  /* TZ v2 §7 — eski serverda yo'q */
+  telefonYashirildi?: boolean;
+  narxTahlil?: { diffPct: number; band: "low" | "fair" | "high" } | null;
   hasDocs: boolean;
   docsNote: string | null;
   photos: string[];
@@ -447,6 +450,27 @@ export default function EelonTafsilot() {
             <View style={s.card}>
               <Text style={s.sec}>{t("mob.market.about")}</Text>
               <Text style={s.text}>{sale.about}</Text>
+              {sale.telefonYashirildi ? <Text style={s.note}>{t("saleV2.telefonTugmada")}</Text> : null}
+            </View>
+          ) : null}
+
+          {/* Narx tahlili (TZ v2 §7) — o'xshash e'lonlardan */}
+          {sale.narxTahlil ? (
+            <View style={s.card}>
+              <Text
+                style={[
+                  s.text,
+                  { fontFamily: "Manrope_700Bold" },
+                  sale.narxTahlil.band === "low" ? { color: color.success } : sale.narxTahlil.band === "high" ? { color: color.warning } : null,
+                ]}
+              >
+                {sale.narxTahlil.diffPct < 0
+                  ? t("saleV2.narxPast", { n: Math.abs(sale.narxTahlil.diffPct) })
+                  : sale.narxTahlil.diffPct > 0
+                    ? t("saleV2.narxBaland", { n: sale.narxTahlil.diffPct })
+                    : t("saleV2.narxTeng")}
+              </Text>
+              <Text style={s.note}>{t("saleV2.narxManba")}</Text>
             </View>
           ) : null}
 
@@ -495,6 +519,24 @@ export default function EelonTafsilot() {
                 <Text style={s.primaryText}>{t("mob.market.showPhone")}</Text>
               </Pressable>
             )}
+
+            {/* Sotuvchi bilan bir tugmada suhbat (TZ v2 §7) */}
+            {!viewer.isSeller && viewer.authed ? (
+              <Pressable
+                style={[s.primary, { backgroundColor: color.card, borderWidth: 1, borderColor: color.brand, marginTop: 8 }]}
+                disabled={busy}
+                onPress={async () => {
+                  try {
+                    const r = await api<{ chatId: string }>(`/api/market/${sale.id}/chat`, { method: "POST" });
+                    router.push({ pathname: "/suhbat/[id]", params: { id: r.chatId, title: sale.seller.name } });
+                  } catch {
+                    /* tarmoq — odam qayta bosadi */
+                  }
+                }}
+              >
+                <Text style={[s.primaryText, { color: color.brand }]}>💬 {t("saleV2.yozish")}</Text>
+              </Pressable>
+            ) : null}
 
             {!viewer.isSeller && viewer.authed && (
               <Text style={s.note}>{t("mob.market.contactNote")}</Text>

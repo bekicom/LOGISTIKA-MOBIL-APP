@@ -20,6 +20,7 @@
  * xizmat tizim yozuvi. Bu bo'limning boshqa bozorlardan yagona
  * jiddiy farqi, shuning uchun ro'yxatdayoq ko'rinadi.
  */
+import { BozorFiltr } from "@/components/BozorFiltr";
 import { useMemo, useState } from "react";
 import { FlatList, Image, Pressable, RefreshControl, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
@@ -62,6 +63,9 @@ type Sale = {
 export default function Bozor() {
   const [cat, setCat] = useState<string | null>(null);
   const [flags, setFlags] = useState<Record<string, boolean>>({});
+  /* TZ v2 §7: marka, Evro, joy, yil, narx */
+  const [filtrOchiq, setFiltrOchiq] = useState(false);
+  const [f, setF] = useState<{ brand?: string; euro?: string; loc?: number; yearFrom?: string; priceTo?: string }>({});
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
@@ -69,14 +73,24 @@ export default function Bozor() {
     const p = new URLSearchParams();
     if (cat) p.set("cat", cat);
     for (const k of ["installment", "exchange", "docs"]) if (flags[k]) p.set(k, "1");
+    if (f.brand) p.set("brand", f.brand);
+    if (f.euro) p.set("euro", f.euro);
+    if (f.loc) p.set("loc", String(f.loc));
+    if (f.yearFrom) p.set("yearFrom", f.yearFrom);
+    if (f.priceTo) {
+      p.set("priceTo", f.priceTo);
+      p.set("cur", "USD");
+    }
     return p.toString();
-  }, [cat, flags]);
+  }, [cat, flags, f]);
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     items: Sale[];
     total: number;
     canPost: boolean;
+    facets?: { brands: string[]; joylar: { id: number; nomi: string }[] };
   }>(`/api/market?${query}`, [query]);
+  const filtrSoni = [f.brand, f.euro, f.loc, f.yearFrom, f.priceTo].filter(Boolean).length;
 
   /* TARIF TO'SIG'I OLDINDAN AYTILADI. E'lon berish `auto_sale`
      ortida; server buni ro'yxat bilan birga yuboradi. Busiz odam
@@ -136,7 +150,25 @@ export default function Bozor() {
             <Text style={[s.flagText, flags[k] && s.flagTextOn]}>{t(`mob.market.f_${k}`)}</Text>
           </Pressable>
         ))}
+        <Pressable style={[s.flag, filtrSoni > 0 && s.flagOn]} onPress={() => setFiltrOchiq(true)}>
+          <Text style={[s.flagText, filtrSoni > 0 && s.flagTextOn]}>
+            {t("saleCatalog.fBrand")} · {t("saleCatalog.fEuro")}
+            {filtrSoni ? ` (${filtrSoni})` : ""}
+          </Text>
+        </Pressable>
       </View>
+
+      <BozorFiltr
+        open={filtrOchiq}
+        onClose={() => setFiltrOchiq(false)}
+        brands={data?.facets?.brands ?? []}
+        joylar={data?.facets?.joylar ?? []}
+        qiymat={f}
+        onChange={(v) => {
+          setF(v);
+          setFiltrOchiq(false);
+        }}
+      />
 
       {locked && (
         <Pressable style={s.lock} onPress={() => setLocked(false)}>

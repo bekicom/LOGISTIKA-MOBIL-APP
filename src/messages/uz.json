@@ -1,4 +1,16 @@
 {
+  "aiElon": {
+    "izoh": "Rasm yuboring va mashina haqida ovozli xabar yozing — AI marka, yil, probeg va narxni o'zi to'ldiradi",
+    "matnPh": "Yoki yozing: «MAN TGX 2018, 450 ming km, 45 000$»",
+    "oqilmoqda": "AI o'qiyapti…",
+    "ovozBor": "Ovoz yozildi",
+    "rasm": "Rasm (3 tagacha)",
+    "rasmN": "%{n} ta rasm",
+    "title": "AI bilan to'ldirish",
+    "toldir": "To'ldirish",
+    "toldirildi": "Forma to'ldirildi — tekshirib, «Joylash» ni bosing",
+    "xato": "AI o'qiy olmadi — maydonlarni qo'lda to'ldiring"
+  },
   "aiRozilik": {
     "ha": "Roziman",
     "i1": "AI yordamchiga yozgan savollaringiz, biriktirgan rasm va hujjatlaringiz",
@@ -4270,6 +4282,12 @@
       "TRAILER": "Tirkamalar",
       "TRUCK": "Yuk mashinalari"
     },
+    "fApply": "Qo'llash",
+    "fBrand": "Marka",
+    "fEuro": "Evro standarti",
+    "fLoc": "Joylashuv",
+    "fPriceTo": "Narx gacha",
+    "fYear": "Yildan",
     "feature": {
       "ac": "Konditsioner",
       "adr": "ADR ruxsati",
@@ -4291,6 +4309,14 @@
     "NEGOTIATING": "Muzokarada",
     "PAUSED": "Pauzada",
     "SOLD": "Sotildi"
+  },
+  "saleV2": {
+    "narxBaland": "Bu narx bozordan %{n}% yuqori",
+    "narxManba": "FURAM'dagi o'xshash e'lonlar asosida",
+    "narxPast": "Bu narx bozordan %{n}% past",
+    "narxTeng": "Narx bozor o'rtachasida",
+    "telefonTugmada": "Telefon raqami «Telefonni ko'rsatish» tugmasida",
+    "yozish": "Sotuvchiga yozish"
   },
   "saveSearch": {
     "all": "Hammasi",

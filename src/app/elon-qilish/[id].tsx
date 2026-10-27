@@ -15,6 +15,8 @@ import { useApi } from "@/lib/use-api";
 import { api, FuramError } from "@/lib/api";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { TariffNotice } from "@/components/TariffNotice";
+import { tariffBlocked } from "@/lib/features";
 
 type Q = {
   qoralama: {
@@ -35,6 +37,8 @@ export default function ElonQilish() {
   const q = data?.qoralama;
 
   async function joyla() {
+    /* Tarif to'sig'i oldindan aytiladi (5-qoida) — bu oxirgi to'siq */
+    if (tariffBlocked("post_truck")) return;
     setBand(true);
     setXato(null);
     try {
@@ -51,6 +55,7 @@ export default function ElonQilish() {
     <View style={s.root}>
       <Header title={t("boshElon.title")} />
       <View style={{ padding: space.lg }}>
+        <TariffNotice feature="post_truck" />
         {loading && !data ? <Skeleton rows={2} /> : null}
         {error && !data ? <ErrorBox message={error} onRetry={reload} /> : null}
         {q ? (

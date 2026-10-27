@@ -36,18 +36,22 @@ export const ROYXAT_ROLLARI = [
   "SERVICE",
   "PARTS",
   "PASSENGER",
+  "EMPLOYER",
+  "WORKER",
   "AUTO_SELLER",
 ] as const;
 
 export type RoyxatRol = (typeof ROYXAT_ROLLARI)[number];
 
-export type RolGuruh = "cargo" | "transport" | "service" | "other";
+export type RolGuruh = "cargo" | "transport" | "service" | "work" | "other";
 
 /** `royxatGuruhlari()` natijasi — eng ko'p ishlatiladigani tepada */
 export const ROL_GURUHLARI: readonly { guruh: RolGuruh; rollar: readonly RoyxatRol[] }[] = [
   { guruh: "cargo", rollar: ["CARGO_OWNER", "DISPATCHER", "LOGISTICS"] },
   { guruh: "transport", rollar: ["DRIVER", "VEHICLE_OWNER", "AUTO_SELLER"] },
   { guruh: "service", rollar: ["MASTER", "SERVICE", "PARTS"] },
+  /* TZ v3 §15-1: Ish beruvchi va Ish qidiruvchi ham (web `rol-tanlash.ts`) */
+  { guruh: "work", rollar: ["EMPLOYER", "WORKER"] },
   { guruh: "other", rollar: ["USER", "PASSENGER"] },
 ];
 
@@ -111,6 +115,8 @@ export const ROL_IKONKA = {
   PARTS: "grid",
   USER: "user",
   PASSENGER: "map-pin",
+  EMPLOYER: "briefcase",
+  WORKER: "user",
 } as const satisfies Record<RoyxatRol, string>;
 
 /**

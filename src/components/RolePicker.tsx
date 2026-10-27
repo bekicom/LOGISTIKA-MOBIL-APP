@@ -35,7 +35,7 @@ type Tone = "surface" | "onBrand";
  */
 function rangi(g: RolGuruh): { tint: string; bg: string } {
   const tint =
-    g === "cargo" ? color.blue : g === "transport" ? color.brand : g === "service" ? color.success : color.purple;
+    g === "cargo" ? color.blue : g === "transport" ? color.brand : g === "service" ? color.success : g === "work" ? color.warning : color.purple;
   return { tint, bg: `${tint}1f` };
 }
 

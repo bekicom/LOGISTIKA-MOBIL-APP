@@ -4268,6 +4268,12 @@
     "ROUTE": "Yo'nalish o'zgardi",
     "VEHICLE": "Mashina mos emas"
   },
+  "reysHujjat": {
+    "bosh": "Saqlangan hujjat yo'q — «Hujjatlarim» bo'limida yuklang",
+    "izoh": "Haydovchi va mashina hujjatlari reysga o'zi biriktirildi — qayta yuklash shart emas",
+    "mendan": "Hujjatlarimdan yuborish",
+    "title": "Reys hujjatlari (avtomatik)"
+  },
   "rolTanlash": {
     "DRIVER": "Boshqaning mashinasida ishlayman — reys, yuk, daromad",
     "VEHICLE_OWNER": "Mashinam bor — o'zim haydayman yoki haydovchi ishlaydi",

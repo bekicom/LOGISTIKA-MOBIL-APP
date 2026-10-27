@@ -26,6 +26,7 @@ import { Sheet } from "@/components/Sheet";
 import { ReportSheet } from "@/components/ReportSheet";
 import { SenderKarta } from "@/components/SenderKarta";
 import { AzolarSheet } from "@/components/Guruh";
+import { HujjatTanlashSheet } from "@/components/HujjatlarAvto";
 import { ChatLangChips } from "@/components/ChatLangChips";
 import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
@@ -142,6 +143,7 @@ export default function Suhbat() {
   const [uzatish, setUzatish] = useState<string | null>(null);
   const [jonliSheet, setJonliSheet] = useState(false);
   const [azolar, setAzolar] = useState(false);
+  const [hujjatSheet, setHujjatSheet] = useState(false);
   const yozdim = useRef(0);
 
   const listRef = useRef<FlatList<ChatMsg>>(null);
@@ -798,6 +800,8 @@ export default function Suhbat() {
           <Att icon="file" tint={color.purple} bg={color.purpleSoft} label={t("mob.chat.document")} onPress={() => addAttachment("doc")} />
           <Att icon="map-pin" tint={color.success} bg={color.successSoft} label={t("mob.chat.location")} onPress={() => void sendLocation()} />
           <Att icon="route" tint={color.blue} bg={color.blueSoft} label={t("msgr.liveLocation")} onPress={() => { setAttach(false); setJonliSheet(true); }} />
+          {/* Hujjatlarimdan yuborish (TZ v2 §6.1) */}
+          <Att icon="doc" tint={color.purple} bg={color.purpleSoft} label={t("reysHujjat.mendan")} onPress={() => { setAttach(false); setHujjatSheet(true); }} />
         </View>
         <Text style={s.sheetGroup}>{t("mob.chatAct.title")}</Text>
         <View style={s.grid}>
@@ -853,6 +857,16 @@ export default function Suhbat() {
           />
         ))}
       </Sheet>
+
+      <HujjatTanlashSheet
+        chatId={id}
+        open={hujjatSheet}
+        onClose={() => setHujjatSheet(false)}
+        onDone={() => {
+          setHujjatSheet(false);
+          void load(false);
+        }}
+      />
 
       <AzolarSheet
         chatId={id}

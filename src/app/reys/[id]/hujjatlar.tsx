@@ -4,6 +4,7 @@
  * CMR, invoys, deklaratsiya, tushirish suratlari. Almashtirilgan hujjat
  * ro'yxatda ko'rinmaydi — faqat oxirgi versiya, ustida «v2» belgisi bilan.
  */
+import { ReysHujjatlariAvto } from "@/components/HujjatlarAvto";
 import { useState } from "react";
 import { Animated, FlatList, Image, Modal, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
@@ -69,6 +70,8 @@ export default function Hujjatlar() {
         contentContainerStyle={[s.list, { paddingBottom: insets.bottom + 100 }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
+        /* Haydovchi va mashina hujjatlari — avtomatik (TZ v2 §6.1) */
+        ListHeaderComponent={id ? <ReysHujjatlariAvto tripId={String(id)} /> : null}
         renderItem={({ item }) => (
           <View style={s.card}>
             <View style={s.preview}>

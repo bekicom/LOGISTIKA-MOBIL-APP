@@ -31,6 +31,9 @@ import { tariffBlocked } from "@/lib/features";
 const KINDS = [
   { scan: "passport", doc: "PASSPORT" },
   { scan: "license", doc: "LICENSE" },
+  /* TZ v2 §6.1: tibbiy ma'lumotnoma va ADR ham AI bilan o'qiladi */
+  { scan: "medical", doc: "MEDICAL" },
+  { scan: "adr", doc: "ADR" },
 ] as const;
 
 /** `driver-link.ts` dagi LICENSE_CLASSES */

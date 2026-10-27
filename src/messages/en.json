@@ -4268,6 +4268,12 @@
     "ROUTE": "The route changed",
     "VEHICLE": "The truck doesn't fit"
   },
+  "reysHujjat": {
+    "bosh": "No saved documents — upload them in “My documents”",
+    "izoh": "Driver and vehicle documents are attached to the trip automatically — no need to upload again",
+    "mendan": "Send from my documents",
+    "title": "Trip documents (automatic)"
+  },
   "rolTanlash": {
     "DRIVER": "I drive someone else's truck — trips, loads, earnings",
     "VEHICLE_OWNER": "I own a truck — I drive it myself or a driver does",

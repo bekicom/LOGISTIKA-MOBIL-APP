@@ -4268,6 +4268,12 @@
     "ROUTE": "Güzergâh değişti",
     "VEHICLE": "Araç uygun değil"
   },
+  "reysHujjat": {
+    "bosh": "Kayıtlı belge yok — «Belgelerim» bölümünden yükleyin",
+    "izoh": "Sürücü ve araç belgeleri sefere otomatik eklendi — yeniden yüklemeye gerek yok",
+    "mendan": "Belgelerimden gönder",
+    "title": "Sefer belgeleri (otomatik)"
+  },
   "rolTanlash": {
     "DRIVER": "Başkasının aracında çalışıyorum — sefer, yük, kazanç",
     "VEHICLE_OWNER": "Aracım var — kendim sürüyorum ya da sürücü çalışıyor",

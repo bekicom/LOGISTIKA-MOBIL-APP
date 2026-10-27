@@ -197,10 +197,10 @@ export default function YukJoylash() {
 
               <View style={{ flexDirection: "row", gap: 10 }}>
                 <View style={{ flex: 1 }}>
-                  <Field label={`${t("mob.trip.weight")} (t)`} placeholder="18" keyboardType="numeric" value={weight} onChangeText={setWeight} />
+                  <Field label={`${t("mob.trip.weight")} (t)`} placeholder={t("parkTur.masalan", { v: "18" })} keyboardType="numeric" value={weight} onChangeText={setWeight} />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Field label={`${t("mob.last.volume")} (m³)`} hint={t("mob.common.optional")} placeholder="62" keyboardType="numeric" value={volume} onChangeText={setVolume} />
+                  <Field label={`${t("mob.last.volume")} (m³)`} hint={t("mob.common.optional")} placeholder={t("parkTur.masalan", { v: "62" })} keyboardType="numeric" value={volume} onChangeText={setVolume} />
                 </View>
               </View>
 
@@ -295,7 +295,7 @@ export default function YukJoylash() {
               <View style={{ flex: 1 }}>
                 <Field
                   label={t("mob.load.price")}
-                  placeholder="28 000 000"
+                  placeholder={t("parkTur.masalan", { v: "28 000 000" })}
                   keyboardType="numeric"
                   value={price}
                   onChangeText={(v) => setPrice(sumKiritish(v))}
@@ -332,7 +332,7 @@ export default function YukJoylash() {
               <Field
                 label={t("mob.post2.prepay")}
                 hint={t("mob.common.optional")}
-                placeholder="10 000 000"
+                placeholder={t("parkTur.masalan", { v: "10 000 000" })}
                 keyboardType="numeric"
                 value={advance}
                 onChangeText={(v) => setAdvance(sumKiritish(v))}

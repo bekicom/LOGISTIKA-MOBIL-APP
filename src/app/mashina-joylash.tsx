@@ -241,14 +241,14 @@ export default function MashinaJoylash() {
                   value={capacity}
                   onChangeText={setCapacity}
                   keyboardType="decimal-pad"
-                  placeholder="20"
+                  placeholder={t("parkTur.masalan", { v: "20" })}
                 />
                 <Field
                   label={t("mob.trucks.volume")}
                   value={volume}
                   onChangeText={setVolume}
                   keyboardType="decimal-pad"
-                  placeholder="86"
+                  placeholder={t("parkTur.masalan", { v: "86" })}
                 />
               </View>
             ) : null}
@@ -303,7 +303,7 @@ export default function MashinaJoylash() {
                   value={price}
                   onChangeText={(v) => setPrice(sumKiritish(v))}
                   keyboardType="decimal-pad"
-                  placeholder="26 000 000"
+                  placeholder={t("parkTur.masalan", { v: "26 000 000" })}
                 />
               ) : null}
               <Field

@@ -68,6 +68,7 @@ export function AsosiyIsh({ d }: { d?: AsosiyIshData | null }) {
   };
 
   return (
+    <>
     <Tap onPress={ochish} feel="select" scale={0.98} style={s.card}>
       <View style={s.head}>
         <Text style={s.title}>{sarlavha}</Text>
@@ -86,10 +87,27 @@ export function AsosiyIsh({ d }: { d?: AsosiyIshData | null }) {
         ))}
       </View>
     </Tap>
+    {/* Dispetcher murabbiyi (TZ v2 §3.4.7, A15) — webdagi havola bilan bir xil */}
+    {d.tur === "dispetcher" ? (
+      <Tap onPress={() => router.push("/murabbiy" as never)} feel="select" scale={0.98} style={s.coach}>
+        <Text style={s.coachText}>{t("murabbiy.title")}</Text>
+        <Text style={s.coachText}>→</Text>
+      </Tap>
+    ) : null}
+    </>
   );
 }
 
 const s = themed(() => ({
+  coach: {
+    flexDirection: "row" as const,
+    justifyContent: "space-between" as const,
+    alignItems: "center" as const,
+    padding: 12,
+    borderRadius: radius.control,
+    backgroundColor: color.brandSoft,
+  },
+  coachText: { fontSize: 14, fontFamily: "Manrope_700Bold", color: color.brand },
   card: { padding: space.md, borderRadius: radius.card, backgroundColor: color.card, gap: 10, ...shadow.card },
   head: { flexDirection: "row" as const, justifyContent: "space-between" as const, alignItems: "center" as const },
   title: { fontSize: 14, fontFamily: "Manrope_700Bold", color: color.foreground },

@@ -21,6 +21,8 @@
 const MAP: Record<string, string> = {
   ai: "/ai",
   analytics: "/analitika",
+  /* Dispetcher murabbiyi (TZ v2 §3.4.7) */
+  murabbiy: "/murabbiy",
   calc: "/kalkulyator",
   chats: "/chat",
   contracts: "/shartnoma",

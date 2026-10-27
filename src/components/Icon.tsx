@@ -72,6 +72,8 @@ export type IconName =
   | "more"
   | "trash"
   | "copy"
+  | "forward"
+  | "smile"
   | "eye"
   | "eye-off";
 
@@ -260,6 +262,14 @@ export function Icon({ name, size = 22, stroke = color.mutedForeground, fill = "
       {name === "send" && <Path {...p} d="m22 2-7 20-4-9-9-4zM22 2 11 13" />}
       {name === "pin" && <Path {...p} d="M12 17v5M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" />}
       {name === "reply" && <Path {...p} d="M9 17H7A5 5 0 0 1 7 7h9M13 3l4 4-4 4" />}
+      {/* Messenjer (TZ v2 §5.1) */}
+      {name === "forward" && <Path {...p} d="m15 17 5-5-5-5M4 18v-2a4 4 0 0 1 4-4h12" />}
+      {name === "smile" && (
+        <>
+          <Circle {...p} cx={12} cy={12} r={10} />
+          <Path {...p} d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
+        </>
+      )}
       {name === "globe" && (
         <>
           <Circle {...p} cx={12} cy={12} r={10} />

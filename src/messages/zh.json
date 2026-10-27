@@ -100,6 +100,7 @@
     "JOB_CONTRACT": "该合同与货运无关——无法据此开单。",
     "LIMIT": "已达上限。",
     "LIVE": "运单正在途中，暂时无法执行。",
+    "LIVE_ENDED": "实时位置已过期",
     "LOAD_NOT_FOUND": "未找到货源——可能已删除或已关闭。",
     "LOCKED": "运单已结束，无法修改。",
     "MOBILE_ONLY": "此操作仅限在应用中进行",
@@ -115,6 +116,7 @@
     "NOT_CONFIRMABLE": "该笔付款无法确认。",
     "NOT_DISPATCHER": "该操作仅限调度员。",
     "NOT_DRIVER": "此操作仅限司机角色。",
+    "NOT_FORWARDABLE": "此消息无法转发",
     "NOT_FOUND": "未找到。可能已被删除，或链接有误。",
     "NOT_LINKED": "您与此人尚无关联。请先将其设为司机或达成协议。",
     "NOT_LIVE": "运单尚未开始。",
@@ -353,6 +355,14 @@
   "feed": {
     "allRegions": "所有地区",
     "swap": "交换方向"
+  },
+  "fraud": {
+    "card": "此消息包含银行卡信息。切勿向任何人透露卡号、有效期和验证码。",
+    "code": "此消息索要短信验证码或 CVV。切勿告诉任何人——FURAM 也不会索要。",
+    "prepay": "此消息要求预付款。未见到货物前请勿付款。",
+    "report": "举报",
+    "title": "请注意",
+    "yangi": "发送者最近才注册。"
   },
   "googleAuth": {
     "button": "使用 Google 登录",
@@ -3801,6 +3811,28 @@
     "FREIGHT": "运费",
     "OTHER": "其他",
     "SALARY": "工资"
+  },
+  "msgr": {
+    "copied": "已复制",
+    "copy": "复制",
+    "currentLocation": "当前位置",
+    "forward": "转发",
+    "forwardTo": "转发到哪个聊天？",
+    "forwarded": "已转发",
+    "forwardedFrom": "转发自：%{name}",
+    "lastSeen": "最后上线 %{time}",
+    "liveEnded": "实时位置已结束",
+    "liveHours": "%{n} 小时",
+    "liveLocation": "实时位置",
+    "liveMin": "%{n} 分钟",
+    "liveStop": "停止共享",
+    "liveUntil": "实时共享至 %{time}",
+    "online": "在线",
+    "react": "回应",
+    "read": "已读",
+    "sent": "已发送",
+    "typing": "%{name} 正在输入…",
+    "typingMany": "%{n} 人正在输入…"
   },
   "nav": {
     "freeTrucks": "空闲车辆"

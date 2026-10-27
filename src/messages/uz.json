@@ -100,6 +100,7 @@
     "JOB_CONTRACT": "Bu shartnoma yukka oid emas — undan reys ochilmaydi.",
     "LIMIT": "Chegaraga yetdingiz.",
     "LIVE": "Reys yo'lda — bu amal hozir mumkin emas.",
+    "LIVE_ENDED": "Jonli joylashuv vaqti tugagan",
     "LOAD_NOT_FOUND": "Yuk topilmadi — o'chirilgan yoki yopilgan bo'lishi mumkin.",
     "LOCKED": "Reys yopilgan — o'zgartirib bo'lmaydi.",
     "MOBILE_ONLY": "Bu amal faqat ilovada bajariladi",
@@ -115,6 +116,7 @@
     "NOT_CONFIRMABLE": "Bu to'lovni tasdiqlab bo'lmaydi.",
     "NOT_DISPATCHER": "Bu amal faqat dispetcher uchun.",
     "NOT_DRIVER": "Bu amal faqat haydovchi roli uchun.",
+    "NOT_FORWARDABLE": "Bu xabarni uzatib bo'lmaydi",
     "NOT_FOUND": "Topilmadi. O'chirilgan yoki manzil noto'g'ri bo'lishi mumkin.",
     "NOT_LINKED": "Bu odam bilan hali kelishuvingiz yo'q. Avval haydovchi sifatida biriktiring yoki kelishuv tuzing.",
     "NOT_LIVE": "Reys hali boshlanmagan.",
@@ -353,6 +355,14 @@
   "feed": {
     "allRegions": "Barcha hududlar",
     "swap": "Yo'nalishni almashtirish"
+  },
+  "fraud": {
+    "card": "Bu xabarda karta ma'lumoti bor. Karta raqami, muddati va kodini hech kimga bermang.",
+    "code": "Bu xabarda SMS kod yoki CVV so'ralmoqda. Kodni hech kimga aytmang — FURAM ham so'ramaydi.",
+    "prepay": "Bu xabarda oldindan to'lov so'ralmoqda. Yukni ko'rmasdan pul o'tkazmang.",
+    "report": "Shikoyat qilish",
+    "title": "Ehtiyot bo'ling",
+    "yangi": "Yozuvchi yaqinda ro'yxatdan o'tgan."
   },
   "googleAuth": {
     "button": "Google bilan kirish",
@@ -3801,6 +3811,28 @@
     "FREIGHT": "Yuk haqi",
     "OTHER": "Boshqa",
     "SALARY": "Oylik"
+  },
+  "msgr": {
+    "copied": "Nusxa olindi",
+    "copy": "Nusxa olish",
+    "currentLocation": "Hozirgi joylashuv",
+    "forward": "Uzatish",
+    "forwardTo": "Qaysi suhbatga uzatamiz?",
+    "forwarded": "Uzatildi",
+    "forwardedFrom": "Uzatilgan: %{name}",
+    "lastSeen": "oxirgi marta %{time}",
+    "liveEnded": "Jonli joylashuv tugadi",
+    "liveHours": "%{n} soat",
+    "liveLocation": "Jonli joylashuv",
+    "liveMin": "%{n} daqiqa",
+    "liveStop": "To'xtatish",
+    "liveUntil": "Jonli — %{time} gacha",
+    "online": "onlayn",
+    "react": "Reaksiya",
+    "read": "O'qildi",
+    "sent": "Yuborildi",
+    "typing": "%{name} yozmoqda…",
+    "typingMany": "%{n} kishi yozmoqda…"
   },
   "nav": {
     "freeTrucks": "Bo'sh transportlar"

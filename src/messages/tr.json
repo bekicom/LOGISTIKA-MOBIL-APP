@@ -100,6 +100,7 @@
     "JOB_CONTRACT": "Bu sözleşme yükle ilgili değil — ondan sefer açılmaz.",
     "LIMIT": "Sınıra ulaştınız.",
     "LIVE": "Sefer yolda — şu an mümkün değil.",
+    "LIVE_ENDED": "Canlı konum süresi doldu",
     "LOAD_NOT_FOUND": "Yük bulunamadı — silinmiş veya kapatılmış olabilir.",
     "LOCKED": "Sefer kapandı — değiştirilemez.",
     "MOBILE_ONLY": "Bu işlem yalnızca uygulamada yapılabilir",
@@ -115,6 +116,7 @@
     "NOT_CONFIRMABLE": "Bu ödeme onaylanamaz.",
     "NOT_DISPATCHER": "Bu işlem yalnızca dispeçer içindir.",
     "NOT_DRIVER": "Bu işlem yalnızca sürücü rolü içindir.",
+    "NOT_FORWARDABLE": "Bu mesaj iletilemez",
     "NOT_FOUND": "Bulunamadı. Silinmiş olabilir ya da bağlantı yanlış.",
     "NOT_LINKED": "Bu kişiyle henüz bağınız yok. Önce şoför olarak ekleyin ya da anlaşma yapın.",
     "NOT_LIVE": "Sefer henüz başlamadı.",
@@ -353,6 +355,14 @@
   "feed": {
     "allRegions": "Tüm bölgeler",
     "swap": "Yönü değiştir"
+  },
+  "fraud": {
+    "card": "Bu mesajda kart bilgisi var. Kart numaranızı, son kullanma tarihini ve kodunu kimseyle paylaşmayın.",
+    "code": "Bu mesajda SMS kodu veya CVV isteniyor. Kodu kimseye söylemeyin — FURAM da istemez.",
+    "prepay": "Bu mesajda ön ödeme isteniyor. Yükü görmeden para göndermeyin.",
+    "report": "Şikayet et",
+    "title": "Dikkatli olun",
+    "yangi": "Gönderen yakın zamanda kayıt oldu."
   },
   "googleAuth": {
     "button": "Google ile giriş yap",
@@ -3801,6 +3811,28 @@
     "FREIGHT": "Navlun",
     "OTHER": "Diğer",
     "SALARY": "Maaş"
+  },
+  "msgr": {
+    "copied": "Kopyalandı",
+    "copy": "Kopyala",
+    "currentLocation": "Mevcut konum",
+    "forward": "İlet",
+    "forwardTo": "Hangi sohbete iletelim?",
+    "forwarded": "İletildi",
+    "forwardedFrom": "İletildi: %{name}",
+    "lastSeen": "son görülme %{time}",
+    "liveEnded": "Canlı konum sona erdi",
+    "liveHours": "%{n} sa",
+    "liveLocation": "Canlı konum",
+    "liveMin": "%{n} dk",
+    "liveStop": "Durdur",
+    "liveUntil": "Canlı — %{time} kadar",
+    "online": "çevrimiçi",
+    "react": "Tepki",
+    "read": "Okundu",
+    "sent": "Gönderildi",
+    "typing": "%{name} yazıyor…",
+    "typingMany": "%{n} kişi yazıyor…"
   },
   "nav": {
     "freeTrucks": "Boş araçlar"

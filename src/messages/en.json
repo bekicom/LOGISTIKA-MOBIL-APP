@@ -100,6 +100,7 @@
     "JOB_CONTRACT": "This contract isn't about a load — a trip can't be opened from it.",
     "LIMIT": "You've hit the limit.",
     "LIVE": "The trip is under way — you can't do this now.",
+    "LIVE_ENDED": "Live location has ended",
     "LOAD_NOT_FOUND": "Load not found — it may have been removed or closed.",
     "LOCKED": "The trip is closed — it can't be changed.",
     "MOBILE_ONLY": "This action is only available in the app",
@@ -115,6 +116,7 @@
     "NOT_CONFIRMABLE": "This payment cannot be confirmed.",
     "NOT_DISPATCHER": "Only a dispatcher can do this.",
     "NOT_DRIVER": "This action is for the driver role only.",
+    "NOT_FORWARDABLE": "This message cannot be forwarded",
     "NOT_FOUND": "Not found. It may have been deleted, or the link is wrong.",
     "NOT_LINKED": "You have no working link with this person yet. Attach them as a driver or make a deal first.",
     "NOT_LIVE": "The trip hasn't started yet.",
@@ -353,6 +355,14 @@
   "feed": {
     "allRegions": "All regions",
     "swap": "Swap direction"
+  },
+  "fraud": {
+    "card": "This message contains card details. Never share your card number, expiry date or code.",
+    "code": "This message asks for an SMS code or CVV. Never share the code — FURAM never asks for it.",
+    "prepay": "This message asks for prepayment. Do not send money before you see the cargo.",
+    "report": "Report",
+    "title": "Be careful",
+    "yangi": "The sender registered recently."
   },
   "googleAuth": {
     "button": "Sign in with Google",
@@ -3801,6 +3811,28 @@
     "FREIGHT": "Freight",
     "OTHER": "Other",
     "SALARY": "Salary"
+  },
+  "msgr": {
+    "copied": "Copied",
+    "copy": "Copy",
+    "currentLocation": "Current location",
+    "forward": "Forward",
+    "forwardTo": "Forward to which chat?",
+    "forwarded": "Forwarded",
+    "forwardedFrom": "Forwarded from: %{name}",
+    "lastSeen": "last seen %{time}",
+    "liveEnded": "Live location ended",
+    "liveHours": "%{n} h",
+    "liveLocation": "Live location",
+    "liveMin": "%{n} min",
+    "liveStop": "Stop sharing",
+    "liveUntil": "Live until %{time}",
+    "online": "online",
+    "react": "React",
+    "read": "Read",
+    "sent": "Sent",
+    "typing": "%{name} is typing…",
+    "typingMany": "%{n} people are typing…"
   },
   "nav": {
     "freeTrucks": "Available trucks"

@@ -43,6 +43,11 @@ export type ChatMsg = {
   sentText?: string | null;
   /** Faqat ilovada — hali yuborilmagan */
   pending?: boolean;
+  /** TZ v2 §5.1: uzatilgan xabar muallifi, jonli joylashuv muddati */
+  forwardedFrom?: string | null;
+  liveUntil?: string | null;
+  /** Firibgarlik ogohlantirishi (TZ v2 §3.4.4) — kalit `fraud.<tur>` */
+  ogohlantirish?: { tur: "prepay" | "card" | "code"; yangi: boolean } | null;
 };
 
 /** Xabardagi fayl — himoyalangan marshrut, sarlavha bilan */

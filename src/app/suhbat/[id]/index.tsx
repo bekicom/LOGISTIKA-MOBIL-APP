@@ -38,6 +38,16 @@ import { extOf, messageFile, messageFilePath, type ChatMsg } from "@/lib/chat";
 import { isChatTil, tarjimaKerak, tarjimasizSabab, type ChatTillari } from "@/lib/chat-til";
 import { useAuth } from "@/lib/auth-context";
 import { aiRozilikSora } from "@/components/AiRozilik";
+import {
+  FiribgarOgoh,
+  HolatQatori,
+  JONLI_MUDDAT,
+  ReaksiyaTanlash,
+  Reaksiyalar,
+  UzatishSheet,
+  oqildimi,
+  type ChatHolati,
+} from "@/components/Messenjer";
 import { tariffBlocked } from "@/lib/features";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { P_SOON, sendOrQueue } from "@/lib/outbox";
@@ -63,6 +73,9 @@ type Feed = {
   /* «Menga»/«Unga» (TZ-08) — faqat birinchi sahifada (`after` siz).
      `null` — a'zo emas (masalan yordam suhbatidagi admin) */
   tillar?: ChatTillari | null;
+  /* ✓✓, «yozmoqda», onlayn, reaksiya, jonli joylashuv (TZ v2 §5.1) —
+     HAR so'rovda; eski server yubormaydi */
+  holat?: ChatHolati;
 };
 
 export default function Suhbat() {
@@ -123,6 +136,12 @@ export default function Suhbat() {
   /* Profildagi tarjima sozlamasidan qaytganda standart tillar yangilanadi */
   const sozlamadan = useRef(false);
 
+  /* TZ v2 §5.1 */
+  const [holat, setHolat] = useState<ChatHolati | null>(null);
+  const [uzatish, setUzatish] = useState<string | null>(null);
+  const [jonliSheet, setJonliSheet] = useState(false);
+  const yozdim = useRef(0);
+
   const listRef = useRef<FlatList<ChatMsg>>(null);
   /* PASTGA YOPISHISH: ro'yxat faqat odam oxirida turgan bo'lsa suriladi.
      Ilgari HAR o'lcham o'zgarishida surilardi — tarixni o'qiyotgan odam
@@ -137,6 +156,7 @@ export default function Suhbat() {
         const q = !initial && lastTs.current ? `?after=${encodeURIComponent(lastTs.current)}` : "";
         const d = await api<Feed>(`/api/chat/${id}/messages${q}`);
         setReadOnly(!!d.readOnly);
+        if (d.holat) setHolat(d.holat);
         /* Sarlavha faqat BIRINCHI sahifadan: eski server `after`
            so'rovlarida ham umumiy «Suhbat» so'zini qaytaradi va u har
            6 soniyada suhbatdosh ismining o'rnini egallardi */
@@ -337,8 +357,8 @@ export default function Suhbat() {
     if (got) await sendFile(got);
   }
 
-  async function sendLocation() {
-    const perm = await afterSheet(() => setAttach(false), () =>
+  async function sendLocation(liveMin?: number) {
+    const perm = await afterSheet(() => { setAttach(false); setJonliSheet(false); }, () =>
       Location.requestForegroundPermissionsAsync(),
     );
     if (!perm.granted) {
@@ -349,7 +369,11 @@ export default function Suhbat() {
     setErr(null);
     try {
       const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
-      await apiUpload(`/api/chat/${id}/messages`, { lat: pos.coords.latitude, lng: pos.coords.longitude });
+      await apiUpload(`/api/chat/${id}/messages`, {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        ...(liveMin ? { liveMin } : {}),
+      });
       await load(false);
     } catch (e) {
       setErr((e as FuramError).message ?? t("mob.chat.sendFailed"));
@@ -482,6 +506,46 @@ export default function Suhbat() {
     });
   }
 
+  /* ── JONLI JOYLASHUV — mening faol xabarlarim (TZ v2 §5.1) ──
+     Ekran ochiq turganda joy kuzatiladi va 20 soniyada bir yoziladi.
+     ⚠️ FON GPS YO'Q (2026-10-09 qarori, do'kon B2): ekran yopilsa
+     yangilanish to'xtaydi, xabar oxirgi nuqtada qoladi */
+  const menJonli = useMemo(() => {
+    const ids = new Set((holat?.jonli ?? []).map((j) => j.id));
+    return messages.filter((m) => ids.has(m.id) && m.senderId === meId).map((m) => m.id).join(",");
+  }, [holat, messages, meId]);
+  useEffect(() => {
+    if (!menJonli) return;
+    const ids = menJonli.split(",");
+    let sub: Location.LocationSubscription | null = null;
+    let tirik = true;
+    void Location.watchPositionAsync(
+      { accuracy: Location.Accuracy.Balanced, timeInterval: 20_000, distanceInterval: 30 },
+      (pos) => {
+        for (const mid of ids) {
+          void api(`/api/chat/${id}/messages/${mid}`, {
+            method: "PATCH",
+            body: { action: "live", lat: pos.coords.latitude, lng: pos.coords.longitude },
+          }).catch(() => null);
+        }
+      },
+    ).then((s) => {
+      if (tirik) sub = s;
+      else s.remove();
+    }).catch(() => null);
+    return () => {
+      tirik = false;
+      sub?.remove();
+    };
+  }, [menJonli, id]);
+
+  /** «yozmoqda…» — 3 soniyada bir martadan ko'p emas */
+  function yozyapman() {
+    if (Date.now() - yozdim.current < 3000) return;
+    yozdim.current = Date.now();
+    void api(`/api/chat/${id}/typing`, { method: "POST" }).catch(() => null);
+  }
+
   /* ── ro'yxat ─────────────────────────────────────────────── */
   const all = useMemo(() => [...messages, ...pending], [messages, pending]);
   const shown = useMemo(() => {
@@ -514,9 +578,12 @@ export default function Suhbat() {
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={s.title} numberOfLines={1}>{title ?? t("mob.chat.conversation")}</Text>
-          <Text style={[s.sub, readOnly && { color: color.warning }]} numberOfLines={1}>
-            {readOnly ? t("mob.msg.readOnly") : chatMuted ? t("mob.msg.menu.mute") : t("mob.chat.msgCount", { n: all.length })}
-          </Text>
+          {readOnly ? (
+            <Text style={[s.sub, { color: color.warning }]} numberOfLines={1}>{t("mob.msg.readOnly")}</Text>
+          ) : (
+            /* «yozmoqda…» / «onlayn» / «oxirgi marta» (TZ v2 §5.1) */
+            <HolatQatori holat={holat} fallback={chatMuted ? t("mob.msg.menu.mute") : t("mob.chat.msgCount", { n: all.length })} />
+          )}
         </View>
         <Pressable onPress={() => { setSearchOn((v) => !v); setQuery(""); }} hitSlop={10} style={s.hBtn}>
           <Icon name="search" size={21} stroke={searchOn ? color.brand : color.foreground} />
@@ -582,6 +649,8 @@ export default function Suhbat() {
         keyboardShouldPersistTaps="handled"
         ref={listRef}
         data={shown}
+        /* Reaksiya va ✓✓ `holat` da — ro'yxat ular o'zgarganda ham chizilsin */
+        extraData={holat}
         keyExtractor={(m) => m.id}
         contentContainerStyle={s.list}
         showsVerticalScrollIndicator={false}
@@ -618,6 +687,10 @@ export default function Suhbat() {
             onOpenFile={() => openAttachment(item)}
             onOpenImage={() => setViewer(item)}
             onSender={() => item.senderId && setOdam({ id: item.senderId, name: item.senderName })}
+            holat={holat}
+            onReact={(e) => void act(item, { action: "react", emoji: e })}
+            onLiveStop={() => void act(item, { action: "liveStop" })}
+            onShikoyat={() => setReport({ target: "message", id: item.id, blockId: item.senderId ?? null })}
           />
         )}
       />
@@ -683,7 +756,10 @@ export default function Suhbat() {
             <View style={s.field}>
               <TextInput
                 value={text}
-                onChangeText={setText}
+                onChangeText={(v) => {
+                  setText(v);
+                  if (v) yozyapman();
+                }}
                 placeholder={t("mob.ui.writeMessage")}
                 placeholderTextColor={color.faintText}
                 style={s.input}
@@ -718,7 +794,8 @@ export default function Suhbat() {
           <Att icon="image" tint={color.brand} bg={color.brandSoft} label={t("mob.chat.camera")} onPress={() => addAttachment("camera")} />
           <Att icon="image" tint={color.blue} bg={color.blueSoft} label={t("mob.chat.gallery")} onPress={() => addAttachment("gallery")} />
           <Att icon="file" tint={color.purple} bg={color.purpleSoft} label={t("mob.chat.document")} onPress={() => addAttachment("doc")} />
-          <Att icon="map-pin" tint={color.success} bg={color.successSoft} label={t("mob.chat.location")} onPress={sendLocation} />
+          <Att icon="map-pin" tint={color.success} bg={color.successSoft} label={t("mob.chat.location")} onPress={() => void sendLocation()} />
+          <Att icon="route" tint={color.blue} bg={color.blueSoft} label={t("msgr.liveLocation")} onPress={() => { setAttach(false); setJonliSheet(true); }} />
         </View>
         <Text style={s.sheetGroup}>{t("mob.chatAct.title")}</Text>
         <View style={s.grid}>
@@ -758,6 +835,30 @@ export default function Suhbat() {
         )}
       </Sheet>
 
+      {/* Jonli joylashuv muddati (TZ v2 §5.1) */}
+      <Sheet open={jonliSheet} onClose={() => setJonliSheet(false)} title={t("msgr.liveLocation")}>
+        {JONLI_MUDDAT.map((n, i) => (
+          <MenuRow
+            key={n}
+            icon="clock"
+            label={n < 60 ? t("msgr.liveMin", { n }) : t("msgr.liveHours", { n: n / 60 })}
+            last={i === JONLI_MUDDAT.length - 1}
+            onPress={() => void sendLocation(n)}
+          />
+        ))}
+      </Sheet>
+
+      {/* Uzatish (TZ v2 §5.1) */}
+      <UzatishSheet
+        chatId={id}
+        messageId={uzatish}
+        onClose={() => setUzatish(null)}
+        onDone={() => {
+          setUzatish(null);
+          setOgoh(t("msgr.forwarded"));
+        }}
+      />
+
       {/* Tilga o'girish */}
       <Sheet open={langOpen} onClose={() => setLangOpen(false)} title={t("mob.msg.translateTo")}>
         <View style={s.langGrid}>
@@ -774,11 +875,15 @@ export default function Suhbat() {
       <Sheet open={!!msgMenu} onClose={() => setMsgMenu(null)}>
         {msgMenu ? (
           <>
+            {!readOnly ? <ReaksiyaTanlash onTanla={(e) => void act(msgMenu, { action: "react", emoji: e })} /> : null}
             <Text style={s.msgPreview} numberOfLines={2}>{msgMenu.shown ?? msgMenu.text ?? t("mob.chat.file")}</Text>
             {!readOnly ? <MenuRow icon="reply" label={t("mob.msg.reply")} onPress={() => { setReplyTo(msgMenu); setMsgMenu(null); }} /> : null}
             {!readOnly ? <MenuRow icon="pin" label={t(msgMenu.pinned ? "mob.msg.unpin" : "mob.msg.pin")} onPress={() => act(msgMenu, { action: "pin", on: !msgMenu.pinned })} /> : null}
             {msgMenu.text || msgMenu.shown ? (
               <MenuRow icon="copy" label={t("mob.msg.copy")} onPress={async () => { await Clipboard.setStringAsync(msgMenu.shown ?? msgMenu.text ?? ""); setMsgMenu(null); }} />
+            ) : null}
+            {!msgMenu.kind ? (
+              <MenuRow icon="forward" label={t("msgr.forward")} onPress={() => { const m = msgMenu; setMsgMenu(null); setUzatish(m.id); }} />
             ) : null}
             {msgMenu.senderId === meId && !readOnly ? <MenuRow icon="trash" label={t("mob.msg.delete")} danger onPress={() => remove(msgMenu)} /> : null}
             {/* BEGONA xabar ustidan shikoyat — do'kon talabi (A12).
@@ -838,12 +943,18 @@ export default function Suhbat() {
 function Bubble({
   msg, chatId, meId, readOnly, showOrig, transcribing,
   onLongPress, onToggleOrig, onConfirm, onTranscribe, onOpenFile, onOpenImage, onSender,
+  holat, onReact, onLiveStop, onShikoyat,
 }: {
   msg: ChatMsg; chatId: string; meId: string | null; readOnly: boolean; showOrig: boolean; transcribing: boolean;
   onLongPress: () => void; onToggleOrig: () => void; onConfirm: () => void; onTranscribe: () => void;
   onOpenFile: () => void; onOpenImage: () => void;
   /** Ism bosildi — profil kartasi va «Xabar yozish» (TZ v2 §5.1) */
   onSender: () => void;
+  /** ✓✓, reaksiya, jonli joylashuv (TZ v2 §5.1) */
+  holat: ChatHolati | null;
+  onReact: (e: string) => void;
+  onLiveStop: () => void;
+  onShikoyat: () => void;
 }) {
   if (msg.type === "SYSTEM" || (msg.senderId === null && !msg.kind)) {
     return (
@@ -869,6 +980,10 @@ function Bubble({
     : showOrig
       ? msg.text
       : (msg.shown ?? msg.text);
+  /* Jonli joylashuv — eng so'nggi nuqta `holat` dan */
+  const jonli = holat?.jonli.find((x) => x.id === msg.id);
+  const lat = jonli?.lat ?? msg.lat;
+  const lng = jonli?.lng ?? msg.lng;
   const kindIcon: Record<string, IconName> = { AGREEMENT: "handshake", PAY_REQUEST: "wallet", EVIDENCE: "paperclip", INCIDENT: "alert", CONFIRM: "check" };
 
   return (
@@ -889,6 +1004,15 @@ function Bubble({
         </Pressable>
       ) : null}
 
+      {msg.forwardedFrom ? (
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginBottom: 3 }}>
+          <Icon name="forward" size={12} stroke={dim} />
+          <Text style={[s.trText, { color: dim, fontStyle: "italic" }]} numberOfLines={1}>
+            {t("msgr.forwardedFrom", { name: msg.forwardedFrom })}
+          </Text>
+        </View>
+      ) : null}
+
       {msg.replyTo ? (
         <View style={[s.quote, { borderLeftColor: mine && !special ? "#ffffff88" : color.brand }]}>
           <Text style={[s.quoteName, { color: dim }]} numberOfLines={1}>{msg.replyTo.name}</Text>
@@ -896,14 +1020,30 @@ function Bubble({
         </View>
       ) : null}
 
-      {msg.type === "LOCATION" && msg.lat != null && msg.lng != null ? (
-        <Pressable onPress={() => Linking.openURL(`https://www.google.com/maps?q=${msg.lat},${msg.lng}`)} style={s.inline}>
-          <Icon name="map-pin" size={18} stroke={mine ? "#ffffff" : color.brand} />
-          <Text style={[s.inlineText, { color: fg }]}>
-            {msg.placeName ?? `${msg.lat.toFixed(4)}, ${msg.lng.toFixed(4)}`}
-          </Text>
-          <Text style={[s.inlineLink, { color: dim }]}>{t("mob.msg.openMap")}</Text>
-        </Pressable>
+      {msg.type === "LOCATION" && lat != null && lng != null ? (
+        <View>
+          <Pressable onPress={() => Linking.openURL(`https://www.google.com/maps?q=${lat},${lng}`)} style={s.inline}>
+            <Icon name="map-pin" size={18} stroke={mine ? "#ffffff" : color.brand} />
+            <Text style={[s.inlineText, { color: fg }]}>
+              {msg.placeName ?? `${lat.toFixed(4)}, ${lng.toFixed(4)}`}
+            </Text>
+            <Text style={[s.inlineLink, { color: dim }]}>{t("mob.msg.openMap")}</Text>
+          </Pressable>
+          {msg.liveUntil ? (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginTop: 4 }}>
+              <Text style={[s.trText, { color: jonli ? (mine ? "#ffffff" : color.success) : dim, fontWeight: "700" }]}>
+                {jonli ? t("msgr.liveUntil", { time: hhmm(jonli.liveUntil) }) : t("msgr.liveEnded")}
+              </Text>
+              {jonli && mine ? (
+                <Pressable onPress={onLiveStop} hitSlop={6} accessibilityRole="button">
+                  <Text style={[s.trText, { color: mine ? "#ffffff" : color.danger, textDecorationLine: "underline" }]}>
+                    {t("msgr.liveStop")}
+                  </Text>
+                </Pressable>
+              ) : null}
+            </View>
+          ) : null}
+        </View>
       ) : null}
 
       {msg.type === "CONTACT" && msg.contact ? (
@@ -946,6 +1086,8 @@ function Bubble({
       {body && !(msg.kind === "LISTING" && msg.refCard) ? (
         <Text style={[s.text, { color: fg }]}>{body}</Text>
       ) : null}
+
+      {!mine && msg.ogohlantirish ? <FiribgarOgoh o={msg.ogohlantirish} onShikoyat={onShikoyat} /> : null}
 
       {ketgan ? (
         <Pressable
@@ -994,9 +1136,19 @@ function Bubble({
         </View>
       ) : null}
 
+      <Reaksiyalar list={holat?.reaksiyalar[msg.id]} onBos={(e) => !readOnly && onReact(e)} />
+
       <View style={s.metaRow}>
         {msg.pinned ? <Icon name="pin" size={11} stroke={dim} /> : null}
-        {mine && !msg.pending && msg.seenTotal > 0 ? (
+        {/* ✓ / ✓✓ — shaxsiy chatda (TZ v2 §5.1); guruhda «kim ko'rdi» soni */}
+        {mine && !msg.pending && holat?.onlayn ? (
+          <Icon
+            name={oqildimi(msg.createdAt, holat.oqildi) ? "check-check" : "check"}
+            size={13}
+            stroke={oqildimi(msg.createdAt, holat.oqildi) ? (special ? color.success : "#ffffff") : dim}
+          />
+        ) : null}
+        {mine && !msg.pending && msg.seenTotal > 1 ? (
           <>
             <Icon name="check-check" size={12} stroke={msg.seenBy > 0 ? (special ? color.success : "#ffffff") : dim} />
             <Text style={[s.time, { color: dim }]}>{msg.seenBy}/{msg.seenTotal}</Text>

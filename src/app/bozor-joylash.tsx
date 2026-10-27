@@ -76,11 +76,15 @@ export default function BozorJoylash() {
   const [pick, setPick] = useState<Fleet | null>(null);
   const [cat, setCat] = useState<string | null>(null);
 
+  /* Toifa — forma maydonlari shunga qarab (TZ v2 Audit 5) */
+  const toifa = pick ? (cat ?? "TRUCK") : cat;
+
   // 2-qadam
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [odometer, setOdometer] = useState("");
+  const [motoSoat, setMotoSoat] = useState("");
   const [fuel, setFuel] = useState("");
   const [gearbox, setGearbox] = useState("");
   const [features, setFeatures] = useState<string[]>([]);
@@ -158,9 +162,11 @@ export default function BozorJoylash() {
           brand: brand.trim(),
           model: model.trim() || null,
           year: num(year),
-          odometer: num(odometer),
-          fuel: fuel.trim() || null,
-          gearbox: gearbox.trim() || null,
+          /* Toifaga qarab (TZ v2 Audit 5) — server ham shunday tozalaydi */
+          odometer: toifa === "SPECIAL" || toifa === "TRAILER" ? null : num(odometer),
+          motoSoat: toifa === "SPECIAL" ? num(motoSoat) : null,
+          fuel: toifa === "TRAILER" ? null : fuel.trim() || null,
+          gearbox: toifa === "TRAILER" ? null : gearbox.trim() || null,
           features,
           about: about.trim() || null,
           price: num(price),
@@ -334,24 +340,34 @@ export default function BozorJoylash() {
                   keyboardType="number-pad"
                 />
               </View>
-              <View style={{ flex: 1 }}>
-                <Field
-                  label={t("mob.sale.odometer")}
-                  value={odometer}
-                  onChangeText={setOdometer}
-                  keyboardType="number-pad"
-                />
-              </View>
+              {/* Tirkamada probeg yo'q, maxsus texnikada — moto-soat */}
+              {toifa === "SPECIAL" ? (
+                <View style={{ flex: 1 }}>
+                  <Field label={t("mob.sale.motoSoat")} value={motoSoat} onChangeText={setMotoSoat} keyboardType="number-pad" />
+                </View>
+              ) : toifa !== "TRAILER" ? (
+                <View style={{ flex: 1 }}>
+                  <Field
+                    label={t("mob.sale.odometer")}
+                    value={odometer}
+                    onChangeText={setOdometer}
+                    keyboardType="number-pad"
+                  />
+                </View>
+              ) : null}
             </View>
 
-            <View style={s.two}>
-              <View style={{ flex: 1 }}>
-                <Field label={t("mob.sale.fuel")} value={fuel} onChangeText={setFuel} />
+            {/* Tirkamada dvigatel yo'q — yoqilg'i va korobka ham */}
+            {toifa !== "TRAILER" ? (
+              <View style={s.two}>
+                <View style={{ flex: 1 }}>
+                  <Field label={t("mob.sale.fuel")} value={fuel} onChangeText={setFuel} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Field label={t("mob.sale.gearbox")} value={gearbox} onChangeText={setGearbox} />
+                </View>
               </View>
-              <View style={{ flex: 1 }}>
-                <Field label={t("mob.sale.gearbox")} value={gearbox} onChangeText={setGearbox} />
-              </View>
-            </View>
+            ) : null}
 
             <Text style={s.label}>{t("mob.sale.features")}</Text>
             <View style={s.picks}>

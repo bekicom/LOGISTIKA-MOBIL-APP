@@ -3149,6 +3149,7 @@
       "mine": "Sotuvlarim",
       "mineSub": "E'lonlarim va sotib olganlarim",
       "model": "Model",
+      "motoSoat": "Moto-soat",
       "needConfirm": "TASDIQLASH KERAK",
       "noBoughtHint": "Sotuvchi sizni xaridor deb belgilagach, bitim shu yerda chiqadi.",
       "noBoughtTitle": "Hali sotib olmagansiz",
@@ -3194,6 +3195,7 @@
       "euro": "Euro standarti",
       "fuel": "Yoqilg'i",
       "gearbox": "Korobka",
+      "motoSoat": "Moto-soat",
       "odometer": "Probeg",
       "year": "Yil"
     },

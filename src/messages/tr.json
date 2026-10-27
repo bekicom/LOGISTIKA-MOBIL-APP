@@ -3149,6 +3149,7 @@
       "mine": "Satışlarım",
       "mineSub": "İlanlarım ve aldıklarım",
       "model": "Model",
+      "motoSoat": "Motor saati",
       "needConfirm": "ONAY GEREKLİ",
       "noBoughtHint": "Satıcı sizi alıcı olarak işaretlediğinde anlaşma burada görünür.",
       "noBoughtTitle": "Henüz bir şey almadınız",
@@ -3194,6 +3195,7 @@
       "euro": "Euro normu",
       "fuel": "Yakıt",
       "gearbox": "Şanzıman",
+      "motoSoat": "Motor saati",
       "odometer": "Kilometre",
       "year": "Yıl"
     },

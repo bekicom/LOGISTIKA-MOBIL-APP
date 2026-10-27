@@ -3149,6 +3149,7 @@
       "mine": "我的买卖",
       "mineSub": "我发布的和我买下的",
       "model": "型号",
+      "motoSoat": "发动机小时数",
       "needConfirm": "需要确认",
       "noBoughtHint": "卖家将您标记为买家后，交易会显示在这里。",
       "noBoughtTitle": "您还没有购买过",
@@ -3194,6 +3195,7 @@
       "euro": "欧标",
       "fuel": "燃料",
       "gearbox": "变速箱",
+      "motoSoat": "发动机小时数",
       "odometer": "里程",
       "year": "年份"
     },

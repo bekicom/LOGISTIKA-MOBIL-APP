@@ -3149,6 +3149,7 @@
       "mine": "My sales",
       "mineSub": "My listings and purchases",
       "model": "Model",
+      "motoSoat": "Engine hours",
       "needConfirm": "NEEDS CONFIRMATION",
       "noBoughtHint": "Once a seller marks you as the buyer, the deal shows up here.",
       "noBoughtTitle": "You haven't bought anything yet",
@@ -3194,6 +3195,7 @@
       "euro": "Euro standard",
       "fuel": "Fuel",
       "gearbox": "Gearbox",
+      "motoSoat": "Engine hours",
       "odometer": "Mileage",
       "year": "Year"
     },

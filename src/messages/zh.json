@@ -188,6 +188,7 @@
     "REPORT_LIMIT": "您今天提交的举报过多，请明天继续。",
     "REPORT_SELF": "不能举报自己发布的内容。",
     "REYS_BOR": "该货源已有行程。",
+    "REYS_MASHINASIZ": "行程未绑定车辆——请先绑定车队车辆",
     "ROLE_NOT_OWNED": "您没有此角色",
     "RUXSAT_YOQ": "您无权执行此操作。",
     "SAME_DRIVER": "主司机和副司机不能是同一人。",
@@ -4442,6 +4443,18 @@
     "izoh": "司机和车辆文件已自动附加到行程——无需重新上传",
     "mendan": "从我的文件发送",
     "title": "行程文件（自动）"
+  },
+  "reysShablon": {
+    "cmr": "CMR",
+    "invoys": "发票",
+    "izoh": "根据行程数据填写并添加到行程文件",
+    "postYoq": "暂无口岸数据",
+    "postlarBandligi": "口岸繁忙度",
+    "ruxsatnoma": "许可申请",
+    "sarlavha": "生成文件",
+    "tranzit": "过境 (T1/TIR)",
+    "xato": "无法生成文件",
+    "yangilangan": "%{n} 小时前更新"
   },
   "rolTanlash": {
     "DRIVER": "我开别人的车——行程、货源、收入",

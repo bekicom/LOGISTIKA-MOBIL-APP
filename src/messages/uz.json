@@ -188,6 +188,7 @@
     "REPORT_LIMIT": "Bugun juda ko'p shikoyat yubordingiz. Ertaga davom etasiz.",
     "REPORT_SELF": "O'z kontentingiz ustidan shikoyat qilib bo'lmaydi.",
     "REYS_BOR": "Bu yuk uchun reys allaqachon ochilgan.",
+    "REYS_MASHINASIZ": "Reysga mashina biriktirilmagan — avval Parkim mashinasini bog'lang",
     "ROLE_NOT_OWNED": "Bu rol sizda yo'q",
     "RUXSAT_YOQ": "Bu amal sizga ruxsat etilmagan.",
     "SAME_DRIVER": "Asosiy va ikkinchi haydovchi bir odam bo'lmaydi.",
@@ -4442,6 +4443,18 @@
     "izoh": "Haydovchi va mashina hujjatlari reysga o'zi biriktirildi — qayta yuklash shart emas",
     "mendan": "Hujjatlarimdan yuborish",
     "title": "Reys hujjatlari (avtomatik)"
+  },
+  "reysShablon": {
+    "cmr": "CMR",
+    "invoys": "Invoys",
+    "izoh": "Reys ma'lumotidan to'ldiriladi va reys hujjatlariga qo'shiladi",
+    "postYoq": "Postlar ma'lumoti hali yo'q",
+    "postlarBandligi": "Postlarning bandligi",
+    "ruxsatnoma": "Ruxsatnoma so'rovi",
+    "sarlavha": "Hujjat tayyorlash",
+    "tranzit": "Tranzit (T1/TIR)",
+    "xato": "Hujjat tayyorlanmadi",
+    "yangilangan": "%{n} soat oldin yangilangan"
   },
   "rolTanlash": {
     "DRIVER": "Boshqaning mashinasida ishlayman — reys, yuk, daromad",

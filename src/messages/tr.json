@@ -188,6 +188,7 @@
     "REPORT_LIMIT": "Bugün çok fazla şikayet gönderdiniz. Yarın devam edebilirsiniz.",
     "REPORT_SELF": "Kendi içeriğinizi şikayet edemezsiniz.",
     "REYS_BOR": "Bu yük için sefer zaten açık.",
+    "REYS_MASHINASIZ": "Sefere araç bağlı değil — önce filodan araç bağlayın",
     "ROLE_NOT_OWNED": "Bu role sahip değilsiniz",
     "RUXSAT_YOQ": "Bu işleme izniniz yok.",
     "SAME_DRIVER": "Ana ve ikinci sürücü aynı kişi olamaz.",
@@ -4442,6 +4443,18 @@
     "izoh": "Sürücü ve araç belgeleri sefere otomatik eklendi — yeniden yüklemeye gerek yok",
     "mendan": "Belgelerimden gönder",
     "title": "Sefer belgeleri (otomatik)"
+  },
+  "reysShablon": {
+    "cmr": "CMR",
+    "invoys": "Fatura",
+    "izoh": "Sefer verilerinden doldurulur ve sefer belgelerine eklenir",
+    "postYoq": "Henüz kapı verisi yok",
+    "postlarBandligi": "Kapı doluluğu",
+    "ruxsatnoma": "İzin talebi",
+    "sarlavha": "Belge hazırla",
+    "tranzit": "Transit (T1/TIR)",
+    "xato": "Belge hazırlanamadı",
+    "yangilangan": "%{n} saat önce güncellendi"
   },
   "rolTanlash": {
     "DRIVER": "Başkasının aracında çalışıyorum — sefer, yük, kazanç",

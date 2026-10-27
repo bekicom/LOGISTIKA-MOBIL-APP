@@ -134,6 +134,17 @@ export default function Navbatlar() {
         }
       />
 
+      {/* «Chegara navbatlari»dan «Postlarning bandligi»ga (TZ v3 §15-18) */}
+      <Pressable
+        onPress={() => router.push("/postlar-bandligi" as never)}
+        accessibilityRole="button"
+        style={({ pressed }) => [s.bandlik, pressed && { opacity: 0.8 }]}
+      >
+        <Icon name="border" size={18} stroke={color.brand} />
+        <Text style={s.bandlikText}>{t("reysShablon.postlarBandligi")}</Text>
+        <Icon name="chevron" size={16} stroke={color.brand} />
+      </Pressable>
+
       {loading ? (
         <View style={{ padding: space.lg }}>
           <Skeleton rows={4} />
@@ -276,6 +287,20 @@ function QueueCard({ q, onPress }: { q: Queue; onPress: () => void }) {
 }
 
 const s = themed(() => ({
+  bandlik: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginHorizontal: space.lg,
+    marginTop: space.sm,
+    paddingHorizontal: 14,
+    height: 46,
+    borderRadius: radius.control,
+    borderWidth: 1,
+    borderColor: color.brand + "55",
+    backgroundColor: color.brandSoft,
+  },
+  bandlikText: { flex: 1, fontSize: 14, fontWeight: "700", color: color.brandText },
   add: {
     width: 34,
     height: 34,

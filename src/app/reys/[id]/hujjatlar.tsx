@@ -5,6 +5,7 @@
  * ro'yxatda ko'rinmaydi — faqat oxirgi versiya, ustida «v2» belgisi bilan.
  */
 import { ReysHujjatlariAvto } from "@/components/HujjatlarAvto";
+import { ReysShablonlar } from "@/components/ReysShablonlar";
 import { useState } from "react";
 import { Animated, FlatList, Image, Modal, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
@@ -71,7 +72,15 @@ export default function Hujjatlar() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
         /* Haydovchi va mashina hujjatlari — avtomatik (TZ v2 §6.1) */
-        ListHeaderComponent={id ? <ReysHujjatlariAvto tripId={String(id)} /> : null}
+        ListHeaderComponent={
+          id ? (
+            <>
+              {/* CMR, invoys, tranzit, ruxsatnoma — reysdan PDF (TZ v3 §15-18) */}
+              <ReysShablonlar tripId={String(id)} onYaratildi={reload} />
+              <ReysHujjatlariAvto tripId={String(id)} />
+            </>
+          ) : null
+        }
         renderItem={({ item }) => (
           <View style={s.card}>
             <View style={s.preview}>

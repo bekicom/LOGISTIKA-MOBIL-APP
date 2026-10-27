@@ -188,6 +188,7 @@
     "REPORT_LIMIT": "You have sent too many reports today. Please continue tomorrow.",
     "REPORT_SELF": "You cannot report your own content.",
     "REYS_BOR": "A trip is already open for this load.",
+    "REYS_MASHINASIZ": "No vehicle on this trip — attach a fleet vehicle first",
     "ROLE_NOT_OWNED": "You don't have this role",
     "RUXSAT_YOQ": "You can't do this.",
     "SAME_DRIVER": "The main and second driver can't be the same person.",
@@ -4442,6 +4443,18 @@
     "izoh": "Driver and vehicle documents are attached to the trip automatically — no need to upload again",
     "mendan": "Send from my documents",
     "title": "Trip documents (automatic)"
+  },
+  "reysShablon": {
+    "cmr": "CMR",
+    "invoys": "Invoice",
+    "izoh": "Filled from the trip data and added to the trip documents",
+    "postYoq": "No post data yet",
+    "postlarBandligi": "Border post load",
+    "ruxsatnoma": "Permit request",
+    "sarlavha": "Prepare a document",
+    "tranzit": "Transit (T1/TIR)",
+    "xato": "Document could not be prepared",
+    "yangilangan": "Updated %{n} h ago"
   },
   "rolTanlash": {
     "DRIVER": "I drive someone else's truck — trips, loads, earnings",

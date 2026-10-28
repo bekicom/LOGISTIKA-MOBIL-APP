@@ -713,6 +713,12 @@
     "user": "Пользователи",
     "vehicle": "Мой транспорт"
   },
+  "kodKelmadi": {
+    "google": "Войти через Google",
+    "hint": "Войдите другим способом — не ждите.",
+    "telegram": "Получить код в Telegram",
+    "title": "Код не пришёл?"
+  },
   "lavozim": {
     "dispetcher": "Диспетчер",
     "haydovchi": "Водитель",

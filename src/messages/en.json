@@ -713,6 +713,12 @@
     "user": "Users",
     "vehicle": "My trucks"
   },
+  "kodKelmadi": {
+    "google": "Sign in with Google",
+    "hint": "Sign in another way — no need to wait.",
+    "telegram": "Get the code via Telegram",
+    "title": "Didn't get the code?"
+  },
   "lavozim": {
     "dispetcher": "Dispatcher",
     "haydovchi": "Driver",

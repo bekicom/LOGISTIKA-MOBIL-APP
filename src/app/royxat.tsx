@@ -12,6 +12,7 @@ import Svg, { Path } from "react-native-svg";
 import { AuthLine, AuthShell } from "@/components/AuthShell";
 import { Button, Field, Notice, Steps } from "@/components/ui";
 import { ChannelPick, useChannels, type Channel } from "@/components/ChannelPick";
+import { KodKelmadi } from "@/components/KodKelmadi";
 import { api, FuramError } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { color, font, radius, space, themed } from "@/lib/theme";
@@ -57,6 +58,8 @@ export default function Royxat() {
   const social = useSocialSignIn(preset);
   const [agreed, setAgreed] = useState(false);
   const [left, setLeft] = useState(0);
+  /* Yuborish yiqildi (502) — «Kod kelmadimi?» darrov (TZ 28-okt §1) */
+  const [yiqildi, setYiqildi] = useState(false);
 
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -83,12 +86,15 @@ export default function Royxat() {
         body: { phone: fullPhone, purpose: "register", channel: via },
       });
       setSentVia(r.via ?? via);
+      setYiqildi(false);
       setDevCode(r.devCode ?? null);
       setLeft(60);
       setStep("code");
       setTimeout(() => codeRef.current?.focus(), 250);
     } catch (e) {
       setErr((e as FuramError).message ?? t("mob.signUp.codeFailed"));
+      setYiqildi((e as FuramError).status === 502);
+      setStep("phone");
     } finally {
       setBusy(false);
     }
@@ -197,6 +203,17 @@ export default function Royxat() {
             <ChannelPick channels={channels} channel={channel} onPick={setChannel} social={social} />
 
             {err ? <Text style={s.err}>{err}</Text> : null}
+            {yiqildi ? (
+              <KodKelmadi
+                telegram={channels.includes("telegram") && channel !== "telegram"}
+                onTelegram={() => {
+                  setChannel("telegram");
+                  void sendCode("telegram");
+                }}
+                social={social}
+                busy={busy}
+              />
+            ) : null}
 
             <View style={{ marginTop: space.xxl }}>
               <Button
@@ -271,6 +288,16 @@ export default function Royxat() {
                 </Pressable>
               )}
             </View>
+
+            {/* 30 soniya o'tdi, kod yo'q — Google/Apple ham (TZ 28-okt §1) */}
+            {left <= 30 && !devCode ? (
+              <KodKelmadi
+                telegram={false}
+                onTelegram={() => undefined}
+                social={social}
+                busy={busy}
+              />
+            ) : null}
 
             {channels.length > 1 ? (
               <View style={{ marginTop: space.lg }}>

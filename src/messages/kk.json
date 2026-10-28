@@ -713,6 +713,12 @@
     "user": "Пайдаланушылар",
     "vehicle": "Менің көлігім"
   },
+  "kodKelmadi": {
+    "google": "Google арқылы кіру",
+    "hint": "Басқа жолмен кіріңіз — күтпеңіз.",
+    "telegram": "Кодты Telegram арқылы алу",
+    "title": "Код келмеді ме?"
+  },
   "lavozim": {
     "dispetcher": "Диспетчер",
     "haydovchi": "Жүргізуші",

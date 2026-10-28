@@ -713,6 +713,12 @@
     "user": "Foydalanuvchilar",
     "vehicle": "Transportlarim"
   },
+  "kodKelmadi": {
+    "google": "Google bilan kirish",
+    "hint": "Boshqa yo'l bilan kiring — kutib o'tirmang.",
+    "telegram": "Telegram orqali kod olish",
+    "title": "Kod kelmadimi?"
+  },
   "lavozim": {
     "dispetcher": "Dispetcher",
     "haydovchi": "Haydovchi",

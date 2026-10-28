@@ -713,6 +713,12 @@
     "user": "Kullanıcılar",
     "vehicle": "Araçlarım"
   },
+  "kodKelmadi": {
+    "google": "Google ile giriş yap",
+    "hint": "Başka bir yolla giriş yapın — beklemeyin.",
+    "telegram": "Kodu Telegram'dan al",
+    "title": "Kod gelmedi mi?"
+  },
   "lavozim": {
     "dispetcher": "Dispeçer",
     "haydovchi": "Sürücü",

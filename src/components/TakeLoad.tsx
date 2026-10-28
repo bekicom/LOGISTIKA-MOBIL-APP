@@ -45,6 +45,8 @@ type Option = {
   kind: "vehicle" | "truck";
   plate: string | null;
   brand: string | null;
+  /** Ulangan tirkama — tyagach qatorida (TZ 28-okt §17) */
+  trailerPlate?: string | null;
   driver: string | null;
   needsDriver: boolean;
   typeName: string | null;
@@ -141,7 +143,7 @@ export function TakeLoad({ loadId, ochiqManba = false }: { loadId: string; ochiq
       return `${t("mob.take.fromAd")}: ${o.typeName ?? "—"}${cap}`;
     }
     const who = o.driver ?? t("mob.take.noDriver");
-    return [o.plate, o.brand, who].filter(Boolean).join(" · ");
+    return [o.trailerPlate ? `${o.plate} + ${o.trailerPlate}` : o.plate, o.brand, who].filter(Boolean).join(" · ");
   }
 
   return (

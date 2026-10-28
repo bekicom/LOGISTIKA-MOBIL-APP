@@ -78,6 +78,8 @@ type Order = {
   acceptedAt: string | null;
   master: { id: string; name: string; phone: string | null; verified: boolean; done: number } | null;
   client: { name: string; phone: string | null } | null;
+  /* TZ 28-okt §34 — kimga yuborildi (faqat beruvchiga); eski serverda yo'q */
+  kimga?: { id: string; nom: string }[] | null;
 };
 
 type Viewer = { isClient: boolean; isMaster: boolean; hasOffered: boolean; myOfferId: string | null };
@@ -351,6 +353,18 @@ export default function Buyurtma() {
             <Text style={s.hint}>{t("mob.svc.pickHint")}</Text>
           </View>
         )}
+
+        {/* ── Kimga yuborildi (TZ 28-okt §34): beruvchi jim kutib qolmaydi */}
+        {o.kimga ? (
+          <View style={[s.card, o.kimga.length === 0 && s.kimgaYoq]}>
+            <Text style={s.sec}>
+              {o.kimga.length === 0 ? t("serviceTz4.topilmadi") : t("serviceTz4.yuborildi", { n: o.kimga.length })}
+            </Text>
+            <Text style={s.text}>
+              {o.kimga.length === 0 ? t("serviceTz4.topilmadiIzoh") : o.kimga.map((k) => k.nom).join(", ")}
+            </Text>
+          </View>
+        ) : null}
 
         {/* ── Tanlangan usta / mijoz */}
         {(o.master || o.client) && (
@@ -799,6 +813,7 @@ const s = themed(() => ({
   hint: { fontSize: 12, color: color.mutedForeground, textAlign: "center", marginTop: space.sm, lineHeight: 18 },
 
   sec: { fontSize: 15, fontWeight: "700", color: color.foreground },
+  kimgaYoq: { borderColor: color.warning, backgroundColor: color.warningSoft },
   text: { fontSize: 13, color: color.mutedForeground, marginTop: 8, lineHeight: 20 },
 
   sumRow: { flexDirection: "row", justifyContent: "space-between", gap: 12, paddingVertical: 7 },

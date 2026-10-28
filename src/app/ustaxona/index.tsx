@@ -227,7 +227,7 @@ export default function Ustaxona() {
                     {data?.isMaster
                       ? data.masterApproved
                         ? t("mob.svc.masterOn")
-                        : t("mob.svc.masterWait")
+                        : t("tasdiqsiz.yashirilgan")
                       : t("mob.svc.masterOff")}
                   </Text>
                 </View>

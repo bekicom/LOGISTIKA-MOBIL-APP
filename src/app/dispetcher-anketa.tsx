@@ -151,8 +151,9 @@ export default function DispetcherAnketa() {
                 {p.rejectNote}
               </Notice>
             ) : (
-              <Notice tone="warning" title={t("mob.pform.pending")}>
-                {t("mob.pform.pendingBody")}
+              /* TZ 28-okt §54: tasdiq yo'q — bu holat faqat admin yashirganda */
+              <Notice tone="warning" title={t("tasdiqsiz.yashirilgan")}>
+                {t("tasdiqsiz.yashirilganIzoh")}
               </Notice>
             )}
           </View>
@@ -262,10 +263,7 @@ export default function DispetcherAnketa() {
 
         {canEdit ? (
           <View style={{ marginTop: space.lg, gap: 9 }}>
-            {/* Tahrir tasdiqni bekor qiladi — saqlashdan OLDIN */}
-            {p?.isApproved ? (
-              <Notice tone="warning">{t("mob.pform.resetWarn")}</Notice>
-            ) : null}
+            {/* Tahrir endi tasdiqni bekor QILMAYDI (TZ 28-okt §54) */}
             <Button title={t("mob.common.save")} loading={saving} onPress={save} />
           </View>
         ) : null}

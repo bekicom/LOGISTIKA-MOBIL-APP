@@ -25,6 +25,7 @@ import { TariffNotice } from "@/components/TariffNotice";
 import { MatndanToldirish } from "@/components/MatndanToldirish";
 import { NarxMaslahat } from "@/components/NarxMaslahat";
 import { tariffBlocked } from "@/lib/features";
+import { YUK_NOMLARI } from "@/lib/yuk-nomlari";
 
 type VehicleType = { id: number; key: string; name: string };
 
@@ -192,6 +193,17 @@ export default function YukJoylash() {
             <View style={{ gap: space.lg, marginTop: space.xxl }}>
               <View>
                 <Field label={t("mob.post2.cargoName")} placeholder={t("mob.post2.cargoPh")} value={title} onChangeText={setTitle} autoFocus />
+                {/* Yuk nomi ro'yxatdan (TZ 28-okt §43): bosilsa yoziladi, yo'g'i qo'lda */}
+                <View style={s.nomlar}>
+                  {YUK_NOMLARI.map((k) => t(`yukNomi.${k}`))
+                    .filter((n) => n !== title && (!title.trim() || n.toLowerCase().includes(title.trim().toLowerCase())))
+                    .slice(0, 10)
+                    .map((n) => (
+                      <Pressable key={n} style={s.nom} onPress={() => setTitle(n)} accessibilityRole="button">
+                        <Text style={s.nomText}>{n}</Text>
+                      </Pressable>
+                    ))}
+                </View>
                 <Text style={s.hint}>{t("mob.post.nameHint")}</Text>
               </View>
 
@@ -522,6 +534,12 @@ const s = themed(() => ({
   rowBetween: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
   counterHint: { fontSize: 12, fontWeight: "600", color: color.brandText },
 
+  nomlar: { flexDirection: "row", flexWrap: "wrap", gap: 7, marginTop: 8 },
+  nom: {
+    paddingHorizontal: 11, paddingVertical: 7, borderRadius: 999,
+    borderWidth: 1, borderColor: color.border, backgroundColor: color.card,
+  },
+  nomText: { fontSize: 13, fontWeight: "600", color: color.foreground },
   pick: {
     height: 52, borderWidth: 1, borderColor: color.border, borderRadius: radius.control,
     flexDirection: "row", alignItems: "center", paddingHorizontal: 14, gap: 10,

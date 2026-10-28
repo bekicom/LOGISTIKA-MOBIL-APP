@@ -1,15 +1,18 @@
 /**
- * «AI bilan to'ldirish» — rasm + ovozli xabar yoki matn → e'lon maydonlari
- * (TZ v2 §7, A4, 2026-10-27). Webdagi `furam/src/app/market/new/ai-elon.tsx`
- * ning o'zi; server — `/api/market/ai-elon`. Forma to'ldiriladi, joylashni
- * sotuvchi o'zi bosadi.
+ * «AI bilan to'ldirish» — rasm + matn → e'lon maydonlari (TZ v2 §7, A4,
+ * 2026-10-27). Webdagi `furam/src/app/market/new/ai-elon.tsx` ning o'zi;
+ * server — `/api/market/ai-elon`. Forma to'ldiriladi, joylashni sotuvchi
+ * o'zi bosadi.
+ *
+ * OVOZ YO'Q (TZ 28-okt §33): «ovozli boshqaruv yo'q» qaroriga mos — rasm va
+ * matn yetarli.
  */
 import { useState } from "react";
 import { TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { Tap } from "@/components/Tap";
 import { Button } from "@/components/ui";
-import { MicButton, type VoiceFile } from "@/components/Recorder";
+
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, toUpload, type Photo } from "@/lib/photo";
 import { color, radius, space, themed } from "@/lib/theme";
@@ -29,7 +32,7 @@ export type ElonTaklif = {
 
 export function AiElon({ onTaklif }: { onTaklif: (x: ElonTaklif) => void }) {
   const [rasmlar, setRasmlar] = useState<Photo[]>([]);
-  const [ovoz, setOvoz] = useState<VoiceFile | null>(null);
+
   const [matn, setMatn] = useState("");
   const [band, setBand] = useState(false);
   const [xabar, setXabar] = useState<string | null>(null);
@@ -41,10 +44,7 @@ export function AiElon({ onTaklif }: { onTaklif: (x: ElonTaklif) => void }) {
       const r = await apiUpload<{ taklif: ElonTaklif }>(
         "/api/market/ai-elon",
         matn.trim() ? { text: matn.trim() } : {},
-        [
-          ...rasmlar.slice(0, 3).map((p) => toUpload(p, "photos")),
-          ...(ovoz ? [{ field: "voice", uri: ovoz.uri, name: ovoz.name, type: ovoz.type }] : []),
-        ],
+        rasmlar.slice(0, 3).map((p) => toUpload(p, "photos")),
       );
       onTaklif(r.taklif);
       setXabar(t("aiElon.toldirildi"));
@@ -58,7 +58,7 @@ export function AiElon({ onTaklif }: { onTaklif: (x: ElonTaklif) => void }) {
   return (
     <View style={s.card}>
       <Text style={s.title}>🤖 {t("aiElon.title")}</Text>
-      <Text style={s.muted}>{t("aiElon.izoh")}</Text>
+      <Text style={s.muted}>{t("aiElon.izohMatn")}</Text>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
         <Tap
           onPress={async () => setRasmlar((await pickPhotos(3)).slice(0, 3))}
@@ -67,8 +67,6 @@ export function AiElon({ onTaklif }: { onTaklif: (x: ElonTaklif) => void }) {
         >
           <Text style={s.btnText}>📷 {rasmlar.length ? t("aiElon.rasmN", { n: rasmlar.length }) : t("aiElon.rasm")}</Text>
         </Tap>
-        <MicButton onDone={setOvoz} onError={setXabar} onHint={setXabar} disabled={band} />
-        {ovoz ? <Text style={[s.muted, { color: color.success }]}>🎙 {t("aiElon.ovozBor")}</Text> : null}
       </View>
       <TextInput
         value={matn}
@@ -82,7 +80,7 @@ export function AiElon({ onTaklif }: { onTaklif: (x: ElonTaklif) => void }) {
         title={band ? t("aiElon.oqilmoqda") : t("aiElon.toldir")}
         onPress={() => void yubor()}
         loading={band}
-        disabled={!rasmlar.length && !ovoz && !matn.trim()}
+        disabled={!rasmlar.length && !matn.trim()}
       />
       {xabar ? <Text style={s.muted}>{xabar}</Text> : null}
     </View>

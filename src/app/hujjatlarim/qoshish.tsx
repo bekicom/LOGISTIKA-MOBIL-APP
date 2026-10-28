@@ -24,7 +24,7 @@ import { TariffNotice } from "@/components/TariffNotice";
 import { tariffBlocked } from "@/lib/features";
 
 /** `personal-docs.ts` dagi PERSONAL_KINDS bilan bir xil to'plam */
-const KINDS = ["LICENSE", "PASSPORT", "MEDICAL", "ADR", "VISA", "OTHER"] as const;
+const KINDS = ["LICENSE", "PASSPORT", "MEDICAL", "ADR", "VISA", "TAXI_LICENSE", "OTHER"] as const;
 /** Prava toifalari — `driver-link.ts` dagi LICENSE_CLASSES */
 const CLASSES = ["B", "C", "CE", "D", "DE"] as const;
 

@@ -9,7 +9,7 @@ import { useState } from "react";
 import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
 import { YangiReys } from "@/components/YangiReys";
@@ -39,13 +39,16 @@ function empty(): Record<string, { title: string; text: string }> {
 
 export default function Reyslar() {
   const [tab, setTab] = useState<string>("active");
+  /* «Mening ishim» / dispetcher paneli sonidan (TZ 28-okt §7): o'sha son
+     ortidagi ro'yxat — web `/trips?holat=` bilan bitta shart */
+  const { holat } = useLocalSearchParams<{ holat?: string }>();
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<{
     items: TripItem[];
     total: number;
-  }>(`/api/trips/list?tab=${tab}`, [tab]);
+  }>(`/api/trips/list?tab=${tab}${holat ? `&holat=${encodeURIComponent(holat)}` : ""}`, [tab, holat]);
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>

@@ -58,6 +58,9 @@ type Sale = {
   location: string | null;
   fromFleet: boolean;
   saved: boolean;
+  /* TZ 28-okt §9 — eski serverda yo'q */
+  withTrailer?: boolean;
+  trailerBrand?: string | null;
 };
 
 export default function Bozor() {
@@ -281,6 +284,13 @@ function SaleCard({ item, onPress }: { item: Sale; onPress: () => void }) {
         <Text style={s.name} numberOfLines={1}>
           {item.brand} {item.model ?? ""}
         </Text>
+        {/* Tyagach tirkamasi bilan (TZ 28-okt §9) */}
+        {item.withTrailer ? (
+          <Text style={s.trailer} numberOfLines={1}>
+            + {t("bozorShablon.tirkamasiBilan")}
+            {item.trailerBrand ? ` · ${item.trailerBrand}` : ""}
+          </Text>
+        ) : null}
         {line ? <Text style={s.meta}>{line}</Text> : null}
 
         <View style={s.priceRow}>
@@ -463,6 +473,7 @@ const s = themed(() => ({
 
   body: { padding: space.md },
   name: { fontSize: 16, fontWeight: "700", color: color.foreground },
+  trailer: { fontSize: 12, fontWeight: "700", color: color.brandText },
   meta: { fontSize: 12, color: color.mutedForeground, marginTop: 2 },
 
   priceRow: { flexDirection: "row", alignItems: "baseline", gap: 8, marginTop: 10 },

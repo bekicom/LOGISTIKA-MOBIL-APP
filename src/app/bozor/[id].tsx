@@ -42,6 +42,11 @@ import {
   tOr,
   t,
 } from "@/lib/i18n";
+import { KUZOV_TURLARI, TEXNIKA_TURI_TOIFASI } from "@/lib/bozor-katalog";
+
+/** Kuzov / texnika turi: ro'yxat kaliti bo'lsa tarjima, eski erkin matn bo'lsa o'zi */
+const kuzovNomi = (v: string) =>
+  Object.values(KUZOV_TURLARI).some((r) => r.includes(v)) ? t(`saleCatalog.body.${v}`) : v;
 
 type Fleet = {
   trips: number;
@@ -74,6 +79,15 @@ type Sale = {
   exchangeNote: string | null;
   specs: { key: string; value: string }[];
   features: string[];
+  /* TZ 28-okt §9 — tyagach tirkamasi bilan; eski serverda yo'q */
+  trailer?: {
+    brand: string | null;
+    model: string | null;
+    year: number | null;
+    bodyType: string | null;
+    axles: string | null;
+    capacityT: number | null;
+  } | null;
   about: string | null;
   /* TZ v2 §7 — eski serverda yo'q */
   telefonYashirildi?: boolean;
@@ -424,13 +438,44 @@ export default function EelonTafsilot() {
               {sale.specs.map((x, i) => (
                 <Row
                   key={x.key}
-                  label={saleSpecLabel(x.key)}
-                  value={x.key === "engineL" ? `${x.value} l` : x.key === "capacityT" ? `${x.value} t` : x.value}
+                  label={
+                    x.key === "bodyType" && sale.category === TEXNIKA_TURI_TOIFASI
+                      ? t("bozorShablon.texnikaTuri")
+                      : saleSpecLabel(x.key)
+                  }
+                  value={
+                    x.key === "engineL"
+                      ? `${x.value} l`
+                      : x.key === "capacityT"
+                        ? `${x.value} t`
+                        : x.key === "bodyType"
+                          ? kuzovNomi(x.value)
+                          : x.value
+                  }
                   last={i === sale.specs.length - 1}
                 />
               ))}
             </View>
           </View>
+
+          {/* ── Tirkama (TZ 28-okt §9): tyagach bilan birga sotiladi */}
+          {sale.trailer ? (
+            <View style={s.card}>
+              <Text style={s.sec}>{t("bozorShablon.trailerTitle")}</Text>
+              <View style={{ marginTop: 4 }}>
+                {sale.trailer.brand ? <Row label={t("bozorShablon.trailerBrand")} value={sale.trailer.brand} /> : null}
+                {sale.trailer.model ? <Row label={t("bozorShablon.trailerModel")} value={sale.trailer.model} /> : null}
+                {sale.trailer.year != null ? <Row label={t("bozorShablon.trailerYear")} value={String(sale.trailer.year)} /> : null}
+                {sale.trailer.bodyType ? (
+                  <Row label={t("bozorShablon.trailerBody")} value={kuzovNomi(sale.trailer.bodyType)} />
+                ) : null}
+                {sale.trailer.axles ? <Row label={t("bozorShablon.trailerAxles")} value={sale.trailer.axles} /> : null}
+                {sale.trailer.capacityT != null ? (
+                  <Row label={t("bozorShablon.trailerCapacity")} value={`${sale.trailer.capacityT} t`} last />
+                ) : null}
+              </View>
+            </View>
+          ) : null}
 
           {/* ── Jihozlar */}
           {sale.features.length > 0 && (

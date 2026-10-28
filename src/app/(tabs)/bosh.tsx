@@ -42,6 +42,7 @@ import { RolAlmashtirgich } from "@/components/RolAlmashtirgich";
 import { AsosiyIsh, type AsosiyIshData } from "@/components/AsosiyIsh";
 import { Bosqich, type BosqichData } from "@/components/Bosqich";
 import { Raqamlar, type RaqamlarData } from "@/components/Raqamlar";
+import { BozorBand, JonliKartalar, Statistika, type BozorData, type JonliData, type KpiData } from "@/components/BoshJonli";
 import type { TezkorTugma } from "@/lib/bosh-tugmalar";
 import { useApi } from "@/lib/use-api";
 import { notePushMoment } from "@/lib/push";
@@ -64,6 +65,10 @@ type Home =
       /** «0 dan 100 gacha» (TZ v2 §3.4.1) */
       bosqich?: BosqichData | null;
       raqamlar?: RaqamlarData | null;
+      /* TZ 28-okt §6, §24 — web bilan bir xil; eski serverda yo'q */
+      kpis?: KpiData[];
+      jonli?: JonliData | null;
+      bozor?: BozorData[];
       suggestedLoads: Listing[];
     }
   | {
@@ -79,13 +84,17 @@ type Home =
       /** «0 dan 100 gacha» (TZ v2 §3.4.1) */
       bosqich?: BosqichData | null;
       raqamlar?: RaqamlarData | null;
+      /* TZ 28-okt §6, §24 — web bilan bir xil; eski serverda yo'q */
+      kpis?: KpiData[];
+      jonli?: JonliData | null;
+      bozor?: BozorData[];
       counts: { liveTrips: number; problems: number; awaitingReply: number; expiringDocuments: number };
       /** `name: null` — ismsiz suhbat, ilova o'z tilida yozadi */
       recentChats: { id: string; name: string | null; lastMessage: string | null; lastAt: string }[];
     };
 
 export default function Bosh() {
-  const { data, loading, error, refreshing, refresh, reload } = useApi<Home>("/api/home");
+  const { data, loading, error, refreshing, refresh, reload } = useApi<Home>("/api/home?v=2");
   const insets = useSafeAreaInsets();
   const router = useRouter();
   /* «Mening ishim» katta tugmasi — ish stoliga suradi (TZ v3 §4) */
@@ -160,6 +169,8 @@ export default function Bosh() {
 
         {/* ── «MENING ISHIM» ISH STOLI (TZ v3 §6) ──
             «Dispetcher ▾» — qaysi rolniki (TZ v2 §2.2), ostida rolning 4–6 tugmasi */}
+        {/* Statistika — mehmon ko'radigan sonlar, har biri bosiladi (TZ 28-okt §6, §7) */}
+        {data ? <Statistika items={data.kpis} /> : null}
         <View onLayout={(e) => setStolY(e.nativeEvent.layout.y)} style={{ gap: space.md }}>
           {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
           {/* Rolning o'z tugmalari — serverdan (web bilan bitta jadval) */}
@@ -169,6 +180,8 @@ export default function Bosh() {
         {data ? <Bosqich d={data.bosqich} /> : null}
         {/* 2-blok: rolning asosiy ishi (TZ v2 §2.3) */}
         {data ? <AsosiyIsh d={data.asosiy} /> : null}
+        {/* Jonli mos e'lonlar «Taklif qilish» bilan (TZ 28-okt §24) */}
+        {data ? <JonliKartalar d={data.jonli} /> : null}
         {/* 3-blok: raqamlar (TZ v2 §2.3) — webdagi «Mening daromadim» */}
         {data ? <Raqamlar d={data.raqamlar} /> : null}
 
@@ -208,6 +221,8 @@ export default function Bosh() {
         {/* Bozor, ish, usta va boshqalar — pastki menyu beshta
             bo'limga qisqargach shu yerda (TZ v2 §2.1) */}
         <BoshqaXizmatlar />
+        {/* FURAM Bozor — oxirgi 4 e'lon rasm bilan (TZ 28-okt §24) */}
+        {data ? <BozorBand items={data.bozor} /> : null}
 
         {/* «Boshlash» — eng OXIRIDA. Yangi odamga kerak, tanish
             odamga esa lenta muhimroq; tepaga qo'ysak, har ochilishda
@@ -381,12 +396,14 @@ function Dispatcher({ data, onTrip, onChat }: {
   onChat: (id: string) => void;
 }) {
   const c = data.counts;
+  const router = useRouter();
   return (
     <>
       <View style={s.tiles}>
-        <Tile icon="route" label={t("mob.home.activeTrips")} value={c.liveTrips} tint={color.brand} bg={color.brandSoft} />
-        <Tile icon="alert" label={t("mob.home.problems")} value={c.problems} tint={color.danger} bg={color.dangerSoft} hot />
-        <Tile icon="chat" label={t("mob.home.waitingReply")} value={c.awaitingReply} tint={color.blue} bg={color.blueSoft} />
+        {/* Har son o'z ro'yxatini ochadi (TZ 28-okt §7) */}
+        <Tile icon="route" label={t("mob.home.activeTrips")} value={c.liveTrips} tint={color.brand} bg={color.brandSoft} onPress={() => router.push("/reyslar" as never)} />
+        <Tile icon="alert" label={t("mob.home.problems")} value={c.problems} tint={color.danger} bg={color.dangerSoft} hot onPress={() => router.push("/reyslar?holat=etibor" as never)} />
+        <Tile icon="chat" label={t("mob.home.waitingReply")} value={c.awaitingReply} tint={color.blue} bg={color.blueSoft} onPress={() => router.push("/kelishuvlar?filter=pending" as never)} />
         <Tile icon="doc" label={t("mob.misc.docExpiryTile")} value={c.expiringDocuments} tint={color.warning} bg={color.warningSoft} hot />
       </View>
 
@@ -437,20 +454,21 @@ function Dispatcher({ data, onTrip, onChat }: {
 
 /* ─────────────────────────────────────────────── bo'laklar */
 
-function Tile({ icon, label, value, tint, bg, hot }: {
+function Tile({ icon, label, value, tint, bg, hot, onPress }: {
   icon: IconName; label: string; value: number; tint: string; bg: string;
+  onPress?: () => void;
   /** Nol bo'lmasa rang bilan ogohlantiradi (muammo, muddat) */
   hot?: boolean;
 }) {
   const alert = hot && value > 0;
   return (
-    <View style={s.tile}>
+    <Pressable onPress={onPress} disabled={!onPress} style={({ pressed }) => [s.tile, pressed && { opacity: 0.85 }]} accessibilityRole={onPress ? "button" : undefined}>
       <View style={[s.tileIcon, { backgroundColor: alert ? tint : bg }]}>
         <Icon name={icon} size={18} stroke={alert ? "#ffffff" : tint} />
       </View>
       <Text style={[s.tileValue, alert && { color: tint }]}>{value}</Text>
       <Text style={s.tileLabel} numberOfLines={1}>{label}</Text>
-    </View>
+    </Pressable>
   );
 }
 

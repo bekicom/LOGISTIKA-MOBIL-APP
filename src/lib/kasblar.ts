@@ -8,7 +8,8 @@
  *
  * ⚠️ Serverga yangi kasb qo'shilsa — shu yerga ham.
  */
-export const YONALISHLAR = ["DRIVER", "LOGISTICS", "WORKSHOP"] as const;
+/* «OTHER» — istalgan boshqa lavozim (TZ 28-okt §55) */
+export const YONALISHLAR = ["DRIVER", "LOGISTICS", "WORKSHOP", "OTHER"] as const;
 export type Yonalish = (typeof YONALISHLAR)[number];
 
 export const KASBLAR: Record<Yonalish, readonly string[]> = {
@@ -41,6 +42,7 @@ export const KASBLAR: Record<Yonalish, readonly string[]> = {
     "service_admin",
     "shop_other",
   ],
+  OTHER: ["accountant", "manager", "office_admin", "sales", "security", "loader", "cleaner", "other_job"],
 };
 
 /** `lib/vacancy.ts:PAY_KINDS` bilan bir xil */

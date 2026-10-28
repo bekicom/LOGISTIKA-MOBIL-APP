@@ -266,7 +266,14 @@ export function markaQidir(kategoriya: Kategoriya, q: string): Marka[] {
   return r.filter((m) => {
     const nom = norm(m.nom);
     const kir = norm(m.kir);
-    return nom.startsWith(n) || kir.startsWith(n) || m.nom.toLowerCase().split(/[\s-]+/).some((w) => norm(w).startsWith(n));
+    /* Model nomi bilan ham (TZ 28-okt §56): «Damas» → Chevrolet, Daewoo —
+       «Labo / Damas» turida Damas markasi topilmasdi */
+    return (
+      nom.startsWith(n) ||
+      kir.startsWith(n) ||
+      m.nom.toLowerCase().split(/[\s-]+/).some((w) => norm(w).startsWith(n)) ||
+      m.modellar.some((md) => norm(md).startsWith(n))
+    );
   });
 }
 

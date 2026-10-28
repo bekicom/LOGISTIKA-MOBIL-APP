@@ -5,7 +5,7 @@
  * Uni ochish alohida amal: `/api/contact-reveal`. Bu yerda faqat
  * «ochilganmi» degan javob keladi.
  */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -76,11 +76,15 @@ function money(n: number, cur: string) {
 }
 
 export default function YukTafsiloti() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  /* `taklif=1` — bosh sahifadagi «Taklif qilish» (TZ 28-okt §24): takliflar bo'limiga suriladi */
+  const { id, taklif } = useLocalSearchParams<{ id: string; taklif?: string }>();
   const [offer, setOffer] = useState(false);
   /* «Taklif qilish» — takliflar bo'limiga suriladi (TZ v3 §13) */
   const scrollRef = useRef<ScrollView>(null);
   const [taklifY, setTaklifY] = useState<number | null>(null);
+  useEffect(() => {
+    if (taklif === "1" && taklifY != null) scrollRef.current?.scrollTo({ y: taklifY, animated: true });
+  }, [taklif, taklifY]);
   const [revealing, setRevealing] = useState(false);
   const [revealErr, setRevealErr] = useState<string | null>(null);
   /* Shikoyat varaqasi — do'kon talabi (2026-09-18, A12) */

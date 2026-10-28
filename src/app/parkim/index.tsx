@@ -59,6 +59,8 @@ type Vehicle = {
   driver: string | null;
   /** Asosiy haydovchi — egasining O'ZI («O'zim haydayman», TZ-07) */
   ozim?: boolean;
+  /** Tirkama haydovchisiz yuradi — «Haydovchi yo'q» va «O'zim haydayman» chiqmaydi (TZ 28-okt §17) */
+  part?: "SINGLE" | "TRACTOR" | "TRAILER";
   trailer: { plate: string; no: number } | null;
   docAlert: DocAlert | null;
   trip: Trip | null;
@@ -361,7 +363,7 @@ function VehicleCard({ item, onPress, onChanged }: { item: Vehicle; onPress: () 
             </Text>
           </View>
 
-          <View style={s.meta}>
+          {item.part !== "TRAILER" ? <View style={s.meta}>
             <Icon name="user" size={13} stroke={item.ozim ? color.brand : color.mutedForeground} />
             <Text style={[s.metaText, item.ozim && { color: color.brandText, fontWeight: "600" }]} numberOfLines={1}>
               {item.ozim ? t("pgFleet.ozimHaydayman") : (item.driver ?? t("mob.park.noDriver"))}
@@ -372,7 +374,7 @@ function VehicleCard({ item, onPress, onChanged }: { item: Vehicle; onPress: () 
                 <Text style={s.metaText}>{item.odometer.toLocaleString()} km</Text>
               </>
             ) : null}
-          </View>
+          </View> : null}
 
           {item.trailer ? (
             <Text style={s.trailer}>{t("mob.park.trailerLine", { plate: item.trailer.plate })}</Text>
@@ -381,7 +383,7 @@ function VehicleCard({ item, onPress, onChanged }: { item: Vehicle; onPress: () 
           {/* Haydovchisiz mashina — o'zi haydasa bir bosishda (TZ-07). Reys
               haydovchisiz ochilmaydi va jonli bazada mashinalarning
               ko'pchiligi aynan shu holatda turardi */}
-          {!item.driver && !item.trip ? (
+          {!item.driver && !item.trip && item.part !== "TRAILER" ? (
             <View style={{ marginTop: 10 }}>
               <OzimHaydayman vehicleId={item.id} onDone={onChanged} />
             </View>

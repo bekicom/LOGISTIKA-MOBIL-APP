@@ -29,7 +29,7 @@
  * Telegram e'lonida yozib bo'lmaydi — tugma chiqmaydi, bog'lanish
  * havolalari sahifaning o'zida.
  */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Image, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -102,7 +102,8 @@ type Detail = {
 };
 
 export default function MashinaTafsilot() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  /* `taklif=1` — bosh sahifadagi «Taklif qilish» (TZ 28-okt §24): takliflar bo'limiga suriladi */
+  const { id, taklif } = useLocalSearchParams<{ id: string; taklif?: string }>();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [shot, setShot] = useState(0);
@@ -119,6 +120,9 @@ export default function MashinaTafsilot() {
   /* «Taklif qilish» — takliflar bo'limiga suriladi (TZ v3 §13) */
   const scrollRef = useRef<ScrollView>(null);
   const [taklifY, setTaklifY] = useState<number | null>(null);
+  useEffect(() => {
+    if (taklif === "1" && taklifY != null) scrollRef.current?.scrollTo({ y: taklifY, animated: true });
+  }, [taklif, taklifY]);
   const ochiqManba = data?.source === "TELEGRAM" || data?.source === "WHATSAPP";
   const qongiroq = () => {
     if (guestBlocked()) return;

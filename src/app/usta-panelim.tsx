@@ -110,7 +110,7 @@ export default function UstaPanelim() {
           profile
             ? profile.isApproved
               ? (profile.name ?? t("mob.svc.masterOn"))
-              : t("mob.svc.masterWait")
+              : t("tasdiqsiz.yashirilgan")
             : t("mob.svc.masterOff")
         }
       />
@@ -215,12 +215,13 @@ export default function UstaPanelim() {
               </View>
             ) : null}
 
-            {/* TASDIQLANMAGAN USTA taklif bera olmaydi — buni
-                ochiq aytmasak, u taklif yuborib javob kutardi */}
+            {/* Admin YASHIRGAN usta taklif bera olmaydi — buni ochiq
+                aytmasak, u taklif yuborib javob kutardi (TZ 28-okt §54:
+                tasdiq yo'q, yangi usta darhol ko'rinadi) */}
             {!profile.isApproved && (
               <View style={s.warn}>
-                <Text style={s.warnTitle}>{t("mob.svc.waitTitle")}</Text>
-                <Text style={s.warnText}>{t("mob.svc.waitText")}</Text>
+                <Text style={s.warnTitle}>{t("tasdiqsiz.yashirilgan")}</Text>
+                <Text style={s.warnText}>{t("tasdiqsiz.yashirilganIzoh")}</Text>
               </View>
             )}
 

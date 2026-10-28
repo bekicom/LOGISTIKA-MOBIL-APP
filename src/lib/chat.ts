@@ -7,7 +7,7 @@
  * faqat matn va fayl bilardi.
  */
 import { authImage, type ImgSource } from "./img";
-import { t } from "./i18n";
+import { t, tOr } from "./i18n";
 
 /** `lib/message.ts:MessageView` bilan bir xil + ilova holati */
 export type ChatMsg = {
@@ -79,7 +79,15 @@ export function extOf(mime: string | null): string {
    `jobCatalog.countries.*` lug'atida sakkiz tilda bor. */
 const FLAG: Record<string, string> = { cn: "🇨🇳", ru: "🇷🇺", uz: "🇺🇿", kz: "🇰🇿", tr: "🇹🇷", eu: "🇪🇺" };
 
-export function groupTitle(key: string): string {
+/**
+ * Guruh nomi. ASOSIY guruhlar (TZ 28-okt Q63) — `asosiyGuruh.<kalit>.title`
+ * lug'atidan; admin ochgani (`a:…`) — serverdagi nom (`fallback`).
+ * Arxivdagi eski yo'nalish guruhlari — pastdagi eski qoida.
+ */
+export function groupTitle(key: string, fallback?: string): string {
+  const asosiy = tOr(`asosiyGuruh.${key}.title`, "");
+  if (asosiy) return asosiy;
+  if (key.startsWith("a:")) return fallback ?? "FURAM";
   if (key === "help") return `🛠 ${t("mob.routeGroup.help")}`;
   /* Umumiy guruh (2026-09-09) — webda ham «🌍 FURAM»
      (`furam/src/lib/route-groups.ts`). Ilgari bu yerda xom kalit
@@ -92,7 +100,8 @@ export function groupTitle(key: string): string {
 }
 
 export function groupAbout(key: string): string {
-  return t(`mob.routeGroup.about.${key}`);
+  if (key.startsWith("a:")) return "";
+  return tOr(`asosiyGuruh.${key}.about`, "") || t(`mob.routeGroup.about.${key}`);
 }
 
 export const LISTING_KINDS = ["load", "truck", "ride", "sale", "part", "master", "job", "contract"] as const;

@@ -52,6 +52,8 @@ const MAP: Record<string, string> = {
   profile: "/profil",
   queues: "/navbat",
   reports: "/analitika",
+  /* «Safarlarim», «Yangi bronlar» (TZ 28-okt §23) */
+  rides: "/yolovchi",
   roles: "/rollarim",
   search: "/qidiruv",
   service: "/ustaxona",
@@ -96,6 +98,8 @@ const EXACT: Record<string, string> = {
   "market/my": "/sotuvlarim",
   "market/new": "/bozor-joylash",
   "service/profile": "/usta-profil",
+  /* Ustaga kelgan buyurtmalar (TZ 28-okt §23) — ilovada «Usta panelim» */
+  "service/kelgan": "/usta-panelim",
 };
 
 /**
@@ -132,6 +136,9 @@ const DETAIL: Record<string, string> = {
  */
 const PARAMS: Record<string, Readonly<Record<string, RegExp>>> = {
   "/rollarim": { rol: /^[A-Z_]{2,30}$/ },
+  /* «Mening ishim» va dispetcher paneli sonlari (TZ 28-okt §7) */
+  "/reyslar": { holat: /^(yolda|AT_BORDER|live|etibor)$/ },
+  "/kelishuvlar": { filter: /^(owed|paidToday|pending|accepted|closed)$/ },
   "/ustaxona": { near: /^-?\d{1,2}(\.\d{1,6})?,-?\d{1,3}(\.\d{1,6})?$/, within: /^\d{1,3}$/ },
 };
 

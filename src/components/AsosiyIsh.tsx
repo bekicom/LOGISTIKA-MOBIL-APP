@@ -13,7 +13,12 @@ import { webToApp } from "@/lib/routes";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-export type AsosiyIshData =
+/** Har son o'z ro'yxati bilan (TZ 28-okt §7) — eski server bermasa `undefined` */
+export type IshSon = { kalit: string; n: number | string; href: string; ton?: "brand" | "success" | "warning" | "danger" };
+type Umumiy = { sarlavha?: string; sonlar?: IshSon[] };
+
+export type AsosiyIshData = Umumiy &
+  (
   | { tur: "park"; bosh: number; reysda: number; tamirda: number; haydovchisiz: number; href: string }
   | { tur: "yuk"; faol: number; yolda: number; qiziqqan: number; href: string }
   | {
@@ -24,16 +29,33 @@ export type AsosiyIshData =
       /** «Mashinam» (TZ v3 §15-5) — eski server bermasa `undefined` */
       mashina?: { vehicleId: string; plate: string; brand: string; turi: string; ega: string; ozimHaydayman: boolean } | null;
     }
-  | { tur: "dispetcher"; faolYuk: number; reysda: number; bitim: number; href: string };
+  | { tur: "dispetcher"; faolYuk: number; reysda: number; bitim: number; href: string }
+  /* Logistika va kichik rollar (TZ 28-okt §23) — faqat `sonlar` */
+  | { tur: "rol"; href: string }
+  );
 
-type Son = { label: string; n: number | string; tone?: string };
+type Son = { label: string; n: number | string; tone?: string; href?: string };
+
+const TON = (): Record<NonNullable<IshSon["ton"]>, string> => ({
+  brand: color.brand,
+  success: color.success,
+  warning: color.warning,
+  danger: color.danger,
+});
 
 export function AsosiyIsh({ d }: { d?: AsosiyIshData | null }) {
   const router = useRouter();
   if (!d) return null;
 
   const [sarlavha, sonlar]: [string, Son[]] =
-    d.tur === "park"
+    d.sonlar && d.sarlavha
+      ? [
+          t(`ishim.${d.sarlavha}`),
+          d.sonlar.map((x) => ({ label: t(`ishim.${x.kalit}`), n: x.n, tone: x.ton ? TON()[x.ton] : undefined, href: x.href })),
+        ]
+      : d.tur === "rol"
+        ? ["", []]
+        : d.tur === "park"
       ? [
           t("ishim.parkTitle"),
           [
@@ -69,28 +91,38 @@ export function AsosiyIsh({ d }: { d?: AsosiyIshData | null }) {
               ],
             ];
 
-  const ochish = () => {
-    const to = webToApp(d.href);
+  if (d.tur === "rol" && sonlar.length === 0) return null;
+
+  const ochish = (href = d.href) => {
+    /* «Mos yuklar» — o'sha turdagi lenta (son = ro'yxat, TZ 28-okt §38) */
+    const turi = /^\/loads\?vehicleTypeId=(\d+)$/.exec(href);
+    if (turi) {
+      const nomi = d.tur === "haydovchi" ? (d.mashina?.turi ?? "") : "";
+      router.push(`/yuklar?turi=${turi[1]}&turiNomi=${encodeURIComponent(nomi)}` as never);
+      return;
+    }
+    const to = webToApp(href);
     if (to) router.push(to as Parameters<typeof router.push>[0]);
   };
 
   return (
     <>
-    <Tap onPress={ochish} feel="select" scale={0.98} style={s.card}>
+    <Tap onPress={() => ochish()} feel="select" scale={0.98} style={s.card}>
       <View style={s.head}>
         <Text style={s.title}>{sarlavha}</Text>
         <Text style={s.open}>{t("ishim.open")} →</Text>
       </View>
       <View style={s.grid}>
+        {/* Har son bosiladi — o'z ro'yxati ochiladi (TZ 28-okt §7) */}
         {sonlar.map((x) => (
-          <View key={x.label} style={s.cell}>
+          <Tap key={x.label} onPress={() => ochish(x.href)} feel="select" scale={0.97} style={s.cell}>
             <Text style={[s.n, x.tone ? { color: x.tone } : null]} numberOfLines={1}>
               {x.n}
             </Text>
             <Text style={s.label} numberOfLines={2}>
               {x.label}
             </Text>
-          </View>
+          </Tap>
         ))}
       </View>
     </Tap>

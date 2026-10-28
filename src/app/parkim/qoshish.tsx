@@ -40,6 +40,7 @@ import {
   yillar,
   type Kategoriya,
 } from "@/lib/mashina-katalog";
+import { modelMos } from "@/lib/bozor-katalog";
 
 /* `name` — server SO'ROV TILIDA qaytaradi (`localName`) */
 type VType = { id: number; key: string; name: string; capacityT: number | null; volumeM3: number | null };
@@ -74,7 +75,9 @@ export default function TransportQoshish() {
   const tur = vtlar.find((v) => v.key === turKey) ?? null;
   const katTurlari = info ? vtlar.filter((v) => info.turlar.includes(v.key)) : [];
   const modellar = kat ? (MARKALAR[kat].find((m) => m.nom === brand)?.modellar ?? []) : [];
-  const ready = !!info && plate.trim().length >= 3 && brand.trim().length >= 2 && !!tur;
+  /* Raqam va marka bo'sh bo'lsa tugma JIM turmaydi — bosilganda xato
+     maydon yonida o'zbekcha chiqadi (TZ 28-okt §56: «Markani tanlang») */
+  const ready = !!info && !!tur;
 
   function turTanla(k: Kategoriya) {
     const i = kategoriyaInfo(k)!;
@@ -121,6 +124,13 @@ export default function TransportQoshish() {
     if (tariffBlocked("fleet")) return;
     if (joylar && tolami(joylar)) {
       joyTugadi(joylar.limit);
+      return;
+    }
+    const x: Record<string, string> = {};
+    if (plate.trim().length < 3) x.plate = t("formErr.plate");
+    if (brand.trim().length < 2) x.brand = t("formErr.brand");
+    if (Object.keys(x).length) {
+      setErrors(x);
       return;
     }
     setBusy(true);
@@ -239,12 +249,16 @@ export default function TransportQoshish() {
               />
               {!brand ? (
                 <View style={s.chips}>
-                  {markaQidir(info.key, markaQ).map((m) =>
-                    chip(m.nom, m.nom, false, () => {
+                  {markaQidir(info.key, markaQ).map((m) => {
+                    /* «Damas» deb yozilsa — Chevrolet · Damas (TZ 28-okt §56) */
+                    const md = modelMos(m, markaQ);
+                    return chip(m.nom, md ? `${m.nom} · ${md}` : m.nom, false, () => {
                       setBrand(m.nom);
+                      if (md) setModel(md);
                       setMarkaQ("");
-                    }),
-                  )}
+                      setErrors((e) => ({ ...e, brand: "" }));
+                    });
+                  })}
                   {markaQ.trim().length >= 2
                     ? chip("_boshqa", t("parkTur.boshqaMarka", { nom: markaQ.trim() }), false, () => setBrand(markaQ.trim()))
                     : null}

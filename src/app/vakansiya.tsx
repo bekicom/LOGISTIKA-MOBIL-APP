@@ -40,7 +40,7 @@ import { KASBLAR, TOLOV_TURLARI, VAKANSIYA_VALYUTALARI, YONALISHLAR, type Yonali
 import { jobProfessionLabel, t } from "@/lib/i18n";
 import { color, radius, space, themed } from "@/lib/theme";
 
-type Mashina = { id: string; plate: string; brand: string | null; driver: string | null };
+type Mashina = { id: string; plate: string; brand: string | null; driver: string | null; part?: string };
 
 export default function Vakansiya() {
   const insets = useSafeAreaInsets();
@@ -69,8 +69,10 @@ export default function Vakansiya() {
 
   /* Bo'sh o'rin — asosiy haydovchisi yo'q mashina (faqat haydovchi e'lonida) */
   const park = useApi<{ items: Mashina[] }>(haydovchi ? "/api/fleet/vehicles" : null, [haydovchi]);
-  const boshlar = (park.data?.items ?? []).filter((m) => !m.driver);
-  const tanlanganMashina = mashinaId ?? boshlar[0]?.id ?? null;
+  /* Tirkamaga haydovchi yollanmaydi (TZ 28-okt §55) — u tyagach bilan yuradi */
+  const boshlar = (park.data?.items ?? []).filter((m) => !m.driver && m.part !== "TRAILER");
+  /* "" — mashinaga bog'lamasdan (haydovchi ham, boshqa lavozim ham) */
+  const tanlanganMashina = mashinaId === "" ? null : (mashinaId ?? boshlar[0]?.id ?? null);
 
   const ozgartir = (arr: string[], v: string) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
@@ -164,20 +166,18 @@ export default function Vakansiya() {
         {haydovchi ? (
           <View style={s.block}>
             <Text style={s.label}>{t("pgFleetVacancies.fVehicle")}</Text>
-            {park.data && boshlar.length === 0 ? (
-              <Notice tone="info">{t("pgFleetVacancies.noSeatsHint")}</Notice>
-            ) : (
-              <View style={s.chips}>
-                {boshlar.map((m) => (
-                  <Chip
-                    key={m.id}
-                    on={tanlanganMashina === m.id}
-                    label={[m.plate, m.brand].filter(Boolean).join(" · ")}
-                    onPress={() => setMashinaId(m.id)}
-                  />
-                ))}
-              </View>
-            )}
+            <View style={s.chips}>
+              {boshlar.map((m) => (
+                <Chip
+                  key={m.id}
+                  on={tanlanganMashina === m.id}
+                  label={[m.plate, m.brand].filter(Boolean).join(" · ")}
+                  onPress={() => setMashinaId(m.id)}
+                />
+              ))}
+              {/* Mashinasiz haydovchi vakansiyasi ham bo'ladi (TZ 28-okt §55) */}
+              <Chip on={tanlanganMashina === null} label={t("vakansiyaTz4.mashinasiz")} onPress={() => setMashinaId("")} />
+            </View>
           </View>
         ) : null}
 

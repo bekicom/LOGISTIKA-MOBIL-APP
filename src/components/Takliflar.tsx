@@ -49,6 +49,8 @@ type Karta = {
   takliflar: Taklif[];
   kelishilgan: Taklif | null;
   reys: { id: string; furamNo: number; status: string } | null;
+  /** Yukka tuzilgan shartnoma (TZ 28-okt §5) */
+  shartnoma?: { id: string; contractNo: number; createdAt: string } | null;
   mos: Variant[];
   yuborish: Variant[];
   dispetcherYoqiq: boolean;
@@ -82,10 +84,12 @@ export function KartaTakliflar({ loadId, truckId, narx }: { loadId?: string; tru
   const sonli = () => Number(summa.replace(/\s/g, ""));
 
   async function yubor(v: Variant) {
+    const n = sonli();
+    /* Narxsiz taklif yo'q (TZ 28-okt §5) */
+    if (!(n > 0)) return setXabar({ matn: t("apiErr.PRICE_REQUIRED") });
     setBand(v.key);
     setXabar(null);
     try {
-      const n = sonli();
       const r = await api<{ chatId: string; mavjud: boolean }>("/api/takliflar", {
         method: "POST",
         body: { ...v.body, ...(n > 0 ? { price: n, currency: valyuta } : {}) },
@@ -123,6 +127,9 @@ export function KartaTakliflar({ loadId, truckId, narx }: { loadId?: string; tru
 
   /* «Shartnoma tuzish» (§15-4): kelishilgan narx va tomonlar bilan */
   async function shartnomaTuz(x: Taklif) {
+    /* «Kelishiladi» bo'lsa narx shu yerda yoziladi (TZ 28-okt §5) */
+    const n = x.price ?? sonli();
+    if (!(n > 0)) return setXabar({ matn: t("apiErr.PRICE_REQUIRED") });
     setBand("shartnoma");
     try {
       const r = await api<{ id: string }>("/api/contracts", {
@@ -131,7 +138,7 @@ export function KartaTakliflar({ loadId, truckId, narx }: { loadId?: string; tru
           loadId: x.loadId,
           ...(x.transportEgaId ? { carrierId: x.transportEgaId } : {}),
           version: {
-            price: x.price ?? (sonli() || 0),
+            price: n,
             currency: x.currency ?? valyuta,
             paymentTerm: t(`taklif.${tolov}`),
             ...(x.vehicleId ? { vehicleId: x.vehicleId } : {}),
@@ -213,7 +220,8 @@ export function KartaTakliflar({ loadId, truckId, narx }: { loadId?: string; tru
     </View>
   );
 
-  const tanlangan = k.yuborish.find((v) => v.key === (tanlov ?? k.yuborish[0]?.key));
+  /* Mashina ATAYLAB tanlanadi (TZ 28-okt §5); bitta bo'lsa — o'zi */
+  const tanlangan = k.yuborish.find((v) => v.key === (tanlov ?? (k.yuborish.length === 1 ? k.yuborish[0].key : null)));
   const kelgan = k.takliflar.filter((x) => x.men === "kelgan");
   const yuborgan = k.takliflar.filter((x) => x.men === "yuborgan");
 
@@ -237,9 +245,25 @@ export function KartaTakliflar({ loadId, truckId, narx }: { loadId?: string; tru
           <Text style={[s.h, { color: color.success }]}>{t("taklif.kelishilgan")}</Text>
           <Text style={s.body}>{[k.kelishilgan.qarshiTomon.ism, k.kelishilgan.transport, k.kelishilgan.narx].filter(Boolean).join(" · ")}</Text>
           <Button title={`🛣️ ${t("taklif.reysgaBogla")}`} loading={band === `${k.kelishilgan.id}:reys`} onPress={() => void amal(k.kelishilgan!.id, "reys")} />
+          <Pressable onPress={() => void amal(k.kelishilgan!.id, "bekor")}>
+            <Text style={s.muted}>{t("taklif.kelishuvniBekor")}</Text>
+          </Pressable>
+        </View>
+      ) : null}
+
+      {/* Shartnoma — reysga bog'langach ham (TZ 28-okt §5) */}
+      {k.shartnoma ? (
+        <Button
+          title={`📋 FURAM-${new Date(k.shartnoma.createdAt).getFullYear()}-${String(k.shartnoma.contractNo).padStart(6, "0")}`}
+          variant="secondary"
+          onPress={() => router.push({ pathname: "/shartnoma/[id]", params: { id: k.shartnoma!.id } } as never)}
+        />
+      ) : k.kelishilgan ? (
+        <View style={{ gap: 8 }}>
           <Button title={`📋 ${t("taklif.shartnomaTuz")}`} variant="secondary" onPress={() => setShartnoma((v) => !v)} />
           {shartnoma ? (
             <View style={{ gap: 8 }}>
+              {k.kelishilgan.price == null ? narxQator : null}
               <Text style={s.muted}>{t("taklif.tolovSharti")}</Text>
               <View style={[s.row, { flexWrap: "wrap" }]}>
                 {TOLOV.map((x) => (
@@ -251,9 +275,6 @@ export function KartaTakliflar({ loadId, truckId, narx }: { loadId?: string; tru
               <Button title={t("taklif.shartnomaYubor")} loading={band === "shartnoma"} onPress={() => void shartnomaTuz(k.kelishilgan!)} />
             </View>
           ) : null}
-          <Pressable onPress={() => void amal(k.kelishilgan!.id, "bekor")}>
-            <Text style={s.muted}>{t("taklif.kelishuvniBekor")}</Text>
-          </Pressable>
         </View>
       ) : null}
 
@@ -286,6 +307,7 @@ export function KartaTakliflar({ loadId, truckId, narx }: { loadId?: string; tru
       {!k.egami && ochiqHolat && k.yuborish.length > 0 ? (
         <View style={s.offer}>
           <Text style={s.bold}>{t(loadId ? "taklif.transportTaklif" : "taklif.yukTaklif")}</Text>
+          {k.yuborish.length > 1 && !tanlangan ? <Text style={s.muted}>{t(loadId ? "taklif.mashinaTanlang" : "taklif.yukTanlang")}</Text> : null}
           <View style={[s.row, { flexWrap: "wrap" }]}>
             {k.yuborish.map((v) => (
               <Pressable key={v.key} onPress={() => setTanlov(v.key)} style={[s.chip, tanlangan?.key === v.key && s.chipOn]}>

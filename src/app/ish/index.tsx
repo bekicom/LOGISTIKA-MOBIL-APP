@@ -26,7 +26,7 @@ import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { fmtNum } from "@/components/cards";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, space, themed } from "@/lib/theme";
-import { jobDirectionLabel, matchNote, payKindLabel, t } from "@/lib/i18n";
+import { jobDirectionLabel, jobProfessionLabel, matchNote, payKindLabel, t } from "@/lib/i18n";
 
 /** `furam/src/lib/jobs.ts:DIRECTIONS` */
 const DIRECTIONS = ["DRIVER", "LOGISTICS", "WORKSHOP"] as const;
@@ -290,7 +290,7 @@ function MatchCard({ v, onPress }: { v: Matched; onPress: () => void }) {
       </View>
 
       <Text style={s.name} numberOfLines={2}>
-        {v.title ?? t("mob.job.noTitle")}
+        {v.title?.trim() || (v.profession ? jobProfessionLabel(v.profession) : t("mob.job.noTitle"))}
       </Text>
       <Text style={s.meta} numberOfLines={1}>
         {[v.owner, v.location].filter(Boolean).join(" · ")}
@@ -329,7 +329,7 @@ function VacancyCard({ v, onPress }: { v: Vacancy; onPress: () => void }) {
         </View>
       )}
       <Text style={s.name} numberOfLines={2}>
-        {v.title ?? t("mob.job.noTitle")}
+        {v.title?.trim() || (v.profession ? jobProfessionLabel(v.profession) : t("mob.job.noTitle"))}
       </Text>
       <Text style={s.meta} numberOfLines={1}>
         {[where, v.schedule].filter(Boolean).join(" · ")}

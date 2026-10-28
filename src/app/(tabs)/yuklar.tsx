@@ -37,7 +37,12 @@ import { t } from "@/lib/i18n";
 type Feed = { items: Listing[]; page: number; total: number; hasMore: boolean };
 
 export default function Yuklar() {
-  const { filtr: openParam, qidiruv } = useLocalSearchParams<{ filtr?: string; qidiruv?: string }>();
+  const { filtr: openParam, qidiruv, turi, turiNomi } = useLocalSearchParams<{
+    filtr?: string;
+    qidiruv?: string;
+    turi?: string;
+    turiNomi?: string;
+  }>();
   const [filtr, setFiltr] = useState<Filtr>(EMPTY_FILTR);
   const ss = useQidiruvYorliqlari("load", filtr, setFiltr, qidiruv);
   const [sheet, setSheet] = useState(false);
@@ -48,6 +53,15 @@ export default function Yuklar() {
   useEffect(() => {
     if (openParam === "1") setSheet(true);
   }, [openParam]);
+
+  /* «Mos yuklar» soni (TZ 28-okt §38) shu turdagi lentani ochadi — son
+     va ro'yxat bir xil (`mening-ishim.ts:mosYuklar`) */
+  useEffect(() => {
+    const id = Number(turi);
+    if (Number.isInteger(id) && id > 0) {
+      setFiltr({ ...EMPTY_FILTR, vehicleTypeIds: [id], vehicleNames: turiNomi ? [turiNomi] : [] });
+    }
+  }, [turi, turiNomi]);
 
   /* Son qalin, lekin uning O'RNI tilga qarab boshqa («9 ta e'lon» /
      «Объявлений: 9»). Ilgari son alohida qo'yilib, tarjima ham uni

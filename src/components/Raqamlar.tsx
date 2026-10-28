@@ -15,7 +15,9 @@ import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
 export type RaqamlarData = {
-  kind: "owner" | "dispatcher";
+  kind: "owner" | "dispatcher" | "sotuv";
+  /** Bo'sh holat kaliti (`income.*`) — rolga mos (TZ 28-okt §23); eski server bermaydi */
+  bosh?: string;
   days: number;
   income: string[];
   expenses: string[];
@@ -47,7 +49,7 @@ export function Raqamlar({ d }: { d?: RaqamlarData | null }) {
         <Text style={s.days}>{t("income.days", { n: d.days })}</Text>
       </View>
       {qatorlar.length === 0 ? (
-        <Text style={s.empty}>{t("income.empty")}</Text>
+        <Text style={s.empty}>{t(`income.${d.bosh ?? "empty"}`)}</Text>
       ) : (
         qatorlar.map((q) => (
           <View key={q.k} style={s.row}>

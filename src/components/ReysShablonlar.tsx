@@ -12,10 +12,11 @@ import { openRemoteFile } from "@/lib/files";
 import { color, radius, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
-const TURLAR = ["cmr", "invoys", "tranzit", "ruxsatnoma"] as const;
+/* Yo'l varaqasi, ishonchnoma, OSAGO arizasi — TZ 28-okt §21 */
+const TURLAR = ["cmr", "invoys", "yol_varaqa", "ishonchnoma", "osago", "tranzit", "ruxsatnoma"] as const;
 
 export function ReysShablonlar({ tripId, onYaratildi }: { tripId: string; onYaratildi?: () => void }) {
-  const holat = useApi<{ xalqaro: boolean }>(`/api/trips/${tripId}/shablon`);
+  const holat = useApi<{ xalqaro: boolean; egami?: boolean }>(`/api/trips/${tripId}/shablon`);
   const [band, setBand] = useState<string | null>(null);
   const [xato, setXato] = useState<string | null>(null);
   if (!holat.data) return null;
@@ -38,7 +39,7 @@ export function ReysShablonlar({ tripId, onYaratildi }: { tripId: string; onYara
     <View style={s.card}>
       <Text style={s.title}>{t("reysShablon.sarlavha")}</Text>
       <View style={s.grid}>
-        {TURLAR.filter((x) => holat.data!.xalqaro || (x !== "tranzit" && x !== "ruxsatnoma")).map((x) => (
+        {TURLAR.filter((x) => (holat.data!.xalqaro || (x !== "tranzit" && x !== "ruxsatnoma")) && (holat.data!.egami || x !== "ishonchnoma")).map((x) => (
           <Pressable
             key={x}
             onPress={() => void yarat(x)}

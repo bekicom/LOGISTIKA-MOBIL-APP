@@ -4,7 +4,7 @@
  * Ma'lumot bitta so'rovdan (`/api/trips/[id]`): bosqichlar, marshrut, yuk,
  * mashina, hujjat va xarajat soni, pul, ishtirokchilar.
  */
-import { Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { Alert, Linking, Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -67,7 +67,7 @@ type Trip = {
   participants: { role: string; roleLabel: string; name: string; phone: string | null }[];
   /* Kim nima qila olishini SERVER aytadi — ilovada takrorlansa
      tugma ko'rinadi-yu, bosilganda 403 kelardi */
-  can: { start: boolean; money: boolean; participants: boolean; close: boolean; tech: boolean };
+  can: { start: boolean; cancel?: boolean; money: boolean; participants: boolean; close: boolean; tech: boolean };
   sos: ActiveSos;
 };
 
@@ -315,6 +315,9 @@ export default function ReysTafsiloti() {
             </Pressable>
           )}
 
+          {/* «Kelishuv»dagi reysni bekor qilish — ikkala tomon (TZ 28-okt §22) */}
+          {data.can.cancel ? <BekorTugma tripId={String(id)} onDone={() => router.replace("/reyslar" as never)} /> : null}
+
           {/* SOS faqat yo'ldagi reysda va ochig'i bo'lmasa */}
           {data.isLive && !data.sos ? (
             <View style={{ marginTop: 9 }}>
@@ -496,6 +499,39 @@ function StartButton({ tripId, onDone }: { tripId: string; onDone: () => void })
       </Pressable>
       <Text style={s.startHint}>{t("mob.trip.startHint")}</Text>
     </>
+  );
+}
+
+/** «Reysni bekor qilish» — faqat «Kelishuv»da; tasdiq so'raladi */
+function BekorTugma({ tripId, onDone }: { tripId: string; onDone: () => void }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  function bos() {
+    Alert.alert(t("reysBekor.tugma"), t("reysBekor.savol"), [
+      { text: t("reysBekor.yoq"), style: "cancel" },
+      {
+        text: t("reysBekor.ha"),
+        style: "destructive",
+        onPress: () => {
+          setBusy(true);
+          setErr(null);
+          api(`/api/trips/${tripId}/cancel`, { method: "POST" })
+            .then(onDone)
+            .catch((e: FuramError) => setErr(e.message ?? t("reysBekor.xato")))
+            .finally(() => setBusy(false));
+        },
+      },
+    ]);
+  }
+  return (
+    <View style={{ marginTop: 9, alignItems: "center" }}>
+      {err ? <Text style={{ color: color.danger, fontSize: 12.5, marginBottom: 6 }}>{err}</Text> : null}
+      <Pressable onPress={bos} disabled={busy} hitSlop={8}>
+        <Text style={{ color: color.mutedForeground, fontSize: 13, fontWeight: "600" }}>
+          {busy ? "…" : `✕ ${t("reysBekor.tugma")}`}
+        </Text>
+      </Pressable>
+    </View>
   );
 }
 

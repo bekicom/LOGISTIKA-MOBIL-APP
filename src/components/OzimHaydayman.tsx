@@ -53,8 +53,14 @@ export function OzimHaydayman({
       onDone();
     } catch (e) {
       const fe = e as FuramError;
+      /* Qaysi reys band qilgani aytiladi (TZ 28-okt §22: «sababsiz hech narsa bo'lmaydi») */
+      const reys = (fe.data as { reys?: { furamNo: number; kelishuv: boolean } } | undefined)?.reys;
       /* Kod bo'yicha LUG'ATDAN — web bilan bir xil matn (`pgFleet.ozimXato`) */
-      setXato(tOr(`pgFleet.ozimXato.${fe.code}`, fe.message || t("mob.common.failed")));
+      setXato(
+        fe.code === "ON_TRIP" && reys
+          ? t(reys.kelishuv ? "pgFleet.ozimXato.ON_TRIP_KELISHUV" : "pgFleet.ozimXato.ON_TRIP_NO", { no: reys.furamNo })
+          : tOr(`pgFleet.ozimXato.${fe.code}`, fe.message || t("mob.common.failed")),
+      );
     } finally {
       setBand(false);
     }

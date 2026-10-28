@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
@@ -54,11 +54,17 @@ type Filter = (typeof FILTERS)[number];
 export default function Kelishuvlar() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const [filter, setFilter] = useState<Filter>("all");
+  /* Dispetcher panelining sonlari (TZ 28-okt §7): `owed`, `paidToday` — serverda; `pending` — yorliq */
+  const { filter: pul } = useLocalSearchParams<{ filter?: string }>();
+  const [filter, setFilter] = useState<Filter>(pul === "pending" || pul === "accepted" ? pul : "all");
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
-  const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>("/api/deals/list");
+  const serverFiltr = pul === "owed" || pul === "paidToday" ? pul : null;
+  const { data, loading, error, refreshing, refresh, reload } = useApi<Feed>(
+    `/api/deals/list${serverFiltr ? `?filter=${serverFiltr}` : ""}`,
+    [serverFiltr],
+  );
 
   async function act(id: string, action: string) {
     setBusy(id);

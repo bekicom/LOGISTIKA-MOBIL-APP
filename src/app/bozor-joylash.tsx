@@ -46,9 +46,19 @@ import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
 import { AiElon } from "@/components/AiElon";
 import { tariffBlocked } from "@/lib/features";
+import {
+  KUZOV_TURLARI,
+  ORINDIQ_TOIFALARI,
+  TEXNIKA_TURI_TOIFASI,
+  TIRKAMA_BILAN_TOIFA,
+  TIRKAMA_MARKALARI,
+  bozorMarkaQidir,
+  modelMos,
+  toifaJihozlari,
+  type SaleToifa,
+} from "@/lib/bozor-katalog";
 
 const CATS = ["FURA", "TRUCK", "TRAILER", "MINIBUS", "BUS", "SPECIAL", "CAR", "OTHER"] as const;
-const FEATURES = ["gps", "webasto", "ac", "fridge", "retarder", "cruise", "hydro", "sleeper", "adr", "tir"] as const;
 const KINDS = ["FIXED", "NEGOTIABLE", "URGENT"] as const;
 const CURRENCIES = ["USD", "UZS", "EUR"] as const;
 const MAX_PHOTOS = 10;
@@ -89,6 +99,18 @@ export default function BozorJoylash() {
   const [gearbox, setGearbox] = useState("");
   const [features, setFeatures] = useState<string[]>([]);
   const [about, setAbout] = useState("");
+  /* TZ 28-okt §10: kuzov / texnika turi va o'rindiqlar; §9: tirkama bilan */
+  const [bodyType, setBodyType] = useState("");
+  const [seats, setSeats] = useState("");
+  const [withTrailer, setWithTrailer] = useState(false);
+  const [trailerBrand, setTrailerBrand] = useState("");
+  const [trailerModel, setTrailerModel] = useState("");
+  const [trailerYear, setTrailerYear] = useState("");
+  const [trailerBodyType, setTrailerBodyType] = useState("");
+  const [trailerAxles, setTrailerAxles] = useState("");
+  const [trailerCapacityT, setTrailerCapacityT] = useState("");
+  /* Maydon yonidagi xato (TZ 28-okt §43): bo'sh qadamda tugma jim turmaydi */
+  const [xato, setXato] = useState<Record<string, string>>({});
 
   // 3-qadam
   const [price, setPrice] = useState("");
@@ -124,14 +146,26 @@ export default function BozorJoylash() {
     return Math.round((p - d) / m);
   }, [price, down, months]);
 
-  const canNext =
-    step === 1
-      ? !!pick || !!cat
-      : step === 2
-        ? brand.trim().length > 0
-        : step === 3
-          ? !!num(price)
-          : !!loc;
+  /* 2- va 3-qadamda tugma bosiladi va xato maydon yonida aytiladi;
+     1- va 4-qadamda tanlov yo'qligi ko'rinib turadi */
+  const canNext = step === 1 ? !!pick || !!cat : step === 4 ? !!loc : true;
+
+  function keyingi() {
+    if (step === 2 && !brand.trim()) {
+      setXato({ brand: t("bozorShablon.errBrand") });
+      return;
+    }
+    if (step === 3 && !num(price)) {
+      setXato({ price: t("bozorShablon.errPrice") });
+      return;
+    }
+    setXato({});
+    if (step === 4) void submit();
+    else setStep(step + 1);
+  }
+
+  const markaTakliflari = brand.trim() ? bozorMarkaQidir(toifa, brand).filter((m) => m.nom !== brand.trim()).slice(0, 8) : [];
+  const kuzovlar = KUZOV_TURLARI[(toifa ?? "OTHER") as SaleToifa] ?? [];
 
   function toggleFeature(k: string) {
     setFeatures((f) => (f.includes(k) ? f.filter((x) => x !== k) : [...f, k]));
@@ -167,7 +201,21 @@ export default function BozorJoylash() {
           motoSoat: toifa === "SPECIAL" ? num(motoSoat) : null,
           fuel: toifa === "TRAILER" ? null : fuel.trim() || null,
           gearbox: toifa === "TRAILER" ? null : gearbox.trim() || null,
-          features,
+          bodyType: bodyType || null,
+          seats: ORINDIQ_TOIFALARI.includes(toifa as SaleToifa) ? num(seats) : null,
+          /* Faqat shu toifaning jihozi (avtobusga «Retarder» ketmaydi) */
+          features: features.filter((f) => (toifaJihozlari(toifa) as readonly string[]).includes(f)),
+          withTrailer: toifa === TIRKAMA_BILAN_TOIFA && withTrailer,
+          ...(toifa === TIRKAMA_BILAN_TOIFA && withTrailer
+            ? {
+                trailerBrand: trailerBrand.trim() || null,
+                trailerModel: trailerModel.trim() || null,
+                trailerYear: num(trailerYear),
+                trailerBodyType: trailerBodyType || null,
+                trailerAxles: trailerAxles.trim() || null,
+                trailerCapacityT: num(trailerCapacityT),
+              }
+            : {}),
           about: about.trim() || null,
           price: num(price),
           currency,
@@ -224,7 +272,7 @@ export default function BozorJoylash() {
         {/* ══ 1: nima sotilyapti ══ */}
         {step === 1 && (
           <>
-            {/* AI e'lon tuzadi: rasm + ovoz/matn → maydonlar (TZ v2 §7, A4) */}
+            {/* AI e'lon tuzadi: rasm + matn → maydonlar (TZ v2 §7, A4; ovozsiz — TZ 28-okt §33) */}
             <AiElon
               onTaklif={(x) => {
                 if (x.category) setCat(x.category);
@@ -324,12 +372,41 @@ export default function BozorJoylash() {
 
             <View style={s.two}>
               <View style={{ flex: 1 }}>
-                <Field label={t("mob.sale.brand")} value={brand} onChangeText={setBrand} />
+                <Field
+                  label={t("mob.sale.brand")}
+                  value={brand}
+                  onChangeText={(v) => {
+                    setBrand(v);
+                    if (xato.brand) setXato({});
+                  }}
+                  placeholder={t("bozorShablon.markaPh")}
+                  error={xato.brand}
+                />
               </View>
               <View style={{ flex: 1 }}>
                 <Field label={t("mob.sale.model")} value={model} onChangeText={setModel} />
               </View>
             </View>
+            {/* Marka ro'yxatdan (TZ 28-okt §10): «вольво» → Volvo, «Damas» → Chevrolet */}
+            {markaTakliflari.length > 0 ? (
+              <View style={s.picks}>
+                {markaTakliflari.map((m) => {
+                  const md = modelMos(m, brand);
+                  return (
+                    <Pressable
+                      key={m.nom}
+                      style={s.pick}
+                      onPress={() => {
+                        setBrand(m.nom);
+                        if (md && !model.trim()) setModel(md);
+                      }}
+                    >
+                      <Text style={s.pickText}>{md ? `${m.nom} · ${md}` : m.nom}</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            ) : null}
 
             <View style={s.two}>
               <View style={{ flex: 1 }}>
@@ -369,9 +446,114 @@ export default function BozorJoylash() {
               </View>
             ) : null}
 
+            {/* Kuzov turi — maxsus texnikada «texnika turi» (TZ 28-okt §10) */}
+            {kuzovlar.length > 0 ? (
+              <>
+                <Text style={s.label}>
+                  {toifa === TEXNIKA_TURI_TOIFASI ? t("bozorShablon.texnikaTuri") : t("bozorShablon.kuzov")}
+                </Text>
+                <View style={s.picks}>
+                  {kuzovlar.map((k) => (
+                    <Pressable
+                      key={k}
+                      style={[s.pick, bodyType === k && s.pickOn]}
+                      onPress={() => setBodyType(bodyType === k ? "" : k)}
+                    >
+                      <Text style={[s.pickText, bodyType === k && s.pickTextOn]}>{t(`saleCatalog.body.${k}`)}</Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </>
+            ) : null}
+
+            {ORINDIQ_TOIFALARI.includes(toifa as SaleToifa) ? (
+              <Field
+                label={t("bozorShablon.seats")}
+                value={seats}
+                onChangeText={setSeats}
+                keyboardType="number-pad"
+                placeholder={t("bozorShablon.seatsPh")}
+              />
+            ) : null}
+
+            {/* Tyagach tirkamasi bilan birga (TZ 28-okt §9) */}
+            {toifa === TIRKAMA_BILAN_TOIFA ? (
+              <View style={s.trailerBox}>
+                <View style={s.switchRow}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={s.switchTitle}>{t("bozorShablon.withTrailer")}</Text>
+                    <Text style={s.switchHint}>{t("bozorShablon.withTrailerHint")}</Text>
+                  </View>
+                  <Switch value={withTrailer} onValueChange={setWithTrailer} />
+                </View>
+                {withTrailer ? (
+                  <>
+                    <Field
+                      label={t("bozorShablon.trailerBrand")}
+                      value={trailerBrand}
+                      onChangeText={setTrailerBrand}
+                      placeholder="Schmitz Cargobull"
+                    />
+                    <View style={s.picks}>
+                      {TIRKAMA_MARKALARI.filter(
+                        (m) => !trailerBrand.trim() || m.nom.toLowerCase().startsWith(trailerBrand.trim().toLowerCase()),
+                      )
+                        .filter((m) => m.nom !== trailerBrand)
+                        .slice(0, 8)
+                        .map((m) => (
+                          <Pressable key={m.nom} style={s.pick} onPress={() => setTrailerBrand(m.nom)}>
+                            <Text style={s.pickText}>{m.nom}</Text>
+                          </Pressable>
+                        ))}
+                    </View>
+                    <View style={s.two}>
+                      <View style={{ flex: 1 }}>
+                        <Field label={t("bozorShablon.trailerModel")} value={trailerModel} onChangeText={setTrailerModel} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Field
+                          label={t("bozorShablon.trailerYear")}
+                          value={trailerYear}
+                          onChangeText={setTrailerYear}
+                          keyboardType="number-pad"
+                        />
+                      </View>
+                    </View>
+                    <Text style={s.label}>{t("bozorShablon.trailerBody")}</Text>
+                    <View style={s.picks}>
+                      {KUZOV_TURLARI.TRAILER.map((k) => (
+                        <Pressable
+                          key={k}
+                          style={[s.pick, trailerBodyType === k && s.pickOn]}
+                          onPress={() => setTrailerBodyType(trailerBodyType === k ? "" : k)}
+                        >
+                          <Text style={[s.pickText, trailerBodyType === k && s.pickTextOn]}>
+                            {t(`saleCatalog.body.${k}`)}
+                          </Text>
+                        </Pressable>
+                      ))}
+                    </View>
+                    <View style={s.two}>
+                      <View style={{ flex: 1 }}>
+                        <Field label={t("bozorShablon.trailerAxles")} value={trailerAxles} onChangeText={setTrailerAxles} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Field
+                          label={t("bozorShablon.trailerCapacity")}
+                          value={trailerCapacityT}
+                          onChangeText={setTrailerCapacityT}
+                          keyboardType="decimal-pad"
+                        />
+                      </View>
+                    </View>
+                  </>
+                ) : null}
+              </View>
+            ) : null}
+
             <Text style={s.label}>{t("mob.sale.features")}</Text>
             <View style={s.picks}>
-              {FEATURES.map((f) => (
+              {toifaJihozlari(toifa).map((f) => (
                 <Pressable
                   key={f}
                   style={[s.pick, features.includes(f) && s.pickOn]}
@@ -403,8 +585,12 @@ export default function BozorJoylash() {
                 <Field
                   label={t("mob.sale.price")}
                   value={price}
-                  onChangeText={(v) => setPrice(sumKiritish(v))}
+                  onChangeText={(v) => {
+                    setPrice(sumKiritish(v));
+                    if (xato.price) setXato({});
+                  }}
                   keyboardType="number-pad"
+                  error={xato.price}
                 />
               </View>
               <View style={{ flex: 1 }}>
@@ -590,7 +776,7 @@ export default function BozorJoylash() {
       <View style={[s.foot, { paddingBottom: insets.bottom + space.md }]}>
         <Button
           title={step === 4 ? t("mob.sale.publish") : t("mob.common.next")}
-          onPress={() => (step === 4 ? void submit() : setStep(step + 1))}
+          onPress={keyingi}
           disabled={!canNext}
           loading={busy}
         />
@@ -615,6 +801,14 @@ const s = themed(() => ({
   scroll: { padding: space.lg, gap: space.md },
 
   lead: { fontSize: 14, color: color.mutedForeground, lineHeight: 20 },
+  trailerBox: {
+    borderWidth: 1,
+    borderColor: color.border,
+    borderRadius: 12,
+    padding: space.md,
+    gap: space.md,
+    backgroundColor: color.card,
+  },
   label: { fontSize: 12, fontWeight: "600", color: color.mutedForeground, marginBottom: 5 },
   hint: { fontSize: 12, color: color.mutedForeground, lineHeight: 18 },
 

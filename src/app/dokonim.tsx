@@ -159,7 +159,7 @@ export default function Dokonim() {
           shop
             ? shop.isApproved
               ? shop.name
-              : t("mob.part.shopWait")
+              : t("tasdiqsiz.yashirilgan")
             : t("mob.part.noShop")
         }
       />
@@ -205,11 +205,12 @@ export default function Dokonim() {
               </View>
             ) : null}
 
-            {/* TASDIQLANMAGAN DO'KON qidiruvda chiqmaydi */}
+            {/* Admin YASHIRGAN do'kon qidiruvda chiqmaydi (TZ 28-okt §54:
+                tasdiq yo'q, yangi do'kon darhol ko'rinadi) */}
             {!shop.isApproved && (
               <View style={s.warn}>
-                <Text style={s.warnTitle}>{t("mob.part.waitTitle")}</Text>
-                <Text style={s.warnText}>{t("mob.part.waitText")}</Text>
+                <Text style={s.warnTitle}>{t("tasdiqsiz.yashirilgan")}</Text>
+                <Text style={s.warnText}>{t("tasdiqsiz.yashirilganIzoh")}</Text>
               </View>
             )}
 

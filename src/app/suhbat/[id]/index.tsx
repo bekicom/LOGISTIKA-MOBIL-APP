@@ -68,6 +68,8 @@ type Feed = {
   messages: ChatMsg[];
   pinned: ChatMsg[];
   readOnly: boolean;
+  /* Guruh admini / asosiy guruh moderatori (TZ 28-okt Q68) */
+  moderator?: boolean;
   /* Faqat birinchi sahifada (2026-09-19 dan) */
   title?: string | null;
   /* Suhbatdosh — shaxsiy chatda bloklash va shikoyat uchun
@@ -100,6 +102,8 @@ export default function Suhbat() {
   const [pinnedList, setPinnedList] = useState<ChatMsg[]>([]);
   const [pending, setPending] = useState<ChatMsg[]>([]);
   const [readOnly, setReadOnly] = useState(false);
+  /* Begona xabarni o'chira oladi — guruh admini yoki moderator (Q68) */
+  const [moderator, setModerator] = useState(false);
   const [title, setTitle] = useState<string | null>(params.title ?? null);
   const [loaded, setLoaded] = useState(false);
   const [loadErr, setLoadErr] = useState<string | null>(null);
@@ -161,6 +165,7 @@ export default function Suhbat() {
         const q = !initial && lastTs.current ? `?after=${encodeURIComponent(lastTs.current)}` : "";
         const d = await api<Feed>(`/api/chat/${id}/messages${q}`);
         setReadOnly(!!d.readOnly);
+        if (typeof d.moderator === "boolean") setModerator(d.moderator);
         if (d.holat) setHolat(d.holat);
         /* Sarlavha faqat BIRINCHI sahifadan: eski server `after`
            so'rovlarida ham umumiy «Suhbat» so'zini qaytaradi va u har
@@ -917,7 +922,7 @@ export default function Suhbat() {
             {!msgMenu.kind ? (
               <MenuRow icon="forward" label={t("msgr.forward")} onPress={() => { const m = msgMenu; setMsgMenu(null); setUzatish(m.id); }} />
             ) : null}
-            {msgMenu.senderId === meId && !readOnly ? <MenuRow icon="trash" label={t("mob.msg.delete")} danger onPress={() => remove(msgMenu)} /> : null}
+            {(msgMenu.senderId === meId || moderator) && !readOnly ? <MenuRow icon="trash" label={t("mob.msg.delete")} danger onPress={() => remove(msgMenu)} /> : null}
             {/* BEGONA xabar ustidan shikoyat — do'kon talabi (A12).
                 O'z xabariga shikoyat qilishning ma'nosi yo'q: server
                 ham `SELF` bilan rad qiladi. */}

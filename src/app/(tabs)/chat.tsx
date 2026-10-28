@@ -12,13 +12,13 @@
  * «Muhim» — qadalgan suhbatlar; uzoq bosilsa — muhim / ovozsiz.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, Pressable, RefreshControl, ScrollView, View } from "react-native";
+import { FlatList, Image, Pressable, RefreshControl, ScrollView, TextInput, View } from "react-native";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
-import { YangiGuruhSheet } from "@/components/Guruh";
+import { guruhRasmi, YangiGuruhSheet } from "@/components/Guruh";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { api, FuramError } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
@@ -39,8 +39,22 @@ type Chat = {
   unread: number;
   lastText: string | null;
   lastAt: string | null;
+  /* TZ 28-okt Q63–Q67: asosiy guruh kaliti, arxiv, guruh rasmi */
+  routeKey?: string | null;
+  archived?: boolean;
+  avatarUrl?: string | null;
 };
-type Group = { key: string; chatId: string | null; members: number; joined: boolean; lastAt: string | null };
+type Group = {
+  key: string;
+  title?: string;
+  chatId: string | null;
+  members: number;
+  joined: boolean;
+  lastAt: string | null;
+  /* O'z roli guruhi — ro'yxat boshida (Q64) */
+  mine?: boolean;
+  muted?: boolean;
+};
 
 /* ── UCHTA BO'LIM (2026-09-10, web bilan bir xil) ──────────────
  *
@@ -140,9 +154,19 @@ export default function ChatRoyxati() {
   const rest = all.filter((c) => c.type !== "SUPPORT");
   /* Qadalgani bo'lim ICHIDA tepada — filtr yo'qolgani bilan u
      ko'rinmay qolmasin */
+  /* Asosiy guruhlar (Q63) o'z kartasida, arxiv (Q66) — pastda yig'ilgan */
   const chats = rest
-    .filter((c) => sectionOf(c) === tab)
+    .filter((c) => sectionOf(c) === tab && !(tab === "umumiy" && (c.routeKey || c.archived)))
     .sort((a, b) => Number(b.pinned) - Number(a.pinned));
+  const arxiv = rest.filter((c) => c.archived);
+  const [arxivOchiq, setArxivOchiq] = useState(false);
+  const oqilmagan = new Map(rest.map((c) => [c.id, c.unread]));
+  /* Ochiq guruhlarni nomi bo'yicha qidirish (Q67) */
+  const [gq, setGq] = useState("");
+  const ochiqlar = useApi<{ guruhlar: { id: string; title: string; members: number; joined: boolean }[] }>(
+    tab === "umumiy" && gq.trim().length >= 2 ? `/api/chat/guruh/qidir?guruh=${encodeURIComponent(gq.trim())}` : null,
+    [tab, gq],
+  );
 
   const openChat = useCallback(
     (c: Chat) =>
@@ -159,73 +183,162 @@ export default function ChatRoyxati() {
      YO'QOLARDI — odam guruhga qo'shilib, keyin suhbatlarini
      qayerdan topishni o'ylab qolardi. Web'da ham ro'yxat ostida
      turadi. */
-  const GroupsFooter = () => {
+  /* ── ASOSIY GURUHLAR (TZ 28-okt Q63–Q65, Q68) ──────────────────
+     «Guruhlar» bo'limi TEPASIDA: o'z roli guruhi birinchi («Sizning
+     guruhingiz»), har birida o'qilmaganlar, qo'ng'iroqcha, «Tark etish» /
+     «Ochish» yoki «Qo'shilish». Nom tepada, tugmalar pastda (2026-09-20
+     qarori — uzun nom bo'linib ketmasin). */
+  const AsosiyGuruhlar = () => {
     if (tab !== "umumiy") return null;
     const list = groups.data?.groups ?? [];
     if (list.length === 0) return null;
     return (
-      <View style={{ marginTop: space.lg, gap: space.sm }}>
-        <Text style={s.groupsHint}>{t("mob.chatList.groupsHint")}</Text>
-        {list.map((g) => (
-          /* ── NOM TEPADA, TUGMA PASTDA (2026-09-20) ─────────────
-             Ilgari nom bilan tugma BITTA qatorda edi. «Qo'shilish»
-             so'zi «Ochish» dan ikki barobar uzun — ya'ni qo'shilmagan
-             guruhda nomga qolgan joy shuncha tor bo'lardi va
-             «🇨🇳 Xitoy → 🇺🇿 / O'zbekiston» deb bayrog'i bilan
-             davlati ikki qatorga bo'linib ketardi. Qo'shni kartalar
-             esa bir qatorga sig'ib, ro'yxat tartibsiz ko'rinardi.
-             Endi nom butun kenglikni oladi, tugmalar ostida. */
-          <View key={g.key} style={s.groupCard}>
-            <View style={s.groupTop}>
-              <View style={[s.avatar, s.avatarGroup]}>
-                <Icon name="users" size={22} stroke={color.blue} />
+      <View style={{ gap: space.sm, marginTop: space.sm }}>
+        <Text style={s.groupsHint}>{t("guruh.mainGroups")}</Text>
+        {list.map((g) => {
+          const n = g.chatId ? (oqilmagan.get(g.chatId) ?? 0) : 0;
+          return (
+            <View key={g.key} style={[s.groupCard, g.mine && { borderWidth: 1.5, borderColor: color.brand }]}>
+              <View style={s.groupTop}>
+                <View style={[s.avatar, s.avatarGroup]}>
+                  <Icon name="users" size={22} stroke={color.blue} />
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text style={s.name} numberOfLines={2}>{groupTitle(g.key, g.title)}</Text>
+                  {g.mine ? <Text style={s.mineTag}>{t("guruh.yourGroup")}</Text> : null}
+                  <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
+                </View>
+                {n > 0 && g.joined ? (
+                  <View style={s.badge}>
+                    <Text style={s.badgeText}>{n > 99 ? "99+" : n}</Text>
+                  </View>
+                ) : null}
               </View>
-              <View style={{ flex: 1, minWidth: 0 }}>
-                <Text style={s.name} numberOfLines={2}>{groupTitle(g.key)}</Text>
-                <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
-              </View>
-            </View>
 
-            <View style={s.groupBottom}>
-              <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
-              {g.joined && g.chatId ? (
-                <View style={s.groupActions}>
-                  {/* «Chiqish» ILGARI SHUNCHAKI MATN edi — kartadan
-                      chiqib turgan kulrang yozuv bosiladigan narsaga
-                      o'xshamasdi. Endi ramkali tugma: bosiladi, lekin
-                      «Ochish» dan past turadi */}
+              <View style={s.groupBottom}>
+                <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
+                {g.joined && g.chatId ? (
+                  <View style={s.groupActions}>
+                    {/* Bildirishnoma — har guruhda (Q68) */}
+                    <Pressable
+                      onPress={() => void qongiroq(g)}
+                      disabled={busyKey === g.key}
+                      accessibilityRole="switch"
+                      accessibilityState={{ checked: !g.muted }}
+                      accessibilityLabel={g.muted ? t("guruh.notifyOn") : t("guruh.notifyOff")}
+                      style={({ pressed }) => [s.leaveBtn, pressed && { opacity: 0.6 }]}
+                    >
+                      <Text style={s.leaveText}>{g.muted ? "🔕" : "🔔"}</Text>
+                    </Pressable>
+                    <Pressable
+                      onPress={() => joinGroup(g, false)}
+                      disabled={busyKey === g.key}
+                      accessibilityRole="button"
+                      style={({ pressed }) => [s.leaveBtn, pressed && { opacity: 0.6 }]}
+                    >
+                      <Text style={s.leaveText}>{t("guruh.leaveMain")}</Text>
+                    </Pressable>
+                    <Pressable
+                      onPress={() =>
+                        router.push({ pathname: "/suhbat/[id]", params: { id: g.chatId!, title: groupTitle(g.key, g.title) } })
+                      }
+                      accessibilityRole="button"
+                      style={({ pressed }) => [s.openBtn, pressed && { opacity: 0.85 }]}
+                    >
+                      <Text style={s.openText}>{t("mob.chatList.open")}</Text>
+                    </Pressable>
+                  </View>
+                ) : (
                   <Pressable
-                    onPress={() => joinGroup(g, false)}
+                    onPress={() => joinGroup(g, true)}
                     disabled={busyKey === g.key}
                     accessibilityRole="button"
-                    style={({ pressed }) => [s.leaveBtn, pressed && { opacity: 0.6 }]}
+                    style={({ pressed }) => [s.joinBtn, pressed && { opacity: 0.85 }]}
                   >
-                    <Text style={s.leaveText}>{t("mob.chatList.leave")}</Text>
+                    <Text style={s.joinText}>{t("mob.chatList.join")}</Text>
                   </Pressable>
-                  <Pressable
-                    onPress={() => router.push({ pathname: "/suhbat/[id]", params: { id: g.chatId!, title: groupTitle(g.key) } })}
-                    accessibilityRole="button"
-                    style={({ pressed }) => [s.openBtn, pressed && { opacity: 0.85 }]}
-                  >
-                    <Text style={s.openText}>{t("mob.chatList.open")}</Text>
-                  </Pressable>
-                </View>
-              ) : (
-                <Pressable
-                  onPress={() => joinGroup(g, true)}
-                  disabled={busyKey === g.key}
-                  accessibilityRole="button"
-                  style={({ pressed }) => [s.joinBtn, pressed && { opacity: 0.85 }]}
-                >
-                  <Text style={s.joinText}>{t("mob.chatList.join")}</Text>
-                </Pressable>
-              )}
+                )}
+              </View>
             </View>
-          </View>
+          );
+        })}
+
+        {/* Ochiq guruhlar qidiruvi (Q67) */}
+        <TextInput
+          value={gq}
+          onChangeText={setGq}
+          placeholder={t("guruh.searchGroupsPh")}
+          placeholderTextColor={color.faintText}
+          style={s.search}
+        />
+        {(ochiqlar.data?.guruhlar ?? []).map((g) => (
+          <Pressable
+            key={g.id}
+            onPress={() => void ochiqqaQoshil(g)}
+            style={({ pressed }) => [s.row, pressed && { opacity: 0.85 }]}
+            accessibilityRole="button"
+          >
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={s.name} numberOfLines={1}>{g.title}</Text>
+              <Text style={s.members}>{t("mob.chatList.members", { n: g.members })}</Text>
+            </View>
+            <Text style={s.joinTextAlt}>{g.joined ? t("mob.chatList.open") : t("mob.chatList.join")}</Text>
+          </Pressable>
         ))}
+        {gq.trim().length >= 2 && ochiqlar.data?.guruhlar.length === 0 ? <Text style={s.groupsHint}>{t("guruh.notFound")}</Text> : null}
+
+        <Text style={[s.groupsHint, { marginTop: space.sm }]}>{t("chatUi.myGroups")}</Text>
       </View>
     );
   };
+
+  /* Arxivdagi yo'nalish guruhlari (Q66) — faqat o'qish uchun */
+  const ArxivFooter = () => {
+    if (tab !== "umumiy" || arxiv.length === 0) return null;
+    return (
+      <View style={{ marginTop: space.lg, gap: space.sm }}>
+        <Pressable onPress={() => setArxivOchiq((v) => !v)} accessibilityRole="button" accessibilityState={{ expanded: arxivOchiq }}>
+          <Text style={s.groupsHint}>
+            🗄 {t("chatUi.archive")} ({arxiv.length}) {arxivOchiq ? "▲" : "▼"}
+          </Text>
+        </Pressable>
+        {arxivOchiq
+          ? arxiv.map((c) => (
+              <Pressable key={c.id} onPress={() => openChat(c)} style={({ pressed }) => [s.row, pressed && { opacity: 0.85 }]}>
+                <Text style={[s.name, s.nameRead]} numberOfLines={1}>{c.title}</Text>
+              </Pressable>
+            ))
+          : null}
+      </View>
+    );
+  };
+
+  async function qongiroq(g: Group) {
+    if (!g.chatId) return;
+    setBusyKey(g.key);
+    try {
+      await api(`/api/chats/${g.chatId}/flags`, { method: "PATCH", body: { isMuted: !g.muted } });
+      groups.reload();
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.msg.actionFailed"));
+    } finally {
+      setBusyKey(null);
+    }
+  }
+
+  async function ochiqqaQoshil(g: { id: string; title: string; joined: boolean }) {
+    try {
+      if (!g.joined) {
+        if (tariffBlocked("messenger")) return;
+        await api("/api/chat/guruh/havola", { method: "POST", body: { chatId: g.id } });
+      }
+      router.push({ pathname: "/suhbat/[id]", params: { id: g.id, title: g.title } });
+      setGq("");
+      reload();
+    } catch (e) {
+      setErr((e as FuramError).message ?? t("mob.msg.actionFailed"));
+    }
+  }
 
   async function setFlag(c: Chat, patch: { isPinned?: boolean; isMuted?: boolean }) {
     setHeld(null);
@@ -246,7 +359,7 @@ export default function ChatRoyxati() {
     try {
       const r = await api<{ chatId?: string }>("/api/chat/groups", { method: "POST", body: { routeKey: g.key, join } });
       if (join && r.chatId) {
-        router.push({ pathname: "/suhbat/[id]", params: { id: r.chatId, title: groupTitle(g.key) } });
+        router.push({ pathname: "/suhbat/[id]", params: { id: r.chatId, title: groupTitle(g.key, g.title) } });
       }
       groups.reload();
       reload();
@@ -357,8 +470,13 @@ export default function ChatRoyxati() {
           /* Yordam chati HAR bo'limda tepada: odam muammo bilan
              kelganda uni bo'lim tanlab qidirmasin (web'da ham
              ro'yxatdan tashqarida, alohida qatorda turadi) */
-          ListHeaderComponent={Support}
-          ListFooterComponent={GroupsFooter}
+          ListHeaderComponent={
+            <>
+              {Support}
+              {AsosiyGuruhlar()}
+            </>
+          }
+          ListFooterComponent={ArxivFooter}
           renderItem={({ item }) => (
             <Pressable
               onPress={() => openChat(item)}
@@ -367,7 +485,10 @@ export default function ChatRoyxati() {
               style={({ pressed }) => [s.row, item.unread > 0 && s.rowUnread, pressed && { opacity: 0.85 }]}
             >
               <View style={[s.avatar, item.type === "GROUP" && s.avatarGroup]}>
-                {item.type === "GROUP" ? (
+                {item.avatarUrl ? (
+                  /* Guruh rasmi (Q67) — faqat a'zoga, sarlavha bilan */
+                  <Image source={guruhRasmi(item.id)} style={s.avatarImg} />
+                ) : item.type === "GROUP" ? (
                   <Icon name="users" size={22} stroke={color.blue} />
                 ) : (
                   <Text style={s.avatarText}>{item.title.slice(0, 2).toUpperCase()}</Text>
@@ -493,6 +614,19 @@ const s = themed(() => ({
   badgeText: { fontSize: 11, fontWeight: "700", color: "#fff" },
 
   groupsHint: { fontSize: 12.5, color: color.mutedForeground, lineHeight: 18 },
+  mineTag: { fontSize: 11, fontWeight: "700", color: color.brand, marginTop: 2 },
+  search: {
+    borderWidth: 1,
+    borderColor: color.border,
+    borderRadius: radius.control,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 15,
+    color: color.foreground,
+    backgroundColor: color.card,
+  },
+  joinTextAlt: { fontSize: 13, fontWeight: "700", color: color.brand },
+  avatarImg: { width: 48, height: 48, borderRadius: 24 },
   groupCard: { backgroundColor: color.card, borderRadius: radius.card, padding: space.md, gap: space.md, ...shadow.card },
   groupTop: { flexDirection: "row", gap: space.md, alignItems: "center" },
   groupBottom: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: space.sm },

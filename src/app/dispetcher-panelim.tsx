@@ -37,6 +37,7 @@ import { TariffNotice } from "@/components/TariffNotice";
 import { FuramError } from "@/lib/api";
 import { openRemoteFile } from "@/lib/files";
 import { useApi } from "@/lib/use-api";
+import { webToApp } from "@/lib/routes";
 import { tariffBlocked } from "@/lib/features";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tripStatusLabel } from "@/lib/i18n";
@@ -51,6 +52,8 @@ type Panel = {
     pendingOffers: number;
     freeTrucks: number;
     matchingLoads: number;
+    /** TZ 28-okt §7 — eski serverda yo'q */
+    mosHref?: string;
     earnedToday: Money[];
     owed: Money[];
   };
@@ -127,13 +130,14 @@ export default function DispetcherPanel() {
                 q={t("mob.dpanel.qLive")}
                 value={String(c.liveTrips)}
                 sub={t("mob.dpanel.managed", { l: c.managedLoads, m: c.managedTrucks })}
-                onPress={() => router.push("/reyslar")}
+                onPress={() => router.push("/reyslar?holat=live" as never)}
               />
               <Tile
                 q={t("mob.dpanel.qAttention")}
                 value={String(c.attention)}
                 sub={c.attention > 0 ? t("mob.dpanel.listBelow") : t("mob.dpanel.allFine")}
                 tone={c.attention > 0 ? color.danger : color.success}
+                onPress={() => router.push("/reyslar?holat=etibor" as never)}
               />
               <Tile
                 q={t("mob.dpanel.qEarned")}
@@ -146,7 +150,7 @@ export default function DispetcherPanel() {
                       : t("mob.dpanel.noPayToday")
                 }
                 tone={c.earnedToday.length ? color.success : undefined}
-                onPress={() => router.push("/moliya")}
+                onPress={() => router.push("/kelishuvlar?filter=paidToday" as never)}
               />
               <Tile
                 q={t("mob.dpanel.qOwed")}
@@ -159,7 +163,7 @@ export default function DispetcherPanel() {
                       : t("mob.dpanel.noDebt")
                 }
                 tone={c.owed.length ? color.brand : undefined}
-                onPress={() => router.push("/moliya/qarzlar")}
+                onPress={() => router.push("/kelishuvlar?filter=owed" as never)}
               />
               <Tile
                 q={t("mob.dpanel.qMore")}
@@ -172,7 +176,11 @@ export default function DispetcherPanel() {
                       : t("mob.dpanel.noMatch", { n: c.freeTrucks })
                 }
                 tone={c.matchingLoads > 0 ? color.success : undefined}
-                onPress={() => router.push("/yuklar")}
+                onPress={() => {
+                  /* Bitta bo'sh mashina — uning e'loni (mos yuklar shu yerda), aks holda e'lonlarim */
+                  const to = c.mosHref ? webToApp(c.mosHref) : null;
+                  router.push((to ?? "/yuklar") as never);
+                }}
               />
             </View>
 

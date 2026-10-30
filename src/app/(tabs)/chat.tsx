@@ -217,7 +217,7 @@ export default function ChatRoyxati() {
                   <Icon name="users" size={22} stroke={color.blue} />
                 </View>
                 <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={s.name} numberOfLines={2}>{groupTitle(g.key, g.title)}</Text>
+                  <Text style={s.name}>{groupTitle(g.key, g.title)}</Text>
                   {g.mine ? <Text style={s.mineTag}>{t("guruh.yourGroup")}</Text> : null}
                   <Text style={s.last} numberOfLines={2}>{groupAbout(g.key)}</Text>
                 </View>
@@ -243,14 +243,7 @@ export default function ChatRoyxati() {
                     >
                       <Text style={s.leaveText}>{g.muted ? "🔕" : "🔔"}</Text>
                     </Pressable>
-                    <Pressable
-                      onPress={() => joinGroup(g, false)}
-                      disabled={busyKey === g.key}
-                      accessibilityRole="button"
-                      style={({ pressed }) => [s.leaveBtn, pressed && { opacity: 0.6 }]}
-                    >
-                      <Text style={s.leaveText}>{t("guruh.leaveMain")}</Text>
-                    </Pressable>
+                    {/* «Guruhni tark etish» katalogda yo'q — guruh ichida (🚪, `Guruh.tsx`) */}
                     <Pressable
                       onPress={() =>
                         router.push({ pathname: "/suhbat/[id]", params: { id: g.chatId!, title: groupTitle(g.key, g.title) } })

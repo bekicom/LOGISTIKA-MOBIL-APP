@@ -87,6 +87,8 @@ export default function DispetcherPanel() {
   const [repErr, setRepErr] = useState<string | null>(null);
 
   const { data, loading, error, refreshing, refresh, reload } = useApi<Panel>("/api/panel");
+  /* Yuk hisoblagichlari — web `/panel/loads` bilan bir manba (TZ 29-okt §11.2) */
+  const { data: yuk } = useApi<{ sonlar: Record<string, number> }>("/api/panel/yuklar");
   const c = data?.counts;
 
   async function report(kind: "pdf" | "excel") {
@@ -182,6 +184,31 @@ export default function DispetcherPanel() {
                   router.push((to ?? "/yuklar") as never);
                 }}
               />
+            </View>
+
+            {/* «Mening yuklarim» hisoblagichlari va transportlar (TZ 29-okt §11.2, §11.4) */}
+            <View>
+              <GroupLabel>{t("tz5e.meningYuklarim")}</GroupLabel>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+                {(["jami", "qidirilmoqda", "taklif", "biriktirildi", "yolda", "yetkazildi", "muddati"] as const).map((h) => (
+                  <Pressable
+                    key={h}
+                    onPress={() => router.push((h === "jami" ? "/dispetcher-yuklarim" : `/dispetcher-yuklarim?holat=${h}`) as never)}
+                    style={({ pressed }) => [s.yukSon, pressed && { opacity: 0.8 }]}
+                  >
+                    <Text style={s.yukSonNom}>{t(`tz5e.yuk_${h}`)}</Text>
+                    <Text style={s.yukSonQ}>{yuk?.sonlar?.[h] ?? "—"}</Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
+              <Pressable
+                onPress={() => router.push("/dispetcher-transportlarim" as never)}
+                style={({ pressed }) => [s.pending, { marginTop: 8 }, pressed && { opacity: 0.9 }]}
+              >
+                <Icon name="truck" size={18} stroke={color.brand} />
+                <Text style={s.pendingText}>{t("tz5e.meningTransportlarim")}</Text>
+                <Icon name="chevron" size={16} stroke={color.mutedForeground} />
+              </Pressable>
             </View>
 
             {/* Javob tezligi reytingga ta'sir qiladi — ko'rinib tursin */}
@@ -410,4 +437,14 @@ const s = themed(() => ({
   },
   dlText: { fontSize: 13.5, fontWeight: "700", color: color.brandText },
   repErr: { fontSize: 12.5, color: color.danger, marginTop: space.sm },
+  yukSon: {
+    minWidth: 92,
+    padding: 10,
+    borderRadius: radius.control,
+    borderWidth: 1,
+    borderColor: color.border,
+    backgroundColor: color.card,
+  },
+  yukSonNom: { fontSize: 11, fontWeight: "700", color: color.mutedForeground },
+  yukSonQ: { fontSize: 20, fontWeight: "800", color: color.foreground, marginTop: 2 },
 }));

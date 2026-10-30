@@ -46,6 +46,8 @@ export type ChatMsg = {
   /** TZ v2 §5.1: uzatilgan xabar muallifi, jonli joylashuv muddati */
   forwardedFrom?: string | null;
   liveUntil?: string | null;
+  /** O'z xabarini tahrirlagan (TZ 29-okt §4.4.2) */
+  edited?: boolean;
   /** Firibgarlik ogohlantirishi (TZ v2 §3.4.4) — kalit `fraud.<tur>` */
   ogohlantirish?: { tur: "prepay" | "card" | "code"; yangi: boolean } | null;
 };

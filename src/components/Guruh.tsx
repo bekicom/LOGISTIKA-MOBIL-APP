@@ -386,12 +386,14 @@ export function AzolarSheet({
               },
             ])
           }
-          style={{ marginTop: space.md }}
+          /* KATTA, ANIQ «Guruhdan chiqish» (TZ 29-okt §4.2.3) — ilgari mayda havola edi */
+          style={({ pressed }) => [s.chiqish, pressed && { opacity: 0.7 }]}
           accessibilityRole="button"
         >
-          <Text style={[s.link, { color: color.danger }]}>{d?.asosiy ? t("guruh.leaveMain") : t("guruh.leave")}</Text>
+          <Text style={s.chiqishText}>🚪 {t("guruh.leaveBig")}</Text>
         </Pressable>
       ) : null}
+      {d?.asosiy && !d?.arxiv ? <Text style={s.chiqishHint}>{t("guruh.leaveBigHint")}</Text> : null}
       {xato ? <Text style={s.err}>{xato}</Text> : null}
     </Sheet>
   );
@@ -434,6 +436,9 @@ const s = themed(() => ({
   name: { flex: 1, fontSize: 15, color: color.foreground },
   adminTag: { fontSize: 11, color: color.brand, fontFamily: "Manrope_700Bold", marginTop: 2 },
   link: { fontSize: 13, color: color.brand, fontFamily: "Manrope_700Bold" },
+  chiqish: { marginTop: space.md, height: 48, borderRadius: 14, borderWidth: 2, borderColor: color.danger, alignItems: "center", justifyContent: "center" },
+  chiqishText: { fontSize: 15, color: color.danger, fontFamily: "Manrope_800ExtraBold" },
+  chiqishHint: { marginTop: 6, fontSize: 12, color: color.mutedForeground, textAlign: "center" },
   addBtn: { backgroundColor: color.brand, borderRadius: radius.control, paddingHorizontal: 14, paddingVertical: 10, justifyContent: "center" as const },
   addText: { color: "#ffffff", fontFamily: "Manrope_700Bold", fontSize: 14 },
   avatar: { width: 44, height: 44, borderRadius: 22 },

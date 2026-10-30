@@ -10,7 +10,7 @@ import Constants from "expo-constants";
 import { router } from "expo-router";
 import { getToken } from "./session";
 import { isGuest } from "./guest";
-import { currentLocale, t, tOr } from "./i18n";
+import { currentLocale, onLocaleChosen, t, tOr } from "./i18n";
 
 /**
  * Manzil qanday topiladi:
@@ -198,6 +198,15 @@ type Options = {
       lokatsiyada tashqi xarita manbasi 15 soniyadan oshishi mumkin */
   timeoutMs?: number;
 };
+
+/* Odam tanlagan til hisobga yoziladi (TZ 29-okt §2.7) — web va push ham shu
+   tilda. Mehmon yoki tarmoqsiz — jim: tanlov telefonda saqlangan */
+onLocaleChosen((locale) => {
+  if (isGuest()) return;
+  void getToken()
+    .then((tok) => (tok ? api("/api/prefs", { method: "POST", body: { locale } }) : null))
+    .catch(() => null);
+});
 
 export function api<T>(path: string, opts: Options = {}): Promise<T> {
   return aiRozilikBilan(() => apiBir<T>(path, opts));

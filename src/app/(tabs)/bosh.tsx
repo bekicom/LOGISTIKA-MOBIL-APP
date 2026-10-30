@@ -28,6 +28,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
+import { TilTugma } from "@/components/TilTugma";
 import { HeaderIcons } from "@/components/TabHeader";
 import { setCounts } from "@/lib/counts";
 import { activeTrip, isRunning as gpsRunning, stop as gpsStop } from "@/lib/gps";
@@ -35,9 +36,12 @@ import { ListingCard, TripCard, type Listing, type TripItem } from "@/components
 import { Skeleton, ErrorBox, Empty } from "@/components/state";
 import { StartHere } from "@/components/HomeStart";
 import { TodayCard } from "@/components/TodayCard";
+import { ReklamaJoyi } from "@/components/Reklama";
 import { TourPanel } from "@/components/TourPanel";
+import { HaydovchiPanel } from "@/components/HaydovchiPanel";
 import { AsosiyTugmalar, RolTugmalari } from "@/components/HomeQuick";
 import { BoshqaXizmatlar } from "@/components/BoshqaXizmatlar";
+import { HujjatlarTugma } from "@/components/HujjatlarTugma";
 import { RolAlmashtirgich } from "@/components/RolAlmashtirgich";
 import { AsosiyIsh, type AsosiyIshData } from "@/components/AsosiyIsh";
 import { Bosqich, type BosqichData } from "@/components/Bosqich";
@@ -58,6 +62,7 @@ type Home =
       activeTrips: TripItem[];
       /** Rolga xos tezkor tugmalar (TZ-05); eski serverda yo'q */
       quick?: TezkorTugma[];
+      boshqa?: { key: string; href: string | null }[];
       /** Rol almashtirgich (TZ v2 §2.2); eski serverda yo'q */
       faolRol?: string;
       rollar?: string[];
@@ -78,6 +83,7 @@ type Home =
       expiringDocuments: number;
       activeTrips: TripItem[];
       quick?: TezkorTugma[];
+      boshqa?: { key: string; href: string | null }[];
       faolRol?: string;
       rollar?: string[];
       asosiy?: AsosiyIshData | null;
@@ -127,6 +133,8 @@ export default function Bosh() {
       {/* Sarlavha */}
       <View style={s.header}>
         <Logo width={96} />
+        {/* Til — logodan keyin darhol (TZ 29-okt §2.5, §13.1) */}
+        <TilTugma />
         <View style={{ flex: 1 }} />
         {/* Dizayn-2: qidiruv, chat va qo'ng'iroq — hamma tabda bir xil
             (`TabHeader`). Sanoqlar `lib/counts` do'konidan. */}
@@ -144,7 +152,10 @@ export default function Bosh() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}
       >
-        {/* 4 KATTA TUGMA — eng tepada (TZ v3 §4): Mening ishim · Yuklar ·
+        {/* STATISTIKA — ENG TEPADA, har rolda (TZ 29-okt §1, §13.2) */}
+        {data ? <Statistika items={data.kpis} /> : null}
+
+        {/* 4 KATTA TUGMA (TZ v3 §4): Mening ishim · Yuklar ·
             Transportlar · FURAM Bozor. Ma'lumot kutmaydi */}
         <AsosiyTugmalar onIshim={() => scroll.current?.scrollTo({ y: stolY, animated: true })} />
 
@@ -169,10 +180,10 @@ export default function Bosh() {
 
         {/* ── «MENING ISHIM» ISH STOLI (TZ v3 §6) ──
             «Dispetcher ▾» — qaysi rolniki (TZ v2 §2.2), ostida rolning 4–6 tugmasi */}
-        {/* Statistika — mehmon ko'radigan sonlar, har biri bosiladi (TZ 28-okt §6, §7) */}
-        {data ? <Statistika items={data.kpis} /> : null}
         <View onLayout={(e) => setStolY(e.nativeEvent.layout.y)} style={{ gap: space.md }}>
           {data ? <RolAlmashtirgich faol={data.faolRol} rollar={data.rollar} onOzgardi={reload} /> : null}
+          {/* TZ 29-okt §5.1: «Hujjatlar» — har rol ish stolining birinchi qatori */}
+          {data ? <HujjatlarTugma /> : null}
           {/* Rolning o'z tugmalari — serverdan (web bilan bitta jadval) */}
           {data?.quick?.length ? <RolTugmalari quick={data.quick} /> : null}
         </View>
@@ -194,6 +205,8 @@ export default function Bosh() {
             haydovchi aynan bosh sahifaga tushadi va kunlik ishi
             shu tugmadan boshlanadi. */}
         {data?.kind === "driver" ? <TourPanel /> : null}
+        {/* Haydovchi: «Ishga chiqdim» → e'lon, tez tugmalar, pul, aylanma (TZ 29-okt §6) */}
+        {data?.kind === "driver" ? <HaydovchiPanel /> : null}
 
         {/* Kurs va xarita bosh sahifadan «Boshqa xizmatlar» ichiga o'tdi
             (TZ v3 §4: «Valyuta, Kalkulyator, Xarita … menyuda alohida
@@ -220,9 +233,11 @@ export default function Bosh() {
 
         {/* Bozor, ish, usta va boshqalar — pastki menyu beshta
             bo'limga qisqargach shu yerda (TZ v2 §2.1) */}
-        <BoshqaXizmatlar />
+        <BoshqaXizmatlar items={data?.boshqa} />
         {/* FURAM Bozor — oxirgi 4 e'lon rasm bilan (TZ 28-okt §24) */}
         {data ? <BozorBand items={data.bozor} /> : null}
+        {/* Reklama — webdagi bosh sahifa tasmasi bilan bir xil (TZ 29-okt §12.1) */}
+        <ReklamaJoyi joy="home" />
 
         {/* «Boshlash» — eng OXIRIDA. Yangi odamga kerak, tanish
             odamga esa lenta muhimroq; tepaga qo'ysak, har ochilishda

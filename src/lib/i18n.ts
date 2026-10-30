@@ -63,15 +63,38 @@ i18n.defaultLocale = DEFAULT_LOCALE;
 i18n.enableFallback = true;
 i18n.locale = DEFAULT_LOCALE;
 
-/** Qurilma sozlamasidan taxmin — birinchi ochilishda taklif qilinadi */
+/**
+ * Birinchi ochilish tili — DAVLATGA qarab (TZ 29-okt §2.6). Web bilan bir
+ * xil jadval (`furam/src/lib/locale.ts:COUNTRY_LOCALE`): O'zbekiston —
+ * o'zbek kirill, Rossiya — rus, …, boshqa davlat — inglizcha, davlat
+ * noma'lum — o'zbek kirill.
+ *
+ * Ilgari telefon TILI olinardi: ruscha telefondagi o'zbekistonlik
+ * haydovchi ruscha ko'rardi. Davlat — telefon sozlamasidagi mintaqa.
+ */
+export const COUNTRY_LOCALE: Readonly<Record<string, Locale>> = {
+  UZ: "uz-Cyrl",
+  RU: "ru",
+  KZ: "kk",
+  CN: "zh",
+  KG: "ky",
+  TJ: "tg",
+  TR: "tr",
+};
+export const FIRST_LOCALE: Locale = "uz-Cyrl";
+
+export function localeForRegion(region: string | null | undefined): Locale {
+  const r = region?.trim().toUpperCase();
+  if (!r || !/^[A-Z]{2}$/.test(r)) return FIRST_LOCALE;
+  return COUNTRY_LOCALE[r] ?? "en";
+}
+
+/** Qurilma mintaqasidan til — odam o'zi tanlamaguncha (§2.6) */
 export function deviceLocale(): Locale {
   for (const l of getLocales()) {
-    const tag = l.languageCode?.toLowerCase();
-    /* Telefon o'zbekcha KIRILLda — «uz-Cyrl-UZ» */
-    if (tag === "uz" && l.languageScriptCode === "Cyrl") return "uz-Cyrl";
-    if (isLocale(tag)) return tag;
+    if (l.regionCode) return localeForRegion(l.regionCode);
   }
-  return DEFAULT_LOCALE;
+  return FIRST_LOCALE;
 }
 
 /** Saqlangan tilni o'qish. Hech qachon tashlamaydi. */
@@ -97,6 +120,24 @@ export async function setLocale(locale: Locale): Promise<void> {
   } catch {
     // Saqlanmasa ham joriy seans to'g'ri tilda ishlayveradi
   }
+  /* Hisobga ham (TZ 29-okt §2.7): web va push shu tilda. Kirmagan bo'lsa
+     yoki tarmoq yo'q bo'lsa — jim; tanlov qurilmada saqlangan */
+  tilKuzatuvchi?.(locale);
+}
+
+/** `api.ts` ulaydi (aylanma import bo'lmasin) — tanlangan tilni serverga yozish */
+let tilKuzatuvchi: ((l: Locale) => void) | null = null;
+export function onLocaleChosen(fn: (l: Locale) => void): void {
+  tilKuzatuvchi = fn;
+}
+
+/**
+ * Taxminiy tilni O'RNATISH, SAQLAMASDAN (§2.6–2.7): odam o'zi tanlamaguncha
+ * davlat bo'yicha ochiladi; saqlansa, keyin boshqa davlatga o'tganda ham
+ * o'sha «taxmin» qotib qolardi va u odam tanlovi deb hisoblanardi.
+ */
+export function tilniOrnat(locale: Locale): void {
+  i18n.locale = locale;
 }
 
 /* ─────────────────────────────── Tilni JONLI almashtirish */

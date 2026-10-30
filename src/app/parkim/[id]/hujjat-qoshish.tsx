@@ -41,6 +41,7 @@ import { Button, Field, Header, Notice } from "@/components/ui";
 import { TariffNotice } from "@/components/TariffNotice";
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
+import { PdfQilishTugma } from "@/components/HujjatlarTugma";
 import { tariffBlocked } from "@/lib/features";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t, tOr } from "@/lib/i18n";
@@ -222,6 +223,12 @@ export default function HujjatQoshish() {
                 onPress={() => void choose("gallery")}
               />
             </View>
+          </View>
+        )}
+        {/* TZ 29-okt §5.5: skaner — AI turini va muddatini o'qib shu mashinaga qo'yadi */}
+        {!photo && (
+          <View style={{ marginTop: space.sm }}>
+            <PdfQilishTugma vehicle={String(id)} />
           </View>
         )}
 

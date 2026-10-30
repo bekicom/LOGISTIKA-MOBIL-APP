@@ -34,7 +34,7 @@ const CURRENCIES = ["UZS", "USD", "KZT", "RUB"];
 /** `furam/src/lib/labels.ts:EXPENSE_CAT_LABELS` */
 const CATS = [
   "FUEL", "FOOD", "PARKING", "PARTS", "TOLL", "CUSTOMS",
-  "WASH", "REPAIR", "FINE", "TAX", "OTHER",
+  "WASH", "REPAIR", "FINE", "TAX", "PERMIT", "LODGING", "BORDER", "OTHER",
 ];
 
 type Budget = {

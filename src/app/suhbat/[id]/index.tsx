@@ -21,14 +21,14 @@ import * as Location from "expo-location";
 import { setAudioModeAsync } from "expo-audio";
 import { Text } from "@/components/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter, type Href } from "expo-router";
 import { Icon, type IconName } from "@/components/Icon";
 import { Sheet } from "@/components/Sheet";
 import { ReportSheet } from "@/components/ReportSheet";
 import { SenderKarta } from "@/components/SenderKarta";
 import { AzolarSheet } from "@/components/Guruh";
 import { HujjatTanlashSheet } from "@/components/HujjatlarAvto";
-import { ChatLangChips } from "@/components/ChatLangChips";
+import { ChatLangChips, tilNomi } from "@/components/ChatLangChips";
 import { Button } from "@/components/ui";
 import { ErrorBox, Skeleton } from "@/components/state";
 import { VoiceBubble } from "@/components/VoiceBubble";
@@ -55,7 +55,9 @@ import { tariffBlocked } from "@/lib/features";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { P_SOON, sendOrQueue } from "@/lib/outbox";
 import { composerPad, useKeyboardOpen } from "@/lib/keyboard";
-import { LOCALES, LOCALE_INFO, t } from "@/lib/i18n";
+import { LOCALES, LOCALE_INFO, currentLocale, t } from "@/lib/i18n";
+import { yozuvgaMos } from "@/lib/yozuv";
+import { ReklamaJoyi } from "@/components/Reklama";
 
 const POLL_MS = 6000;
 
@@ -120,6 +122,8 @@ export default function Suhbat() {
   const [menu, setMenu] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [msgMenu, setMsgMenu] = useState<ChatMsg | null>(null);
+  /* O'z xabarini tahrirlash (TZ 29-okt §4.4.2) */
+  const [tahrir, setTahrir] = useState<{ id: string; text: string } | null>(null);
   const [searchOn, setSearchOn] = useState(false);
   const [query, setQuery] = useState("");
   const [viewer, setViewer] = useState<ChatMsg | null>(null);
@@ -646,6 +650,14 @@ export default function Suhbat() {
         </View>
       ) : null}
 
+      {/* Reklama — faqat umumiy FURAM guruhida; server chatni o'zi tekshiradi,
+          shaxsiy chatda ro'yxat doim bo'sh (TZ 29-okt §12.1, §12.6) */}
+      {!query ? (
+        <View style={{ paddingHorizontal: space.md }}>
+          <ReklamaJoyi joy="messenger" chatId={id} />
+        </View>
+      ) : null}
+
       {!loaded ? (
         <View style={{ padding: space.lg }}><Skeleton rows={2} /></View>
       ) : loadErr && all.length === 0 ? (
@@ -808,6 +820,8 @@ export default function Suhbat() {
           <Att icon="route" tint={color.blue} bg={color.blueSoft} label={t("msgr.liveLocation")} onPress={() => { setAttach(false); setJonliSheet(true); }} />
           {/* Hujjatlarimdan yuborish (TZ v2 §6.1) */}
           <Att icon="doc" tint={color.purple} bg={color.purpleSoft} label={t("reysHujjat.mendan")} onPress={() => { setAttach(false); setHujjatSheet(true); }} />
+          {/* TZ 29-okt §5.5: «PDF qilish» — skaner, tayyor PDF shu chatga keladi */}
+          <Att icon="doc" tint={color.brand} bg={color.brandSoft} label={t("skaner.pdfQilish")} onPress={() => { setAttach(false); router.push(`/hujjatlarim/skaner?chat=${encodeURIComponent(id)}` as Href); }} />
         </View>
         <Text style={s.sheetGroup}>{t("mob.chatAct.title")}</Text>
         <View style={s.grid}>
@@ -922,6 +936,10 @@ export default function Suhbat() {
             {!msgMenu.kind ? (
               <MenuRow icon="forward" label={t("msgr.forward")} onPress={() => { const m = msgMenu; setMsgMenu(null); setUzatish(m.id); }} />
             ) : null}
+            {/* O'z xabarini tahrirlash (TZ 29-okt §4.4.2) — API bor edi, tugma yo'q edi */}
+            {msgMenu.senderId === meId && !readOnly && !msgMenu.kind && msgMenu.type === "TEXT" && msgMenu.text ? (
+              <MenuRow icon="doc" label={t("msgr.edit")} onPress={() => { const m = msgMenu; setMsgMenu(null); setTahrir({ id: m.id, text: m.text ?? "" }); }} />
+            ) : null}
             {(msgMenu.senderId === meId || moderator) && !readOnly ? <MenuRow icon="trash" label={t("mob.msg.delete")} danger onPress={() => remove(msgMenu)} /> : null}
             {/* BEGONA xabar ustidan shikoyat — do'kon talabi (A12).
                 O'z xabariga shikoyat qilishning ma'nosi yo'q: server
@@ -940,6 +958,32 @@ export default function Suhbat() {
               />
             ) : null}
           </>
+        ) : null}
+      </Sheet>
+
+      {/* O'z xabarini tahrirlash (TZ 29-okt §4.4.2) */}
+      <Sheet open={!!tahrir} onClose={() => setTahrir(null)} title={t("msgr.editing")}>
+        {tahrir ? (
+          <View style={{ gap: space.md }}>
+            <TextInput
+              value={tahrir.text}
+              onChangeText={(v) => setTahrir({ id: tahrir.id, text: v })}
+              multiline
+              maxLength={4000}
+              autoFocus
+              style={s.tahrirInput}
+            />
+            <Button
+              title={t("msgr.editSave")}
+              disabled={!tahrir.text.trim()}
+              onPress={() => {
+                const m = messages.find((x) => x.id === tahrir.id);
+                const matn = tahrir.text.trim();
+                setTahrir(null);
+                if (m && matn && matn !== m.text) void act(m, { action: "edit", text: matn });
+              }}
+            />
+          </View>
         ) : null}
       </Sheet>
 
@@ -993,6 +1037,7 @@ function Bubble({
   onLiveStop: () => void;
   onShikoyat: () => void;
 }) {
+  const router = useRouter();
   if (msg.type === "SYSTEM" || (msg.senderId === null && !msg.kind)) {
     return (
       <View style={s.system}>
@@ -1016,7 +1061,10 @@ function Bubble({
       : msg.text
     : showOrig
       ? msg.text
-      : (msg.shown ?? msg.text);
+      : /* Lotin ↔ kirill o'quvchining yozuvida (TZ 29-okt §4.3.5) */
+        !mine && (msg.shown ?? msg.text)
+        ? yozuvgaMos((msg.shown ?? msg.text)!, currentLocale())
+        : (msg.shown ?? msg.text);
   /* Jonli joylashuv — eng so'nggi nuqta `holat` dan */
   const jonli = holat?.jonli.find((x) => x.id === msg.id);
   const lat = jonli?.lat ?? msg.lat;
@@ -1141,11 +1189,21 @@ function Bubble({
         </Pressable>
       ) : null}
 
+      {/* TZ 29-okt §4.3: aniq belgi «🤖 AI tarjimasi · asli: Ruscha» va
+          KATTA tugma «Asl matnni ko'rish» / «Tarjimani ko'rish» */}
       {msg.translated ? (
-        <Pressable onPress={onToggleOrig} hitSlop={6} style={s.trRow}>
-          <Icon name="globe" size={12} stroke={dim} />
-          <Text style={[s.trText, { color: dim }]}>{t(showOrig ? "mob.msg.showTranslation" : "mob.msg.showOriginal")}</Text>
-        </Pressable>
+        <View style={s.aiTr}>
+          <Text style={[s.aiTrText, { color: dim }]}>{t("chatTil.aiTarjimasi", { til: tilNomi(msg.lang) })}</Text>
+          <Pressable
+            onPress={onToggleOrig}
+            hitSlop={6}
+            accessibilityRole="button"
+            style={({ pressed }) => [s.aslBtn, pressed && { opacity: 0.7 }]}
+          >
+            <Icon name="globe" size={13} stroke={color.brand} />
+            <Text style={s.aslBtnText}>{showOrig ? t("chatTil.tarjimaniKor") : t("chatTil.aslMatn")}</Text>
+          </Pressable>
+        </View>
       ) : null}
 
       {msg.kind === "LISTING" && msg.refCard ? (
@@ -1154,6 +1212,23 @@ function Bubble({
           <Text style={s.refTitle}>{msg.refCard.title}</Text>
           {msg.refCard.subtitle ? <Text style={s.refSub}>{msg.refCard.subtitle}</Text> : null}
           {msg.refCard.meta ? <Text style={s.refMeta}>{msg.refCard.meta}</Text> : null}
+          {/* Yuk / transport kartasi ichida «Taklif yuborish» (TZ 29-okt §4.4.6) —
+              e'lon ekranining takliflar bo'limiga olib boradi (web bilan bir xil) */}
+          {!mine && !readOnly && msg.refId && (msg.refKind === "load" || msg.refKind === "truck") ? (
+            <Pressable
+              onPress={() =>
+                router.push(
+                  msg.refKind === "load"
+                    ? { pathname: "/yuk/[id]", params: { id: msg.refId!, taklif: "1" } }
+                    : { pathname: "/mashina/[id]", params: { id: msg.refId!, taklif: "1" } },
+                )
+              }
+              accessibilityRole="button"
+              style={({ pressed }) => [s.taklifBtn, pressed && { opacity: 0.8 }]}
+            >
+              <Text style={s.taklifBtnText}>{t("msgr.taklifYuborish")}</Text>
+            </Pressable>
+          ) : null}
         </View>
       ) : null}
       {/* Taklif kartasi (TZ v3 §5): Qabul / Rad chatning o'zida */}
@@ -1199,7 +1274,10 @@ function Bubble({
             <Text style={[s.time, { color: dim }]}>{t("mob.chat.sending")}</Text>
           </>
         ) : (
-          <Text style={[s.time, { color: dim }]}>{hhmm(msg.createdAt)}</Text>
+          <>
+            {msg.edited ? <Text style={[s.time, { color: dim, fontStyle: "italic" }]}>{t("msgr.edited")}</Text> : null}
+            <Text style={[s.time, { color: dim }]}>{hhmm(msg.createdAt)}</Text>
+          </>
         )}
       </View>
     </Pressable>
@@ -1272,6 +1350,13 @@ const s = themed(() => ({
   inlineLink: { fontSize: 12, fontWeight: "600", textDecorationLine: "underline" },
   image: { width: 220, height: 220, borderRadius: 12, backgroundColor: color.muted, marginBottom: 4 },
   trRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 },
+  tahrirInput: { minHeight: 90, maxHeight: 220, borderWidth: 1, borderColor: color.border, borderRadius: radius.control, padding: 12, fontSize: 15, color: color.foreground, backgroundColor: color.card, textAlignVertical: "top" },
+  taklifBtn: { marginTop: 8, minHeight: 38, borderRadius: 10, borderWidth: 2, borderColor: color.brand, alignItems: "center", justifyContent: "center", paddingHorizontal: 10 },
+  taklifBtnText: { fontSize: 14, fontWeight: "800", color: color.brand },
+  aiTr: { marginTop: 6, gap: 6, borderTopWidth: 1, borderTopColor: color.border, paddingTop: 6 },
+  aiTrText: { fontSize: 11.5 },
+  aslBtn: { flexDirection: "row", alignItems: "center", gap: 5, alignSelf: "flex-start", minHeight: 32, paddingHorizontal: 10, borderRadius: 16, borderWidth: 1, borderColor: color.brand, backgroundColor: color.card },
+  aslBtnText: { fontSize: 13, fontWeight: "700", color: color.brand },
   trText: { fontSize: 11, textDecorationLine: "underline" },
   /* «Unga» rangi — tepadagi ko'k tugma bilan bog'lanadi. Oq halqa:
      o'z xabarim fonida (to'q sariq) ham ko'rinsin */

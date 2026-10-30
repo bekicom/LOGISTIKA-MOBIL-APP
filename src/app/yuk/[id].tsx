@@ -5,6 +5,7 @@
  * Uni ochish alohida amal: `/api/contact-reveal`. Bu yerda faqat
  * «ochilganmi» degan javob keladi.
  */
+import { PanelgaOlish } from "@/components/PanelgaOlish";
 import { useEffect, useRef, useState } from "react";
 import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@/components/Text";
@@ -38,6 +39,8 @@ type Load = {
   /* Serverning qarori: «Egasini chaqirish» ma'noli bo'ladigan
      yagona holat — Telegram e'loni va matnida raqam bor */
   canInviteOwner: boolean;
+  /** «Panelimga olish» — faqat dispetcherga (TZ 29-okt §11.1); eski serverda yo'q */
+  panel?: { bor: boolean } | null;
   /** Ochiq manbadan (Telegram) — yukni olishda narx so'raladi */
   ochiqManba?: boolean;
   views: number; createdAt: string;
@@ -380,6 +383,9 @@ export default function YukTafsiloti() {
                 Shart SERVERDA hisoblangan — bu yerda takrorlansa,
                 ikkita bir-biriga mos kelmaydigan qoida bo'lardi. */}
             {data.canInviteOwner ? <InviteOwner loadId={data.id} /> : null}
+
+            {/* «Panelimga olish» — TG/WA yukida ham (TZ 29-okt §11.1) */}
+            {data.panel ? <PanelgaOlish loadId={data.id} initial={data.panel.bor} /> : null}
 
             {/* Taklif oqimi bitta kartada (TZ v3 §5): bosqich, mos variantlar,
                 takliflar, kelishilgan → reys / shartnoma */}

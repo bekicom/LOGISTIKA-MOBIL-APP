@@ -18,6 +18,7 @@ import { GroupLabel } from "@/components/ui";
 import { useAuth } from "@/lib/auth-context";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { webToApp } from "@/lib/routes";
 
 /** Ilova manzili + webdagi manzili (yashirish web yo'li bo'yicha ham ishlaydi) */
 export const XIZMATLAR: { href: string; web: string; icon: IconName; k: string }[] = [
@@ -33,14 +34,56 @@ export const XIZMATLAR: { href: string; web: string; icon: IconName; k: string }
 const COLS = 4;
 const GAP = 8;
 
-export function BoshqaXizmatlar() {
+/** Server bo'lim kaliti (`svc.*`) → ilova belgisi */
+const BELGI: Record<string, IconName> = {
+  trips: "route",
+  documents: "doc",
+  queues: "border",
+  map: "map-pin",
+  jobs: "briefcase",
+  money: "wallet",
+  finance: "wallet",
+  reports: "chart",
+  analytics: "chart",
+  calc: "calc",
+  currency: "globe",
+  search: "search",
+  dispatchers: "headset",
+  drivers: "users",
+  park: "truck",
+  "my-trucks": "truck",
+  "my-loads": "package",
+  contracts: "handshake",
+  trust: "star",
+  parts: "wrench",
+  repair: "wrench",
+  passenger: "users",
+  video: "play",
+  chats: "chat",
+  roles: "tag",
+  profile: "user",
+  market: "tag",
+};
+
+/**
+ * `items` — serverdagi ro'yxat (`/api/home` → `boshqa`, TZ 29-okt §1.4): web
+ * bilan BITTA ro'yxat, rolga mos, katta tugma va ish stoli bilan takrorlanmaydi.
+ * Eski server bermasa — qo'lda yozilgan `XIZMATLAR`.
+ */
+export function BoshqaXizmatlar({ items }: { items?: { key: string; href: string | null }[] | null }) {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const { yashirin } = useAuth();
   /* Pastga yaxlitlanadi — `menyu.tsx` dagi sabab (kasr en qatorni buzadi) */
   const w = Math.floor((width - space.lg * 2 - GAP * (COLS - 1)) / COLS);
+  const serverdan = items?.length
+    ? items.flatMap((x) => {
+        const to = x.href ? webToApp(x.href) : null;
+        return to && !yashirin(to) ? [{ href: to, web: x.href ?? "", icon: BELGI[x.key] ?? ("grid" as IconName), k: `svc.${x.key}` }] : [];
+      })
+    : null;
   const royxat = [
-    ...XIZMATLAR.filter((x) => !yashirin(x.href) && !yashirin(x.web)),
+    ...(serverdan ?? XIZMATLAR.filter((x) => !yashirin(x.href) && !yashirin(x.web))),
     { href: "/menyu", web: "", icon: "grid" as IconName, k: "nav5.all" },
   ];
 

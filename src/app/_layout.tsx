@@ -18,11 +18,12 @@ import { OfflineBar } from "@/components/OfflineBar";
 import { PushAsk } from "@/components/PushAsk";
 import { XabarchaJoyi } from "@/components/Xabarcha";
 import { AiRozilikOynasi } from "@/components/AiRozilik";
+import { AiRobot } from "@/components/AiRobot";
 import { IntroVideo } from "@/components/IntroVideo";
 import { useOutboxRunner } from "@/lib/use-outbox";
 import { useXaridKuzatuvchi } from "@/lib/use-xarid";
 import { color, themeName } from "@/lib/theme";
-import { deviceLocale, readLocale, setLocale, useLocaleVersion } from "@/lib/i18n";
+import { deviceLocale, readLocale, tilniOrnat, useLocaleVersion } from "@/lib/i18n";
 import { loadTheme, useThemeVersion } from "@/lib/theme-store";
 import { markSplashDone } from "@/lib/first-run";
 import { routeOf } from "@/lib/push";
@@ -68,7 +69,11 @@ export default function RootLayout() {
       /* REJIM ham til bilan birga, CHIZISHDAN OLDIN tiklanadi:
          aks holda ekran bir zum yorug' chiqib, keyin qorong'iga
          sakrardi — bu ilova «buzuq» bo'lib ko'rinadi. */
-      await Promise.all([setLocale((await readLocale()) ?? deviceLocale()), loadTheme()]);
+      /* Saqlangan (odam tanlagan) til — aks holda davlat bo'yicha, SAQLANMAYDI
+         (TZ 29-okt §2.6–2.7; `i18n.ts:tilniOrnat`) */
+      const saqlangan = await readLocale();
+      tilniOrnat(saqlangan ?? deviceLocale());
+      await loadTheme();
       setReady(true);
     })();
   }, []);
@@ -145,6 +150,8 @@ function Shell() {
           fullScreenGestureEnabled: true,
         }}
       />
+      {/* TZ5-F: AI robot — har ekranda, suriladigan (`AiRobot.tsx`) */}
+      <AiRobot />
       {/* «Saqlandi» kabi qisqa xabar — ekranlar USTIDA (`Xabarcha.tsx`) */}
       <XabarchaJoyi />
     </>

@@ -18,6 +18,7 @@ import { Button, Field, Header } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { apiUpload, FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
+import { PdfQilishTugma } from "@/components/HujjatlarTugma";
 import { t } from "@/lib/i18n";
 import { color, font, radius, space, themed } from "@/lib/theme";
 import { TariffNotice } from "@/components/TariffNotice";
@@ -136,6 +137,10 @@ export default function HujjatQoshish() {
               <Icon name="package" size={17} stroke={color.icon} />
               <Text style={s.galText}>{t("mob.chat.gallery")}</Text>
             </Pressable>
+          </View>
+          {/* TZ 29-okt §5.5: skaner → PDF; AI turini aniqlab profilga o'zi yozadi */}
+          <View style={{ marginTop: 10 }}>
+            <PdfQilishTugma />
           </View>
         </View>
 

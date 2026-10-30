@@ -23,6 +23,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
+import { TilTugma } from "@/components/TilTugma";
 import { TruckCard, fmtNum, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi, YonalishAlmashtir } from "@/components/FiltrSheet";
@@ -34,6 +35,7 @@ import { tgSorov, useTgLenta } from "@/lib/tg-lenta";
 import { TgToggle } from "@/components/TgToggle";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { ReklamaJoyi } from "@/components/Reklama";
 
 type Feed = { items: TruckItem[]; page: number; total: number; hasMore: boolean };
 
@@ -70,6 +72,8 @@ export default function Mashinalar() {
       <View style={s.head}>
         <View style={s.headRow}>
           {/* TZ v3 §4: «Transportlar» — o'z yorlig'i, «Transport qo'shish» shu panel ichida */}
+          {/* Til — sarlavha boshida (TZ 29-okt §2.5) */}
+          <TilTugma ixcham />
           <Text style={s.sarlavha} numberOfLines={1}>
             {t("nav5.trucks")}
           </Text>
@@ -177,7 +181,11 @@ export default function Mashinalar() {
             />
           }
           renderItem={({ item, index }) => (
-            <TruckCard item={item} index={index} onPress={() => router.push(`/mashina/${item.id}`)} />
+            <>
+              <TruckCard item={item} index={index} onPress={() => router.push(`/mashina/${item.id}`)} />
+              {/* Reklama 5-qatordan keyin — web bilan bir xil (TZ 29-okt §12.1) */}
+              {index === 4 && <ReklamaJoyi joy="feed" section="trucks" />}
+            </>
           )}
         />
       )}

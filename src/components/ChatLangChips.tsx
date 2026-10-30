@@ -25,6 +25,13 @@
  * sinalganda ko'rindi). Endi har tugma — kichik yorliq ustida til nomi,
  * ikkalasi teng yarim kenglikda: sakkiz tilning hammasida, 320 px da
  * ham bir qator.
+ *
+ * ── 2026-10-30: KATTA «TARJIMA» TUGMASI (TZ 29-okt §4.3) ──────────
+ *
+ * «Chat tepasida katta, aniq tugma: 🌐 Tarjima: Yoqilgan — O'zbekcha;
+ * bosilsa o'chadi yoki tilni o'zgartiradi. Kichik va tushunarsiz ikonka
+ * bo'lmaydi». «Menga» shu katta tugmaga aylandi (til tanlash ham, o'chirish
+ * ham ichida); «Unga» ikki kishilik suhbatda kichik ko'k tugma bo'lib qoldi.
  */
 import { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
@@ -38,6 +45,26 @@ import { LOCALE_INFO, t } from "@/lib/i18n";
 import { color, radius, space, themed } from "@/lib/theme";
 
 type Qaysi = "menga" | "unga";
+
+/**
+ * Til nomi o'quvchining tilida («O'zbekcha», «Ruscha») — TZ 29-okt §4.3:
+ * «AI tarjimasi · asli: Ruscha». Kalitlar ATAYLAB to'liq yozilgan:
+ * `sync-mobile-i18n` lug'atga faqat koddan topgan kalitni ko'chiradi.
+ */
+export function tilNomi(l: string | null | undefined): string {
+  switch (l) {
+    case "uz": return t("chatTil.tilNomi.uz");
+    case "ru": return t("chatTil.tilNomi.ru");
+    case "en": return t("chatTil.tilNomi.en");
+    case "kk": return t("chatTil.tilNomi.kk");
+    case "ky": return t("chatTil.tilNomi.ky");
+    case "tg": return t("chatTil.tilNomi.tg");
+    case "tr": return t("chatTil.tilNomi.tr");
+    case "zh": return t("chatTil.tilNomi.zh");
+    /* Tili aniqlanmagan matn — deyarli doim o'zbekcha lotin (`guessLang`) */
+    default: return t("chatTil.tilNomi.uz");
+  }
+}
 
 /* FUNKSIYA — mavzu almashganda rang ham almashsin (`RolePicker.rangi`) */
 const rangi = (q: Qaysi) => (q === "menga" ? color.danger : color.blue);
@@ -67,22 +94,31 @@ export function ChatLangChips({
   const [band, setBand] = useState<Qaysi | null>(null);
   const [xato, setXato] = useState(false);
 
-  const tugmalar: Qaysi[] = tillar.ungaBor && yozaOladi ? ["menga", "unga"] : ["menga"];
+  const tugmalar: Qaysi[] = tillar.ungaBor && yozaOladi ? ["unga"] : [];
+  const yoniq = tillar.tarjima !== false && isChatTil(tillar.menga);
+  /* Til nomi o'quvchining tilida («O'zbekcha», «Ruscha») */
   const joriy = (q: Qaysi) => (q === "menga" ? tillar.menga : tillar.unga);
   const tanlangan = (q: Qaysi) => (q === "menga" ? tillar.mengaTanlangan : tillar.ungaTanlangan);
   const standart = (q: Qaysi) => (q === "menga" ? tillar.mengaStandart : tillar.ungaStandart);
 
   async function tanla(q: Qaysi, til: ChatTil | null) {
-    setOchiq(false);
     /* Hech narsa o'zgarmadi — so'rov ham, ro'yxatni qayta yuklash ham,
        tarjima so'rash ham kerak emas */
-    if (til === (tanlangan(q) ? joriy(q) : null)) return;
+    if (til === (tanlangan(q) ? joriy(q) : null) && (q !== "menga" || yoniq)) {
+      setOchiq(false);
+      return;
+    }
+    return saqla(q, { [q]: til });
+  }
+
+  async function saqla(q: Qaysi, body: Record<string, unknown>) {
+    setOchiq(false);
     setBand(q);
     setXato(false);
     try {
       const r = await api<{ tillar: ChatTillari }>(`/api/chat/${chatId}/lang`, {
         method: "POST",
-        body: { [q]: til },
+        body,
       });
       onChange(r.tillar);
     } catch {
@@ -94,7 +130,28 @@ export function ChatLangChips({
 
   return (
     <View>
-      <View style={s.row}>
+      {/* KATTA «🌐 Tarjima: Yoqilgan — O'zbekcha» (TZ 29-okt §4.3) */}
+      <Tap
+        onPress={() => {
+          setVaraq("menga");
+          setOchiq(true);
+        }}
+        disabled={band !== null}
+        feel="select"
+        accessibilityLabel={yoniq ? t("chatTil.tarjimaYoqiq", { til: tilNomi(tillar.menga as ChatTil) }) : t("chatTil.tarjimaOchiq")}
+        style={[s.katta, yoniq ? { borderColor: `${color.brand}66`, backgroundColor: `${color.brand}14` } : null]}
+      >
+        <Text style={s.kattaIkon}>🌐</Text>
+        <Text style={[s.kattaText, yoniq && { color: color.brandText }]} numberOfLines={1}>
+          {yoniq ? t("chatTil.tarjimaYoqiq", { til: tilNomi(tillar.menga as ChatTil) }) : t("chatTil.tarjimaOchiq")}
+        </Text>
+        {band === "menga" ? (
+          <ActivityIndicator size="small" color={color.brand} />
+        ) : (
+          <Icon name="chevron" size={14} stroke={yoniq ? color.brand : color.mutedForeground} />
+        )}
+      </Tap>
+      <View style={[s.row, tugmalar.length > 0 && { marginTop: 8 }]}>
         {tugmalar.map((q) => {
           const tint = rangi(q);
           const til = nomi(joriy(q));
@@ -140,18 +197,31 @@ export function ChatLangChips({
       </View>
       {xato ? <Text style={s.err}>{t("chatTil.saveFailed")}</Text> : null}
 
-      <Sheet open={ochiq} onClose={() => setOchiq(false)} title={t(`chatTil.${varaq}`)}>
+      <Sheet open={ochiq} onClose={() => setOchiq(false)} title={varaq === "menga" ? t("chatTil.tilniOzgartir") : t(`chatTil.${varaq}`)}>
         <View accessibilityRole="radiogroup">
-          <View style={s.hintRow}>
-            <View style={[s.dot, { backgroundColor: rangi(varaq) }]} />
-            <Text style={s.hint}>{t(`chatTil.${varaq}Hint`)}</Text>
-          </View>
+          {varaq === "menga" ? (
+            <Tap
+              onPress={() => void saqla("menga", { tarjima: !yoniq })}
+              feel="select"
+              accessibilityRole="button"
+              style={[s.ochir, yoniq ? { borderColor: color.danger } : { borderColor: color.brand, backgroundColor: `${color.brand}14` }]}
+            >
+              <Text style={[s.ochirText, { color: yoniq ? color.danger : color.brandText }]}>
+                {yoniq ? t("chatTil.tarjimaOchir") : t("chatTil.tarjimaYoq")}
+              </Text>
+            </Tap>
+          ) : (
+            <View style={s.hintRow}>
+              <View style={[s.dot, { backgroundColor: rangi(varaq) }]} />
+              <Text style={s.hint}>{t(`chatTil.${varaq}Hint`)}</Text>
+            </View>
+          )}
           <View style={s.grid}>
             {CHAT_TILLARI.map((l) => (
               <View key={l} style={s.half}>
                 <Variant
-                  label={nomi(l)}
-                  on={tanlangan(varaq) && joriy(varaq) === l}
+                  label={varaq === "menga" ? `${LOCALE_INFO[l].flag} ${tilNomi(l)}` : nomi(l)}
+                  on={(varaq === "menga" ? yoniq : tanlangan(varaq)) && joriy(varaq) === l}
                   tint={rangi(varaq)}
                   onPress={() => void tanla(varaq, l)}
                 />
@@ -191,6 +261,21 @@ function Variant({ label, on, tint, onPress }: { label: string; on: boolean; tin
 }
 
 const s = themed(() => ({
+  katta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    minHeight: 48,
+    paddingHorizontal: 14,
+    borderRadius: radius.control,
+    borderWidth: 2,
+    borderColor: color.border,
+    backgroundColor: color.muted,
+  },
+  kattaIkon: { fontSize: 18 },
+  kattaText: { flex: 1, fontSize: 15, fontWeight: "800", color: color.mutedForeground },
+  ochir: { minHeight: 46, borderWidth: 1.5, borderRadius: radius.control, alignItems: "center", justifyContent: "center", marginBottom: space.md, paddingHorizontal: 12 },
+  ochirText: { fontSize: 15, fontWeight: "800" },
   row: { flexDirection: "row", gap: 8 },
   /* Bitta tugma (guruh) ham yarim kenglikda — butun qatorni egallab
      «asosiy amal» dek ko'rinmasin */

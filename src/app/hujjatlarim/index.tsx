@@ -15,6 +15,7 @@ import { Text } from "@/components/Text";
 import { useRouter } from "expo-router";
 import { Card, GroupLabel, Header, ListRow } from "@/components/ui";
 import { Icon } from "@/components/Icon";
+import { SkanerKattaTugma } from "@/components/HujjatlarTugma";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
 import { t } from "@/lib/i18n";
@@ -103,6 +104,8 @@ export default function Hujjatlarim() {
         contentContainerStyle={s.scroll}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
       >
+        {/* TZ 29-okt §5.1.2: skaner eng tepada, ostida PDF ro'yxati */}
+        <SkanerKattaTugma />
         {loading ? (
           <Skeleton rows={4} />
         ) : error ? (

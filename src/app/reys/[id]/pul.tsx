@@ -61,7 +61,8 @@ export default function ReysPuli() {
   );
 
   const [open, setOpen] = useState(false);
-  const [kind, setKind] = useState<string>("ADVANCE");
+  /* TZ 29-okt §6.4.3: «Bu pul qayerdan keldi?» — manba oldindan tanlanmaydi */
+  const [kind, setKind] = useState<string>("");
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("UZS");
   const [note, setNote] = useState("");
@@ -69,7 +70,7 @@ export default function ReysPuli() {
   const [err, setErr] = useState<string | null>(null);
 
   const value = Number(amount.replace(/\s/g, "").replace(",", "."));
-  const ready = Number.isFinite(value) && value > 0;
+  const ready = Number.isFinite(value) && value > 0 && kind !== "";
 
   async function save() {
     setBusy(true);
@@ -81,6 +82,7 @@ export default function ReysPuli() {
       });
       setOpen(false);
       setAmount("");
+      setKind("");
       setNote("");
       reload();
     } catch (e) {
@@ -162,7 +164,9 @@ export default function ReysPuli() {
       ) : null}
 
       <Sheet open={open} onClose={() => setOpen(false)} title={t("mob.money.add")}>
-        <Text style={s.label}>{t("mob.money.kind")}</Text>
+        <Text style={[s.label, !kind && { color: color.warning, fontSize: 14 }]}>
+          {kind ? t("mob.money.kind") : `🤖 ${t("tz5e.pulSavol")}`}
+        </Text>
         <View style={s.chips}>
           {KINDS.map((k) => (
             <Pressable key={k} onPress={() => setKind(k)} style={[s.chip, kind === k && s.chipOn]}>

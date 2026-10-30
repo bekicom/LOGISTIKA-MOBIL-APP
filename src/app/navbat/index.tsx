@@ -108,7 +108,7 @@ export default function Navbatlar() {
   return (
     <View style={s.root}>
       <Header
-        title={t("mob.queue.title")}
+        title={t("tz5e.navbatVazifaTitle")}
         subtitle={
           items.length
             ? isDriver
@@ -141,7 +141,7 @@ export default function Navbatlar() {
         style={({ pressed }) => [s.bandlik, pressed && { opacity: 0.8 }]}
       >
         <Icon name="border" size={18} stroke={color.brand} />
-        <Text style={s.bandlikText}>{t("reysShablon.postlarBandligi")}</Text>
+        <Text style={s.bandlikText}>{t("tz5e.postKalendarLink")}</Text>
         <Icon name="chevron" size={16} stroke={color.brand} />
       </Pressable>
 

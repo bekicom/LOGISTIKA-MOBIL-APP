@@ -16,6 +16,7 @@ import { Button, Field, Notice } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
+import { PdfQilishTugma } from "@/components/HujjatlarTugma";
 import { ReceiptScan } from "@/components/ReceiptScan";
 import { OvozliXarajat } from "@/components/OvozliXarajat";
 import { useApi } from "@/lib/use-api";
@@ -43,6 +44,10 @@ function cats(): { key: string; label: string; icon: IconName }[] {
   { key: "WASH", label: t("mob.exp.wash"), icon: "check" },
   { key: "PARTS", label: t("mob.exp.parts"), icon: "package" },
   { key: "FINE", label: t("mob.exp.fine"), icon: "alert" },
+  /* TZ 29-okt §6.3: chegara/navbat, dozvol, turar joy */
+  { key: "BORDER", label: t("mob.expMore.BORDER"), icon: "border" },
+  { key: "PERMIT", label: t("mob.expMore.PERMIT"), icon: "doc" },
+  { key: "LODGING", label: t("mob.expMore.LODGING"), icon: "clock" },
   { key: "OTHER", label: t("mob.exp.other"), icon: "plus" },
 ];
 }
@@ -165,6 +170,9 @@ function AddSheet({ open, tripId, onClose, onDone }: {
   open: boolean; tripId: string; onClose: () => void; onDone: () => void;
 }) {
   const [cat, setCat] = useState("FUEL");
+  /* TZ 29-okt §6.4.3: AI turini aniqlay olmasa «Bu qanday xarajat?» —
+     javob tugmalardan; tanlanmaguncha saqlanmaydi (web bilan bir xil) */
+  const [turSora, setTurSora] = useState(false);
   const [amount, setAmount] = useState("");
   const [cur, setCur] = useState("UZS");
   const [station, setStation] = useState("");
@@ -178,9 +186,18 @@ function AddSheet({ open, tripId, onClose, onDone }: {
   const insets = useSafeAreaInsets();
 
   const num = Number(amount.replace(/\s/g, "").replace(",", "."));
-  const ready = num > 0;
+  const ready = num > 0 && !turSora;
+
+  /** AI taklif qilgan tur: aniq bo'lsa qo'yiladi, aks holda so'raladi */
+  function aiTur(k: string | null | undefined) {
+    if (k && k !== "OTHER" && cats().some((c) => c.key === k)) {
+      setCat(k);
+      setTurSora(false);
+    } else setTurSora(true);
+  }
 
   function reset() {
+    setTurSora(false);
     setCat("FUEL"); setAmount(""); setStation(""); setLiters(""); setNote("");
     setPhoto(null); setErr(null);
   }
@@ -236,7 +253,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                 <View style={{ marginTop: space.lg }}>
                   <OvozliXarajat
                     onTaklif={(f) => {
-                      if (f.category && cats().some((c) => c.key === f.category)) setCat(f.category);
+                      aiTur(f.category);
                       if (f.amount != null) setAmount(String(f.amount));
                       if (f.currency && CURRENCIES.includes(f.currency)) setCur(f.currency);
                       if (f.liters != null) setLiters(String(f.liters));
@@ -246,12 +263,14 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                   />
                 </View>
 
-                <Text style={[s.label, { marginTop: space.xl }]}>{t("mob.exp.kind")}</Text>
+                <Text style={[s.label, { marginTop: space.xl }, turSora && s.savol]}>
+                  {turSora ? `🤖 ${t("tz5e.xarajatSavol")}` : t("mob.exp.kind")}
+                </Text>
                 <View style={s.cats}>
                   {cats().map((c) => {
-                    const on = cat === c.key;
+                    const on = cat === c.key && !turSora;
                     return (
-                      <Pressable key={c.key} onPress={() => setCat(c.key)} style={[s.cat, on && s.catOn]}>
+                      <Pressable key={c.key} onPress={() => { setCat(c.key); setTurSora(false); }} style={[s.cat, on && s.catOn]}>
                         <Icon name={c.icon} size={18} stroke={on ? color.brand : color.mutedForeground} />
                         <Text style={[s.catText, on && s.catTextOn]}>{c.label}</Text>
                       </Pressable>
@@ -333,6 +352,8 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                     </>
                   )}
                 </View>
+                {/* TZ 29-okt §5.5: chekni skanerlab PDF — AI summa, valyuta va turini o'qib xarajatga o'zi qo'shadi */}
+                {!photo && <PdfQilishTugma trip={tripId} />}
 
                 {/* Chekni AI o'qiydi: summa, valyuta va turini
                     to'ldiradi. QO'LDA TUZATSA BO'LADI — model
@@ -344,7 +365,7 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                     onRead={(f) => {
                       if (f.amount != null) setAmount(String(f.amount));
                       if (f.currency) setCur(f.currency);
-                      if (f.category) setCat(f.category);
+                      aiTur(f.category);
                       if (f.merchant) setStation(f.merchant);
                     }}
                   />
@@ -408,6 +429,7 @@ const s = themed(() => ({
   sheetTitle: { fontSize: 20, fontWeight: "700", color: color.foreground },
 
   label: { fontSize: font.caption, fontWeight: "600", color: color.foreground, marginBottom: 6 },
+  savol: { fontSize: font.body, fontWeight: "800", color: color.warning },
   optional: { fontWeight: "400", color: color.mutedForeground },
 
   cats: { flexDirection: "row", flexWrap: "wrap", gap: 8 },

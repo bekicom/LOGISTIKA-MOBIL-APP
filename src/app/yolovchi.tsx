@@ -165,11 +165,15 @@ export default function Yolovchi() {
           {r.seatsTotal > 0 ? t("yolovchiUi.joy", { n: r.seatsFree }) : t("yolovchi.orinAytilmagan")}
           {r.vehicleKind ? ` · ${t(`yolovchi.tur_${r.vehicleKind}`)}` : ""}
         </Text>
-        <Text style={s.meta} numberOfLines={1}>
-          {importli
-            ? [r.vehicle, r.plateNo].filter(Boolean).join(" · ")
-            : `${[r.vehicle, r.driver.name].filter(Boolean).join(" · ")}${r.driver.isVerified ? " ✓" : ""}`}
-        </Text>
+        {/* Bo'sh maydon ko'rsatilmaydi (TZ 29-okt §13-11): mashina/haydovchi
+            noma'lum bo'lsa qator umuman chizilmaydi */}
+        {(importli ? [r.vehicle, r.plateNo] : [r.vehicle, r.driver.name]).some(Boolean) ? (
+          <Text style={s.meta} numberOfLines={1}>
+            {importli
+              ? [r.vehicle, r.plateNo].filter(Boolean).join(" · ")
+              : `${[r.vehicle, r.driver.name].filter(Boolean).join(" · ")}${r.driver.isVerified ? " ✓" : ""}`}
+          </Text>
+        ) : null}
         {importli ? (
           <Text style={s.manba} numberOfLines={1}>
             {t("yolovchi.manba", { tarmoq: tarmoq(r.source) })}

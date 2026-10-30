@@ -54,7 +54,21 @@ type Group = {
   /* O'z roli guruhi — ro'yxat boshida (Q64) */
   mine?: boolean;
   muted?: boolean;
+  /** Bo'lim (TZ 29-okt §4.1.2): umumiy / asosiy / yo'nalish / yordam */
+  turi?: "umumiy" | "asosiy" | "yonalish" | "yordam";
 };
+
+/* «Guruhlar katalogi» bo'limlari — web bilan bir xil tartib
+   (`furam/src/components/chat/guruh-ui.tsx`) */
+const BOLIMLAR = ["umumiy", "asosiy", "yonalish", "yordam"] as const;
+const bolimNomi = (b: (typeof BOLIMLAR)[number]) =>
+  b === "umumiy"
+    ? t("guruh.bolim_umumiy")
+    : b === "asosiy"
+      ? t("guruh.bolim_asosiy")
+      : b === "yonalish"
+        ? t("guruh.bolim_yonalish")
+        : t("guruh.bolim_yordam");
 
 /* ── UCHTA BO'LIM (2026-09-10, web bilan bir xil) ──────────────
  *
@@ -192,10 +206,9 @@ export default function ChatRoyxati() {
     if (tab !== "umumiy") return null;
     const list = groups.data?.groups ?? [];
     if (list.length === 0) return null;
-    return (
-      <View style={{ gap: space.sm, marginTop: space.sm }}>
-        <Text style={s.groupsHint}>{t("guruh.mainGroups")}</Text>
-        {list.map((g) => {
+    /* «Guruhlar katalogi» (TZ 29-okt §4.2.3): chiqib ketgan guruhga shu
+       yerdan bir bosishda qaytiladi; bo'limlar sarlavhasi bilan */
+    const kartochka = (g: Group) => {
           const n = g.chatId ? (oqilmagan.get(g.chatId) ?? 0) : 0;
           return (
             <View key={g.key} style={[s.groupCard, g.mine && { borderWidth: 1.5, borderColor: color.brand }]}>
@@ -259,6 +272,20 @@ export default function ChatRoyxati() {
                   </Pressable>
                 )}
               </View>
+            </View>
+          );
+    };
+    return (
+      <View style={{ gap: space.sm, marginTop: space.sm }}>
+        <Text style={s.katalog}>{t("guruh.katalog")}</Text>
+        <Text style={s.groupsHint}>{t("guruh.katalogHint")}</Text>
+        {BOLIMLAR.map((b) => {
+          const ichi = list.filter((g) => (g.turi ?? "asosiy") === b);
+          if (!ichi.length) return null;
+          return (
+            <View key={b} style={{ gap: space.sm }}>
+              <Text style={s.bolim}>{bolimNomi(b)}</Text>
+              {ichi.map(kartochka)}
             </View>
           );
         })}
@@ -484,10 +511,23 @@ export default function ChatRoyxati() {
               delayLongPress={300}
               style={({ pressed }) => [s.row, item.unread > 0 && s.rowUnread, pressed && { opacity: 0.85 }]}
             >
-              <View style={[s.avatar, item.type === "GROUP" && s.avatarGroup]}>
+              {/* Tur ko'rinishdan ajralsin (TZ 29-okt §4.1.3): shaxsiy — doira,
+                  guruh — kvadrat, reys — to'q ko'k, shartnoma — brend rangi */}
+              <View
+                style={[
+                  s.avatar,
+                  item.type === "GROUP" && s.avatarGroup,
+                  item.bucket === "trip" && s.avatarTrip,
+                  item.bucket === "contract" && s.avatarContract,
+                ]}
+              >
                 {item.avatarUrl ? (
                   /* Guruh rasmi (Q67) — faqat a'zoga, sarlavha bilan */
                   <Image source={guruhRasmi(item.id)} style={s.avatarImg} />
+                ) : item.bucket === "trip" ? (
+                  <Icon name="route" size={22} stroke="#fff" />
+                ) : item.bucket === "contract" ? (
+                  <Icon name="doc" size={22} stroke={color.brandText} />
                 ) : item.type === "GROUP" ? (
                   <Icon name="users" size={22} stroke={color.blue} />
                 ) : (
@@ -500,6 +540,11 @@ export default function ChatRoyxati() {
                   {item.pinned ? <Icon name="pin" size={13} stroke={color.brand} /> : null}
                   <Text style={[s.name, item.unread === 0 && s.nameRead]} numberOfLines={1}>{item.title}</Text>
                   {item.muted ? <Icon name="bell" size={13} stroke={color.iconFaint} /> : null}
+                  {item.type === "GROUP" ? (
+                    <Text style={s.turTag}>
+                      {item.bucket === "trip" ? t("chatUi.tur_reys") : item.bucket === "contract" ? t("chatUi.tur_shartnoma") : t("chatUi.tur_guruh")}
+                    </Text>
+                  ) : null}
                 </View>
                 {item.lastText ? <Text style={s.last} numberOfLines={1}>{item.lastText}</Text> : null}
                 {item.bucket === "trip" && item.subtitle ? (
@@ -601,7 +646,12 @@ const s = themed(() => ({
   row: { flexDirection: "row", gap: space.md, alignItems: "center", backgroundColor: color.card, borderRadius: radius.card, padding: space.md, ...shadow.card },
   rowUnread: { backgroundColor: "#fff7f2" },
   avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: color.muted, alignItems: "center", justifyContent: "center" },
-  avatarGroup: { backgroundColor: color.blueSoft },
+  avatarGroup: { backgroundColor: color.blueSoft, borderRadius: 14 },
+  avatarTrip: { backgroundColor: color.navy, borderRadius: 24 },
+  avatarContract: { backgroundColor: color.brandSoft, borderRadius: 24 },
+  turTag: { fontSize: 10, fontWeight: "800", color: color.mutedForeground, borderWidth: 1, borderColor: color.border, borderRadius: 8, paddingHorizontal: 5, paddingVertical: 1, overflow: "hidden" },
+  katalog: { fontSize: font.body, fontWeight: "800", color: color.foreground },
+  bolim: { fontSize: 11.5, fontWeight: "800", color: color.mutedForeground, textTransform: "uppercase", letterSpacing: 0.4, marginTop: space.xs },
   avatarText: { fontSize: 15, fontWeight: "700", color: color.mutedForeground },
   name: { fontSize: font.body, fontWeight: "700", color: color.foreground, flexShrink: 1 },
   nameRead: { fontWeight: "600", color: color.icon },

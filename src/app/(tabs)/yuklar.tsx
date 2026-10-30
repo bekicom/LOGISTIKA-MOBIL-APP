@@ -15,6 +15,7 @@
  * saqlash» filtr qatorida doim turadi. `?qidiruv=<id>` — saqlangan
  * qidiruvlar ro'yxatidan bosib kelinganda o'sha qidiruv qo'llanadi.
  */
+import { PanelgaOlish } from "@/components/PanelgaOlish";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, Pressable, RefreshControl, View } from "react-native";
 import { Text } from "@/components/Text";
@@ -22,6 +23,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { HeaderIcons } from "@/components/TabHeader";
+import { TilTugma } from "@/components/TilTugma";
+import { MehmonStatistika } from "@/components/MehmonStatistika";
 import { ListingCard, fmtNum, type Listing } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FiltrSheet, type Filtr, EMPTY_FILTR, filtrToQuery, filtrChips, JoylarYozuvi, YonalishAlmashtir } from "@/components/FiltrSheet";
@@ -31,6 +34,7 @@ import { filtrdanParams, paramsKaliti } from "@/lib/saqlangan-qidiruv";
 import { useApi } from "@/lib/use-api";
 import { tgSorov, useTgLenta } from "@/lib/tg-lenta";
 import { TgToggle } from "@/components/TgToggle";
+import { ReklamaJoyi } from "@/components/Reklama";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -78,6 +82,9 @@ export default function Yuklar() {
     `/api/loads/list?${query}`,
     [query],
   );
+  /* Dispetchermi va paneldagi yuklar — bitta so'rov (TZ 29-okt §11.1) */
+  const { data: panel } = useApi<{ dispetcher: boolean; ids: string[] }>("/api/panel/olish");
+  const paneldagi = useMemo(() => new Set(panel?.ids ?? []), [panel]);
 
   const chips = filtrChips(filtr);
   const clearOne = useCallback(
@@ -91,12 +98,17 @@ export default function Yuklar() {
       <View style={s.head}>
         <View style={s.headRow}>
           {/* TZ v3 §4: «Yuklar» — o'z yorlig'i, «Yuk qo'shish» shu panel ichida */}
+          {/* Til — sarlavha boshida, har ekranda (TZ 29-okt §2.5) */}
+          <TilTugma ixcham />
           <Text style={s.sarlavha} numberOfLines={1}>
             {t("nav5.loads")}
           </Text>
           <View style={{ flex: 1 }} />
           <HeaderIcons />
         </View>
+
+        {/* Mehmonga statistika — tepada (TZ 29-okt §1); kirgan odamda chizilmaydi */}
+        <MehmonStatistika />
 
         <Pressable style={({ pressed }) => [s.search, pressed && { opacity: 0.85 }]} onPress={() => setSheet(true)}>
           <View style={s.searchIcon}>
@@ -189,7 +201,19 @@ export default function Yuklar() {
       <FlatList
         data={data?.items ?? []}
         keyExtractor={(it) => it.id}
-        renderItem={({ item, index }) => <ListingCard item={item} index={index} onPress={() => router.push(`/yuk/${item.id}`)} />}
+        renderItem={({ item, index }) => (
+          <>
+            <ListingCard item={item} index={index} onPress={() => router.push(`/yuk/${item.id}`)} />
+            {/* «Panelimga olish» — dispetcherga (TZ 29-okt §11.1) */}
+            {panel?.dispetcher ? (
+              <View style={{ marginTop: 6 }}>
+                <PanelgaOlish loadId={item.id} initial={paneldagi.has(item.id)} />
+              </View>
+            ) : null}
+            {/* Reklama 5-qatordan keyin — webdagi `AD_PLACEMENTS.feed` bilan bir xil (TZ 29-okt §12.1) */}
+            {index === 4 && <ReklamaJoyi joy="feed" section="loads" />}
+          </>
+        )}
         contentContainerStyle={[s.list, { paddingBottom: space.xxl * 2 }]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={color.brand} />}
         showsVerticalScrollIndicator={false}

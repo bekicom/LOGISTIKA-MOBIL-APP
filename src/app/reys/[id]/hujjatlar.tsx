@@ -17,6 +17,7 @@ import { Button, Notice } from "@/components/ui";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { FuramError } from "@/lib/api";
 import { pickPhotos, takePhoto, toUpload, type Photo } from "@/lib/photo";
+import { PdfQilishTugma } from "@/components/HujjatlarTugma";
 import { useApi } from "@/lib/use-api";
 import { color, font, radius, shadow, space, themed } from "@/lib/theme";
 import { P_WIFI, sendOrQueue } from "@/lib/outbox";
@@ -237,6 +238,8 @@ function AddSheet({ open, tripId, onClose, onDone }: {
                 </>
               ) : null}
             </View>
+            {/* TZ 29-okt §5.5: to'liq skaner — tayyor PDF shu reysga tushadi */}
+            <PdfQilishTugma trip={tripId} />
 
             {busy && pages.length > 1 ? (
               <Text style={s.progress}>Yuborilmoqda: {done} / {pages.length}</Text>

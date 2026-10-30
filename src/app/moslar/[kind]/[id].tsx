@@ -28,6 +28,7 @@ import { Header } from "@/components/ui";
 import { ListingCard, TruckCard, type Listing, type TruckItem } from "@/components/cards";
 import { Empty, ErrorBox, Skeleton } from "@/components/state";
 import { useApi } from "@/lib/use-api";
+import { TaklifBirBosish } from "@/components/TaklifBirBosish";
 import { color, radius, shadow, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
 
@@ -121,6 +122,8 @@ export default function Moslar() {
               ) : (
                 <ListingCard item={item} onPress={() => router.push(`/yuk/${item.id}`)} />
               )}
+              {/* Bir bosishda taklif (TZ 29-okt §11.5) */}
+              {id ? <TaklifBirBosish loadId={forLoad ? id : item.id} truckId={forLoad ? item.id : id} /> : null}
             </View>
           );
         }}

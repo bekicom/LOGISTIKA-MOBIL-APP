@@ -31,6 +31,8 @@ export type ChatTillari = {
   /** «Standart: …» qatori uchun */
   mengaStandart: string | null;
   ungaStandart: string | null;
+  /** «Tarjima: Yoqilgan / O'chirilgan» (TZ 29-okt §4.3); eski javobda yo'q */
+  tarjima?: boolean;
 };
 
 /**

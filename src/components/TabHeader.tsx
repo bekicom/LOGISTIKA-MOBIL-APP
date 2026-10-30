@@ -24,6 +24,7 @@ import { isGuest } from "@/lib/guest";
 import { refreshChatCount, useCounts } from "@/lib/counts";
 import { color, space, themed } from "@/lib/theme";
 import { t } from "@/lib/i18n";
+import { TilTugma } from "@/components/TilTugma";
 
 function IconButton({
   icon,
@@ -122,6 +123,10 @@ export function TabHeader({
   const insets = useSafeAreaInsets();
   return (
     <View style={[s.head, { paddingTop: insets.top + 6 }]}>
+      {/* Til — sarlavha boshida, har ekranda (TZ 29-okt §2.5) */}
+      <View style={{ marginRight: 8 }}>
+        <TilTugma ixcham />
+      </View>
       <View style={{ flex: 1 }}>
         {/* SIG'MASA KICHRAYADI (2026-09-20, 320 px): ruscha sarlavha
             («Что разместить?») 24 px da tor ekranga sig'masdi */}

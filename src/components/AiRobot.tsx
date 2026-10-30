@@ -38,6 +38,8 @@ import { t } from "@/lib/i18n";
 
 const KALIT = "furam.aiRobotJoy";
 const KATTA = 56;
+/** Robot ostidagi «AI yordamchi» yozuvi balandligi — ekrandan chiqib ketmasin */
+const YOZUV = 20;
 const KICHIK = 40;
 const CHET = 8;
 const SILJISH = 6;
@@ -113,8 +115,8 @@ export function AiRobot() {
   const kichik = saqlangan?.kichik === true;
   const o = kichik ? KICHIK : KATTA;
   /* Boshlang'ich joy: o'ng pastda, pastki menyu va yozish maydonidan yuqorida */
-  const asos = saqlangan ?? { x: w - o - 16, y: h - o - insets.bottom - 140 };
-  const joy = qisish(jonli?.x ?? asos.x, jonli?.y ?? asos.y, o, w, h - klaviatura);
+  const asos = saqlangan ?? { x: w - o - 16, y: h - o - insets.bottom - 140 - (kichik ? 0 : YOZUV) };
+  const joy = qisish(jonli?.x ?? asos.x, jonli?.y ?? asos.y, o, w, h - klaviatura - (kichik ? 0 : YOZUV));
   /* Javobchi bir marta yasaladi (surish o'rtasida qayta yasalsa harakat
      uziladi) — joriy qiymatlarni ref orqali o'qiydi. Ref chizish paytida
      emas, effektda yangilanadi (`react-hooks/refs`) */
@@ -159,6 +161,12 @@ export function AiRobot() {
           />
         </Animated.View>
       </View>
+      {/* «AI yordamchi» — web bilan bir xil (`svc.ai`), kichraytirilganda yashirinadi */}
+      {!kichik ? (
+        <View pointerEvents="none" style={[s.yozuv, { top: o + 4 }, chapda ? { left: 0, alignItems: "flex-start" } : { right: 0, alignItems: "flex-end" }]}>
+          <Text style={s.yozuvMatn} numberOfLines={1}>{t("svc.ai")}</Text>
+        </View>
+      ) : null}
       <Pressable
         onPress={olchamAlmashtir}
         hitSlop={10}
@@ -232,6 +240,18 @@ const s = StyleSheet.create({
     backgroundColor: color.card,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: color.border,
+  },
+  /* Yozuv robotdan kengroq — ekran chetidan uzoq tomonga o'sadi */
+  yozuv: { position: "absolute", width: 120 },
+  yozuvMatn: {
+    backgroundColor: color.navy,
+    color: color.navyForeground,
+    fontSize: 11,
+    fontWeight: "700",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 999,
+    overflow: "hidden",
   },
   chipMatn: { fontSize: 13, fontWeight: "700", lineHeight: 15, color: color.foreground },
 });
